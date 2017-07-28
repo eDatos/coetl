@@ -604,6 +604,14 @@
         </plugins>
         <pluginManagement>
             <plugins>
+				<plugin>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.2</version>
+					<configuration>
+						<useReleaseProfile>false</useReleaseProfile>
+						<tagNameFormat>${maven.build.timestamp}-v@{project.version}</tagNameFormat>
+					</configuration>
+				</plugin>
                 <!--
                     This plugin's configuration is used to store Eclipse m2e settings only.
                     It has no influence on the Maven build itself.
