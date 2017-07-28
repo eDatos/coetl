@@ -15,6 +15,29 @@
     <packaging>war</packaging>
     <name>Secretaria Libro</name>
 
+    <scm>
+        <connection>scm:git:http://git.arte-consultores.com/ecit/secretaria-libro/</connection>
+        <developerConnection>scm:git:http://git.arte-consultores.com/secretaria-libro/</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://git.arte-consultores.com/secretaria-libro</url>
+    </scm>
+    <issueManagement>
+        <system>Jira</system>
+        <url>http://jira.arte-consultores.com/browse/SECRETARIA</url>
+    </issueManagement>
+    <distributionManagement>
+        <repository>
+            <id>arte-repository</id>
+            <name>Arte Repository - RELEASE</name>
+            <url>http://repository.arte-consultores.com/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>arte-repository</id>
+            <name>Arte Repository - SNAPSHOT</name>
+            <url>http://repository.arte-consultores.com/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
     <properties>
         <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>
         <assertj.version>3.6.2</assertj.version>
