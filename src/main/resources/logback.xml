@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration scan="true">
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml" />
 
 <!-- The FILE and ASYNC appenders are here as examples for a production configuration -->
 <!--
@@ -21,6 +21,26 @@
         <appender-ref ref="FILE"/>
     </appender>
 -->
+
+  <property name="LOGS_HOME" value="/data/ecit/secretaria-libro/serverlogs" />
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="FILE"
+    class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOGS_HOME}/secretaria-libro-${servidor}.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <maxHistory>90</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <charset>utf-8</charset>
+      <Pattern>%d %-5level [%thread] %logger{0}: %msg%n</Pattern>
+    </encoder>
+  </appender>
 
     <logger name="es.tenerife.secretaria.libro" level="#logback.loglevel#"/>
 
@@ -55,15 +75,16 @@
     <logger name="LiquibaseSchemaResolver" level="INFO"/>
     <logger name="sun.rmi.transport" level="WARN"/>
 
+<!--    <logger name="org.hibernate.SQL" level="DEBUG"/> -->
+<!--    <logger name="org.hibernate.type" level="TRACE"/> -->
+
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
 
-    <root level="#logback.loglevel#">
-        <appender-ref ref="CONSOLE"/>
-<!--
-        <appender-ref ref="FILE"/>
--->
-    </root>
+  <root level="#logback.loglevel#">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>
 
 </configuration>
