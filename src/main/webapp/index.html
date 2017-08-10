@@ -1,7 +1,8 @@
 <!doctype html>
-<html class="no-js" lang="en" dir="ltr">
+<html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="es">
+
 <head>
-    <base href="./" />
+    <base href="/" th:href="@{/}" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>secretaria_libro</title>
@@ -13,6 +14,13 @@
     <link rel="manifest" href="manifest.webapp" />
 </head>
 <body>
+ 	
+ 	<script th:inline="javascript">
+        /*<![CDATA[*/
+        window.CONFIGURATION = {};
+       	/*]]>*/
+    </script>
+    
     <!--[if lt IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
