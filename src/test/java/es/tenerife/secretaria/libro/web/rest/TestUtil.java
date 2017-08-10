@@ -102,7 +102,7 @@ public class TestUtil {
     /**
      * Verifies the equals/hashcode contract on the domain object.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static void equalsVerifier(Class clazz) throws Exception {
         Object domainObject1 = clazz.getConstructor().newInstance();
         assertThat(domainObject1.toString()).isNotNull();

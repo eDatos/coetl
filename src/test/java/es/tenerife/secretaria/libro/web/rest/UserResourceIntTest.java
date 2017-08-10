@@ -1,16 +1,25 @@
 package es.tenerife.secretaria.libro.web.rest;
 
-import es.tenerife.secretaria.libro.SecretariaLibroApp;
-import es.tenerife.secretaria.libro.domain.Authority;
-import es.tenerife.secretaria.libro.domain.User;
-import es.tenerife.secretaria.libro.repository.UserRepository;
-import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
-import es.tenerife.secretaria.libro.service.MailService;
-import es.tenerife.secretaria.libro.service.UserService;
-import es.tenerife.secretaria.libro.service.dto.UserDTO;
-import es.tenerife.secretaria.libro.service.mapper.UserMapper;
-import es.tenerife.secretaria.libro.web.rest.errors.ExceptionTranslator;
-import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.persistence.EntityManager;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,20 +35,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import es.tenerife.secretaria.libro.SecretariaLibroApp;
+import es.tenerife.secretaria.libro.domain.Authority;
+import es.tenerife.secretaria.libro.domain.User;
+import es.tenerife.secretaria.libro.repository.UserRepository;
+import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
+import es.tenerife.secretaria.libro.service.MailService;
+import es.tenerife.secretaria.libro.service.UserService;
+import es.tenerife.secretaria.libro.service.dto.UserDTO;
+import es.tenerife.secretaria.libro.service.mapper.UserMapper;
+import es.tenerife.secretaria.libro.web.rest.errors.ExceptionTranslator;
+import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 
 /**
  * Test class for the UserResource REST controller.

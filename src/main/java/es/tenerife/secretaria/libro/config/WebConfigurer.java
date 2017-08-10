@@ -1,6 +1,5 @@
 package es.tenerife.secretaria.libro.config;
 
-import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.config.JHipsterProperties;
 import io.github.jhipster.web.filter.CachingHttpHeadersFilter;
 

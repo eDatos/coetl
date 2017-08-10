@@ -56,7 +56,8 @@ public class AccountResource {
      * @param managedUserVM the managed user View Model
      * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or email is already in use
      */
-    @PostMapping(path = "/register",
+    @SuppressWarnings("rawtypes")
+	@PostMapping(path = "/register",
         produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     @Timed
     public ResponseEntity registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
@@ -129,7 +130,8 @@ public class AccountResource {
      * @param userDTO the current user information
      * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request) or 500 (Internal Server Error) if the user couldn't be updated
      */
-    @PostMapping("/account")
+    @SuppressWarnings("rawtypes")
+	@PostMapping("/account")
     @Timed
     public ResponseEntity saveAccount(@Valid @RequestBody UserDTO userDTO) {
         final String userLogin = SecurityUtils.getCurrentUserLogin();
@@ -153,7 +155,8 @@ public class AccountResource {
      * @param password the new password
      * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request) if the new password is not strong enough
      */
-    @PostMapping(path = "/account/change_password",
+    @SuppressWarnings("rawtypes")
+	@PostMapping(path = "/account/change_password",
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
     public ResponseEntity changePassword(@RequestBody String password) {
@@ -170,7 +173,8 @@ public class AccountResource {
      * @param mail the mail of the user
      * @return the ResponseEntity with status 200 (OK) if the email was sent, or status 400 (Bad Request) if the email address is not registered
      */
-    @PostMapping(path = "/account/reset_password/init",
+    @SuppressWarnings("rawtypes")
+	@PostMapping(path = "/account/reset_password/init",
         produces = MediaType.TEXT_PLAIN_VALUE)
     @Timed
     public ResponseEntity requestPasswordReset(@RequestBody String mail) {

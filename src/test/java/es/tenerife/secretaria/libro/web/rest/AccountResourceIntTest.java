@@ -1,16 +1,21 @@
 package es.tenerife.secretaria.libro.web.rest;
 
-import es.tenerife.secretaria.libro.SecretariaLibroApp;
-import es.tenerife.secretaria.libro.domain.Authority;
-import es.tenerife.secretaria.libro.domain.User;
-import es.tenerife.secretaria.libro.repository.AuthorityRepository;
-import es.tenerife.secretaria.libro.repository.UserRepository;
-import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
-import es.tenerife.secretaria.libro.service.MailService;
-import es.tenerife.secretaria.libro.service.UserService;
-import es.tenerife.secretaria.libro.service.dto.UserDTO;
-import es.tenerife.secretaria.libro.web.rest.vm.KeyAndPasswordVM;
-import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,19 +33,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import es.tenerife.secretaria.libro.SecretariaLibroApp;
+import es.tenerife.secretaria.libro.domain.Authority;
+import es.tenerife.secretaria.libro.domain.User;
+import es.tenerife.secretaria.libro.repository.AuthorityRepository;
+import es.tenerife.secretaria.libro.repository.UserRepository;
+import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
+import es.tenerife.secretaria.libro.service.MailService;
+import es.tenerife.secretaria.libro.service.UserService;
+import es.tenerife.secretaria.libro.service.dto.UserDTO;
+import es.tenerife.secretaria.libro.web.rest.vm.KeyAndPasswordVM;
+import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 
 /**
  * Test class for the AccountResource REST controller.
@@ -63,7 +66,8 @@ public class AccountResourceIntTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
+    @SuppressWarnings("rawtypes")
+	@Autowired
     private HttpMessageConverter[] httpMessageConverters;
 
     @Mock

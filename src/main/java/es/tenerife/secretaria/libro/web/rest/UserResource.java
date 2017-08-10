@@ -86,7 +86,8 @@ public class UserResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new user, or with status 400 (Bad Request) if the login or email is already in use
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
-    @PostMapping("/users")
+    @SuppressWarnings("rawtypes")
+	@PostMapping("/users")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity createUser(@Valid @RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
