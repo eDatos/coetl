@@ -12,7 +12,6 @@
             "account": {
                 "main": "Cuenta",
                 "settings": "Ajustes",
-                "password": "Contraseña",
                 "sessions": "Sesiones",
                 "login": "Iniciar sesión",
                 "logout": "Cerrar la sesión",
@@ -36,10 +35,6 @@
         "form": {
             "username": "Usuario",
             "username.placeholder": "Nombre de usuario",
-            "newpassword": "Nueva contraseña",
-            "newpassword.placeholder": "Nueva contraseña",
-            "confirmpassword": "Confirmación de la nueva contraseña",
-            "confirmpassword.placeholder": "Confirmación de la nueva contraseña",
             "email": "Correo electrónico",
             "email.placeholder": "Su correo electrónico"
         },
@@ -56,20 +51,9 @@
                 }
             },
             "error": {
-                "dontmatch" : "¡La contraseña y la confirmación de contraseña no coinciden!"
+                "dontmatch": "¡La contraseña y la confirmación de contraseña no coinciden!"
             },
             "validate": {
-                "newpassword": {
-                    "required": "Se requiere que ingrese una contraseña.",
-                    "minlength": "Se requiere que su contraseña tenga por lo menos 5 caracteres",
-                    "maxlength": "Su contraseña no puede tener más de 50 caracteres",
-                    "strength": "Seguridad de la contraseña:"
-                },
-                "confirmpassword": {
-                    "required": "Se requiere que confirme la contraseña.",
-                    "minlength": "Se requiere que su contraseña de confirmación tenga por lo menos 5 caracteres",
-                    "maxlength": "Su contraseña de confirmación no puede tener más de 50 caracteres"
-                },
                 "email": {
                     "required": "Se requiere un correo electrónico.",
                     "invalid": "Su correo electrónico no es válido.",
@@ -79,10 +63,10 @@
             }
         },
         "field": {
-            "id" : "ID"
+            "id": "ID"
         },
         "ribbon": {
-            "dev":"Development"
+            "dev": "Development"
         },
         "item-count": "Monstrando {{first}} - {{second}} de {{total}} artículos."
     },

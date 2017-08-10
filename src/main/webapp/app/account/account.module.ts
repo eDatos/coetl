@@ -4,17 +4,7 @@ import { RouterModule } from '@angular/router';
 import { SecretariaLibroSharedModule } from '../shared';
 
 import {
-    Register,
-    ActivateService,
-    PasswordService,
-    PasswordResetInitService,
-    PasswordResetFinishService,
-    PasswordStrengthBarComponent,
-    RegisterComponent,
-    ActivateComponent,
-    PasswordComponent,
-    PasswordResetInitComponent,
-    PasswordResetFinishComponent,
+
     SettingsComponent,
     accountState
 } from './';
@@ -25,21 +15,12 @@ import {
         RouterModule.forRoot(accountState, { useHash: true })
     ],
     declarations: [
-        ActivateComponent,
-        RegisterComponent,
-        PasswordComponent,
-        PasswordStrengthBarComponent,
-        PasswordResetInitComponent,
-        PasswordResetFinishComponent,
+
         SettingsComponent
     ],
     providers: [
-        Register,
-        ActivateService,
-        PasswordService,
-        PasswordResetInitService,
-        PasswordResetFinishService
+
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SecretariaLibroAccountModule {}
+export class SecretariaLibroAccountModule { }
