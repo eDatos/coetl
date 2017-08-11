@@ -10,6 +10,8 @@
   <changeSet id="00000000000000" author="jhipster">
     <createSequence sequenceName="hibernate_sequence"
       startValue="1000" incrementBy="50" />
+    <createSequence sequenceName="user_id_seq"
+      startValue="10" incrementBy="50" />
   </changeSet>
 
   <!-- JHipster core tables. The initial schema has the '00000000000001' 
