@@ -1,27 +1,9 @@
 package es.tenerife.secretaria.libro.web.rest.vm;
 
 /**
- * View Model object for storing the user's key and password.
+ * View Model object for storing the user's key and pass word.
  */
+// TODO SECRETARIA-35 Eliminar si no se usa
 public class KeyAndPasswordVM {
 
-	private String key;
-
-	private String newPassword;
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	public String getNewPassword() {
-		return newPassword;
-	}
-
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
-	}
 }

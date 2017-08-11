@@ -1,8 +1,8 @@
 package es.tenerife.secretaria.libro.service;
 
-import es.tenerife.secretaria.libro.domain.User;
+import java.util.Locale;
 
-import io.github.jhipster.config.JHipsterProperties;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import javax.mail.internet.MimeMessage;
-import java.util.Locale;
+import es.tenerife.secretaria.libro.domain.User;
+import io.github.jhipster.config.JHipsterProperties;
 
 /**
  * Service for sending emails.
@@ -97,9 +97,4 @@ public class MailService {
 		sendEmailFromTemplate(user, "creationEmail", "email.activation.title");
 	}
 
-	@Async
-	public void sendPasswordResetMail(User user) {
-		log.debug("Sending password reset email to '{}'", user.getEmail());
-		sendEmailFromTemplate(user, "passwordResetEmail", "email.reset.title");
-	}
 }

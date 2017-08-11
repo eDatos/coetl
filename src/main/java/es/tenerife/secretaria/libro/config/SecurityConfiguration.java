@@ -43,7 +43,6 @@ import org.springframework.web.filter.CorsFilter;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.security.jwt.CasEhCacheBasedTicketCache;
 import es.tenerife.secretaria.libro.security.jwt.JWTAuthenticationSuccessHandler;
-import es.tenerife.secretaria.libro.security.jwt.JWTConfigurer;
 import es.tenerife.secretaria.libro.security.jwt.JWTFilter;
 import es.tenerife.secretaria.libro.security.jwt.TokenProvider;
 import io.github.jhipster.config.JHipsterProperties;
@@ -56,13 +55,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static CacheManager cacheManager;
 
-	private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
 	private final UserDetailsService userDetailsService;
 
 	private final TokenProvider tokenProvider;
 
 	private final CorsFilter corsFilter;
+
+	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 	private JHipsterProperties jHipsterProperties;
 
@@ -225,23 +224,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
-            .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/authenticate").permitAll()
-            .antMatchers("/api/account/reset_password/init").permitAll()
-            .antMatchers("/api/account/reset_password/finish").permitAll()
             .antMatchers("/api/profile-info").permitAll()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
             .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/**").authenticated();;
+            .antMatchers("/**").authenticated();
         //@formatter:on
-	}
-
-	private JWTConfigurer securityConfigurerAdapter() {
-		return new JWTConfigurer(tokenProvider);
 	}
 
 	@Bean
