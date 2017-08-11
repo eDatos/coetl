@@ -1,14 +1,12 @@
 package es.tenerife.secretaria.libro.service;
 
-import es.tenerife.secretaria.libro.domain.Authority;
-import es.tenerife.secretaria.libro.domain.User;
-import es.tenerife.secretaria.libro.repository.AuthorityRepository;
-import es.tenerife.secretaria.libro.config.Constants;
-import es.tenerife.secretaria.libro.repository.UserRepository;
-import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
-import es.tenerife.secretaria.libro.security.SecurityUtils;
-import es.tenerife.secretaria.libro.service.util.RandomUtil;
-import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,16 +17,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import es.tenerife.secretaria.libro.config.Constants;
+import es.tenerife.secretaria.libro.domain.Authority;
+import es.tenerife.secretaria.libro.domain.User;
+import es.tenerife.secretaria.libro.repository.AuthorityRepository;
+import es.tenerife.secretaria.libro.repository.UserRepository;
+import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
+import es.tenerife.secretaria.libro.security.SecurityUtils;
+import es.tenerife.secretaria.libro.service.util.RandomUtil;
 
 /**
  * Service class for managing users.
  */
 @Service
-@Transactional
 public class UserService {
 
 	private final Logger log = LoggerFactory.getLogger(UserService.class);
@@ -103,7 +104,7 @@ public class UserService {
 		return newUser;
 	}
 
-	public User createUser(UserDTO userDTO) {
+	public User createUser(User userDTO) {
 		User user = new User();
 		user.setLogin(userDTO.getLogin());
 		user.setFirstName(userDTO.getFirstName());
@@ -117,7 +118,8 @@ public class UserService {
 		}
 		if (userDTO.getAuthorities() != null) {
 			Set<Authority> authorities = new HashSet<>();
-			userDTO.getAuthorities().forEach(authority -> authorities.add(authorityRepository.findOne(authority)));
+			userDTO.getAuthorities()
+					.forEach(authority -> authorities.add(authorityRepository.findOne(authority.getName())));
 			user.setAuthorities(authorities);
 		}
 		String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
@@ -163,21 +165,22 @@ public class UserService {
 	 *            user to update
 	 * @return updated user
 	 */
-	public Optional<UserDTO> updateUser(UserDTO userDTO) {
+	public Optional<User> updateUser(User userDTO) {
 		return Optional.of(userRepository.findOne(userDTO.getId())).map(user -> {
 			user.setLogin(userDTO.getLogin());
 			user.setFirstName(userDTO.getFirstName());
 			user.setLastName(userDTO.getLastName());
 			user.setEmail(userDTO.getEmail());
 			user.setImageUrl(userDTO.getImageUrl());
-			user.setActivated(userDTO.isActivated());
+			user.setActivated(userDTO.getActivated());
 			user.setLangKey(userDTO.getLangKey());
 			Set<Authority> managedAuthorities = user.getAuthorities();
 			managedAuthorities.clear();
-			userDTO.getAuthorities().stream().map(authorityRepository::findOne).forEach(managedAuthorities::add);
+			userDTO.getAuthorities().stream().map(Authority::getName).map(authorityRepository::findOne)
+					.forEach(managedAuthorities::add);
 			log.debug("Changed Information for User: {}", user);
 			return user;
-		}).map(UserDTO::new);
+		});
 	}
 
 	public void deleteUser(String login) {
@@ -196,8 +199,8 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<UserDTO> getAllManagedUsers(Pageable pageable) {
-		return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER).map(UserDTO::new);
+	public Page<User> getAllManagedUsers(Pageable pageable) {
+		return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER);
 	}
 
 	@Transactional(readOnly = true)

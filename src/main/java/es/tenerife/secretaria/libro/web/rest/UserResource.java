@@ -1,18 +1,11 @@
 package es.tenerife.secretaria.libro.web.rest;
 
-import es.tenerife.secretaria.libro.config.Constants;
-import com.codahale.metrics.annotation.Timed;
-import es.tenerife.secretaria.libro.domain.User;
-import es.tenerife.secretaria.libro.repository.UserRepository;
-import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
-import es.tenerife.secretaria.libro.service.MailService;
-import es.tenerife.secretaria.libro.service.UserService;
-import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
-import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
-import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
-import es.tenerife.secretaria.libro.web.rest.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import io.swagger.annotations.ApiParam;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +15,31 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.*;
+import com.codahale.metrics.annotation.Timed;
+
+import es.tenerife.secretaria.libro.config.Constants;
+import es.tenerife.secretaria.libro.domain.User;
+import es.tenerife.secretaria.libro.repository.UserRepository;
+import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
+import es.tenerife.secretaria.libro.service.MailService;
+import es.tenerife.secretaria.libro.service.UserService;
+import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
+import es.tenerife.secretaria.libro.web.rest.mapper.UserMapper;
+import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
+import es.tenerife.secretaria.libro.web.rest.util.PaginationUtil;
+import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
+import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 
 /**
  * REST controller for managing users.
@@ -61,6 +73,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class UserResource {
 
 	private final Logger log = LoggerFactory.getLogger(UserResource.class);
@@ -73,11 +86,15 @@ public class UserResource {
 
 	private final UserService userService;
 
-	public UserResource(UserRepository userRepository, MailService mailService, UserService userService) {
+	private UserMapper userMapper;
+
+	public UserResource(UserRepository userRepository, MailService mailService, UserService userService,
+			UserMapper userMapper) {
 
 		this.userRepository = userRepository;
 		this.mailService = mailService;
 		this.userService = userService;
+		this.userMapper = userMapper;
 	}
 
 	/**
@@ -115,7 +132,7 @@ public class UserResource {
 					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email already in use"))
 					.body(null);
 		} else {
-			User newUser = userService.createUser(managedUserVM);
+			User newUser = userService.createUser(userMapper.userDTOToUser(managedUserVM));
 			mailService.sendCreationEmail(newUser);
 			return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
 					.headers(HeaderUtil.createAlert("userManagement.created", newUser.getLogin())).body(newUser);
@@ -149,7 +166,8 @@ public class UserResource {
 					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use"))
 					.body(null);
 		}
-		Optional<UserDTO> updatedUser = userService.updateUser(managedUserVM);
+		Optional<UserDTO> updatedUser = userService.updateUser(userMapper.userDTOToUser(managedUserVM))
+				.map(userMapper::userToUserDTO);
 
 		return ResponseUtil.wrapOrNotFound(updatedUser,
 				HeaderUtil.createAlert("userManagement.updated", managedUserVM.getLogin()));
@@ -165,7 +183,7 @@ public class UserResource {
 	@GetMapping("/users")
 	@Timed
 	public ResponseEntity<List<UserDTO>> getAllUsers(@ApiParam Pageable pageable) {
-		final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
+		final Page<UserDTO> page = userService.getAllManagedUsers(pageable).map(userMapper::userToUserDTO);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
