@@ -4,8 +4,9 @@ import es.tenerife.secretaria.libro.SecretariaLibroApp;
 import es.tenerife.secretaria.libro.domain.User;
 import es.tenerife.secretaria.libro.config.Constants;
 import es.tenerife.secretaria.libro.repository.UserRepository;
-import es.tenerife.secretaria.libro.service.dto.UserDTO;
 import es.tenerife.secretaria.libro.service.util.RandomUtil;
+import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
-package es.tenerife.secretaria.libro.service.mapper;
+package es.tenerife.secretaria.libro.web.rest.mapper;
 
 import es.tenerife.secretaria.libro.domain.Authority;
 import es.tenerife.secretaria.libro.domain.User;
-import es.tenerife.secretaria.libro.service.dto.UserDTO;
+import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
 
 import org.springframework.stereotype.Service;
 

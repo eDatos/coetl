@@ -8,7 +8,7 @@ import es.tenerife.secretaria.libro.repository.UserRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.security.SecurityUtils;
 import es.tenerife.secretaria.libro.service.util.RandomUtil;
-import es.tenerife.secretaria.libro.service.dto.UserDTO;
+import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

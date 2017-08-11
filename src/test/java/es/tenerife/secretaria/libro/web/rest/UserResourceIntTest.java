@@ -42,9 +42,9 @@ import es.tenerife.secretaria.libro.repository.UserRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UserService;
-import es.tenerife.secretaria.libro.service.dto.UserDTO;
-import es.tenerife.secretaria.libro.service.mapper.UserMapper;
+import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
 import es.tenerife.secretaria.libro.web.rest.errors.ExceptionTranslator;
+import es.tenerife.secretaria.libro.web.rest.mapper.UserMapper;
 import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 
 /**

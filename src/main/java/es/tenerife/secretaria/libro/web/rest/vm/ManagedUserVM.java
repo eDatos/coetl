@@ -1,7 +1,8 @@
 package es.tenerife.secretaria.libro.web.rest.vm;
 
-import es.tenerife.secretaria.libro.service.dto.UserDTO;
 import javax.validation.constraints.Size;
+
+import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
 
 import java.time.Instant;
 import java.util.Set;

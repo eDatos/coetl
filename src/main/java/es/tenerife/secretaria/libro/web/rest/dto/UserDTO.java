@@ -1,4 +1,4 @@
-package es.tenerife.secretaria.libro.service.dto;
+package es.tenerife.secretaria.libro.web.rest.dto;
 
 import es.tenerife.secretaria.libro.config.Constants;
 

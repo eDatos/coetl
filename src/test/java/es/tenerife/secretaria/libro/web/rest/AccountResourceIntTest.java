@@ -41,7 +41,7 @@ import es.tenerife.secretaria.libro.repository.UserRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UserService;
-import es.tenerife.secretaria.libro.service.dto.UserDTO;
+import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
 import es.tenerife.secretaria.libro.web.rest.vm.KeyAndPasswordVM;
 import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 
