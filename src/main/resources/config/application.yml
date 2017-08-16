@@ -48,6 +48,7 @@ spring:
             enabled: false
     thymeleaf:
         mode: XHTML
+        prefix: /
 
 security:
     basic:

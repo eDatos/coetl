@@ -2,16 +2,25 @@ package es.tenerife.secretaria.libro.web.rest;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import es.tenerife.secretaria.libro.config.ApplicationProperties;
+
 @Controller
 public class DefaultController {
+
+	@Autowired
+	private ApplicationProperties applicationProperties;
+
 	private final Logger log = LoggerFactory.getLogger(DefaultController.class);
 
 	@RequestMapping(value = { "", "/index.html", "/**/{path:[^\\.]*}" })
@@ -20,6 +29,7 @@ public class DefaultController {
 		log.debug("DefaultController: Contextpath" + request.getContextPath() + "  ServletPath = "
 				+ request.getServletPath());
 		Map<String, Object> model = new HashMap<>();
+		model.put("cas", applicationProperties.getCas());
 		Map<String, Object> flashMap = (Map<String, Object>) RequestContextUtils.getInputFlashMap(request);
 		if (flashMap != null) {
 			model.putAll(flashMap);
