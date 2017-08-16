@@ -15,6 +15,9 @@ import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
+
+import { SecretariaConfigModule } from './config';
+
 import {
     JhiMainComponent,
     LayoutRoutingModule,
@@ -30,13 +33,14 @@ import {
     imports: [
         BrowserModule,
         LayoutRoutingModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         SecretariaLibroSharedModule,
         SecretariaLibroHomeModule,
         SecretariaLibroAdminModule,
         SecretariaLibroAccountModule,
         SecretariaLibroEntityModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
+        SecretariaConfigModule,
     ],
     declarations: [
         JhiMainComponent,
@@ -50,8 +54,8 @@ import {
         ProfileService,
         customHttpProvider(),
         PaginationConfig,
-        UserRouteAccessService
+        UserRouteAccessService,
     ],
-    bootstrap: [ JhiMainComponent ]
+    bootstrap: [JhiMainComponent]
 })
-export class SecretariaLibroAppModule {}
+export class SecretariaLibroAppModule { }
