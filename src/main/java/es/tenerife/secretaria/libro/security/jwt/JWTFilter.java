@@ -1,16 +1,20 @@
 package es.tenerife.secretaria.libro.security.jwt;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
+import org.springframework.web.filter.GenericFilterBean;
 
 /**
  * Filters incoming requests and installs a Spring Security principal if a
@@ -41,6 +45,16 @@ public class JWTFilter extends GenericFilterBean {
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			return bearerToken.substring(7, bearerToken.length());
 		}
+		// Cookie
+		if (request.getCookies() != null) {
+			Optional<Cookie> tokenCookie = Arrays.stream(request.getCookies())
+					.filter(c -> c.getName().equals(JWTAuthenticationSuccessHandler.JHI_AUTHENTICATIONTOKEN))
+					.findFirst();
+			if (tokenCookie.isPresent()) {
+				return tokenCookie.get().getValue();
+			}
+		}
+
 		return null;
 	}
 }
