@@ -123,7 +123,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		casAuthenticationProvider.setServiceProperties(serviceProperties());
 		casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
 		casAuthenticationProvider.setStatelessTicketCache(statelessTicketCache());
-		casAuthenticationProvider.setKey("DECLAFITO_CAS");
+		casAuthenticationProvider.setKey("SECRETARIA_LIBRO_CAS");
 		return casAuthenticationProvider;
 	}
 
@@ -196,6 +196,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring()
             .antMatchers(HttpMethod.OPTIONS, "/**")
             .antMatchers("/app/**/*.{js,html}")
+            .antMatchers("/bower_components/**")
             .antMatchers("/i18n/**")
             .antMatchers("/content/**")
             .antMatchers("/swagger-ui/index.html")
@@ -214,13 +215,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class)
 	    	.addFilterBefore(requestCasGlobalLogoutFilter(), LogoutFilter.class)
             .exceptionHandling()
-            .authenticationEntryPoint(http401UnauthorizedEntryPoint())
+        	.authenticationEntryPoint(casAuthenticationEntryPoint())
         .and()
-            .csrf()
-            .disable()
+            .csrf().disable()
             .headers()
-            .frameOptions()
-            .disable()
+            .frameOptions().disable()
         .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -237,8 +236,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
             .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
-        .and()
-            .apply(securityConfigurerAdapter());
+            .antMatchers("/**").authenticated();;
         //@formatter:on
 	}
 

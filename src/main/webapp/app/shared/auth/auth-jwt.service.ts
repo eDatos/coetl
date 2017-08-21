@@ -2,17 +2,24 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
+import { CookieService } from 'ngx-cookie';
 
 @Injectable()
 export class AuthServerProvider {
     constructor(
         private http: Http,
         private $localStorage: LocalStorageService,
-        private $sessionStorage: SessionStorageService
-    ) {}
+        private $sessionStorage: SessionStorageService,
+        private cookieService: CookieService,
+    ) { }
 
     getToken() {
-        return this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken');
+        const token = this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken');
+        if (!token) {
+            return this.cookieService.get('jhi-authenticationtoken');
+        }
+        return token;
+
     }
 
     login(credentials): Observable<any> {
@@ -55,6 +62,7 @@ export class AuthServerProvider {
         return new Observable((observer) => {
             this.$localStorage.clear('authenticationToken');
             this.$sessionStorage.clear('authenticationToken');
+            this.cookieService.remove('jhi-authenticationtoken');
             observer.complete();
         });
     }

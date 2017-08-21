@@ -1,16 +1,9 @@
 package es.tenerife.secretaria.libro.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
+import java.util.Optional;
 
-import es.tenerife.secretaria.libro.domain.User;
-import es.tenerife.secretaria.libro.repository.UserRepository;
-import es.tenerife.secretaria.libro.security.SecurityUtils;
-import es.tenerife.secretaria.libro.service.MailService;
-import es.tenerife.secretaria.libro.service.UserService;
-import es.tenerife.secretaria.libro.web.rest.vm.KeyAndPasswordVM;
-import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
-import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
-import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,11 +12,24 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.*;
+import com.codahale.metrics.annotation.Timed;
+
+import es.tenerife.secretaria.libro.domain.User;
+import es.tenerife.secretaria.libro.repository.UserRepository;
+import es.tenerife.secretaria.libro.security.SecurityUtils;
+import es.tenerife.secretaria.libro.service.MailService;
+import es.tenerife.secretaria.libro.service.UserService;
+import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
+import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
+import es.tenerife.secretaria.libro.web.rest.vm.KeyAndPasswordVM;
+import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 
 /**
  * REST controller for managing the current user's account.
@@ -124,8 +130,9 @@ public class AccountResource {
 	@GetMapping("/account")
 	@Timed
 	public ResponseEntity<UserDTO> getAccount() {
-		return Optional.ofNullable(userService.getUserWithAuthorities())
-				.map(user -> new ResponseEntity<>(new UserDTO(user), HttpStatus.OK))
+		return Optional.ofNullable(userService.getUserWithAuthorities()).map(user -> {
+			return user;
+		}).map(user -> new ResponseEntity<>(new UserDTO(user), HttpStatus.OK))
 				.orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
 	}
 
