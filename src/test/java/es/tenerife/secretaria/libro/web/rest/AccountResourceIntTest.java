@@ -140,20 +140,23 @@ public class AccountResourceIntTest {
 		user.setActivated(true);
 
 		userRepository.saveAndFlush(user);
-
-		UserDTO userDTO = new UserDTO(null, // id
-				"not-used", // login
-				"firstname", // firstName
-				"lastname", // lastName
-				"save-account@example.com", // email
-				false, // activated
-				"http://placehold.it/50x50", // imageUrl
-				"en", // langKey
-				null, // createdBy
-				null, // createdDate
-				null, // lastModifiedBy
-				null, // lastModifiedDate
-				new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)));
+		//@formatter:off
+		UserDTO userDTO = UserDTO.builder()
+				.setId(null)
+				.setLogin("not-used")
+				.setFirstName("firstname")
+				.setLastName("lastname")
+				.setEmail("save-account@example.com")
+				.setActivated(false)
+				.setImageUrl("http://placehold.it/50x50")
+				.setLangKey("en")
+				.setCreatedBy(null)
+				.setCreatedDate(null)
+				.setLastModifiedBy(null)
+				.setLastModifiedDate(null)
+				.setAuthorities(new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)))
+				.build();
+		//@formatter:on
 
 		restMvc.perform(post("/api/account").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isOk());
@@ -179,19 +182,23 @@ public class AccountResourceIntTest {
 
 		userRepository.saveAndFlush(user);
 
-		UserDTO userDTO = new UserDTO(null, // id
-				"not-used", // login
-				"firstname", // firstName
-				"lastname", // lastName
-				"invalid email", // email
-				false, // activated
-				"http://placehold.it/50x50", // imageUrl
-				"en", // langKey
-				null, // createdBy
-				null, // createdDate
-				null, // lastModifiedBy
-				null, // lastModifiedDate
-				new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)));
+		//@formatter:off
+		UserDTO userDTO = UserDTO.builder()
+				.setId(null)
+				.setLogin("not-used")
+				.setFirstName("firstname")
+				.setLastName("lastname")
+				.setEmail("invalid email")
+				.setActivated(false)
+				.setImageUrl("http://placehold.it/50x50")
+				.setLangKey("en")
+				.setCreatedBy(null)
+				.setCreatedDate(null)
+				.setLastModifiedBy(null)
+				.setLastModifiedDate(null)
+				.setAuthorities(new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)))
+				.build();
+		//@formatter:on
 
 		restMvc.perform(post("/api/account").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isBadRequest());
@@ -216,20 +223,23 @@ public class AccountResourceIntTest {
 		anotherUser.setActivated(true);
 
 		userRepository.saveAndFlush(anotherUser);
-
-		UserDTO userDTO = new UserDTO(null, // id
-				"not-used", // login
-				"firstname", // firstName
-				"lastname", // lastName
-				"save-existing-email2@example.com", // email
-				false, // activated
-				"http://placehold.it/50x50", // imageUrl
-				"en", // langKey
-				null, // createdBy
-				null, // createdDate
-				null, // lastModifiedBy
-				null, // lastModifiedDate
-				new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)));
+		//@formatter:off
+		UserDTO userDTO = UserDTO.builder()
+				.setId(null)
+				.setLogin("not-used")
+				.setFirstName("firstname")
+				.setLastName("lastname")
+				.setEmail("save-existing-email2@example.com")
+				.setActivated(false)
+				.setImageUrl("http://placehold.it/50x50")
+				.setLangKey("en")
+				.setCreatedBy(null)
+				.setCreatedDate(null)
+				.setLastModifiedBy(null)
+				.setLastModifiedDate(null)
+				.setAuthorities(new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)))
+				.build();
+		//@formatter:on
 
 		restMvc.perform(post("/api/account").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isBadRequest());
@@ -248,20 +258,23 @@ public class AccountResourceIntTest {
 		user.setActivated(true);
 
 		userRepository.saveAndFlush(user);
-
-		UserDTO userDTO = new UserDTO(null, // id
-				"not-used", // login
-				"firstname", // firstName
-				"lastname", // lastName
-				"save-existing-email-and-login@example.com", // email
-				false, // activated
-				"http://placehold.it/50x50", // imageUrl
-				"en", // langKey
-				null, // createdBy
-				null, // createdDate
-				null, // lastModifiedBy
-				null, // lastModifiedDate
-				new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)));
+		//@formatter:off
+		UserDTO userDTO = UserDTO.builder()
+				.setId(null)
+				.setLogin("not-used")
+				.setFirstName("firstname")
+				.setLastName("lastname")
+				.setEmail("save-existing-email-and-login@example.com")
+				.setActivated(false)
+				.setImageUrl("http://placehold.it/50x50")
+				.setLangKey("en")
+				.setCreatedBy(null)
+				.setCreatedDate(null)
+				.setLastModifiedBy(null)
+				.setLastModifiedDate(null)
+				.setAuthorities(new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)))
+				.build();
+		//@formatter:on
 
 		restMvc.perform(post("/api/account").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isOk());
