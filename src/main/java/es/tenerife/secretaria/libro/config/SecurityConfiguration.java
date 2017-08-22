@@ -53,8 +53,6 @@ import io.github.jhipster.security.Http401UnauthorizedEntryPoint;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private static CacheManager cacheManager;
-
 	private final UserDetailsService userDetailsService;
 
 	private final TokenProvider tokenProvider;
@@ -102,7 +100,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public CasEhCacheBasedTicketCache statelessTicketCache() {
 		CasEhCacheBasedTicketCache statelessTicketCache = new CasEhCacheBasedTicketCache();
-		cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
+		CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
 				.withCache("casTickets", CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class,
 						CasAuthenticationToken.class, ResourcePoolsBuilder.heap(10)))
 				.build();
