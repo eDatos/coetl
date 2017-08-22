@@ -12,7 +12,6 @@
             "account": {
                 "main": "Account",
                 "settings": "Settings",
-                "password": "Password",
                 "sessions": "Sessions",
                 "login": "Sign in",
                 "logout": "Sign out",
@@ -36,10 +35,6 @@
         "form": {
             "username": "Username",
             "username.placeholder": "Your username",
-            "newpassword": "New password",
-            "newpassword.placeholder": "New password",
-            "confirmpassword": "New password confirmation",
-            "confirmpassword.placeholder": "Confirm the new password",
             "email": "Email",
             "email.placeholder": "Your email"
         },
@@ -48,28 +43,15 @@
                 "authenticated": {
                     "prefix": "If you want to ",
                     "link": "sign in",
-                    "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
+                    "suffix": ""
                 },
                 "register": {
                     "noaccount": "You don't have an account yet?",
                     "link": "Register a new account"
                 }
             },
-            "error": {
-                "dontmatch": "The password and its confirmation do not match!"
-            },
+            "error": {},
             "validate": {
-                "newpassword": {
-                    "required": "Your password is required.",
-                    "minlength": "Your password is required to be at least 4 characters.",
-                    "maxlength": "Your password cannot be longer than 50 characters.",
-                    "strength": "Password strength:"
-                },
-                "confirmpassword": {
-                    "required": "Your confirmation password is required.",
-                    "minlength": "Your confirmation password is required to be at least 4 characters.",
-                    "maxlength": "Your confirmation password cannot be longer than 50 characters."
-                },
                 "email": {
                     "required": "Your email is required.",
                     "invalid": "Your email is invalid.",
@@ -82,7 +64,7 @@
             "id": "ID"
         },
         "ribbon": {
-            "dev":"Development"
+            "dev": "Development"
         },
         "item-count": "Showing {{first}} - {{second}} of {{total}} items."
     },

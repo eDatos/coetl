@@ -13,14 +13,20 @@
     <link rel="shortcut icon" href="favicon.ico" />
     <link rel="manifest" href="manifest.webapp" />
 </head>
+
 <body>
- 	
- 	<script th:inline="javascript">
+
+    <script th:inline="javascript">
         /*<![CDATA[*/
         window.CONFIGURATION = {};
+        window.CONFIGURATION.cas = {};
+        window.CONFIGURATION.cas.login = /*[[${cas.getEndpoint()}]]*/ 'https://demo-cas.arte-consultores.com/login';
+        window.CONFIGURATION.cas.logout = /*[[${cas.getLogout()}]]*/ 'https://demo-cas.arte-consultores.com/logout';
+        window.CONFIGURATION.cas.applicationHome = /*[[${cas.getApplicationHome()}]]*/ 'http://localhost:9000/login/cas';
+
        	/*]]>*/
     </script>
-    
+
     <!--[if lt IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -48,4 +54,5 @@
     -->
 
 </body>
+
 </html>

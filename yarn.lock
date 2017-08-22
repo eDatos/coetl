@@ -3329,14 +3329,14 @@ http-proxy-middleware@~0.17.4:
     lodash "^4.17.2"
     micromatch "^2.3.11"
 
-http-proxy@1.15.2:
+http-proxy@1.15.2, http-proxy@^1.13.0:
   version "1.15.2"
   resolved "http://repository.arte-consultores.com/repository/npm-all/http-proxy/-/http-proxy-1.15.2.tgz#642fdcaffe52d3448d2bda3b0079e9409064da31"
   dependencies:
     eventemitter3 "1.x.x"
     requires-port "1.x.x"
 
-http-proxy@^1.13.0, http-proxy@^1.16.2:
+http-proxy@^1.16.2:
   version "1.16.2"
   resolved "http://repository.arte-consultores.com/repository/npm-all/http-proxy/-/http-proxy-1.16.2.tgz#06dff292952bf64dbe8471fa9df73066d4f37742"
   dependencies:

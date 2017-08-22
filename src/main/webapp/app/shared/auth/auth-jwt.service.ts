@@ -2,37 +2,44 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
+import { CookieService } from 'ngx-cookie';
 
 @Injectable()
 export class AuthServerProvider {
     constructor(
         private http: Http,
         private $localStorage: LocalStorageService,
-        private $sessionStorage: SessionStorageService
-    ) {}
+        private $sessionStorage: SessionStorageService,
+        private cookieService: CookieService,
+    ) { }
 
     getToken() {
-        return this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken');
-    }
-
-    login(credentials): Observable<any> {
-
-        const data = {
-            username: credentials.username,
-            password: credentials.password,
-            rememberMe: credentials.rememberMe
-        };
-        return this.http.post('api/authenticate', data).map(authenticateSuccess.bind(this));
-
-        function authenticateSuccess(resp) {
-            const bearerToken = resp.headers.get('Authorization');
-            if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
-                const jwt = bearerToken.slice(7, bearerToken.length);
-                this.storeAuthenticationToken(jwt, credentials.rememberMe);
-                return jwt;
-            }
+        const token = this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken');
+        if (!token) {
+            return this.cookieService.get('jhi-authenticationtoken');
         }
+        return token;
+
     }
+
+    // login(credentials): Observable<any> {
+
+    //     const data = {
+    //         username: credentials.username,
+    //         password: credentials.password,
+    //         rememberMe: credentials.rememberMe
+    //     };
+    //     return this.http.post('api/authenticate', data).map(authenticateSuccess.bind(this));
+
+    //     function authenticateSuccess(resp) {
+    //         const bearerToken = resp.headers.get('Authorization');
+    //         if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+    //             const jwt = bearerToken.slice(7, bearerToken.length);
+    //             this.storeAuthenticationToken(jwt, credentials.rememberMe);
+    //             return jwt;
+    //         }
+    //     }
+    // }
 
     loginWithToken(jwt, rememberMe) {
         if (jwt) {
@@ -55,6 +62,7 @@ export class AuthServerProvider {
         return new Observable((observer) => {
             this.$localStorage.clear('authenticationToken');
             this.$sessionStorage.clear('authenticationToken');
+            this.cookieService.remove('jhi-authenticationtoken');
             observer.complete();
         });
     }

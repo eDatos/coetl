@@ -34,7 +34,7 @@ import {
         CSRFService,
         AuthServerProvider,
         UserService,
-        DatePipe
+        DatePipe,
     ],
     entryComponents: [JhiLoginModalComponent],
     exports: [
@@ -46,4 +46,4 @@ import {
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
-export class SecretariaLibroSharedModule {}
+export class SecretariaLibroSharedModule { }

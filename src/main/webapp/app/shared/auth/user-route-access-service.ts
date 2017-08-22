@@ -4,14 +4,17 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { Principal } from '../';
 import { LoginModalService } from '../login/login-modal.service';
 import { StateStorageService } from './state-storage.service';
+import { ConfigService } from '../../config/index';
 
 @Injectable()
 export class UserRouteAccessService implements CanActivate {
 
     constructor(private router: Router,
-                private loginModalService: LoginModalService,
-                private principal: Principal,
-                private stateStorageService: StateStorageService) {
+        private loginModalService: LoginModalService,
+        private principal: Principal,
+        private stateStorageService: StateStorageService,
+        private configService: ConfigService,
+    ) {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
@@ -33,12 +36,8 @@ export class UserRouteAccessService implements CanActivate {
             }
 
             this.stateStorageService.storeUrl(url);
-            this.router.navigate(['accessdenied']).then(() => {
-                // only show the login dialog, if the user hasn't logged in yet
-                if (!account) {
-                    this.loginModalService.open();
-                }
-            });
+            const config = this.configService.getConfig();
+            window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
             return false;
         }));
     }

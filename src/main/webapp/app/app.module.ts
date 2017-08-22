@@ -1,10 +1,10 @@
 import './vendor.ts';
 
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
 
-import { SecretariaLibroSharedModule, UserRouteAccessService } from './shared';
+import { SecretariaLibroSharedModule, UserRouteAccessService, AuthServerProvider } from './shared';
 import { SecretariaLibroHomeModule } from './home/home.module';
 import { SecretariaLibroAdminModule } from './admin/admin.module';
 import { SecretariaLibroAccountModule } from './account/account.module';
@@ -14,6 +14,8 @@ import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
+
+import { SecretariaConfigModule, ConfigService } from './config';
 
 import {
     JhiMainComponent,
@@ -26,17 +28,32 @@ import {
     ErrorComponent
 } from './layouts';
 
+export function init(configService: ConfigService, authServerProvider: AuthServerProvider) {
+    return () => {
+        const promise: Promise<boolean> = new Promise((resolve, reject) => {
+            if (authServerProvider.getToken()) {
+                resolve(true);
+            } else {
+                const config = configService.getConfig();
+                window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
+            }
+        });
+        return promise;
+    }
+}
+
 @NgModule({
     imports: [
         BrowserModule,
         LayoutRoutingModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         SecretariaLibroSharedModule,
         SecretariaLibroHomeModule,
         SecretariaLibroAdminModule,
         SecretariaLibroAccountModule,
         SecretariaLibroEntityModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
+        SecretariaConfigModule,
     ],
     declarations: [
         JhiMainComponent,
@@ -47,11 +64,17 @@ import {
         FooterComponent
     ],
     providers: [
+        {
+            'provide': APP_INITIALIZER,
+            'useFactory': init,
+            'deps': [ConfigService, AuthServerProvider],
+            'multi': true
+        },
         ProfileService,
         customHttpProvider(),
         PaginationConfig,
-        UserRouteAccessService
+        UserRouteAccessService,
     ],
-    bootstrap: [ JhiMainComponent ]
+    bootstrap: [JhiMainComponent]
 })
-export class SecretariaLibroAppModule {}
+export class SecretariaLibroAppModule { }

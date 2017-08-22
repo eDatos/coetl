@@ -7,12 +7,14 @@ import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { AuthExpiredInterceptor } from './auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './errorhandler.interceptor';
 import { NotificationInterceptor } from './notification.interceptor';
+import { CookieService } from 'ngx-cookie';
 
 export function interceptableFactory(
     backend: XHRBackend,
     defaultOptions: RequestOptions,
     localStorage: LocalStorageService,
     sessionStorage: SessionStorageService,
+    cookieService: CookieService,
     injector: Injector,
     eventManager: JhiEventManager
 ) {
@@ -20,7 +22,7 @@ export function interceptableFactory(
         backend,
         defaultOptions,
         [
-            new AuthInterceptor(localStorage, sessionStorage),
+            new AuthInterceptor(localStorage, sessionStorage, cookieService),
             new AuthExpiredInterceptor(injector),
             // Other interceptors can be added here
             new ErrorHandlerInterceptor(eventManager),
@@ -38,6 +40,7 @@ export function customHttpProvider() {
             RequestOptions,
             LocalStorageService,
             SessionStorageService,
+            CookieService,
             Injector,
             JhiEventManager
         ]
