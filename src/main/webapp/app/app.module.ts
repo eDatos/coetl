@@ -1,10 +1,10 @@
 import './vendor.ts';
 
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
 
-import { SecretariaLibroSharedModule, UserRouteAccessService } from './shared';
+import { SecretariaLibroSharedModule, UserRouteAccessService, AuthServerProvider } from './shared';
 import { SecretariaLibroHomeModule } from './home/home.module';
 import { SecretariaLibroAdminModule } from './admin/admin.module';
 import { SecretariaLibroAccountModule } from './account/account.module';
@@ -15,8 +15,7 @@ import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
-
-import { SecretariaConfigModule } from './config';
+import { SecretariaConfigModule, ConfigService } from './config';
 
 import {
     JhiMainComponent,
@@ -28,6 +27,20 @@ import {
     ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
+
+export function init(configService: ConfigService, authServerProvider: AuthServerProvider) {
+    return () => {
+        const promise: Promise<boolean> = new Promise((resolve, reject) => {
+            if (authServerProvider.getToken()) {
+                resolve(true);
+            } else {
+                const config = configService.getConfig();
+                window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
+            }
+        });
+        return promise;
+    }
+}
 
 @NgModule({
     imports: [
@@ -51,6 +64,12 @@ import {
         FooterComponent
     ],
     providers: [
+        {
+            'provide': APP_INITIALIZER,
+            'useFactory': init,
+            'deps': [ConfigService, AuthServerProvider],
+            'multi': true
+        },
         ProfileService,
         customHttpProvider(),
         PaginationConfig,

@@ -17,11 +17,7 @@ export class JhiMainComponent implements OnInit {
         private authServerProvider: AuthServerProvider,
         private configService: ConfigService,
     ) {
-        if (!authServerProvider.getToken()) {
-            const config = this.configService.getConfig();
-            window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
 
-        }
     }
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
