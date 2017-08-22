@@ -41,19 +41,6 @@ public class UserService {
 		this.authorityRepository = authorityRepository;
 	}
 
-	// TODO SECRETARIA-35 Eliminar si no se usa
-	public Optional<User> activateRegistration(String key) {
-		log.debug("Activating user for activation key {}", key);
-		return userRepository.findOneByActivationKey(key).map(user -> {
-			// activate given user for the registration key.
-			user.setActivated(true);
-			user.setActivationKey(null);
-			log.debug("Activated user: {}", user);
-			return user;
-		});
-	}
-
-	// TODO SECRETARIA-35 Eliminar si no se usa
 	public User createUser(String login, String firstName, String lastName, String email, String imageUrl,
 			String langKey) {
 
@@ -75,7 +62,6 @@ public class UserService {
 		return newUser;
 	}
 
-	// TODO SECRETARIA-35 Eliminar si no se usa
 	public User createUser(User user) {
 		User newUser = new User();
 		newUser.setLogin(user.getLogin());
