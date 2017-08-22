@@ -21,26 +21,27 @@ import org.springframework.context.annotation.*;
 @AutoConfigureBefore(value = { WebConfigurer.class, DatabaseConfiguration.class })
 public class CacheConfiguration {
 
-    private final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration;
+	private final javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration;
 
-    public CacheConfiguration(JHipsterProperties jHipsterProperties) {
-        JHipsterProperties.Cache.Ehcache ehcache =
-            jHipsterProperties.getCache().getEhcache();
+	public CacheConfiguration(JHipsterProperties jHipsterProperties) {
+		JHipsterProperties.Cache.Ehcache ehcache = jHipsterProperties.getCache().getEhcache();
 
-        jcacheConfiguration = Eh107Configuration.fromEhcacheCacheConfiguration(
-            CacheConfigurationBuilder.newCacheConfigurationBuilder(Object.class, Object.class,
-                ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
-                .withExpiry(Expirations.timeToLiveExpiration(Duration.of(ehcache.getTimeToLiveSeconds(), TimeUnit.SECONDS)))
-                .build());
-    }
+		jcacheConfiguration = Eh107Configuration.fromEhcacheCacheConfiguration(CacheConfigurationBuilder
+				.newCacheConfigurationBuilder(Object.class, Object.class,
+						ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
+				.withExpiry(
+						Expirations.timeToLiveExpiration(Duration.of(ehcache.getTimeToLiveSeconds(), TimeUnit.SECONDS)))
+				.build());
+	}
 
-    @Bean
-    public JCacheManagerCustomizer cacheManagerCustomizer() {
-        return cm -> {
-            cm.createCache(es.tenerife.secretaria.libro.domain.User.class.getName(), jcacheConfiguration);
-            cm.createCache(es.tenerife.secretaria.libro.domain.Authority.class.getName(), jcacheConfiguration);
-            cm.createCache(es.tenerife.secretaria.libro.domain.User.class.getName() + ".authorities", jcacheConfiguration);
-            // jhipster-needle-ehcache-add-entry
-        };
-    }
+	@Bean
+	public JCacheManagerCustomizer cacheManagerCustomizer() {
+		return cm -> {
+			cm.createCache(es.tenerife.secretaria.libro.domain.User.class.getName(), jcacheConfiguration);
+			cm.createCache(es.tenerife.secretaria.libro.domain.Authority.class.getName(), jcacheConfiguration);
+			cm.createCache(es.tenerife.secretaria.libro.domain.User.class.getName() + ".authorities",
+					jcacheConfiguration);
+			// jhipster-needle-ehcache-add-entry
+		};
+	}
 }

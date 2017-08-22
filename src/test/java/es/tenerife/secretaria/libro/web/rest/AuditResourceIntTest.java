@@ -1,10 +1,14 @@
 package es.tenerife.secretaria.libro.web.rest;
 
-import es.tenerife.secretaria.libro.SecretariaLibroApp;
-import es.tenerife.secretaria.libro.config.audit.AuditEventConverter;
-import es.tenerife.secretaria.libro.domain.PersistentAuditEvent;
-import es.tenerife.secretaria.libro.repository.PersistenceAuditEventRepository;
-import es.tenerife.secretaria.libro.service.AuditEventService;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,12 +24,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import es.tenerife.secretaria.libro.SecretariaLibroApp;
+import es.tenerife.secretaria.libro.config.audit.AuditEventConverter;
+import es.tenerife.secretaria.libro.domain.PersistentAuditEvent;
+import es.tenerife.secretaria.libro.repository.PersistenceAuditEventRepository;
+import es.tenerife.secretaria.libro.service.AuditEventService;
 
 /**
  * Test class for the AuditResource REST controller.

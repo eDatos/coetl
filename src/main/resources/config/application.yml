@@ -38,6 +38,9 @@ spring:
             naming:
                 physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
                 implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    datasource:
+        hikari:
+            max-pool-size: 5
     messages:
         basename: i18n/messages
     mvc:
