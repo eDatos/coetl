@@ -18,7 +18,7 @@ ssh deploy@secretaria.arte <<EOF
     ###
 
     # Update Process
-    sudo rm -rf $DEPLOY_TARGET_PATH/ROOT
+    sudo rm -rf $DEPLOY_TARGET_PATH/secretaria-libro
     sudo mv $TRANSFER_PATH/secretaria-libro.war $DEPLOY_TARGET_PATH/secretaria-libro.war
     sudo unzip $DEPLOY_TARGET_PATH/secretaria-libro.war -d $DEPLOY_TARGET_PATH/secretaria-libro
     sudo rm -rf $DEPLOY_TARGET_PATH/secretaria-libro.war
