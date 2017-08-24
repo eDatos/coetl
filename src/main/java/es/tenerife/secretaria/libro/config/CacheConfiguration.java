@@ -38,7 +38,7 @@ public class CacheConfiguration {
 	@Bean
 	public JCacheManagerCustomizer cacheManagerCustomizer() {
 		return cm -> {
-			cm.createCache(es.tenerife.secretaria.libro.domain.User.class.getName(), jcacheConfiguration);
+			cm.createCache(es.tenerife.secretaria.libro.domain.Usuario.class.getName(), jcacheConfiguration);
 			cm.createCache(es.tenerife.secretaria.libro.domain.Authority.class.getName(), jcacheConfiguration);
 			cm.createCache(es.tenerife.secretaria.libro.domain.Authority.class.getName() + ".operaciones",
 					jcacheConfiguration);

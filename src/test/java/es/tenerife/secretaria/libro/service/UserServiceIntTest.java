@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.tenerife.secretaria.libro.SecretariaLibroApp;
 import es.tenerife.secretaria.libro.config.Constants;
-import es.tenerife.secretaria.libro.domain.User;
-import es.tenerife.secretaria.libro.repository.UserRepository;
+import es.tenerife.secretaria.libro.domain.Usuario;
+import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 
 /**
  * Test class for the UserResource REST controller.
  *
- * @see UserService
+ * @see UsuarioService
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SecretariaLibroApp.class)
@@ -31,37 +31,37 @@ import es.tenerife.secretaria.libro.repository.UserRepository;
 public class UserServiceIntTest {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UsuarioRepository userRepository;
 
 	@Autowired
-	private UserService userService;
+	private UsuarioService userService;
 
 	@Test
 
 	public void testFindNotActivatedUsersByCreationDateBefore() {
-		userService.removeNotActivatedUsers();
+		userService.removeUsuariosNoActivados();
 		Instant now = Instant.now();
-		List<User> users = userRepository.findAllByActivatedIsFalseAndCreatedDateBefore(now.minus(3, ChronoUnit.DAYS));
+		List<Usuario> users = userRepository.findAllByActivadoIsFalseAndCreatedDateBefore(now.minus(3, ChronoUnit.DAYS));
 		assertThat(users).isEmpty();
 	}
 
 	@Test
 	public void assertThatAnonymousUserIsNotGet() {
 		final PageRequest pageable = new PageRequest(0, (int) userRepository.count());
-		final Page<User> allManagedUsers = userService.getAllManagedUsers(pageable);
+		final Page<Usuario> allManagedUsers = userService.getAllUsuarios(pageable);
 		assertThat(allManagedUsers.getContent().stream()
 				.noneMatch(user -> Constants.ANONYMOUS_USER.equals(user.getLogin()))).isTrue();
 	}
 
 	@Test
 	public void testRemoveNotActivatedUsers() {
-		User user = userService.createUser("johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50",
+		Usuario user = userService.createUsuario("johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50",
 				"en-US");
-		user.setActivated(false);
+		user.setActivado(false);
 		user.setCreatedDate(Instant.now().minus(30, ChronoUnit.DAYS));
 		userRepository.save(user);
 		assertThat(userRepository.findOneByLogin("johndoe")).isPresent();
-		userService.removeNotActivatedUsers();
+		userService.removeUsuariosNoActivados();
 		assertThat(userRepository.findOneByLogin("johndoe")).isNotPresent();
 	}
 }

@@ -3,10 +3,10 @@ export class Account {
         public activated: boolean,
         public authorities: string[],
         public email: string,
-        public firstName: string,
-        public langKey: string,
-        public lastName: string,
+        public nombre: string,
+        public idioma: string,
+        public apellidos: string,
         public login: string,
-        public imageUrl: string
+        public urlImage: string
     ) { }
 }

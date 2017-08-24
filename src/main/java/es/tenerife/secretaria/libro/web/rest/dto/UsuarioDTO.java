@@ -12,12 +12,12 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import es.tenerife.secretaria.libro.config.Constants;
 import es.tenerife.secretaria.libro.domain.Authority;
-import es.tenerife.secretaria.libro.domain.User;
+import es.tenerife.secretaria.libro.domain.Usuario;
 
 /**
  * A DTO representing a user, with his authorities.
  */
-public class UserDTO {
+public class UsuarioDTO {
 
 	private Long id;
 
@@ -27,22 +27,22 @@ public class UserDTO {
 	private String login;
 
 	@Size(max = 50)
-	private String firstName;
+	private String nombre;
 
 	@Size(max = 50)
-	private String lastName;
+	private String apellidos;
 
 	@Email
 	@Size(min = 5, max = 100)
 	private String email;
 
 	@Size(max = 256)
-	private String imageUrl;
+	private String urlImage;
 
-	private boolean activated = false;
+	private boolean activado = false;
 
 	@Size(min = 2, max = 5)
-	private String langKey;
+	private String idioma;
 
 	private String createdBy;
 
@@ -54,19 +54,19 @@ public class UserDTO {
 
 	private Set<String> authorities;
 
-	public UserDTO() {
+	public UsuarioDTO() {
 		// Empty constructor needed for Jackson.
 	}
 
-	public UserDTO(User user) {
+	public UsuarioDTO(Usuario user) {
 		this.setId(user.getId());
 		this.setLogin(user.getLogin());
-		this.setFirstName(user.getFirstName());
-		this.setLastName(user.getLastName());
+		this.setNombre(user.getNombre());
+		this.setApellidos(user.getApellidos());
 		this.setEmail(user.getEmail());
-		this.setActivated(user.getActivated());
-		this.setImageUrl(user.getImageUrl());
-		this.setLangKey(user.getLangKey());
+		this.setActivo(user.getActivado());
+		this.setUrlImagen(user.getUrlImagen());
+		this.setIdioma(user.getIdioma());
 		this.setCreatedBy(user.getCreatedBy());
 		this.setCreatedDate(user.getCreatedDate());
 		this.setLastModifiedBy(user.getLastModifiedBy());
@@ -74,15 +74,15 @@ public class UserDTO {
 		this.setAuthorities(user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet()));
 	}
 
-	public void updateFrom(UserDTO source) {
+	public void updateFrom(UsuarioDTO source) {
 		this.id = source.getId();
 		this.login = source.getLogin();
-		this.firstName = source.getFirstName();
-		this.lastName = source.getLastName();
+		this.nombre = source.getNombre();
+		this.apellidos = source.getApellidos();
 		this.email = source.getEmail();
-		this.activated = source.isActivated();
-		this.imageUrl = source.getImageUrl();
-		this.langKey = source.getLangKey();
+		this.activado = source.isActivo();
+		this.urlImage = source.getUrlImagen();
+		this.idioma = source.getIdioma();
 		this.createdBy = source.getCreatedBy();
 		this.createdDate = source.getCreatedDate();
 		this.lastModifiedBy = source.getLastModifiedBy();
@@ -110,28 +110,28 @@ public class UserDTO {
 		this.login = login;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getApellidos() {
+		return apellidos;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getUrlImagen() {
+		return urlImage;
 	}
 
-	public boolean isActivated() {
-		return activated;
+	public boolean isActivo() {
+		return activado;
 	}
 
-	public String getLangKey() {
-		return langKey;
+	public String getIdioma() {
+		return idioma;
 	}
 
 	public String getCreatedBy() {
@@ -177,18 +177,18 @@ public class UserDTO {
 
 	}
 
-	protected void setLangKey(String langKey) {
-		this.langKey = langKey;
+	protected void setIdioma(String langKey) {
+		this.idioma = langKey;
 
 	}
 
-	protected void setActivated(boolean activated) {
-		this.activated = activated;
+	protected void setActivo(boolean activated) {
+		this.activado = activated;
 
 	}
 
-	protected void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	protected void setUrlImagen(String imageUrl) {
+		this.urlImage = imageUrl;
 
 	}
 
@@ -196,19 +196,19 @@ public class UserDTO {
 		this.email = email;
 	}
 
-	protected void setLastName(String lastName) {
-		this.lastName = lastName;
+	protected void setApellidos(String lastName) {
+		this.apellidos = lastName;
 	}
 
-	protected void setFirstName(String firstName) {
-		this.firstName = firstName;
+	protected void setNombre(String firstName) {
+		this.nombre = firstName;
 	}
 
 	@Override
 	public String toString() {
-		return "UserDTO{" + "login='" + login + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName
-				+ '\'' + ", email='" + email + '\'' + ", imageUrl='" + imageUrl + '\'' + ", activated=" + activated
-				+ ", langKey='" + langKey + '\'' + ", createdBy=" + createdBy + ", createdDate=" + createdDate
+		return "UserDTO{" + "login='" + login + '\'' + ", firstName='" + nombre + '\'' + ", lastName='" + apellidos
+				+ '\'' + ", email='" + email + '\'' + ", imageUrl='" + urlImage + '\'' + ", activated=" + activado
+				+ ", langKey='" + idioma + '\'' + ", createdBy=" + createdBy + ", createdDate=" + createdDate
 				+ ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate
 				+ ", authorities=" + authorities + "}";
 	}
@@ -228,16 +228,16 @@ public class UserDTO {
 		private Instant lastModifiedDate;
 		private Set<String> authorities;
 
-		public UserDTO build() {
-			UserDTO userDTO = new UserDTO();
+		public UsuarioDTO build() {
+			UsuarioDTO userDTO = new UsuarioDTO();
 			userDTO.setId(this.id);
 			userDTO.setLogin(this.login);
-			userDTO.setFirstName(this.firstName);
-			userDTO.setLastName(this.lastName);
+			userDTO.setNombre(this.firstName);
+			userDTO.setApellidos(this.lastName);
 			userDTO.setEmail(this.email);
-			userDTO.setImageUrl(this.imageUrl);
-			userDTO.setActivated(this.activated);
-			userDTO.setLangKey(this.langKey);
+			userDTO.setUrlImagen(this.imageUrl);
+			userDTO.setActivo(this.activated);
+			userDTO.setIdioma(this.langKey);
 			userDTO.setCreatedBy(this.createdBy);
 			userDTO.setCreatedDate(this.createdDate);
 			userDTO.setLastModifiedBy(this.lastModifiedBy);

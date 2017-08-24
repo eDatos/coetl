@@ -1,11 +1,11 @@
 export class User {
     public id?: any;
     public login?: string;
-    public firstName?: string;
-    public lastName?: string;
+    public nombre?: string;
+    public apellidos?: string;
     public email?: string;
-    public activated?: Boolean;
-    public langKey?: string;
+    public activo?: Boolean;
+    public idioma?: string;
     public authorities?: any[];
     public createdBy?: string;
     public createdDate?: Date;
@@ -15,11 +15,11 @@ export class User {
     constructor(
         id?: any,
         login?: string,
-        firstName?: string,
-        lastName?: string,
+        nombre?: string,
+        apellidos?: string,
         email?: string,
-        activated?: Boolean,
-        langKey?: string,
+        activo?: Boolean,
+        idioma?: string,
         authorities?: any[],
         createdBy?: string,
         createdDate?: Date,
@@ -28,11 +28,11 @@ export class User {
     ) {
         this.id = id ? id : null;
         this.login = login ? login : null;
-        this.firstName = firstName ? firstName : null;
-        this.lastName = lastName ? lastName : null;
+        this.nombre = nombre ? nombre : null;
+        this.apellidos = apellidos ? apellidos : null;
         this.email = email ? email : null;
-        this.activated = activated ? activated : false;
-        this.langKey = langKey ? langKey : null;
+        this.activo = activo ? activo : false;
+        this.idioma = idioma ? idioma : null;
         this.authorities = authorities ? authorities : null;
         this.createdBy = createdBy ? createdBy : null;
         this.createdDate = createdDate ? createdDate : null;

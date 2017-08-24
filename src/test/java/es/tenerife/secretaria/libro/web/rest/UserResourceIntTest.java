@@ -36,20 +36,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.tenerife.secretaria.libro.SecretariaLibroApp;
 import es.tenerife.secretaria.libro.domain.Authority;
-import es.tenerife.secretaria.libro.domain.User;
-import es.tenerife.secretaria.libro.repository.UserRepository;
+import es.tenerife.secretaria.libro.domain.Usuario;
+import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.service.MailService;
-import es.tenerife.secretaria.libro.service.UserService;
-import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
+import es.tenerife.secretaria.libro.service.UsuarioService;
+import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 import es.tenerife.secretaria.libro.web.rest.errors.ExceptionTranslator;
-import es.tenerife.secretaria.libro.web.rest.mapper.UserMapper;
+import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
 import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 
 /**
  * Test class for the UserResource REST controller.
  *
- * @see UserResource
+ * @see UsuarioResource
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SecretariaLibroApp.class)
@@ -76,16 +76,16 @@ public class UserResourceIntTest {
 	private static final String UPDATED_LANGKEY = "fr";
 
 	@Autowired
-	private UserRepository userRepository;
+	private UsuarioRepository userRepository;
 
 	@Autowired
 	private MailService mailService;
 
 	@Autowired
-	private UserService userService;
+	private UsuarioService userService;
 
 	@Autowired
-	private UserMapper userMapper;
+	private UsuarioMapper userMapper;
 
 	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -101,12 +101,12 @@ public class UserResourceIntTest {
 
 	private MockMvc restUserMockMvc;
 
-	private User user;
+	private Usuario user;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		UserResource userResource = new UserResource(userRepository, mailService, userService, userMapper);
+		UsuarioResource userResource = new UsuarioResource(userRepository, mailService, userService, userMapper);
 		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
 				.setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
 				.setMessageConverters(jacksonMessageConverter).build();
@@ -118,15 +118,15 @@ public class UserResourceIntTest {
 	 * This is a static method, as tests for other entities might also need it, if
 	 * they test an entity which has a required relationship to the User entity.
 	 */
-	public static User createEntity(EntityManager em) {
-		User user = new User();
+	public static Usuario createEntity(EntityManager em) {
+		Usuario user = new Usuario();
 		user.setLogin(DEFAULT_LOGIN);
-		user.setActivated(true);
+		user.setActivado(true);
 		user.setEmail(DEFAULT_EMAIL);
-		user.setFirstName(DEFAULT_FIRSTNAME);
-		user.setLastName(DEFAULT_LASTNAME);
-		user.setImageUrl(DEFAULT_IMAGEURL);
-		user.setLangKey(DEFAULT_LANGKEY);
+		user.setNombre(DEFAULT_FIRSTNAME);
+		user.setApellidos(DEFAULT_LASTNAME);
+		user.seturlImagen(DEFAULT_IMAGEURL);
+		user.setIdioma(DEFAULT_LANGKEY);
 		return user;
 	}
 
@@ -145,7 +145,7 @@ public class UserResourceIntTest {
 		authorities.add("ROLE_USER");
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UserDTO source = UserDTO.builder()
+		UsuarioDTO source = UsuarioDTO.builder()
 				.setId(null)
 				.setLogin(DEFAULT_LOGIN)
 				.setFirstName(DEFAULT_FIRSTNAME)
@@ -167,16 +167,16 @@ public class UserResourceIntTest {
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isCreated());
 
 		// Validate the User in the database
-		List<User> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId()))
+		List<Usuario> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId()))
 				.collect(Collectors.toList());
 		assertThat(userList).hasSize(databaseSizeBeforeCreate + 1);
-		User testUser = userList.get(userList.size() - 1);
+		Usuario testUser = userList.get(userList.size() - 1);
 		assertThat(testUser.getLogin()).isEqualTo(DEFAULT_LOGIN);
-		assertThat(testUser.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
-		assertThat(testUser.getLastName()).isEqualTo(DEFAULT_LASTNAME);
+		assertThat(testUser.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
+		assertThat(testUser.getApellidos()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
-		assertThat(testUser.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
-		assertThat(testUser.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
+		assertThat(testUser.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
+		assertThat(testUser.getIdioma()).isEqualTo(DEFAULT_LANGKEY);
 	}
 
 	@Test
@@ -188,7 +188,7 @@ public class UserResourceIntTest {
 		authorities.add("ROLE_USER");
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UserDTO source = UserDTO.builder()
+		UsuarioDTO source = UsuarioDTO.builder()
 				.setId(1L)
 				.setLogin(DEFAULT_LOGIN)
 				.setFirstName(DEFAULT_FIRSTNAME)
@@ -211,7 +211,7 @@ public class UserResourceIntTest {
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 
 		// Validate the User in the database
-		List<User> userList = userRepository.findAll();
+		List<Usuario> userList = userRepository.findAll();
 		assertThat(userList).hasSize(databaseSizeBeforeCreate);
 	}
 
@@ -226,7 +226,7 @@ public class UserResourceIntTest {
 		authorities.add("ROLE_USER");
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UserDTO source = UserDTO.builder()
+		UsuarioDTO source = UsuarioDTO.builder()
 				.setId(null)
 				.setLogin(DEFAULT_LOGIN)
 				.setFirstName(DEFAULT_FIRSTNAME)
@@ -249,7 +249,7 @@ public class UserResourceIntTest {
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 
 		// Validate the User in the database
-		List<User> userList = userRepository.findAll();
+		List<Usuario> userList = userRepository.findAll();
 		assertThat(userList).hasSize(databaseSizeBeforeCreate);
 	}
 
@@ -265,7 +265,7 @@ public class UserResourceIntTest {
 
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UserDTO source = UserDTO.builder()
+		UsuarioDTO source = UsuarioDTO.builder()
 				.setId(null)
 				.setLogin("anotherlogin")
 				.setFirstName(DEFAULT_FIRSTNAME)
@@ -288,7 +288,7 @@ public class UserResourceIntTest {
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 
 		// Validate the User in the database
-		List<User> userList = userRepository.findAll();
+		List<Usuario> userList = userRepository.findAll();
 		assertThat(userList).hasSize(databaseSizeBeforeCreate);
 	}
 
@@ -302,11 +302,11 @@ public class UserResourceIntTest {
 		restUserMockMvc.perform(get("/api/users?sort=id,desc").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.[*].login").value(hasItem(DEFAULT_LOGIN)))
-				.andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRSTNAME)))
-				.andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LASTNAME)))
+				.andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_FIRSTNAME)))
+				.andExpect(jsonPath("$.[*].apellidos").value(hasItem(DEFAULT_LASTNAME)))
 				.andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-				.andExpect(jsonPath("$.[*].imageUrl").value(hasItem(DEFAULT_IMAGEURL)))
-				.andExpect(jsonPath("$.[*].langKey").value(hasItem(DEFAULT_LANGKEY)));
+				.andExpect(jsonPath("$.[*].urlImagen").value(hasItem(DEFAULT_IMAGEURL)))
+				.andExpect(jsonPath("$.[*].idioma").value(hasItem(DEFAULT_LANGKEY)));
 	}
 
 	@Test
@@ -319,11 +319,11 @@ public class UserResourceIntTest {
 		restUserMockMvc.perform(get("/api/users/{login}", user.getLogin())).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.login").value(user.getLogin()))
-				.andExpect(jsonPath("$.firstName").value(DEFAULT_FIRSTNAME))
-				.andExpect(jsonPath("$.lastName").value(DEFAULT_LASTNAME))
+				.andExpect(jsonPath("$.nombre").value(DEFAULT_FIRSTNAME))
+				.andExpect(jsonPath("$.apellidos").value(DEFAULT_LASTNAME))
 				.andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-				.andExpect(jsonPath("$.imageUrl").value(DEFAULT_IMAGEURL))
-				.andExpect(jsonPath("$.langKey").value(DEFAULT_LANGKEY));
+				.andExpect(jsonPath("$.urlImagen").value(DEFAULT_IMAGEURL))
+				.andExpect(jsonPath("$.idioma").value(DEFAULT_LANGKEY));
 	}
 
 	@Test
@@ -340,19 +340,19 @@ public class UserResourceIntTest {
 		int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
 		// Update the user
-		User updatedUser = userRepository.findOne(user.getId());
+		Usuario updatedUser = userRepository.findOne(user.getId());
 
 		Set<String> authorities = new HashSet<>();
 		authorities.add("ROLE_USER");
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UserDTO source = UserDTO.builder()
+		UsuarioDTO source = UsuarioDTO.builder()
 				.setId(updatedUser.getId())
 				.setLogin(updatedUser.getLogin())
 				.setFirstName(UPDATED_FIRSTNAME)
 				.setLastName(UPDATED_LASTNAME)
 				.setEmail(UPDATED_EMAIL)
-				.setActivated(updatedUser.getActivated())
+				.setActivated(updatedUser.getActivado())
 				.setImageUrl(UPDATED_IMAGEURL)
 				.setLangKey(UPDATED_LANGKEY)
 				.setCreatedBy(updatedUser.getCreatedBy())
@@ -368,15 +368,15 @@ public class UserResourceIntTest {
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isOk());
 
 		// Validate the User in the database
-		List<User> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId()))
+		List<Usuario> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId()))
 				.collect(Collectors.toList());
 		assertThat(userList).hasSize(databaseSizeBeforeUpdate);
-		User testUser = userList.get(userList.size() - 1);
-		assertThat(testUser.getFirstName()).isEqualTo(UPDATED_FIRSTNAME);
-		assertThat(testUser.getLastName()).isEqualTo(UPDATED_LASTNAME);
+		Usuario testUser = userList.get(userList.size() - 1);
+		assertThat(testUser.getNombre()).isEqualTo(UPDATED_FIRSTNAME);
+		assertThat(testUser.getApellidos()).isEqualTo(UPDATED_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
-		assertThat(testUser.getImageUrl()).isEqualTo(UPDATED_IMAGEURL);
-		assertThat(testUser.getLangKey()).isEqualTo(UPDATED_LANGKEY);
+		assertThat(testUser.getUrlImagen()).isEqualTo(UPDATED_IMAGEURL);
+		assertThat(testUser.getIdioma()).isEqualTo(UPDATED_LANGKEY);
 	}
 
 	@Test
@@ -387,19 +387,19 @@ public class UserResourceIntTest {
 		int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
 		// Update the user
-		User updatedUser = userRepository.findOne(user.getId());
+		Usuario updatedUser = userRepository.findOne(user.getId());
 
 		Set<String> authorities = new HashSet<>();
 		authorities.add("ROLE_USER");
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UserDTO source = UserDTO.builder()
+		UsuarioDTO source = UsuarioDTO.builder()
 				.setId(updatedUser.getId())
 				.setLogin(UPDATED_LOGIN)
 				.setFirstName(UPDATED_FIRSTNAME)
 				.setLastName(UPDATED_LASTNAME)
 				.setEmail(UPDATED_EMAIL)
-				.setActivated(updatedUser.getActivated())
+				.setActivated(updatedUser.getActivado())
 				.setImageUrl(UPDATED_IMAGEURL)
 				.setLangKey(UPDATED_LANGKEY)
 				.setCreatedBy(updatedUser.getCreatedBy())
@@ -415,16 +415,16 @@ public class UserResourceIntTest {
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isOk());
 
 		// Validate the User in the database
-		List<User> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId()))
+		List<Usuario> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId()))
 				.collect(Collectors.toList());
 		assertThat(userList).hasSize(databaseSizeBeforeUpdate);
-		User testUser = userList.get(userList.size() - 1);
+		Usuario testUser = userList.get(userList.size() - 1);
 		assertThat(testUser.getLogin()).isEqualTo(UPDATED_LOGIN);
-		assertThat(testUser.getFirstName()).isEqualTo(UPDATED_FIRSTNAME);
-		assertThat(testUser.getLastName()).isEqualTo(UPDATED_LASTNAME);
+		assertThat(testUser.getNombre()).isEqualTo(UPDATED_FIRSTNAME);
+		assertThat(testUser.getApellidos()).isEqualTo(UPDATED_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
-		assertThat(testUser.getImageUrl()).isEqualTo(UPDATED_IMAGEURL);
-		assertThat(testUser.getLangKey()).isEqualTo(UPDATED_LANGKEY);
+		assertThat(testUser.getUrlImagen()).isEqualTo(UPDATED_IMAGEURL);
+		assertThat(testUser.getIdioma()).isEqualTo(UPDATED_LANGKEY);
 	}
 
 	@Test
@@ -433,32 +433,32 @@ public class UserResourceIntTest {
 		// Initialize the database with 2 users
 		userRepository.saveAndFlush(user);
 
-		User anotherUser = new User();
+		Usuario anotherUser = new Usuario();
 		anotherUser.setLogin("jhipster");
-		anotherUser.setActivated(true);
+		anotherUser.setActivado(true);
 		anotherUser.setEmail("jhipster@localhost");
-		anotherUser.setFirstName("java");
-		anotherUser.setLastName("hipster");
-		anotherUser.setImageUrl("");
-		anotherUser.setLangKey("en");
+		anotherUser.setNombre("java");
+		anotherUser.setApellidos("hipster");
+		anotherUser.seturlImagen("");
+		anotherUser.setIdioma("en");
 		userRepository.saveAndFlush(anotherUser);
 
 		// Update the user
-		User updatedUser = userRepository.findOne(user.getId());
+		Usuario updatedUser = userRepository.findOne(user.getId());
 
 		Set<String> authorities = new HashSet<>();
 		authorities.add("ROLE_USER");
 		//@formatter:off
 				ManagedUserVM managedUserVM = new ManagedUserVM();
-				UserDTO source = UserDTO.builder()
+				UsuarioDTO source = UsuarioDTO.builder()
 						.setId(updatedUser.getId())
 						.setLogin( updatedUser.getLogin())
-						.setFirstName(updatedUser.getFirstName())
-						.setLastName(updatedUser.getLastName())
+						.setFirstName(updatedUser.getNombre())
+						.setLastName(updatedUser.getApellidos())
 						.setEmail("jhipster@localhost")
-						.setActivated(updatedUser.getActivated())
-						.setImageUrl( updatedUser.getImageUrl())
-						.setLangKey(updatedUser.getLangKey())
+						.setActivated(updatedUser.getActivado())
+						.setImageUrl( updatedUser.getUrlImagen())
+						.setLangKey(updatedUser.getIdioma())
 						.setCreatedBy(updatedUser.getCreatedBy())
 						.setCreatedDate(updatedUser.getCreatedDate())
 						.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -478,32 +478,32 @@ public class UserResourceIntTest {
 		// Initialize the database
 		userRepository.saveAndFlush(user);
 
-		User anotherUser = new User();
+		Usuario anotherUser = new Usuario();
 		anotherUser.setLogin("jhipster");
-		anotherUser.setActivated(true);
+		anotherUser.setActivado(true);
 		anotherUser.setEmail("jhipster@localhost");
-		anotherUser.setFirstName("java");
-		anotherUser.setLastName("hipster");
-		anotherUser.setImageUrl("");
-		anotherUser.setLangKey("en");
+		anotherUser.setNombre("java");
+		anotherUser.setApellidos("hipster");
+		anotherUser.seturlImagen("");
+		anotherUser.setIdioma("en");
 		userRepository.saveAndFlush(anotherUser);
 
 		// Update the user
-		User updatedUser = userRepository.findOne(user.getId());
+		Usuario updatedUser = userRepository.findOne(user.getId());
 
 		Set<String> authorities = new HashSet<>();
 		authorities.add("ROLE_USER");
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UserDTO source = UserDTO.builder()
+		UsuarioDTO source = UsuarioDTO.builder()
 				.setId(updatedUser.getId())
 				.setLogin("")
-				.setFirstName(updatedUser.getFirstName())
-				.setLastName(updatedUser.getLastName())
+				.setFirstName(updatedUser.getNombre())
+				.setLastName(updatedUser.getApellidos())
 				.setEmail("jhipster@localhost")
-				.setActivated(updatedUser.getActivated())
-				.setImageUrl( updatedUser.getImageUrl())
-				.setLangKey(updatedUser.getLangKey())
+				.setActivated(updatedUser.getActivado())
+				.setImageUrl( updatedUser.getUrlImagen())
+				.setLangKey(updatedUser.getIdioma())
 				.setCreatedBy(updatedUser.getCreatedBy())
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -528,7 +528,7 @@ public class UserResourceIntTest {
 				.andExpect(status().isOk());
 
 		// Validate the database is empty
-		List<User> userList = userRepository.findAll();
+		List<Usuario> userList = userRepository.findAll();
 		assertThat(userList).hasSize(databaseSizeBeforeDelete - 1);
 	}
 
@@ -546,10 +546,10 @@ public class UserResourceIntTest {
 	@Test
 	@Transactional
 	public void testUserEquals() throws Exception {
-		TestUtil.equalsVerifier(User.class);
-		User user1 = new User();
+		TestUtil.equalsVerifier(Usuario.class);
+		Usuario user1 = new Usuario();
 		user1.setId(1L);
-		User user2 = new User();
+		Usuario user2 = new Usuario();
 		user2.setId(user1.getId());
 		assertThat(user1).isEqualTo(user2);
 		user2.setId(2L);
@@ -569,7 +569,7 @@ public class UserResourceIntTest {
 
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UserDTO source = UserDTO.builder()
+		UsuarioDTO source = UsuarioDTO.builder()
 				.setId(DEFAULT_ID)
 				.setLogin(DEFAULT_LOGIN)
 				.setFirstName(DEFAULT_FIRSTNAME)
@@ -586,15 +586,15 @@ public class UserResourceIntTest {
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on
-		User user = userMapper.userDTOToUser(source);
+		Usuario user = userMapper.userDTOToUser(source);
 		assertThat(user.getId()).isEqualTo(DEFAULT_ID);
 		assertThat(user.getLogin()).isEqualTo(DEFAULT_LOGIN);
-		assertThat(user.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
-		assertThat(user.getLastName()).isEqualTo(DEFAULT_LASTNAME);
+		assertThat(user.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
+		assertThat(user.getApellidos()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(user.getEmail()).isEqualTo(DEFAULT_EMAIL);
-		assertThat(user.getActivated()).isEqualTo(true);
-		assertThat(user.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
-		assertThat(user.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
+		assertThat(user.getActivado()).isEqualTo(true);
+		assertThat(user.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
+		assertThat(user.getIdioma()).isEqualTo(DEFAULT_LANGKEY);
 		assertThat(user.getCreatedBy()).isNull();
 		assertThat(user.getCreatedDate()).isNotNull();
 		assertThat(user.getLastModifiedBy()).isNull();
@@ -616,16 +616,16 @@ public class UserResourceIntTest {
 		authorities.add(authority);
 		user.setAuthorities(authorities);
 
-		UserDTO userDTO = userMapper.userToUserDTO(user);
+		UsuarioDTO userDTO = userMapper.userToUserDTO(user);
 
 		assertThat(userDTO.getId()).isEqualTo(DEFAULT_ID);
 		assertThat(userDTO.getLogin()).isEqualTo(DEFAULT_LOGIN);
-		assertThat(userDTO.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
-		assertThat(userDTO.getLastName()).isEqualTo(DEFAULT_LASTNAME);
+		assertThat(userDTO.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
+		assertThat(userDTO.getApellidos()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
-		assertThat(userDTO.isActivated()).isEqualTo(true);
-		assertThat(userDTO.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
-		assertThat(userDTO.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
+		assertThat(userDTO.isActivo()).isEqualTo(true);
+		assertThat(userDTO.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
+		assertThat(userDTO.getIdioma()).isEqualTo(DEFAULT_LANGKEY);
 		assertThat(userDTO.getCreatedBy()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
 		assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);

@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import es.tenerife.secretaria.libro.SecretariaLibroApp;
-import es.tenerife.secretaria.libro.domain.User;
+import es.tenerife.secretaria.libro.domain.Usuario;
 import io.github.jhipster.config.JHipsterProperties;
 
 @RunWith(SpringRunner.class)
@@ -123,10 +123,10 @@ public class MailServiceIntTest {
 
 	@Test
 	public void testSendEmailFromTemplate() throws Exception {
-		User user = new User();
+		Usuario user = new Usuario();
 		user.setLogin("john");
 		user.setEmail("john.doe@example.com");
-		user.setLangKey("en");
+		user.setIdioma("en");
 		mailService.sendEmailFromTemplate(user, "testEmail", "email.test.title");
 		verify(javaMailSender).send((MimeMessage) messageCaptor.capture());
 		MimeMessage message = (MimeMessage) messageCaptor.getValue();
@@ -139,8 +139,8 @@ public class MailServiceIntTest {
 
 	@Test
 	public void testCreationEmail() throws Exception {
-		User user = new User();
-		user.setLangKey("en");
+		Usuario user = new Usuario();
+		user.setIdioma("en");
 		user.setLogin("john");
 		user.setEmail("john.doe@example.com");
 		mailService.sendCreationEmail(user);

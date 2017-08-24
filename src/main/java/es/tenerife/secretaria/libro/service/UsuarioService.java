@@ -18,9 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.tenerife.secretaria.libro.config.Constants;
 import es.tenerife.secretaria.libro.domain.Authority;
-import es.tenerife.secretaria.libro.domain.User;
+import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.repository.AuthorityRepository;
-import es.tenerife.secretaria.libro.repository.UserRepository;
+import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.security.SecurityUtils;
 
@@ -28,33 +28,33 @@ import es.tenerife.secretaria.libro.security.SecurityUtils;
  * Service class for managing users.
  */
 @Service
-public class UserService {
+public class UsuarioService {
 
-	private final Logger log = LoggerFactory.getLogger(UserService.class);
+	private final Logger log = LoggerFactory.getLogger(UsuarioService.class);
 
-	private final UserRepository userRepository;
+	private final UsuarioRepository userRepository;
 
 	private final AuthorityRepository authorityRepository;
 
-	public UserService(UserRepository userRepository, AuthorityRepository authorityRepository) {
+	public UsuarioService(UsuarioRepository userRepository, AuthorityRepository authorityRepository) {
 		this.userRepository = userRepository;
 		this.authorityRepository = authorityRepository;
 	}
 
-	public User createUser(String login, String firstName, String lastName, String email, String imageUrl,
+	public Usuario createUsuario(String login, String firstName, String lastName, String email, String imageUrl,
 			String langKey) {
 
-		User newUser = new User();
+		Usuario newUser = new Usuario();
 		Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
 		Set<Authority> authorities = new HashSet<>();
 		newUser.setLogin(login);
-		newUser.setFirstName(firstName);
-		newUser.setLastName(lastName);
+		newUser.setNombre(firstName);
+		newUser.setApellidos(lastName);
 		newUser.setEmail(email);
-		newUser.setImageUrl(imageUrl);
-		newUser.setLangKey(langKey);
+		newUser.seturlImagen(imageUrl);
+		newUser.setIdioma(langKey);
 		// new user is not active
-		newUser.setActivated(false);
+		newUser.setActivado(false);
 		authorities.add(authority);
 		newUser.setAuthorities(authorities);
 		userRepository.save(newUser);
@@ -62,17 +62,17 @@ public class UserService {
 		return newUser;
 	}
 
-	public User createUser(User user) {
-		User newUser = new User();
+	public Usuario createUsuario(Usuario user) {
+		Usuario newUser = new Usuario();
 		newUser.setLogin(user.getLogin());
-		newUser.setFirstName(user.getFirstName());
-		newUser.setLastName(user.getLastName());
+		newUser.setNombre(user.getNombre());
+		newUser.setApellidos(user.getApellidos());
 		newUser.setEmail(user.getEmail());
-		newUser.setImageUrl(user.getImageUrl());
-		if (user.getLangKey() == null) {
-			newUser.setLangKey("en"); // default language
+		newUser.seturlImagen(user.getUrlImagen());
+		if (user.getIdioma() == null) {
+			newUser.setIdioma("en"); // default language
 		} else {
-			newUser.setLangKey(user.getLangKey());
+			newUser.setIdioma(user.getIdioma());
 		}
 		if (user.getAuthorities() != null) {
 			Set<Authority> authorities = new HashSet<>();
@@ -80,7 +80,7 @@ public class UserService {
 					.forEach(authority -> authorities.add(authorityRepository.findOne(authority.getName())));
 			newUser.setAuthorities(authorities);
 		}
-		newUser.setActivated(true);
+		newUser.setActivado(true);
 		userRepository.save(newUser);
 		log.debug("Created Information for User: {}", newUser);
 		return newUser;
@@ -101,13 +101,13 @@ public class UserService {
 	 * @param imageUrl
 	 *            image URL of user
 	 */
-	public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
+	public void updateUsuario(String firstName, String lastName, String email, String langKey, String imageUrl) {
 		userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
-			user.setFirstName(firstName);
-			user.setLastName(lastName);
+			user.setNombre(firstName);
+			user.setApellidos(lastName);
 			user.setEmail(email);
-			user.setLangKey(langKey);
-			user.setImageUrl(imageUrl);
+			user.setIdioma(langKey);
+			user.seturlImagen(imageUrl);
 			log.debug("Changed Information for User: {}", user);
 		});
 	}
@@ -119,15 +119,15 @@ public class UserService {
 	 *            user to update
 	 * @return updated user
 	 */
-	public Optional<User> updateUser(User userDTO) {
+	public Optional<Usuario> updateUsuario(Usuario userDTO) {
 		return Optional.of(userRepository.findOne(userDTO.getId())).map(user -> {
 			user.setLogin(userDTO.getLogin());
-			user.setFirstName(userDTO.getFirstName());
-			user.setLastName(userDTO.getLastName());
+			user.setNombre(userDTO.getNombre());
+			user.setApellidos(userDTO.getApellidos());
 			user.setEmail(userDTO.getEmail());
-			user.setImageUrl(userDTO.getImageUrl());
-			user.setActivated(userDTO.getActivated());
-			user.setLangKey(userDTO.getLangKey());
+			user.seturlImagen(userDTO.getUrlImagen());
+			user.setActivado(userDTO.getActivado());
+			user.setIdioma(userDTO.getIdioma());
 			Set<Authority> managedAuthorities = user.getAuthorities();
 			managedAuthorities.clear();
 			userDTO.getAuthorities().stream().map(Authority::getName).map(authorityRepository::findOne)
@@ -137,7 +137,7 @@ public class UserService {
 		});
 	}
 
-	public void deleteUser(String login) {
+	public void deleteUsuario(String login) {
 		userRepository.findOneByLogin(login).ifPresent(user -> {
 			userRepository.delete(user);
 			log.debug("Deleted User: {}", user);
@@ -145,23 +145,23 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<User> getAllManagedUsers(Pageable pageable) {
+	public Page<Usuario> getAllUsuarios(Pageable pageable) {
 		return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER);
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-		return userRepository.findOneWithAuthoritiesByLogin(login);
+	public Optional<Usuario> getUsuarioWithAuthoritiesByLogin(String login) {
+		return userRepository.findOneWithRolesByLogin(login);
 	}
 
 	@Transactional(readOnly = true)
-	public User getUserWithAuthorities(Long id) {
-		return userRepository.findOneWithAuthoritiesById(id);
+	public Usuario getUsuarioWithAuthorities(Long id) {
+		return userRepository.findOneWithRolesById(id);
 	}
 
 	@Transactional(readOnly = true)
-	public User getUserWithAuthorities() {
-		return userRepository.findOneWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
+	public Usuario getUsuarioWithAuthorities() {
+		return userRepository.findOneWithRolesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
 	}
 
 	/**
@@ -170,10 +170,10 @@ public class UserService {
 	 * This is scheduled to get fired everyday, at 01:00 (am).
 	 */
 	@Scheduled(cron = "0 0 1 * * ?")
-	public void removeNotActivatedUsers() {
-		List<User> users = userRepository
-				.findAllByActivatedIsFalseAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS));
-		for (User user : users) {
+	public void removeUsuariosNoActivados() {
+		List<Usuario> users = userRepository
+				.findAllByActivadoIsFalseAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS));
+		for (Usuario user : users) {
 			log.debug("Deleting not activated user {}", user.getLogin());
 			userRepository.delete(user);
 		}

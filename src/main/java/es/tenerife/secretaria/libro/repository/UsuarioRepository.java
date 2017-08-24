@@ -10,27 +10,27 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import es.tenerife.secretaria.libro.domain.User;
+import es.tenerife.secretaria.libro.domain.Usuario;
 
 /**
  * Spring Data JPA repository for the User entity.
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-	Optional<User> findOneByActivationKey(String activationKey);
+	Optional<Usuario> findOneByClaveActivacion(String activationKey);
 
-	List<User> findAllByActivatedIsFalseAndCreatedDateBefore(Instant dateTime);
+	List<Usuario> findAllByActivadoIsFalseAndCreatedDateBefore(Instant dateTime);
 
-	Optional<User> findOneByEmail(String email);
+	Optional<Usuario> findOneByEmail(String email);
 
-	Optional<User> findOneByLogin(String login);
-
-	@EntityGraph(attributePaths = "authorities")
-	User findOneWithAuthoritiesById(Long id);
+	Optional<Usuario> findOneByLogin(String login);
 
 	@EntityGraph(attributePaths = "authorities")
-	Optional<User> findOneWithAuthoritiesByLogin(String login);
+	Usuario findOneWithRolesById(Long id);
 
-	Page<User> findAllByLoginNot(Pageable pageable, String login);
+	@EntityGraph(attributePaths = "authorities")
+	Optional<Usuario> findOneWithRolesByLogin(String login);
+
+	Page<Usuario> findAllByLoginNot(Pageable pageable, String login);
 }

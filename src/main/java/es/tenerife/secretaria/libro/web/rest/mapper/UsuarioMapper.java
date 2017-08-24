@@ -1,8 +1,8 @@
 package es.tenerife.secretaria.libro.web.rest.mapper;
 
 import es.tenerife.secretaria.libro.domain.Authority;
-import es.tenerife.secretaria.libro.domain.User;
-import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
+import es.tenerife.secretaria.libro.domain.Usuario;
+import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 
 import org.springframework.stereotype.Service;
 
@@ -16,29 +16,29 @@ import java.util.stream.Collectors;
  * MapStruct support is still in beta, and requires a manual step with an IDE.
  */
 @Service
-public class UserMapper {
+public class UsuarioMapper {
 
-	public UserDTO userToUserDTO(User user) {
-		return new UserDTO(user);
+	public UsuarioDTO userToUserDTO(Usuario user) {
+		return new UsuarioDTO(user);
 	}
 
-	public List<UserDTO> usersToUserDTOs(List<User> users) {
+	public List<UsuarioDTO> usersToUserDTOs(List<Usuario> users) {
 		return users.stream().filter(Objects::nonNull).map(this::userToUserDTO).collect(Collectors.toList());
 	}
 
-	public User userDTOToUser(UserDTO userDTO) {
+	public Usuario userDTOToUser(UsuarioDTO userDTO) {
 		if (userDTO == null) {
 			return null;
 		} else {
-			User user = new User();
+			Usuario user = new Usuario();
 			user.setId(userDTO.getId());
 			user.setLogin(userDTO.getLogin());
-			user.setFirstName(userDTO.getFirstName());
-			user.setLastName(userDTO.getLastName());
+			user.setNombre(userDTO.getNombre());
+			user.setApellidos(userDTO.getApellidos());
 			user.setEmail(userDTO.getEmail());
-			user.setImageUrl(userDTO.getImageUrl());
-			user.setActivated(userDTO.isActivated());
-			user.setLangKey(userDTO.getLangKey());
+			user.seturlImagen(userDTO.getUrlImagen());
+			user.setActivado(userDTO.isActivo());
+			user.setIdioma(userDTO.getIdioma());
 			Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
 			if (authorities != null) {
 				user.setAuthorities(authorities);
@@ -47,15 +47,15 @@ public class UserMapper {
 		}
 	}
 
-	public List<User> userDTOsToUsers(List<UserDTO> userDTOs) {
+	public List<Usuario> userDTOsToUsers(List<UsuarioDTO> userDTOs) {
 		return userDTOs.stream().filter(Objects::nonNull).map(this::userDTOToUser).collect(Collectors.toList());
 	}
 
-	public User userFromId(Long id) {
+	public Usuario userFromId(Long id) {
 		if (id == null) {
 			return null;
 		}
-		User user = new User();
+		Usuario user = new Usuario();
 		user.setId(id);
 		return user;
 	}

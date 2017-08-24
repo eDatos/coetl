@@ -36,7 +36,7 @@ import es.tenerife.secretaria.libro.optimistic.AbstractVersionedAndAuditingEntit
  * A user.
  */
 @Entity
-@Table(name = "jhi_user")
+@Table(name = "usuario")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractVersionedAndAuditingEntity implements Serializable {
 
@@ -59,12 +59,12 @@ public class User extends AbstractVersionedAndAuditingEntity implements Serializ
 	private String password;
 
 	@Size(max = 50)
-	@Column(name = "first_name", length = 50)
-	private String firstName;
+	@Column(name = "nombre", length = 50)
+	private String nombre;
 
 	@Size(max = 50)
-	@Column(name = "last_name", length = 50)
-	private String lastName;
+	@Column(name = "apellidos", length = 50)
+	private String apellidos;
 
 	@Email
 	@Size(min = 5, max = 100)
@@ -73,28 +73,28 @@ public class User extends AbstractVersionedAndAuditingEntity implements Serializ
 
 	@NotNull
 	@Column(nullable = false)
-	private boolean activated = false;
+	private boolean activado = false;
 
 	@Size(min = 2, max = 5)
-	@Column(name = "lang_key", length = 5)
-	private String langKey;
+	@Column(name = "idioma", length = 5)
+	private String idioma;
 
 	@Size(max = 256)
-	@Column(name = "image_url", length = 256)
-	private String imageUrl;
+	@Column(name = "url_imagen", length = 256)
+	private String urlImagen;
 
 	@Size(max = 20)
-	@Column(name = "activation_key", length = 20)
+	@Column(name = "clave_activacion", length = 20)
 	@JsonIgnore
-	private String activationKey;
+	private String claveActivacion;
 
 	@Size(max = 20)
-	@Column(name = "reset_key", length = 20)
+	@Column(name = "clave_reinicio", length = 20)
 	@JsonIgnore
-	private String resetKey;
+	private String claveReinicio;
 
-	@Column(name = "reset_date")
-	private Instant resetDate = null;
+	@Column(name = "fecha_reinicio")
+	private Instant fechaReinicio = null;
 
 	@JsonIgnore
 	@ManyToMany
@@ -130,20 +130,20 @@ public class User extends AbstractVersionedAndAuditingEntity implements Serializ
 		this.password = password;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setNombre(String firstName) {
+		this.nombre = firstName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getApellidos() {
+		return apellidos;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setApellidos(String lastName) {
+		this.apellidos = lastName;
 	}
 
 	public String getEmail() {
@@ -154,60 +154,60 @@ public class User extends AbstractVersionedAndAuditingEntity implements Serializ
 		this.email = email;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getUrlImagen() {
+		return urlImagen;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void seturlImagen(String imageUrl) {
+		this.urlImagen = imageUrl;
 	}
 
-	public boolean getActivated() {
-		return activated;
+	public boolean getActivado() {
+		return activado;
 	}
 
-	public void setActivated(boolean activated) {
-		this.activated = activated;
+	public void setActivado(boolean activated) {
+		this.activado = activated;
 	}
 
-	public String getActivationKey() {
-		return activationKey;
+	public String getClaveActivacion() {
+		return claveActivacion;
 	}
 
-	public void setActivationKey(String activationKey) {
-		this.activationKey = activationKey;
+	public void setClaveActivacion(String activationKey) {
+		this.claveActivacion = activationKey;
 	}
 
-	public String getResetKey() {
-		return resetKey;
+	public String getClaveReinicio() {
+		return claveReinicio;
 	}
 
-	public void setResetKey(String resetKey) {
-		this.resetKey = resetKey;
+	public void setClaveReinicio(String resetKey) {
+		this.claveReinicio = resetKey;
 	}
 
-	public Instant getResetDate() {
-		return resetDate;
+	public Instant getFechaReinicio() {
+		return fechaReinicio;
 	}
 
-	public void setResetDate(Instant resetDate) {
-		this.resetDate = resetDate;
+	public void setFechaReinicio(Instant resetDate) {
+		this.fechaReinicio = resetDate;
 	}
 
-	public String getLangKey() {
-		return langKey;
+	public String getIdioma() {
+		return idioma;
 	}
 
-	public void setLangKey(String langKey) {
-		this.langKey = langKey;
+	public void setIdioma(String langKey) {
+		this.idioma = langKey;
 	}
 
 	public Set<Authority> getAuthorities() {
 		return authorities;
 	}
 
-	public void setAuthorities(Set<Authority> authorities) {
-		this.authorities = authorities;
+	public void setAuthorities(Set<Authority> roles) {
+		this.authorities = roles;
 	}
 
 	@Override
@@ -219,7 +219,7 @@ public class User extends AbstractVersionedAndAuditingEntity implements Serializ
 			return false;
 		}
 
-		User user = (User) o;
+		Usuario user = (Usuario) o;
 		return !(user.getId() == null || getId() == null) && Objects.equals(getId(), user.getId());
 	}
 
@@ -230,8 +230,8 @@ public class User extends AbstractVersionedAndAuditingEntity implements Serializ
 
 	@Override
 	public String toString() {
-		return "User{" + "login='" + login + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName
-				+ '\'' + ", email='" + email + '\'' + ", imageUrl='" + imageUrl + '\'' + ", activated='" + activated
-				+ '\'' + ", langKey='" + langKey + '\'' + ", activationKey='" + activationKey + '\'' + "}";
+		return "User{" + "login='" + login + '\'' + ", firstName='" + nombre + '\'' + ", lastName='" + apellidos + '\''
+				+ ", email='" + email + '\'' + ", imageUrl='" + urlImagen + '\'' + ", activated='" + activado + '\''
+				+ ", langKey='" + idioma + '\'' + ", activationKey='" + claveActivacion + '\'' + "}";
 	}
 }
