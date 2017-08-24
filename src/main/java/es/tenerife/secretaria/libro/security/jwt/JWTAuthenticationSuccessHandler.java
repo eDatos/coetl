@@ -42,7 +42,7 @@ public class JWTAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucc
 		cookie.setMaxAge(Ints.saturatedCast(tokenValidityInSeconds));
 		cookie.setHttpOnly(false);
 		cookie.setPath("/");
-		cookie.setSecure(true);
+	//	cookie.setSecure(true); // Testing cas problem on demos
 		response.addCookie(cookie);
 
 		// For evict JSESSIONID, invalidate the session of CASFilter
