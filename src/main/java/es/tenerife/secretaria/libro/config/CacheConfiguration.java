@@ -41,6 +41,7 @@ public class CacheConfiguration {
 			cm.createCache(es.tenerife.secretaria.libro.domain.Authority.class.getName(), jcacheConfiguration);
 			cm.createCache(es.tenerife.secretaria.libro.domain.User.class.getName() + ".authorities",
 					jcacheConfiguration);
+cm.createCache(es.tenerife.secretaria.libro.domain.Operacion.class.getName(), jcacheConfiguration);
 			// jhipster-needle-ehcache-add-entry
 		};
 	}

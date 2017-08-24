@@ -45,6 +45,7 @@ spring:
             hibernate.hbm2ddl.auto: validate
     mail:
         host: localhost
+        port: 0
     messages:
         basename: i18n/messages
     mvc:
