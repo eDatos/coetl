@@ -29,7 +29,7 @@ import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
  */
 @RestController
 @RequestMapping("/api")
-public class AccountResource {
+public class AccountResource extends AbstractResource {
 
 	private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 

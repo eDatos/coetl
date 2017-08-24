@@ -1,15 +1,15 @@
 package es.tenerife.secretaria.libro.service;
 
-import es.tenerife.secretaria.libro.config.audit.AuditEventConverter;
-import es.tenerife.secretaria.libro.repository.PersistenceAuditEventRepository;
+import java.time.Instant;
+import java.util.Optional;
+
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.util.Optional;
+import es.tenerife.secretaria.libro.config.audit.AuditEventConverter;
+import es.tenerife.secretaria.libro.repository.PersistenceAuditEventRepository;
 
 /**
  * Service for managing audit events.
@@ -18,7 +18,6 @@ import java.util.Optional;
  * AuditEventRepository
  */
 @Service
-@Transactional
 public class AuditEventService {
 
 	private final PersistenceAuditEventRepository persistenceAuditEventRepository;
