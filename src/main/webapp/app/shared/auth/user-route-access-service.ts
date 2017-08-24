@@ -37,7 +37,7 @@ export class UserRouteAccessService implements CanActivate {
 
             this.stateStorageService.storeUrl(url);
             const config = this.configService.getConfig();
-            window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
+            // window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
             return false;
         }));
     }
