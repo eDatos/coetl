@@ -1,12 +1,29 @@
 package es.tenerife.secretaria.libro.domain;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import es.tenerife.secretaria.libro.optimistic.AbstractVersionedEntity;
 
 /**
  * A Operacion.
@@ -14,83 +31,97 @@ import java.util.Objects;
 @Entity
 @Table(name = "operacion")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Operacion implements Serializable {
+public class Operacion extends AbstractVersionedEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "operacion_id_seq")
+	@SequenceGenerator(name = "operacion_id_seq", sequenceName = "operacion_id_seq", allocationSize = 50, initialValue = 10)
+	private Long id;
 
-    @NotNull
-    @Column(name = "accion", nullable = false)
-    private String accion;
+	@NotNull
+	@Column(name = "accion", nullable = false)
+	private String accion;
 
-    @NotNull
-    @Column(name = "sujeto", nullable = false)
-    private String sujeto;
+	@NotNull
+	@Column(name = "sujeto", nullable = false)
+	private String sujeto;
 
-    public Long getId() {
-        return id;
-    }
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "roles_operaciones", joinColumns = {
+			@JoinColumn(name = "operacion_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "rol_name", referencedColumnName = "name") })
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	@BatchSize(size = 20)
+	private Set<Authority> authorities = new HashSet<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getAccion() {
-        return accion;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Operacion accion(String accion) {
-        this.accion = accion;
-        return this;
-    }
+	public String getAccion() {
+		return accion;
+	}
 
-    public void setAccion(String accion) {
-        this.accion = accion;
-    }
+	public Operacion accion(String accion) {
+		this.accion = accion;
+		return this;
+	}
 
-    public String getSujeto() {
-        return sujeto;
-    }
+	public void setAccion(String accion) {
+		this.accion = accion;
+	}
 
-    public Operacion sujeto(String sujeto) {
-        this.sujeto = sujeto;
-        return this;
-    }
+	public String getSujeto() {
+		return sujeto;
+	}
 
-    public void setSujeto(String sujeto) {
-        this.sujeto = sujeto;
-    }
+	public Operacion sujeto(String sujeto) {
+		this.sujeto = sujeto;
+		return this;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Operacion operacion = (Operacion) o;
-        if (operacion.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), operacion.getId());
-    }
+	public void setSujeto(String sujeto) {
+		this.sujeto = sujeto;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
+	public Set<Authority> getAuthorities() {
+		return authorities;
+	}
 
-    @Override
-    public String toString() {
-        return "Operacion{" +
-            "id=" + getId() +
-            ", accion='" + getAccion() + "'" +
-            ", sujeto='" + getSujeto() + "'" +
-            "}";
-    }
+	public void setAuthorities(Set<Authority> authorities) {
+		this.authorities = authorities;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Operacion operacion = (Operacion) o;
+		if (operacion.getId() == null || getId() == null) {
+			return false;
+		}
+		return Objects.equals(getId(), operacion.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getId());
+	}
+
+	@Override
+	public String toString() {
+		return "Operacion{" + "id=" + getId() + ", accion='" + getAccion() + "'" + ", sujeto='" + getSujeto() + "'"
+				+ "}";
+	}
 }

@@ -1,74 +1,83 @@
 package es.tenerife.secretaria.libro.web.rest.dto;
 
-
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * A DTO for the Operacion entity.
  */
 public class OperacionDTO implements Serializable {
 
-    private Long id;
+	private static final long serialVersionUID = 5895492694533589512L;
 
-    @NotNull
-    private String accion;
+	private Long id;
 
-    @NotNull
-    private String sujeto;
+	@NotNull
+	private String accion;
 
-    public Long getId() {
-        return id;
-    }
+	@NotNull
+	private String sujeto;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private Long optLock;
 
-    public String getAccion() {
-        return accion;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setAccion(String accion) {
-        this.accion = accion;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getSujeto() {
-        return sujeto;
-    }
+	public String getAccion() {
+		return accion;
+	}
 
-    public void setSujeto(String sujeto) {
-        this.sujeto = sujeto;
-    }
+	public void setAccion(String accion) {
+		this.accion = accion;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+	public String getSujeto() {
+		return sujeto;
+	}
 
-        OperacionDTO operacionDTO = (OperacionDTO) o;
-        if(operacionDTO.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), operacionDTO.getId());
-    }
+	public void setSujeto(String sujeto) {
+		this.sujeto = sujeto;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
+	public Long getOptLock() {
+		return optLock;
+	}
 
-    @Override
-    public String toString() {
-        return "OperacionDTO{" +
-            "id=" + getId() +
-            ", accion='" + getAccion() + "'" +
-            ", sujeto='" + getSujeto() + "'" +
-            "}";
-    }
+	public void setOptLock(Long optLock) {
+		this.optLock = optLock;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		OperacionDTO operacionDTO = (OperacionDTO) o;
+		if (operacionDTO.getId() == null || getId() == null) {
+			return false;
+		}
+		return Objects.equals(getId(), operacionDTO.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(getId());
+	}
+
+	@Override
+	public String toString() {
+		return "OperacionDTO{" + "id=" + getId() + ", accion='" + getAccion() + "'" + ", sujeto='" + getSujeto() + "'"
+				+ "}";
+	}
 }

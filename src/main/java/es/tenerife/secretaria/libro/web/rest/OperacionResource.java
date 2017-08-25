@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import es.tenerife.secretaria.libro.domain.Operacion;
 import es.tenerife.secretaria.libro.service.OperacionService;
 import es.tenerife.secretaria.libro.web.rest.dto.OperacionDTO;
 import es.tenerife.secretaria.libro.web.rest.mapper.OperacionMapper;
@@ -99,7 +100,9 @@ public class OperacionResource extends AbstractResource {
 		if (operacionDTO.getId() == null) {
 			return createOperacion(operacionDTO);
 		}
-		OperacionDTO result = operacionMapper.toDto(operacionService.save(operacionMapper.toEntity(operacionDTO)));
+		Operacion operacion = operacionService.findOne(operacionDTO.getId());
+		OperacionDTO result = operacionMapper
+				.toDto(operacionService.save(operacionMapper.update(operacion, operacionDTO)));
 		return ResponseEntity.ok()
 				.headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, operacionDTO.getId().toString())).body(result);
 	}
