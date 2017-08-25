@@ -109,7 +109,8 @@ module.exports = (options) => {
             new HtmlWebpackPlugin({
                 template: './src/main/webapp/index.html',
                 chunksSortMode: 'dependency',
-                inject: 'body'
+                inject: 'body',
+                xhtml: true
             }),
             new StringReplacePlugin()
         ]
