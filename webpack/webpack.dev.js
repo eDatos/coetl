@@ -27,7 +27,8 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
 
             ],
             target: 'http://127.0.0.1:8080',
-            secure: false
+            secure: false,
+            changeOrigin: true
         }]
     },
     entry: {
