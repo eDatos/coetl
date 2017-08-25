@@ -30,6 +30,7 @@ import org.hibernate.validator.constraints.Email;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import es.tenerife.secretaria.libro.config.Constants;
+import es.tenerife.secretaria.libro.optimistic.AbstractVersionedAndAuditingEntity;
 
 /**
  * A user.
@@ -37,7 +38,7 @@ import es.tenerife.secretaria.libro.config.Constants;
 @Entity
 @Table(name = "jhi_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class User extends AbstractAuditingEntity implements Serializable {
+public class User extends AbstractVersionedAndAuditingEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

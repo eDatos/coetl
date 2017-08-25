@@ -19,6 +19,11 @@
       <column name="id" type="bigint" autoIncrement="${autoIncrement}">
         <constraints primaryKey="true" nullable="false" />
       </column>
+
+      <column name="opt_lock" type="bigint">
+        <constraints nullable="true" />
+      </column>
+
       <column name="accion" type="varchar(255)">
         <constraints nullable="false" />
       </column>
