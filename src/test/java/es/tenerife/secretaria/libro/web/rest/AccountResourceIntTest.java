@@ -119,7 +119,7 @@ public class AccountResourceIntTest {
 				.andExpect(jsonPath("$.email").value("john.doe@jhipster.com"))
 				.andExpect(jsonPath("$.urlImagen").value("http://placehold.it/50x50"))
 				.andExpect(jsonPath("$.idioma").value("en"))
-				.andExpect(jsonPath("$.authorities").value(AuthoritiesConstants.ADMIN));
+				.andExpect(jsonPath("$.roles").value(AuthoritiesConstants.ADMIN));
 	}
 
 	@Test

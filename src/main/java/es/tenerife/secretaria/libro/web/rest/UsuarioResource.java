@@ -189,7 +189,7 @@ public class UsuarioResource extends AbstractResource {
 	/**
 	 * @return a string list of the all of the roles
 	 */
-	@GetMapping("/users/authorities")
+	@GetMapping("/users/roles")
 	@Timed
 	@Secured(AuthoritiesConstants.ADMIN)
 	public List<String> getAuthorities() {

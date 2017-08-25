@@ -15,7 +15,7 @@ export class UserMgmtDialogComponent implements OnInit {
 
     user: User;
     languages: any[];
-    authorities: any[];
+    roles: any[];
     isSaving: Boolean;
 
     constructor(
@@ -23,13 +23,13 @@ export class UserMgmtDialogComponent implements OnInit {
         private languageHelper: JhiLanguageHelper,
         private userService: UserService,
         private eventManager: JhiEventManager
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = [];
-        this.userService.authorities().subscribe((authorities) => {
-            this.authorities = authorities;
+        this.roles = [];
+        this.userService.roles().subscribe((roles) => {
+            this.roles = roles;
         });
         this.languageHelper.getAll().then((languages) => {
             this.languages = languages;
@@ -72,11 +72,11 @@ export class UserDialogComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private userModalService: UserModalService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['login'] ) {
+            if (params['login']) {
                 this.modalRef = this.userModalService.open(UserMgmtDialogComponent as Component, params['login']);
             } else {
                 this.modalRef = this.userModalService.open(UserMgmtDialogComponent as Component);

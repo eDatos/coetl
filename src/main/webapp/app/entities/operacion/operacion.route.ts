@@ -12,7 +12,7 @@ import { OperacionDeletePopupComponent } from './operacion-delete-dialog.compone
 @Injectable()
 export class OperacionResolvePagingParams implements Resolve<any> {
 
-    constructor(private paginationUtil: JhiPaginationUtil) {}
+    constructor(private paginationUtil: JhiPaginationUtil) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
@@ -21,7 +21,7 @@ export class OperacionResolvePagingParams implements Resolve<any> {
             page: this.paginationUtil.parsePage(page),
             predicate: this.paginationUtil.parsePredicate(sort),
             ascending: this.paginationUtil.parseAscending(sort)
-      };
+        };
     }
 }
 
@@ -33,7 +33,7 @@ export const operacionRoute: Routes = [
             'pagingParams': OperacionResolvePagingParams
         },
         data: {
-            authorities: ['ROLE_USER'],
+            roles: ['ROLE_USER'],
             pageTitle: 'secretariaLibroApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -41,7 +41,7 @@ export const operacionRoute: Routes = [
         path: 'operacion/:id',
         component: OperacionDetailComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            roles: ['ROLE_USER'],
             pageTitle: 'secretariaLibroApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -53,7 +53,7 @@ export const operacionPopupRoute: Routes = [
         path: 'operacion-new',
         component: OperacionPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            roles: ['ROLE_USER'],
             pageTitle: 'secretariaLibroApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -63,7 +63,7 @@ export const operacionPopupRoute: Routes = [
         path: 'operacion/:id/edit',
         component: OperacionPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            roles: ['ROLE_USER'],
             pageTitle: 'secretariaLibroApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -73,7 +73,7 @@ export const operacionPopupRoute: Routes = [
         path: 'operacion/:id/delete',
         component: OperacionDeletePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            roles: ['ROLE_USER'],
             pageTitle: 'secretariaLibroApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService],

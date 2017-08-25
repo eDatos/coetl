@@ -12,7 +12,7 @@ import {
     LoginService,
     LoginModalService,
     Principal,
-    HasAnyAuthorityDirective,
+    HasAnyRolDirective,
     JhiLoginModalComponent
 } from './';
 
@@ -23,7 +23,7 @@ import {
     ],
     declarations: [
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective
+        HasAnyRolDirective
     ],
     providers: [
         LoginService,
@@ -40,7 +40,7 @@ import {
     exports: [
         SecretariaLibroSharedCommonModule,
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective,
+        HasAnyRolDirective,
         DatePipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
