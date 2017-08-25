@@ -11,7 +11,7 @@ export class Principal {
 
     constructor(
         private account: AccountService
-    ) {}
+    ) { }
 
     authenticate(identity) {
         this.userIdentity = identity;
@@ -24,12 +24,12 @@ export class Principal {
     }
 
     hasAnyAuthorityDirect(authorities: string[]): boolean {
-        if (!this.authenticated || !this.userIdentity || !this.userIdentity.authorities) {
+        if (!this.authenticated || !this.userIdentity || !this.userIdentity.roles) {
             return false;
         }
 
         for (let i = 0; i < authorities.length; i++) {
-            if (this.userIdentity.authorities.indexOf(authorities[i]) !== -1) {
+            if (this.userIdentity.roles.indexOf(authorities[i]) !== -1) {
                 return true;
             }
         }
@@ -39,11 +39,11 @@ export class Principal {
 
     hasAuthority(authority: string): Promise<boolean> {
         if (!this.authenticated) {
-           return Promise.resolve(false);
+            return Promise.resolve(false);
         }
 
         return this.identity().then((id) => {
-            return Promise.resolve(id.authorities && id.authorities.indexOf(authority) !== -1);
+            return Promise.resolve(id.roles && id.roles.indexOf(authority) !== -1);
         }, () => {
             return Promise.resolve(false);
         });

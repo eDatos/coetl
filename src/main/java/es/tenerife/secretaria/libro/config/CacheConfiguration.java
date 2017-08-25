@@ -39,15 +39,14 @@ public class CacheConfiguration {
 	public JCacheManagerCustomizer cacheManagerCustomizer() {
 		return cm -> {
 			cm.createCache(es.tenerife.secretaria.libro.domain.Usuario.class.getName(), jcacheConfiguration);
-			cm.createCache(es.tenerife.secretaria.libro.domain.Authority.class.getName(), jcacheConfiguration);
-			cm.createCache(es.tenerife.secretaria.libro.domain.Authority.class.getName() + ".operaciones",
+			cm.createCache(es.tenerife.secretaria.libro.domain.Usuario.class.getName() + ".roles",
 					jcacheConfiguration);
-			cm.createCache(es.tenerife.secretaria.libro.domain.Authority.class.getName() + ".users",
+			cm.createCache(es.tenerife.secretaria.libro.domain.Rol.class.getName() + ".operaciones",
 					jcacheConfiguration);
-			cm.createCache(es.tenerife.secretaria.libro.domain.User.class.getName() + ".authorities",
+			cm.createCache(es.tenerife.secretaria.libro.domain.Rol.class.getName() + ".usuarios",
 					jcacheConfiguration);
 			cm.createCache(es.tenerife.secretaria.libro.domain.Operacion.class.getName(), jcacheConfiguration);
-			cm.createCache(es.tenerife.secretaria.libro.domain.Operacion.class.getName() + ".authorities",
+			cm.createCache(es.tenerife.secretaria.libro.domain.Operacion.class.getName() + ".roles",
 					jcacheConfiguration);
 			// jhipster-needle-ehcache-add-entry
 		};

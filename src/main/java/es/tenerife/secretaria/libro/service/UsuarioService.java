@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.tenerife.secretaria.libro.config.Constants;
-import es.tenerife.secretaria.libro.domain.Authority;
+import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.repository.AuthorityRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
@@ -45,8 +45,8 @@ public class UsuarioService {
 			String langKey) {
 
 		Usuario newUser = new Usuario();
-		Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
-		Set<Authority> authorities = new HashSet<>();
+		Rol authority = authorityRepository.findOne(AuthoritiesConstants.USER);
+		Set<Rol> authorities = new HashSet<>();
 		newUser.setLogin(login);
 		newUser.setNombre(firstName);
 		newUser.setApellidos(lastName);
@@ -56,7 +56,7 @@ public class UsuarioService {
 		// new user is not active
 		newUser.setActivado(false);
 		authorities.add(authority);
-		newUser.setAuthorities(authorities);
+		newUser.setRoles(authorities);
 		userRepository.save(newUser);
 		log.debug("Created Information for User: {}", newUser);
 		return newUser;
@@ -74,11 +74,11 @@ public class UsuarioService {
 		} else {
 			newUser.setIdioma(user.getIdioma());
 		}
-		if (user.getAuthorities() != null) {
-			Set<Authority> authorities = new HashSet<>();
-			user.getAuthorities()
+		if (user.getRoles() != null) {
+			Set<Rol> authorities = new HashSet<>();
+			user.getRoles()
 					.forEach(authority -> authorities.add(authorityRepository.findOne(authority.getName())));
-			newUser.setAuthorities(authorities);
+			newUser.setRoles(authorities);
 		}
 		newUser.setActivado(true);
 		userRepository.save(newUser);
@@ -128,9 +128,9 @@ public class UsuarioService {
 			user.seturlImagen(userDTO.getUrlImagen());
 			user.setActivado(userDTO.getActivado());
 			user.setIdioma(userDTO.getIdioma());
-			Set<Authority> managedAuthorities = user.getAuthorities();
+			Set<Rol> managedAuthorities = user.getRoles();
 			managedAuthorities.clear();
-			userDTO.getAuthorities().stream().map(Authority::getName).map(authorityRepository::findOne)
+			userDTO.getRoles().stream().map(Rol::getName).map(authorityRepository::findOne)
 					.forEach(managedAuthorities::add);
 			log.debug("Changed Information for User: {}", user);
 			return user;
@@ -183,6 +183,6 @@ public class UsuarioService {
 	 * @return a list of all the authorities
 	 */
 	public List<String> getAuthorities() {
-		return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
+		return authorityRepository.findAll().stream().map(Rol::getName).collect(Collectors.toList());
 	}
 }

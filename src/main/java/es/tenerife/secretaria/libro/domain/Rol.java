@@ -31,7 +31,7 @@ import es.tenerife.secretaria.libro.optimistic.AbstractVersionedEntity;
 @Entity
 @Table(name = "jhi_authority")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Authority extends AbstractVersionedEntity implements Serializable {
+public class Rol extends AbstractVersionedEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class Authority extends AbstractVersionedEntity implements Serializable {
 	@Size(min = 0, max = 50)
 	@Id
 	@Column(length = 50)
-	private String name;
+	private String nombre;
 
 	@JsonIgnore
 	@ManyToMany
@@ -72,11 +72,11 @@ public class Authority extends AbstractVersionedEntity implements Serializable {
 	}
 
 	public String getName() {
-		return name;
+		return nombre;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public Set<User> getUsers() {
@@ -104,19 +104,19 @@ public class Authority extends AbstractVersionedEntity implements Serializable {
 			return false;
 		}
 
-		Authority authority = (Authority) o;
+		Rol authority = (Rol) o;
 
-		return !(name != null ? !name.equals(authority.name) : authority.name != null);
+		return !(nombre != null ? !nombre.equals(authority.nombre) : authority.nombre != null);
 	}
 
 	@Override
 	public int hashCode() {
-		return name != null ? name.hashCode() : 0;
+		return nombre != null ? nombre.hashCode() : 0;
 	}
 
 	@Override
 	public String toString() {
-		return "Authority{" + "name='" + name + '\'' + "}";
+		return "Authority{" + "name='" + nombre + '\'' + "}";
 	}
 
 }

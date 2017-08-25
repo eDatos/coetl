@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import es.tenerife.secretaria.libro.config.Constants;
-import es.tenerife.secretaria.libro.domain.Authority;
+import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 
 /**
@@ -52,7 +52,7 @@ public class UsuarioDTO {
 
 	private Instant lastModifiedDate;
 
-	private Set<String> authorities;
+	private Set<String> roles;
 
 	public UsuarioDTO() {
 		// Empty constructor needed for Jackson.
@@ -71,7 +71,7 @@ public class UsuarioDTO {
 		this.setCreatedDate(user.getCreatedDate());
 		this.setLastModifiedBy(user.getLastModifiedBy());
 		this.setLastModifiedDate(user.getLastModifiedDate());
-		this.setAuthorities(user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet()));
+		this.setRoles(user.getRoles().stream().map(Rol::getName).collect(Collectors.toSet()));
 	}
 
 	public void updateFrom(UsuarioDTO source) {
@@ -87,7 +87,7 @@ public class UsuarioDTO {
 		this.createdDate = source.getCreatedDate();
 		this.lastModifiedBy = source.getLastModifiedBy();
 		this.lastModifiedDate = source.getLastModifiedDate();
-		this.authorities = source.getAuthorities();
+		this.roles = source.getRoles();
 	}
 
 	public static Builder builder() {
@@ -154,12 +154,12 @@ public class UsuarioDTO {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
-	public Set<String> getAuthorities() {
-		return authorities;
+	public Set<String> getRoles() {
+		return roles;
 	}
 
-	protected void setAuthorities(Set<String> authorities) {
-		this.authorities = authorities;
+	protected void setRoles(Set<String> roles) {
+		this.roles = roles;
 	}
 
 	protected void setLastModifiedBy(String lastModifiedBy) {
@@ -210,7 +210,7 @@ public class UsuarioDTO {
 				+ '\'' + ", email='" + email + '\'' + ", imageUrl='" + urlImage + '\'' + ", activated=" + activado
 				+ ", langKey='" + idioma + '\'' + ", createdBy=" + createdBy + ", createdDate=" + createdDate
 				+ ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate
-				+ ", authorities=" + authorities + "}";
+				+ ", authorities=" + roles + "}";
 	}
 
 	public static class Builder {
@@ -242,7 +242,7 @@ public class UsuarioDTO {
 			userDTO.setCreatedDate(this.createdDate);
 			userDTO.setLastModifiedBy(this.lastModifiedBy);
 			userDTO.setLastModifiedDate(this.lastModifiedDate);
-			userDTO.setAuthorities(this.authorities);
+			userDTO.setRoles(this.authorities);
 			return userDTO;
 		}
 

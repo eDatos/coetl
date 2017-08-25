@@ -26,10 +26,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	Optional<Usuario> findOneByLogin(String login);
 
-	@EntityGraph(attributePaths = "authorities")
+	@EntityGraph(attributePaths = "roles")
 	Usuario findOneWithRolesById(Long id);
 
-	@EntityGraph(attributePaths = "authorities")
+	@EntityGraph(attributePaths = "roles")
 	Optional<Usuario> findOneWithRolesByLogin(String login);
 
 	Page<Usuario> findAllByLoginNot(Pageable pageable, String login);

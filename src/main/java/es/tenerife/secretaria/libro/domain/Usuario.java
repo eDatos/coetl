@@ -100,10 +100,10 @@ public class User extends AbstractVersionedAndAuditingEntity implements Serializ
 	@ManyToMany
 	@JoinTable(name = "jhi_user_authority", joinColumns = {
 			@JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "authority_name", referencedColumnName = "name") })
+					@JoinColumn(name = "authority_name", referencedColumnName = "nombre") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@BatchSize(size = 20)
-	private Set<Authority> authorities = new HashSet<>();
+	private Set<Rol> roles = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -202,12 +202,12 @@ public class User extends AbstractVersionedAndAuditingEntity implements Serializ
 		this.idioma = langKey;
 	}
 
-	public Set<Authority> getAuthorities() {
-		return authorities;
+	public Set<Rol> getRoles() {
+		return roles;
 	}
 
-	public void setAuthorities(Set<Authority> roles) {
-		this.authorities = roles;
+	public void setRoles(Set<Rol> roles) {
+		this.roles = roles;
 	}
 
 	@Override

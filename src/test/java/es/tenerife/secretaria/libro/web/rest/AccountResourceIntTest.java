@@ -30,7 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.tenerife.secretaria.libro.SecretariaLibroApp;
-import es.tenerife.secretaria.libro.domain.Authority;
+import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
@@ -97,9 +97,9 @@ public class AccountResourceIntTest {
 
 	@Test
 	public void testGetExistingAccount() throws Exception {
-		Set<Authority> authorities = new HashSet<>();
-		Authority authority = new Authority();
-		authority.setName(AuthoritiesConstants.ADMIN);
+		Set<Rol> authorities = new HashSet<>();
+		Rol authority = new Rol();
+		authority.setNombre(AuthoritiesConstants.ADMIN);
 		authorities.add(authority);
 
 		Usuario user = new Usuario();
@@ -109,7 +109,7 @@ public class AccountResourceIntTest {
 		user.setEmail("john.doe@jhipster.com");
 		user.seturlImagen("http://placehold.it/50x50");
 		user.setIdioma("en");
-		user.setAuthorities(authorities);
+		user.setRoles(authorities);
 		when(mockUserService.getUsuarioWithAuthorities()).thenReturn(user);
 
 		restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
@@ -168,7 +168,7 @@ public class AccountResourceIntTest {
 		assertThat(updatedUser.getIdioma()).isEqualTo(userDTO.getIdioma());
 		assertThat(updatedUser.getUrlImagen()).isEqualTo(userDTO.getUrlImagen());
 		assertThat(updatedUser.getActivado()).isEqualTo(true);
-		assertThat(updatedUser.getAuthorities()).isEmpty();
+		assertThat(updatedUser.getRoles()).isEmpty();
 	}
 
 	@Test

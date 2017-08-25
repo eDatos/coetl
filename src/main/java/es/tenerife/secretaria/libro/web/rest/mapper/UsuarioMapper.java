@@ -1,6 +1,6 @@
 package es.tenerife.secretaria.libro.web.rest.mapper;
 
-import es.tenerife.secretaria.libro.domain.Authority;
+import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 
@@ -39,9 +39,9 @@ public class UsuarioMapper {
 			user.seturlImagen(userDTO.getUrlImagen());
 			user.setActivado(userDTO.isActivo());
 			user.setIdioma(userDTO.getIdioma());
-			Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
+			Set<Rol> authorities = this.authoritiesFromStrings(userDTO.getRoles());
 			if (authorities != null) {
-				user.setAuthorities(authorities);
+				user.setRoles(authorities);
 			}
 			return user;
 		}
@@ -60,10 +60,10 @@ public class UsuarioMapper {
 		return user;
 	}
 
-	public Set<Authority> authoritiesFromStrings(Set<String> strings) {
+	public Set<Rol> authoritiesFromStrings(Set<String> strings) {
 		return strings.stream().map(string -> {
-			Authority auth = new Authority();
-			auth.setName(string);
+			Rol auth = new Rol();
+			auth.setNombre(string);
 			return auth;
 		}).collect(Collectors.toSet());
 	}

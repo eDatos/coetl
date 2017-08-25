@@ -6,7 +6,7 @@ export class User {
     public email?: string;
     public activo?: Boolean;
     public idioma?: string;
-    public authorities?: any[];
+    public roles?: any[];
     public createdBy?: string;
     public createdDate?: Date;
     public lastModifiedBy?: string;
@@ -20,7 +20,7 @@ export class User {
         email?: string,
         activo?: Boolean,
         idioma?: string,
-        authorities?: any[],
+        roles?: any[],
         createdBy?: string,
         createdDate?: Date,
         lastModifiedBy?: string,
@@ -33,7 +33,7 @@ export class User {
         this.email = email ? email : null;
         this.activo = activo ? activo : false;
         this.idioma = idioma ? idioma : null;
-        this.authorities = authorities ? authorities : null;
+        this.roles = roles ? roles : null;
         this.createdBy = createdBy ? createdBy : null;
         this.createdDate = createdDate ? createdDate : null;
         this.lastModifiedBy = lastModifiedBy ? lastModifiedBy : null;

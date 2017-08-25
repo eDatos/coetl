@@ -35,7 +35,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.tenerife.secretaria.libro.SecretariaLibroApp;
-import es.tenerife.secretaria.libro.domain.Authority;
+import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
@@ -599,7 +599,7 @@ public class UserResourceIntTest {
 		assertThat(user.getCreatedDate()).isNotNull();
 		assertThat(user.getLastModifiedBy()).isNull();
 		assertThat(user.getLastModifiedDate()).isNotNull();
-		assertThat(user.getAuthorities()).extracting("name").containsExactly(AuthoritiesConstants.USER);
+		assertThat(user.getRoles()).extracting("name").containsExactly(AuthoritiesConstants.USER);
 	}
 
 	@Test
@@ -610,11 +610,11 @@ public class UserResourceIntTest {
 		user.setLastModifiedBy(DEFAULT_LOGIN);
 		user.setLastModifiedDate(Instant.now());
 
-		Set<Authority> authorities = new HashSet<>();
-		Authority authority = new Authority();
-		authority.setName(AuthoritiesConstants.USER);
+		Set<Rol> authorities = new HashSet<>();
+		Rol authority = new Rol();
+		authority.setNombre(AuthoritiesConstants.USER);
 		authorities.add(authority);
-		user.setAuthorities(authorities);
+		user.setRoles(authorities);
 
 		UsuarioDTO userDTO = userMapper.userToUserDTO(user);
 
@@ -630,29 +630,29 @@ public class UserResourceIntTest {
 		assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
 		assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(userDTO.getLastModifiedDate()).isEqualTo(user.getLastModifiedDate());
-		assertThat(userDTO.getAuthorities()).containsExactly(AuthoritiesConstants.USER);
+		assertThat(userDTO.getRoles()).containsExactly(AuthoritiesConstants.USER);
 		assertThat(userDTO.toString()).isNotNull();
 	}
 
 	@Test
 	public void testAuthorityEquals() throws Exception {
-		Authority authorityA = new Authority();
+		Rol authorityA = new Rol();
 		assertThat(authorityA).isEqualTo(authorityA);
 		assertThat(authorityA).isNotEqualTo(null);
 		assertThat(authorityA).isNotEqualTo(new Object());
 		assertThat(authorityA.hashCode()).isEqualTo(0);
 		assertThat(authorityA.toString()).isNotNull();
 
-		Authority authorityB = new Authority();
+		Rol authorityB = new Rol();
 		assertThat(authorityA).isEqualTo(authorityB);
 
-		authorityB.setName(AuthoritiesConstants.ADMIN);
+		authorityB.setNombre(AuthoritiesConstants.ADMIN);
 		assertThat(authorityA).isNotEqualTo(authorityB);
 
-		authorityA.setName(AuthoritiesConstants.USER);
+		authorityA.setNombre(AuthoritiesConstants.USER);
 		assertThat(authorityA).isNotEqualTo(authorityB);
 
-		authorityB.setName(AuthoritiesConstants.USER);
+		authorityB.setNombre(AuthoritiesConstants.USER);
 		assertThat(authorityA).isEqualTo(authorityB);
 		assertThat(authorityA.hashCode()).isEqualTo(authorityB.hashCode());
 	}
