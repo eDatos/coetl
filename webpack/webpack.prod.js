@@ -45,7 +45,10 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         },
         {
             test: /(vendor\.scss|global\.scss)/,
-            use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+            use: extractSASS.extract({
+                fallback: 'style-loader',
+                use: ['css-loader', 'postcss-loader', 'sass-loader']
+            })
         },
         {
             test: /\.css$/,
@@ -54,7 +57,10 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         },
         {
             test: /(vendor\.css|global\.css)/,
-            use: ['style-loader', 'css-loader']
+            use: extractCSS.extract({
+                fallback: 'style-loader',
+                use: ['css-loader']
+            })
         }]
     },
     plugins: [
