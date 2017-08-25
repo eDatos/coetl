@@ -7,3 +7,5 @@ export const LANGUAGES: string[] = [
     'es'
     // jhipster-needle-i18n-language-constant - JHipster will add/remove languages in this array
 ];
+
+export const DEFAULT_LANGUAGE = 'es';
