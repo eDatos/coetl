@@ -1,15 +1,18 @@
+@import '~variables.scss';
 
+$navbar-height: 45px;
 /* ==========================================================================
 Navbar
 ========================================================================== */
 .navbar-version {
     font-size: 10px;
-    color: #ccc
+    color: $grey-light;
+    display: inline-block;
+    vertical-align: text-bottom;
 }
 
 .jh-navbar {
-    background-color: #353d47;
-    padding: .2em 1em;
+    background-color: $grey-darkest;
     .profile-image {
         margin: -10px 0px;
         height: 40px;
@@ -17,22 +20,25 @@ Navbar
         border-radius: 50%;
     }
     .dropdown-item.active, .dropdown-item.active:focus, .dropdown-item.active:hover {
-        background-color: #353d47;
+        background-color: $grey-darkest;
     }
     .dropdown-toggle::after {
         margin-left: 0.15em;
     }
     ul.navbar-nav {
-        padding: 0.5em;
         .nav-item {
             margin-left: 1.5rem;
+            &.active {
+                background: $grey-dark;
+            }
         }
     }
     a.nav-link {
         font-weight: 400;
+        line-height: $navbar-height;
     }
     .jh-navbar-toggler {
-        color: #ccc;
+        color: $grey-light;
         font-size: 1.5em;
         padding: 10px;
         &:hover {
@@ -59,7 +65,7 @@ Logo styles
     &.logo {
         padding: 5px 15px;
         .logo-img {
-            height: 45px;
+            height: $navbar-height;
             width: 70px;
             display: inline-block;
             vertical-align: middle;
