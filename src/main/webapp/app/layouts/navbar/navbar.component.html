@@ -92,48 +92,33 @@
             </a>
         </div>
     </div>
-    <div class="col-2">
-        <ul class="navbar-nav" [ngSwitch]="isAuthenticated()">
-            <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
-                    <span *ngIf="!getImageUrl()">
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                        <span jhiTranslate="global.menu.account.main">
-                        Account
-                        </span>
-                        <b class="caret"></b>
-                    </span>
-                    <span *ngIf="getImageUrl()">
-                        <img [src]="getImageUrl()" class="profile-image img-circle" alt="Avatar">
-                    </span>
-                    </a>
-                <ul class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
-                    <li *ngSwitchCase="true">
-                        <a class="dropdown-item" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()">
-                                <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
-                                <span jhiTranslate="global.menu.account.settings">Settings</span>
-                            </a>
-                    </li>
-                    <li *ngSwitchCase="true">
-                        <a class="dropdown-item" (click)="logout()" id="logout">
-                                <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
-                                <span jhiTranslate="global.menu.account.logout">Sign out</span>
-                            </a>
-                    </li>
-                    <li *ngSwitchCase="false">
-                        <a class="dropdown-item" (click)="login()" id="login">
-                                <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i>
-                                <span jhiTranslate="global.menu.account.login">Sign in</span>
-                            </a>
-                    </li>
-                    <li *ngSwitchCase="false">
-                        <a class="dropdown-item" routerLink="register" routerLinkActive="active" (click)="collapseNavbar()">
-                                <i class="fa fa-fw fa-registered" aria-hidden="true"></i>
-                                <span jhiTranslate="global.menu.account.register">Register</span>
-                            </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <div class="col-2 text-right navbar-nav" [ngSwitch]="isAuthenticated()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        id="account-menu">
+
+        <span class="navbar-brand">
+            <span *ngIf="!getImageUrl()">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span jhiTranslate="global.menu.account.main">
+                Account
+                </span>
+        <b class="caret"></b>
+        </span>
+        <span *ngIf="getImageUrl()">
+                <img [src]="getImageUrl()" class="profile-image img-circle" alt="Avatar">
+            </span>
+        </span>
+
+        <a *ngSwitchCase="true" class="nav-link" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()" [title]="'global.menu.account.settings' | translate">
+            <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
+        </a>
+        <a *ngSwitchCase="true" class="nav-link" (click)="logout()" id="logout" [title]="'global.menu.account.logout' | translate">
+            <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
+        </a>
+        <a *ngSwitchCase="false" class="nav-link" (click)="login()" id="login" [title]="'global.menu.account.login' | translate">
+            <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i>
+        </a>
+        <a *ngSwitchCase="false" class="nav-link" routerLink="register" routerLinkActive="active" (click)="collapseNavbar()" [title]="'global.menu.account.register' | translate">
+            <i class="fa fa-fw fa-registered" aria-hidden="true"></i>
+        </a>
     </div>
 </nav>
