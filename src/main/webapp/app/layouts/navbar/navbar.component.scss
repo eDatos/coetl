@@ -35,7 +35,7 @@ Navbar
         }
     }
     a.nav-link {
-        font-weight: 400;
+        font-weight: $font-weight-normal;
         line-height: $navbar-height;
     }
     .jh-navbar-toggler {
