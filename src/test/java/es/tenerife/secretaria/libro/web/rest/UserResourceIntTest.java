@@ -170,7 +170,7 @@ public class UserResourceIntTest {
 		List<Usuario> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId()))
 				.collect(Collectors.toList());
 		assertThat(userList).hasSize(databaseSizeBeforeCreate + 1);
-		Usuario testUser = userList.get(userList.size() - 1);
+		Usuario testUser = userList.get(0);
 		assertThat(testUser.getLogin()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(testUser.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
 		assertThat(testUser.getApellidos()).isEqualTo(DEFAULT_LASTNAME);
@@ -371,7 +371,7 @@ public class UserResourceIntTest {
 		List<Usuario> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId()))
 				.collect(Collectors.toList());
 		assertThat(userList).hasSize(databaseSizeBeforeUpdate);
-		Usuario testUser = userList.get(userList.size() - 1);
+		Usuario testUser = userList.get(0);
 		assertThat(testUser.getNombre()).isEqualTo(UPDATED_FIRSTNAME);
 		assertThat(testUser.getApellidos()).isEqualTo(UPDATED_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
@@ -418,7 +418,7 @@ public class UserResourceIntTest {
 		List<Usuario> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId()))
 				.collect(Collectors.toList());
 		assertThat(userList).hasSize(databaseSizeBeforeUpdate);
-		Usuario testUser = userList.get(userList.size() - 1);
+		Usuario testUser = userList.get(0);
 		assertThat(testUser.getLogin()).isEqualTo(UPDATED_LOGIN);
 		assertThat(testUser.getNombre()).isEqualTo(UPDATED_FIRSTNAME);
 		assertThat(testUser.getApellidos()).isEqualTo(UPDATED_LASTNAME);

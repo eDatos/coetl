@@ -49,11 +49,11 @@
       tableName="roles_operaciones" />
 
     <addForeignKeyConstraint baseColumnNames="rol_nombre"
-      baseTableName="roles_operaciones" constraintName="fk_rol_nombre"
+      baseTableName="roles_operaciones" constraintName="fk_roles_operaciones_rol_nombre"
       referencedColumnNames="nombre" referencedTableName="rol" />
 
     <addForeignKeyConstraint baseColumnNames="operacion_id"
-      baseTableName="roles_operaciones" constraintName="fk_operacion_id"
+      baseTableName="roles_operaciones" constraintName="fk_roles_operaciones_operacion_id"
       referencedColumnNames="id" referencedTableName="operacion" />
 
   </changeSet>

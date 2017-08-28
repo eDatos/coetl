@@ -2,7 +2,6 @@ package es.tenerife.secretaria.libro.optimistic;
 
 import java.util.Map;
 
-import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.event.spi.PersistEvent;
 import org.hibernate.event.spi.PersistEventListener;
@@ -21,7 +20,7 @@ public class RootLinkInsertEventListener implements PersistEventListener {
 	public static final RootLinkInsertEventListener INSTANCE = new RootLinkInsertEventListener();
 
 	@Override
-	public void onPersist(PersistEvent event) throws HibernateException {
+	public void onPersist(PersistEvent event) {
 		final Object entity = event.getObject();
 
 		if (entity instanceof RootLink) {
@@ -41,7 +40,7 @@ public class RootLinkInsertEventListener implements PersistEventListener {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void onPersist(PersistEvent event, Map createdAlready) throws HibernateException {
+	public void onPersist(PersistEvent event, Map createdAlready) {
 		onPersist(event);
 	}
 }

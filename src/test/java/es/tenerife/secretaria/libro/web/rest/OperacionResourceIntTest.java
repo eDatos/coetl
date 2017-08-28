@@ -298,7 +298,9 @@ public class OperacionResourceIntTest {
 	@Test
 	@Transactional
 	public void testEntityFromId() {
-		assertThat(operacionMapper.fromId(42L).getId()).isEqualTo(42);
+		Operacion operacion = createEntity(em);
+		operacionService.save(operacion);
+		assertThat(operacionMapper.fromId(operacion.getId())).isEqualTo(operacion);
 		assertThat(operacionMapper.fromId(null)).isNull();
 	}
 }

@@ -49,7 +49,7 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "roles_operaciones", joinColumns = {
 			@JoinColumn(name = "rol_nombre", referencedColumnName = "nombre") }, inverseJoinColumns = {
-					@JoinColumn(name = "usuario_id", referencedColumnName = "id") })
+					@JoinColumn(name = "operacion_id", referencedColumnName = "id") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@BatchSize(size = 20)
 	private Set<Operacion> operaciones = new HashSet<>();

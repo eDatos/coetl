@@ -1,6 +1,5 @@
 package es.tenerife.secretaria.libro.optimistic;
 
-import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.engine.spi.EntityEntry;
 import org.hibernate.engine.spi.SessionImplementor;
@@ -23,7 +22,7 @@ public class RootLinkUpdateAndDeleteEventListener implements FlushEntityEventLis
 	public static final RootLinkUpdateAndDeleteEventListener INSTANCE = new RootLinkUpdateAndDeleteEventListener();
 
 	@Override
-	public void onFlushEntity(FlushEntityEvent event) throws HibernateException {
+	public void onFlushEntity(FlushEntityEvent event) {
 		final EntityEntry entry = event.getEntityEntry();
 		final Object entity = event.getEntity();
 		final boolean mightBeDirty = entry.requiresDirtyCheck(entity);

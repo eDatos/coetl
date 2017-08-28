@@ -89,12 +89,13 @@
       tableName="usuario_rol" />
 
     <addForeignKeyConstraint baseColumnNames="rol_nombre"
-      baseTableName="usuario_rol" constraintName="fk_rol_nombre"
+      baseTableName="usuario_rol" constraintName="fk_usuario_rol_rol_nombre"
       referencedColumnNames="nombre" referencedTableName="rol" />
 
     <addForeignKeyConstraint baseColumnNames="usuario_id"
-      baseTableName="usuario_rol" constraintName="fk_usuario_id"
+      baseTableName="usuario_rol" constraintName="fk_usuario_rol_usuario_id"
       referencedColumnNames="id" referencedTableName="usuario" />
+      
     <loadData encoding="UTF-8" file="config/liquibase/usuarios.csv"
       separator=";" tableName="usuario">
       <column name="activated" type="boolean" />
