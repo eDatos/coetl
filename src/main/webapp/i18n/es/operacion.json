@@ -1,8 +1,8 @@
 {
     "secretariaLibroApp": {
-        "operacion" : {
+        "operacion": {
             "home": {
-                "title": "Operacions",
+                "title": "Operaciones",
                 "createLabel": "Crear nuevo Operacion",
                 "createOrEditLabel": "Crear o editar Operacion"
             },
@@ -16,7 +16,8 @@
                 "title": "Operacion"
             },
             "accion": "Accion",
-            "sujeto": "Sujeto"
+            "sujeto": "Sujeto",
+            "roles": "Roles"
         }
     }
 }

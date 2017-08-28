@@ -14,8 +14,8 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 })
 export class OperacionComponent implements OnInit, OnDestroy {
 
-currentAccount: any;
-    operacions: Operacion[];
+    currentAccount: any;
+    operaciones: Operacion[];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -53,10 +53,11 @@ currentAccount: any;
         this.operacionService.query({
             page: this.page - 1,
             size: this.itemsPerPage,
-            sort: this.sort()}).subscribe(
+            sort: this.sort()
+        }).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)
-        );
+            );
     }
     loadPage(page: number) {
         if (page !== this.previousPage) {
@@ -65,7 +66,8 @@ currentAccount: any;
         }
     }
     transition() {
-        this.router.navigate(['/operacion'], {queryParams:
+        this.router.navigate(['/operacion'], {
+            queryParams:
             {
                 page: this.page,
                 size: this.itemsPerPage,
@@ -115,7 +117,7 @@ currentAccount: any;
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
         // this.page = pagingParams.page;
-        this.operacions = data;
+        this.operaciones = data;
     }
     private onError(error) {
         this.alertService.error(error.message, null, null);

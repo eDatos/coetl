@@ -5,6 +5,7 @@ export class Operacion implements BaseEntity {
         public id?: number,
         public accion?: string,
         public sujeto?: string,
+        public roles?: string[],
     ) {
     }
 }

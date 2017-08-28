@@ -7,8 +7,6 @@ import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
-import es.tenerife.secretaria.libro.domain.Rol;
-
 /**
  * A DTO for the Operacion entity.
  */
@@ -26,7 +24,7 @@ public class OperacionDTO implements Serializable {
 
 	private Long optLock;
 
-	private Set<Rol> roles = new HashSet<>();
+	private Set<String> roles = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -60,11 +58,11 @@ public class OperacionDTO implements Serializable {
 		this.optLock = optLock;
 	}
 
-	public Set<Rol> getRoles() {
+	public Set<String> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Rol> roles) {
+	public void setRoles(Set<String> roles) {
 		this.roles = roles;
 	}
 

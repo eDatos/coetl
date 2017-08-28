@@ -9,6 +9,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Operacion } from './operacion.model';
 import { OperacionPopupService } from './operacion-popup.service';
 import { OperacionService } from './operacion.service';
+import { UserService } from '../../shared/index';
 
 @Component({
     selector: 'jhi-operacion-dialog',
@@ -18,17 +19,23 @@ export class OperacionDialogComponent implements OnInit {
 
     operacion: Operacion;
     isSaving: boolean;
+    roles: any[];
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private operacionService: OperacionService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private userService: UserService,
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
+        this.roles = [];
+        this.userService.roles().subscribe((roles) => {
+            this.roles = roles;
+        });
     }
 
     clear() {
@@ -52,7 +59,7 @@ export class OperacionDialogComponent implements OnInit {
     }
 
     private onSaveSuccess(result: Operacion) {
-        this.eventManager.broadcast({ name: 'operacionListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'operacionListModification', content: 'OK' });
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
@@ -83,11 +90,11 @@ export class OperacionPopupComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private operacionPopupService: OperacionPopupService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['id'] ) {
+            if (params['id']) {
                 this.operacionPopupService
                     .open(OperacionDialogComponent as Component, params['id']);
             } else {
