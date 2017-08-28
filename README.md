@@ -96,8 +96,9 @@ Pueden modificarse los ficheros relacionados con la configuración de logging en
 - `jhipster.mail.from`
 - `jhipster.mail.base-url`
 - `application.cas.endpoint`
-- `application.cas.apllicationHome`
-
+    - Endpoint donde se localiza el CAS.
+- `application.cas.applicationHome`
+    - Endpoint de la aplicación, a donde volverá del CAS para terminar la autenticación.
 
 
 ## Anexo. Perfiles de compilación
@@ -126,9 +127,7 @@ Este comando sólo necesitarás ejecutarlo en los casos en los que las dependenc
 
 Utilizamos scripts de yarn y [Webpack][] como nuestro sistema de compilación.
 
-
-Run the following commands in two separate terminals to create a blissful development experience where your browser
-auto-refreshes when files change on your hard drive.
+Puedes simplificar el proceso de desarrollo lanzando los siguientes comandos en distintas terminales que levantarán un servidor local mediante springboot (mvnw) y un proxy para gestionar la compilación y construcción del javascript mediante webpack (yarn start). Cuando modifiques los archivos, se actualizará automaticamente el servidor con tus cambios.
 
     ./mvnw
     yarn start
