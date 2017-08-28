@@ -52,10 +52,10 @@ public class Operacion extends AbstractVersionedEntity implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "roles_operaciones", joinColumns = {
 			@JoinColumn(name = "operacion_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "rol_name", referencedColumnName = "name") })
+					@JoinColumn(name = "rol_nombre", referencedColumnName = "nombre") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@BatchSize(size = 20)
-	private Set<Authority> authorities = new HashSet<>();
+	private Set<Rol> roles = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -91,12 +91,12 @@ public class Operacion extends AbstractVersionedEntity implements Serializable {
 		this.sujeto = sujeto;
 	}
 
-	public Set<Authority> getAuthorities() {
-		return authorities;
+	public Set<Rol> getRoles() {
+		return roles;
 	}
 
-	public void setAuthorities(Set<Authority> authorities) {
-		this.authorities = authorities;
+	public void setRoles(Set<Rol> authorities) {
+		this.roles = authorities;
 	}
 
 	@Override

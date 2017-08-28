@@ -1,4 +1,4 @@
-user_id;authority_name
+usuario_id;rol_nombre
 1;ROLE_ADMIN
 1;ROLE_USER
 3;ROLE_ADMIN

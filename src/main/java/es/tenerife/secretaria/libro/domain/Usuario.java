@@ -38,13 +38,13 @@ import es.tenerife.secretaria.libro.optimistic.AbstractVersionedAndAuditingEntit
 @Entity
 @Table(name = "usuario")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class User extends AbstractVersionedAndAuditingEntity implements Serializable {
+public class Usuario extends AbstractVersionedAndAuditingEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
-	@SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_id_seq")
+	@SequenceGenerator(name = "usuario_id_seq", sequenceName = "usuario_id_seq")
 	private Long id;
 
 	@NotNull
@@ -98,9 +98,9 @@ public class User extends AbstractVersionedAndAuditingEntity implements Serializ
 
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "jhi_user_authority", joinColumns = {
-			@JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "authority_name", referencedColumnName = "nombre") })
+	@JoinTable(name = "usuario_rol", joinColumns = {
+			@JoinColumn(name = "usuario_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "rol_nombre", referencedColumnName = "nombre") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@BatchSize(size = 20)
 	private Set<Rol> roles = new HashSet<>();

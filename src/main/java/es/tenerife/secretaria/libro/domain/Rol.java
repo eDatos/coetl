@@ -29,7 +29,7 @@ import es.tenerife.secretaria.libro.optimistic.AbstractVersionedEntity;
  * An authority (a security role) used by Spring Security.
  */
 @Entity
-@Table(name = "jhi_authority")
+@Table(name = "rol")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Rol extends AbstractVersionedEntity implements Serializable {
 
@@ -48,20 +48,20 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "roles_operaciones", joinColumns = {
-			@JoinColumn(name = "rol_name", referencedColumnName = "name") }, inverseJoinColumns = {
-					@JoinColumn(name = "user_id", referencedColumnName = "id") })
+			@JoinColumn(name = "rol_nombre", referencedColumnName = "nombre") }, inverseJoinColumns = {
+					@JoinColumn(name = "usuario_id", referencedColumnName = "id") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@BatchSize(size = 20)
 	private Set<Operacion> operaciones = new HashSet<>();
 
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "jhi_user_authority", joinColumns = {
-			@JoinColumn(name = "authority_name", referencedColumnName = "name") }, inverseJoinColumns = {
-					@JoinColumn(name = "user_id", referencedColumnName = "id") })
+	@JoinTable(name = "usuario_rol", joinColumns = {
+			@JoinColumn(name = "rol_nombre", referencedColumnName = "nombre") }, inverseJoinColumns = {
+					@JoinColumn(name = "usuario_id", referencedColumnName = "id") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@BatchSize(size = 20)
-	private Set<User> users = new HashSet<>();
+	private Set<Usuario> usuarios = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -79,12 +79,12 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Set<User> getUsers() {
-		return users;
+	public Set<Usuario> getUsuarios() {
+		return usuarios;
 	}
 
-	public void setUsers(Set<User> users) {
-		this.users = users;
+	public void setUsuarios(Set<Usuario> users) {
+		this.usuarios = users;
 	}
 
 	public Set<Operacion> getOperaciones() {

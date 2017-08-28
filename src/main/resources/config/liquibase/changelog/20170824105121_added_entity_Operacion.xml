@@ -40,17 +40,17 @@
       <column name="operacion_id" type="bigint">
         <constraints nullable="false" />
       </column>
-      <column name="roles_name" type="varchar(50)">
+      <column name="rol_nombre" type="varchar(50)">
         <constraints nullable="false" />
       </column>
     </createTable>
 
-    <addPrimaryKey columnNames="operacion_id, roles_name"
+    <addPrimaryKey columnNames="operacion_id, rol_nombre"
       tableName="roles_operaciones" />
 
-    <addForeignKeyConstraint baseColumnNames="roles_name"
-      baseTableName="roles_operaciones" constraintName="fk_rol_name"
-      referencedColumnNames="name" referencedTableName="jhi_authority" />
+    <addForeignKeyConstraint baseColumnNames="rol_nombre"
+      baseTableName="roles_operaciones" constraintName="fk_rol_nombre"
+      referencedColumnNames="nombre" referencedTableName="rol" />
 
     <addForeignKeyConstraint baseColumnNames="operacion_id"
       baseTableName="roles_operaciones" constraintName="fk_operacion_id"
