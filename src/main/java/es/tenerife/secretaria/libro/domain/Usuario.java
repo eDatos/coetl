@@ -2,6 +2,7 @@ package es.tenerife.secretaria.libro.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
@@ -104,6 +105,9 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@BatchSize(size = 20)
 	private Set<Rol> roles = new HashSet<>();
+
+	@Column(name = "deletion_date")
+	private ZonedDateTime deletionDate;
 
 	public Long getId() {
 		return id;
@@ -208,6 +212,17 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
 	public void setRoles(Set<Rol> roles) {
 		this.roles = roles;
+	}
+
+	public ZonedDateTime getDeletionDate() {
+		return deletionDate;
+	}
+
+	public void setDeletionDate(ZonedDateTime deletionDate) {
+		this.deletionDate = deletionDate;
+		if (deletionDate != null) {
+			setActivado(false);
+		}
 	}
 
 	@Override

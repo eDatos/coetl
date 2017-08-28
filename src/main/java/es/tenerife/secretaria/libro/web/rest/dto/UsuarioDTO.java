@@ -1,6 +1,7 @@
 package es.tenerife.secretaria.libro.web.rest.dto;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,6 +55,8 @@ public class UsuarioDTO {
 
 	private Set<String> roles;
 
+	private ZonedDateTime deletionDate;
+
 	public UsuarioDTO() {
 		// Empty constructor needed for Jackson.
 	}
@@ -72,6 +75,7 @@ public class UsuarioDTO {
 		this.setLastModifiedBy(user.getLastModifiedBy());
 		this.setLastModifiedDate(user.getLastModifiedDate());
 		this.setRoles(user.getRoles().stream().map(Rol::getName).collect(Collectors.toSet()));
+		this.setDeletionDate(user.getDeletionDate());
 	}
 
 	public void updateFrom(UsuarioDTO source) {
@@ -202,6 +206,14 @@ public class UsuarioDTO {
 
 	protected void setNombre(String firstName) {
 		this.nombre = firstName;
+	}
+
+	public ZonedDateTime getDeletionDate() {
+		return deletionDate;
+	}
+
+	public void setDeletionDate(ZonedDateTime deletionDate) {
+		this.deletionDate = deletionDate;
 	}
 
 	@Override

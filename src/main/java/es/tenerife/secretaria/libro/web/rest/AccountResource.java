@@ -91,7 +91,7 @@ public class AccountResource extends AbstractResource {
 					.headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "Email already in use"))
 					.body(null);
 		}
-		return userRepository.findOneByLogin(userLogin).map(u -> {
+		return userRepository.findOneByLoginAndDeletionDateIsNull(userLogin).map(u -> {
 			userService.updateUsuario(userDTO.getNombre(), userDTO.getApellidos(), userDTO.getEmail(),
 					userDTO.getIdioma(), userDTO.getUrlImagen());
 			return new ResponseEntity(HttpStatus.OK);

@@ -33,4 +33,19 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	Optional<Usuario> findOneWithRolesByLogin(String login);
 
 	Page<Usuario> findAllByLoginNot(Pageable pageable, String login);
+
+	Page<Usuario> findAllByLoginNotAndDeletionDateIsNull(Pageable pageable, String anonymousUser);
+
+	@EntityGraph(attributePaths = "roles")
+	Optional<Usuario> findOneWithRolesByLoginAndDeletionDateIsNull(String login);
+
+	@EntityGraph(attributePaths = "roles")
+	Usuario findOneWithRolesByIdAndDeletionDateIsNull(Long id);
+
+	List<Usuario> findAllByActivadoIsFalseAndCreatedDateBeforeAndDeletionDateIsNull(Instant minus);
+
+	Optional<Usuario> findOneByLoginAndDeletionDateIsNull(String login);
+
+	Usuario findOneByIdAndDeletionDateIsNull(Long id);
+
 }

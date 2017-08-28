@@ -41,22 +41,23 @@ public class UserServiceIntTest {
 	public void testFindNotActivatedUsersByCreationDateBefore() {
 		userService.removeUsuariosNoActivados();
 		Instant now = Instant.now();
-		List<Usuario> users = userRepository.findAllByActivadoIsFalseAndCreatedDateBefore(now.minus(3, ChronoUnit.DAYS));
+		List<Usuario> users = userRepository
+				.findAllByActivadoIsFalseAndCreatedDateBefore(now.minus(3, ChronoUnit.DAYS));
 		assertThat(users).isEmpty();
 	}
 
 	@Test
 	public void assertThatAnonymousUserIsNotGet() {
 		final PageRequest pageable = new PageRequest(0, (int) userRepository.count());
-		final Page<Usuario> allManagedUsers = userService.getAllUsuarios(pageable);
+		final Page<Usuario> allManagedUsers = userService.getAllUsuarios(pageable, false);
 		assertThat(allManagedUsers.getContent().stream()
 				.noneMatch(user -> Constants.ANONYMOUS_USER.equals(user.getLogin()))).isTrue();
 	}
 
 	@Test
 	public void testRemoveNotActivatedUsers() {
-		Usuario user = userService.createUsuario("johndoe", "John", "Doe", "john.doe@localhost", "http://placehold.it/50x50",
-				"en-US");
+		Usuario user = userService.createUsuario("johndoe", "John", "Doe", "john.doe@localhost",
+				"http://placehold.it/50x50", "en-US");
 		user.setActivado(false);
 		user.setCreatedDate(Instant.now().minus(30, ChronoUnit.DAYS));
 		userRepository.save(user);

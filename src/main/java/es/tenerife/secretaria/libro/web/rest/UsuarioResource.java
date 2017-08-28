@@ -180,8 +180,10 @@ public class UsuarioResource extends AbstractResource {
 	 */
 	@GetMapping("/users")
 	@Timed
-	public ResponseEntity<List<UsuarioDTO>> getAllUsers(@ApiParam Pageable pageable) {
-		final Page<UsuarioDTO> page = usuarioService.getAllUsuarios(pageable).map(usuarioMapper::userToUserDTO);
+	public ResponseEntity<List<UsuarioDTO>> getAllUsers(@ApiParam Pageable pageable,
+			@ApiParam(defaultValue = "false") Boolean includeDeleted) {
+		final Page<UsuarioDTO> page = usuarioService.getAllUsuarios(pageable, includeDeleted)
+				.map(usuarioMapper::userToUserDTO);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}

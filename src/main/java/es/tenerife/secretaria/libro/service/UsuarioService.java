@@ -1,6 +1,7 @@
 package es.tenerife.secretaria.libro.service;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -76,8 +78,7 @@ public class UsuarioService {
 		}
 		if (user.getRoles() != null) {
 			Set<Rol> authorities = new HashSet<>();
-			user.getRoles()
-					.forEach(authority -> authorities.add(authorityRepository.findOne(authority.getName())));
+			user.getRoles().forEach(authority -> authorities.add(authorityRepository.findOne(authority.getName())));
 			newUser.setRoles(authorities);
 		}
 		newUser.setActivado(true);
@@ -120,7 +121,7 @@ public class UsuarioService {
 	 * @return updated user
 	 */
 	public Optional<Usuario> updateUsuario(Usuario userDTO) {
-		return Optional.of(userRepository.findOne(userDTO.getId())).map(user -> {
+		return Optional.of(userRepository.findOneByIdAndDeletionDateIsNull(userDTO.getId())).map(user -> {
 			user.setLogin(userDTO.getLogin());
 			user.setNombre(userDTO.getNombre());
 			user.setApellidos(userDTO.getApellidos());
@@ -138,30 +139,35 @@ public class UsuarioService {
 	}
 
 	public void deleteUsuario(String login) {
-		userRepository.findOneByLogin(login).ifPresent(user -> {
-			userRepository.delete(user);
+		userRepository.findOneByLoginAndDeletionDateIsNull(login).ifPresent(user -> {
+			user.setDeletionDate(ZonedDateTime.now());
+			userRepository.save(user);
 			log.debug("Deleted User: {}", user);
 		});
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Usuario> getAllUsuarios(Pageable pageable) {
-		return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER);
+	public Page<Usuario> getAllUsuarios(Pageable pageable, Boolean includeDeleted) {
+		if (BooleanUtils.isTrue(includeDeleted)) {
+			return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER);
+		}
+		return userRepository.findAllByLoginNotAndDeletionDateIsNull(pageable, Constants.ANONYMOUS_USER);
 	}
 
 	@Transactional(readOnly = true)
 	public Optional<Usuario> getUsuarioWithAuthoritiesByLogin(String login) {
-		return userRepository.findOneWithRolesByLogin(login);
+		return userRepository.findOneWithRolesByLoginAndDeletionDateIsNull(login);
 	}
 
 	@Transactional(readOnly = true)
 	public Usuario getUsuarioWithAuthorities(Long id) {
-		return userRepository.findOneWithRolesById(id);
+		return userRepository.findOneWithRolesByIdAndDeletionDateIsNull(id);
 	}
 
 	@Transactional(readOnly = true)
 	public Usuario getUsuarioWithAuthorities() {
-		return userRepository.findOneWithRolesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
+		return userRepository.findOneWithRolesByLoginAndDeletionDateIsNull(SecurityUtils.getCurrentUserLogin())
+				.orElse(null);
 	}
 
 	/**
@@ -171,8 +177,8 @@ public class UsuarioService {
 	 */
 	@Scheduled(cron = "0 0 1 * * ?")
 	public void removeUsuariosNoActivados() {
-		List<Usuario> users = userRepository
-				.findAllByActivadoIsFalseAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS));
+		List<Usuario> users = userRepository.findAllByActivadoIsFalseAndCreatedDateBeforeAndDeletionDateIsNull(
+				Instant.now().minus(3, ChronoUnit.DAYS));
 		for (Usuario user : users) {
 			log.debug("Deleting not activated user {}", user.getLogin());
 			userRepository.delete(user);

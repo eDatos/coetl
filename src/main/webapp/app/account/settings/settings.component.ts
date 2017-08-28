@@ -38,8 +38,8 @@ export class SettingsComponent implements OnInit {
                 this.settingsAccount = this.copyAccount(account);
             });
             this.languageService.getCurrent().then((current) => {
-                if (this.settingsAccount.langKey !== current) {
-                    this.languageService.changeLanguage(this.settingsAccount.langKey);
+                if (this.settingsAccount.idioma !== current) {
+                    this.languageService.changeLanguage(this.settingsAccount.idioma);
                 }
             });
         }, () => {

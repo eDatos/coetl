@@ -8,7 +8,8 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
     selector: 'jhi-user-mgmt',
-    templateUrl: './user-management.component.html'
+    templateUrl: './user-management.component.html',
+    styleUrls: ['./user-management-delete-dialog.component.scss'],
 })
 export class UserMgmtComponent implements OnInit, OnDestroy {
 
@@ -25,6 +26,7 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    includeDeleted = false;
 
     constructor(
         private userService: UserService,
@@ -82,10 +84,12 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         this.userService.query({
             page: this.page - 1,
             size: this.itemsPerPage,
-            sort: this.sort()}).subscribe(
+            sort: this.sort(),
+            includeDeleted: this.includeDeleted
+        }).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)
-        );
+            );
     }
 
     trackIdentity(index, item: User) {

@@ -529,7 +529,9 @@ public class UserResourceIntTest {
 
 		// Validate the database is empty
 		List<Usuario> userList = userRepository.findAll();
-		assertThat(userList).hasSize(databaseSizeBeforeDelete - 1);
+		assertThat(userList).hasSize(databaseSizeBeforeDelete);
+		Usuario deleted = userRepository.findOne(user.getId());
+		assertThat(deleted.getDeletionDate()).isNotNull();
 	}
 
 	@Test

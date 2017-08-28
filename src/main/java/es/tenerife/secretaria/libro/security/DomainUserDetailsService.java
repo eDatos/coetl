@@ -37,7 +37,8 @@ public class DomainUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(final String login) {
 		log.debug("Authenticating {}", login);
 		String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
-		Optional<Usuario> userFromDatabase = userRepository.findOneWithRolesByLogin(lowercaseLogin);
+		Optional<Usuario> userFromDatabase = userRepository
+				.findOneWithRolesByLoginAndDeletionDateIsNull(lowercaseLogin);
 		return userFromDatabase.map(user -> {
 			if (!user.getActivado()) {
 				throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");

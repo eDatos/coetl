@@ -1,13 +1,16 @@
 package es.tenerife.secretaria.libro.web.rest.mapper;
 
-import es.tenerife.secretaria.libro.domain.Rol;
-import es.tenerife.secretaria.libro.domain.Usuario;
-import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import es.tenerife.secretaria.libro.domain.Rol;
+import es.tenerife.secretaria.libro.domain.Usuario;
+import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 
 /**
  * Mapper for the entity User and its DTO called UserDTO.
@@ -39,6 +42,7 @@ public class UsuarioMapper {
 			user.seturlImagen(userDTO.getUrlImagen());
 			user.setActivado(userDTO.isActivo());
 			user.setIdioma(userDTO.getIdioma());
+			user.setDeletionDate(userDTO.getDeletionDate());
 			Set<Rol> authorities = this.authoritiesFromStrings(userDTO.getRoles());
 			if (authorities != null) {
 				user.setRoles(authorities);
@@ -61,6 +65,9 @@ public class UsuarioMapper {
 	}
 
 	public Set<Rol> authoritiesFromStrings(Set<String> strings) {
+		if (strings == null) {
+			return new HashSet<>();
+		}
 		return strings.stream().map(string -> {
 			Rol auth = new Rol();
 			auth.setNombre(string);
