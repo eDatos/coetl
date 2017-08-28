@@ -1,5 +1,5 @@
-<nav class="navbar navbar-inverse navbar-toggleable-md jh-navbar">
-    <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
+<nav class="navbar-inverse fixed-top navbar-toggleable-lg jh-navbar row">
+    <div class="navbar-collapse collapse col-xl-5" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
@@ -77,54 +77,60 @@
                 </ul>
             </li>
         </ul>
-        <div class="jh-logo-container float-left">
-            <a class="jh-navbar-toggler hidden-lg-up float-right" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
-                        <i class="fa fa-bars"></i>
-                    </a>
-            <a class="navbar-brand logo float-left" routerLink="/" (click)="collapseNavbar()">
-                        <span class="logo-img"></span>
-                        <span jhiTranslate="global.title" class="navbar-title">Secretaria_libro</span> <span class="navbar-version">{{version}}</span>
-                    </a>
+    </div>
+    <div class="col-1 hidden-xl-up">
+        <a class="jh-navbar-toggler" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+            aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
+                <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <div class="col-9 col-xl-5">
+        <div class="navbar-collapse">
+            <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
+                <span class="logo-img"></span>
+                <span jhiTranslate="global.title" class="navbar-title">Secretaria_libro</span> <span class="navbar-version">{{version}}</span>
+            </a>
         </div>
+    </div>
+    <div class="col-2">
         <ul class="navbar-nav" [ngSwitch]="isAuthenticated()">
             <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
-                  <span *ngIf="!getImageUrl()">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <span jhiTranslate="global.menu.account.main">
-                      Account
+                    <span *ngIf="!getImageUrl()">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span jhiTranslate="global.menu.account.main">
+                        Account
+                        </span>
+                        <b class="caret"></b>
                     </span>
-                    <b class="caret"></b>
-                  </span>
-                  <span *ngIf="getImageUrl()">
-                      <img [src]="getImageUrl()" class="profile-image img-circle" alt="Avatar">
-                  </span>
-                </a>
+                    <span *ngIf="getImageUrl()">
+                        <img [src]="getImageUrl()" class="profile-image img-circle" alt="Avatar">
+                    </span>
+                    </a>
                 <ul class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.account.settings">Settings</span>
-                        </a>
+                                <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.account.settings">Settings</span>
+                            </a>
                     </li>
                     <li *ngSwitchCase="true">
                         <a class="dropdown-item" (click)="logout()" id="logout">
-                            <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.account.logout">Sign out</span>
-                        </a>
+                                <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.account.logout">Sign out</span>
+                            </a>
                     </li>
                     <li *ngSwitchCase="false">
                         <a class="dropdown-item" (click)="login()" id="login">
-                            <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.account.login">Sign in</span>
-                        </a>
+                                <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.account.login">Sign in</span>
+                            </a>
                     </li>
                     <li *ngSwitchCase="false">
                         <a class="dropdown-item" routerLink="register" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-registered" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.account.register">Register</span>
-                        </a>
+                                <i class="fa fa-fw fa-registered" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.account.register">Register</span>
+                            </a>
                     </li>
                 </ul>
             </li>
