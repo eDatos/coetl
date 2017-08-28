@@ -55,6 +55,17 @@ Navbar
     vertical-align: middle;
 }
 
+#account-menu {    
+    .nav-link {    
+        display: inline-block;
+    }
+    .navbar-brand {
+        line-height: $navbar-height;
+        padding: 8px 0;
+        font-size: 1em;
+    }
+}
+
 /* ==========================================================================
 Logo styles
 ========================================================================== */
