@@ -1,11 +1,13 @@
 $white: white;
 $black: black;
-$grey-light: #e7e7e7;
-$grey-medium: #DDDDDD;
+$grey-lightest: #e7e7e7;
+$grey-light: #DDDDDD;
+$grey-medium: #c4c4c4;
 $grey-dark: #5A616D;
-$grey-darkest: #313949;
+$grey-darkest: #3c3c3c;
 $main-light: #61A6E8;
 $main-medium: #2C7BD0;
+$main-dark: #313949;
 $accent-medium: #F94758;
 
 $navbar-height: 30px;
@@ -13,3 +15,7 @@ $navbar-height: 30px;
 // Bootstrap
 $font-weight-bold: 600;
 $font-weight-normal: 400;
+
+$btn-primary-color: $grey-dark;
+$btn-primary-bg: $white;
+$btn-primary-border: $grey-medium;
