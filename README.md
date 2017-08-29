@@ -81,24 +81,26 @@ Pueden modificarse los ficheros relacionados con la configuración de logging en
 ----------
 
 ## Anexo. Descripción de las propiedades de configuración
+- `spring.datasource.url`
+   - Cadena de conexión a la base de datos.
 - `spring.datasource.username`
-    - Nombre del usuario de conexión a la base de datos.
+   - Nombre del usuario de conexión a la base de datos.
 - `spring.datasource.password`
-    - Password de conexión a la base de datos.
-- `spring.mail.host`
-    - Host de la configuración usada para el envío de e-mails.
-- `spring.mail.port`
-    - Puerto de la configuración usada para el envío de e-mails.
-- `spring.mail.username`
-    - Nombre de usuario de la configuración usada para el envío de e-mails.
-- `spring.mail.password`
-    - Contraseña del usuario usado en la configuración del envío de e-mails.
-- `jhipster.mail.from`
-- `jhipster.mail.base-url`
+   - Password de conexión a la base de datos.
+- `spring.jpa.show-sql`
+   - Permite añadir al log las sentencias SQL.
 - `application.cas.endpoint`
-    - Endpoint donde se localiza el CAS.
+   - Endpoint donde se localiza el CAS.
 - `application.cas.applicationHome`
-    - Endpoint de la aplicación, a donde volverá del CAS para terminar la autenticación.
+   - Endpoint de la aplicación, a donde volverá del CAS para terminar la autenticación.
+- `application.cas.login`
+   - URL a la que se debe acceder para realizar la acción de login. Sólo debe cumplimentarse en el caso se que su valor sea distinto a `application.cas.endopoint`+ '/login'.
+- `application.cas.logout`
+   - URL a la que se debe acceder para realizar la acción de logout. Sólo debe cumplimentarse en el caso se que su valor sea distinto a `application.cas.endopoint`+ '/logout'.
+- `application.cas.validate`
+   - URL a la que se debe acceder para realizar la acción de logout. Sólo debe cumplimentarse en el caso se que su valor sea distinto a `application.cas.endopoint`+ '/logout'.
+-  `debug`
+   - Permite aumentar el nivel de log a DEBUG. 
 
 
 ## Anexo. Perfiles de compilación
@@ -158,3 +160,10 @@ Para lanzar los tests de la aplicación usaremos:
 Los tests unitarios se ejecutan con [Karma][] y están escritos con  [Jasmine][]. Estos tests se ubican en [src/test/javascript/](src/test/javascript/) y se pueden ejecutar con:
 
     yarn test
+
+
+[Node.js]: https://nodejs.org/
+[Yarn]: https://yarnpkg.org/
+[Webpack]: https://webpack.github.io/
+[Karma]: http://karma-runner.github.io/
+[Jasmine]: http://jasmine.github.io/2.0/introduction.html
