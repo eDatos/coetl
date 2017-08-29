@@ -7,6 +7,7 @@ import { SecretariaLibroSharedModule } from '../shared';
 import {
     adminState,
     AuditsComponent,
+    RolMgmtComponent,
     UserMgmtComponent,
     UserDialogComponent,
     UserDeleteDialogComponent,
@@ -25,6 +26,9 @@ import {
     JhiHealthService,
     JhiMetricsService,
     LogsService,
+    RolResolvePagingParams,
+    RolResolve,
+    RolModalService,
     UserResolvePagingParams,
     UserResolve,
     UserModalService
@@ -38,6 +42,7 @@ import {
     ],
     declarations: [
         AuditsComponent,
+        RolMgmtComponent,
         UserMgmtComponent,
         UserDialogComponent,
         UserDeleteDialogComponent,
@@ -64,10 +69,13 @@ import {
         JhiHealthService,
         JhiMetricsService,
         LogsService,
+        RolResolvePagingParams,
+        RolResolve,
+        RolModalService,
         UserResolvePagingParams,
         UserResolve,
-        UserModalService
+        UserModalService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SecretariaLibroAdminModule {}
+export class SecretariaLibroAdminModule { }

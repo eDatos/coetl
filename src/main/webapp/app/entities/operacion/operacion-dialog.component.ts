@@ -9,7 +9,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Operacion } from './operacion.model';
 import { OperacionPopupService } from './operacion-popup.service';
 import { OperacionService } from './operacion.service';
-import { UserService } from '../../shared/index';
+import { UserService, RolService } from '../../shared/index';
 
 @Component({
     selector: 'jhi-operacion-dialog',
@@ -27,13 +27,14 @@ export class OperacionDialogComponent implements OnInit {
         private operacionService: OperacionService,
         private eventManager: JhiEventManager,
         private userService: UserService,
+        private rolService: RolService,
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
         this.roles = [];
-        this.userService.roles().subscribe((roles) => {
+        this.rolService.roles().subscribe((roles) => {
             this.roles = roles;
         });
     }

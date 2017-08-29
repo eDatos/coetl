@@ -7,6 +7,7 @@ import {
     healthRoute,
     logsRoute,
     metricsRoute,
+    rolMgmtRoute,
     userMgmtRoute,
     userDialogRoute
 } from './';
@@ -19,6 +20,7 @@ const ADMIN_ROUTES = [
     docsRoute,
     healthRoute,
     logsRoute,
+    ...rolMgmtRoute,
     ...userMgmtRoute,
     metricsRoute
 ];

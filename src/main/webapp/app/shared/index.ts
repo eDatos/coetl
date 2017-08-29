@@ -14,6 +14,8 @@ export * from './language/find-language-from-key.pipe';
 export * from './login/login.component';
 export * from './login/login.service';
 export * from './login/login-modal.service';
+export * from './rol/rol.model';
+export * from './rol/rol.service';
 export * from './user/account.model';
 export * from './user/user.model';
 export * from './user/user.service';

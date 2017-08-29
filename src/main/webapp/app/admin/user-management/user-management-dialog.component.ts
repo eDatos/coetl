@@ -5,7 +5,7 @@ import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { UserModalService } from './user-modal.service';
-import { JhiLanguageHelper, User, UserService } from '../../shared';
+import { JhiLanguageHelper, User, UserService, RolService } from '../../shared';
 
 @Component({
     selector: 'jhi-user-mgmt-dialog',
@@ -22,13 +22,14 @@ export class UserMgmtDialogComponent implements OnInit {
         public activeModal: NgbActiveModal,
         private languageHelper: JhiLanguageHelper,
         private userService: UserService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private rolService: RolService,
     ) { }
 
     ngOnInit() {
         this.isSaving = false;
         this.roles = [];
-        this.userService.roles().subscribe((roles) => {
+        this.rolService.roles().subscribe((roles) => {
             this.roles = roles;
         });
         this.languageHelper.getAll().then((languages) => {

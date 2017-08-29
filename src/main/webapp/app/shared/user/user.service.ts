@@ -36,13 +36,6 @@ export class UserService {
         return this.http.delete(`${this.resourceUrl}/${login}`);
     }
 
-    roles(): Observable<string[]> {
-        return this.http.get('api/users/roles').map((res: Response) => {
-            const json = res.json();
-            return <string[]>json;
-        });
-    }
-
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         return new ResponseWrapper(res.headers, jsonResponse, res.status);

@@ -13,7 +13,8 @@ import {
     LoginModalService,
     Principal,
     HasAnyRolDirective,
-    JhiLoginModalComponent
+    JhiLoginModalComponent,
+    RolService
 } from './';
 
 @NgModule({
@@ -33,6 +34,7 @@ import {
         Principal,
         CSRFService,
         AuthServerProvider,
+        RolService,
         UserService,
         DatePipe,
     ],

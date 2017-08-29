@@ -8,7 +8,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 @Injectable()
 export class OperacionService {
 
-    private resourceUrl = 'api/operacions';
+    private resourceUrl = 'api/operaciones';
 
     constructor(private http: Http) { }
 
