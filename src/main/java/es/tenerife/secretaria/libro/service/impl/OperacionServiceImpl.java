@@ -15,7 +15,6 @@ import es.tenerife.secretaria.libro.service.OperacionService;
  * Service Implementation for managing Operacion.
  */
 @Service
-@Transactional
 public class OperacionServiceImpl implements OperacionService {
 
 	private final Logger log = LoggerFactory.getLogger(OperacionServiceImpl.class);

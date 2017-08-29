@@ -74,7 +74,7 @@ public class UsuarioDTO {
 		this.setCreatedDate(user.getCreatedDate());
 		this.setLastModifiedBy(user.getLastModifiedBy());
 		this.setLastModifiedDate(user.getLastModifiedDate());
-		this.setRoles(user.getRoles().stream().map(Rol::getName).collect(Collectors.toSet()));
+		this.setRoles(user.getRoles().stream().map(Rol::getNombre).collect(Collectors.toSet()));
 		this.setDeletionDate(user.getDeletionDate());
 	}
 

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import es.tenerife.secretaria.libro.domain.Operacion;
 import es.tenerife.secretaria.libro.domain.Rol;
-import es.tenerife.secretaria.libro.repository.AuthorityRepository;
+import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.OperacionRepository;
 import es.tenerife.secretaria.libro.web.rest.dto.OperacionDTO;
 
@@ -23,7 +23,7 @@ public abstract class OperacionMapper implements EntityMapper<OperacionDTO, Oper
 	OperacionRepository operacionRepository;
 
 	@Autowired
-	AuthorityRepository authorityRepository;
+	RolRepository authorityRepository;
 
 	@Mapping(source = "roles", target = "roles")
 	public abstract Operacion toEntity(OperacionDTO dto);
@@ -43,6 +43,6 @@ public abstract class OperacionMapper implements EntityMapper<OperacionDTO, Oper
 	}
 
 	Set<String> rolesToString(Set<Rol> roles) {
-		return roles.stream().map(Rol::getName).collect(Collectors.toSet());
+		return roles.stream().map(Rol::getNombre).collect(Collectors.toSet());
 	}
 }

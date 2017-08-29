@@ -71,7 +71,7 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getNombre() {
 		return nombre;
 	}
 

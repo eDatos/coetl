@@ -55,7 +55,7 @@ public class OperacionResource extends AbstractResource {
 	}
 
 	/**
-	 * POST /operacions : Create a new operacion.
+	 * POST /operaciones : Create a new operacion.
 	 *
 	 * @param operacionDTO
 	 *            the operacionDTO to create
@@ -65,7 +65,7 @@ public class OperacionResource extends AbstractResource {
 	 * @throws URISyntaxException
 	 *             if the Location URI syntax is incorrect
 	 */
-	@PostMapping("/operacions")
+	@PostMapping("/operaciones")
 	@Timed
 	public ResponseEntity<OperacionDTO> createOperacion(@Valid @RequestBody OperacionDTO operacionDTO)
 			throws URISyntaxException {
@@ -76,12 +76,12 @@ public class OperacionResource extends AbstractResource {
 					.body(null);
 		}
 		OperacionDTO result = operacionMapper.toDto(operacionService.save(operacionMapper.toEntity(operacionDTO)));
-		return ResponseEntity.created(new URI("/api/operacions/" + result.getId()))
+		return ResponseEntity.created(new URI("/api/operaciones/" + result.getId()))
 				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
 	}
 
 	/**
-	 * PUT /operacions : Updates an existing operacion.
+	 * PUT /operaciones : Updates an existing operacion.
 	 *
 	 * @param operacionDTO
 	 *            the operacionDTO to update
@@ -92,7 +92,7 @@ public class OperacionResource extends AbstractResource {
 	 * @throws URISyntaxException
 	 *             if the Location URI syntax is incorrect
 	 */
-	@PutMapping("/operacions")
+	@PutMapping("/operaciones")
 	@Timed
 	public ResponseEntity<OperacionDTO> updateOperacion(@Valid @RequestBody OperacionDTO operacionDTO)
 			throws URISyntaxException {
@@ -108,31 +108,31 @@ public class OperacionResource extends AbstractResource {
 	}
 
 	/**
-	 * GET /operacions : get all the operacions.
+	 * GET /operaciones : get all the operaciones.
 	 *
 	 * @param pageable
 	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and the list of operacions in
-	 *         body
+	 * @return the ResponseEntity with status 200 (OK) and the list of operaciones
+	 *         in body
 	 */
-	@GetMapping("/operacions")
+	@GetMapping("/operaciones")
 	@Timed
 	public ResponseEntity<List<OperacionDTO>> getAllOperacions(@ApiParam Pageable pageable) {
 		log.debug("REST request to get a page of Operacions");
 		Page<OperacionDTO> page = operacionService.findAll(pageable).map(operacionMapper::toDto);
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operacions");
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operaciones");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
 
 	/**
-	 * GET /operacions/:id : get the "id" operacion.
+	 * GET /operaciones/:id : get the "id" operacion.
 	 *
 	 * @param id
 	 *            the id of the operacionDTO to retrieve
 	 * @return the ResponseEntity with status 200 (OK) and with body the
 	 *         operacionDTO, or with status 404 (Not Found)
 	 */
-	@GetMapping("/operacions/{id}")
+	@GetMapping("/operaciones/{id}")
 	@Timed
 	public ResponseEntity<OperacionDTO> getOperacion(@PathVariable Long id) {
 		log.debug("REST request to get Operacion : {}", id);
@@ -141,13 +141,13 @@ public class OperacionResource extends AbstractResource {
 	}
 
 	/**
-	 * DELETE /operacions/:id : delete the "id" operacion.
+	 * DELETE /operaciones/:id : delete the "id" operacion.
 	 *
 	 * @param id
 	 *            the id of the operacionDTO to delete
 	 * @return the ResponseEntity with status 200 (OK)
 	 */
-	@DeleteMapping("/operacions/{id}")
+	@DeleteMapping("/operaciones/{id}")
 	@Timed
 	public ResponseEntity<Void> deleteOperacion(@PathVariable Long id) {
 		log.debug("REST request to delete Operacion : {}", id);

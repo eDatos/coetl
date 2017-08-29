@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.tenerife.secretaria.libro.config.Constants;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
-import es.tenerife.secretaria.libro.repository.AuthorityRepository;
+import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.security.SecurityUtils;
@@ -36,9 +35,9 @@ public class UsuarioService {
 
 	private final UsuarioRepository userRepository;
 
-	private final AuthorityRepository authorityRepository;
+	private final RolRepository authorityRepository;
 
-	public UsuarioService(UsuarioRepository userRepository, AuthorityRepository authorityRepository) {
+	public UsuarioService(UsuarioRepository userRepository, RolRepository authorityRepository) {
 		this.userRepository = userRepository;
 		this.authorityRepository = authorityRepository;
 	}
@@ -78,7 +77,7 @@ public class UsuarioService {
 		}
 		if (user.getRoles() != null) {
 			Set<Rol> authorities = new HashSet<>();
-			user.getRoles().forEach(authority -> authorities.add(authorityRepository.findOne(authority.getName())));
+			user.getRoles().forEach(authority -> authorities.add(authorityRepository.findOne(authority.getNombre())));
 			newUser.setRoles(authorities);
 		}
 		newUser.setActivado(true);
@@ -131,7 +130,7 @@ public class UsuarioService {
 			user.setIdioma(userDTO.getIdioma());
 			Set<Rol> managedAuthorities = user.getRoles();
 			managedAuthorities.clear();
-			userDTO.getRoles().stream().map(Rol::getName).map(authorityRepository::findOne)
+			userDTO.getRoles().stream().map(Rol::getNombre).map(authorityRepository::findOne)
 					.forEach(managedAuthorities::add);
 			log.debug("Changed Information for User: {}", user);
 			return user;
@@ -185,10 +184,4 @@ public class UsuarioService {
 		}
 	}
 
-	/**
-	 * @return a list of all the authorities
-	 */
-	public List<String> getAuthorities() {
-		return authorityRepository.findAll().stream().map(Rol::getName).collect(Collectors.toList());
-	}
 }
