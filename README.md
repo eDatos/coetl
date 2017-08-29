@@ -62,7 +62,7 @@ La aplicación consta de una interfaz web y de un servicio web REST.
     2. Si se desea externalizar la configuración de las propiedades a un directorio DATA se tendrán que realizar los siguientes pasos:
         - Se hará una copia del archivo **secretaria-libro.war/WEB-INF/classes/config/application-env.yml** a un directorio externalizado de su elección.
         - Se editará el archivo **secretaria-libro.war/WEB-INF/classes/config/data-location.properties** y se especificará la ruta anterior.
-- Se cumplimentarán las propiedades del fichero **application-env.yml**. Se puede consultar el detalle sobre cada una de las propiedades en el [Anexo de descripción de propiedades de configuración](http://git.arte-consultores.com/ecit/secretaria-libro/edit/master/README.md#anexo-descripci%C3%B3n-de-las-propiedades-de-configuraci%C3%B3n).
+- Se cumplimentarán las propiedades del fichero **application-env.yml**. Se puede consultar el detalle sobre cada una de las propiedades en el [Anexo de descripción de propiedades de configuración](http://git.arte-consultores.com/ecit/secretaria-libro/blob/master/README.md#anexo-descripci%C3%B3n-de-las-propiedades-de-configuraci%C3%B3n).
 
 
 ### Paso 3. Configuración de logging.
@@ -108,8 +108,16 @@ En la aplicación existirá un archivo general `application.yml` en el que se ub
 
 Para configurar cada entorno, también existirán archivos específicos con las propiedades que pueden ser modificadas por el usuario y dependientes del entorno, teniendo así un fichero `application-env.yml` para configurar las propiedades del entorno de producción, y un `application-dev.yml` para el entorno de desarrollo.
 
-A la hora de compilar el proyecto con uno u otro perfil, automáticamente se usará la configuración correspondiente. Hay que tener en cuenta que, en el caso de que la misma property exista tanto en el fichero general `application.yml` como en el dependiente del entorno, tendrá preferencia el valor configurado en el fichero de configuración del entorno.
+Cuando compilemos el proyecto, se usará una configuración u otra en función del perfil indicado durante la compilación. Hay que tener en cuenta que, en el caso de que una misma propiedad exista tanto en el fichero general `application.yml` como en el dependiente del entorno, tendrá preferencia el valor configurado en el fichero de configuración del entorno.
+Para compilar el proyecto con el perfil de producción es necesario ejecutar lo siguiente:
 
+    mvn clean install -Penv
+
+Por otro lado, para compilar el proyecto con el perfil de desarrollo es necesario ejecutar:
+
+    mvn clean install -Pdev
+
+Hay que tener presente que si la aplicación se compila con el perfil de desarrollo, para terminar de construir la misma y poder ejecutarla es necesario seguir los pasos descritos en el [Anexo de desarrollo](http://git.arte-consultores.com/ecit/secretaria-libro#anexo-desarrollo).
 
 ## Anexo. Desarrollo
 
