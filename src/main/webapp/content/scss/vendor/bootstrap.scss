@@ -4,3 +4,8 @@ $font-family-sans-serif: "Montserrat", -apple-system, system-ui, BlinkMacSystemF
 
 
 @import 'node_modules/bootstrap/scss/bootstrap';
+
+.table-responsive {
+    width: inherit;
+    min-width: 100%;
+}
