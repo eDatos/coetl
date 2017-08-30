@@ -5,11 +5,10 @@ import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { RolMgmtComponent } from './rol-management.component';
 import { RolMgmtDetailComponent } from './rol-management-detail.component';
-// import { UserDialogComponent } from './user-management-dialog.component';
-// import { UserDeleteDialogComponent } from './user-management-delete-dialog.component';
+import { RolDialogComponent } from './rol-management-dialog.component';
+import { RolDeleteDialogComponent } from './rol-management-delete-dialog.component';
 
 import { Principal } from '../../shared';
-import { RolDialogComponent } from './rol-management-dialog.component';
 
 @Injectable()
 export class RolResolve implements CanActivate {
@@ -68,9 +67,9 @@ export const rolDialogRoute: Routes = [
         component: RolDialogComponent,
         outlet: 'popup'
     },
-    //     {
-    //         path: 'user-management/:login/delete',
-    //         component: UserDeleteDialogComponent,
-    //         outlet: 'popup'
-    //     }
+    {
+        path: 'rol-management/:nombre/borrar',
+        component: RolDeleteDialogComponent,
+        outlet: 'popup'
+    }
 ];

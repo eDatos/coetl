@@ -35,6 +35,7 @@ import {
 } from './';
 import { RolMgmtDetailComponent } from './rol-management/rol-management-detail.component';
 import { RolMgmtDialogComponent, RolDialogComponent } from './rol-management/rol-management-dialog.component';
+import { RolMgmtDeleteDialogComponent, RolDeleteDialogComponent } from './rol-management/rol-management-delete-dialog.component';
 
 @NgModule({
     imports: [
@@ -48,6 +49,8 @@ import { RolMgmtDialogComponent, RolDialogComponent } from './rol-management/rol
         RolDialogComponent,
         RolMgmtDetailComponent,
         RolMgmtDialogComponent,
+        RolDeleteDialogComponent,
+        RolMgmtDeleteDialogComponent,
         UserMgmtComponent,
         UserDialogComponent,
         UserDeleteDialogComponent,
@@ -64,6 +67,7 @@ import { RolMgmtDialogComponent, RolDialogComponent } from './rol-management/rol
     ],
     entryComponents: [
         RolMgmtDialogComponent,
+        RolMgmtDeleteDialogComponent,
         UserMgmtDialogComponent,
         UserMgmtDeleteDialogComponent,
         JhiHealthModalComponent,
