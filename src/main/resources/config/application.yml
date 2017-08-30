@@ -81,11 +81,6 @@ security:
     basic:
         enabled: false
 
-server:
-    session:
-        cookie:
-            http-only: true
-
 info:
     project:
         version: #project.version#
@@ -122,6 +117,9 @@ server:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
         min-response-size: 1024
+    session:
+        cookie:
+            http-only: true
 
 
 # ===================================================================
