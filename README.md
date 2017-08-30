@@ -23,7 +23,7 @@ Además, la aplicación cuenta con un servicio web de tipo REST que permite <TOD
 En este apartado se especifican los requisitos necesarios, referidos al entorno, para que la aplicación funcione adecuadamente:
 - Apache Tomcat.  8.5
 - Java. 1.8.x
-- PostgreSQL.  <TODO>
+- PostgreSQL.  **TODO**
 
 
 #### Dependencias
@@ -105,7 +105,6 @@ Pueden modificarse los ficheros relacionados con la configuración de logging en
 ## Anexo. Perfiles de compilación
 
 La aplicación se compila con [Maven][], por lo que para poder compilar la misma debemos tener instalado en nuestro entorno esta herramienta.
-**TODO** Explicar que podemos usar el wrapper de Maven de SpringBoot.
 
 A la hora de compilar la aplicación podemos especificar un perfil. En función del perfil que especifiquemos, la aplicación se compilará para ser instalada en un servidor de aplicaciones real, o para ser usada en un entorno de desarrollo.
 
@@ -149,7 +148,7 @@ El siguiente paso es instalar las dependencias que se necesitan para trabajar co
 
     yarn install
 
-Generalmente este comando sólo es necesario ejecutarlo cuando modifiquemos las dependencias especificadas en nuestro proyecto (fichero [package.json](package.json)) . 
+Generalmente este comando sólo es necesario ejecutarlo cuando modifiquemos las dependencias especificadas en nuestro proyecto (fichero [package.json](package.json)). 
 
 Realizados los pasos anteriores, podemos proceder a arrancar la aplicación en "modo desarrollo".  Para ello necesitamos:
 
@@ -164,8 +163,6 @@ A continuación, podemos comenzar a modificar los ficheros que deseemos en la ap
 Si modificamos algún fichero de la parte servidora de la aplicación (ficheros Java y ficheros de configuración), debemos reiniciar el servidor Tomcat embebido que hemos levantado. 
 Si modificamos algún fichero de la parte cliente de la aplicación (ficheros TS, CSS, HTML...), la aplicación se recargará de forma automática y podremos ver dichos cambios aplicados de forma inmediata en el navegador. 
 
-**TODO - ¿Redigidir a la documentación de JHipster para amplicar info sobre el proceso de desarrollo? ** 
-
 ### Ejecución de tests
 En la aplicación se han incluido una serie de tests que permiten probar todas las funcionalidades incluidas. Hay tests en la parte servidora y tests en la parte cliente de la aplicación. 
 
@@ -176,6 +173,9 @@ Los tests de la parte servidora son tests de [JUnit][] y están ubicados en [src
 Los tests de la parte cliente son tests unitarios que se ejecutan con [Karma][] y están escritos con  [Jasmine][]. Estos tests se ubican en [src/test/javascript/](src/test/javascript/) y se pueden ejecutar con:
 
     yarn test
+
+### Más información
+La base de la aplicación ha sido generada usando JHipster 4.6.2. Puede consultarse más información en https://jhipster.github.io/documentation-archive/v4.6.2.
 
 
 [Node.js]: https://nodejs.org/
