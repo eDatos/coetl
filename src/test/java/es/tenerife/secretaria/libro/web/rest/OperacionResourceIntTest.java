@@ -108,7 +108,7 @@ public class OperacionResourceIntTest {
 
 		// Create the Operacion
 		OperacionDTO operacionDTO = operacionMapper.toDto(operacion);
-		restOperacionMockMvc.perform(post("/api/operacions").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restOperacionMockMvc.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isCreated());
 
 		// Validate the Operacion in the database
@@ -129,7 +129,7 @@ public class OperacionResourceIntTest {
 		OperacionDTO operacionDTO = operacionMapper.toDto(operacion);
 
 		// An entity with an existing ID cannot be created, so this API call must fail
-		restOperacionMockMvc.perform(post("/api/operacions").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restOperacionMockMvc.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isBadRequest());
 
 		// Validate the Alice in the database
@@ -147,7 +147,7 @@ public class OperacionResourceIntTest {
 		// Create the Operacion, which fails.
 		OperacionDTO operacionDTO = operacionMapper.toDto(operacion);
 
-		restOperacionMockMvc.perform(post("/api/operacions").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restOperacionMockMvc.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isBadRequest());
 
 		List<Operacion> operacionList = operacionRepository.findAll();
@@ -164,7 +164,7 @@ public class OperacionResourceIntTest {
 		// Create the Operacion, which fails.
 		OperacionDTO operacionDTO = operacionMapper.toDto(operacion);
 
-		restOperacionMockMvc.perform(post("/api/operacions").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restOperacionMockMvc.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isBadRequest());
 
 		List<Operacion> operacionList = operacionRepository.findAll();
@@ -178,7 +178,7 @@ public class OperacionResourceIntTest {
 		operacionRepository.saveAndFlush(operacion);
 
 		// Get all the operacionList
-		restOperacionMockMvc.perform(get("/api/operacions?sort=id,desc")).andExpect(status().isOk())
+		restOperacionMockMvc.perform(get("/api/operaciones?sort=id,desc")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.[*].id").value(hasItem(operacion.getId().intValue())))
 				.andExpect(jsonPath("$.[*].accion").value(hasItem(DEFAULT_ACCION.toString())))
@@ -192,7 +192,7 @@ public class OperacionResourceIntTest {
 		operacionRepository.saveAndFlush(operacion);
 
 		// Get the operacion
-		restOperacionMockMvc.perform(get("/api/operacions/{id}", operacion.getId())).andExpect(status().isOk())
+		restOperacionMockMvc.perform(get("/api/operaciones/{id}", operacion.getId())).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.id").value(operacion.getId().intValue()))
 				.andExpect(jsonPath("$.accion").value(DEFAULT_ACCION.toString()))
@@ -203,7 +203,7 @@ public class OperacionResourceIntTest {
 	@Transactional
 	public void getNonExistingOperacion() throws Exception {
 		// Get the operacion
-		restOperacionMockMvc.perform(get("/api/operacions/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
+		restOperacionMockMvc.perform(get("/api/operaciones/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -218,7 +218,7 @@ public class OperacionResourceIntTest {
 		updatedOperacion.accion(UPDATED_ACCION).sujeto(UPDATED_SUJETO);
 		OperacionDTO operacionDTO = operacionMapper.toDto(updatedOperacion);
 
-		restOperacionMockMvc.perform(put("/api/operacions").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restOperacionMockMvc.perform(put("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isOk());
 
 		// Validate the Operacion in the database
@@ -239,7 +239,7 @@ public class OperacionResourceIntTest {
 
 		// If the entity doesn't have an ID, it will be created instead of just being
 		// updated
-		restOperacionMockMvc.perform(put("/api/operacions").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restOperacionMockMvc.perform(put("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isCreated());
 
 		// Validate the Operacion in the database
@@ -256,7 +256,7 @@ public class OperacionResourceIntTest {
 
 		// Get the operacion
 		restOperacionMockMvc
-				.perform(delete("/api/operacions/{id}", operacion.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
+				.perform(delete("/api/operaciones/{id}", operacion.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk());
 
 		// Validate the database is empty

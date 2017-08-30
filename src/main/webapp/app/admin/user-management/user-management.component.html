@@ -7,7 +7,7 @@
     </h2>
     <jhi-alert></jhi-alert>
     <div class="table-responsive" *ngIf="users">
-        <span><input type="checkbox" [(ngModel)]="includeDeleted" (change)="loadAll()">Include deleted</span>
+        <span><input type="checkbox" [(ngModel)]="includeDeleted" (change)="loadAll()"><span jhiTranslate="userManagement.home.includeDeleted">Include deleted</span></span>
         <table class="table table-striped">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
@@ -15,7 +15,7 @@
                     <th jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <span class="fa fa-sort"></span></th>
                     <th></th>
-                    <th jhiSortBy="langKey"> <span jhiTranslate="userManagement.langKey">Lang Key</span> <span class="fa fa-sort"></span></th>
+                    <th jhiSortBy="langKey"> <span jhiTranslate="userManagement.idioma">Lang Key</span> <span class="fa fa-sort"></span></th>
                     <th><span jhiTranslate="userManagement.profiles">Profiles</span></th>
                     <th jhiSortBy="createdDate"><span jhiTranslate="userManagement.createdDate">Created Date</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="lastModifiedBy"><span jhiTranslate="userManagement.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span></th>
@@ -31,9 +31,9 @@
                         <td>{{user.login}}</td>
                         <td>{{user.email}}</td>
                         <td>
-                            <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activated" jhiTranslate="userManagement.deactivated">Deactivated</button>
+                            <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activated" jhiTranslate="userManagement.desactivado">Deactivated</button>
                             <button class="btn btn-success btn-sm" (click)="setActive(user, false)" *ngIf="user.activated" [disabled]="currentAccount.login === user.login"
-                                jhiTranslate="userManagement.activated">Activated</button>
+                                jhiTranslate="userManagement.activado">Activated</button>
                         </td>
                         <td>{{user.idioma}}</td>
                         <td>

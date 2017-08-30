@@ -5,7 +5,7 @@ import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { UserModalService } from './user-modal.service';
-import { JhiLanguageHelper, User, UserService, RolService } from '../../shared';
+import { JhiLanguageHelper, User, UserService, RolService, Rol } from '../../shared';
 
 @Component({
     selector: 'jhi-user-mgmt-dialog',
@@ -48,6 +48,10 @@ export class UserMgmtDialogComponent implements OnInit {
         } else {
             this.userService.create(this.user).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         }
+    }
+
+    compareRoles(r1: Rol, r2: Rol): boolean {
+        return r1 && r2 ? r1.nombre === r2.nombre : r1 === r2;
     }
 
     private onSaveSuccess(result) {

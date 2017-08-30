@@ -25,8 +25,8 @@
         </div>
         <div class="form-group">
             <label jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
-            <select class="form-control" multiple name="operacion" [(ngModel)]="rol.operaciones">
-                <option *ngFor="let operacion of operaciones" [value]="operacion">{{operacion.accion}} - {{operacion.sujeto}}</option>
+            <select [compareWith]="compareOperations" class="form-control" multiple name="operacion" [(ngModel)]="rol.operaciones">
+                <option  *ngFor="let operacion of operaciones;trackBy:id" [ngValue]="operacion">{{operacion.accion}} - {{operacion.sujeto}}</option>
             </select>
         </div>
     </div>

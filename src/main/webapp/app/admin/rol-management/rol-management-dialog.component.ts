@@ -15,13 +15,11 @@ import { Operacion, OperacionService } from '../../entities/operacion/index';
 export class RolMgmtDialogComponent implements OnInit {
 
     rol: Rol;
-    languages: any[];
     operaciones: Operacion[];
     isSaving: Boolean;
 
     constructor(
         public activeModal: NgbActiveModal,
-        private languageHelper: JhiLanguageHelper,
         private rolService: RolService,
         private eventManager: JhiEventManager,
         private operacionService: OperacionService,
@@ -32,9 +30,6 @@ export class RolMgmtDialogComponent implements OnInit {
         this.operaciones = [];
         this.operacionService.query().subscribe((operaciones) => {
             this.operaciones = operaciones.json;
-        });
-        this.languageHelper.getAll().then((languages) => {
-            this.languages = languages;
         });
     }
 
@@ -47,6 +42,10 @@ export class RolMgmtDialogComponent implements OnInit {
         if (this.rol.nombre !== null) {
             this.rolService.update(this.rol).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         }
+    }
+
+    compareOperations(r1: Operacion, r2: Operacion): boolean {
+        return r1 && r2 ? r1.id === r2.id : r1 === r2;
     }
 
     private onSaveSuccess(result) {

@@ -1,7 +1,6 @@
 package es.tenerife.secretaria.libro.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -536,17 +535,6 @@ public class UserResourceIntTest {
 
 	@Test
 	@Transactional
-	public void getAllAuthorities() throws Exception {
-		restUserMockMvc
-				.perform(get("/api/users/roles").accept(TestUtil.APPLICATION_JSON_UTF8)
-						.contentType(TestUtil.APPLICATION_JSON_UTF8))
-				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$").isArray())
-				.andExpect(jsonPath("$").value(containsInAnyOrder("ROLE_USER", "ROLE_ADMIN")));
-	}
-
-	@Test
-	@Transactional
 	public void testUserEquals() throws Exception {
 		TestUtil.equalsVerifier(Usuario.class);
 		Usuario user1 = new Usuario();
@@ -601,7 +589,7 @@ public class UserResourceIntTest {
 		assertThat(user.getCreatedDate()).isNotNull();
 		assertThat(user.getLastModifiedBy()).isNull();
 		assertThat(user.getLastModifiedDate()).isNotNull();
-		assertThat(user.getRoles()).extracting("name").containsExactly(AuthoritiesConstants.USER);
+		assertThat(user.getRoles()).extracting("nombre").containsExactly(AuthoritiesConstants.USER);
 	}
 
 	@Test
