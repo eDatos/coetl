@@ -21,6 +21,7 @@
             "admin": {
                 "main": "Administración",
                 "userManagement": "Gestión de usuarios",
+                "rolManagement": "Gestión de roles",
                 "tracker": "Registro de los usuarios",
                 "metrics": "Métricas",
                 "health": "Salud",

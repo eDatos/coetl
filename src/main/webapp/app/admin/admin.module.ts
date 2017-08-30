@@ -34,6 +34,7 @@ import {
     UserModalService
 } from './';
 import { RolMgmtDetailComponent } from './rol-management/rol-management-detail.component';
+import { RolMgmtDialogComponent, RolDialogComponent } from './rol-management/rol-management-dialog.component';
 
 @NgModule({
     imports: [
@@ -44,7 +45,9 @@ import { RolMgmtDetailComponent } from './rol-management/rol-management-detail.c
     declarations: [
         AuditsComponent,
         RolMgmtComponent,
+        RolDialogComponent,
         RolMgmtDetailComponent,
+        RolMgmtDialogComponent,
         UserMgmtComponent,
         UserDialogComponent,
         UserDeleteDialogComponent,
@@ -60,6 +63,7 @@ import { RolMgmtDetailComponent } from './rol-management/rol-management-detail.c
         JhiMetricsMonitoringModalComponent
     ],
     entryComponents: [
+        RolMgmtDialogComponent,
         UserMgmtDialogComponent,
         UserMgmtDeleteDialogComponent,
         JhiHealthModalComponent,

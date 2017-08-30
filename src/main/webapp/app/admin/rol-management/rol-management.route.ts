@@ -9,6 +9,7 @@ import { RolMgmtDetailComponent } from './rol-management-detail.component';
 // import { UserDeleteDialogComponent } from './user-management-delete-dialog.component';
 
 import { Principal } from '../../shared';
+import { RolDialogComponent } from './rol-management-dialog.component';
 
 @Injectable()
 export class RolResolve implements CanActivate {
@@ -57,16 +58,16 @@ export const rolMgmtRoute: Routes = [
 ];
 
 export const rolDialogRoute: Routes = [
-    //     {
-    //         path: 'user-management-new',
-    //         component: UserDialogComponent,
-    //         outlet: 'popup'
-    //     },
-    //     {
-    //         path: 'user-management/:login/edit',
-    //         component: UserDialogComponent,
-    //         outlet: 'popup'
-    //     },
+    {
+        path: 'rol-management-nuevo',
+        component: RolDialogComponent,
+        outlet: 'popup'
+    },
+    {
+        path: 'rol-management/:nombre/editar',
+        component: RolDialogComponent,
+        outlet: 'popup'
+    },
     //     {
     //         path: 'user-management/:login/delete',
     //         component: UserDeleteDialogComponent,

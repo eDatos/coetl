@@ -9,7 +9,8 @@ import {
     metricsRoute,
     rolMgmtRoute,
     userMgmtRoute,
-    userDialogRoute
+    userDialogRoute,
+    rolDialogRoute
 } from './';
 
 import { UserRouteAccessService } from '../shared';
@@ -33,5 +34,6 @@ export const adminState: Routes = [{
     canActivate: [UserRouteAccessService],
     children: ADMIN_ROUTES
 },
+...rolDialogRoute,
 ...userDialogRoute
 ];

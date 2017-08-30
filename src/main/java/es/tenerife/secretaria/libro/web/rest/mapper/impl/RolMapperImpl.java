@@ -97,15 +97,13 @@ public class RolMapperImpl extends RolMapper {
 	@Override
 	public Rol toEntity(RolDTO dto) {
 
-		if (dto == null) {
+		if (dto == null || dto.getNombre() == null) {
 			return null;
 		}
 
-		Rol rol = new Rol();
-
-		if (dto.getNombre() != null) {
-			rol = rolRepository.findOne(dto.getNombre());
-		} else {
+		Rol rol = rolRepository.findOne(dto.getNombre());
+		if (rol == null) {
+			rol = new Rol();
 			rol.setNombre(dto.getNombre());
 			rol.setOptLock(dto.getOptLock());
 			rol.setNombre(dto.getNombre());
