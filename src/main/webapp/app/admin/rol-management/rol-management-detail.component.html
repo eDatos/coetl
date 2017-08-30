@@ -1,0 +1,31 @@
+<div *ngIf="rol">
+    <h2>
+        <span jhiTranslate="rolManagement.detail.title">User</span> [<b>{{rol.nombre}}</b>]
+    </h2>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="rolManagement.nombre">Nombre</span></dt>
+        <dd>{{rol.nombre}}</dd>
+    </dl>
+    <h4 jhiTranslate="rolManagement.operaciones.operaciones">Operaciones</h4>
+    <table>
+        <thead>
+            <th jhiTranslate="secretariaLibroApp.operacion.accion">Acción</th>
+            <th jhiTranslate="secretariaLibroApp.operacion.sujeto">Sujeto</th>
+        </thead>
+        <tbody>
+            <ng-container *ngIf="rol.operaciones && rol.operaciones.length;else tabla_vacia">
+                <tr *ngFor="let operacion of rol.operaciones">
+                    <td>{{operacion.accion}}</td>
+                    <td>{{operacion.sujeto}}</td>
+                </tr>
+            </ng-container>
+            <ng-template #tabla_vacia>
+                <td jhiTranslate="rolManagement.operaciones.empty" colspan="2">No hay operaciones</td>
+            </ng-template>
+        </tbody>
+    </table>
+
+    <button type="submit" routerLink="/rol-management" class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+</div>

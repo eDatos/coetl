@@ -15,6 +15,9 @@
             "title": "Rol"
         },
         "nombre": "Nombre",
-        "operaciones": "Operaciones"
+        "operaciones": {
+            "operaciones": "Operaciones",
+            "empty": "No hay operaciones para este rol"
+        }
     }
 }

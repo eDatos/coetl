@@ -33,6 +33,7 @@ import {
     UserResolve,
     UserModalService
 } from './';
+import { RolMgmtDetailComponent } from './rol-management/rol-management-detail.component';
 
 @NgModule({
     imports: [
@@ -43,6 +44,7 @@ import {
     declarations: [
         AuditsComponent,
         RolMgmtComponent,
+        RolMgmtDetailComponent,
         UserMgmtComponent,
         UserDialogComponent,
         UserDeleteDialogComponent,

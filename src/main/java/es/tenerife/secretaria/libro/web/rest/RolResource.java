@@ -1,6 +1,7 @@
 package es.tenerife.secretaria.libro.web.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,7 @@ import es.tenerife.secretaria.libro.service.RolService;
 import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
 import es.tenerife.secretaria.libro.web.rest.mapper.RolMapper;
 import es.tenerife.secretaria.libro.web.rest.util.PaginationUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
 
 @RestController
@@ -38,9 +41,6 @@ public class RolResource extends AbstractResource {
 
 	}
 
-	/**
-	 * @return a string list of the all of the roles
-	 */
 	@GetMapping("/roles")
 	@Timed
 	@Secured(AuthoritiesConstants.ADMIN)
@@ -49,5 +49,13 @@ public class RolResource extends AbstractResource {
 		Page<RolDTO> page = rolService.findAll(pageable).map(rolMapper::toDto);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/roles");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+	}
+
+	@GetMapping("/roles/{nombre}")
+	@Timed
+	public ResponseEntity<RolDTO> getRol(@PathVariable String nombre) {
+		log.debug("REST request to get Rol : {}", nombre);
+		RolDTO rolDTO = rolMapper.toDto(rolService.findOne(nombre));
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rolDTO));
 	}
 }

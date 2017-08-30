@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActiva
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { RolMgmtComponent } from './rol-management.component';
-// import { UserMgmtDetailComponent } from './user-management-detail.component';
+import { RolMgmtDetailComponent } from './rol-management-detail.component';
 // import { UserDialogComponent } from './user-management-dialog.component';
 // import { UserDeleteDialogComponent } from './user-management-delete-dialog.component';
 
@@ -47,13 +47,13 @@ export const rolMgmtRoute: Routes = [
             pageTitle: 'rolManagement.home.title'
         }
     },
-    //     {
-    //         path: 'user-management/:login',
-    //         component: UserMgmtDetailComponent,
-    //         data: {
-    //             pageTitle: 'userManagement.home.title'
-    //         }
-    //     }
+    {
+        path: 'rol-management/:nombre',
+        component: RolMgmtDetailComponent,
+        data: {
+            pageTitle: 'rolManagement.home.title'
+        }
+    }
 ];
 
 export const rolDialogRoute: Routes = [

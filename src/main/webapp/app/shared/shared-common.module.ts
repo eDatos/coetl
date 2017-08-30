@@ -23,7 +23,7 @@ import {
         Title,
         {
             provide: LOCALE_ID,
-            useValue: 'en'
+            useValue: 'es'
         },
     ],
     exports: [
@@ -33,4 +33,4 @@ import {
         JhiAlertErrorComponent
     ]
 })
-export class SecretariaLibroSharedCommonModule {}
+export class SecretariaLibroSharedCommonModule { }

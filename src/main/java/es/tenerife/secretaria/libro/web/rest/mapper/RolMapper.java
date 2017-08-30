@@ -11,11 +11,18 @@ public abstract class RolMapper implements EntityMapper<RolDTO, Rol> {
 	@Autowired
 	protected RolRepository rolRepository;
 
-	public Rol fromName(String name) {
+	public Rol fromNombre(String name) {
 		if (name == null) {
 			return null;
 		}
 		return rolRepository.findOne(name);
+	}
+
+	public String nombreFromRol(Rol rol) {
+		if (rol == null) {
+			return null;
+		}
+		return rol.getNombre();
 	}
 
 }

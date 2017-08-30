@@ -24,7 +24,7 @@ public class OperacionDTO implements Serializable {
 
 	private Long optLock;
 
-	private Set<RolDTO> roles = new HashSet<>();
+	private Set<String> roles = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -58,11 +58,11 @@ public class OperacionDTO implements Serializable {
 		this.optLock = optLock;
 	}
 
-	public Set<RolDTO> getRoles() {
+	public Set<String> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<RolDTO> roles) {
+	public void setRoles(Set<String> roles) {
 		this.roles = roles;
 	}
 
