@@ -1,8 +1,10 @@
 package es.tenerife.secretaria.libro.optimistic;
 
+import java.io.Serializable;
+
 public interface VersionedEntity {
 
-	Long getId();
+	Serializable getId();
 
 	Long getOptLock();
 

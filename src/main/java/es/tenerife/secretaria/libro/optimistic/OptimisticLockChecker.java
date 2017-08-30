@@ -3,6 +3,7 @@ package es.tenerife.secretaria.libro.optimistic;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.pretty.MessageHelper;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -46,8 +48,9 @@ public class OptimisticLockChecker {
 		// Access to Table Name
 		String tableName = getTableName(entityClass);
 
-		// Access to Id Value
-		Field idField = ReflectionUtils.findField(entityClass, STRING_ID);
+		Field[] fields = entity.getClass().getDeclaredFields();
+		Field idField = Arrays.asList(fields).stream().filter(f -> f.isAnnotationPresent(OptLockId.class)).findFirst()
+				.orElse(ReflectionUtils.findField(entityClass, STRING_ID));
 		String idColName = getColumnNameFromField(idField);
 
 		Long latestVersion = getLatestVersion(tableName, idColName, entity.getId());
@@ -65,14 +68,14 @@ public class OptimisticLockChecker {
 		}
 
 		String idColName = (String) AnnotationUtils.getValue(idColAnnotation, STRING_NAME);
-		return (idColName == null) ? idField.getName() : idColName;
+		return StringUtils.isEmpty(idColName) ? idField.getName() : idColName;
 	}
 
 	private JdbcTemplate getJdbcTemplate() {
 		return AppContext.getApplicationContext().getBean(JdbcTemplate.class);
 	}
 
-	private Long getLatestVersion(String tableName, String idColName, Long id) {
+	private Long getLatestVersion(String tableName, String idColName, Object id) {
 		String sql = "select opt_lock from $TABLE_NAME where $ID_COL_NAME = ?";
 		sql = sql.replace("$TABLE_NAME", tableName).replace("$ID_COL_NAME", idColName);
 
