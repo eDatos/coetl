@@ -1,4 +1,4 @@
-id;nombre;opt_lock
-1;ROLE_ADMIN;1
-2;ROLE_USER;1
+nombre;opt_lock
+ROLE_ADMIN;1
+ROLE_USER;1
 

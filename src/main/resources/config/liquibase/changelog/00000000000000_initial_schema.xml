@@ -42,7 +42,7 @@
       <column name="idioma" type="varchar(5)" />
       <column name="clave_activacion" type="varchar(20)" />
       <column name="clave_reinicio" type="varchar(20)" />
-            <column name="deletion_date" type="timestamp">
+      <column name="deletion_date" type="timestamp">
         <constraints nullable="true" />
       </column>
       <column name="created_by" type="varchar(50)">
@@ -67,12 +67,11 @@
       unique="true">
       <column name="email" type="varchar(100)" />
     </createIndex>
+
     <createTable tableName="rol">
-      <column name="id" type="bigint" autoIncrement="${autoIncrement}">
-        <constraints primaryKey="true" nullable="false" />
-      </column>
       <column name="nombre" type="varchar(50)">
-        <constraints primaryKey="true" nullable="false" unique="true" />
+        <constraints primaryKey="true" nullable="false"
+          unique="true" />
       </column>
       <column name="opt_lock" type="bigint">
         <constraints nullable="true" />
@@ -98,7 +97,7 @@
     <addForeignKeyConstraint baseColumnNames="usuario_id"
       baseTableName="usuario_rol" constraintName="fk_usuario_rol_usuario_id"
       referencedColumnNames="id" referencedTableName="usuario" />
-      
+
     <loadData encoding="UTF-8" file="config/liquibase/usuarios.csv"
       separator=";" tableName="usuario">
       <column name="activated" type="boolean" />

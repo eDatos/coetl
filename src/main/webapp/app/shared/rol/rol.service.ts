@@ -43,8 +43,8 @@ export class RolService {
     }
 
     delete(rol: Rol): Observable<ResponseWrapper> {
-        if (!!rol && rol.name) {
-            return this.http.delete(`${this.resourceUrl}/${rol.name}`)
+        if (!!rol && rol.nombre) {
+            return this.http.delete(`${this.resourceUrl}/${rol.nombre}`)
                 .map((res: Response) => this.convertResponse(res));
         }
     }

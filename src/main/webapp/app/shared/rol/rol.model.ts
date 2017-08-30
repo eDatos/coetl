@@ -1,17 +1,14 @@
 import { Operacion } from '../../entities/operacion/index';
 
 export class Rol {
-    public id: number;
-    public name: string;
+    public nombre: string;
     public operaciones: Operacion[];
 
     constructor(
-        id?: number,
-        name?: string,
+        nombre?: string,
         operaciones?: Operacion[],
     ) {
-        this.id = !!id ? id : null;
-        this.name = !!name ? name : null;
+        this.nombre = !!nombre ? nombre : null;
         this.operaciones = !!operaciones ? operaciones : null;
     }
 }

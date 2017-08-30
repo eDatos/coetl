@@ -44,7 +44,7 @@ export class RolMgmtDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.rol.id !== null) {
+        if (this.rol.nombre !== null) {
             this.rolService.update(this.rol).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         }
     }

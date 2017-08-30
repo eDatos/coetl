@@ -76,8 +76,8 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
 
     sort() {
         const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
-        if (this.predicate !== 'id') {
-            result.push('id');
+        if (this.predicate !== 'nombre') {
+            result.push('nombre');
         }
         return result;
     }

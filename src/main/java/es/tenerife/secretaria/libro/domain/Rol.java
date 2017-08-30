@@ -6,13 +6,10 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,6 +21,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import es.tenerife.secretaria.libro.optimistic.AbstractVersionedEntity;
+import es.tenerife.secretaria.libro.optimistic.OptLockId;
 
 /**
  * An authority (a security role) used by Spring Security.
@@ -35,14 +33,11 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_id_seq")
-	@SequenceGenerator(name = "rol_id_seq", sequenceName = "rol_id_seq")
-	private Long id;
-
 	@NotNull
 	@Size(min = 0, max = 50)
 	@Id
 	@Column(length = 50)
+	@OptLockId
 	private String nombre;
 
 	@JsonIgnore
@@ -63,12 +58,8 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 	@BatchSize(size = 20)
 	private Set<Usuario> usuarios = new HashSet<>();
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public String getId() {
+		return nombre;
 	}
 
 	public String getNombre() {
