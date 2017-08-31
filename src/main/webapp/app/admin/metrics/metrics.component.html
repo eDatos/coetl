@@ -69,7 +69,7 @@
         <span jhiTranslate="metrics.jvm.http.active">Active requests</span> <b>{{metrics.counters['com.codahale.metrics.servlet.InstrumentedFilter.activeRequests'].count | number:'1.0-0'}}</b> - <span jhiTranslate="metrics.jvm.http.total">Total requests</span> <b>{{metrics.timers['com.codahale.metrics.servlet.InstrumentedFilter.requests'].count | number:'1.0-0'}}</b>
     </p>
     <div class="table-responsive" *ngIf="!updatingMetrics">
-        <table class="table table-striped">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th jhiTranslate="metrics.jvm.http.table.code">Code</th>
@@ -147,7 +147,7 @@
 
     <h3 jhiTranslate="metrics.servicesstats.title">Services statistics (time in millisecond)</h3>
     <div class="table-responsive" *ngIf="!updatingMetrics">
-        <table class="table table-striped">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th jhiTranslate="metrics.servicesstats.table.name">Service name</th>
@@ -179,7 +179,7 @@
     
     <h3 jhiTranslate="metrics.cache.title">Cache statistics</h3>
     <div class="table-responsive" *ngIf="!updatingMetrics">
-        <table class="table table-striped">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th jhiTranslate="metrics.cache.cachename">Cache name</th>
@@ -217,7 +217,7 @@
     
     <h3 jhiTranslate="metrics.datasource.title" *ngIf="metrics.gauges && metrics.gauges['HikariPool-1.pool.TotalConnections'] && metrics.gauges['HikariPool-1.pool.TotalConnections'].value > 0">DataSource statistics (time in millisecond)</h3>
     <div class="table-responsive" *ngIf="!updatingMetrics && metrics.gauges && metrics.gauges['HikariPool-1.pool.TotalConnections'] && metrics.gauges['HikariPool-1.pool.TotalConnections'].value > 0">
-        <table class="table table-striped">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th><span jhiTranslate="metrics.datasource.usage">Usage</span> ({{metrics.gauges['HikariPool-1.pool.ActiveConnections'].value}} / {{metrics.gauges['HikariPool-1.pool.TotalConnections'].value}})</th>
