@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label jhiTranslate="secretariaLibroApp.operacion.roles">Roles</label>
+            <label jhiTranslate="secretariaLibroApp.operacion.roles.roles">Roles</label>
             <select class="form-control" multiple name="rol" [(ngModel)]="operacion.roles">
                     <option *ngFor="let rol of roles" [value]="rol.nombre">{{rol.nombre}}</option>
                 </select>

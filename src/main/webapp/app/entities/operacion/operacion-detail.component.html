@@ -1,4 +1,3 @@
-
 <div *ngIf="operacion">
     <h2><span jhiTranslate="secretariaLibroApp.operacion.detail.title">Operacion</span> {{operacion.id}}</h2>
     <hr>
@@ -13,17 +12,30 @@
             <span>{{operacion.sujeto}}</span>
         </dd>
     </dl>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <th jhiTranslate="secretariaLibroApp.operacion.roles.roles">Roles</th>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="operacion.roles && operacion.roles.length;else tablaVacia">
+                    <tr *ngFor="let rol of operacion.roles">
+                        <td>{{rol}}</td>
+                    </tr>
+                </ng-container>
+                <ng-template #tablaVacia>
+                    <td jhiTranslate="secretariaLibroApp.operacion.roles.empty" colspan="2">No hay roles</td>
+                </ng-template>
+            </tbody>
+        </table>
+    </div>
 
-    <button type="submit"
-            (click)="previousState()"
-            class="btn btn-info">
+    <button type="submit" (click)="previousState()" class="btn btn-info">
         <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
     </button>
 
-    <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'operacion/'+ operacion.id + '/edit'} }]"
-            replaceUrl="true"
-            class="btn btn-primary">
+    <button type="button" [routerLink]="['/', { outlets: { popup: 'operacion/'+ operacion.id + '/edit'} }]" replaceUrl="true"
+        class="btn btn-primary">
         <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
     </button>
 </div>

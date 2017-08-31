@@ -17,7 +17,10 @@
             },
             "accion": "Accion",
             "sujeto": "Sujeto",
-            "roles": "Roles"
+            "roles": {
+                "roles": "Roles asociados",
+                "empty": "No hay roles asociados a esta operación"
+            }
         }
     }
 }

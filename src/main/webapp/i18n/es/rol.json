@@ -7,6 +7,7 @@
             "delete": {
                 "question": "¿Seguro que quiere eliminar el rol {{ id }}?"
             },
+            "nombre": "Nombre",
             "accion": "Accion",
             "sujeto": "Sujeto",
             "roles": "Roles"

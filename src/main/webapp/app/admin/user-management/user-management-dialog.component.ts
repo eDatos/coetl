@@ -37,6 +37,13 @@ export class UserMgmtDialogComponent implements OnInit {
         this.languageHelper.getAll().then((languages) => {
             this.languages = languages;
         });
+        if (!!this.user.login) {
+            this.userService.buscarUsuarioEnLdap(this.user.login).subscribe((usuario) => {
+                if (!!usuario) {
+                    this.usuarioValido = true;
+                }
+            });
+        }
     }
 
     clear() {
