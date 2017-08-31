@@ -1,10 +1,14 @@
 $white: white;
 $black: black;
+
 $grey-lightest: #f9f9f9;
 $grey-light: #e7e7e7;
 $grey-medium: #c4c4c4;
 $grey-dark: #5A616D;
 $grey-darkest: #3c3c3c;
+
+
+
 $main-light: #61A6E8;
 $main-medium: #2C7BD0;
 $main-dark: #313949;
@@ -13,15 +17,33 @@ $accent-medium: #F94758;
 $navbar-height: 30px;
 
 $font-weight-light: 300;
+
 // Bootstrap
-$font-weight-bold: 600;
+$gray-lightest: $grey-lightest;
+$gray-lighter: $grey-light;
+$gray-light: $grey-medium;
+$gray: $grey-dark;
+$gray-dark: $grey-darkest;
+
 $font-weight-normal: 400;
+$font-weight-bold: 600;
 
 $btn-primary-color: $grey-dark;
 $btn-primary-bg: $white;
 $btn-primary-border: $grey-medium;
 
+$border-width: 1px;
+
 $table-bg-hover: $grey-lightest;
+$table-border-width: $border-width;
+$table-border-color: $gray-lighter;
 
 $navbar-padding-y: 0;
 $font-family-sans-serif: "Montserrat", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+$pagination-border-width: 0;
+$pagination-color: $black;
+$pagination-active-color: $pagination-color;
+$pagination-active-bg: transparent;
+$pagination-active-border: $pagination-active-bg;
+$pagination-disabled-color: $grey-medium;

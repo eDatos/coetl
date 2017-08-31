@@ -5,9 +5,12 @@
 .table-responsive {
     width: inherit;
     min-width: 100%;
-    th {
-        font-weight: $font-weight-light;
-        text-transform: uppercase;
-        color: $grey-darkest;
+    thead {
+        th {
+            font-weight: $font-weight-light;
+            text-transform: uppercase;
+            color: $grey-darkest;
+            border-bottom: ($table-border-width)*3 double $table-border-color;
+        }
     }
 }
