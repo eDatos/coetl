@@ -1,7 +1,6 @@
 <div class="modal-header">
     <h4 class="modal-title" id="showHealthLabel">
-		{{'health.indicator.' + baseName(currentHealth.name) | translate}}
-        {{subSystemName(currentHealth.name)}}
+        {{'health.indicator.' + baseName(currentHealth.name) | translate}} {{subSystemName(currentHealth.name)}}
     </h4>
     <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">&times;</span>
     </button>
@@ -28,7 +27,7 @@
     </div>
     <div *ngIf="currentHealth.error">
         <h4 jhiTranslate="health.details.error">Error</h4>
-            <pre>{{currentHealth.error}}</pre>
+        <pre>{{currentHealth.error}}</pre>
     </div>
 </div>
 <div class="modal-footer">
