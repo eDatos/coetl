@@ -11,14 +11,14 @@
 
     <groupId>es.tenerife.secretaria.libro</groupId>
     <artifactId>secretaria-libro</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Secretaria Libro</name>
 
     <scm>
         <connection>scm:git:http://git.arte-consultores.com/ecit/secretaria-libro/</connection>
         <developerConnection>scm:git:http://git.arte-consultores.com/ecit/secretaria-libro/</developerConnection>
-        <tag>20170831134728-v0.0.2</tag>
+        <tag>HEAD</tag>
         <url>http://git.arte-consultores.com/ecit/secretaria-libro</url>
     </scm>
     <issueManagement>
