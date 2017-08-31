@@ -1,4 +1,5 @@
-@import '~scss/variables.scss';
+@import '~scss/variables';
+@import '~scss/mixins';
 
 // Bootstrap table overrides
 
@@ -10,7 +11,18 @@
             font-weight: $font-weight-light;
             text-transform: uppercase;
             color: $grey-darkest;
-            border-bottom: ($table-border-width)*3 double $table-border-color;
+            border-bottom: ($table-border-width)*3 double $table-border-color;            
+        }
+    }
+    .flex-btn-group-container {
+        visibility: hidden;
+        .btn {
+            @include transition(opacity 0s);
+        }
+    }
+    tr:hover {
+        .flex-btn-group-container {
+            visibility: inherit;
         }
     }
 }

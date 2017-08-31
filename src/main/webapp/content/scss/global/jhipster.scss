@@ -1,4 +1,4 @@
-@import '~scss/variables.scss';
+@import '~scss/variables';
 
 html {
     font-size: 14px;
@@ -158,8 +158,8 @@ entity tables helpers
    display: flex;
    -webkit-flex-direction: row;
    flex-direction: row;
-   -webkit-justify-content: flex-end;
-   justify-content: flex-end;
+   -webkit-justify-content: center;
+   justify-content: center;
 }
 
 /* ==========================================================================
