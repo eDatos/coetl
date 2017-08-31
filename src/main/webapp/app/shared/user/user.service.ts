@@ -8,7 +8,7 @@ import { createRequestOption } from '../model/request-util';
 
 @Injectable()
 export class UserService {
-    private resourceUrl = 'api/users';
+    private resourceUrl = 'api/usuarios';
 
     constructor(private http: Http) { }
 

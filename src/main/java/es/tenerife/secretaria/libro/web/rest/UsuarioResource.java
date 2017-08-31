@@ -96,7 +96,7 @@ public class UsuarioResource extends AbstractResource {
 	}
 
 	/**
-	 * POST /users : Creates a new user.
+	 * POST /usuarios : Creates a new user.
 	 * <p>
 	 * Creates a new user if the login and email are not already used, and sends an
 	 * mail with an activation link. The user needs to be activated on creation.
@@ -110,7 +110,7 @@ public class UsuarioResource extends AbstractResource {
 	 *             if the Location URI syntax is incorrect
 	 */
 	@SuppressWarnings("rawtypes")
-	@PostMapping("/users")
+	@PostMapping("/usuarios")
 	@Timed
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity createUser(@Valid @RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
@@ -132,13 +132,13 @@ public class UsuarioResource extends AbstractResource {
 		} else {
 			Usuario newUser = usuarioService.createUsuario(usuarioMapper.userDTOToUser(managedUserVM));
 			mailService.sendCreationEmail(newUser);
-			return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
+			return ResponseEntity.created(new URI("/api/usuarios/" + newUser.getLogin()))
 					.headers(HeaderUtil.createAlert("userManagement.created", newUser.getLogin())).body(newUser);
 		}
 	}
 
 	/**
-	 * PUT /users : Updates an existing User.
+	 * PUT /usuarios : Updates an existing User.
 	 *
 	 * @param managedUserVM
 	 *            the user to update
@@ -147,7 +147,7 @@ public class UsuarioResource extends AbstractResource {
 	 *         already in use, or with status 500 (Internal Server Error) if the
 	 *         user couldn't be updated
 	 */
-	@PutMapping("/users")
+	@PutMapping("/usuarios")
 	@Timed
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity<UsuarioDTO> updateUser(@Valid @RequestBody ManagedUserVM managedUserVM) {
@@ -172,31 +172,31 @@ public class UsuarioResource extends AbstractResource {
 	}
 
 	/**
-	 * GET /users : get all users.
+	 * GET /usuarios : get all users.
 	 *
 	 * @param pageable
 	 *            the pagination information
 	 * @return the ResponseEntity with status 200 (OK) and with body all users
 	 */
-	@GetMapping("/users")
+	@GetMapping("/usuarios")
 	@Timed
 	public ResponseEntity<List<UsuarioDTO>> getAllUsers(@ApiParam Pageable pageable,
 			@ApiParam(defaultValue = "false") Boolean includeDeleted) {
 		final Page<UsuarioDTO> page = usuarioService.getAllUsuarios(pageable, includeDeleted)
 				.map(usuarioMapper::userToUserDTO);
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/usuarios");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
 
 	/**
-	 * GET /users/:login : get the "login" user.
+	 * GET /usuarios/:login : get the "login" user.
 	 *
 	 * @param login
 	 *            the login of the user to find
 	 * @return the ResponseEntity with status 200 (OK) and with body the "login"
 	 *         user, or with status 404 (Not Found)
 	 */
-	@GetMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
+	@GetMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
 	@Timed
 	public ResponseEntity<UsuarioDTO> getUser(@PathVariable String login) {
 		log.debug("REST request to get User : {}", login);
@@ -204,13 +204,13 @@ public class UsuarioResource extends AbstractResource {
 	}
 
 	/**
-	 * DELETE /users/:login : delete the "login" User.
+	 * DELETE /usuarios/:login : delete the "login" User.
 	 *
 	 * @param login
 	 *            the login of the user to delete
 	 * @return the ResponseEntity with status 200 (OK)
 	 */
-	@DeleteMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
+	@DeleteMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
 	@Timed
 	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity<Void> deleteUser(@PathVariable String login) {
