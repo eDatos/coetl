@@ -17,9 +17,9 @@
 
     <scm>
         <connection>scm:git:http://git.arte-consultores.com/ecit/secretaria-libro/</connection>
-        <developerConnection>scm:git:http://git.arte-consultores.com/secretaria-libro/</developerConnection>
+        <developerConnection>scm:git:http://git.arte-consultores.com/ecit/secretaria-libro/</developerConnection>
         <tag>HEAD</tag>
-        <url>http://git.arte-consultores.com/secretaria-libro</url>
+        <url>http://git.arte-consultores.com/ecit/secretaria-libro</url>
     </scm>
     <issueManagement>
         <system>Jira</system>
