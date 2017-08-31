@@ -92,8 +92,8 @@ public class AccountResource extends AbstractResource {
 					.body(null);
 		}
 		return userRepository.findOneByLoginAndDeletionDateIsNull(userLogin).map(u -> {
-			userService.updateUsuario(userDTO.getNombre(), userDTO.getApellidos(), userDTO.getEmail(),
-					userDTO.getIdioma(), userDTO.getUrlImagen());
+			userService.updateUsuario(userDTO.getNombre(), userDTO.getApellido1(), userDTO.getApellido2(),
+					userDTO.getEmail(), userDTO.getIdioma(), userDTO.getUrlImagen());
 			return new ResponseEntity(HttpStatus.OK);
 		}).orElseGet(() -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
 	}

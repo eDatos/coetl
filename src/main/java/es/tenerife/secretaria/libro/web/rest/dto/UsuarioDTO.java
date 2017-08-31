@@ -31,7 +31,10 @@ public class UsuarioDTO {
 	private String nombre;
 
 	@Size(max = 50)
-	private String apellidos;
+	private String apellido1;
+
+	@Size(max = 50)
+	private String apellido2;
 
 	@Email
 	@Size(min = 5, max = 100)
@@ -65,7 +68,8 @@ public class UsuarioDTO {
 		this.setId(user.getId());
 		this.setLogin(user.getLogin());
 		this.setNombre(user.getNombre());
-		this.setApellidos(user.getApellidos());
+		this.setApellido1(user.getApellido1());
+		this.setApellido2(user.getApellido2());
 		this.setEmail(user.getEmail());
 		this.setActivo(user.getActivado());
 		this.setUrlImagen(user.getUrlImagen());
@@ -82,7 +86,8 @@ public class UsuarioDTO {
 		this.id = source.getId();
 		this.login = source.getLogin();
 		this.nombre = source.getNombre();
-		this.apellidos = source.getApellidos();
+		this.apellido1 = source.getApellido1();
+		this.apellido2 = source.getApellido2();
 		this.email = source.getEmail();
 		this.activado = source.isActivo();
 		this.urlImage = source.getUrlImagen();
@@ -118,8 +123,12 @@ public class UsuarioDTO {
 		return nombre;
 	}
 
-	public String getApellidos() {
-		return apellidos;
+	public String getApellido1() {
+		return apellido1;
+	}
+
+	public String getApellido2() {
+		return apellido2;
 	}
 
 	public String getEmail() {
@@ -200,8 +209,12 @@ public class UsuarioDTO {
 		this.email = email;
 	}
 
-	public void setApellidos(String lastName) {
-		this.apellidos = lastName;
+	public void setApellido1(String lastName) {
+		this.apellido1 = lastName;
+	}
+
+	public void setApellido2(String lastName) {
+		this.apellido2 = lastName;
 	}
 
 	public void setNombre(String firstName) {
@@ -218,7 +231,7 @@ public class UsuarioDTO {
 
 	@Override
 	public String toString() {
-		return "UserDTO{" + "login='" + login + '\'' + ", firstName='" + nombre + '\'' + ", lastName='" + apellidos
+		return "UserDTO{" + "login='" + login + '\'' + ", firstName='" + nombre + '\'' + ", lastName='" + apellido1
 				+ '\'' + ", email='" + email + '\'' + ", imageUrl='" + urlImage + '\'' + ", activated=" + activado
 				+ ", langKey='" + idioma + '\'' + ", createdBy=" + createdBy + ", createdDate=" + createdDate
 				+ ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate
@@ -230,6 +243,7 @@ public class UsuarioDTO {
 		private String login;
 		private String firstName;
 		private String lastName;
+		private String lastName2;
 		private String email;
 		private String imageUrl;
 		private boolean activated = false;
@@ -245,7 +259,8 @@ public class UsuarioDTO {
 			userDTO.setId(this.id);
 			userDTO.setLogin(this.login);
 			userDTO.setNombre(this.firstName);
-			userDTO.setApellidos(this.lastName);
+			userDTO.setApellido1(this.lastName);
+			userDTO.setApellido2(this.lastName2);
 			userDTO.setEmail(this.email);
 			userDTO.setUrlImagen(this.imageUrl);
 			userDTO.setActivo(this.activated);
@@ -275,6 +290,11 @@ public class UsuarioDTO {
 
 		public Builder setLastName(String lastName) {
 			this.lastName = lastName;
+			return this;
+		}
+
+		public Builder setLastName2(String lastName) {
+			this.lastName2 = lastName;
 			return this;
 		}
 

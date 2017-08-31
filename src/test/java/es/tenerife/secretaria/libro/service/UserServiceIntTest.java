@@ -60,7 +60,8 @@ public class UserServiceIntTest {
 		Usuario user = new Usuario();
 		user.setLogin("johndoe");
 		user.setNombre("John");
-		user.setApellidos("Doe");
+		user.setApellido1("Doe");
+		user.setApellido2("Doe2");
 		user.setEmail("john.doe@localhost");
 		user.seturlImagen("http://placehold.it/50x50");
 		user.setIdioma("en-US");

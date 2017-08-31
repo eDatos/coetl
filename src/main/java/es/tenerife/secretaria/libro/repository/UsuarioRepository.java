@@ -18,8 +18,6 @@ import es.tenerife.secretaria.libro.domain.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-	Optional<Usuario> findOneByClaveActivacion(String activationKey);
-
 	List<Usuario> findAllByActivadoIsFalseAndCreatedDateBefore(Instant dateTime);
 
 	Optional<Usuario> findOneByEmail(String email);

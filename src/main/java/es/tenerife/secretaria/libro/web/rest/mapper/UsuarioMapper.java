@@ -38,7 +38,8 @@ public class UsuarioMapper {
 			user.setId(userDTO.getId());
 			user.setLogin(userDTO.getLogin());
 			user.setNombre(userDTO.getNombre());
-			user.setApellidos(userDTO.getApellidos());
+			user.setApellido1(userDTO.getApellido1());
+			user.setApellido2(userDTO.getApellido2());
 			user.setEmail(userDTO.getEmail());
 			user.seturlImagen(userDTO.getUrlImagen());
 			user.setActivado(userDTO.isActivo());
@@ -84,9 +85,10 @@ public class UsuarioMapper {
 		usuarioDTO.setLogin(usuarioLdapEntry.getNombreUsuario());
 		usuarioDTO.setNombre(usuarioLdapEntry.getNombre());
 		if (usuarioLdapEntry.getApellido1() != null) {
-			usuarioDTO.setApellidos(usuarioLdapEntry.getApellido1() + " " + usuarioLdapEntry.getApellido2());
+			usuarioDTO.setApellido1(usuarioLdapEntry.getApellido1());
+			usuarioDTO.setApellido2(usuarioLdapEntry.getApellido2());
 		} else {
-			usuarioDTO.setApellidos(usuarioLdapEntry.getApellidos());
+			usuarioDTO.setApellido1(usuarioLdapEntry.getApellidos());
 		}
 		usuarioDTO.setEmail(usuarioLdapEntry.getCorreoElectronico());
 		return usuarioDTO;

@@ -105,7 +105,7 @@ public class AccountResourceIntTest {
 		Usuario user = new Usuario();
 		user.setLogin("test");
 		user.setNombre("john");
-		user.setApellidos("doe");
+		user.setApellido1("doe");
 		user.setEmail("john.doe@jhipster.com");
 		user.seturlImagen("http://placehold.it/50x50");
 		user.setIdioma("en");
@@ -115,7 +115,7 @@ public class AccountResourceIntTest {
 		restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.login").value("test")).andExpect(jsonPath("$.nombre").value("john"))
-				.andExpect(jsonPath("$.apellidos").value("doe"))
+				.andExpect(jsonPath("$.apellido1").value("doe"))
 				.andExpect(jsonPath("$.email").value("john.doe@jhipster.com"))
 				.andExpect(jsonPath("$.urlImagen").value("http://placehold.it/50x50"))
 				.andExpect(jsonPath("$.idioma").value("en"))
@@ -163,7 +163,7 @@ public class AccountResourceIntTest {
 
 		Usuario updatedUser = userRepository.findOneByLogin(user.getLogin()).orElse(null);
 		assertThat(updatedUser.getNombre()).isEqualTo(userDTO.getNombre());
-		assertThat(updatedUser.getApellidos()).isEqualTo(userDTO.getApellidos());
+		assertThat(updatedUser.getApellido1()).isEqualTo(userDTO.getApellido1());
 		assertThat(updatedUser.getEmail()).isEqualTo(userDTO.getEmail());
 		assertThat(updatedUser.getIdioma()).isEqualTo(userDTO.getIdioma());
 		assertThat(updatedUser.getUrlImagen()).isEqualTo(userDTO.getUrlImagen());

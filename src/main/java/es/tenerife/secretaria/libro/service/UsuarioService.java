@@ -55,7 +55,8 @@ public class UsuarioService {
 		Usuario newUser = new Usuario();
 		newUser.setLogin(user.getLogin());
 		newUser.setNombre(user.getNombre());
-		newUser.setApellidos(user.getApellidos());
+		newUser.setApellido1(user.getApellido1());
+		newUser.setApellido2(user.getApellido2());
 		newUser.setEmail(user.getEmail());
 		newUser.seturlImagen(user.getUrlImagen());
 		if (user.getIdioma() == null) {
@@ -80,7 +81,7 @@ public class UsuarioService {
 	 *
 	 * @param firstName
 	 *            first name of user
-	 * @param lastName
+	 * @param apellido1
 	 *            last name of user
 	 * @param email
 	 *            email id of user
@@ -89,10 +90,12 @@ public class UsuarioService {
 	 * @param imageUrl
 	 *            image URL of user
 	 */
-	public void updateUsuario(String firstName, String lastName, String email, String langKey, String imageUrl) {
+	public void updateUsuario(String firstName, String apellido1, String apellido2, String email, String langKey,
+			String imageUrl) {
 		userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
 			user.setNombre(firstName);
-			user.setApellidos(lastName);
+			user.setApellido1(apellido1);
+			user.setApellido2(apellido2);
 			user.setEmail(email);
 			user.setIdioma(langKey);
 			user.seturlImagen(imageUrl);
@@ -111,7 +114,8 @@ public class UsuarioService {
 		return Optional.of(userRepository.findOneByIdAndDeletionDateIsNull(userDTO.getId())).map(user -> {
 			user.setLogin(userDTO.getLogin());
 			user.setNombre(userDTO.getNombre());
-			user.setApellidos(userDTO.getApellidos());
+			user.setApellido1(userDTO.getApellido1());
+			user.setApellido2(userDTO.getApellido2());
 			user.setEmail(userDTO.getEmail());
 			user.seturlImagen(userDTO.getUrlImagen());
 			user.setActivado(userDTO.getActivado());

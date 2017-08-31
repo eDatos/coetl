@@ -64,8 +64,12 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 	private String nombre;
 
 	@Size(max = 50)
-	@Column(name = "apellidos", length = 50)
-	private String apellidos;
+	@Column(name = "apellido1", length = 50)
+	private String apellido1;
+
+	@Size(max = 50)
+	@Column(name = "apellido2", length = 50)
+	private String apellido2;
 
 	@Email
 	@Size(min = 5, max = 100)
@@ -83,11 +87,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 	@Size(max = 256)
 	@Column(name = "url_imagen", length = 256)
 	private String urlImagen;
-
-	@Size(max = 20)
-	@Column(name = "clave_activacion", length = 20)
-	@JsonIgnore
-	private String claveActivacion;
 
 	@Size(max = 20)
 	@Column(name = "clave_reinicio", length = 20)
@@ -142,12 +141,20 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 		this.nombre = firstName;
 	}
 
-	public String getApellidos() {
-		return apellidos;
+	public String getApellido1() {
+		return apellido1;
 	}
 
-	public void setApellidos(String lastName) {
-		this.apellidos = lastName;
+	public void setApellido1(String lastName) {
+		this.apellido1 = lastName;
+	}
+
+	public String getApellido2() {
+		return apellido2;
+	}
+
+	public void setApellido2(String lastName) {
+		this.apellido2 = lastName;
 	}
 
 	public String getEmail() {
@@ -172,14 +179,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
 	public void setActivado(boolean activated) {
 		this.activado = activated;
-	}
-
-	public String getClaveActivacion() {
-		return claveActivacion;
-	}
-
-	public void setClaveActivacion(String activationKey) {
-		this.claveActivacion = activationKey;
 	}
 
 	public String getClaveReinicio() {
@@ -245,8 +244,8 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
 	@Override
 	public String toString() {
-		return "User{" + "login='" + login + '\'' + ", firstName='" + nombre + '\'' + ", lastName='" + apellidos + '\''
-				+ ", email='" + email + '\'' + ", imageUrl='" + urlImagen + '\'' + ", activated='" + activado + '\''
-				+ ", langKey='" + idioma + '\'' + ", activationKey='" + claveActivacion + '\'' + "}";
+		return "Usuario{" + "login='" + login + '\'' + ", nombre='" + nombre + '\'' + ", apellido1='" + apellido1 + '\''
+				+ ", email='" + email + '\'' + ", urlImagen='" + urlImagen + '\'' + ", activado='" + activado + '\''
+				+ ", idioma='" + idioma + '\'' + "}";
 	}
 }

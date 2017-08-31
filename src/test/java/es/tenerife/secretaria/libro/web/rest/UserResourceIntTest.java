@@ -131,7 +131,7 @@ public class UserResourceIntTest {
 		user.setActivado(true);
 		user.setEmail(DEFAULT_EMAIL);
 		user.setNombre(DEFAULT_FIRSTNAME);
-		user.setApellidos(DEFAULT_LASTNAME);
+		user.setApellido1(DEFAULT_LASTNAME);
 		user.seturlImagen(DEFAULT_IMAGEURL);
 		user.setIdioma(DEFAULT_LANGKEY);
 		return user;
@@ -171,7 +171,7 @@ public class UserResourceIntTest {
 		managedUserVM.updateFrom(source);
 		//@formatter:on
 
-		restUserMockMvc.perform(post("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isCreated());
 
 		// Validate the User in the database
@@ -181,7 +181,7 @@ public class UserResourceIntTest {
 		Usuario testUser = userList.get(0);
 		assertThat(testUser.getLogin()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(testUser.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
-		assertThat(testUser.getApellidos()).isEqualTo(DEFAULT_LASTNAME);
+		assertThat(testUser.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
 		assertThat(testUser.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
 		assertThat(testUser.getIdioma()).isEqualTo(DEFAULT_LANGKEY);
@@ -215,7 +215,7 @@ public class UserResourceIntTest {
 		//@formatter:on
 
 		// An entity with an existing ID cannot be created, so this API call must fail
-		restUserMockMvc.perform(post("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 
 		// Validate the User in the database
@@ -253,7 +253,7 @@ public class UserResourceIntTest {
 		//@formatter:on
 
 		// Create the User
-		restUserMockMvc.perform(post("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 
 		// Validate the User in the database
@@ -292,7 +292,7 @@ public class UserResourceIntTest {
 		//@formatter:on
 
 		// Create the User
-		restUserMockMvc.perform(post("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 
 		// Validate the User in the database
@@ -307,11 +307,11 @@ public class UserResourceIntTest {
 		userRepository.saveAndFlush(user);
 
 		// Get all the users
-		restUserMockMvc.perform(get("/api/users?sort=id,desc").accept(MediaType.APPLICATION_JSON))
+		restUserMockMvc.perform(get("/api/usuarios?sort=id,desc").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.[*].login").value(hasItem(DEFAULT_LOGIN)))
 				.andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_FIRSTNAME)))
-				.andExpect(jsonPath("$.[*].apellidos").value(hasItem(DEFAULT_LASTNAME)))
+				.andExpect(jsonPath("$.[*].apellido1").value(hasItem(DEFAULT_LASTNAME)))
 				.andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
 				.andExpect(jsonPath("$.[*].urlImagen").value(hasItem(DEFAULT_IMAGEURL)))
 				.andExpect(jsonPath("$.[*].idioma").value(hasItem(DEFAULT_LANGKEY)));
@@ -324,11 +324,11 @@ public class UserResourceIntTest {
 		userRepository.saveAndFlush(user);
 
 		// Get the user
-		restUserMockMvc.perform(get("/api/users/{login}", user.getLogin())).andExpect(status().isOk())
+		restUserMockMvc.perform(get("/api/usuarios/{login}", user.getLogin())).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
 				.andExpect(jsonPath("$.login").value(user.getLogin()))
 				.andExpect(jsonPath("$.nombre").value(DEFAULT_FIRSTNAME))
-				.andExpect(jsonPath("$.apellidos").value(DEFAULT_LASTNAME))
+				.andExpect(jsonPath("$.apellido1").value(DEFAULT_LASTNAME))
 				.andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
 				.andExpect(jsonPath("$.urlImagen").value(DEFAULT_IMAGEURL))
 				.andExpect(jsonPath("$.idioma").value(DEFAULT_LANGKEY));
@@ -337,7 +337,7 @@ public class UserResourceIntTest {
 	@Test
 	@Transactional
 	public void getNonExistingUser() throws Exception {
-		restUserMockMvc.perform(get("/api/users/unknown")).andExpect(status().isNotFound());
+		restUserMockMvc.perform(get("/api/usuarios/unknown")).andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -372,7 +372,7 @@ public class UserResourceIntTest {
 		managedUserVM.updateFrom(source);
 		//@formatter:on
 
-		restUserMockMvc.perform(put("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isOk());
 
 		// Validate the User in the database
@@ -381,7 +381,7 @@ public class UserResourceIntTest {
 		assertThat(userList).hasSize(databaseSizeBeforeUpdate);
 		Usuario testUser = userList.get(0);
 		assertThat(testUser.getNombre()).isEqualTo(UPDATED_FIRSTNAME);
-		assertThat(testUser.getApellidos()).isEqualTo(UPDATED_LASTNAME);
+		assertThat(testUser.getApellido1()).isEqualTo(UPDATED_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
 		assertThat(testUser.getUrlImagen()).isEqualTo(UPDATED_IMAGEURL);
 		assertThat(testUser.getIdioma()).isEqualTo(UPDATED_LANGKEY);
@@ -419,7 +419,7 @@ public class UserResourceIntTest {
 		managedUserVM.updateFrom(source);
 		//@formatter:on
 
-		restUserMockMvc.perform(put("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isOk());
 
 		// Validate the User in the database
@@ -429,7 +429,7 @@ public class UserResourceIntTest {
 		Usuario testUser = userList.get(0);
 		assertThat(testUser.getLogin()).isEqualTo(UPDATED_LOGIN);
 		assertThat(testUser.getNombre()).isEqualTo(UPDATED_FIRSTNAME);
-		assertThat(testUser.getApellidos()).isEqualTo(UPDATED_LASTNAME);
+		assertThat(testUser.getApellido1()).isEqualTo(UPDATED_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
 		assertThat(testUser.getUrlImagen()).isEqualTo(UPDATED_IMAGEURL);
 		assertThat(testUser.getIdioma()).isEqualTo(UPDATED_LANGKEY);
@@ -446,7 +446,7 @@ public class UserResourceIntTest {
 		anotherUser.setActivado(true);
 		anotherUser.setEmail("jhipster@localhost");
 		anotherUser.setNombre("java");
-		anotherUser.setApellidos("hipster");
+		anotherUser.setApellido1("hipster");
 		anotherUser.seturlImagen("");
 		anotherUser.setIdioma("en");
 		userRepository.saveAndFlush(anotherUser);
@@ -462,7 +462,7 @@ public class UserResourceIntTest {
 						.setId(updatedUser.getId())
 						.setLogin( updatedUser.getLogin())
 						.setFirstName(updatedUser.getNombre())
-						.setLastName(updatedUser.getApellidos())
+						.setLastName(updatedUser.getApellido1())
 						.setEmail("jhipster@localhost")
 						.setActivated(updatedUser.getActivado())
 						.setImageUrl( updatedUser.getUrlImagen())
@@ -476,7 +476,7 @@ public class UserResourceIntTest {
 				managedUserVM.updateFrom(source);
 				//@formatter:on
 
-		restUserMockMvc.perform(put("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 	}
 
@@ -491,7 +491,7 @@ public class UserResourceIntTest {
 		anotherUser.setActivado(true);
 		anotherUser.setEmail("jhipster@localhost");
 		anotherUser.setNombre("java");
-		anotherUser.setApellidos("hipster");
+		anotherUser.setApellido1("hipster");
 		anotherUser.seturlImagen("");
 		anotherUser.setIdioma("en");
 		userRepository.saveAndFlush(anotherUser);
@@ -507,7 +507,7 @@ public class UserResourceIntTest {
 				.setId(updatedUser.getId())
 				.setLogin("")
 				.setFirstName(updatedUser.getNombre())
-				.setLastName(updatedUser.getApellidos())
+				.setLastName(updatedUser.getApellido1())
 				.setEmail("jhipster@localhost")
 				.setActivated(updatedUser.getActivado())
 				.setImageUrl( updatedUser.getUrlImagen())
@@ -520,7 +520,7 @@ public class UserResourceIntTest {
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on
-		restUserMockMvc.perform(put("/api/users").contentType(TestUtil.APPLICATION_JSON_UTF8)
+		restUserMockMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 	}
 
@@ -532,7 +532,7 @@ public class UserResourceIntTest {
 		int databaseSizeBeforeDelete = userRepository.findAll().size();
 
 		// Delete the user
-		restUserMockMvc.perform(delete("/api/users/{login}", user.getLogin()).accept(TestUtil.APPLICATION_JSON_UTF8))
+		restUserMockMvc.perform(delete("/api/usuarios/{login}", user.getLogin()).accept(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk());
 
 		// Validate the database is empty
@@ -589,7 +589,7 @@ public class UserResourceIntTest {
 		assertThat(user.getId()).isEqualTo(DEFAULT_ID);
 		assertThat(user.getLogin()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(user.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
-		assertThat(user.getApellidos()).isEqualTo(DEFAULT_LASTNAME);
+		assertThat(user.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(user.getEmail()).isEqualTo(DEFAULT_EMAIL);
 		assertThat(user.getActivado()).isEqualTo(true);
 		assertThat(user.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
@@ -620,7 +620,7 @@ public class UserResourceIntTest {
 		assertThat(userDTO.getId()).isEqualTo(DEFAULT_ID);
 		assertThat(userDTO.getLogin()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(userDTO.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
-		assertThat(userDTO.getApellidos()).isEqualTo(DEFAULT_LASTNAME);
+		assertThat(userDTO.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
 		assertThat(userDTO.isActivo()).isEqualTo(true);
 		assertThat(userDTO.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
