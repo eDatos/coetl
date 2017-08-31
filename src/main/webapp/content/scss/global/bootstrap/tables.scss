@@ -11,9 +11,19 @@
             font-weight: $font-weight-light;
             text-transform: uppercase;
             color: $grey-darkest;
-            border-bottom: ($table-border-width)*3 double $table-border-color;            
+            border-bottom: ($table-border-width)*3 double $grey-light;            
         }
     }
+
+    tr {
+        td:first-child, th:first-child {
+            padding-left: $table-cell-padding * 3;
+        }
+        td:last-child, th:last-child {
+            padding-right: $table-cell-padding * 3;
+        }
+    }
+
     .flex-btn-group-container {
         visibility: hidden;
         .btn {
@@ -25,4 +35,6 @@
             visibility: inherit;
         }
     }
+
+    border-bottom: $table-border-width solid $table-border-color;
 }

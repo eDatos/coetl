@@ -36,7 +36,8 @@ $border-width: 1px;
 
 $table-bg-hover: $grey-lightest;
 $table-border-width: $border-width;
-$table-border-color: $gray-lighter;
+$table-border-color: $grey-lightest;
+$table-cell-padding: .75rem;
 
 $navbar-padding-y: 0;
 $font-family-sans-serif: "Montserrat", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -49,3 +50,14 @@ $pagination-active-border: $pagination-active-bg;
 $pagination-disabled-color: $grey-medium;
 
 $enable-transitions: true;
+
+$font-size-h1: 2rem;
+$font-size-h2: 1.8rem;
+$font-size-h3: 1.6rem;
+$font-size-h4: 1.4rem;
+$font-size-h5: 1.2rem;
+$font-size-h6: 1rem;
+
+$badge-font-weight: $font-weight-normal;
+$badge-padding-x: .5em;
+$badge-padding-y: .3em;
