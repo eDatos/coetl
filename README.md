@@ -99,7 +99,15 @@ Pueden modificarse los ficheros relacionados con la configuración de logging en
 - `application.cas.validate`
    - URL a la que se debe acceder para realizar la acción de logout. Sólo debe cumplimentarse en el caso se que su valor sea distinto a `application.cas.endopoint`+ '/logout'.
 -  `debug`
-   - Permite aumentar el nivel de log a DEBUG. 
+   - Permite aumentar el nivel de log a DEBUG.    
+- `application.ldap.url`
+   - URL del servidor LDAP. Ejemplo: ldap://ldap.miorganizacion.com
+- `application.ldap.username`
+   - Usuario que se usar para conectarse al servidor LDAP. Ejemplo: cn=username,dc=miorganizacion,dc=com
+- `application.ldap.password`: 
+   - Contraseña del usuario LDAP. 
+- `application.ldap.base`
+   - Ruta relativa dónde se realizarán las operaciones. Ejemplo ou=usuarios,dc=miorganizacion,dc=com
 
 
 ## Anexo. Perfiles de compilación
