@@ -213,8 +213,14 @@ public class UsuarioResource extends AbstractResource {
 	public ResponseEntity<UsuarioDTO> getUserFromLdap(@PathVariable String login) {
 		log.debug("REST request to get User from LDAP : {}", login);
 		UsuarioLdapEntry usuarioLdap = ldapService.buscarUsuarioLdap(login);
+		if (usuarioLdap == null) {
+			return ResponseEntity
+					.notFound().headers(HeaderUtil.createFailureAlert(ENTITY_NAME,
+							"userManagement.usuario-ldap-no-encontrado", "No se ha encontrado el usuario LDAP"))
+					.build();
+		}
 		UsuarioDTO usuarioDTO = usuarioMapper.usuarioLdapEntryToUsuarioDTO(usuarioLdap);
-		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(usuarioDTO));
+		return ResponseEntity.ok().body(usuarioDTO);
 	}
 
 	/**

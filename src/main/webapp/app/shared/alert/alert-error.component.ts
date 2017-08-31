@@ -32,6 +32,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                     break;
 
                 case 400:
+                case 404:
                     const arr = Array.from(httpResponse.headers._headers);
                     const headers = [];
                     for (i = 0; i < arr.length; i++) {
@@ -62,15 +63,13 @@ export class JhiAlertErrorComponent implements OnDestroy {
                         }
                     } else if (httpResponse.text() !== '' && httpResponse.json() && httpResponse.json().message) {
                         this.addErrorAlert(httpResponse.json().message, httpResponse.json().message, httpResponse.json().params);
-                    } else {
+                    } else if (httpResponse.text()) {
                         this.addErrorAlert(httpResponse.text());
+                    } else {
+                        this.addErrorAlert('Not found', 'error.url.not.found');
+
                     }
                     break;
-
-                case 404:
-                    this.addErrorAlert('Not found', 'error.url.not.found');
-                    break;
-
                 default:
                     if (httpResponse.text() !== '' && httpResponse.json() && httpResponse.json().message) {
                         this.addErrorAlert(httpResponse.json().message);

@@ -118,4 +118,4 @@ application:
         url: FILL_URL # Ejemplo: ldap://ldap.miorganizacion.com
         username: FILL_USERNAME # Ejemplo: cn=username,dc=miorganizacion,dc=com
         password: FILL_PASSWORD # Ejemplo: mipassword
-        base: FILL_BASE # Ejemplo ou=usuarios,dc=miorganizacion,dc=com
+        base: ou=usuarios,dc=miorganizacion,dc=com # Ejemplo ou=usuarios,dc=miorganizacion,dc=com

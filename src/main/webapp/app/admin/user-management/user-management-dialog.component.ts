@@ -18,6 +18,7 @@ export class UserMgmtDialogComponent implements OnInit {
     languages: any[];
     roles: any[];
     isSaving: Boolean;
+    usuarioValido = false;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -25,8 +26,6 @@ export class UserMgmtDialogComponent implements OnInit {
         private userService: UserService,
         private eventManager: JhiEventManager,
         private rolService: RolService,
-        private alertService: JhiAlertService,
-        private translateService: TranslateService,
     ) { }
 
     ngOnInit() {
@@ -57,11 +56,10 @@ export class UserMgmtDialogComponent implements OnInit {
         this.userService.buscarUsuarioEnLdap(this.user.login).subscribe(
             (usuario) => {
                 this.user = usuario;
+                this.usuarioValido = true;
             },
             (error) => {
-                this.alertService.error('',
-                    this.translateService.instant('user.error.notFoundInLdap')
-                );
+                this.usuarioValido = false;
             }
         );
     }

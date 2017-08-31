@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +24,8 @@ import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
-import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.security.SecurityUtils;
+import es.tenerife.secretaria.libro.web.rest.errors.CustomParameterizedException;
 
 /**
  * Service class for managing users.
@@ -37,33 +39,19 @@ public class UsuarioService {
 
 	private final RolRepository authorityRepository;
 
-	public UsuarioService(UsuarioRepository userRepository, RolRepository authorityRepository) {
+	private LdapService ldapService;
+
+	public UsuarioService(UsuarioRepository userRepository, RolRepository authorityRepository,
+			LdapService ldapService) {
 		this.userRepository = userRepository;
 		this.authorityRepository = authorityRepository;
+		this.ldapService = ldapService;
 	}
 
-	public Usuario createUsuario(String login, String firstName, String lastName, String email, String imageUrl,
-			String langKey) {
-
-		Usuario newUser = new Usuario();
-		Rol authority = authorityRepository.findOne(AuthoritiesConstants.USER);
-		Set<Rol> authorities = new HashSet<>();
-		newUser.setLogin(login);
-		newUser.setNombre(firstName);
-		newUser.setApellidos(lastName);
-		newUser.setEmail(email);
-		newUser.seturlImagen(imageUrl);
-		newUser.setIdioma(langKey);
-		// new user is not active
-		newUser.setActivado(false);
-		authorities.add(authority);
-		newUser.setRoles(authorities);
-		userRepository.save(newUser);
-		log.debug("Created Information for User: {}", newUser);
-		return newUser;
-	}
-
-	public Usuario createUsuario(Usuario user) {
+	public Usuario createUsuario(@NotNull Usuario user) {
+		if (ldapService.buscarUsuarioLdap(user.getLogin()) == null) {
+			throw new CustomParameterizedException("userManagement.usuario-ldap-no-encontrado", user.getLogin());
+		}
 		Usuario newUser = new Usuario();
 		newUser.setLogin(user.getLogin());
 		newUser.setNombre(user.getNombre());
@@ -180,7 +168,7 @@ public class UsuarioService {
 				Instant.now().minus(3, ChronoUnit.DAYS));
 		for (Usuario user : users) {
 			log.debug("Deleting not activated user {}", user.getLogin());
-			userRepository.delete(user);
+			deleteUsuario(user.getLogin());
 		}
 	}
 

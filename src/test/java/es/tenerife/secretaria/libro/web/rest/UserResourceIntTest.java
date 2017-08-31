@@ -22,9 +22,11 @@ import javax.persistence.EntityManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -36,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.tenerife.secretaria.libro.SecretariaLibroApp;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
+import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.service.LdapService;
@@ -99,7 +102,7 @@ public class UserResourceIntTest {
 	@Autowired
 	private EntityManager em;
 
-	@Autowired
+	@MockBean
 	private LdapService ldapService;
 
 	private MockMvc restUserMockMvc;
@@ -143,6 +146,7 @@ public class UserResourceIntTest {
 	@Transactional
 	public void createUser() throws Exception {
 		int databaseSizeBeforeCreate = userRepository.findAll().size();
+		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
 		// Create the User
 		Set<String> authorities = new HashSet<>();

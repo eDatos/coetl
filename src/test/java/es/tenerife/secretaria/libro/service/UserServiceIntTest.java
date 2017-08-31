@@ -56,13 +56,20 @@ public class UserServiceIntTest {
 
 	@Test
 	public void testRemoveNotActivatedUsers() {
-		Usuario user = userService.createUsuario("johndoe", "John", "Doe", "john.doe@localhost",
-				"http://placehold.it/50x50", "en-US");
+
+		Usuario user = new Usuario();
+		user.setLogin("johndoe");
+		user.setNombre("John");
+		user.setApellidos("Doe");
+		user.setEmail("john.doe@localhost");
+		user.seturlImagen("http://placehold.it/50x50");
+		user.setIdioma("en-US");
 		user.setActivado(false);
-		user.setCreatedDate(Instant.now().minus(30, ChronoUnit.DAYS));
 		userRepository.save(user);
 		assertThat(userRepository.findOneByLogin("johndoe")).isPresent();
+		user.setCreatedDate(Instant.now().minus(30, ChronoUnit.DAYS));
+		userRepository.save(user);
 		userService.removeUsuariosNoActivados();
-		assertThat(userRepository.findOneByLogin("johndoe")).isNotPresent();
+		assertThat(userRepository.findOneByLoginAndDeletionDateIsNull("johndoe")).isNotPresent();
 	}
 }
