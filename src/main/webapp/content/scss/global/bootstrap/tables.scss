@@ -1,0 +1,13 @@
+@import '~scss/variables.scss';
+
+// Bootstrap table overrides
+
+.table-responsive {
+    width: inherit;
+    min-width: 100%;
+    th {
+        font-weight: $font-weight-light;
+        text-transform: uppercase;
+        color: $grey-darkest;
+    }
+}

@@ -12,6 +12,7 @@ $accent-medium: #F94758;
 
 $navbar-height: 30px;
 
+$font-weight-light: 300;
 // Bootstrap
 $font-weight-bold: 600;
 $font-weight-normal: 400;
@@ -21,3 +22,6 @@ $btn-primary-bg: $white;
 $btn-primary-border: $grey-medium;
 
 $table-bg-hover: $grey-lightest;
+
+$navbar-padding-y: 0;
+$font-family-sans-serif: "Montserrat", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
