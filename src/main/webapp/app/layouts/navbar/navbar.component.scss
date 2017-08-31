@@ -6,13 +6,13 @@ Navbar
 ========================================================================== */
 .navbar-version {
     font-size: 10px;
-    color: $grey-light;
+    color: $grey-lightest;
     display: inline-block;
     vertical-align: text-bottom;
 }
 
 .jh-navbar {
-    background-color: $grey-darkest;
+    background-color: $main-dark;
     .profile-image {
         margin: -10px 0px;
         height: 40px;
@@ -20,7 +20,7 @@ Navbar
         border-radius: 50%;
     }
     .dropdown-item.active, .dropdown-item.active:focus, .dropdown-item.active:hover {
-        background-color: $grey-darkest;
+        background-color: $main-dark;
     }
     .dropdown-toggle::after {
         margin-left: 0.15em;
@@ -39,7 +39,7 @@ Navbar
         line-height: $navbar-height;
     }
     .jh-navbar-toggler {
-        color: $grey-light;
+        color: $grey-lightest;
         font-size: 1.5em;
         padding: 10px;
         vertical-align: middle;
