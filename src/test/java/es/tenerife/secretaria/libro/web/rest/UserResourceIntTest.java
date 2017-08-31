@@ -622,7 +622,7 @@ public class UserResourceIntTest {
 		assertThat(userDTO.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
 		assertThat(userDTO.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
-		assertThat(userDTO.isActivo()).isEqualTo(true);
+		assertThat(userDTO.isActivado()).isEqualTo(true);
 		assertThat(userDTO.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
 		assertThat(userDTO.getIdioma()).isEqualTo(DEFAULT_LANGKEY);
 		assertThat(userDTO.getCreatedBy()).isEqualTo(DEFAULT_LOGIN);

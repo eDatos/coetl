@@ -6,16 +6,18 @@
         <dt><span jhiTranslate="userManagement.login">Login</span></dt>
         <dd>
             <span>{{user.login}}</span>
-            <span class="badge badge-danger" *ngIf="!user.activated" jhiTranslate="userManagement.deactivated">Deactivated</span>
-            <span class="badge badge-success" *ngIf="user.activated" jhiTranslate="userManagement.activated">Activated</span>
+            <span class="badge badge-danger" *ngIf="!user.activado" jhiTranslate="userManagement.desactivado">Deactivated</span>
+            <span class="badge badge-success" *ngIf="user.activado" jhiTranslate="userManagement.activado">Activated</span>
         </dd>
-        <dt><span jhiTranslate="userManagement.firstName">First Name</span></dt>
+        <dt><span jhiTranslate="userManagement.nombre">First Name</span></dt>
         <dd>{{user.nombre}}</dd>
-        <dt><span jhiTranslate="userManagement.lastName">Last Name</span></dt>
-        <dd>{{user.apellidos}}</dd>
+        <dt><span jhiTranslate="userManagement.apellido1">Last Name</span></dt>
+        <dd>{{user.apellido1}}</dd>
+        <dt><span jhiTranslate="userManagement.apellido2">Last Name</span></dt>
+        <dd>{{user.apellido2}}</dd>
         <dt><span jhiTranslate="userManagement.email">Email</span></dt>
         <dd>{{user.email}}</dd>
-        <dt><span jhiTranslate="userManagement.langKey">Lang Key</span></dt>
+        <dt><span jhiTranslate="userManagement.idioma">Lang Key</span></dt>
         <dd>{{user.idioma}}</dd>
         <dt><span jhiTranslate="userManagement.createdBy">Created By</span></dt>
         <dd>{{user.createdBy}}</dd>
@@ -25,7 +27,7 @@
         <dd>{{user.lastModifiedBy}}</dd>
         <dt><span jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</span></dt>
         <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
-        <dt><span jhiTranslate="userManagement.profiles">Profiles</span></dt>
+        <dt><span jhiTranslate="userManagement.roles">Profiles</span></dt>
         <dd>
             <ul class="list-unstyled">
                 <li *ngFor="let rol of user.roles">

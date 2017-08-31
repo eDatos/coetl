@@ -71,7 +71,7 @@ public class UsuarioDTO {
 		this.setApellido1(user.getApellido1());
 		this.setApellido2(user.getApellido2());
 		this.setEmail(user.getEmail());
-		this.setActivo(user.getActivado());
+		this.setActivado(user.getActivado());
 		this.setUrlImagen(user.getUrlImagen());
 		this.setIdioma(user.getIdioma());
 		this.setCreatedBy(user.getCreatedBy());
@@ -89,7 +89,7 @@ public class UsuarioDTO {
 		this.apellido1 = source.getApellido1();
 		this.apellido2 = source.getApellido2();
 		this.email = source.getEmail();
-		this.activado = source.isActivo();
+		this.activado = source.isActivado();
 		this.urlImage = source.getUrlImagen();
 		this.idioma = source.getIdioma();
 		this.createdBy = source.getCreatedBy();
@@ -139,7 +139,7 @@ public class UsuarioDTO {
 		return urlImage;
 	}
 
-	public boolean isActivo() {
+	public boolean isActivado() {
 		return activado;
 	}
 
@@ -195,7 +195,7 @@ public class UsuarioDTO {
 
 	}
 
-	protected void setActivo(boolean activated) {
+	protected void setActivado(boolean activated) {
 		this.activado = activated;
 
 	}
@@ -263,7 +263,7 @@ public class UsuarioDTO {
 			userDTO.setApellido2(this.lastName2);
 			userDTO.setEmail(this.email);
 			userDTO.setUrlImagen(this.imageUrl);
-			userDTO.setActivo(this.activated);
+			userDTO.setActivado(this.activated);
 			userDTO.setIdioma(this.langKey);
 			userDTO.setCreatedBy(this.createdBy);
 			userDTO.setCreatedDate(this.createdDate);

@@ -42,7 +42,7 @@ public class UsuarioMapper {
 			user.setApellido2(userDTO.getApellido2());
 			user.setEmail(userDTO.getEmail());
 			user.seturlImagen(userDTO.getUrlImagen());
-			user.setActivado(userDTO.isActivo());
+			user.setActivado(userDTO.isActivado());
 			user.setIdioma(userDTO.getIdioma());
 			user.setDeletionDate(userDTO.getDeletionDate());
 			Set<Rol> authorities = this.authoritiesFromStrings(userDTO.getRoles());

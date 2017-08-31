@@ -2,9 +2,10 @@ export class User {
     public id?: any;
     public login?: string;
     public nombre?: string;
-    public apellidos?: string;
+    public apellido1?: string;
+    public apellido2?: string;
     public email?: string;
-    public activo?: Boolean;
+    public activado?: Boolean;
     public idioma?: string;
     public roles?: any[];
     public createdBy?: string;
@@ -16,9 +17,10 @@ export class User {
         id?: any,
         login?: string,
         nombre?: string,
-        apellidos?: string,
+        apellido1?: string,
+        apellido2?: string,
         email?: string,
-        activo?: Boolean,
+        activado?: Boolean,
         idioma?: string,
         roles?: any[],
         createdBy?: string,
@@ -29,9 +31,10 @@ export class User {
         this.id = id ? id : null;
         this.login = login ? login : null;
         this.nombre = nombre ? nombre : null;
-        this.apellidos = apellidos ? apellidos : null;
+        this.apellido1 = apellido1 ? apellido1 : null;
+        this.apellido2 = apellido2 ? apellido2 : null;
         this.email = email ? email : null;
-        this.activo = activo ? activo : false;
+        this.activado = activado ? activado : false;
         this.idioma = idioma ? idioma : null;
         this.roles = roles ? roles : null;
         this.createdBy = createdBy ? createdBy : null;

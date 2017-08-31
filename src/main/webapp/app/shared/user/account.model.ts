@@ -5,7 +5,8 @@ export class Account {
         public email: string,
         public nombre: string,
         public idioma: string,
-        public apellidos: string,
+        public apellido1: string,
+        public apellido2: string,
         public login: string,
         public urlImage: string
     ) { }

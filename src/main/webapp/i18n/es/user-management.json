@@ -17,7 +17,8 @@
         },
         "login": "Login",
         "nombre": "Nombre",
-        "apellidos": "Apellidos",
+        "apellido1": "Primer apellido",
+        "apellido2": "Segundo apellido",
         "email": "Email",
         "activado": "Activado",
         "desactivado": "Desactivado",
@@ -27,6 +28,7 @@
         "createdDate": "Fecha de creación",
         "lastModifiedBy": "Modificado por",
         "lastModifiedDate": "Fecha de modificación",
-        "deletionDate": "Fecha de borrado"
+        "deletionDate": "Fecha de borrado",
+        "roles": "Roles"
     }
 }
