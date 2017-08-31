@@ -13,7 +13,7 @@ import { ConfigService } from '../../config/index';
     selector: 'jhi-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: [
-        'navbar.scss'
+        'navbar.component.scss'
     ]
 })
 export class NavbarComponent implements OnInit {

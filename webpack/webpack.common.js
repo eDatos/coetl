@@ -14,7 +14,7 @@ module.exports = (options) => {
     return {
         resolve: {
             extensions: ['.ts', '.js'],
-            modules: ['node_modules']
+            modules: ['node_modules', 'src/main/webapp/content']
         },
         stats: {
             children: false

@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
+import { DEFAULT_LANGUAGE } from './language/language.constants';
 
 @NgModule({
     imports: [
@@ -14,7 +15,7 @@ import { CookieModule } from 'ngx-cookie';
             // set below to true to make alerts look like toast
             alertAsToast: false,
             i18nEnabled: true,
-            defaultI18nLang: 'es'
+            defaultI18nLang: DEFAULT_LANGUAGE
         }),
         InfiniteScrollModule,
         CookieModule.forRoot()
