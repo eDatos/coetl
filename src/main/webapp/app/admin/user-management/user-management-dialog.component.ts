@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { UserModalService } from './user-modal.service';
 import { JhiLanguageHelper, User, UserService, RolService, Rol } from '../../shared';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'jhi-user-mgmt-dialog',
@@ -24,6 +25,8 @@ export class UserMgmtDialogComponent implements OnInit {
         private userService: UserService,
         private eventManager: JhiEventManager,
         private rolService: RolService,
+        private alertService: JhiAlertService,
+        private translateService: TranslateService,
     ) { }
 
     ngOnInit() {
@@ -48,6 +51,19 @@ export class UserMgmtDialogComponent implements OnInit {
         } else {
             this.userService.create(this.user).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         }
+    }
+
+    validarUsuario() {
+        this.userService.buscarUsuarioEnLdap(this.user.login).subscribe(
+            (usuario) => {
+                this.user = usuario;
+            },
+            (error) => {
+                this.alertService.error('',
+                    this.translateService.instant('user.error.notFoundInLdap')
+                );
+            }
+        );
     }
 
     compareRoles(r1: Rol, r2: Rol): boolean {

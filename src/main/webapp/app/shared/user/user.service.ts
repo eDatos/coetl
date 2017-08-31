@@ -36,6 +36,11 @@ export class UserService {
         return this.http.delete(`${this.resourceUrl}/${login}`);
     }
 
+    buscarUsuarioEnLdap(login: string): Observable<User> {
+        return this.http.get(`${this.resourceUrl}/${login}/ldap`)
+            .map((res: Response) => res.json());
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         return new ResponseWrapper(res.headers, jsonResponse, res.status);
