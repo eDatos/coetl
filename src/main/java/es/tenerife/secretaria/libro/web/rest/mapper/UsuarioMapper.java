@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
+import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 
 /**
@@ -74,4 +75,21 @@ public class UsuarioMapper {
 			return auth;
 		}).collect(Collectors.toSet());
 	}
+
+	public UsuarioDTO usuarioLdapEntryToUsuarioDTO(UsuarioLdapEntry usuarioLdapEntry) {
+		if (usuarioLdapEntry == null) {
+			return null;
+		}
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setLogin(usuarioLdapEntry.getNombreUsuario());
+		usuarioDTO.setNombre(usuarioLdapEntry.getNombre());
+		if (usuarioLdapEntry.getApellido1() != null) {
+			usuarioDTO.setApellidos(usuarioLdapEntry.getApellido1() + " " + usuarioLdapEntry.getApellido2());
+		} else {
+			usuarioDTO.setApellidos(usuarioLdapEntry.getApellidos());
+		}
+		usuarioDTO.setEmail(usuarioLdapEntry.getCorreoElectronico());
+		return usuarioDTO;
+	}
+
 }

@@ -28,8 +28,10 @@ import com.codahale.metrics.annotation.Timed;
 
 import es.tenerife.secretaria.libro.config.Constants;
 import es.tenerife.secretaria.libro.domain.Usuario;
+import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
+import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
@@ -86,13 +88,16 @@ public class UsuarioResource extends AbstractResource {
 
 	private UsuarioMapper usuarioMapper;
 
+	private LdapService ldapService;
+
 	public UsuarioResource(UsuarioRepository userRepository, MailService mailService, UsuarioService userService,
-			UsuarioMapper userMapper) {
+			UsuarioMapper userMapper, LdapService ldapService) {
 
 		this.userRepository = userRepository;
 		this.mailService = mailService;
 		this.usuarioService = userService;
 		this.usuarioMapper = userMapper;
+		this.ldapService = ldapService;
 	}
 
 	/**
@@ -201,6 +206,15 @@ public class UsuarioResource extends AbstractResource {
 	public ResponseEntity<UsuarioDTO> getUser(@PathVariable String login) {
 		log.debug("REST request to get User : {}", login);
 		return ResponseUtil.wrapOrNotFound(usuarioService.getUsuarioWithAuthoritiesByLogin(login).map(UsuarioDTO::new));
+	}
+
+	@GetMapping("/users/{login:" + Constants.LOGIN_REGEX + "}/ldap")
+	@Timed
+	public ResponseEntity<UsuarioDTO> getUserFromLdap(@PathVariable String login) {
+		log.debug("REST request to get User from LDAP : {}", login);
+		UsuarioLdapEntry usuarioLdap = ldapService.buscarUsuarioLdap(login);
+		UsuarioDTO usuarioDTO = usuarioMapper.usuarioLdapEntryToUsuarioDTO(usuarioLdap);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(usuarioDTO));
 	}
 
 	/**

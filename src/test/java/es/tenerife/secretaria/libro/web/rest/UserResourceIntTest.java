@@ -38,6 +38,7 @@ import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
+import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
@@ -98,6 +99,9 @@ public class UserResourceIntTest {
 	@Autowired
 	private EntityManager em;
 
+	@Autowired
+	private LdapService ldapService;
+
 	private MockMvc restUserMockMvc;
 
 	private Usuario user;
@@ -105,7 +109,8 @@ public class UserResourceIntTest {
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		UsuarioResource userResource = new UsuarioResource(userRepository, mailService, userService, userMapper);
+		UsuarioResource userResource = new UsuarioResource(userRepository, mailService, userService, userMapper,
+				ldapService);
 		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
 				.setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
 				.setMessageConverters(jacksonMessageConverter).build();

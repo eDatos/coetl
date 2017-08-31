@@ -196,15 +196,15 @@ public class UsuarioDTO {
 
 	}
 
-	protected void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	protected void setApellidos(String lastName) {
+	public void setApellidos(String lastName) {
 		this.apellidos = lastName;
 	}
 
-	protected void setNombre(String firstName) {
+	public void setNombre(String firstName) {
 		this.nombre = firstName;
 	}
 
