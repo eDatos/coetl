@@ -6,19 +6,19 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
         <version>1.5.4.RELEASE</version>
-        <relativePath/>
+        <relativePath />
     </parent>
 
     <groupId>es.tenerife.secretaria.libro</groupId>
     <artifactId>secretaria-libro</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <packaging>war</packaging>
     <name>Secretaria Libro</name>
 
     <scm>
         <connection>scm:git:http://git.arte-consultores.com/ecit/secretaria-libro/</connection>
         <developerConnection>scm:git:http://git.arte-consultores.com/ecit/secretaria-libro/</developerConnection>
-        <tag>HEAD</tag>
+        <tag>20170831134728-v0.0.2</tag>
         <url>http://git.arte-consultores.com/ecit/secretaria-libro</url>
     </scm>
     <issueManagement>
@@ -539,9 +539,9 @@
                     <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <driver>org.postgresql.Driver</driver>
                     <url>jdbc:postgresql://localhost:5432/secretaria_libro</url>
-                    <defaultSchemaName></defaultSchemaName>
+                    <defaultSchemaName />
                     <username>secretaria_libro</username>
-                    <password></password>
+                    <password />
                     <referenceUrl>hibernate:spring:es.tenerife.secretaria.libro.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                     <verbose>true</verbose>
                     <logging>debug</logging>
@@ -646,7 +646,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -660,7 +660,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore/>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
