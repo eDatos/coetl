@@ -8,7 +8,6 @@ import {
     adminState,
     AuditsComponent,
     UserMgmtComponent,
-    UserDialogComponent,
     UserDeleteDialogComponent,
     UserMgmtDetailComponent,
     UserMgmtDialogComponent,
@@ -39,7 +38,6 @@ import {
     declarations: [
         AuditsComponent,
         UserMgmtComponent,
-        UserDialogComponent,
         UserDeleteDialogComponent,
         UserMgmtDetailComponent,
         UserMgmtDialogComponent,
