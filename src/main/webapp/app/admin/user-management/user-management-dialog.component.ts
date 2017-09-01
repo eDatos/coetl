@@ -72,11 +72,11 @@ export class UserDialogComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private userModalService: UserModalService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['login'] ) {
+            if (params['login']) {
                 this.modalRef = this.userModalService.open(UserMgmtDialogComponent as Component, params['login']);
             } else {
                 this.modalRef = this.userModalService.open(UserMgmtDialogComponent as Component);

@@ -70,4 +70,4 @@ import {
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SecretariaLibroAdminModule {}
+export class SecretariaLibroAdminModule { }
