@@ -8,6 +8,7 @@
     min-width: 100%;
     margin-left: -$grid-gutter-width-base / 2;
     margin-right: -$grid-gutter-width-base / 2;
+    margin-bottom: $spacer-y;
 
     thead {
         th {
@@ -39,5 +40,5 @@
         }
     }
 
-    border-bottom: $table-border-width solid $table-border-color;
+    border-bottom: $table-border-width solid $grey-light;
 }
