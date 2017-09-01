@@ -14,7 +14,10 @@ h2 {
 
     background: $grey-lightest;        
     
-    @extend .fixed-top;
-    z-index: $zindex-dropdown - 5; // Dont cover navbar dropdown
-    margin-top: $navbar-height + ($navbar-padding-y)*2;
+    @include make-container();
+    html & {
+        @extend .fixed-top;
+        z-index: $zindex-dropdown - 5; // Dont cover navbar dropdown
+        margin-top: $navbar-height + ($navbar-padding-y)*2;
+    }
 }

@@ -6,7 +6,9 @@
 .table-responsive {
     width: inherit;
     min-width: 100%;
-    @include make-row();
+    margin-left: -$grid-gutter-width-base / 2;
+    margin-right: -$grid-gutter-width-base / 2;
+
     thead {
         th {
             font-weight: $font-weight-light;
