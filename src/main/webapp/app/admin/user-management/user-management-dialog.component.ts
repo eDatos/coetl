@@ -42,6 +42,11 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
             this.load(params['login']);
         });
     }
+
+    isEditMode(): Boolean {
+        return this.route.snapshot.url[this.route.snapshot.url.length - 1].path === 'edit';
+    }
+
     load(login) {
         if (login) {
             this.userService.find(login).subscribe((user) => this.user = user);
@@ -51,7 +56,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     }
 
     clear() {
-        this.router.navigate(['user-management']);
+        this.router.navigate(['user-management', this.user.login]);
     }
 
     save() {
