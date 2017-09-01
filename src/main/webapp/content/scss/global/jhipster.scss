@@ -160,16 +160,20 @@ entity tables helpers
 /* ==========================================================================
 entity detail page css
 ========================================================================== */
-.row.jh-entity-details > {
+.jh-entity-details > {
+    dt {
+        font-weight: $font-weight-normal;
+    }
     dd {
-        margin-bottom: 15px;
+        padding: $input-padding-y $input-padding-x;
+        margin-bottom: $spacer-y;
     }
 }
 
 @media screen and (min-width: 768px) {
     .row.jh-entity-details > {
         dt {
-            margin-bottom: 15px;
+            margin-bottom: $spacer-y;
         }
         dd {
             border-bottom: 1px solid #eee;

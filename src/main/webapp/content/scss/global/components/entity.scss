@@ -21,3 +21,13 @@ h2 {
         margin-top: $navbar-height + ($navbar-padding-y)*2;
     }
 }
+
+fieldset:disabled {
+    .form-control:disabled, .form-control[readonly] {
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid $grey-light;
+        cursor: default;
+        @include appearance(none);
+    }
+}
