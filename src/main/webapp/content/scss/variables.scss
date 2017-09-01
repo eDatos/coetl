@@ -1,7 +1,7 @@
 $white: white;
 $black: black;
 
-$grey-lightest: #f9f9f9;
+$grey-lightest: #f8f8f8;
 $grey-light: #e7e7e7;
 $grey-medium: #c4c4c4;
 $grey-dark: #5A616D;
@@ -15,8 +15,12 @@ $main-dark: #313949;
 $accent-medium: #F94758;
 
 $navbar-height: 30px;
+$navbar-padding-y: 5px;
+$nav-link-padding: $navbar-padding-y 1em;
 
 $font-weight-light: 300;
+
+$entity-header-height: 60px;
 
 // Bootstrap
 $gray-lightest: $grey-lightest;
@@ -39,7 +43,6 @@ $table-border-width: $border-width;
 $table-border-color: $grey-lightest;
 $table-cell-padding: .75rem;
 
-$navbar-padding-y: 0;
 $font-family-sans-serif: "Montserrat", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
 $pagination-border-width: 0;
@@ -61,3 +64,23 @@ $font-size-h6: 1rem;
 $badge-font-weight: $font-weight-normal;
 $badge-padding-x: .5em;
 $badge-padding-y: .3em;
+
+$zindex-dropdown: 1000;
+$zindex-fixed: 1030;
+$zindex-sticky: 1030;
+$grid-gutter-width-base: 30px;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px
+);
+$grid-gutter-widths: (
+    xs: $grid-gutter-width-base,
+    sm: $grid-gutter-width-base,
+    md: $grid-gutter-width-base,
+    lg: $grid-gutter-width-base,
+    xl: $grid-gutter-width-base
+);

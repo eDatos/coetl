@@ -1,4 +1,4 @@
-@import '~scss/variables.scss';
+@import '~scss/variables';
 
 
 /* ==========================================================================
@@ -11,6 +11,11 @@ Navbar
     vertical-align: text-bottom;
 }
 
+.collapse.show {
+    .nav-link {
+        padding-left: 1.5rem;
+    }    
+}
 .jh-navbar {
     background-color: $main-dark;
     .profile-image {
@@ -41,7 +46,7 @@ Navbar
     .jh-navbar-toggler {
         color: $grey-lightest;
         font-size: 1.5em;
-        padding: 10px;
+        padding: $navbar-padding-y;
         vertical-align: middle;
         display: inline-block;
         &:hover {
@@ -56,6 +61,9 @@ Navbar
 }
 
 #account-menu {    
+    &.navbar-toggleable {
+        align-items: unset;
+    }
     .nav-link {    
         padding-right: 0.5em;
         padding-left: 0.5em;
@@ -68,7 +76,7 @@ Logo styles
 ========================================================================== */
 .navbar-brand {
     &.logo {
-        padding: 5px 15px;
+        padding: $navbar-padding-y 15px;
         .logo-img {
             height: $navbar-height;
             width: 70px;

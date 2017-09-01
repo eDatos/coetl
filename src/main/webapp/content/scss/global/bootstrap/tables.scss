@@ -6,6 +6,7 @@
 .table-responsive {
     width: inherit;
     min-width: 100%;
+    @include make-row();
     thead {
         th {
             font-weight: $font-weight-light;
@@ -17,10 +18,10 @@
 
     tr {
         td:first-child, th:first-child {
-            padding-left: $table-cell-padding * 3;
+            padding-left: $grid-gutter-width-base / 2;
         }
         td:last-child, th:last-child {
-            padding-right: $table-cell-padding * 3;
+            padding-right: $grid-gutter-width-base / 2;
         }
     }
 

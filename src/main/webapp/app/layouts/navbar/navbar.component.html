@@ -92,7 +92,7 @@
         </a>
         </div>
 
-        <div class="navbar-nav navbar-toggleable-sm" [ngSwitch]="isAuthenticated()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        <div class="navbar-nav navbar-toggleable" [ngSwitch]="isAuthenticated()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
             id="account-menu">
             <a *ngSwitchCase="false" class="nav-link" (click)="login()" id="login" [title]="'global.menu.account.login' | translate">
                 <i class="fa fa-fw fa-sign-in" aria-hidden="true"></i>
