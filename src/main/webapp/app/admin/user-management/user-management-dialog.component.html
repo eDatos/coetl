@@ -1,12 +1,30 @@
-<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" *ngIf="user">
 
-    <div class="modal-header">
-        <h4 class="modal-title" id="myUserLabel" jhiTranslate="userManagement.home.createOrEditLabel">
-            Create or edit a User</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
-    </div>
-    <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
+    <h2 id="myUserLabel">
+        <div>
+            <button *ngIf="!isEditMode()" type="button" routerLink="/user-management" class="btn btn-secondary btn-frameless" [attr.aria-label]="'entity.action.back' | translate">
+                        <span class="fa fa-arrow-left"></span>
+                    </button>
+            <span *ngIf="!user.id" jhiTranslate="userManagement.home.createLabel">Create a User</span>
+            <span *ngIf="user.id">
+                        <span jhiTranslate="userManagement.detail.title">User</span> [<b>{{user.login}}</b>]
+            </span>
+        </div>
+        <div>
+            <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']">
+                        <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
+                    </button>
+            <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                        <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                    </button>
+            <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                        <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                    </button>
+        </div>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+    <fieldset [disabled]="!isEditMode()">
         <div class="form-group" [hidden]="!user.id">
             <label jhiTranslate="global.field.id">ID</label>
             <input type="text" class="form-control" name="id" [(ngModel)]="user.id" readonly>
@@ -106,13 +124,16 @@
             </select>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-            <span class="fa fa-ban"></span>&nbsp;<span
-            jhiTranslate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" [disabled]="editForm.form.invalid || isSaving || !usuarioValido" class="btn btn-primary">
-            <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-        </button>
-    </div>
+
+        <dl class="row-md jh-entity-details">
+            <dt><label jhiTranslate="userManagement.createdBy">Created By</label></dt>
+            <dd>{{user.createdBy}}</dd>
+            <dt><label jhiTranslate="userManagement.createdDate">Created Date</label></dt>
+            <dd>{{user.createdDate | date:'dd/MM/yy HH:mm' }}</dd>
+            <dt><label jhiTranslate="userManagement.lastModifiedBy">Last Modified By</label></dt>
+            <dd>{{user.lastModifiedBy}}</dd>
+            <dt><label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label></dt>
+            <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
+        </dl>
+    </fieldset>
 </form>

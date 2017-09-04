@@ -1,0 +1,8 @@
+@import 'variables';
+@import 'node_modules/bootstrap/scss/_mixins';
+
+@mixin appearance($appearance...) {
+    appearance: $appearance;
+    -moz-appearance: $appearance; /* Firefox */
+    -webkit-appearance: $appearance; /* Safari and Chrome */
+}

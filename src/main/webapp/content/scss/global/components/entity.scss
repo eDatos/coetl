@@ -1,0 +1,33 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+@import 'node_modules/bootstrap/scss/utilities/_position';
+
+// Jhipster always generates the same layout. We can trust h2 is where is needed
+h2 {
+    display: flex;
+    align-items: center;        
+    justify-content: space-between;
+    span {
+        justify-content: unset;
+    }
+    line-height: $entity-header-height;
+
+    background: $grey-lightest;        
+    
+    @include make-container();
+    html & {
+        @extend .fixed-top;
+        z-index: $zindex-dropdown - 5; // Dont cover navbar dropdown
+        margin-top: $navbar-height + ($navbar-padding-y)*2;
+    }
+}
+
+fieldset:disabled {
+    .form-control:disabled, .form-control[readonly] {
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid $grey-light;
+        cursor: default;
+        @include appearance(none);
+    }
+}

@@ -1,31 +1,32 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { UserModalService } from './user-modal.service';
 import { JhiLanguageHelper, User, UserService, RolService, Rol } from '../../shared';
-import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs/Rx';
 
 @Component({
     selector: 'jhi-user-mgmt-dialog',
     templateUrl: './user-management-dialog.component.html'
 })
-export class UserMgmtDialogComponent implements OnInit {
+export class UserMgmtDialogComponent implements OnInit, OnDestroy {
 
     user: User;
     languages: any[];
     roles: any[];
     isSaving: Boolean;
     usuarioValido = false;
+    private subscription: Subscription;
 
     constructor(
-        public activeModal: NgbActiveModal,
         private languageHelper: JhiLanguageHelper,
         private userService: UserService,
         private eventManager: JhiEventManager,
         private rolService: RolService,
+        private route: ActivatedRoute,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -34,20 +35,43 @@ export class UserMgmtDialogComponent implements OnInit {
         this.rolService.roles().subscribe((roles) => {
             this.roles = roles;
         });
+
         this.languageHelper.getAll().then((languages) => {
             this.languages = languages;
         });
-        if (!!this.user.login) {
-            this.userService.buscarUsuarioEnLdap(this.user.login).subscribe((usuario) => {
-                if (!!usuario) {
-                    this.usuarioValido = true;
-                }
+
+        this.subscription = this.route.params.subscribe((params) => {
+            this.load(params['login']);
+        });
+    }
+
+    isEditMode(): Boolean {
+        const lastPath = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
+        return lastPath === 'edit' || lastPath === 'user-management-new';
+    }
+
+    load(login) {
+        if (login) {
+            this.userService.find(login).subscribe((user) => {
+                this.user = user;
+                this.userService.buscarUsuarioEnLdap(this.user.login).subscribe((usuarioLdap) => {
+                    if (!!usuarioLdap) {
+                        this.usuarioValido = true;
+                    }
+                });
             });
+        } else {
+            this.user = new User();
         }
     }
 
     clear() {
-        this.activeModal.dismiss('cancel');
+        // const with arrays: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
+        const returnPath = ['user-management'];
+        if (this.user.login) {
+            returnPath.push(this.user.login);
+        }
+        this.router.navigate(returnPath);
     }
 
     save() {
@@ -78,39 +102,13 @@ export class UserMgmtDialogComponent implements OnInit {
     private onSaveSuccess(result) {
         this.eventManager.broadcast({ name: 'userListModification', content: 'OK' });
         this.isSaving = false;
-        this.activeModal.dismiss(result);
+        this.router.navigate(['user-management']);
     }
 
     private onSaveError() {
         this.isSaving = false;
     }
-}
-
-@Component({
-    selector: 'jhi-user-dialog',
-    template: ''
-})
-export class UserDialogComponent implements OnInit, OnDestroy {
-
-    modalRef: NgbModalRef;
-    routeSub: any;
-
-    constructor(
-        private route: ActivatedRoute,
-        private userModalService: UserModalService
-    ) { }
-
-    ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-            if (params['login']) {
-                this.modalRef = this.userModalService.open(UserMgmtDialogComponent as Component, params['login']);
-            } else {
-                this.modalRef = this.userModalService.open(UserMgmtDialogComponent as Component);
-            }
-        });
-    }
-
     ngOnDestroy() {
-        this.routeSub.unsubscribe();
+        this.subscription.unsubscribe();
     }
 }

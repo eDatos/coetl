@@ -1,7 +1,7 @@
 $white: white;
 $black: black;
 
-$grey-lightest: #f9f9f9;
+$grey-lightest: #f8f8f8;
 $grey-light: #e7e7e7;
 $grey-medium: #c4c4c4;
 $grey-dark: #5A616D;
@@ -15,8 +15,12 @@ $main-dark: #313949;
 $accent-medium: #F94758;
 
 $navbar-height: 30px;
+$navbar-padding-y: 5px;
+$nav-link-padding: $navbar-padding-y 1em;
 
 $font-weight-light: 300;
+
+$entity-header-height: 60px;
 
 // Bootstrap
 $gray-lightest: $grey-lightest;
@@ -28,17 +32,21 @@ $gray-dark: $grey-darkest;
 $font-weight-normal: 400;
 $font-weight-bold: 600;
 
-$btn-primary-color: $grey-dark;
-$btn-primary-bg: $white;
-$btn-primary-border: $grey-medium;
+$btn-primary-color: $white;
+$btn-primary-bg: $main-light;
+$btn-primary-border: $main-medium;
+
+$btn-secondary-color: $grey-dark;
+$btn-secondary-bg: $white;
+$btn-secondary-border: $grey-medium;
 
 $border-width: 1px;
 
 $table-bg-hover: $grey-lightest;
 $table-border-width: $border-width;
-$table-border-color: $gray-lighter;
+$table-border-color: $grey-lightest;
+$table-cell-padding: .75rem;
 
-$navbar-padding-y: 0;
 $font-family-sans-serif: "Montserrat", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
 $pagination-border-width: 0;
@@ -47,3 +55,41 @@ $pagination-active-color: $pagination-color;
 $pagination-active-bg: transparent;
 $pagination-active-border: $pagination-active-bg;
 $pagination-disabled-color: $grey-medium;
+
+$enable-transitions: true;
+
+$font-size-h1: 2rem;
+$font-size-h2: 1.8rem;
+$font-size-h3: 1.6rem;
+$font-size-h4: 1.4rem;
+$font-size-h5: 1.2rem;
+$font-size-h6: 1rem;
+
+$badge-font-weight: $font-weight-normal;
+$badge-padding-x: .5em;
+$badge-padding-y: .3em;
+
+$zindex-dropdown: 1000;
+$zindex-fixed: 1030;
+$zindex-sticky: 1030;
+$grid-gutter-width-base: 30px;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px
+);
+$grid-gutter-widths: (
+    xs: $grid-gutter-width-base,
+    sm: $grid-gutter-width-base,
+    md: $grid-gutter-width-base,
+    lg: $grid-gutter-width-base,
+    xl: $grid-gutter-width-base
+);
+
+$spacer-y: 1rem;
+
+$input-padding-x: .75rem;
+$input-padding-y: .5rem;
