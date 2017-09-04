@@ -26,6 +26,7 @@
         td:last-child, th:last-child {
             padding-right: $grid-gutter-width-base / 2;
         }
+        cursor: pointer;
     }
 
     .flex-btn-group-container {

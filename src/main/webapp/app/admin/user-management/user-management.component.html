@@ -10,7 +10,6 @@
         <table class="table table-hover">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <span class="fa fa-sort"></span></th>
                     <th></th>
@@ -23,8 +22,7 @@
                 </tr>
             </thead>
             <tbody *ngIf="users">
-                <tr *ngFor="let user of users; trackBy: trackIdentity">
-                    <td><a [routerLink]="['../user-management', user.login]">{{user.id}}</a></td>
+                <tr *ngFor="let user of users; trackBy: trackIdentity" [routerLink]="['../user-management', user.login]">
                     <td>{{user.login}}</td>
                     <td>{{user.email}}</td>
                     <td>
@@ -42,7 +40,7 @@
                     <td>{{user.lastModifiedBy}}</td>
                     <td>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</td>
                     <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
+                        <div class="btn-group flex-btn-group-container" (click)="$event.stopPropagation()">
                             <button type="submit" [routerLink]="['../user-management', user.login]" class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                             <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
