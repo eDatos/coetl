@@ -33,11 +33,31 @@ fieldset {
             @include make-col(6);
         }
     }
+
+    .form-group {
+        .form-control:required {
+            border-left: $border-width*5 solid $accent-dark;
+        }
+        .form-control:required.ng-valid, .ng-valid[required], .ng-valid.required  {
+            border-left: $border-width*5 solid $brand-success;
+        }        
+        .ng-touched.ng-invalid:not(form),
+        .ng-dirty.ng-invalid:not(form) {
+            border-bottom: $border-width*2 solid $accent-medium;
+        }            
+
+        small.form-text.text-danger {
+            position: absolute;
+            font-size: 62%;
+            margin-top: 0;
+        }
+    }    
+
     &:disabled {
         .form-control:disabled, .form-control[readonly] {
             background-color: transparent;
             border: none;
-            border-bottom: 1px solid $grey-light;
+            border-bottom: $border-width solid $grey-light;
             cursor: default;
             @include appearance(none);
             option:disabled {
