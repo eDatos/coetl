@@ -15,7 +15,7 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 export class OperacionComponent implements OnInit, OnDestroy {
 
     currentAccount: any;
-    operaciones: Operacion[];
+    operaciones: Operacion[] = [];
     error: any;
     success: any;
     eventSubscriber: Subscription;
@@ -116,7 +116,6 @@ export class OperacionComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
-        // this.page = pagingParams.page;
         this.operaciones = data;
     }
     private onError(error) {

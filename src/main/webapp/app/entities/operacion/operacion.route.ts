@@ -5,8 +5,7 @@ import { UserRouteAccessService } from '../../shared';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { OperacionComponent } from './operacion.component';
-import { OperacionDetailComponent } from './operacion-detail.component';
-import { OperacionPopupComponent } from './operacion-dialog.component';
+import { OperacionPopupComponent, OperacionDialogComponent } from './operacion-dialog.component';
 import { OperacionDeletePopupComponent } from './operacion-delete-dialog.component';
 
 @Injectable()
@@ -39,36 +38,34 @@ export const operacionRoute: Routes = [
         canActivate: [UserRouteAccessService]
     }, {
         path: 'operacion/:id',
-        component: OperacionDetailComponent,
+        component: OperacionDialogComponent,
         data: {
             roles: ['ROLE_USER'],
             pageTitle: 'secretariaLibroApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService]
-    }
-];
-
-export const operacionPopupRoute: Routes = [
+    },
     {
         path: 'operacion-new',
-        component: OperacionPopupComponent,
+        component: OperacionDialogComponent,
         data: {
             roles: ['ROLE_USER'],
             pageTitle: 'secretariaLibroApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService],
-        outlet: 'popup'
     },
     {
         path: 'operacion/:id/edit',
-        component: OperacionPopupComponent,
+        component: OperacionDialogComponent,
         data: {
             roles: ['ROLE_USER'],
             pageTitle: 'secretariaLibroApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService],
-        outlet: 'popup'
     },
+];
+
+export const operacionPopupRoute: Routes = [
     {
         path: 'operacion/:id/delete',
         component: OperacionDeletePopupComponent,

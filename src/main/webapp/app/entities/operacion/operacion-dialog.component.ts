@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Response } from '@angular/http';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
@@ -17,30 +17,47 @@ import { UserService, RolService } from '../../shared/index';
 })
 export class OperacionDialogComponent implements OnInit {
 
-    operacion: Operacion;
+    operacion: Operacion = new Operacion();
     isSaving: boolean;
     roles: any[];
 
+    private subscription: Subscription;
+
     constructor(
-        public activeModal: NgbActiveModal,
+        // public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private operacionService: OperacionService,
         private eventManager: JhiEventManager,
         private userService: UserService,
         private rolService: RolService,
+        private route: ActivatedRoute,
+        private router: Router,
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
+
+        this.subscription = this.route.params.subscribe((params) => {
+            this.load(params['id']);
+        });
+
         this.roles = [];
         this.rolService.roles().subscribe((roles) => {
             this.roles = roles;
         });
     }
 
+    load(id) {
+        if (id) {
+            this.operacionService.find(id).subscribe((operacion) => this.operacion = operacion);
+        } else {
+            this.operacion = new Operacion();
+        }
+    }
+
     clear() {
-        this.activeModal.dismiss('cancel');
+        this.back();
     }
 
     save() {
@@ -54,6 +71,10 @@ export class OperacionDialogComponent implements OnInit {
         }
     }
 
+    private back() {
+        this.router.navigate(['operacion']);
+    }
+
     private subscribeToSaveResponse(result: Observable<Operacion>) {
         result.subscribe((res: Operacion) =>
             this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
@@ -62,7 +83,7 @@ export class OperacionDialogComponent implements OnInit {
     private onSaveSuccess(result: Operacion) {
         this.eventManager.broadcast({ name: 'operacionListModification', content: 'OK' });
         this.isSaving = false;
-        this.activeModal.dismiss(result);
+        this.back();
     }
 
     private onSaveError(error) {

@@ -6,7 +6,6 @@ import {
     OperacionService,
     OperacionPopupService,
     OperacionComponent,
-    OperacionDetailComponent,
     OperacionDialogComponent,
     OperacionPopupComponent,
     OperacionDeletePopupComponent,
@@ -28,7 +27,6 @@ const ENTITY_STATES = [
     ],
     declarations: [
         OperacionComponent,
-        OperacionDetailComponent,
         OperacionDialogComponent,
         OperacionDeleteDialogComponent,
         OperacionPopupComponent,
@@ -48,4 +46,4 @@ const ENTITY_STATES = [
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SecretariaLibroOperacionModule {}
+export class SecretariaLibroOperacionModule { }

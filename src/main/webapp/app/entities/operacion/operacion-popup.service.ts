@@ -40,13 +40,13 @@ export class OperacionPopupService {
     }
 
     operacionModalRef(component: Component, operacion: Operacion): NgbModalRef {
-        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
+        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static' });
         modalRef.componentInstance.operacion = operacion;
         modalRef.result.then((result) => {
-            this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
+            this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true });
             this.ngbModalRef = null;
         }, (reason) => {
-            this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
+            this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true });
             this.ngbModalRef = null;
         });
         return modalRef;
