@@ -31,8 +31,7 @@ import {
     UserResolve,
     UserModalService
 } from './';
-import { RolMgmtDetailComponent } from './rol-management/rol-management-detail.component';
-import { RolMgmtDialogComponent, RolDialogComponent } from './rol-management/rol-management-dialog.component';
+import { RolMgmtDialogComponent } from './rol-management/rol-management-dialog.component';
 import { RolMgmtDeleteDialogComponent, RolDeleteDialogComponent } from './rol-management/rol-management-delete-dialog.component';
 
 @NgModule({
@@ -44,8 +43,6 @@ import { RolMgmtDeleteDialogComponent, RolDeleteDialogComponent } from './rol-ma
     declarations: [
         AuditsComponent,
         RolMgmtComponent,
-        RolDialogComponent,
-        RolMgmtDetailComponent,
         RolMgmtDialogComponent,
         RolDeleteDialogComponent,
         RolMgmtDeleteDialogComponent,

@@ -1,16 +1,30 @@
-<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" *ngIf="!!rol">
 
-    <div class="modal-header">
-        <h4 class="modal-title" id="myRolLabel" jhiTranslate="rolManagement.home.createOrEditLabel">
-            Create or edit a Rol</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
-    </div>
-    <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!rol.id">
-            <label jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" name="id" [(ngModel)]="rol.id" readonly>
+    <h2 id="myRolLabel">
+        <div>
+            <button *ngIf="!isEditMode()" type="button" routerLink="/rol-management" class="btn btn-secondary btn-frameless" [attr.aria-label]="'entity.action.back' | translate">
+                        <span class="fa fa-arrow-left"></span>
+                    </button>
+            <span *ngIf="!rol.nombre" jhiTranslate="rolManagement.home.createLabel">Crear rol</span>
+            <span *ngIf="rol.nombre">
+                        <span jhiTranslate="rolManagement.detail.title">Rol</span> [<b>{{rol.nombre}}</b>]
+            </span>
         </div>
+        <div>
+            <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/rol-management', rol.nombre, 'editar']">
+                        <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
+                    </button>
+            <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                        <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                    </button>
+            <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                        <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                    </button>
+        </div>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+    <fieldset [disabled]="!isEditMode()">
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="rolManagement.nombre">Nombre</label>
@@ -29,14 +43,5 @@
                 <option  *ngFor="let operacion of operaciones;trackBy:id" [ngValue]="operacion">{{operacion.accion}} - {{operacion.sujeto}}</option>
             </select>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-            <span class="fa fa-ban"></span>&nbsp;<span
-            jhiTranslate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-            <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-        </button>
-    </div>
+    </fieldset>
 </form>

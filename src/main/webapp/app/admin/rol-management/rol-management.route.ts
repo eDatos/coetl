@@ -4,8 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActiva
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { RolMgmtComponent } from './rol-management.component';
-import { RolMgmtDetailComponent } from './rol-management-detail.component';
-import { RolDialogComponent } from './rol-management-dialog.component';
+import { RolMgmtDialogComponent } from './rol-management-dialog.component';
 import { RolDeleteDialogComponent } from './rol-management-delete-dialog.component';
 
 import { Principal } from '../../shared';
@@ -49,24 +48,22 @@ export const rolMgmtRoute: Routes = [
     },
     {
         path: 'rol-management/:nombre',
-        component: RolMgmtDetailComponent,
+        component: RolMgmtDialogComponent,
         data: {
             pageTitle: 'rolManagement.home.title'
         }
-    }
-];
-
-export const rolDialogRoute: Routes = [
+    },
     {
         path: 'rol-management-nuevo',
-        component: RolDialogComponent,
-        outlet: 'popup'
+        component: RolMgmtDialogComponent,
     },
     {
         path: 'rol-management/:nombre/editar',
-        component: RolDialogComponent,
-        outlet: 'popup'
+        component: RolMgmtDialogComponent,
     },
+];
+
+export const rolDialogRoute: Routes = [
     {
         path: 'rol-management/:nombre/borrar',
         component: RolDeleteDialogComponent,
