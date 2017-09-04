@@ -22,12 +22,28 @@ h2 {
     }
 }
 
-fieldset:disabled {
-    .form-control:disabled, .form-control[readonly] {
-        background-color: transparent;
-        border: none;
-        border-bottom: 1px solid $grey-light;
-        cursor: default;
-        @include appearance(none);
+
+fieldset {
+    @include make-container();
+    .entity-fields {    
+        padding-top: $spacer-y;
+        @include make-row();
+        .entity-fields-col {
+            @include make-col-ready();
+            @include make-col(6);
+        }
+    }
+    &:disabled {
+        .form-control:disabled, .form-control[readonly] {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid $grey-light;
+            cursor: default;
+            @include appearance(none);
+            option:disabled {
+                color: red;
+                background-color: blue;
+            }
+        }
     }
 }

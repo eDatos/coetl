@@ -25,6 +25,8 @@
 
     <jhi-alert-error></jhi-alert-error>
     <fieldset [disabled]="!isEditMode()">
+        <div class="entity-fields">
+            <div class="entity-fields-col">
 
         <div class="form-group" [hidden]="!user.id">
             <label jhiTranslate="global.field.id">ID</label>
@@ -105,6 +107,8 @@
         <div class="form-group">
             <label jhiTranslate="userManagement.profiles">Profiles</label>
             <select class="form-control" multiple name="authority" [(ngModel)]="user.authorities">
+            </div>
+            <div class="entity-fields-col">
                         <option *ngFor="let authority of authorities" [value]="authority">{{authority}}</option>
                     </select>
         </div>
@@ -119,5 +123,7 @@
             <dt><label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label></dt>
             <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
         </dl>
+            </div>
+        </div>
     </fieldset>
 </form>
