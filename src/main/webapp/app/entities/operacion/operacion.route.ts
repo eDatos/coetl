@@ -5,7 +5,7 @@ import { UserRouteAccessService } from '../../shared';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { OperacionComponent } from './operacion.component';
-import { OperacionPopupComponent, OperacionDialogComponent } from './operacion-dialog.component';
+import { OperacionDialogComponent } from './operacion-dialog.component';
 import { OperacionDeletePopupComponent } from './operacion-delete-dialog.component';
 
 @Injectable()

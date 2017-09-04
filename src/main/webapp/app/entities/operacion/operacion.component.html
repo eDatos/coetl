@@ -1,7 +1,7 @@
 <div>
     <h2>
         <span jhiTranslate="secretariaLibroApp.operacion.home.title">operaciones</span>
-        <button class="btn btn-primary float-right jh-create-entity create-operacion" [routerLink]="['/operacion-new']">
+        <button class="btn btn-secondary float-right jh-create-entity create-operacion" [routerLink]="['/operacion-new']">
             <span class="fa fa-plus"></span>
             <span  jhiTranslate="secretariaLibroApp.operacion.home.createLabel">
             Create new Operacion
@@ -13,10 +13,9 @@
     </div>
     <br/>
     <div class="table-responsive" *ngIf="operaciones">
-        <table class="table table-striped">
+        <table class="table table-hover">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="accion"><span jhiTranslate="secretariaLibroApp.operacion.accion">Accion</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="sujeto"><span jhiTranslate="secretariaLibroApp.operacion.sujeto">Sujeto</span> <span class="fa fa-sort"></span></th>
                     <th><span jhiTranslate="secretariaLibroApp.operacion.roles.roles">Roles</span></th>
@@ -24,8 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let operacion of operaciones ;trackBy: trackId">
-                    <td><a [routerLink]="['../operacion', operacion.id ]">{{operacion.id}}</a></td>
+                <tr *ngFor="let operacion of operaciones ;trackBy: trackId" [routerLink]="['../operacion', operacion.id ]">
                     <td>{{operacion.accion}}</td>
                     <td>{{operacion.sujeto}}</td>
                     <td>
@@ -33,7 +31,7 @@
                             <span class="badge badge-info">{{rol}}</span>
                         </ng-container>
                     </td>
-                    <td class="text-right">
+                    <td class="text-right" (click)="$event.stopPropagation()">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit" [routerLink]="['../operacion', operacion.id ]" class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>

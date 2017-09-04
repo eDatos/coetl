@@ -3,7 +3,7 @@
         "operacion": {
             "home": {
                 "title": "Operaciones",
-                "createLabel": "Crear nuevo Operacion",
+                "createLabel": "Crear nueva Operacion",
                 "createOrEditLabel": "Crear o editar Operacion"
             },
             "created": "Un nuevo Operacion ha sido creado con el identificador {{ param }}",

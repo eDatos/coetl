@@ -57,7 +57,11 @@ export class OperacionDialogComponent implements OnInit {
     }
 
     clear() {
-        this.back();
+        const returnPath = ['operacion'];
+        if (this.operacion.id) {
+            returnPath.push(this.operacion.id.toString());
+        }
+        this.router.navigate(returnPath);
     }
 
     save() {
@@ -69,6 +73,11 @@ export class OperacionDialogComponent implements OnInit {
             this.subscribeToSaveResponse(
                 this.operacionService.create(this.operacion));
         }
+    }
+
+    isEditMode(): Boolean {
+        const lastPath = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
+        return lastPath === 'edit' || lastPath === 'operacion-new';
     }
 
     private back() {
@@ -98,35 +107,5 @@ export class OperacionDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
-    }
-}
-
-@Component({
-    selector: 'jhi-operacion-popup',
-    template: ''
-})
-export class OperacionPopupComponent implements OnInit, OnDestroy {
-
-    routeSub: any;
-
-    constructor(
-        private route: ActivatedRoute,
-        private operacionPopupService: OperacionPopupService
-    ) { }
-
-    ngOnInit() {
-        this.routeSub = this.route.params.subscribe((params) => {
-            if (params['id']) {
-                this.operacionPopupService
-                    .open(OperacionDialogComponent as Component, params['id']);
-            } else {
-                this.operacionPopupService
-                    .open(OperacionDialogComponent as Component);
-            }
-        });
-    }
-
-    ngOnDestroy() {
-        this.routeSub.unsubscribe();
     }
 }
