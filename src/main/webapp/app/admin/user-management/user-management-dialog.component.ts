@@ -57,7 +57,12 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     }
 
     clear() {
-        this.router.navigate(['user-management', this.user.login]);
+        // const with arrays: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
+        const returnPath = ['user-management'];
+        if (this.user.login) {
+            returnPath.push(this.user.login);
+        }
+        this.router.navigate(returnPath);
     }
 
     save() {
