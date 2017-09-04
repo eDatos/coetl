@@ -54,7 +54,7 @@ export const rolMgmtRoute: Routes = [
         }
     },
     {
-        path: 'rol-management-nuevo',
+        path: 'rol-management-new',
         component: RolMgmtDialogComponent,
     },
     {

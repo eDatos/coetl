@@ -11,7 +11,6 @@
         <table class="table table-hover">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <span class="fa fa-sort"></span></th>
                     <th jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <span class="fa fa-sort"></span></th>
                     <th></th>
@@ -25,9 +24,9 @@
                 </tr>
             </thead>
             <tbody *ngIf="users">
-                <ng-container *ngFor="let user of users; trackBy: trackIdentity">
-                    <tr [ngClass]="{'deleted': !!user.deletionDate }">
-                        <td><a [routerLink]="['../user-management', user.login]">{{user.id}}</a></td>
+                <ng-container *ngFor="let user of users; trackBy: trackIdentity" >
+                    <tr [ngClass]="{'deleted': !!user.deletionDate }" [routerLink]="['../user-management', user.login]">
+                        <td>{{user.id}}</td>
                         <td>{{user.login}}</td>
                         <td>{{user.email}}</td>
                         <td>
