@@ -44,7 +44,8 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     }
 
     isEditMode(): Boolean {
-        return this.route.snapshot.url[this.route.snapshot.url.length - 1].path === 'edit';
+        const lastPath = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
+        return lastPath === 'edit' || lastPath === 'user-management-new';
     }
 
     load(login) {

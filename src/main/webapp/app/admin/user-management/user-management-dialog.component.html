@@ -2,9 +2,9 @@
 
     <h2 id="myUserLabel">
         <div>
-            <button *ngIf="!isEditMode()" type="button" routerLink="/user-management" class="btn btn-info">
-                <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-            </button>
+            <button *ngIf="!isEditMode()" type="button" routerLink="/user-management" class="btn btn-secondary btn-frameless" [attr.aria-label]="'entity.action.back' | translate">
+                        <span class="fa fa-arrow-left"></span>
+                    </button>
             <span *ngIf="!user.id" jhiTranslate="userManagement.home.createLabel">Create a User</span>
             <span *ngIf="user.id">
                 <span jhiTranslate="userManagement.detail.title">User</span> [<b>{{user.login}}</b>]
@@ -110,13 +110,13 @@
         </div>
 
         <dl class="row-md jh-entity-details">
-            <dt><span jhiTranslate="userManagement.createdBy">Created By</span></dt>
+            <dt><label jhiTranslate="userManagement.createdBy">Created By</label></dt>
             <dd>{{user.createdBy}}</dd>
-            <dt><span jhiTranslate="userManagement.createdDate">Created Date</span></dt>
+            <dt><label jhiTranslate="userManagement.createdDate">Created Date</label></dt>
             <dd>{{user.createdDate | date:'dd/MM/yy HH:mm' }}</dd>
-            <dt><span jhiTranslate="userManagement.lastModifiedBy">Last Modified By</span></dt>
+            <dt><label jhiTranslate="userManagement.lastModifiedBy">Last Modified By</label></dt>
             <dd>{{user.lastModifiedBy}}</dd>
-            <dt><span jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</span></dt>
+            <dt><label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label></dt>
             <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
         </dl>
     </fieldset>

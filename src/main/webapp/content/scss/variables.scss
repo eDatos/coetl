@@ -32,9 +32,13 @@ $gray-dark: $grey-darkest;
 $font-weight-normal: 400;
 $font-weight-bold: 600;
 
-$btn-primary-color: $grey-dark;
-$btn-primary-bg: $white;
-$btn-primary-border: $grey-medium;
+$btn-primary-color: $white;
+$btn-primary-bg: $main-light;
+$btn-primary-border: $main-medium;
+
+$btn-secondary-color: $grey-dark;
+$btn-secondary-bg: $white;
+$btn-secondary-border: $grey-medium;
 
 $border-width: 1px;
 
