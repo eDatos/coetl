@@ -49,9 +49,7 @@ public class UsuarioService {
 	}
 
 	public Usuario createUsuario(@NotNull Usuario user) {
-		if (ldapService.buscarUsuarioLdap(user.getLogin()) == null) {
-			throw new CustomParameterizedException("userManagement.usuario-ldap-no-encontrado", user.getLogin());
-		}
+		validarUsuarioLdap(user);
 		Usuario newUser = new Usuario();
 		newUser.setLogin(user.getLogin());
 		newUser.setNombre(user.getNombre());
@@ -93,6 +91,7 @@ public class UsuarioService {
 	public void updateUsuario(String firstName, String apellido1, String apellido2, String email, String langKey,
 			String imageUrl) {
 		userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
+			validarUsuarioLdap(user);
 			user.setNombre(firstName);
 			user.setApellido1(apellido1);
 			user.setApellido2(apellido2);
@@ -112,6 +111,7 @@ public class UsuarioService {
 	 */
 	public Optional<Usuario> updateUsuario(Usuario userDTO) {
 		return Optional.of(userRepository.findOneByIdAndDeletionDateIsNull(userDTO.getId())).map(user -> {
+			validarUsuarioLdap(user);
 			user.setLogin(userDTO.getLogin());
 			user.setNombre(userDTO.getNombre());
 			user.setApellido1(userDTO.getApellido1());
@@ -173,6 +173,12 @@ public class UsuarioService {
 		for (Usuario user : users) {
 			log.debug("Deleting not activated user {}", user.getLogin());
 			deleteUsuario(user.getLogin());
+		}
+	}
+
+	private void validarUsuarioLdap(Usuario user) {
+		if (ldapService.buscarUsuarioLdap(user.getLogin()) == null) {
+			throw new CustomParameterizedException("error.userManagement.usuario-ldap-no-encontrado", user.getLogin());
 		}
 	}
 
