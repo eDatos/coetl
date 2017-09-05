@@ -68,6 +68,17 @@ fieldset {
     }
 }
 
+.entity-search {
+    @include make-row();
+    .entity-search-field {        
+        @include make-col-ready();
+        @include make-col(3);
+        .form-group {
+            display: flex;
+        }
+    }
+}
+
 .entity-list-empty {
     text-align: center;
     padding: $spacer-y 0;
