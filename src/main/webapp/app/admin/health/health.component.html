@@ -23,9 +23,11 @@
                         </span>
                     </td>
                     <td class="text-center">
-                        <a class="hand" (click)="showHealth(health)" *ngIf="health.details || health.error">
-                            <i class="fa fa-eye"></i>
-                        </a>
+                        <div class="flex-btn-group-container">
+                            <a class="hand" (click)="showHealth(health)" *ngIf="health.details || health.error">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             </tbody>
