@@ -2,46 +2,47 @@
 @import '~scss/mixins';
 
 // Bootstrap table overrides
-
-.table-responsive {
-    width: inherit;
-    min-width: 100%;
-    margin-left: -$grid-gutter-width-base / 2;
-    margin-right: -$grid-gutter-width-base / 2;
-    margin-bottom: $spacer-y;
-
-    thead {
-        th {
-            font-weight: $font-weight-light;
-            text-transform: uppercase;
-            color: $grey-darkest;
-            border-bottom: ($table-border-width)*3 double $grey-light;      
-            border-top: none;
-            background: $white;
+.jh-card {
+    .table-responsive {
+        width: inherit;
+        min-width: 100%;
+        margin-left: -$grid-gutter-width-base / 2;
+        margin-right: -$grid-gutter-width-base / 2;
+        margin-bottom: $spacer-y;
+        
+        thead {
+            th {
+                font-weight: $font-weight-light;
+                text-transform: uppercase;
+                color: $grey-darkest;
+                border-bottom: ($table-border-width)*3 double $grey-light;      
+                border-top: none;
+                background: $white;
+            }
         }
-    }
-
-    tr {
-        td:first-child, th:first-child {
-            padding-left: $grid-gutter-width-base / 2;
+        
+        tr {
+            td:first-child, th:first-child {
+                padding-left: $grid-gutter-width-base / 2;
+            }
+            td:last-child, th:last-child {
+                padding-right: $grid-gutter-width-base / 2;
+            }
+            cursor: pointer;
         }
-        td:last-child, th:last-child {
-            padding-right: $grid-gutter-width-base / 2;
-        }
-        cursor: pointer;
-    }
-
-    .flex-btn-group-container {
-        visibility: hidden;
-        .btn {
-            @include transition(opacity 0s);
-        }
-    }
-    tr:hover {
+        
         .flex-btn-group-container {
-            visibility: inherit;
+            visibility: hidden;
+            .btn {
+                @include transition(opacity 0s);
+            }
         }
+        tr:hover {
+            .flex-btn-group-container {
+                visibility: inherit;
+            }
+        }
+        
+        border-bottom: $table-border-width solid $grey-light;
     }
-
-    border-bottom: $table-border-width solid $grey-light;
 }
