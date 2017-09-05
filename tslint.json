@@ -109,13 +109,19 @@
         "directive-selector": [
             true,
             "attribute",
-            "jhi",
+            [
+                "jhi",
+                "ac"
+            ],
             "camelCase"
         ],
         "component-selector": [
             true,
             "element",
-            "jhi",
+            [
+                "jhi",
+                "ac"
+            ],
             "kebab-case"
         ],
         "use-input-property-decorator": true,

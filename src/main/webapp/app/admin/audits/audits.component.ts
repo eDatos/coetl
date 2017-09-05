@@ -8,8 +8,9 @@ import { ITEMS_PER_PAGE } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
-  selector: 'jhi-audit',
-  templateUrl: './audits.component.html'
+    selector: 'jhi-audit',
+    templateUrl: './audits.component.html',
+    styleUrls: ['audits.component.scss']
 })
 export class AuditsComponent implements OnInit {
     audits: Audit[];

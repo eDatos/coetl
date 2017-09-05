@@ -1,7 +1,7 @@
 <div *ngIf="audits">
     <h2 jhiTranslate="audits.title">Audits</h2>
 
-    <div class="entity-search">
+    <div class="entity-search audits-search">
         <div class="entity-search-field date">
             <label jhiTranslate="audits.filter.title">Filter by date</label>
             <div class="form-group">
@@ -14,7 +14,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-condensed table-hover table-bordered">
+        <table class="table table-condensed table-hover table-bordered" acStickyTableHeader [stickyPreviousElement]="'.entity-search'">
             <thead>
                 <tr>
                     <th (click)="orderProp = 'timestamp'; reverse=!reverse"><span jhiTranslate="audits.table.header.date">Date</span></th>
