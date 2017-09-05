@@ -62,12 +62,14 @@ fieldset {
     }    
 
     &:disabled {
-        .form-control:disabled, .form-control[readonly] {
-            background-color: transparent;
-            border: none;
-            border-bottom: $border-width solid $grey-light;
-            cursor: default;
-            @include appearance(none);
+        .form-group {
+            .form-control:disabled, .form-control[readonly] {
+                background-color: transparent;
+                border: none;
+                border-bottom: $border-width solid $grey-light;
+                cursor: default;
+                @include appearance(none);
+            }
         }
     }
 }
