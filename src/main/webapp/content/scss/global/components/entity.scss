@@ -68,10 +68,6 @@ fieldset {
             border-bottom: $border-width solid $grey-light;
             cursor: default;
             @include appearance(none);
-            option:disabled {
-                color: red;
-                background-color: blue;
-            }
         }
     }
 }
