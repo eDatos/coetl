@@ -13,6 +13,8 @@ $main-light: #61A6E8;
 $main-medium: #2C7BD0;
 $main-dark: #313949;
 $accent-medium: #F94758;
+$accent-dark: #b10616;
+$green-medium:  #5cb85c;
 
 $navbar-height: 30px;
 $navbar-padding-y: 5px;
@@ -74,6 +76,7 @@ $zindex-fixed: 1030;
 $zindex-sticky: 1030;
 $grid-gutter-width-base: 30px;
 
+$grid-columns: 12;
 $grid-breakpoints: (
     xs: 0,
     sm: 576px,
@@ -93,3 +96,4 @@ $spacer-y: 1rem;
 
 $input-padding-x: .75rem;
 $input-padding-y: .5rem;
+$brand-success: $green-medium;
