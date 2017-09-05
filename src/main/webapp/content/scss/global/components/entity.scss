@@ -88,7 +88,9 @@ fieldset {
         @include make-col(3);
         .form-group {
             display: flex;
+            margin-bottom: 0;
         }
+        margin-bottom: $form-group-margin-bottom;
     }
 }
 
