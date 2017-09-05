@@ -15,7 +15,8 @@
             font-weight: $font-weight-light;
             text-transform: uppercase;
             color: $grey-darkest;
-            border-bottom: ($table-border-width)*3 double $grey-light;            
+            border-bottom: ($table-border-width)*3 double $grey-light;      
+            border-top: none;
             background: $white;
         }
     }

@@ -23,6 +23,13 @@ h2 {
     }
 }
 
+h3 {
+    margin-top: 2 * $spacer-y;
+    padding-bottom: $spacer-y;
+    margin-bottom: 2 * $spacer-y;
+    border-bottom: $border-width solid $grey-medium;
+}
+
 
 fieldset {
     @include make-container();
