@@ -67,3 +67,11 @@ fieldset {
         }
     }
 }
+
+.entity-list-empty {
+    text-align: center;
+    padding: $spacer-y 0;
+    & > * {
+        margin-top: $spacer-y;
+    }
+}

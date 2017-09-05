@@ -98,6 +98,9 @@
             "pattern": "This field should follow pattern for {{ pattern }}.",
             "number": "This field should be a number.",
             "datetimelocal": "This field should be a date and time."
+        },
+        "list": {
+            "empty": "There are no results matching selected criteria"
         }
     },
     "error": {
