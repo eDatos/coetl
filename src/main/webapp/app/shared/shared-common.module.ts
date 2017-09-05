@@ -36,4 +36,4 @@ import {
         StickyTableHeaderDirective
     ]
 })
-export class SecretariaLibroSharedCommonModule {}
+export class SecretariaLibroSharedCommonModule { }
