@@ -13,7 +13,8 @@ import {
     LoginModalService,
     Principal,
     HasAnyAuthorityDirective,
-    JhiLoginModalComponent
+    JhiLoginModalComponent,
+    EntityListEmptyComponent
 } from './';
 
 @NgModule({
@@ -23,7 +24,8 @@ import {
     ],
     declarations: [
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective
+        HasAnyAuthorityDirective,
+        EntityListEmptyComponent
     ],
     providers: [
         LoginService,
@@ -41,7 +43,8 @@ import {
         SecretariaLibroSharedCommonModule,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
-        DatePipe
+        DatePipe,
+        EntityListEmptyComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
