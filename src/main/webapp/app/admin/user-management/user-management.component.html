@@ -67,6 +67,7 @@
         </div>
     </div>
     <div class="entity-list-empty" *ngIf="users?.length === 0">
+        <img src="~images/no-results.svg" [alt]="'entity.list.empty' | translate" />
         <div jhiTranslate="entity.list.empty">There are no results matching selected criteria</div>
         <button class="btn btn-secondary jh-create-entity" [routerLink]="['../user-management-new']">
             <span class="fa fa-plus"></span> <span jhiTranslate="userManagement.home.createLabel">Create a new User</span>

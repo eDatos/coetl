@@ -98,4 +98,7 @@ fieldset {
     & > * {
         margin-top: $spacer-y;
     }
+    img {
+        width: 200px;
+    }
 }
