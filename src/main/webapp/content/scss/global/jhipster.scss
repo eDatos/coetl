@@ -72,23 +72,30 @@ a:hover {
 Custom alerts for notification
 ========================================================================== */
 .alerts {
+    width: 90%;
+    display: block;
+    left: 0;
+    right: 0;
+    margin: auto;
+
     .alert {
-        text-overflow: ellipsis;
-        pre{
+        pre {
             background: none;
             border: none;
             font: inherit;
             color: inherit;
             padding: 0;
             margin: 0;
+            white-space: normal;
         }
         .popover pre {
             font-size: 10px;
         }
     }
-    .toast {
+    &.toast {
         position: fixed;
-        width: 100%;
+        z-index: $zindex-modal;
+        max-width: 90%;
         &.left {
             left: 5px;
         }
@@ -104,8 +111,19 @@ Custom alerts for notification
     }
 }
 
+.alert-backdrop {
+    z-index: $zindex-modal-backdrop;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.5;
+    background: $black;
+}
+
 @media screen and (min-width: 480px) {
-    .alerts .toast {
+    .alerts.toast {
         width: 50%;
     }
 }

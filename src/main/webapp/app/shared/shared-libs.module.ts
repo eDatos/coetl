@@ -13,7 +13,7 @@ import { DEFAULT_LANGUAGE } from './language/language.constants';
         NgbModule.forRoot(),
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
-            alertAsToast: false,
+            alertAsToast: true,
             i18nEnabled: true,
             defaultI18nLang: DEFAULT_LANGUAGE
         }),

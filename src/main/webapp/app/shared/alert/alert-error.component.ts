@@ -6,9 +6,10 @@ import { Subscription } from 'rxjs/Rx';
 @Component({
     selector: 'jhi-alert-error',
     template: `
-        <div class="alerts" role="alert">
-            <div *ngFor="let alert of alerts"  [ngClass]="{\'alert.position\': true, \'toast\': alert.toast}">
-                <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)">
+        <div *ngIf="alertService.isToast() && alerts.length > 0" class="alert-backdrop"></div>
+        <div class="alerts" role="alert" [ngClass]="{\'toast\':alertService.isToast()}">
+            <div *ngFor="let alert of alerts" [class]="alert.position">
+                <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)" (click)="alert.close(alerts)">
                     <pre [innerHTML]="alert.msg"></pre>
                 </ngb-alert>
             </div>
@@ -19,7 +20,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
     alerts: any[];
     cleanHttpErrorListener: Subscription;
 
-    constructor(private alertService: JhiAlertService, private eventManager: JhiEventManager, private translateService: TranslateService) {
+    constructor(public alertService: JhiAlertService, private eventManager: JhiEventManager, private translateService: TranslateService) {
         this.alerts = [];
 
         this.cleanHttpErrorListener = eventManager.subscribe('secretariaLibroApp.httpError', (response) => {
@@ -96,9 +97,10 @@ export class JhiAlertErrorComponent implements OnDestroy {
                     type: 'danger',
                     msg: key,
                     params: data,
-                    timeout: 5000,
+                    timeout: 0,
                     toast: this.alertService.isToast(),
-                    scoped: true
+                    scoped: true,
+                    position: 'top'
                 },
                 this.alerts
             )
