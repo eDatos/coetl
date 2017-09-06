@@ -2,3 +2,6 @@
 /* tslint:disable */
 import '../content/scss/vendor.scss';
 // jhipster-needle-add-element-to-vendor - JHipster will add new menu items here
+
+import 'expose-loader?jQuery!jquery';
+import 'sticky-table-headers';

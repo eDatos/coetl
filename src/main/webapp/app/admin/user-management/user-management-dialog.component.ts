@@ -19,6 +19,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     isSaving: Boolean;
     usuarioValido = false;
     private subscription: Subscription;
+    paramLogin: string;
 
     constructor(
         private languageHelper: JhiLanguageHelper,
@@ -41,7 +42,8 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
         });
 
         this.subscription = this.route.params.subscribe((params) => {
-            this.load(params['login']);
+            this.paramLogin = params['login'];
+            this.load(this.paramLogin);
         });
     }
 
@@ -68,8 +70,8 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     clear() {
         // const with arrays: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
         const returnPath = ['user-management'];
-        if (this.user.login) {
-            returnPath.push(this.user.login);
+        if (this.paramLogin) {
+            returnPath.push(this.paramLogin);
         }
         this.router.navigate(returnPath);
     }

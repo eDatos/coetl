@@ -1,10 +1,15 @@
 <div *ngIf="loggers">
     <h2 jhiTranslate="logs.title">Logs</h2>
 
-    <p jhiTranslate="logs.nbloggers" translateValues="{total: '{{ loggers.length }}'}">There are {{ loggers.length }} loggers.</p>
+    <div class="entity-search">
+        <div class="entity-search-field">
+            <p jhiTranslate="logs.nbloggers" translateValues="{total: '{{ loggers.length }}'}">There are {{ loggers.length }} loggers.</p>
+            <label jhiTranslate="logs.filter">Filter</label>
+            <input type="text" [(ngModel)]="filter" class="form-control">
+        </div>
+    </div>
 
-    <span jhiTranslate="logs.filter">Filter</span> <input type="text" [(ngModel)]="filter" class="form-control">
-    <div class=" table-responsive ">
+    <div class="table-responsive" acStickyTableHeader>
         <table class="table table-condensed table-hover table-bordered">
             <thead>
                 <tr title="click to order">

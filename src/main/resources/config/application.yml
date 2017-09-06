@@ -27,7 +27,7 @@ spring:
         username: FILL_USER
         password: FILL_PASS
         hikari:
-            max-pool-size: 5
+            maximumPoolSize: 5
     devtools:
         restart:
             enabled: false

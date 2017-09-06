@@ -6,6 +6,7 @@ import { LogsService } from './logs.service';
 @Component({
     selector: 'jhi-logs',
     templateUrl: './logs.component.html',
+    styles: ['.table-responsive { margin-top: 100px; }']
 })
 export class LogsComponent implements OnInit {
 

@@ -102,17 +102,20 @@
             "pattern": "Este campo debe seguir el patrón {{pattern}}.",
             "number": "Este campo debe ser un número.",
             "datetimelocal": "Este campo debe ser una fecha y hora."
+        },
+        "list": {
+            "empty": "No se han obtenido resultados que cumplan los criterios de búsqueda"
         }
     },
     "error": {
         "internalServerError": "Internal server error",
         "server.not.reachable": "Servidor no accesible",
-        "url.not.found": "Not found",
+        "url.not.found": "No encontrado",
         "NotNull": "¡El campo {{fieldName}} no puede estar vacío!",
         "Size": "¡El campo {{fieldName}} no cumple con los requisitos de tamaño mínimo/máximo!",
-        "userexists": "Login name already used!",
-        "emailexists": "Email is already in use!",
-        "idexists": "A new {{entityName}} cannot already have an ID",
+        "userexists": "El login usado ya está siendo usado",
+        "emailexists": "El email usado ya está siendo usado",
+        "idexists": "Un nuevo {{entityName}} no puede tener previamente un ID",
         "userManagement": {
             "usuario-ldap-no-encontrado": "No se ha encontrado el usuario especificado"
         }

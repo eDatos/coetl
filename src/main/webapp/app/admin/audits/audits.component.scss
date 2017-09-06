@@ -1,0 +1,6 @@
+@import '~scss/variables';
+
+$audits-search-height: 74px;
+.table-responsive {
+    margin-top: $audits-search-height;
+}

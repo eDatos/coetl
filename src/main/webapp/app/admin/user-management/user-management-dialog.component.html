@@ -25,115 +25,124 @@
 
     <jhi-alert-error></jhi-alert-error>
     <fieldset [disabled]="!isEditMode()">
-        <div class="form-group" [hidden]="!user.id">
-            <label jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" name="id" [(ngModel)]="user.id" readonly>
-        </div>
+        <div class="entity-fields">
+            <div class="entity-fields-col">
+                <div class="form-group" [hidden]="!user.id">
+                    <label jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" name="id" [(ngModel)]="user.id" readonly>
+                </div>
 
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="userManagement.login">Login</label>
-            <input type="text" class="form-control" name="login" #loginInput="ngModel" [(ngModel)]="user.login" required minlength="1"
-                maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$" (blur)="validarUsuario()">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="userManagement.login">Login</label>
+                    <input type="text" class="form-control" name="login" #loginInput="ngModel" [(ngModel)]="user.login" required minlength="1"
+                        maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$" (blur)="validarUsuario()">
 
-            <div *ngIf="loginInput.dirty">
-                <ng-container *ngIf="loginInput.invalid">
-                    <small class="form-text text-danger" *ngIf="loginInput.errors.required" jhiTranslate="entity.validation.required">
-                        This field is required.
-                    </small>
-                    <small class="form-text text-danger" *ngIf="loginInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translate-value-max="50">
+                    <div *ngIf="loginInput.touched || loginInput.dirty">
+                        <ng-container *ngIf="loginInput.invalid">
+                            <small class="form-text text-danger" *ngIf="loginInput.errors.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                            <small class="form-text text-danger" *ngIf="loginInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translate-value-max="50">
+                            This field cannot be longer than 50 characters.
+                        </small>
+                        </ng-container>
+                        <ng-container>
+                            <small class="form-text text-danger" *ngIf="!usuarioValido" jhiTranslate="error.userManagement.usuario-ldap-no-encontrado">
+                            Usuario ldap no encontrado
+                        </small>
+                        </ng-container>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="userManagement.nombre">First Name</label>
+                    <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="user.nombre" maxlength="50">
+
+                    <div *ngIf="nombreInput.dirty && nombreInput.invalid">
+                        <small class="form-text text-danger" *ngIf="nombreInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translate-value-max="50">
                         This field cannot be longer than 50 characters.
                     </small>
-                </ng-container>
-                <ng-container>
-                    <small class="form-text text-danger" *ngIf="!usuarioValido" jhiTranslate="error.userManagement.usuario-ldap-no-encontrado">
-                        Usuario ldap no encontrado
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label jhiTranslate="userManagement.apellido1">Last Name</label>
+                    <input type="text" class="form-control" name="apellido1" #apellido1Input="ngModel" [(ngModel)]="user.apellido1" maxlength="50">
+
+                    <div *ngIf="apellido1Input.dirty && apellido1Input.invalid">
+                        <small class="form-text text-danger" *ngIf="apellido1Input.errors.maxlength" jhiTranslate="entity.validation.maxlength" translate-value-max="50">
+                        This field cannot be longer than 50 characters.
                     </small>
-                </ng-container>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="userManagement.apellido2">Last Name</label>
+                    <input type="text" class="form-control" name="apellido2" #apellido2Input="ngModel" [(ngModel)]="user.apellido2" maxlength="50">
+
+                    <div *ngIf="apellido2Input.dirty && apellido2Input.invalid">
+                        <small class="form-text text-danger" *ngIf="apellido2Input.errors.maxlength" jhiTranslate="entity.validation.maxlength" translate-value-max="50">
+                        This field cannot be longer than 50 characters.
+                    </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="userManagement.email">Email</label>
+                    <input type="email" class="form-control" name="email" #emailInput="ngModel" [(ngModel)]="user.email" minlength="5" required
+                        maxlength="100">
+
+                    <div *ngIf="(emailInput.touched || emailInput.dirty) && emailInput.invalid">
+                        <small class="form-text text-danger" *ngIf="emailInput.errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                        <div *ngIf="emailInput.dirty && emailInput.invalid">
+                            <small class="form-text text-danger" *ngIf="emailInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translate-value-max="100">
+                            This field cannot be longer than 100 characters.
+                        </small>
+
+                            <small class="form-text text-danger" *ngIf="emailInput.errors.minlength" jhiTranslate="entity.validation.minlength" translate-value-min="5">
+                            This field is required to be at least 5 characters.
+                        </small>
+
+                            <small class="form-text text-danger" *ngIf="emailInput.errors.email" jhiTranslate="global.messages.validate.email.invalid">
+                            Your email is invalid.
+                        </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="activado">
+                    <input class="form-check-input" [disabled]="user.id === null" type="checkbox" id="activado" name="activado" [(ngModel)]="user.activado">
+                    <span jhiTranslate="userManagement.activado">activado</span>
+                </label>
+                </div>
+
+                <div class="form-group" *ngIf="languages && languages.length > 0">
+                    <label jhiTranslate="userManagement.idioma">Lang Key</label>
+                    <select class="form-control" id="idioma" name="idioma" [(ngModel)]="user.idioma">
+                    <option *ngFor="let language of languages" [value]="language">{{language | findLanguageFromKey}}</option>
+                </select>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="userManagement.profiles">Profiles</label>
+                    <select class="form-control" multiple name="rol" [(ngModel)]="user.roles">
+                    <option *ngFor="let rol of roles;trackBy:nombre" [value]="rol.nombre">{{rol.nombre}}</option>
+                </select>
+                </div>
             </div>
+
+            <dl class="row-md jh-entity-details">
+                <dt><label jhiTranslate="userManagement.createdBy">Created By</label></dt>
+                <dd>{{user.createdBy}}</dd>
+                <dt><label jhiTranslate="userManagement.createdDate">Created Date</label></dt>
+                <dd>{{user.createdDate | date:'dd/MM/yy HH:mm' }}</dd>
+                <dt><label jhiTranslate="userManagement.lastModifiedBy">Last Modified By</label></dt>
+                <dd>{{user.lastModifiedBy}}</dd>
+                <dt><label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label></dt>
+                <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
+            </dl>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="userManagement.nombre">First Name</label>
-            <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="user.nombre" maxlength="50">
-
-            <div *ngIf="nombreInput.dirty && nombreInput.invalid">
-                <small class="form-text text-danger" *ngIf="nombreInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translate-value-max="50">
-                    This field cannot be longer than 50 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label jhiTranslate="userManagement.apellido1">Last Name</label>
-            <input type="text" class="form-control" name="apellido1" #apellido1Input="ngModel" [(ngModel)]="user.apellido1" maxlength="50">
-
-            <div *ngIf="apellido1Input.dirty && apellido1Input.invalid">
-                <small class="form-text text-danger" *ngIf="apellido1Input.errors.maxlength" jhiTranslate="entity.validation.maxlength" translate-value-max="50">
-                    This field cannot be longer than 50 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label jhiTranslate="userManagement.apellido2">Last Name</label>
-            <input type="text" class="form-control" name="apellido2" #apellido2Input="ngModel" [(ngModel)]="user.apellido2" maxlength="50">
-
-            <div *ngIf="apellido2Input.dirty && apellido2Input.invalid">
-                <small class="form-text text-danger" *ngIf="apellido2Input.errors.maxlength" jhiTranslate="entity.validation.maxlength" translate-value-max="50">
-                    This field cannot be longer than 50 characters.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="userManagement.email">Email</label>
-            <input type="email" class="form-control" name="email" #emailInput="ngModel" [(ngModel)]="user.email" minlength="5" required
-                maxlength="100">
-
-            <div *ngIf="emailInput.dirty && emailInput.invalid">
-                <small class="form-text text-danger" *ngIf="emailInput.errors.required" jhiTranslate="entity.validation.required">
-                    This field is required.
-                </small>
-
-                <small class="form-text text-danger" *ngIf="emailInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translate-value-max="100">
-                    This field cannot be longer than 100 characters.
-                </small>
-
-                <small class="form-text text-danger" *ngIf="emailInput.errors.minlength" jhiTranslate="entity.validation.minlength" translate-value-min="5">
-                    This field is required to be at least 5 characters.
-                </small>
-
-                <small class="form-text text-danger" *ngIf="emailInput.errors.email" jhiTranslate="global.messages.validate.email.invalid">
-                    Your email is invalid.
-                 </small>
-            </div>
-        </div>
-        <div class="form-check">
-            <label class="form-check-label" for="activado">
-                <input class="form-check-input" [disabled]="user.id === null" type="checkbox" id="activado" name="activado" [(ngModel)]="user.activado">
-                <span jhiTranslate="userManagement.activado">activado</span>
-            </label>
-        </div>
-
-        <div class="form-group" *ngIf="languages && languages.length > 0">
-            <label jhiTranslate="userManagement.idioma">Lang Key</label>
-            <select class="form-control" id="idioma" name="idioma" [(ngModel)]="user.idioma">
-                <option *ngFor="let language of languages" [value]="language">{{language | findLanguageFromKey}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label jhiTranslate="userManagement.profiles">Profiles</label>
-            <select class="form-control" multiple name="rol" [(ngModel)]="user.roles">
-                <option *ngFor="let rol of roles;trackBy:nombre" [value]="rol.nombre">{{rol.nombre}}</option>
-            </select>
-        </div>
-    </div>
-
-        <dl class="row-md jh-entity-details">
-            <dt><label jhiTranslate="userManagement.createdBy">Created By</label></dt>
-            <dd>{{user.createdBy}}</dd>
-            <dt><label jhiTranslate="userManagement.createdDate">Created Date</label></dt>
-            <dd>{{user.createdDate | date:'dd/MM/yy HH:mm' }}</dd>
-            <dt><label jhiTranslate="userManagement.lastModifiedBy">Last Modified By</label></dt>
-            <dd>{{user.lastModifiedBy}}</dd>
-            <dt><label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label></dt>
-            <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
-        </dl>
     </fieldset>
 </form>
