@@ -61,15 +61,13 @@ fieldset {
         }
     }    
 
-    &:disabled {
-        .form-group {
-            .form-control:disabled, .form-control[readonly] {
-                background-color: transparent;
-                border: none;
-                border-bottom: $border-width solid $grey-light;
-                cursor: default;
-                @include appearance(none);
-            }
+    .form-group {
+        .form-control:disabled, .form-control[readonly] {
+            background-color: transparent;
+            border: none;
+            cursor: default;
+            border-bottom: $border-width solid $grey-light;
+            @include appearance(none);
         }
     }
 }
@@ -89,16 +87,5 @@ fieldset {
             margin-bottom: 0;
         }
         margin-bottom: $form-group-margin-bottom;
-    }
-}
-
-.entity-list-empty {
-    text-align: center;
-    padding: $spacer-y 0;
-    & > * {
-        margin-top: $spacer-y;
-    }
-    img {
-        width: 200px;
     }
 }

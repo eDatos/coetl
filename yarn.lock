@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"@angular/animations@^4.4.0-RC.0":
+  version "4.4.0-RC.0"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.4.0-RC.0.tgz#cfd5937ce11eaba03ae3ebd778b0871b77539665"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/cli@1.2.0":
   version "1.2.0"
   resolved "http://repository.arte-consultores.com/repository/npm-all/@angular/cli/-/cli-1.2.0.tgz#dfd8b8983ec37c2b6d7f902ead60396d7b571597"
@@ -5742,6 +5748,10 @@ pretty-error@^2.0.2:
   dependencies:
     renderkid "^2.0.1"
     utila "~0.4"
+
+primeng@^4.2.0-rc.1:
+  version "4.2.0-rc.1"
+  resolved "https://registry.yarnpkg.com/primeng/-/primeng-4.2.0-rc.1.tgz#573a3c7ef29bc7abf7cb07289ec39aeb1a53136f"
 
 private@^0.1.6, private@~0.1.5:
   version "0.1.7"

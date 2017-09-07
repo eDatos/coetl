@@ -74,6 +74,8 @@ $badge-padding-y: .3em;
 $zindex-dropdown: 1000;
 $zindex-fixed: 1030;
 $zindex-sticky: 1030;
+$zindex-modal-backdrop: 1040;
+$zindex-modal: 1050;
 $grid-gutter-width-base: 30px;
 
 $grid-columns: 12;
@@ -99,3 +101,4 @@ $input-padding-y: .5rem;
 $brand-success: $green-medium;
 
 $form-group-margin-bottom: $spacer-y;
+$border-radius: 2px;

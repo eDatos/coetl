@@ -6,7 +6,6 @@ import { AuthInterceptor } from './auth.interceptor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { AuthExpiredInterceptor } from './auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './errorhandler.interceptor';
-import { NotificationInterceptor } from './notification.interceptor';
 import { CookieService } from 'ngx-cookie';
 
 export function interceptableFactory(
@@ -25,8 +24,7 @@ export function interceptableFactory(
             new AuthInterceptor(localStorage, sessionStorage, cookieService),
             new AuthExpiredInterceptor(injector),
             // Other interceptors can be added here
-            new ErrorHandlerInterceptor(eventManager),
-            new NotificationInterceptor(injector)
+            new ErrorHandlerInterceptor(eventManager)
         ]
     );
 };
