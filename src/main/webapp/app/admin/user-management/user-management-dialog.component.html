@@ -101,9 +101,10 @@
             <div class="entity-fields-col">
                 <div class="form-group">
                     <label jhiTranslate="userManagement.profiles">Profiles</label>
-                    <select class="form-control" multiple name="authority" [(ngModel)]="user.authorities">
-                        <option *ngFor="let authority of authorities" [value]="authority">{{authority}}</option>
-                    </select>
+                    <p-autoComplete styleClass="form-control" [multiple]="true" name="authority" [(ngModel)]="user.authorities" [suggestions]="filteredAuthorities"
+                        (completeMethod)="searchAuthorities($event)" [dropdown]="true" (onDropdownClick)="handleDropdownAuthorities($event)"
+                        (onFocus)="handleDropdownAuthorities($event)">
+                    </p-autoComplete>
                 </div>
 
                 <dl class="row-md jh-entity-details">

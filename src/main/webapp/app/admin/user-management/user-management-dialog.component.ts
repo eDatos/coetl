@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { JhiEventManager } from 'ng-jhipster';
@@ -6,6 +6,8 @@ import { JhiEventManager } from 'ng-jhipster';
 import { UserModalService } from './user-modal.service';
 import { JhiLanguageHelper, User, UserService } from '../../shared';
 import { Subscription } from 'rxjs/Rx';
+
+import { AutoComplete } from 'primeng/primeng';
 
 @Component({
     selector: 'jhi-user-mgmt-dialog',
@@ -16,9 +18,12 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     user: User;
     languages: any[];
     authorities: any[];
+    filteredAuthorities: any[];
     isSaving: Boolean;
     private subscription: Subscription;
     paramLogin: string;
+
+    @ViewChild(AutoComplete) private autoComplete: AutoComplete;
 
     constructor(
         private languageHelper: JhiLanguageHelper,
@@ -33,6 +38,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
         this.authorities = [];
         this.userService.authorities().subscribe((authorities) => {
             this.authorities = authorities;
+            this.filteredAuthorities = this.buildAuthoritiesAutocomplete('');
         });
 
         this.languageHelper.getAll().then((languages) => {
@@ -43,6 +49,26 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
             this.paramLogin = params['login'];
             this.load(this.paramLogin);
         });
+    }
+
+    buildAuthoritiesAutocomplete(query) {
+        return this.authorities
+            .filter((authority) => authority.toUpperCase().indexOf(query.toUpperCase()) !== -1);
+    }
+
+    searchAuthorities(event) {
+        this.filteredAuthorities = this.buildAuthoritiesAutocomplete(event.query);
+    }
+
+    handleDropdownAuthorities(event) {
+        event.originalEvent.preventDefault();
+        event.originalEvent.stopPropagation();
+        if (this.autoComplete.panelVisible) {
+            this.autoComplete.hide();
+        } else {
+            this.autoComplete.show();
+        }
+        this.filteredAuthorities = this.buildAuthoritiesAutocomplete('');
     }
 
     isEditMode(): Boolean {
