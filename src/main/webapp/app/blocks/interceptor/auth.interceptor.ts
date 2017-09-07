@@ -23,7 +23,7 @@ export class AuthInterceptor extends JhiHttpInterceptor {
             const tokenFromCookie = this.cookieService.get('jhi-authenticationtoken');
             if (!!tokenFromCookie) {
                 this.storeAuthenticationToken(tokenFromCookie, false);
-                options.headers.append('Authorization', 'Bearer ' + token);
+                options.headers.append('Authorization', 'Bearer ' + tokenFromCookie);
             }
         }
 
