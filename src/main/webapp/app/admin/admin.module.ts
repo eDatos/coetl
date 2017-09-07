@@ -33,6 +33,7 @@ import {
 } from './';
 import { RolMgmtDialogComponent } from './rol-management/rol-management-dialog.component';
 import { RolMgmtDeleteDialogComponent, RolDeleteDialogComponent } from './rol-management/rol-management-delete-dialog.component';
+import { UserSearchComponent } from './user-management/user-search/index';
 
 @NgModule({
     imports: [
@@ -46,6 +47,7 @@ import { RolMgmtDeleteDialogComponent, RolDeleteDialogComponent } from './rol-ma
         RolMgmtDialogComponent,
         RolDeleteDialogComponent,
         RolMgmtDeleteDialogComponent,
+        UserSearchComponent,
         UserMgmtComponent,
         UserDeleteDialogComponent,
         UserMgmtDialogComponent,

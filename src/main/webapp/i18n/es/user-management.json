@@ -29,6 +29,11 @@
         "lastModifiedBy": "Modificado por",
         "lastModifiedDate": "Fecha de modificación",
         "deletionDate": "Fecha de borrado",
-        "roles": "Roles"
+        "roles": "Roles",
+        "filters": {
+            "name": {
+                "placeholder": "Búsqueda de usuario"
+            }
+        }
     }
 }

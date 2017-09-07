@@ -82,7 +82,8 @@
             "edit": "Editar",
             "open": "Open",
             "save": "Guardar",
-            "view": "Vista"
+            "view": "Vista",
+            "filtersReset": "Reiniciar filtros"
         },
         "detail": {
             "field": "Campo",

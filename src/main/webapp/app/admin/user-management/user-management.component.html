@@ -6,8 +6,8 @@
         </button>
     </h2>
     <jhi-alert></jhi-alert>
+    <ac-user-search [userList]="users" [filters]="userFilter"></ac-user-search>
     <div class="table-responsive" *ngIf="users?.length > 0">
-        <span><input type="checkbox" [(ngModel)]="includeDeleted" (change)="loadAll()"><span jhiTranslate="userManagement.home.includeDeleted">Include deleted</span></span>
         <table class="table table-hover" acStickyTableHeader>
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
@@ -24,9 +24,8 @@
                 </tr>
             </thead>
             <tbody *ngIf="users">
-                <ng-container *ngFor="let user of users; trackBy: trackIdentity" >
+                <ng-container *ngFor="let user of users; trackBy: trackIdentity">
                     <tr [ngClass]="{'deleted': !!user.deletionDate }" [routerLink]="['../user-management', user.login]">
-                        <td>{{user.id}}</td>
                         <td>{{user.login}}</td>
                         <td>{{user.email}}</td>
                         <td>
