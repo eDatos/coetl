@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
     selector: 'ac-split-button',
@@ -9,10 +9,18 @@ export class SplitButtonComponent {
 
     public menuVisible = false;
 
+    @ViewChild('otherButtonsWrapper')
+    otherButtons: ElementRef;
+
     constructor() { }
 
     onDropdownButtonClick(event: Event) {
         this.show();
+    }
+
+    hasOtherButtons() {
+        const acSplitButtonOthers = this.otherButtons.nativeElement.children[0];
+        return acSplitButtonOthers ? acSplitButtonOthers.children.length > 0 : false;
     }
 
     show() {
