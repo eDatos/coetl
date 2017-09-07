@@ -11,6 +11,8 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.SecurityUtils;
 import es.tenerife.secretaria.libro.web.rest.errors.CustomParameterizedException;
+import es.tenerife.secretaria.libro.web.rest.util.QueryUtil;
 
 /**
  * Service class for managing users.
@@ -41,11 +44,14 @@ public class UsuarioService {
 
 	private LdapService ldapService;
 
-	public UsuarioService(UsuarioRepository userRepository, RolRepository authorityRepository,
-			LdapService ldapService) {
+	private QueryUtil queryUtil;
+
+	public UsuarioService(UsuarioRepository userRepository, RolRepository authorityRepository, LdapService ldapService,
+			QueryUtil queryUtil) {
 		this.userRepository = userRepository;
 		this.authorityRepository = authorityRepository;
 		this.ldapService = ldapService;
+		this.queryUtil = queryUtil;
 	}
 
 	public Usuario createUsuario(@NotNull Usuario user) {
@@ -138,7 +144,15 @@ public class UsuarioService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Usuario> getAllUsuarios(Pageable pageable, Boolean includeDeleted) {
+	public Page<Usuario> getAllUsuarios(Pageable pageable, Boolean includeDeleted, String query) {
+		if (!StringUtils.isEmpty(query)) {
+			String finalQuery = "(" + query + ") AND LOGIN NE '" + Constants.ANONYMOUS_USER + "'";
+			if (BooleanUtils.isTrue(includeDeleted)) {
+				finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
+			}
+			DetachedCriteria criteria = queryUtil.queryToUserCriteria(finalQuery);
+			return userRepository.findAll(criteria, pageable);
+		}
 		if (BooleanUtils.isTrue(includeDeleted)) {
 			return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER);
 		}

@@ -41,6 +41,7 @@
 
   <properties>
     <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>
+    <arte-libs-grammar.version>2.0.0-SNAPSHOT</arte-libs-grammar.version>
     <assertj.version>3.6.2</assertj.version>
     <awaitility.version>2.0.0</awaitility.version>
     <commons-io.version>2.5</commons-io.version>
@@ -411,7 +412,11 @@
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-cas</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>com.arte.libs.grammar</groupId>
+      <artifactId>arte-libs-grammar</artifactId>
+      <version>${arte-libs-grammar.version}</version>
+    </dependency>
     <!-- jhipster-needle-maven-add-dependency -->
   </dependencies>
   <build>
