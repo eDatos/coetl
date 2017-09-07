@@ -9,6 +9,7 @@
         margin-left: -$grid-gutter-width-base / 2;
         margin-right: -$grid-gutter-width-base / 2;
         margin-bottom: $spacer-y;
+        overflow-x: unset;
         
         thead {
             th {

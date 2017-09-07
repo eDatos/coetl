@@ -14,7 +14,8 @@ import {
     Principal,
     HasAnyAuthorityDirective,
     JhiLoginModalComponent,
-    EntityListEmptyComponent
+    EntityListEmptyComponent,
+    SplitButtonComponent
 } from './';
 
 @NgModule({
@@ -25,7 +26,8 @@ import {
     declarations: [
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
-        EntityListEmptyComponent
+        EntityListEmptyComponent,
+        SplitButtonComponent
     ],
     providers: [
         LoginService,
@@ -44,7 +46,8 @@ import {
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
         DatePipe,
-        EntityListEmptyComponent
+        EntityListEmptyComponent,
+        SplitButtonComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
