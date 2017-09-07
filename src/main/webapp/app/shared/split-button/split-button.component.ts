@@ -27,4 +27,9 @@ export class SplitButtonComponent {
         this.menuVisible = !this.menuVisible;
     }
 
+    // Menu wont be keyboard accesible!
+    onFocusOut() {
+        this.menuVisible = false;
+    }
+
 }
