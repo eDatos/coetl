@@ -108,15 +108,14 @@ public class OperacionResourceIntTest {
 
 		// Create the Operacion
 		OperacionDTO operacionDTO = operacionMapper.toDto(operacion);
-		restOperacionMockMvc.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isCreated());
+		restOperacionMockMvc
+				.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
+						.content(TestUtil.convertObjectToJsonBytes(operacionDTO)))
+				.andExpect(status().isMethodNotAllowed());
 
 		// Validate the Operacion in the database
 		List<Operacion> operacionList = operacionRepository.findAll();
-		assertThat(operacionList).hasSize(databaseSizeBeforeCreate + 1);
-		Operacion testOperacion = operacionList.get(operacionList.size() - 1);
-		assertThat(testOperacion.getAccion()).isEqualTo(DEFAULT_ACCION);
-		assertThat(testOperacion.getSujeto()).isEqualTo(DEFAULT_SUJETO);
+		assertThat(operacionList).hasSize(databaseSizeBeforeCreate);
 	}
 
 	@Test
@@ -129,8 +128,10 @@ public class OperacionResourceIntTest {
 		OperacionDTO operacionDTO = operacionMapper.toDto(operacion);
 
 		// An entity with an existing ID cannot be created, so this API call must fail
-		restOperacionMockMvc.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isBadRequest());
+		restOperacionMockMvc
+				.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
+						.content(TestUtil.convertObjectToJsonBytes(operacionDTO)))
+				.andExpect(status().isMethodNotAllowed());
 
 		// Validate the Alice in the database
 		List<Operacion> operacionList = operacionRepository.findAll();
@@ -147,8 +148,10 @@ public class OperacionResourceIntTest {
 		// Create the Operacion, which fails.
 		OperacionDTO operacionDTO = operacionMapper.toDto(operacion);
 
-		restOperacionMockMvc.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isBadRequest());
+		restOperacionMockMvc
+				.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
+						.content(TestUtil.convertObjectToJsonBytes(operacionDTO)))
+				.andExpect(status().isMethodNotAllowed());
 
 		List<Operacion> operacionList = operacionRepository.findAll();
 		assertThat(operacionList).hasSize(databaseSizeBeforeTest);
@@ -164,8 +167,10 @@ public class OperacionResourceIntTest {
 		// Create the Operacion, which fails.
 		OperacionDTO operacionDTO = operacionMapper.toDto(operacion);
 
-		restOperacionMockMvc.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isBadRequest());
+		restOperacionMockMvc
+				.perform(post("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
+						.content(TestUtil.convertObjectToJsonBytes(operacionDTO)))
+				.andExpect(status().isMethodNotAllowed());
 
 		List<Operacion> operacionList = operacionRepository.findAll();
 		assertThat(operacionList).hasSize(databaseSizeBeforeTest);
@@ -218,15 +223,14 @@ public class OperacionResourceIntTest {
 		updatedOperacion.accion(UPDATED_ACCION).sujeto(UPDATED_SUJETO);
 		OperacionDTO operacionDTO = operacionMapper.toDto(updatedOperacion);
 
-		restOperacionMockMvc.perform(put("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isOk());
+		restOperacionMockMvc
+				.perform(put("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
+						.content(TestUtil.convertObjectToJsonBytes(operacionDTO)))
+				.andExpect(status().isMethodNotAllowed());
 
 		// Validate the Operacion in the database
 		List<Operacion> operacionList = operacionRepository.findAll();
 		assertThat(operacionList).hasSize(databaseSizeBeforeUpdate);
-		Operacion testOperacion = operacionList.get(operacionList.size() - 1);
-		assertThat(testOperacion.getAccion()).isEqualTo(UPDATED_ACCION);
-		assertThat(testOperacion.getSujeto()).isEqualTo(UPDATED_SUJETO);
 	}
 
 	@Test
@@ -239,12 +243,14 @@ public class OperacionResourceIntTest {
 
 		// If the entity doesn't have an ID, it will be created instead of just being
 		// updated
-		restOperacionMockMvc.perform(put("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(operacionDTO))).andExpect(status().isCreated());
+		restOperacionMockMvc
+				.perform(put("/api/operaciones").contentType(TestUtil.APPLICATION_JSON_UTF8)
+						.content(TestUtil.convertObjectToJsonBytes(operacionDTO)))
+				.andExpect(status().isMethodNotAllowed());
 
 		// Validate the Operacion in the database
 		List<Operacion> operacionList = operacionRepository.findAll();
-		assertThat(operacionList).hasSize(databaseSizeBeforeUpdate + 1);
+		assertThat(operacionList).hasSize(databaseSizeBeforeUpdate);
 	}
 
 	@Test
@@ -257,11 +263,11 @@ public class OperacionResourceIntTest {
 		// Get the operacion
 		restOperacionMockMvc
 				.perform(delete("/api/operaciones/{id}", operacion.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
-				.andExpect(status().isOk());
+				.andExpect(status().isMethodNotAllowed());
 
 		// Validate the database is empty
 		List<Operacion> operacionList = operacionRepository.findAll();
-		assertThat(operacionList).hasSize(databaseSizeBeforeDelete - 1);
+		assertThat(operacionList).hasSize(databaseSizeBeforeDelete);
 	}
 
 	@Test
@@ -295,12 +301,4 @@ public class OperacionResourceIntTest {
 		assertThat(operacionDTO1).isNotEqualTo(operacionDTO2);
 	}
 
-	@Test
-	@Transactional
-	public void testEntityFromId() {
-		Operacion operacion = createEntity(em);
-		operacionService.save(operacion);
-		assertThat(operacionMapper.fromId(operacion.getId())).isEqualTo(operacion);
-		assertThat(operacionMapper.fromId(null)).isNull();
-	}
 }

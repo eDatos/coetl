@@ -18,9 +18,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -32,8 +34,10 @@ import org.springframework.transaction.annotation.Transactional;
 import es.tenerife.secretaria.libro.SecretariaLibroApp;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
+import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
+import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
@@ -62,6 +66,9 @@ public class AccountResourceIntTest {
 
 	@Mock
 	private MailService mockMailService;
+
+	@MockBean
+	private LdapService ldapService;
 
 	private MockMvc restUserMockMvc;
 
@@ -134,6 +141,8 @@ public class AccountResourceIntTest {
 	@Transactional
 	@WithMockUser("save-account")
 	public void testSaveAccount() throws Exception {
+		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
+
 		Usuario user = new Usuario();
 		user.setLogin("save-account");
 		user.setEmail("save-account@example.com");
@@ -252,6 +261,8 @@ public class AccountResourceIntTest {
 	@Transactional
 	@WithMockUser("save-existing-email-and-login")
 	public void testSaveExistingEmailAndLogin() throws Exception {
+		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
+
 		Usuario user = new Usuario();
 		user.setLogin("save-existing-email-and-login");
 		user.setEmail("save-existing-email-and-login@example.com");

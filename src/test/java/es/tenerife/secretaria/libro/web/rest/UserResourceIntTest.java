@@ -343,6 +343,8 @@ public class UserResourceIntTest {
 	@Test
 	@Transactional
 	public void updateUser() throws Exception {
+		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
+
 		// Initialize the database
 		userRepository.saveAndFlush(user);
 		int databaseSizeBeforeUpdate = userRepository.findAll().size();
@@ -390,6 +392,8 @@ public class UserResourceIntTest {
 	@Test
 	@Transactional
 	public void updateUserLogin() throws Exception {
+		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
+
 		// Initialize the database
 		userRepository.saveAndFlush(user);
 		int databaseSizeBeforeUpdate = userRepository.findAll().size();
