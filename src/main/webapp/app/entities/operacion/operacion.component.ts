@@ -11,7 +11,8 @@ import { OperacionFilter } from './operacion-search/index';
 
 @Component({
     selector: 'jhi-operacion',
-    templateUrl: './operacion.component.html'
+    templateUrl: './operacion.component.html',
+    styleUrls: ['operacion.component.scss'],
 })
 export class OperacionComponent implements OnInit, OnDestroy {
 

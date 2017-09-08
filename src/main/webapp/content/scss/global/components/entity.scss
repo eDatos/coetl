@@ -74,11 +74,14 @@ fieldset {
     }
 }
 
+$entity-search-field-btn-width: 200px;
+
 .entity-search {
     background: $grey-lightest;
     position: fixed;
     top: $entity-header-height + $navbar-full-height;  
     width: 100%;
+    padding-right: $entity-search-field-btn-width;
 
     @include make-row();
     .entity-search-field {        
@@ -89,6 +92,12 @@ fieldset {
             margin-bottom: 0;
         }
         margin-bottom: $form-group-margin-bottom;
+    }
+    .entity-search-field-btn {
+        position: absolute;
+        right: -50px;
+        bottom: $form-group-margin-bottom;
+        width: $entity-search-field-btn-width;
     }
 }
 

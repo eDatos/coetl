@@ -1,15 +1,19 @@
-<div class="search">
-    <div class="filters-wrapper">
-        <div class="text">
-            <input class="form-control" [attr.aria-label]="'userManagement.filters.name.placeholder' | translate" placeholder="{{'userManagement.filters.name.placeholder' | translate}}"
-                [(ngModel)]="filters.name" (keyup)="filter()" />
-            <span class="icon-search icon-flueco-icon-buscar"></span>
-        </div>
+<div class="entity-search operacion-search">
+
+    <div class="entity-search-field">
+        <input class="form-control" [attr.aria-label]="'userManagement.filters.name.placeholder' | translate" placeholder="{{'userManagement.filters.name.placeholder' | translate}}"
+            [(ngModel)]="filters.name" (keyup)="filter()" />
+        <span class="icon-search icon-flueco-icon-buscar"></span>
     </div>
-    <div class="">
+
+    <div class="entity-search-field">
         <span><input type="checkbox" [(ngModel)]="filters.includeDeleted" (change)="filter()"><span jhiTranslate="userManagement.home.includeDeleted">Include deleted</span></span>
+    </div>
+
+    <div class="entity-search-field-btn">
         <button class="btn btn-default" (click)="resetFilters();">
-        <i class="fa fa-times"></i> <span  jhiTranslate="entity.action.filtersReset">Reset</span>
-    </button>
+            <i class="fa fa-times"></i> 
+            <span  jhiTranslate="entity.action.filtersReset">Reset</span>
+        </button>
     </div>
 </div>
