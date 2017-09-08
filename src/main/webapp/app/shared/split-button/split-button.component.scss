@@ -1,29 +1,34 @@
 @import '~scss/variables';
 
 $side-margin: 4px;
-.not-has-other-buttons {
-    /deep/ ac-split-button-main button {
-        margin-right: $side-margin;
-        border-radius: $border-radius !important;
-        margin-top: 0px;
+
+.ui-splitbutton {
+    white-space: nowrap;   
+    .not-has-other-buttons {
+        /deep/ ac-split-button-main button {
+            margin-right: $side-margin;
+            border-radius: $border-radius !important;
+            margin-top: 0px;
+        }
     }
-}
-
-/deep/ ac-split-button-main button {
-    border-radius: $border-radius 0 0 $border-radius !important;   
-    border: 1px solid $white;
-    margin-top: -2px;
-}
-.ui-splitbutton-menubutton {
-    padding: 0 0 0 0;
-    border: 1px solid $grey-medium;
-    margin-left: -$side-margin;         
-}
-.ui-menu {
-    width: unset;
-
-    /deep/ ac-split-button-others button {
-        width: 100%;
-        margin-top: 2px;
+    
+    /deep/ ac-split-button-main button {
+        border-radius: $border-radius 0 0 $border-radius !important;   
+        border: 0 solid $white;
+        margin-top: -2px;
+    }
+    .ui-splitbutton-menubutton {
+        padding: 0 0 0 0;
+        border: none;
+        margin-left: -$side-margin;     
+    }
+    .ui-menu {
+        white-space: initial;    
+        width: initial;
+        
+        /deep/ ac-split-button-others button {
+            width: 100%;
+            margin-top: 2px;
+        }
     }
 }
