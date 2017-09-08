@@ -26,7 +26,7 @@ public interface OperacionService {
 	 *            the pagination information
 	 * @return the list of entities
 	 */
-	Page<Operacion> findAll(Pageable pageable);
+	Page<Operacion> findAll(Pageable pageable, String query);
 
 	/**
 	 * Get the "id" operacion.
@@ -44,4 +44,5 @@ public interface OperacionService {
 	 *            the id of the entity
 	 */
 	void delete(Long id);
+
 }

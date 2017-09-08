@@ -1,5 +1,6 @@
 package es.tenerife.secretaria.libro.service.impl;
 
+import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.tenerife.secretaria.libro.domain.Operacion;
 import es.tenerife.secretaria.libro.repository.OperacionRepository;
 import es.tenerife.secretaria.libro.service.OperacionService;
+import es.tenerife.secretaria.libro.web.rest.util.QueryUtil;
 
 /**
  * Service Implementation for managing Operacion.
@@ -21,8 +23,11 @@ public class OperacionServiceImpl implements OperacionService {
 
 	private final OperacionRepository operacionRepository;
 
-	public OperacionServiceImpl(OperacionRepository operacionRepository) {
+	private QueryUtil queryUtil;
+
+	public OperacionServiceImpl(OperacionRepository operacionRepository, QueryUtil queryUtil) {
 		this.operacionRepository = operacionRepository;
+		this.queryUtil = queryUtil;
 	}
 
 	/**
@@ -47,9 +52,10 @@ public class OperacionServiceImpl implements OperacionService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Operacion> findAll(Pageable pageable) {
+	public Page<Operacion> findAll(Pageable pageable, String query) {
 		log.debug("Request to get all Operacions");
-		return operacionRepository.findAll(pageable);
+		DetachedCriteria criteria = queryUtil.queryToOperacionCriteria(query);
+		return operacionRepository.findAll(criteria, pageable);
 	}
 
 	/**

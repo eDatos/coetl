@@ -117,9 +117,10 @@ public class OperacionResource extends AbstractResource {
 	 */
 	@GetMapping("/operaciones")
 	@Timed
-	public ResponseEntity<List<OperacionDTO>> getAllOperacions(@ApiParam Pageable pageable) {
+	public ResponseEntity<List<OperacionDTO>> getAllOperacions(@ApiParam Pageable pageable,
+			@ApiParam(defaultValue = "") String query) {
 		log.debug("REST request to get a page of Operacions");
-		Page<OperacionDTO> page = operacionService.findAll(pageable).map(operacionMapper::toDto);
+		Page<OperacionDTO> page = operacionService.findAll(pageable, query).map(operacionMapper::toDto);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operaciones");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
