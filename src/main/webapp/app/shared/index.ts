@@ -24,6 +24,8 @@ export * from './model/request-util';
 export * from './model/base-entity';
 export * from './model/entity-filter';
 export * from './sticky-table-header/sticky-table-header.directive';
+export * from './layouts';
+export * from './split-button';
 export * from './shared-libs.module';
 export * from './shared-common.module';
 export * from './shared.module';

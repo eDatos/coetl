@@ -3,6 +3,7 @@
 @import 'node_modules/bootstrap/scss/utilities/_position';
 
 $navbar-full-height: $navbar-height + ($navbar-padding-y)*2;
+$zindex-fixed-navs: $zindex-dropdown - 5; // Dont cover navbar dropdown
 // Jhipster always generates the same layout. We can trust h2 is where is needed
 h2 {
     display: flex;
@@ -18,7 +19,7 @@ h2 {
     @include make-container();
     html & {
         @extend .fixed-top;
-        z-index: $zindex-dropdown - 5; // Dont cover navbar dropdown
+        z-index: $zindex-fixed-navs;
         margin-top: $navbar-full-height;
     }
 }
@@ -61,14 +62,15 @@ fieldset {
         }
     }    
 
-    &:disabled {
-        .form-group {
-            .form-control:disabled, .form-control[readonly] {
-                background-color: transparent;
-                border: none;
-                border-bottom: $border-width solid $grey-light;
-                cursor: default;
-                @include appearance(none);
+    .form-group {
+        .form-control:disabled, .form-control[readonly] {
+            background-color: transparent;
+            border: none;
+            cursor: default;
+            border-bottom: $border-width solid $grey-light;
+            @include appearance(none);
+            &:required.ng-valid {
+                border-left: none;
             }
         }
     }
@@ -76,38 +78,39 @@ fieldset {
 
 $entity-search-field-btn-width: 200px;
 
-.entity-search {
-    background: $grey-lightest;
-    position: fixed;
-    top: $entity-header-height + $navbar-full-height;  
-    width: 100%;
-    padding-right: $entity-search-field-btn-width;
+    .entity-search {
+        background: $grey-lightest;
+        position: fixed;
+        top: $entity-header-height + $navbar-full-height;  
+        width: 100%;
+        padding-right: $entity-search-field-btn-width;
+        z-index: $zindex-fixed-navs;
 
-    @include make-row();
-    .entity-search-field {        
-        @include make-col-ready();
-        @include make-col(3);
-        .form-group {
-            display: flex;
-            margin-bottom: 0;
+        @include make-row();
+        .entity-search-field {        
+            @include make-col-ready();
+            @include make-col(3);
+            .form-group {
+                display: flex;
+                margin-bottom: 0;
+            }
+            margin-bottom: $form-group-margin-bottom;
         }
-        margin-bottom: $form-group-margin-bottom;
+        .entity-search-field-btn {
+            position: absolute;
+            right: -50px;
+            bottom: $form-group-margin-bottom;
+            width: $entity-search-field-btn-width;
+        }
     }
-    .entity-search-field-btn {
-        position: absolute;
-        right: -50px;
-        bottom: $form-group-margin-bottom;
-        width: $entity-search-field-btn-width;
-    }
-}
 
-.entity-list-empty {
-    text-align: center;
-    padding: $spacer-y 0;
-    & > * {
-        margin-top: $spacer-y;
+    .entity-list-empty {
+        text-align: center;
+        padding: $spacer-y 0;
+        & > * {
+            margin-top: $spacer-y;
+        }
+        img {
+            width: 200px;
+        }
     }
-    img {
-        width: 200px;
-    }
-}

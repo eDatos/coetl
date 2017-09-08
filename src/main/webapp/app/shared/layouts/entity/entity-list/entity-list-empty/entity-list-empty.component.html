@@ -1,0 +1,9 @@
+<div class="entity-list-empty">
+    <img src="~images/no-results.svg" [alt]="'entity.list.empty' | translate" />
+    <div class="entity-list-empty-message">
+        <div jhiTranslate="entity.list.empty">There are no results matching selected criteria</div>
+        <button class="btn btn-secondary jh-create-entity" (click)="createNewUser()">
+        <span class="fa fa-plus"></span> <span>{{buttonLabel}}</span>
+    </button>
+    </div>
+</div>

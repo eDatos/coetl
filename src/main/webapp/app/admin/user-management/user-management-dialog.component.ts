@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { JhiEventManager } from 'ng-jhipster';
@@ -6,6 +6,8 @@ import { JhiEventManager } from 'ng-jhipster';
 import { UserModalService } from './user-modal.service';
 import { JhiLanguageHelper, User, UserService, RolService, Rol } from '../../shared';
 import { Subscription } from 'rxjs/Rx';
+
+import { AutoComplete } from 'primeng/primeng';
 
 @Component({
     selector: 'jhi-user-mgmt-dialog',
@@ -15,11 +17,14 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
 
     user: User;
     languages: any[];
-    roles: any[];
+    authorities: any[];
+    filteredAuthorities: any[];
     isSaving: Boolean;
     usuarioValido = false;
     private subscription: Subscription;
     paramLogin: string;
+
+    @ViewChild(AutoComplete) private autoComplete: AutoComplete;
 
     constructor(
         private languageHelper: JhiLanguageHelper,
@@ -32,9 +37,10 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.isSaving = false;
-        this.roles = [];
+        this.authorities = [];
         this.rolService.roles().subscribe((roles) => {
-            this.roles = roles;
+            this.authorities = roles;
+            this.filteredAuthorities = this.buildAuthoritiesAutocomplete('');
         });
 
         this.languageHelper.getAll().then((languages) => {
@@ -45,6 +51,29 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
             this.paramLogin = params['login'];
             this.load(this.paramLogin);
         });
+    }
+
+    buildAuthoritiesAutocomplete(query) {
+        return this.authorities
+            .filter((authority) => authority.nombre.toUpperCase().indexOf(query.toUpperCase()) !== -1)
+            .map((authority) => authority.nombre);
+    }
+
+    searchAuthorities(event) {
+        this.filteredAuthorities = this.buildAuthoritiesAutocomplete(event.query);
+    }
+
+    handleDropdownAuthorities(event) {
+        if (event.originalEvent) {
+            event.originalEvent.preventDefault();
+            event.originalEvent.stopPropagation();
+        }
+        if (this.autoComplete.panelVisible) {
+            this.autoComplete.hide();
+        } else {
+            this.autoComplete.show();
+        }
+        this.filteredAuthorities = this.buildAuthoritiesAutocomplete('');
     }
 
     isEditMode(): Boolean {

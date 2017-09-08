@@ -6,9 +6,7 @@
                         <span class="fa fa-arrow-left"></span>
                     </button>
             <span *ngIf="!user.id" jhiTranslate="userManagement.home.createLabel">Create a User</span>
-            <span *ngIf="user.id">
-                        <span jhiTranslate="userManagement.detail.title">User</span> [<b>{{user.login}}</b>]
-            </span>
+            <span *ngIf="user.id">{{user.login}}</span>
         </div>
         <div>
             <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']">
@@ -125,11 +123,14 @@
                     <option *ngFor="let language of languages" [value]="language">{{language | findLanguageFromKey}}</option>
                 </select>
                 </div>
+            </div>
+            <div class="entity-fields-col">
                 <div class="form-group">
                     <label jhiTranslate="userManagement.profiles">Profiles</label>
-                    <select class="form-control" multiple name="rol" [(ngModel)]="user.roles">
-                    <option *ngFor="let rol of roles;trackBy:nombre" [value]="rol.nombre">{{rol.nombre}}</option>
-                </select>
+                    <p-autoComplete styleClass="form-control" [multiple]="true" name="rol" [(ngModel)]="user.roles" [suggestions]="filteredAuthorities"
+                        (completeMethod)="searchAuthorities($event)" [dropdown]="true" (onDropdownClick)="handleDropdownAuthorities($event)"
+                        (onFocus)="handleDropdownAuthorities($event)">
+                    </p-autoComplete>
                 </div>
             </div>
 
@@ -143,6 +144,14 @@
                 <dt><label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label></dt>
                 <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
             </dl>
+            <div class="form-check">
+                <label class="form-check-label" for="activated">
+                        <input class="form-check-input" [disabled]="user.id === null" type="checkbox" id="activated" name="activated" [(ngModel)]="user.activated">
+                        <span jhiTranslate="userManagement.activated">Activated</span>
+                    </label>
+            </div>
+
+        </div>
         </div>
     </fieldset>
 </form>

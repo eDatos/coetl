@@ -1,0 +1,10 @@
+<div [ngClass]="{'ui-splitbutton ui-buttonset ui-widget':true, 'not-has-other-buttons': !hasOtherButtons() }" (focusout)="onFocusOut()">
+    <ng-content select="ac-split-button-main"></ng-content>
+    <ng-container *ngIf="hasOtherButtons()">
+        <button type="button" pButton class="ui-splitbutton-menubutton" icon="fa-caret-down" cornerStyleClass="ui-corner-right" (click)="onDropdownButtonClick($event)"></button>
+    </ng-container>
+    <div #otherButtonsWrapper [ngClass]="'ui-menu ui-menu-dynamic ui-widget ui-widget-content ui-corner-all ui-helper-clearfix ui-shadow'"
+        [style.display]="menuVisible ? 'block' : 'none'">
+        <ng-content select="ac-split-button-others"></ng-content>
+    </div>
+</div>

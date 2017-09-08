@@ -7,18 +7,21 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
 import { DEFAULT_LANGUAGE } from './language/language.constants';
+import { AutoCompleteModule, ButtonModule } from 'primeng/primeng';
 
 @NgModule({
     imports: [
         NgbModule.forRoot(),
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
-            alertAsToast: false,
+            alertAsToast: true,
             i18nEnabled: true,
             defaultI18nLang: DEFAULT_LANGUAGE
         }),
         InfiniteScrollModule,
-        CookieModule.forRoot()
+        CookieModule.forRoot(),
+        AutoCompleteModule,
+        ButtonModule
     ],
     exports: [
         FormsModule,
@@ -26,7 +29,9 @@ import { DEFAULT_LANGUAGE } from './language/language.constants';
         CommonModule,
         NgbModule,
         NgJhipsterModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        AutoCompleteModule,
+        ButtonModule
     ]
 })
 export class SecretariaLibroSharedLibsModule { }

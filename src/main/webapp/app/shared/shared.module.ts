@@ -14,7 +14,9 @@ import {
     Principal,
     HasAnyRolDirective,
     JhiLoginModalComponent,
-    RolService
+    RolService,
+    EntityListEmptyComponent,
+    SplitButtonComponent
 } from './';
 
 @NgModule({
@@ -24,7 +26,9 @@ import {
     ],
     declarations: [
         JhiLoginModalComponent,
-        HasAnyRolDirective
+        HasAnyRolDirective,
+        EntityListEmptyComponent,
+        SplitButtonComponent
     ],
     providers: [
         LoginService,
@@ -43,7 +47,9 @@ import {
         SecretariaLibroSharedCommonModule,
         JhiLoginModalComponent,
         HasAnyRolDirective,
-        DatePipe
+        DatePipe,
+        EntityListEmptyComponent,
+        SplitButtonComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
