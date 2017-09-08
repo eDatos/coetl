@@ -9,7 +9,7 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 @Component({
     selector: 'jhi-rol-mgmt',
     templateUrl: './rol-management.component.html',
-    // styleUrls: ['./rol-management-delete-dialog.component.scss'],
+    styleUrls: ['./rol-management.component.scss'],
 })
 export class RolMgmtComponent implements OnInit, OnDestroy {
 

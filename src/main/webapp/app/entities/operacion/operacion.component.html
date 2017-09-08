@@ -7,7 +7,7 @@
     <div class="row">
     </div>
     <br/>
-    <ng-container *ngIf="operaciones && operaciones.length; else emptyList">
+    <ng-container *ngIf="!isEmptyList; else empty_list">
         <div class="table-responsive">
             <table class="table table-hover" acStickyTableHeader>
                 <thead>
@@ -47,13 +47,9 @@
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </ng-container>
-    <ng-template #emptyList>
+    <ng-template #empty_list>
         <div class="entity-list-empty">
-            <img src="~images/no-results.svg" [alt]="'entity.list.empty' | translate" />
-            <div jhiTranslate="entity.list.empty">There are no results matching selected criteria</div>
-            <button class="btn btn-secondary jh-create-entity" [routerLink]="['../operacion-new']">
-            <span class="fa fa-plus"></span> <span jhiTranslate="secretariaLibroApp.operacion.home.createLabel">Create a new User</span>
-        </button>
+            <ac-entity-list-empty *ngIf="isEmptyList"></ac-entity-list-empty>
         </div>
     </ng-template>
 </div>

@@ -18,7 +18,7 @@ export class EntityListEmptyComponent {
         private router: Router
     ) { }
 
-    createNewUser() {
+    createNewEntity() {
         this.router.navigate(this.buttonLink);
     }
 }

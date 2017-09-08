@@ -32,6 +32,7 @@ export class OperacionComponent implements OnInit, OnDestroy {
     reverse: any;
     searchSubscription: Subscription;
     filters: OperacionFilter;
+    isEmptyList = false;
 
     constructor(
         private operacionService: OperacionService,
@@ -125,11 +126,16 @@ export class OperacionComponent implements OnInit, OnDestroy {
         return result;
     }
 
+    private setIsEmptyList() {
+        this.isEmptyList = this.operaciones && this.operaciones.length === 0;
+    }
+
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
         this.operaciones = data;
+        this.setIsEmptyList();
     }
     private onError(error) {
         this.alertService.error(error.message, null, null);
