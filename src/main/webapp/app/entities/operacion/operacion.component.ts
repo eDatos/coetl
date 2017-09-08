@@ -7,6 +7,7 @@ import { Operacion } from './operacion.model';
 import { OperacionService } from './operacion.service';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { OperacionFilter } from './operacion-search/index';
 
 @Component({
     selector: 'jhi-operacion',
@@ -28,6 +29,8 @@ export class OperacionComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    searchSubscription: Subscription;
+    filters: OperacionFilter;
 
     constructor(
         private operacionService: OperacionService,
@@ -49,11 +52,13 @@ export class OperacionComponent implements OnInit, OnDestroy {
         });
     }
 
-    loadAll() {
+    loadAll(filters?: OperacionFilter) {
+        filters = filters || this.filters;
         this.operacionService.query({
             page: this.page - 1,
             size: this.itemsPerPage,
-            sort: this.sort()
+            sort: this.sort(),
+            query: filters ? filters.toQuery() : '',
         }).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)
@@ -86,15 +91,21 @@ export class OperacionComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
     ngOnInit() {
-        this.loadAll();
+        this.filters = new OperacionFilter;
         this.principal.identity().then((account) => {
             this.currentAccount = account;
+            this.registerChangeInOperacions();
+            this.activatedRoute.queryParams.subscribe((params) => {
+                this.filters.fromQueryParams(params);
+                this.loadAll(this.filters);
+            });
+
         });
-        this.registerChangeInOperacions();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
+        this.searchSubscription.unsubscribe();
     }
 
     trackId(index: number, item: Operacion) {
@@ -102,6 +113,7 @@ export class OperacionComponent implements OnInit, OnDestroy {
     }
     registerChangeInOperacions() {
         this.eventSubscriber = this.eventManager.subscribe('operacionListModification', (response) => this.loadAll());
+        this.searchSubscription = this.eventManager.subscribe('operacionSearch', (response) => this.router.navigate(['operacion'], { queryParams: response.content }));
     }
 
     sort() {

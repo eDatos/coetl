@@ -13,6 +13,7 @@ import {
     operacionPopupRoute,
     OperacionResolvePagingParams,
 } from './';
+import { OperacionSearchComponent } from './operacion-search/index';
 
 const ENTITY_STATES = [
     ...operacionRoute,
@@ -25,6 +26,7 @@ const ENTITY_STATES = [
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     declarations: [
+        OperacionSearchComponent,
         OperacionComponent,
         OperacionDialogComponent,
         OperacionDeleteDialogComponent,

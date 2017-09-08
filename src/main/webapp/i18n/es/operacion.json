@@ -20,6 +20,16 @@
             "roles": {
                 "roles": "Roles asociados",
                 "empty": "No hay roles asociados a esta operación"
+            },
+            "filters": {
+                "sujeto": {
+                    "placeholder": "Sujeto",
+                    "label": "Sujeto"
+                },
+                "accion": {
+                    "placeholder": "Acción",
+                    "label": "Acción"
+                }
             }
         }
     }

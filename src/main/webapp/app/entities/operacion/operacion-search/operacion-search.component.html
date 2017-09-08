@@ -1,0 +1,24 @@
+<div class="search">
+    <div class="filters-wrapper">
+
+        <div class="form-group">
+            <label for="sujeto" jhiTranslate="secretariaLibroApp.operacion.filters.sujeto.label">Sujeto</label>
+            <input class="form-control" [attr.aria-label]="'secretariaLibroApp.operacion.filters.sujeto.placeholder' | translate" placeholder="{{'secretariaLibroApp.operacion.filters.sujeto.placeholder' | translate}}"
+                [(ngModel)]="filters.sujeto" (keyup)="filter()" />
+            <span class="icon-search icon-flueco-icon-buscar"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="accion" jhiTranslate="secretariaLibroApp.operacion.filters.accion.label">Acción</label>
+            <input class="form-control" [attr.aria-label]="'secretariaLibroApp.operacion.filters.accion.placeholder' | translate" placeholder="{{'secretariaLibroApp.operacion.filters.accion.placeholder' | translate}}"
+                id="accion" name="accion" [(ngModel)]="filters.accion" (keyup)="filter()" />
+            <span class="icon-search icon-flueco-icon-buscar"></span>
+        </div>
+
+    </div>
+    <div class="">
+        <button class="btn btn-default" (click)="resetFilters();">
+        <i class="fa fa-times"></i> <span  jhiTranslate="entity.action.filtersReset">Reset</span>
+    </button>
+    </div>
+</div>
