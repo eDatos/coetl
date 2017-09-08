@@ -69,6 +69,9 @@ fieldset {
             cursor: default;
             border-bottom: $border-width solid $grey-light;
             @include appearance(none);
+            &:required.ng-valid {
+                border-left: none;
+            }
         }
     }
 }
