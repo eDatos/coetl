@@ -18,17 +18,13 @@ import { UserService, RolService } from '../../shared/index';
 export class OperacionDialogComponent implements OnInit {
 
     operacion: Operacion = new Operacion();
-    isSaving: boolean;
     roles: any[];
 
     private subscription: Subscription;
 
     constructor(
-        // public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private operacionService: OperacionService,
-        private eventManager: JhiEventManager,
-        private userService: UserService,
         private rolService: RolService,
         private route: ActivatedRoute,
         private router: Router,
@@ -36,8 +32,6 @@ export class OperacionDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.isSaving = false;
-
         this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
@@ -64,45 +58,8 @@ export class OperacionDialogComponent implements OnInit {
         this.router.navigate(returnPath);
     }
 
-    save() {
-        this.isSaving = true;
-        if (this.operacion.id !== undefined) {
-            this.subscribeToSaveResponse(
-                this.operacionService.update(this.operacion));
-        } else {
-            this.subscribeToSaveResponse(
-                this.operacionService.create(this.operacion));
-        }
-    }
-
-    isEditMode(): Boolean {
-        const lastPath = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
-        return lastPath === 'edit' || lastPath === 'operacion-new';
-    }
-
     private back() {
         this.router.navigate(['operacion']);
-    }
-
-    private subscribeToSaveResponse(result: Observable<Operacion>) {
-        result.subscribe((res: Operacion) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
-    }
-
-    private onSaveSuccess(result: Operacion) {
-        this.eventManager.broadcast({ name: 'operacionListModification', content: 'OK' });
-        this.isSaving = false;
-        this.back();
-    }
-
-    private onSaveError(error) {
-        try {
-            error.json();
-        } catch (exception) {
-            error.message = error.text();
-        }
-        this.isSaving = false;
-        this.onError(error);
     }
 
     private onError(error) {

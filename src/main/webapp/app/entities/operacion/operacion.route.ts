@@ -6,7 +6,6 @@ import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { OperacionComponent } from './operacion.component';
 import { OperacionDialogComponent } from './operacion-dialog.component';
-import { OperacionDeletePopupComponent } from './operacion-delete-dialog.component';
 
 @Injectable()
 export class OperacionResolvePagingParams implements Resolve<any> {
@@ -45,35 +44,4 @@ export const operacionRoute: Routes = [
         },
         canActivate: [UserRouteAccessService]
     },
-    {
-        path: 'operacion-new',
-        component: OperacionDialogComponent,
-        data: {
-            roles: ['ROLE_USER'],
-            pageTitle: 'secretariaLibroApp.operacion.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-    },
-    {
-        path: 'operacion/:id/edit',
-        component: OperacionDialogComponent,
-        data: {
-            roles: ['ROLE_USER'],
-            pageTitle: 'secretariaLibroApp.operacion.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-    },
-];
-
-export const operacionPopupRoute: Routes = [
-    {
-        path: 'operacion/:id/delete',
-        component: OperacionDeletePopupComponent,
-        data: {
-            roles: ['ROLE_USER'],
-            pageTitle: 'secretariaLibroApp.operacion.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    }
 ];

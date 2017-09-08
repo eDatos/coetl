@@ -31,19 +31,6 @@ public class OperacionServiceImpl implements OperacionService {
 	}
 
 	/**
-	 * Save a operacion.
-	 *
-	 * @param operacion
-	 *            the entity to save
-	 * @return the persisted entity
-	 */
-	@Override
-	public Operacion save(Operacion operacion) {
-		log.debug("Request to save Operacion : {}", operacion);
-		return operacionRepository.save(operacion);
-	}
-
-	/**
 	 * Get all the operacions.
 	 *
 	 * @param pageable
@@ -72,15 +59,4 @@ public class OperacionServiceImpl implements OperacionService {
 		return operacionRepository.findOne(id);
 	}
 
-	/**
-	 * Delete the operacion by id.
-	 *
-	 * @param id
-	 *            the id of the entity
-	 */
-	@Override
-	public void delete(Long id) {
-		log.debug("Request to delete Operacion : {}", id);
-		operacionRepository.delete(id);
-	}
 }

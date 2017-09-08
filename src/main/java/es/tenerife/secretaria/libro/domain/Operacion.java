@@ -41,11 +41,11 @@ public class Operacion extends AbstractVersionedEntity implements Serializable {
 	private Long id;
 
 	@NotNull
-	@Column(name = "accion", nullable = false)
+	@Column(name = "accion", nullable = false, updatable = false)
 	private String accion;
 
 	@NotNull
-	@Column(name = "sujeto", nullable = false)
+	@Column(name = "sujeto", nullable = false, updatable = false)
 	private String sujeto;
 
 	@JsonIgnore

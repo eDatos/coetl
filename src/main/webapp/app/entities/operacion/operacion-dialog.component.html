@@ -1,29 +1,21 @@
-<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" *ngIf="!!operacion">
+<form name="editForm" role="form" novalidate #editForm="ngForm" *ngIf="!!operacion">
     <h2 id="myOperacionLabel">
         <div>
-            <button *ngIf="!isEditMode()" type="button" routerLink="/operacion" class="btn btn-secondary btn-frameless" [attr.aria-label]="'entity.action.back' | translate">
+            <button type="button" routerLink="/operacion" class="btn btn-secondary btn-frameless" [attr.aria-label]="'entity.action.back' | translate">
                         <span class="fa fa-arrow-left"></span>
                     </button>
-            <span *ngIf="!operacion.id" jhiTranslate="secretariaLibroApp.operacion.home.createLabel">Crear operacion</span>
+
             <span *ngIf="operacion.id">
                         <span jhiTranslate="secretariaLibroApp.operacion.detail.title">Operacion</span> [<b>{{operacion.id}}</b>]
             </span>
         </div>
         <div>
-            <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/operacion', operacion.id, 'edit']">
-                        <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
-                    </button>
-            <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                        <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-                    </button>
-            <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-                        <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-                    </button>
+
         </div>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
-    <fieldset [disabled]="!isEditMode()">
+    <fieldset disabled>
         <div class="form-group" [hidden]="!operacion.id">
             <label for="id" jhiTranslate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id" [(ngModel)]="operacion.id" readonly />
@@ -52,6 +44,6 @@
                     <option *ngFor="let rol of roles" [value]="rol.nombre">{{rol.nombre}}</option>
                 </select>
         </div>
+    </fieldset>
 
-        <fieldset [disabled]="!isEditMode()">
 </form>

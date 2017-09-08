@@ -7,17 +7,13 @@ import {
     OperacionPopupService,
     OperacionComponent,
     OperacionDialogComponent,
-    OperacionDeletePopupComponent,
-    OperacionDeleteDialogComponent,
     operacionRoute,
-    operacionPopupRoute,
     OperacionResolvePagingParams,
 } from './';
 import { OperacionSearchComponent } from './operacion-search/index';
 
 const ENTITY_STATES = [
     ...operacionRoute,
-    ...operacionPopupRoute,
 ];
 
 @NgModule({
@@ -29,14 +25,10 @@ const ENTITY_STATES = [
         OperacionSearchComponent,
         OperacionComponent,
         OperacionDialogComponent,
-        OperacionDeleteDialogComponent,
-        OperacionDeletePopupComponent,
     ],
     entryComponents: [
         OperacionComponent,
         OperacionDialogComponent,
-        OperacionDeleteDialogComponent,
-        OperacionDeletePopupComponent,
     ],
     providers: [
         OperacionService,
