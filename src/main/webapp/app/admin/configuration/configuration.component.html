@@ -1,7 +1,12 @@
 <div *ngIf="allConfiguration && configuration">
     <h2 jhiTranslate="configuration.title">Configuration</h2>
 
-    <span jhiTranslate="configuration.filter">Filter (by prefix)</span> <input type="text" [(ngModel)]="filter" class="form-control">
+    <div class="entity-search">
+        <div class="entity-search-field">
+            <label jhiTranslate="configuration.filter">Filter (by prefix)</label>
+            <input type="text" [(ngModel)]="filter" class="form-control">
+        </div>
+    </div>
     <h3>Spring configuration</h3>
     <table class="table table-hover table-bordered table-responsive d-table">
         <thead>
@@ -29,12 +34,12 @@
         <table class="table table-sm table-hover table-bordered table-responsive d-table">
             <thead>
                 <tr>
-                    <th class="w-40">Property</th>
-                    <th class="w-60">Value</th>
+                    <th class="w-40"><span jhiTranslate="configuration.table.prefix">Prefix</span></th>
+                    <th class="w-60"><span jhiTranslate="configuration.table.properties">Properties</span></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let item of allConfiguration[key]">
+                <tr *ngFor="let item of (allConfiguration[key] | pureFilter:filter:'key')">
                     <td class="break">{{item.key}}</td>
                     <td class="break">
                         <span class="float-right badge badge-default break">{{item.val}}</span>

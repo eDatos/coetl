@@ -3,6 +3,7 @@
 @import 'node_modules/bootstrap/scss/utilities/_position';
 
 $navbar-full-height: $navbar-height + ($navbar-padding-y)*2;
+$zindex-fixed-navs: $zindex-dropdown - 5; // Dont cover navbar dropdown
 // Jhipster always generates the same layout. We can trust h2 is where is needed
 h2 {
     display: flex;
@@ -18,7 +19,7 @@ h2 {
     @include make-container();
     html & {
         @extend .fixed-top;
-        z-index: $zindex-dropdown - 5; // Dont cover navbar dropdown
+        z-index: $zindex-fixed-navs;
         margin-top: $navbar-full-height;
     }
 }
@@ -77,6 +78,7 @@ fieldset {
     position: fixed;
     top: $entity-header-height + $navbar-full-height;  
     width: 100%;
+    z-index: $zindex-fixed-navs;
 
     @include make-row();
     .entity-search-field {        
