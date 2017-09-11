@@ -37,7 +37,7 @@ fieldset {
     .entity-fields {    
         padding-top: $spacer-y;
         @include make-row();
-        .entity-fields-col {
+        .form-group, .jh-entity-details {
             @include make-col-ready();
             @include make-col(6);
         }

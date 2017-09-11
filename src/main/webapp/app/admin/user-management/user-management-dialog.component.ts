@@ -133,7 +133,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     private onSaveSuccess(result) {
         this.eventManager.broadcast({ name: 'userListModification', content: 'OK' });
         this.isSaving = false;
-        this.router.navigate(['user-management']);
+        this.router.navigate(['user-management', this.user.login]);
     }
 
     private onSaveError() {
