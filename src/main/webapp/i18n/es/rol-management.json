@@ -1,0 +1,23 @@
+{
+    "rolManagement": {
+        "home": {
+            "title": "Roles",
+            "createLabel": "Crear un nuevo rol",
+            "createOrEditLabel": "Crear o editar un rol"
+        },
+        "created": "Se ha creado un nuevo rol: {{ param }}",
+        "updated": "Se ha actualizado un nuevo rol {{ param }}",
+        "deleted": "Se ha borrado un nuevo rol {{ param }}",
+        "delete": {
+            "question": "¿Seguro que quiere eliminar el rol {{ nombre }}?"
+        },
+        "detail": {
+            "title": "Rol"
+        },
+        "nombre": "Nombre",
+        "operaciones": {
+            "operaciones": "Operaciones",
+            "empty": "No hay operaciones para este rol"
+        }
+    }
+}

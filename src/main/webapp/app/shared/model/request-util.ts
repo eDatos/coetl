@@ -10,6 +10,9 @@ export const createRequestOption = (req?: any): BaseRequestOptions => {
             params.paramsMap.set('sort', req.sort);
         }
         params.set('query', req.query);
+        if (!!req.includeDeleted) {
+            params.set('includeDeleted', 'true');
+        }
 
         options.params = params;
     }

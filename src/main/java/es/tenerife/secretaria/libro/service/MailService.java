@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import es.tenerife.secretaria.libro.domain.User;
+import es.tenerife.secretaria.libro.domain.Usuario;
 import io.github.jhipster.config.JHipsterProperties;
 
 /**
@@ -74,8 +74,8 @@ public class MailService {
 	}
 
 	@Async
-	public void sendEmailFromTemplate(User user, String templateName, String titleKey) {
-		Locale locale = Locale.forLanguageTag(user.getLangKey());
+	public void sendEmailFromTemplate(Usuario user, String templateName, String titleKey) {
+		Locale locale = Locale.forLanguageTag(user.getIdioma());
 		Context context = new Context(locale);
 		context.setVariable(USER, user);
 		context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
@@ -86,13 +86,13 @@ public class MailService {
 	}
 
 	@Async
-	public void sendActivationEmail(User user) {
+	public void sendActivationEmail(Usuario user) {
 		log.debug("Sending activation email to '{}'", user.getEmail());
 		sendEmailFromTemplate(user, "activationEmail", "email.activation.title");
 	}
 
 	@Async
-	public void sendCreationEmail(User user) {
+	public void sendCreationEmail(Usuario user) {
 		log.debug("Sending creation email to '{}'", user.getEmail());
 		sendEmailFromTemplate(user, "creationEmail", "email.activation.title");
 	}

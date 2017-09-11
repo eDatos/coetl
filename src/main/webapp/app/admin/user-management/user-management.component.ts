@@ -5,10 +5,13 @@ import { JhiEventManager, JhiPaginationUtil, JhiParseLinks, JhiAlertService } fr
 
 import { ITEMS_PER_PAGE, Principal, User, UserService, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { Subscription } from 'rxjs/Rx';
+import { UserFilter } from './user-search/index';
 
 @Component({
     selector: 'jhi-user-mgmt',
-    templateUrl: './user-management.component.html'
+    templateUrl: './user-management.component.html',
+    styleUrls: ['./user-management.component.scss', './user-management-delete-dialog.component.scss'],
 })
 export class UserMgmtComponent implements OnInit, OnDestroy {
 
@@ -25,6 +28,9 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    searchSubscription: Subscription;
+    userListModification: Subscription;
+    userFilter: UserFilter;
 
     constructor(
         private userService: UserService,
@@ -47,19 +53,29 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.userFilter = new UserFilter();
+
         this.principal.identity().then((account) => {
             this.currentAccount = account;
-            this.loadAll();
             this.registerChangeInUsers();
+            this.activatedRoute.queryParams.subscribe((params) => {
+                this.userFilter.fromQueryParams(params);
+                this.loadAll(this.userFilter);
+            });
         });
     }
 
     ngOnDestroy() {
         this.routeData.unsubscribe();
+        this.searchSubscription.unsubscribe()
+        this.userListModification.unsubscribe();
     }
 
     registerChangeInUsers() {
-        this.eventManager.subscribe('userListModification', (response) => this.loadAll());
+        this.userListModification = this.eventManager.subscribe('userListModification', (response) => this.loadAll());
+        this.searchSubscription = this.eventManager.subscribe('userSearch', (response) =>
+            this.router.navigate([this.activatedRoute.snapshot.url], { queryParams: response.content })
+        );
     }
 
     setActive(user, isActivated) {
@@ -78,11 +94,13 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
             });
     }
 
-    loadAll() {
+    loadAll(userFilter?: UserFilter) {
         this.userService.query({
             page: this.page - 1,
             size: this.itemsPerPage,
-            sort: this.sort()
+            sort: this.sort(),
+            query: userFilter ? userFilter.toQuery() : '',
+            includeDeleted: userFilter ? userFilter.includeDeleted : false,
         }).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)

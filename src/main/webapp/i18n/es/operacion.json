@@ -1,0 +1,36 @@
+{
+    "secretariaLibroApp": {
+        "operacion": {
+            "home": {
+                "title": "Operaciones",
+                "createLabel": "Crear nueva Operacion",
+                "createOrEditLabel": "Crear o editar Operacion"
+            },
+            "created": "Un nuevo Operacion ha sido creado con el identificador {{ param }}",
+            "updated": "Un Operacion ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Operacion ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Operacion {{ id }}?"
+            },
+            "detail": {
+                "title": "Operacion"
+            },
+            "accion": "Accion",
+            "sujeto": "Sujeto",
+            "roles": {
+                "roles": "Roles asociados",
+                "empty": "No hay roles asociados a esta operación"
+            },
+            "filters": {
+                "sujeto": {
+                    "placeholder": "Sujeto",
+                    "label": "Sujeto"
+                },
+                "accion": {
+                    "placeholder": "Acción",
+                    "label": "Acción"
+                }
+            }
+        }
+    }
+}

@@ -2,11 +2,12 @@
     "settings": {
         "title": "Ajustes del usuario [<b>{{username}}</b>]",
         "form": {
-            "firstname": "Nombre",
-            "firstname.placeholder": "Su nombre",
-            "lastname": "Apellidos",
-            "lastname.placeholder": "Sus apellidos",
-            "language": "Idioma",
+            "nombre": "Nombre",
+            "nombre.placeholder": "Su nombre",
+            "apellido1": "Primer apellido",
+            "apellido2": "Segundo apellido",
+            "apellidos.placeholder": "Sus apellidos",
+            "idioma": "Idioma",
             "button": "Guardar"
         },
         "messages": {

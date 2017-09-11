@@ -1,19 +1,20 @@
 package es.tenerife.secretaria.libro.config;
 
-import io.github.jhipster.config.JHipsterProperties;
+import java.util.concurrent.TimeUnit;
+
 import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.expiry.Duration;
 import org.ehcache.expiry.Expirations;
 import org.ehcache.jsr107.Eh107Configuration;
-
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import io.github.jhipster.config.JHipsterProperties;
 
 @Configuration
 @EnableCaching
@@ -37,9 +38,14 @@ public class CacheConfiguration {
 	@Bean
 	public JCacheManagerCustomizer cacheManagerCustomizer() {
 		return cm -> {
-			cm.createCache(es.tenerife.secretaria.libro.domain.User.class.getName(), jcacheConfiguration);
-			cm.createCache(es.tenerife.secretaria.libro.domain.Authority.class.getName(), jcacheConfiguration);
-			cm.createCache(es.tenerife.secretaria.libro.domain.User.class.getName() + ".authorities",
+			cm.createCache(es.tenerife.secretaria.libro.domain.Usuario.class.getName(), jcacheConfiguration);
+			cm.createCache(es.tenerife.secretaria.libro.domain.Usuario.class.getName() + ".roles", jcacheConfiguration);
+			cm.createCache(es.tenerife.secretaria.libro.domain.Rol.class.getName(), jcacheConfiguration);
+			cm.createCache(es.tenerife.secretaria.libro.domain.Rol.class.getName() + ".operaciones",
+					jcacheConfiguration);
+			cm.createCache(es.tenerife.secretaria.libro.domain.Rol.class.getName() + ".usuarios", jcacheConfiguration);
+			cm.createCache(es.tenerife.secretaria.libro.domain.Operacion.class.getName(), jcacheConfiguration);
+			cm.createCache(es.tenerife.secretaria.libro.domain.Operacion.class.getName() + ".roles",
 					jcacheConfiguration);
 			// jhipster-needle-ehcache-add-entry
 		};

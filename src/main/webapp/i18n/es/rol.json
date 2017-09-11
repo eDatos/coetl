@@ -1,0 +1,16 @@
+{
+    "secretariaLibroApp": {
+        "rol": {
+            "created": "Se ha creado un rol con el identificador {{ param }}",
+            "updated": "Se ha actualizado un rol con el identificador {{ param }}",
+            "deleted": "Se ha eliminado un rol con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar el rol {{ id }}?"
+            },
+            "nombre": "Nombre",
+            "accion": "Accion",
+            "sujeto": "Sujeto",
+            "roles": "Roles"
+        }
+    }
+}

@@ -12,8 +12,9 @@ import {
     LoginService,
     LoginModalService,
     Principal,
-    HasAnyAuthorityDirective,
+    HasAnyRolDirective,
     JhiLoginModalComponent,
+    RolService,
     EntityListEmptyComponent,
     SplitButtonComponent
 } from './';
@@ -25,7 +26,7 @@ import {
     ],
     declarations: [
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective,
+        HasAnyRolDirective,
         EntityListEmptyComponent,
         SplitButtonComponent
     ],
@@ -37,6 +38,7 @@ import {
         Principal,
         CSRFService,
         AuthServerProvider,
+        RolService,
         UserService,
         DatePipe,
     ],
@@ -44,7 +46,7 @@ import {
     exports: [
         SecretariaLibroSharedCommonModule,
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective,
+        HasAnyRolDirective,
         DatePipe,
         EntityListEmptyComponent,
         SplitButtonComponent

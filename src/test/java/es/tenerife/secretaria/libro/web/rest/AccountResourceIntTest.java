@@ -18,9 +18,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -30,13 +32,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.tenerife.secretaria.libro.SecretariaLibroApp;
-import es.tenerife.secretaria.libro.domain.Authority;
-import es.tenerife.secretaria.libro.domain.User;
-import es.tenerife.secretaria.libro.repository.UserRepository;
+import es.tenerife.secretaria.libro.domain.Rol;
+import es.tenerife.secretaria.libro.domain.Usuario;
+import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
+import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
+import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
-import es.tenerife.secretaria.libro.service.UserService;
-import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
+import es.tenerife.secretaria.libro.service.UsuarioService;
+import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 
 /**
  * Test class for the AccountResource REST controller.
@@ -48,20 +52,23 @@ import es.tenerife.secretaria.libro.web.rest.dto.UserDTO;
 public class AccountResourceIntTest {
 
 	@Autowired
-	private UserRepository userRepository;
+	private UsuarioRepository userRepository;
 
 	@Autowired
-	private UserService userService;
+	private UsuarioService userService;
 
 	@SuppressWarnings("rawtypes")
 	@Autowired
 	private HttpMessageConverter[] httpMessageConverters;
 
 	@Mock
-	private UserService mockUserService;
+	private UsuarioService mockUserService;
 
 	@Mock
 	private MailService mockMailService;
+
+	@MockBean
+	private LdapService ldapService;
 
 	private MockMvc restUserMockMvc;
 
@@ -97,34 +104,34 @@ public class AccountResourceIntTest {
 
 	@Test
 	public void testGetExistingAccount() throws Exception {
-		Set<Authority> authorities = new HashSet<>();
-		Authority authority = new Authority();
-		authority.setName(AuthoritiesConstants.ADMIN);
+		Set<Rol> authorities = new HashSet<>();
+		Rol authority = new Rol();
+		authority.setNombre(AuthoritiesConstants.ADMIN);
 		authorities.add(authority);
 
-		User user = new User();
+		Usuario user = new Usuario();
 		user.setLogin("test");
-		user.setFirstName("john");
-		user.setLastName("doe");
+		user.setNombre("john");
+		user.setApellido1("doe");
 		user.setEmail("john.doe@jhipster.com");
-		user.setImageUrl("http://placehold.it/50x50");
-		user.setLangKey("en");
-		user.setAuthorities(authorities);
-		when(mockUserService.getUserWithAuthorities()).thenReturn(user);
+		user.seturlImagen("http://placehold.it/50x50");
+		user.setIdioma("en");
+		user.setRoles(authorities);
+		when(mockUserService.getUsuarioWithAuthorities()).thenReturn(user);
 
 		restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$.login").value("test")).andExpect(jsonPath("$.firstName").value("john"))
-				.andExpect(jsonPath("$.lastName").value("doe"))
+				.andExpect(jsonPath("$.login").value("test")).andExpect(jsonPath("$.nombre").value("john"))
+				.andExpect(jsonPath("$.apellido1").value("doe"))
 				.andExpect(jsonPath("$.email").value("john.doe@jhipster.com"))
-				.andExpect(jsonPath("$.imageUrl").value("http://placehold.it/50x50"))
-				.andExpect(jsonPath("$.langKey").value("en"))
-				.andExpect(jsonPath("$.authorities").value(AuthoritiesConstants.ADMIN));
+				.andExpect(jsonPath("$.urlImagen").value("http://placehold.it/50x50"))
+				.andExpect(jsonPath("$.idioma").value("en"))
+				.andExpect(jsonPath("$.roles").value(AuthoritiesConstants.ADMIN));
 	}
 
 	@Test
 	public void testGetUnknownAccount() throws Exception {
-		when(mockUserService.getUserWithAuthorities()).thenReturn(null);
+		when(mockUserService.getUsuarioWithAuthorities()).thenReturn(null);
 
 		restUserMockMvc.perform(get("/api/account").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isInternalServerError());
@@ -134,14 +141,16 @@ public class AccountResourceIntTest {
 	@Transactional
 	@WithMockUser("save-account")
 	public void testSaveAccount() throws Exception {
-		User user = new User();
+		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
+
+		Usuario user = new Usuario();
 		user.setLogin("save-account");
 		user.setEmail("save-account@example.com");
-		user.setActivated(true);
+		user.setActivado(true);
 
 		userRepository.saveAndFlush(user);
 		//@formatter:off
-		UserDTO userDTO = UserDTO.builder()
+		UsuarioDTO userDTO = UsuarioDTO.builder()
 				.setId(null)
 				.setLogin("not-used")
 				.setFirstName("firstname")
@@ -161,29 +170,29 @@ public class AccountResourceIntTest {
 		restMvc.perform(post("/api/account").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isOk());
 
-		User updatedUser = userRepository.findOneByLogin(user.getLogin()).orElse(null);
-		assertThat(updatedUser.getFirstName()).isEqualTo(userDTO.getFirstName());
-		assertThat(updatedUser.getLastName()).isEqualTo(userDTO.getLastName());
+		Usuario updatedUser = userRepository.findOneByLogin(user.getLogin()).orElse(null);
+		assertThat(updatedUser.getNombre()).isEqualTo(userDTO.getNombre());
+		assertThat(updatedUser.getApellido1()).isEqualTo(userDTO.getApellido1());
 		assertThat(updatedUser.getEmail()).isEqualTo(userDTO.getEmail());
-		assertThat(updatedUser.getLangKey()).isEqualTo(userDTO.getLangKey());
-		assertThat(updatedUser.getImageUrl()).isEqualTo(userDTO.getImageUrl());
-		assertThat(updatedUser.getActivated()).isEqualTo(true);
-		assertThat(updatedUser.getAuthorities()).isEmpty();
+		assertThat(updatedUser.getIdioma()).isEqualTo(userDTO.getIdioma());
+		assertThat(updatedUser.getUrlImagen()).isEqualTo(userDTO.getUrlImagen());
+		assertThat(updatedUser.getActivado()).isEqualTo(true);
+		assertThat(updatedUser.getRoles()).isEmpty();
 	}
 
 	@Test
 	@Transactional
 	@WithMockUser("save-invalid-email")
 	public void testSaveInvalidEmail() throws Exception {
-		User user = new User();
+		Usuario user = new Usuario();
 		user.setLogin("save-invalid-email");
 		user.setEmail("save-invalid-email@example.com");
-		user.setActivated(true);
+		user.setActivado(true);
 
 		userRepository.saveAndFlush(user);
 
 		//@formatter:off
-		UserDTO userDTO = UserDTO.builder()
+		UsuarioDTO userDTO = UsuarioDTO.builder()
 				.setId(null)
 				.setLogin("not-used")
 				.setFirstName("firstname")
@@ -210,21 +219,21 @@ public class AccountResourceIntTest {
 	@Transactional
 	@WithMockUser("save-existing-email")
 	public void testSaveExistingEmail() throws Exception {
-		User user = new User();
+		Usuario user = new Usuario();
 		user.setLogin("save-existing-email");
 		user.setEmail("save-existing-email@example.com");
-		user.setActivated(true);
+		user.setActivado(true);
 
 		userRepository.saveAndFlush(user);
 
-		User anotherUser = new User();
+		Usuario anotherUser = new Usuario();
 		anotherUser.setLogin("save-existing-email2");
 		anotherUser.setEmail("save-existing-email2@example.com");
-		anotherUser.setActivated(true);
+		anotherUser.setActivado(true);
 
 		userRepository.saveAndFlush(anotherUser);
 		//@formatter:off
-		UserDTO userDTO = UserDTO.builder()
+		UsuarioDTO userDTO = UsuarioDTO.builder()
 				.setId(null)
 				.setLogin("not-used")
 				.setFirstName("firstname")
@@ -244,7 +253,7 @@ public class AccountResourceIntTest {
 		restMvc.perform(post("/api/account").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isBadRequest());
 
-		User updatedUser = userRepository.findOneByLogin("save-existing-email").orElse(null);
+		Usuario updatedUser = userRepository.findOneByLogin("save-existing-email").orElse(null);
 		assertThat(updatedUser.getEmail()).isEqualTo("save-existing-email@example.com");
 	}
 
@@ -252,14 +261,16 @@ public class AccountResourceIntTest {
 	@Transactional
 	@WithMockUser("save-existing-email-and-login")
 	public void testSaveExistingEmailAndLogin() throws Exception {
-		User user = new User();
+		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
+
+		Usuario user = new Usuario();
 		user.setLogin("save-existing-email-and-login");
 		user.setEmail("save-existing-email-and-login@example.com");
-		user.setActivated(true);
+		user.setActivado(true);
 
 		userRepository.saveAndFlush(user);
 		//@formatter:off
-		UserDTO userDTO = UserDTO.builder()
+		UsuarioDTO userDTO = UsuarioDTO.builder()
 				.setId(null)
 				.setLogin("not-used")
 				.setFirstName("firstname")
@@ -279,7 +290,7 @@ public class AccountResourceIntTest {
 		restMvc.perform(post("/api/account").contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isOk());
 
-		User updatedUser = userRepository.findOneByLogin("save-existing-email-and-login").orElse(null);
+		Usuario updatedUser = userRepository.findOneByLogin("save-existing-email-and-login").orElse(null);
 		assertThat(updatedUser.getEmail()).isEqualTo("save-existing-email-and-login@example.com");
 	}
 

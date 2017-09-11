@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ApplicationProperties {
 
 	private final Cas cas = new Cas();
+	private final Ldap ldap = new Ldap();
 
 	public Cas getCas() {
 		return cas;
@@ -75,6 +76,50 @@ public class ApplicationProperties {
 
 		public void setApplicationHome(String applicationHome) {
 			this.applicationHome = applicationHome;
+		}
+	}
+
+	public Ldap getLdap() {
+		return ldap;
+	}
+
+	public static class Ldap {
+
+		private String url;
+		private String username;
+		private String password;
+		private String base;
+
+		public String getUrl() {
+			return url;
+		}
+
+		public void setUrl(String url) {
+			this.url = url;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
+		public String getBase() {
+			return base;
+		}
+
+		public void setBase(String base) {
+			this.base = base;
 		}
 	}
 

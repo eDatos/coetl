@@ -8,7 +8,7 @@ import { createRequestOption } from '../model/request-util';
 
 @Injectable()
 export class UserService {
-    private resourceUrl = 'api/users';
+    private resourceUrl = 'api/usuarios';
 
     constructor(private http: Http) { }
 
@@ -36,11 +36,9 @@ export class UserService {
         return this.http.delete(`${this.resourceUrl}/${login}`);
     }
 
-    authorities(): Observable<string[]> {
-        return this.http.get('api/users/authorities').map((res: Response) => {
-            const json = res.json();
-            return <string[]> json;
-        });
+    buscarUsuarioEnLdap(login: string): Observable<User> {
+        return this.http.get(`${this.resourceUrl}/${login}/ldap`)
+            .map((res: Response) => res.json());
     }
 
     private convertResponse(res: Response): ResponseWrapper {

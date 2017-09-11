@@ -7,6 +7,7 @@ import { SecretariaLibroSharedModule } from '../shared';
 import {
     adminState,
     AuditsComponent,
+    RolMgmtComponent,
     UserMgmtComponent,
     UserDeleteDialogComponent,
     UserMgmtDialogComponent,
@@ -23,10 +24,16 @@ import {
     JhiHealthService,
     JhiMetricsService,
     LogsService,
+    RolResolvePagingParams,
+    RolResolve,
+    RolModalService,
     UserResolvePagingParams,
     UserResolve,
     UserModalService
 } from './';
+import { RolMgmtDialogComponent } from './rol-management/rol-management-dialog.component';
+import { RolMgmtDeleteDialogComponent, RolDeleteDialogComponent } from './rol-management/rol-management-delete-dialog.component';
+import { UserSearchComponent } from './user-management/user-search/index';
 
 @NgModule({
     imports: [
@@ -36,6 +43,11 @@ import {
     ],
     declarations: [
         AuditsComponent,
+        RolMgmtComponent,
+        RolMgmtDialogComponent,
+        RolDeleteDialogComponent,
+        RolMgmtDeleteDialogComponent,
+        UserSearchComponent,
         UserMgmtComponent,
         UserDeleteDialogComponent,
         UserMgmtDialogComponent,
@@ -49,6 +61,8 @@ import {
         JhiMetricsMonitoringModalComponent
     ],
     entryComponents: [
+        RolMgmtDialogComponent,
+        RolMgmtDeleteDialogComponent,
         UserMgmtDialogComponent,
         UserMgmtDeleteDialogComponent,
         JhiHealthModalComponent,
@@ -60,9 +74,12 @@ import {
         JhiHealthService,
         JhiMetricsService,
         LogsService,
+        RolResolvePagingParams,
+        RolResolve,
+        RolModalService,
         UserResolvePagingParams,
         UserResolve,
-        UserModalService
+        UserModalService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

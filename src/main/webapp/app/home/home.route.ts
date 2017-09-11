@@ -7,7 +7,7 @@ export const HOME_ROUTE: Route = {
     path: '',
     component: HomeComponent,
     data: {
-        authorities: [],
+        roles: [],
         pageTitle: 'home.title'
     }
 };

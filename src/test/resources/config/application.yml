@@ -45,6 +45,7 @@ spring:
             hibernate.hbm2ddl.auto: validate
     mail:
         host: localhost
+        port: 0
     messages:
         basename: i18n/messages
     mvc:
@@ -113,3 +114,8 @@ application:
         login:  # Optional: Only change if needed (Leave empty for cas.enpoint + '/login')
         logout: # Optional: Only change if needed(Leave empty for cas.enpoint + '/logout')
         validate: # Optional: Only change if needed (Leave empty for 2.0 Cas Protocol). For CAS 3.0 protocol change for 'p3'
+    ldap:
+        url: FILL_URL # Ejemplo: ldap://ldap.miorganizacion.com
+        username: FILL_USERNAME # Ejemplo: cn=username,dc=miorganizacion,dc=com
+        password: FILL_PASSWORD # Ejemplo: mipassword
+        base: ou=usuarios,dc=miorganizacion,dc=com # Ejemplo ou=usuarios,dc=miorganizacion,dc=com

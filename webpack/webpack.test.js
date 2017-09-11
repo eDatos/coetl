@@ -6,6 +6,7 @@ const utils = require('./utils.js');
 
 module.exports = (WATCH) => ({
     resolve: {
+        modules: ['node_modules', 'src/main/webapp/content'],
         extensions: ['.ts', '.js']
     },
     module: {

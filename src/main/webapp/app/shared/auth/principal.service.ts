@@ -11,7 +11,7 @@ export class Principal {
 
     constructor(
         private account: AccountService
-    ) {}
+    ) { }
 
     authenticate(identity) {
         this.userIdentity = identity;
@@ -19,17 +19,17 @@ export class Principal {
         this.authenticationState.next(this.userIdentity);
     }
 
-    hasAnyAuthority(authorities: string[]): Promise<boolean> {
-        return Promise.resolve(this.hasAnyAuthorityDirect(authorities));
+    hasAnyRol(roles: string[]): Promise<boolean> {
+        return Promise.resolve(this.hasAnyRolDirect(roles));
     }
 
-    hasAnyAuthorityDirect(authorities: string[]): boolean {
-        if (!this.authenticated || !this.userIdentity || !this.userIdentity.authorities) {
+    hasAnyRolDirect(roles: string[]): boolean {
+        if (!this.authenticated || !this.userIdentity || !this.userIdentity.roles) {
             return false;
         }
 
-        for (let i = 0; i < authorities.length; i++) {
-            if (this.userIdentity.authorities.indexOf(authorities[i]) !== -1) {
+        for (let i = 0; i < roles.length; i++) {
+            if (this.userIdentity.roles.indexOf(roles[i]) !== -1) {
                 return true;
             }
         }
@@ -37,13 +37,13 @@ export class Principal {
         return false;
     }
 
-    hasAuthority(authority: string): Promise<boolean> {
+    hasRol(rol: string): Promise<boolean> {
         if (!this.authenticated) {
-           return Promise.resolve(false);
+            return Promise.resolve(false);
         }
 
         return this.identity().then((id) => {
-            return Promise.resolve(id.authorities && id.authorities.indexOf(authority) !== -1);
+            return Promise.resolve(id.roles && id.roles.indexOf(rol) !== -1);
         }, () => {
             return Promise.resolve(false);
         });

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { UserModalService } from './user-modal.service';
-import { JhiLanguageHelper, User, UserService } from '../../shared';
+import { JhiLanguageHelper, User, UserService, RolService, Rol } from '../../shared';
 import { Subscription } from 'rxjs/Rx';
 
 import { AutoComplete } from 'primeng/primeng';
@@ -20,6 +20,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     authorities: any[];
     filteredAuthorities: any[];
     isSaving: Boolean;
+    usuarioValido = false;
     private subscription: Subscription;
     paramLogin: string;
 
@@ -29,6 +30,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
         private languageHelper: JhiLanguageHelper,
         private userService: UserService,
         private eventManager: JhiEventManager,
+        private rolService: RolService,
         private route: ActivatedRoute,
         private router: Router
     ) { }
@@ -36,8 +38,8 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = [];
-        this.userService.authorities().subscribe((authorities) => {
-            this.authorities = authorities;
+        this.rolService.roles().subscribe((roles) => {
+            this.authorities = roles;
             this.filteredAuthorities = this.buildAuthoritiesAutocomplete('');
         });
 
@@ -53,7 +55,8 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
 
     buildAuthoritiesAutocomplete(query) {
         return this.authorities
-            .filter((authority) => authority.toUpperCase().indexOf(query.toUpperCase()) !== -1);
+            .filter((authority) => authority.nombre.toUpperCase().indexOf(query.toUpperCase()) !== -1)
+            .map((authority) => authority.nombre);
     }
 
     searchAuthorities(event) {
@@ -61,8 +64,10 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     }
 
     handleDropdownAuthorities(event) {
-        event.originalEvent.preventDefault();
-        event.originalEvent.stopPropagation();
+        if (event.originalEvent) {
+            event.originalEvent.preventDefault();
+            event.originalEvent.stopPropagation();
+        }
         if (this.autoComplete.panelVisible) {
             this.autoComplete.hide();
         } else {
@@ -78,7 +83,14 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
 
     load(login) {
         if (login) {
-            this.userService.find(login).subscribe((user) => this.user = user);
+            this.userService.find(login).subscribe((user) => {
+                this.user = user;
+                this.userService.buscarUsuarioEnLdap(this.user.login).subscribe((usuarioLdap) => {
+                    if (!!usuarioLdap) {
+                        this.usuarioValido = true;
+                    }
+                });
+            });
         } else {
             this.user = new User();
         }
@@ -100,6 +112,22 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
         } else {
             this.userService.create(this.user).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         }
+    }
+
+    validarUsuario() {
+        this.userService.buscarUsuarioEnLdap(this.user.login).subscribe(
+            (usuario) => {
+                this.user = usuario;
+                this.usuarioValido = true;
+            },
+            (error) => {
+                this.usuarioValido = false;
+            }
+        );
+    }
+
+    compareRoles(r1: Rol, r2: Rol): boolean {
+        return r1 && r2 ? r1.nombre === r2.nombre : r1 === r2;
     }
 
     private onSaveSuccess(result) {

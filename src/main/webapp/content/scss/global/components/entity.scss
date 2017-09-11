@@ -76,21 +76,41 @@ fieldset {
     }
 }
 
-.entity-search {
-    background: $grey-lightest;
-    position: fixed;
-    top: $entity-header-height + $navbar-full-height;  
-    width: 100%;
-    z-index: $zindex-fixed-navs;
+$entity-search-field-btn-width: 200px;
 
-    @include make-row();
-    .entity-search-field {        
-        @include make-col-ready();
-        @include make-col(3);
-        .form-group {
-            display: flex;
-            margin-bottom: 0;
+    .entity-search {
+        background: $grey-lightest;
+        position: fixed;
+        top: $entity-header-height + $navbar-full-height;  
+        width: 100%;
+        padding-right: $entity-search-field-btn-width;
+        z-index: $zindex-fixed-navs;
+
+        @include make-row();
+        .entity-search-field {        
+            @include make-col-ready();
+            @include make-col(3);
+            .form-group {
+                display: flex;
+                margin-bottom: 0;
+            }
+            margin-bottom: $form-group-margin-bottom;
         }
-        margin-bottom: $form-group-margin-bottom;
+        .entity-search-field-btn {
+            position: absolute;
+            right: -50px;
+            bottom: $form-group-margin-bottom;
+            width: $entity-search-field-btn-width;
+        }
     }
-}
+
+    .entity-list-empty {
+        text-align: center;
+        padding: $spacer-y 0;
+        & > * {
+            margin-top: $spacer-y;
+        }
+        img {
+            width: 200px;
+        }
+    }

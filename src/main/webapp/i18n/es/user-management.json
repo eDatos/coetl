@@ -3,7 +3,8 @@
         "home": {
             "title": "Usuarios",
             "createLabel": "Crear un nuevo usuario",
-            "createOrEditLabel": "Crear o editar un usuario"
+            "createOrEditLabel": "Crear o editar un usuario",
+            "includeDeleted": "Incluir borrados"
         },
         "created": "A new user is created with identifier {{ param }}",
         "updated": "An user is updated with identifier {{ param }}",
@@ -15,16 +16,24 @@
             "title": "Usuario"
         },
         "login": "Login",
-        "firstName": "Nombre",
-        "lastName": "Apellidos",
+        "nombre": "Nombre",
+        "apellido1": "Primer apellido",
+        "apellido2": "Segundo apellido",
         "email": "Email",
-        "activated": "Activado",
-        "deactivated": "Desactivado",
+        "activado": "Activado",
+        "desactivado": "Desactivado",
         "profiles": "Perfiles",
-        "langKey": "Idioma",
+        "idioma": "Idioma",
         "createdBy": "Creado por",
         "createdDate": "Fecha de creación",
         "lastModifiedBy": "Modificado por",
-        "lastModifiedDate": "Fecha de modificación"
+        "lastModifiedDate": "Fecha de modificación",
+        "deletionDate": "Fecha de borrado",
+        "roles": "Roles",
+        "filters": {
+            "name": {
+                "placeholder": "Búsqueda de usuario"
+            }
+        }
     }
 }
