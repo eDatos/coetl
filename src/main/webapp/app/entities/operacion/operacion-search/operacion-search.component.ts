@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { JhiLanguageService, JhiEventManager } from 'ng-jhipster';
 
 import { Subject, Subscription } from 'rxjs';
-import { User, EntityFilter } from '../../../shared/index';
+import { EntityFilter } from '../../../shared/index';
 import { OperacionFilter } from './index';
 import { Operacion } from '../index';
 
@@ -18,9 +18,6 @@ export class OperacionSearchComponent implements OnInit, OnDestroy {
 
     @Input()
     filters: OperacionFilter;
-
-    @Input()
-    operaciones: Operacion[];
 
     constructor(
         private eventManager: JhiEventManager,

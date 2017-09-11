@@ -6,7 +6,7 @@
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <ac-user-search [userList]="users" [filters]="userFilter"></ac-user-search>
+    <ac-user-search [filters]="userFilter"></ac-user-search>
     <ng-container *ngIf="users?.length > 0;else entity_empty_list">
         <div class="table-responsive">
             <table class="table table-hover" acStickyTableHeader>

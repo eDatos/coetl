@@ -18,9 +18,6 @@ export class UserSearchComponent implements OnInit, OnDestroy {
     @Input()
     filters: UserFilter;
 
-    @Input()
-    userList: User[];
-
     constructor(
         private eventManager: JhiEventManager,
     ) {
