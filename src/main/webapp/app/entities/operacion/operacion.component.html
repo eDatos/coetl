@@ -1,12 +1,9 @@
-<div>
+<div class="entity">
     <h2>
         <span jhiTranslate="secretariaLibroApp.operacion.home.title">operaciones</span>
     </h2>
-    <ac-operacion-search [filters]="filters" [operaciones]="operaciones"></ac-operacion-search>
     <jhi-alert></jhi-alert>
-    <div class="row">
-    </div>
-    <br/>
+    <ac-operacion-search [filters]="filters" [operaciones]="operaciones"></ac-operacion-search>
     <ng-container *ngIf="!isEmptyList; else empty_list">
         <div class="table-responsive">
             <table class="table table-hover" acStickyTableHeader>
@@ -40,10 +37,8 @@
             </table>
         </div>
 
-        <div class="row justify-content-center">
+        <div class="d-flex justify-content-between">
             <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
     </ng-container>

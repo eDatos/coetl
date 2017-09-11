@@ -7,8 +7,7 @@ import { UserFilter } from './index';
 
 @Component({
     selector: 'ac-user-search',
-    templateUrl: 'user-search.component.html',
-    styleUrls: ['user-search.component.scss']
+    templateUrl: 'user-search.component.html'
 })
 
 export class UserSearchComponent implements OnInit, OnDestroy {

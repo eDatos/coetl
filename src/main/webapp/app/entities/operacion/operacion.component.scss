@@ -1,5 +1,5 @@
-$operacion-search-height: 74px;
+@import '~scss/variables';
 
-.table-responsive, .entity-list-empty {
-    margin-top: $operacion-search-height;
+.entity {
+    padding-top: $entity-search-default-height;
 }

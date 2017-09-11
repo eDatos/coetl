@@ -1,4 +1,4 @@
-<form name="editForm" role="form" novalidate #editForm="ngForm" *ngIf="!!operacion">
+<form name="editForm" role="form" novalidate #editForm="ngForm" *ngIf="operacion">
     <h2 id="myOperacionLabel">
         <div>
             <button type="button" routerLink="/operacion" class="btn btn-secondary btn-frameless" [attr.aria-label]="'entity.action.back' | translate">
@@ -8,9 +8,6 @@
             <span *ngIf="operacion.id">
                         <span jhiTranslate="secretariaLibroApp.operacion.detail.title">Operacion</span> [<b>{{operacion.id}}</b>]
             </span>
-        </div>
-        <div>
-
         </div>
     </h2>
 
