@@ -59,4 +59,11 @@ public class OperacionServiceImpl implements OperacionService {
 		return operacionRepository.findOne(id);
 	}
 
+	@Override
+	public Operacion findBySujetoAndAccion(String sujeto, String accion) {
+		log.debug("Request to get Operacion : {}, {}", sujeto, accion);
+		return operacionRepository.findBySujetoAndAccion(sujeto, accion);
+
+	}
+
 }

@@ -17,4 +17,6 @@ public interface OperacionRepository extends JpaRepository<Operacion, Long> {
 
 	Page<Operacion> findAll(DetachedCriteria criteria, Pageable pageable);
 
+	Operacion findBySujetoAndAccion(String sujeto, String accion);
+
 }
