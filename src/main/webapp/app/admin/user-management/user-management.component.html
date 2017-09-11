@@ -30,8 +30,8 @@
                             <td>{{user.login}}</td>
                             <td>{{user.email}}</td>
                             <td>
-                                <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activated" jhiTranslate="userManagement.desactivado">Deactivated</button>
-                                <button class="btn btn-success btn-sm" (click)="setActive(user, false)" *ngIf="user.activated" [disabled]="currentAccount.login === user.login"
+                                <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activado" jhiTranslate="userManagement.desactivado">Deactivated</button>
+                                <button class="btn btn-success btn-sm" (click)="setActive(user, false)" *ngIf="user.activado" [disabled]="currentAccount.login === user.login"
                                     jhiTranslate="userManagement.activado">Activated</button>
                             </td>
                             <td>{{user.idioma}}</td>

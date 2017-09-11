@@ -144,14 +144,7 @@
                 <dt><label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label></dt>
                 <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
             </dl>
-            <div class="form-check">
-                <label class="form-check-label" for="activated">
-                        <input class="form-check-input" [disabled]="user.id === null" type="checkbox" id="activated" name="activated" [(ngModel)]="user.activated">
-                        <span jhiTranslate="userManagement.activated">Activated</span>
-                    </label>
-            </div>
 
-        </div>
         </div>
     </fieldset>
 </form>
