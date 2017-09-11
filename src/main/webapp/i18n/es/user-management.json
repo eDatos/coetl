@@ -1,5 +1,8 @@
 {
     "userManagement": {
+        "personalData": "Datos personales",
+        "permissions": "Permisos",
+        "audits": "Auditorías",
         "home": {
             "title": "Usuarios",
             "createLabel": "Crear un nuevo usuario",

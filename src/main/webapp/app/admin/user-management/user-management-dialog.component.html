@@ -1,5 +1,6 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" *ngIf="user">
 
+
     <h2 id="myUserLabel">
         <div>
             <button *ngIf="!isEditMode()" type="button" routerLink="/user-management" class="btn btn-secondary btn-frameless" [attr.aria-label]="'entity.action.back' | translate">
@@ -23,12 +24,10 @@
 
     <jhi-alert-error></jhi-alert-error>
     <fieldset [disabled]="!isEditMode()">
+        <h3 jhiTranslate="userManagement.personalData">Datos personales</h3>
         <div class="entity-fields">
             <div class="entity-fields-col">
-                <div class="form-group" [hidden]="!user.id">
-                    <label jhiTranslate="global.field.id">ID</label>
-                    <input type="text" class="form-control" name="id" [(ngModel)]="user.id" readonly>
-                </div>
+
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="userManagement.login">Login</label>
@@ -75,6 +74,8 @@
                     </small>
                     </div>
                 </div>
+            </div>
+            <div class="entity-fields-col">
                 <div class="form-group">
                     <label jhiTranslate="userManagement.apellido2">Last Name</label>
                     <input type="text" class="form-control" name="apellido2" #apellido2Input="ngModel" [(ngModel)]="user.apellido2" maxlength="50">
@@ -110,20 +111,18 @@
                     </div>
                 </div>
 
-                <div class="form-check">
-                    <label class="form-check-label" for="activado">
-                    <input class="form-check-input" [disabled]="user.id === null" type="checkbox" id="activado" name="activado" [(ngModel)]="user.activado">
-                    <span jhiTranslate="userManagement.activado">activado</span>
-                </label>
-                </div>
 
                 <div class="form-group" *ngIf="languages && languages.length > 0">
                     <label jhiTranslate="userManagement.idioma">Lang Key</label>
                     <select class="form-control" id="idioma" name="idioma" [(ngModel)]="user.idioma">
-                    <option *ngFor="let language of languages" [value]="language">{{language | findLanguageFromKey}}</option>
-                </select>
+                                    <option *ngFor="let language of languages" [value]="language">{{language | findLanguageFromKey}}</option>
+                                </select>
                 </div>
+
             </div>
+        </div>
+        <h3 jhiTranslate="userManagement.permissions">Permisos</h3>
+        <div class="entity-fields">
             <div class="entity-fields-col">
                 <div class="form-group">
                     <label jhiTranslate="userManagement.profiles">Profiles</label>
@@ -133,25 +132,33 @@
                     </p-autoComplete>
                 </div>
             </div>
-
-            <dl class="row-md jh-entity-details">
-                <dt><label jhiTranslate="userManagement.createdBy">Created By</label></dt>
-                <dd>{{user.createdBy}}</dd>
-                <dt><label jhiTranslate="userManagement.createdDate">Created Date</label></dt>
-                <dd>{{user.createdDate | date:'dd/MM/yy HH:mm' }}</dd>
-                <dt><label jhiTranslate="userManagement.lastModifiedBy">Last Modified By</label></dt>
-                <dd>{{user.lastModifiedBy}}</dd>
-                <dt><label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label></dt>
-                <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
-            </dl>
-            <div class="form-check">
-                <label class="form-check-label" for="activated">
-                        <input class="form-check-input" [disabled]="user.id === null" type="checkbox" id="activated" name="activated" [(ngModel)]="user.activated">
-                        <span jhiTranslate="userManagement.activated">Activated</span>
-                    </label>
+            <div class="entity-fields-col">
+                <div class="form-check">
+                    <label class="form-check-label" for="activado">
+                    <input class="form-check-input" [disabled]="user.id === null" type="checkbox" id="activado" name="activado" [(ngModel)]="user.activado">
+                    <span jhiTranslate="userManagement.activado">activado</span>
+                </label>
+                </div>
             </div>
-
         </div>
+        <h3 jhiTranslate="userManagement.audits">Auditoría</h3>
+        <div class="entity-fields">
+            <div class="entity-fields-col">
+                <dl class="row-md jh-entity-details">
+                    <dt><label jhiTranslate="userManagement.createdBy">Created By</label></dt>
+                    <dd>{{user.createdBy}}</dd>
+                    <dt><label jhiTranslate="userManagement.createdDate">Created Date</label></dt>
+                    <dd>{{user.createdDate | date:'dd/MM/yy HH:mm' }}</dd>
+                </dl>
+            </div>
+            <div class="entity-fields-col">
+                <dl class="row-md jh-entity-details">
+                    <dt><label jhiTranslate="userManagement.lastModifiedBy">Last Modified By</label></dt>
+                    <dd>{{user.lastModifiedBy}}</dd>
+                    <dt><label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label></dt>
+                    <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
+                </dl>
+            </div>
         </div>
     </fieldset>
 </form>

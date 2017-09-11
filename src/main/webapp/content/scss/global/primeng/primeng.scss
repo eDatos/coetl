@@ -14,6 +14,8 @@ fieldset:disabled {
         border: none;
         cursor: none;
         pointer-events: none;
+        background-color: transparent;
+        border-bottom: $border-width solid $grey-light;
         .fa-close {
             display: none;
         }
