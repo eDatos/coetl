@@ -1,5 +1,7 @@
 package es.tenerife.secretaria.libro.web.rest;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,7 +72,7 @@ public class RolResource extends AbstractResource {
 	@PostMapping("/roles")
 	@PreAuthorize("hasPermission('ROL', 'CREAR')")
 	@Timed
-	public ResponseEntity<RolDTO> createRol(@RequestBody RolDTO rolDTO) {
+	public ResponseEntity<RolDTO> createRol(@RequestBody RolDTO rolDTO) throws URISyntaxException {
 		log.debug("REST request to create Rol {}", rolDTO);
 		Rol rol;
 		if (rolDTO.getNombre() == null) {
@@ -84,8 +86,8 @@ public class RolResource extends AbstractResource {
 					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "rol-existe", "El rol ya exsitía")).body(null);
 		}
 		rol = rolService.save(rolMapper.toEntity(rolDTO));
-		return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, rol.getNombre()))
-				.body(rolMapper.toDto(rol));
+		return ResponseEntity.created(new URI("/api/usuarios/" + rol.getNombre()))
+				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, rol.getNombre())).body(rolMapper.toDto(rol));
 	}
 
 	@PutMapping("/roles")
@@ -94,8 +96,8 @@ public class RolResource extends AbstractResource {
 	public ResponseEntity<RolDTO> updateRol(@RequestBody RolDTO rolDTO) {
 		log.debug("REST request to update Rol {}", rolDTO);
 		if (rolDTO.getNombre() == null) {
-			return ResponseEntity.badRequest().headers(
-					HeaderUtil.createFailureAlert(ENTITY_NAME, "nombre-falta", "Un nuevo rol necesita un nombre"))
+			return ResponseEntity.badRequest()
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "nombre-falta", "Un rol necesita un nombre"))
 					.body(null);
 		}
 		Rol rol = rolService.findOne(rolDTO.getNombre());
