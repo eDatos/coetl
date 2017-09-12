@@ -1,5 +1,7 @@
 package es.tenerife.secretaria.libro.service.impl;
 
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -50,6 +52,12 @@ public class RolServiceImpl implements RolService {
 		log.debug("Petición para eliminar rol {}", name);
 		Rol rol = rolRepository.findOneByNombre(name);
 		rolRepository.delete(rol.getId());
+	}
+
+	@Override
+	public Set<Rol> findByUsuario(String login) {
+		log.debug("Petición para buscar roles de usuario {}", login);
+		return rolRepository.findByUsuarioLogin(login);
 	}
 
 }

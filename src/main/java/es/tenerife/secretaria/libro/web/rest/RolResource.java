@@ -100,7 +100,12 @@ public class RolResource extends AbstractResource {
 					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "nombre-falta", "Un rol necesita un nombre"))
 					.body(null);
 		}
-		Rol rol = rolService.findOne(rolDTO.getNombre());
+		if (rolDTO.getId() == null) {
+			return ResponseEntity.badRequest()
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "id-falta", "Se necesita un identificador"))
+					.body(null);
+		}
+		Rol rol = rolService.findOne(rolDTO.getId());
 		if (rol == null) {
 			return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "no-encontrado",
 					"El rol a actualizar no se ha encontrado")).body(null);

@@ -8,19 +8,22 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import es.tenerife.secretaria.libro.domain.Operacion;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.enums.TipoAccionOperacion;
 import es.tenerife.secretaria.libro.service.OperacionService;
+import es.tenerife.secretaria.libro.service.RolService;
 
 @Component
 public class OperacionPermissionEvaluator implements PermissionEvaluator {
 
 	@Autowired
 	OperacionService operacionService;
+
+	@Autowired
+	RolService rolService;
 
 	@Override
 	public boolean hasPermission(Authentication auth, Object sujeto, Object accion) {
@@ -56,7 +59,7 @@ public class OperacionPermissionEvaluator implements PermissionEvaluator {
 		}
 		Set<String> rolesOperacion = operacion.getRoles().stream().map(Rol::getNombre).map(String::toUpperCase)
 				.collect(Collectors.toSet());
-		Set<String> rolesUsuario = auth.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+		Set<String> rolesUsuario = rolService.findByUsuario(auth.getName()).stream().map(Rol::getNombre)
 				.map(String::toUpperCase).collect(Collectors.toSet());
 		return !Collections.disjoint(rolesOperacion, rolesUsuario);
 	}

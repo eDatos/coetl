@@ -39,12 +39,12 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_id_seq")
 	@SequenceGenerator(name = "rol_id_seq", sequenceName = "rol_id_seq", allocationSize = 50, initialValue = 10)
+	@OptLockId
 	private Long id;
 
 	@NotNull
 	@Size(min = 0, max = 50)
 	@Column(length = 50, unique = true)
-	@OptLockId
 	private String nombre;
 
 	@JsonIgnore

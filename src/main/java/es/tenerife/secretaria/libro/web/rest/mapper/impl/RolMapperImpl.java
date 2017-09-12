@@ -30,6 +30,7 @@ public class RolMapperImpl extends RolMapper {
 
 		entity.setOptLock(dto.getOptLock());
 		entity.setNombre(dto.getNombre());
+		entity.setId(dto.getId());
 		if (entity.getOperaciones() != null) {
 			Set<Operacion> set = operacionDTOSetToOperacionSet(dto.getOperaciones());
 			if (set != null) {
@@ -84,6 +85,7 @@ public class RolMapperImpl extends RolMapper {
 
 		RolDTO rolDTO = new RolDTO();
 
+		rolDTO.setId(entity.getId());
 		rolDTO.setOptLock(entity.getOptLock());
 		rolDTO.setNombre(entity.getNombre());
 		Set<OperacionDTO> set = operacionSetToOperacionDTOSet(entity.getOperaciones());
