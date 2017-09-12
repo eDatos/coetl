@@ -36,13 +36,20 @@ public class RolServiceImpl implements RolService {
 	@Override
 	public Rol findOne(String name) {
 		log.debug("Petición para buscar rol {}", name);
-		return rolRepository.findOne(name);
+		return rolRepository.findOneByNombre(name);
+	}
+
+	@Override
+	public Rol findOne(Long id) {
+		log.debug("Petición para buscar rol {}", id);
+		return rolRepository.findOne(id);
 	}
 
 	@Override
 	public void delete(String name) {
 		log.debug("Petición para eliminar rol {}", name);
-		rolRepository.delete(name);
+		Rol rol = rolRepository.findOneByNombre(name);
+		rolRepository.delete(rol.getId());
 	}
 
 }

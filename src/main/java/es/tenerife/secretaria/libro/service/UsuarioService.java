@@ -70,7 +70,8 @@ public class UsuarioService {
 		}
 		if (user.getRoles() != null) {
 			Set<Rol> authorities = new HashSet<>();
-			user.getRoles().forEach(authority -> authorities.add(authorityRepository.findOne(authority.getNombre())));
+			user.getRoles()
+					.forEach(authority -> authorities.add(authorityRepository.findOneByNombre(authority.getNombre())));
 			newUser.setRoles(authorities);
 		}
 		newUser.setActivado(true);
@@ -128,7 +129,7 @@ public class UsuarioService {
 			user.setIdioma(userDTO.getIdioma());
 			Set<Rol> managedAuthorities = user.getRoles();
 			managedAuthorities.clear();
-			userDTO.getRoles().stream().map(Rol::getNombre).map(authorityRepository::findOne)
+			userDTO.getRoles().stream().map(Rol::getNombre).map(authorityRepository::findOneByNombre)
 					.forEach(managedAuthorities::add);
 			log.debug("Changed Information for User: {}", user);
 			return user;

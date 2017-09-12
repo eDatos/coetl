@@ -101,7 +101,7 @@ public class RolMapperImpl extends RolMapper {
 			return null;
 		}
 
-		Rol rol = rolRepository.findOne(dto.getNombre());
+		Rol rol = rolRepository.findOneByNombre(dto.getNombre());
 		if (rol == null) {
 			rol = new Rol();
 			rol.setNombre(dto.getNombre());

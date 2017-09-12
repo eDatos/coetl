@@ -13,6 +13,8 @@ public interface RolService {
 
 	Rol findOne(String name);
 
+	Rol findOne(Long id);
+
 	void delete(String name);
 
 }
