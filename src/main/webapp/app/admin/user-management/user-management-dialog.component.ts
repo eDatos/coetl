@@ -7,8 +7,6 @@ import { UserModalService } from './user-modal.service';
 import { JhiLanguageHelper, User, UserService, RolService, Rol } from '../../shared';
 import { Subscription } from 'rxjs/Rx';
 
-import { AutoComplete } from 'primeng/primeng';
-
 @Component({
     selector: 'jhi-user-mgmt-dialog',
     templateUrl: './user-management-dialog.component.html'
@@ -18,13 +16,10 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     user: User;
     languages: any[];
     authorities: any[];
-    filteredAuthorities: any[];
     isSaving: Boolean;
     usuarioValido = false;
     private subscription: Subscription;
     paramLogin: string;
-
-    @ViewChild(AutoComplete) private autoComplete: AutoComplete;
 
     constructor(
         private languageHelper: JhiLanguageHelper,
@@ -39,8 +34,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
         this.isSaving = false;
         this.authorities = [];
         this.rolService.roles().subscribe((roles) => {
-            this.authorities = roles;
-            this.filteredAuthorities = this.buildAuthoritiesAutocomplete('');
+            this.authorities = roles.map((rol: any) => rol.nombre);
         });
 
         this.languageHelper.getAll().then((languages) => {
@@ -53,27 +47,8 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
         });
     }
 
-    buildAuthoritiesAutocomplete(query) {
-        return this.authorities
-            .filter((authority) => authority.nombre.toUpperCase().indexOf(query.toUpperCase()) !== -1)
-            .map((authority) => authority.nombre);
-    }
-
-    searchAuthorities(event) {
-        this.filteredAuthorities = this.buildAuthoritiesAutocomplete(event.query);
-    }
-
-    handleDropdownAuthorities(event) {
-        if (event.originalEvent) {
-            event.originalEvent.preventDefault();
-            event.originalEvent.stopPropagation();
-        }
-        if (this.autoComplete.panelVisible) {
-            this.autoComplete.hide();
-        } else {
-            this.autoComplete.show();
-        }
-        this.filteredAuthorities = this.buildAuthoritiesAutocomplete('');
+    rolItemTemplate(item: Rol) {
+        return item;
     }
 
     isEditMode(): Boolean {
@@ -126,10 +101,6 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
         );
     }
 
-    compareRoles(r1: Rol, r2: Rol): boolean {
-        return r1 && r2 ? r1.nombre === r2.nombre : r1 === r2;
-    }
-
     private onSaveSuccess(result) {
         this.eventManager.broadcast({ name: 'userListModification', content: 'OK' });
         this.isSaving = false;
@@ -139,6 +110,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     private onSaveError() {
         this.isSaving = false;
     }
+
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }

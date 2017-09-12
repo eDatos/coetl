@@ -2,6 +2,9 @@
     .ui-autocomplete-multiple-container {
         width: 100%;
         padding-right: 2em;
+        .ui-autocomplete-token {
+            padding-right: 2em;
+        }
     }
     .ui-autocomplete-dropdown {
         position: absolute;

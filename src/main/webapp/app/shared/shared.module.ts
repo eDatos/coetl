@@ -16,7 +16,8 @@ import {
     JhiLoginModalComponent,
     RolService,
     EntityListEmptyComponent,
-    SplitButtonComponent
+    SplitButtonComponent,
+    AutocompleteComponent
 } from './';
 
 @NgModule({
@@ -28,7 +29,8 @@ import {
         JhiLoginModalComponent,
         HasAnyRolDirective,
         EntityListEmptyComponent,
-        SplitButtonComponent
+        SplitButtonComponent,
+        AutocompleteComponent
     ],
     providers: [
         LoginService,
@@ -49,7 +51,8 @@ import {
         HasAnyRolDirective,
         DatePipe,
         EntityListEmptyComponent,
-        SplitButtonComponent
+        SplitButtonComponent,
+        AutocompleteComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

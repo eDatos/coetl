@@ -39,9 +39,9 @@
         </div>
         <div class="form-group">
             <label jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
-            <select [compareWith]="compareOperations" class="form-control" multiple name="operacion" [(ngModel)]="rol.operaciones">
-                <option  *ngFor="let operacion of operaciones;trackBy:id" [ngValue]="operacion">{{operacion.accion}} - {{operacion.sujeto}}</option>
-            </select>
+
+            <ac-autocomplete name="operacion" [propertiesToQuery]="['accion', 'sujeto']" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
+                [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
         </div>
     </fieldset>
 </form>
