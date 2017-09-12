@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
 
 import es.tenerife.secretaria.libro.domain.Rol;
-import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.service.RolService;
 import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
 import es.tenerife.secretaria.libro.web.rest.mapper.RolMapper;
@@ -50,8 +49,8 @@ public class RolResource extends AbstractResource {
 	}
 
 	@GetMapping("/roles")
+	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
-	@Secured(AuthoritiesConstants.ADMIN)
 	public ResponseEntity<List<RolDTO>> getRoles(@ApiParam Pageable pageable) {
 		log.debug("REST request to get a page of Roles");
 		Page<RolDTO> page = rolService.findAll(pageable).map(rolMapper::toDto);
@@ -60,6 +59,7 @@ public class RolResource extends AbstractResource {
 	}
 
 	@GetMapping("/roles/{nombre}")
+	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
 	public ResponseEntity<RolDTO> getRol(@PathVariable String nombre) {
 		log.debug("REST request to get Rol : {}", nombre);
@@ -68,6 +68,7 @@ public class RolResource extends AbstractResource {
 	}
 
 	@PostMapping("/roles")
+	@PreAuthorize("hasPermission('ROL', 'CREAR')")
 	@Timed
 	public ResponseEntity<RolDTO> createRol(@RequestBody RolDTO rolDTO) {
 		log.debug("REST request to create Rol {}", rolDTO);
@@ -88,6 +89,7 @@ public class RolResource extends AbstractResource {
 	}
 
 	@PutMapping("/roles")
+	@PreAuthorize("hasPermission('ROL', 'EDITAR')")
 	@Timed
 	public ResponseEntity<RolDTO> updateRol(@RequestBody RolDTO rolDTO) {
 		log.debug("REST request to update Rol {}", rolDTO);
@@ -98,7 +100,8 @@ public class RolResource extends AbstractResource {
 		}
 		Rol rol = rolService.findOne(rolDTO.getNombre());
 		if (rol == null) {
-			return createRol(rolDTO);
+			return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "no-encontrado",
+					"El rol a actualizar no se ha encontrado")).body(null);
 		}
 		rolMapper.update(rol, rolDTO);
 		rolService.save(rol);
@@ -108,6 +111,7 @@ public class RolResource extends AbstractResource {
 
 	@DeleteMapping("/roles/{nombre}")
 	@Timed
+	@PreAuthorize("hasPermission('ROL', 'ELIMINAR')")
 	public ResponseEntity<RolDTO> deleteRol(@PathVariable String nombre) {
 		log.debug("REST request to get Rol : {}", nombre);
 		rolService.delete(nombre);
