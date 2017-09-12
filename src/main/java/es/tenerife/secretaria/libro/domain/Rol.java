@@ -49,15 +49,6 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 	@BatchSize(size = 20)
 	private Set<Operacion> operaciones = new HashSet<>();
 
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "usuario_rol", joinColumns = {
-			@JoinColumn(name = "rol_nombre", referencedColumnName = "nombre") }, inverseJoinColumns = {
-					@JoinColumn(name = "usuario_id", referencedColumnName = "id") })
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	@BatchSize(size = 20)
-	private Set<Usuario> usuarios = new HashSet<>();
-
 	public String getId() {
 		return nombre;
 	}
@@ -68,14 +59,6 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public Set<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(Set<Usuario> users) {
-		this.usuarios = users;
 	}
 
 	public Set<Operacion> getOperaciones() {

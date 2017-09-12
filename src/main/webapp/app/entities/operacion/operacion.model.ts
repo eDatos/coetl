@@ -8,4 +8,8 @@ export class Operacion implements BaseEntity {
         public roles?: string[],
     ) {
     }
+
+    public toString(): string {
+        return this.accion + ' ' + this.sujeto;
+    }
 }
