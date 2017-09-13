@@ -33,8 +33,6 @@ public class OperacionResource extends AbstractResource {
 
 	private final Logger log = LoggerFactory.getLogger(OperacionResource.class);
 
-	private static final String ENTITY_NAME = "operacion";
-
 	private final OperacionService operacionService;
 
 	private OperacionMapper operacionMapper;

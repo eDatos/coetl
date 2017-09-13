@@ -37,6 +37,9 @@
   <logger name="LiquibaseSchemaResolver" level="INFO" />
   <logger name="sun.rmi.transport" level="WARN" />
 
+<!--   <logger name="org.hibernate.SQL" level="DEBUG"/>  -->
+<!--   <logger name="org.hibernate.type" level="TRACE"/>  -->
+
   <root level="WARN">
     <appender-ref ref="CONSOLE" />
   </root>

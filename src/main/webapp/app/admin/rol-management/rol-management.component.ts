@@ -5,6 +5,7 @@ import { JhiEventManager, JhiPaginationUtil, JhiParseLinks, JhiAlertService } fr
 
 import { ITEMS_PER_PAGE, Principal, User, UserService, ResponseWrapper, RolService, Rol } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { Subscription } from 'rxjs/Rx';
 
 @Component({
     selector: 'jhi-rol-mgmt',
@@ -26,6 +27,7 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
+    rolListModificationSubscription: Subscription;
 
     constructor(
         private rolService: RolService,
@@ -57,10 +59,11 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.routeData.unsubscribe();
+        this.rolListModificationSubscription.unsubscribe();
     }
 
     registerChangeInUsers() {
-        this.eventManager.subscribe('rolListModification', (response) => this.loadAll());
+        this.rolListModificationSubscription = this.eventManager.subscribe('rolListModification', (response) => this.loadAll());
     }
 
     loadAll() {

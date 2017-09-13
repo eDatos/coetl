@@ -370,6 +370,7 @@ public class UserResourceIntTest {
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
 				.setLastModifiedDate(updatedUser.getLastModifiedDate())
 				.setAuthorities(authorities)
+				.setOptLock(updatedUser.getOptLock())
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on
@@ -419,6 +420,7 @@ public class UserResourceIntTest {
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
 				.setLastModifiedDate(updatedUser.getLastModifiedDate())
 				.setAuthorities(authorities)
+				.setOptLock(updatedUser.getOptLock())
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on

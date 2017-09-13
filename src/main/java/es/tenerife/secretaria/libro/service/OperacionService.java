@@ -27,4 +27,6 @@ public interface OperacionService {
 	 */
 	Operacion findOne(Long id);
 
+	Operacion findBySujetoAndAccion(String sujeto, String accion);
+
 }

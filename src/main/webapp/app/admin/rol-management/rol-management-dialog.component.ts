@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs/Rx';
 export class RolMgmtDialogComponent implements OnInit {
 
     rol: Rol;
+    nombreOriginalRol = '';
     operaciones: Operacion[];
     isSaving: Boolean;
 
@@ -46,7 +47,10 @@ export class RolMgmtDialogComponent implements OnInit {
 
     load(id) {
         if (id) {
-            this.rolService.find(id).subscribe((rol) => this.rol = rol);
+            this.rolService.find(id).subscribe((rol) => {
+                this.rol = rol
+                this.nombreOriginalRol = this.rol.nombre;
+            });
         } else {
             this.rol = new Rol();
         }
@@ -54,16 +58,18 @@ export class RolMgmtDialogComponent implements OnInit {
 
     clear() {
         const returnPath = ['rol-management'];
-        if (this.rol.nombre) {
-            returnPath.push(this.rol.nombre.toString());
+        if (this.nombreOriginalRol) {
+            returnPath.push(this.nombreOriginalRol);
         }
         this.router.navigate(returnPath);
     }
 
     save() {
         this.isSaving = true;
-        if (this.rol.nombre !== null) {
+        if (!!this.nombreOriginalRol) {
             this.rolService.update(this.rol).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
+        } else {
+            this.rolService.create(this.rol).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         }
     }
 
