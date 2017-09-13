@@ -43,6 +43,7 @@
                             <td>{{user.createdDate | date:'dd/MM/yy HH:mm'}}</td>
                             <td>{{user.lastModifiedBy}}</td>
                             <td>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</td>
+                            <td>{{user.deletionDate | date:'dd/MM/yy HH:mm'}}</td>
                             <td class="text-center">
                                 <div class="btn-group flex-btn-group-container" (click)="$event.stopPropagation()">
                                     <ac-split-button>
