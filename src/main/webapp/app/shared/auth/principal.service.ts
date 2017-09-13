@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { AccountService } from './account.service';
+import { Rol } from '../index';
 
 @Injectable()
 export class Principal {
@@ -19,17 +20,18 @@ export class Principal {
         this.authenticationState.next(this.userIdentity);
     }
 
-    hasAnyRol(roles: string[]): Promise<boolean> {
+
+    hasAnyRol(roles: String[]): Promise<boolean> {
         return Promise.resolve(this.hasAnyRolDirect(roles));
     }
 
-    hasAnyRolDirect(roles: string[]): boolean {
+    hasAnyRolDirect(roles: String[]): boolean {
         if (!this.authenticated || !this.userIdentity || !this.userIdentity.roles) {
             return false;
         }
 
-        for (let i = 0; i < roles.length; i++) {
-            if (this.userIdentity.roles.indexOf(roles[i]) !== -1) {
+        for (let i = 0; i < this.userIdentity.roles.length; i++) {
+            if (roles.indexOf(this.userIdentity.roles[i].nombre) !== -1) {
                 return true;
             }
         }

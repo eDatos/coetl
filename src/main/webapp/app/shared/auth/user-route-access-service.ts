@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 
-import { Principal } from '../';
+import { Principal, Rol } from '../';
 import { LoginModalService } from '../login/login-modal.service';
 import { StateStorageService } from './state-storage.service';
 import { ConfigService } from '../../config/index';
@@ -27,7 +27,7 @@ export class UserRouteAccessService implements CanActivate {
         return this.checkLogin(roles, state.url);
     }
 
-    checkLogin(roles: string[], url: string): Promise<boolean> {
+    checkLogin(roles: String[], url: string): Promise<boolean> {
         const principal = this.principal;
         return Promise.resolve(principal.identity().then((account) => {
 
