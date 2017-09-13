@@ -167,14 +167,20 @@ public class UsuarioResource extends AbstractResource {
 					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email already in use"))
 					.body(null);
 		}
-		existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
+		if (!existingUser.isPresent()) {
+			existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
+		}
 		if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
 			return ResponseEntity.badRequest()
 					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use"))
 					.body(null);
 		}
-		Optional<UsuarioDTO> updatedUser = usuarioService.updateUsuario(usuarioMapper.userDTOToUser(managedUserVM))
-				.map(usuarioMapper::userToUserDTO);
+		if (!existingUser.isPresent()) {
+			existingUser = Optional.ofNullable(userRepository.findOne(managedUserVM.getId()));
+		}
+		Usuario usuario = usuarioMapper.updateFromDTO(existingUser.orElse(null), managedUserVM);
+		usuario = usuarioService.updateUsuario(usuario);
+		Optional<UsuarioDTO> updatedUser = Optional.ofNullable(usuarioMapper.userToUserDTO(usuario));
 
 		return ResponseUtil.wrapOrNotFound(updatedUser,
 				HeaderUtil.createAlert("userManagement.updated", managedUserVM.getLogin()));

@@ -16,7 +16,6 @@ import es.tenerife.secretaria.libro.service.LdapService;
 @Transactional
 public class LdapServiceImpl implements LdapService {
 
-	private static final String WHERE_FILTER_CN = "cn";
 	private static final String WHERE_FILTER_UID = "uid";
 
 	@Autowired

@@ -11,6 +11,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import es.tenerife.secretaria.libro.config.Constants;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
@@ -26,6 +28,8 @@ public class UsuarioDTO {
 	@Pattern(regexp = Constants.LOGIN_REGEX)
 	@Size(min = 1, max = 50)
 	private String login;
+
+	private Long optLock;
 
 	@Size(max = 50)
 	private String nombre;
@@ -80,10 +84,12 @@ public class UsuarioDTO {
 		this.setLastModifiedDate(user.getLastModifiedDate());
 		this.setRoles(user.getRoles().stream().map(Rol::getNombre).collect(Collectors.toSet()));
 		this.setDeletionDate(user.getDeletionDate());
+		this.setOptLock(user.getOptLock());
 	}
 
 	public void updateFrom(UsuarioDTO source) {
 		this.id = source.getId();
+		this.optLock = source.getOptLock();
 		this.login = source.getLogin();
 		this.nombre = source.getNombre();
 		this.apellido1 = source.getApellido1();
@@ -109,6 +115,14 @@ public class UsuarioDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getOptLock() {
+		return optLock;
+	}
+
+	public void setOptLock(Long optLock) {
+		this.optLock = optLock;
 	}
 
 	public String getLogin() {
@@ -163,44 +177,48 @@ public class UsuarioDTO {
 		return lastModifiedDate;
 	}
 
-	public void setLastModifiedDate(Instant lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
 	public Set<String> getRoles() {
 		return roles;
 	}
 
-	protected void setRoles(Set<String> roles) {
+	public void setRoles(Set<String> roles) {
 		this.roles = roles;
 	}
 
+	@JsonIgnore
+	public void setLastModifiedDate(Instant lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	@JsonIgnore
 	protected void setLastModifiedBy(String lastModifiedBy) {
 		this.lastModifiedBy = lastModifiedBy;
 
 	}
 
+	@JsonIgnore
 	protected void setCreatedDate(Instant createdDate) {
 		this.createdDate = createdDate;
 
 	}
 
+	@JsonIgnore
 	protected void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 
 	}
 
-	protected void setIdioma(String langKey) {
+	public void setIdioma(String langKey) {
 		this.idioma = langKey;
 
 	}
 
-	protected void setActivado(boolean activated) {
+	public void setActivado(boolean activated) {
 		this.activado = activated;
 
 	}
 
-	protected void setUrlImagen(String imageUrl) {
+	public void setUrlImagen(String imageUrl) {
 		this.urlImage = imageUrl;
 
 	}
@@ -253,10 +271,12 @@ public class UsuarioDTO {
 		private String lastModifiedBy;
 		private Instant lastModifiedDate;
 		private Set<String> authorities;
+		private Long optLock;
 
 		public UsuarioDTO build() {
 			UsuarioDTO userDTO = new UsuarioDTO();
 			userDTO.setId(this.id);
+			userDTO.setOptLock(this.optLock);
 			userDTO.setLogin(this.login);
 			userDTO.setNombre(this.firstName);
 			userDTO.setApellido1(this.lastName);
@@ -275,6 +295,11 @@ public class UsuarioDTO {
 
 		public Builder setId(Long id) {
 			this.id = id;
+			return this;
+		}
+
+		public Builder setOptLock(Long optLock) {
+			this.optLock = optLock;
 			return this;
 		}
 
