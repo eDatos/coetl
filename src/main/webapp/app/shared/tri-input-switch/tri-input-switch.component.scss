@@ -39,3 +39,8 @@ $color-valid: $brand-danger;
         }
     }
 }
+
+$same-with-si-and-no: 38px;
+p-selectButton /deep/ .ui-button-text-only .ui-button-text {
+    min-width: $same-with-si-and-no;
+}
