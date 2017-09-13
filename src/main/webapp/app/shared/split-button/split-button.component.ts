@@ -15,7 +15,7 @@ export class SplitButtonComponent {
     constructor(private element: ElementRef) { }
 
     onDropdownButtonClick(event: Event) {
-        this.show();
+        this.toggleMenu();
     }
 
     hasOtherButtons() {
@@ -23,7 +23,7 @@ export class SplitButtonComponent {
         return acSplitButtonOthers ? acSplitButtonOthers.children.length > 0 : false;
     }
 
-    show() {
+    toggleMenu() {
         this.menuVisible = !this.menuVisible;
     }
 
