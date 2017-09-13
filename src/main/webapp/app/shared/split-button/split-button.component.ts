@@ -12,7 +12,7 @@ export class SplitButtonComponent {
     @ViewChild('otherButtonsWrapper')
     otherButtons: ElementRef;
 
-    constructor() { }
+    constructor(private element: ElementRef) { }
 
     onDropdownButtonClick(event: Event) {
         this.show();
@@ -28,8 +28,10 @@ export class SplitButtonComponent {
     }
 
     // Menu wont be keyboard accesible!
-    onFocusOut() {
-        this.menuVisible = false;
+    onFocusOut($event) {
+        if (!this.element.nativeElement.contains($event.relatedTarget)) {
+            this.menuVisible = false;
+        }
     }
 
 }
