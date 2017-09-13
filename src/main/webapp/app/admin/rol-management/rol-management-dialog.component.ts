@@ -40,10 +40,6 @@ export class RolMgmtDialogComponent implements OnInit {
         });
     }
 
-    operacionItemTemplate(operacion: Operacion) {
-        return `${operacion.accion} - ${operacion.sujeto}`;
-    }
-
     load(id) {
         if (id) {
             this.rolService.find(id).subscribe((rol) => this.rol = rol);
@@ -65,6 +61,10 @@ export class RolMgmtDialogComponent implements OnInit {
         if (this.rol.nombre !== null) {
             this.rolService.update(this.rol).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         }
+    }
+
+    compareOperations(r1: Operacion, r2: Operacion): boolean {
+        return r1 && r2 ? r1.id === r2.id : r1 === r2;
     }
 
     isEditMode(): Boolean {
