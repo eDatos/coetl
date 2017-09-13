@@ -1,13 +1,14 @@
 <div class="entity-search operacion-search">
 
     <div class="entity-search-field">
+        <label jhiTranslate="userManagement.filters.name.label">Filtrar</label>
         <input class="form-control" [attr.aria-label]="'userManagement.filters.name.placeholder' | translate" placeholder="{{'userManagement.filters.name.placeholder' | translate}}"
             [(ngModel)]="filters.name" (keyup)="filter()" />
-        <span class="icon-search icon-flueco-icon-buscar"></span>
     </div>
 
     <div class="entity-search-field">
-        <span><input type="checkbox" [(ngModel)]="filters.includeDeleted" (change)="filter()"><span jhiTranslate="userManagement.home.includeDeleted">Include deleted</span></span>
+        <label jhiTranslate="userManagement.home.includeDeleted">Include deleted</label>
+        <ac-tri-input-switch [(ngModel)]="filters.includeDeleted" (ngModelChange)="filter()"></ac-tri-input-switch>
     </div>
 
     <div class="entity-search-field-btn">

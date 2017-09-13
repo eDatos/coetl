@@ -1,0 +1,45 @@
+@import '~scss/variables';
+
+$false-select: $accent-dark;
+$border-width: 5px;
+$color-invalid: $brand-success;
+$color-valid: $brand-danger;
+
+p-selectButton {
+    display: block;
+}
+
+.false-active {
+    /deep/
+    .ui-selectbutton.ui-buttonset .ui-button.ui-state-active {
+        background: $false-select;
+        border-color: $false-select;
+        color: $white;
+    }
+}
+
+.clear {
+    cursor: pointer;
+}
+
+:host {
+    &.ng-invalid {
+        border-left: none;
+        p-selectButton {
+            border-left: none;
+            /deep/ .ui-button:first-child {
+                border-left: $border-width $color-invalid solid;
+            }
+        }
+    }
+    
+    &.ng-valid[required] {
+        border-left: none;
+        p-selectButton {
+            border-left: none;
+            /deep/ .ui-button:first-child {
+                border-left: $border-width $color-valid solid;
+            }
+        }
+    }
+}

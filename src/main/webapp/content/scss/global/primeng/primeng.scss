@@ -31,3 +31,7 @@ fieldset:disabled {
     padding: 0;
     border: none;
 }
+
+.ui-button-text-only .ui-button-text {
+    padding: $input-padding-y $input-padding-x;
+}

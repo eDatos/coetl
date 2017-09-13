@@ -7,7 +7,8 @@ import {
     FindLanguageFromKeyPipe,
     JhiAlertComponent,
     JhiAlertErrorComponent,
-    StickyTableHeaderDirective
+    StickyTableHeaderDirective,
+    TriInputSwitchComponent
 } from './';
 
 @NgModule({
@@ -18,7 +19,8 @@ import {
         FindLanguageFromKeyPipe,
         JhiAlertComponent,
         JhiAlertErrorComponent,
-        StickyTableHeaderDirective
+        StickyTableHeaderDirective,
+        TriInputSwitchComponent
     ],
     providers: [
         JhiLanguageHelper,
@@ -33,7 +35,8 @@ import {
         FindLanguageFromKeyPipe,
         JhiAlertComponent,
         JhiAlertErrorComponent,
-        StickyTableHeaderDirective
+        StickyTableHeaderDirective,
+        TriInputSwitchComponent
     ]
 })
 export class SecretariaLibroSharedCommonModule { }

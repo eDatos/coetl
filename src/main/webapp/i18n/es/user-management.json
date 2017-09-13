@@ -35,6 +35,7 @@
         "roles": "Roles",
         "filters": {
             "name": {
+                "label": "Búsqueda de usuario",
                 "placeholder": "Búsqueda de usuario"
             }
         }

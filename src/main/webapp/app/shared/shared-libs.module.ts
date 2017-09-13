@@ -7,7 +7,7 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
 import { DEFAULT_LANGUAGE } from './language/language.constants';
-import { AutoCompleteModule, ButtonModule } from 'primeng/primeng';
+import { AutoCompleteModule, ButtonModule, SelectButtonModule } from 'primeng/primeng';
 
 @NgModule({
     imports: [
@@ -21,7 +21,8 @@ import { AutoCompleteModule, ButtonModule } from 'primeng/primeng';
         InfiniteScrollModule,
         CookieModule.forRoot(),
         AutoCompleteModule,
-        ButtonModule
+        ButtonModule,
+        SelectButtonModule
     ],
     exports: [
         FormsModule,
@@ -31,7 +32,8 @@ import { AutoCompleteModule, ButtonModule } from 'primeng/primeng';
         NgJhipsterModule,
         InfiniteScrollModule,
         AutoCompleteModule,
-        ButtonModule
+        ButtonModule,
+        SelectButtonModule
     ]
 })
 export class SecretariaLibroSharedLibsModule { }
