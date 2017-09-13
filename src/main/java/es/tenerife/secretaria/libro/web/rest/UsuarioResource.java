@@ -216,7 +216,8 @@ public class UsuarioResource extends AbstractResource {
 	@Timed
 	public ResponseEntity<UsuarioDTO> getUser(@PathVariable String login) {
 		log.debug("REST request to get User : {}", login);
-		return ResponseUtil.wrapOrNotFound(usuarioService.getUsuarioWithAuthoritiesByLogin(login).map(UsuarioDTO::new));
+		return ResponseUtil.wrapOrNotFound(
+				usuarioService.getUsuarioWithAuthoritiesByLogin(login).map(usuarioMapper::userToUserDTO));
 	}
 
 	@GetMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}/ldap")
