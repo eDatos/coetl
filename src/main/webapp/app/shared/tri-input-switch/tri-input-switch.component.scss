@@ -1,13 +1,9 @@
 @import '~scss/variables';
 
-$false-select: $accent-dark;
+$false-select: $accent-medium;
 $border-width: 5px;
 $color-invalid: $brand-success;
 $color-valid: $brand-danger;
-
-p-selectButton {
-    display: block;
-}
 
 .false-active {
     /deep/
@@ -23,6 +19,7 @@ p-selectButton {
 }
 
 :host {
+    display: block;
     &.ng-invalid {
         border-left: none;
         p-selectButton {
