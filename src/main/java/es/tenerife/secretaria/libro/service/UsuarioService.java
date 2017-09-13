@@ -70,7 +70,8 @@ public class UsuarioService {
 		}
 		if (user.getRoles() != null) {
 			Set<Rol> authorities = new HashSet<>();
-			user.getRoles().forEach(authority -> authorities.add(authorityRepository.findOne(authority.getNombre())));
+			user.getRoles()
+					.forEach(authority -> authorities.add(authorityRepository.findOneByNombre(authority.getNombre())));
 			newUser.setRoles(authorities);
 		}
 		newUser.setActivado(true);
@@ -111,28 +112,13 @@ public class UsuarioService {
 	/**
 	 * Update all information for a specific user, and return the modified user.
 	 *
-	 * @param userDTO
+	 * @param user
 	 *            user to update
 	 * @return updated user
 	 */
-	public Optional<Usuario> updateUsuario(Usuario userDTO) {
-		return Optional.of(userRepository.findOneByIdAndDeletionDateIsNull(userDTO.getId())).map(user -> {
-			validarUsuarioLdap(user);
-			user.setLogin(userDTO.getLogin());
-			user.setNombre(userDTO.getNombre());
-			user.setApellido1(userDTO.getApellido1());
-			user.setApellido2(userDTO.getApellido2());
-			user.setEmail(userDTO.getEmail());
-			user.seturlImagen(userDTO.getUrlImagen());
-			user.setActivado(userDTO.getActivado());
-			user.setIdioma(userDTO.getIdioma());
-			Set<Rol> managedAuthorities = user.getRoles();
-			managedAuthorities.clear();
-			userDTO.getRoles().stream().map(Rol::getNombre).map(authorityRepository::findOne)
-					.forEach(managedAuthorities::add);
-			log.debug("Changed Information for User: {}", user);
-			return user;
-		});
+	public Usuario updateUsuario(Usuario user) {
+		validarUsuarioLdap(user);
+		return userRepository.save(user);
 	}
 
 	public void deleteUsuario(String login) {

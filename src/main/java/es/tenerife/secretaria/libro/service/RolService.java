@@ -1,5 +1,7 @@
 package es.tenerife.secretaria.libro.service;
 
+import java.util.Set;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,6 +15,10 @@ public interface RolService {
 
 	Rol findOne(String name);
 
+	Rol findOne(Long id);
+
 	void delete(String name);
+
+	Set<Rol> findByUsuario(String name);
 
 }

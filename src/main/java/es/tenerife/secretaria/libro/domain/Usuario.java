@@ -100,7 +100,7 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 	@ManyToMany
 	@JoinTable(name = "usuario_rol", joinColumns = {
 			@JoinColumn(name = "usuario_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "rol_nombre", referencedColumnName = "nombre") })
+					@JoinColumn(name = "rol_id", referencedColumnName = "id") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@BatchSize(size = 20)
 	private Set<Rol> roles = new HashSet<>();

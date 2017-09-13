@@ -6,12 +6,16 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
+import es.tenerife.secretaria.libro.repository.RolRepository;
+import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
+import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 
 /**
  * Mapper for the entity User and its DTO called UserDTO.
@@ -21,6 +25,12 @@ import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
  */
 @Service
 public class UsuarioMapper {
+
+	@Autowired
+	UsuarioRepository usuarioRepository;
+
+	@Autowired
+	RolRepository rolRepository;
 
 	public UsuarioDTO userToUserDTO(Usuario user) {
 		return new UsuarioDTO(user);
@@ -45,6 +55,7 @@ public class UsuarioMapper {
 			user.setActivado(userDTO.isActivado());
 			user.setIdioma(userDTO.getIdioma());
 			user.setDeletionDate(userDTO.getDeletionDate());
+			user.setOptLock(userDTO.getOptLock());
 			Set<Rol> authorities = this.authoritiesFromStrings(userDTO.getRoles());
 			if (authorities != null) {
 				user.setRoles(authorities);
@@ -61,8 +72,25 @@ public class UsuarioMapper {
 		if (id == null) {
 			return null;
 		}
-		Usuario user = new Usuario();
-		user.setId(id);
+		return usuarioRepository.findOne(id);
+	}
+
+	public Usuario updateFromDTO(Usuario user, ManagedUserVM userVM) {
+		if (user == null) {
+			return null;
+		}
+		user.setLogin(userVM.getLogin());
+		user.setNombre(userVM.getNombre());
+		user.setApellido1(userVM.getApellido1());
+		user.setApellido2(userVM.getApellido2());
+		user.setEmail(userVM.getEmail());
+		user.seturlImagen(userVM.getUrlImagen());
+		user.setActivado(userVM.isActivado());
+		user.setIdioma(userVM.getIdioma());
+		user.setOptLock(userVM.getOptLock());
+		Set<Rol> managedAuthorities = user.getRoles();
+		managedAuthorities.clear();
+		userVM.getRoles().stream().map(rolRepository::findOneByNombre).forEach(managedAuthorities::add);
 		return user;
 	}
 

@@ -40,21 +40,26 @@
       <column name="operacion_id" type="bigint">
         <constraints nullable="false" />
       </column>
-      <column name="rol_nombre" type="varchar(50)">
+      <column name="rol_id" type="bigint">
         <constraints nullable="false" />
       </column>
     </createTable>
 
-    <addPrimaryKey columnNames="operacion_id, rol_nombre"
+    <addPrimaryKey columnNames="operacion_id, rol_id"
       tableName="roles_operaciones" />
 
-    <addForeignKeyConstraint baseColumnNames="rol_nombre"
-      baseTableName="roles_operaciones" constraintName="fk_roles_operaciones_rol_nombre"
-      referencedColumnNames="nombre" referencedTableName="rol" />
+    <addForeignKeyConstraint baseColumnNames="rol_id"
+      baseTableName="roles_operaciones" constraintName="fk_roles_operaciones_rol_id"
+      referencedColumnNames="id" referencedTableName="rol" />
 
     <addForeignKeyConstraint baseColumnNames="operacion_id"
       baseTableName="roles_operaciones" constraintName="fk_roles_operaciones_operacion_id"
       referencedColumnNames="id" referencedTableName="operacion" />
 
+  <loadData encoding="UTF-8" file="config/liquibase/operaciones.csv"
+      separator=";" tableName="operacion" />
+      <loadData encoding="UTF-8" file="config/liquibase/roles_operaciones.csv"
+      separator=";" tableName="roles_operaciones" />
   </changeSet>
+  
 </databaseChangeLog>

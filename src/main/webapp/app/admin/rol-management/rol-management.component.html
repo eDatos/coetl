@@ -21,19 +21,21 @@
                             <td>{{rol.nombre}}</td>
                             <td class="text-right" (click)="$event.stopPropagation()">
                                 <div class="btn-group flex-btn-group-container">
-                                    <button type="submit" [routerLink]="['../rol-management', rol.nombre]" class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                                    <button type="submit" [routerLink]="[rol.nombre + '/editar']" replaceUrl="true" class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                                    <button type="submit" [routerLink]="['/', { outlets: { popup: 'rol-management/'+ rol.nombre + '/borrar'} }]" replaceUrl="true"
-                                        class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
+                                    <ac-split-button>
+                                        <ac-split-button-main>
+                                            <button type="submit" [routerLink]="[rol.nombre + '/editar']" replaceUrl="true" class="btn btn-primary btn-sm">
+                                                <span class="fa fa-pencil"></span>
+                                                <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                                            </button>
+                                        </ac-split-button-main>
+                                        <ac-split-button-others>
+                                            <button type="submit" [routerLink]="['/', { outlets: { popup: 'rol-management/'+ rol.nombre + '/borrar'} }]" replaceUrl="true"
+                                                class="btn btn-danger btn-sm">
+                                                <span class="fa fa-remove"></span>
+                                                <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                                            </button>
+                                        </ac-split-button-others>
+                                    </ac-split-button>
                                 </div>
                             </td>
                         </tr>

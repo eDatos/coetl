@@ -6,6 +6,9 @@
                 "createLabel": "Crear nueva Operacion",
                 "createOrEditLabel": "Crear o editar Operacion"
             },
+            "menu": {
+                "title": "Gestión de operaciones"
+            },
             "created": "Un nuevo Operacion ha sido creado con el identificador {{ param }}",
             "updated": "Un Operacion ha sido actualizado con el identificador {{ param }}",
             "deleted": "Un Operacion ha sido eliminado con el identificador {{ param }}",

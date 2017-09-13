@@ -6,10 +6,13 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,33 +36,32 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_id_seq")
+	@SequenceGenerator(name = "rol_id_seq", sequenceName = "rol_id_seq", allocationSize = 50, initialValue = 10)
+	@OptLockId
+	private Long id;
+
 	@NotNull
 	@Size(min = 0, max = 50)
-	@Id
-	@Column(length = 50)
-	@OptLockId
+	@Column(length = 50, unique = true)
 	private String nombre;
 
 	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "roles_operaciones", joinColumns = {
-			@JoinColumn(name = "rol_nombre", referencedColumnName = "nombre") }, inverseJoinColumns = {
+			@JoinColumn(name = "rol_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "operacion_id", referencedColumnName = "id") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	@BatchSize(size = 20)
 	private Set<Operacion> operaciones = new HashSet<>();
 
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "usuario_rol", joinColumns = {
-			@JoinColumn(name = "rol_nombre", referencedColumnName = "nombre") }, inverseJoinColumns = {
-					@JoinColumn(name = "usuario_id", referencedColumnName = "id") })
-	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	@BatchSize(size = 20)
-	private Set<Usuario> usuarios = new HashSet<>();
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-	public String getId() {
-		return nombre;
+	public Long getId() {
+		return id;
 	}
 
 	public String getNombre() {
@@ -68,14 +70,6 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public Set<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(Set<Usuario> users) {
-		this.usuarios = users;
 	}
 
 	public Set<Operacion> getOperaciones() {
