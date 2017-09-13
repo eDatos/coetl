@@ -18,7 +18,7 @@
         "detail": {
             "title": "Usuario"
         },
-        "login": "Login",
+        "login": "Nombre de usuario",
         "nombre": "Nombre",
         "apellido1": "Primer apellido",
         "apellido2": "Segundo apellido",
@@ -36,7 +36,7 @@
         "filters": {
             "name": {
                 "label": "Búsqueda de usuario",
-                "placeholder": "Búsqueda de usuario"
+                "placeholder": "Búsqueda de usuarios por nombre, apellidos o nombre de usuario"
             }
         }
     }
