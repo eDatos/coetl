@@ -1,6 +1,5 @@
 @import '~scss/variables';
 
-$false-select: $accent-medium;
 $border-width: 5px;
 $color-invalid: $brand-success;
 $color-valid: $brand-danger;
@@ -8,8 +7,8 @@ $color-valid: $brand-danger;
 .false-active {
     /deep/
     .ui-selectbutton.ui-buttonset .ui-button.ui-state-active {
-        background: $false-select;
-        border-color: $false-select;
+        background: $accent-medium;
+        border-color: $accent-dark;
         color: $white;
     }
 }
