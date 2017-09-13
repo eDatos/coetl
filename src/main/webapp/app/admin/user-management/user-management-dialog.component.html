@@ -121,10 +121,7 @@
         <div class="entity-fields">
             <div class="form-group">
                 <label jhiTranslate="userManagement.profiles">Profiles</label>
-                <p-autoComplete styleClass="form-control" [multiple]="true" name="rol" [(ngModel)]="user.roles" [suggestions]="filteredAuthorities"
-                    (completeMethod)="searchAuthorities($event)" [dropdown]="true" (onDropdownClick)="handleDropdownAuthorities($event)"
-                    (onFocus)="handleDropdownAuthorities($event)">
-                </p-autoComplete>
+                <ac-autocomplete name="rol" [(ngModel)]="user.roles" [suggestions]="authorities" [itemTemplate]="rolItemTemplate"></ac-autocomplete>
             </div>
             <div class="form-check">
                 <label class="form-check-label" for="activado">
