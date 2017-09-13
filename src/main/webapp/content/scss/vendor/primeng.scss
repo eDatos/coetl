@@ -15,9 +15,9 @@ $headerIconTextColor: $grey-darkest;
 
 //Content
 $contentBorderWidth: 1px;
-$contentBorderColor: #dddddd;
-$contentBgColor: #f2f5f7;
-$contentTextColor: #362b36;
+$contentBorderColor: $grey-light;
+$contentBgColor: $white;
+$contentTextColor: $grey-darkest;
 
 //Default State
 $stateDefaultBorderWidth: 1px;
