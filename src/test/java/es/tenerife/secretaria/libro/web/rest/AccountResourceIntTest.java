@@ -35,12 +35,15 @@ import es.tenerife.secretaria.libro.SecretariaLibroApp;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
+import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
+import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
+import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
 
 /**
  * Test class for the AccountResource REST controller.
@@ -55,7 +58,13 @@ public class AccountResourceIntTest {
 	private UsuarioRepository userRepository;
 
 	@Autowired
+	private RolRepository rolRepository;
+
+	@Autowired
 	private UsuarioService userService;
+
+	@Autowired
+	private UsuarioMapper usuarioMapper;
 
 	@SuppressWarnings("rawtypes")
 	@Autowired
@@ -74,14 +83,24 @@ public class AccountResourceIntTest {
 
 	private MockMvc restMvc;
 
+	private RolDTO mockRolDTO() {
+		RolDTO rolDTO = new RolDTO();
+		rolDTO.setNombre(AuthoritiesConstants.ADMIN);
+		return rolDTO;
+	}
+
+	private HashSet<RolDTO> mockRolSet() {
+		return new HashSet<>(Collections.singletonList(mockRolDTO()));
+	}
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		doNothing().when(mockMailService).sendActivationEmail(anyObject());
 
-		AccountResource accountResource = new AccountResource(userRepository, userService);
+		AccountResource accountResource = new AccountResource(userRepository, userService, usuarioMapper);
 
-		AccountResource accountUserMockResource = new AccountResource(userRepository, mockUserService);
+		AccountResource accountUserMockResource = new AccountResource(userRepository, mockUserService, usuarioMapper);
 
 		this.restMvc = MockMvcBuilders.standaloneSetup(accountResource).setMessageConverters(httpMessageConverters)
 				.build();
@@ -103,10 +122,10 @@ public class AccountResourceIntTest {
 	}
 
 	@Test
+	@Transactional
 	public void testGetExistingAccount() throws Exception {
 		Set<Rol> authorities = new HashSet<>();
-		Rol authority = new Rol();
-		authority.setNombre(AuthoritiesConstants.ADMIN);
+		Rol authority = rolRepository.findOneByNombre(AuthoritiesConstants.ADMIN);
 		authorities.add(authority);
 
 		Usuario user = new Usuario();
@@ -126,7 +145,7 @@ public class AccountResourceIntTest {
 				.andExpect(jsonPath("$.email").value("john.doe@jhipster.com"))
 				.andExpect(jsonPath("$.urlImagen").value("http://placehold.it/50x50"))
 				.andExpect(jsonPath("$.idioma").value("en"))
-				.andExpect(jsonPath("$.roles").value(AuthoritiesConstants.ADMIN));
+				.andExpect(jsonPath("$.roles[*].nombre").value(AuthoritiesConstants.ADMIN));
 	}
 
 	@Test
@@ -163,7 +182,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)))
+				.setAuthorities(mockRolSet())
 				.build();
 		//@formatter:on
 
@@ -205,7 +224,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)))
+				.setAuthorities(mockRolSet())
 				.build();
 		//@formatter:on
 
@@ -246,7 +265,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)))
+				.setAuthorities(mockRolSet())
 				.build();
 		//@formatter:on
 
@@ -283,7 +302,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(new HashSet<>(Collections.singletonList(AuthoritiesConstants.ADMIN)))
+				.setAuthorities(mockRolSet())
 				.build();
 		//@formatter:on
 

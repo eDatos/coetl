@@ -3,7 +3,6 @@ package es.tenerife.secretaria.libro.web.rest.dto;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -14,8 +13,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import es.tenerife.secretaria.libro.config.Constants;
-import es.tenerife.secretaria.libro.domain.Rol;
-import es.tenerife.secretaria.libro.domain.Usuario;
 
 /**
  * A DTO representing a user, with his authorities.
@@ -60,7 +57,7 @@ public class UsuarioDTO {
 
 	private Instant lastModifiedDate;
 
-	private Set<String> roles;
+	private Set<RolDTO> roles;
 
 	private ZonedDateTime deletionDate;
 
@@ -68,24 +65,6 @@ public class UsuarioDTO {
 		// Empty constructor needed for Jackson.
 	}
 
-	public UsuarioDTO(Usuario user) {
-		this.setId(user.getId());
-		this.setLogin(user.getLogin());
-		this.setNombre(user.getNombre());
-		this.setApellido1(user.getApellido1());
-		this.setApellido2(user.getApellido2());
-		this.setEmail(user.getEmail());
-		this.setActivado(user.getActivado());
-		this.setUrlImagen(user.getUrlImagen());
-		this.setIdioma(user.getIdioma());
-		this.setCreatedBy(user.getCreatedBy());
-		this.setCreatedDate(user.getCreatedDate());
-		this.setLastModifiedBy(user.getLastModifiedBy());
-		this.setLastModifiedDate(user.getLastModifiedDate());
-		this.setRoles(user.getRoles().stream().map(Rol::getNombre).collect(Collectors.toSet()));
-		this.setDeletionDate(user.getDeletionDate());
-		this.setOptLock(user.getOptLock());
-	}
 
 	public void updateFrom(UsuarioDTO source) {
 		this.id = source.getId();
@@ -177,12 +156,12 @@ public class UsuarioDTO {
 		return lastModifiedDate;
 	}
 
-	public Set<String> getRoles() {
+	public Set<RolDTO> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<String> roles) {
-		this.roles = roles;
+	public void setRoles(Set<RolDTO> set) {
+		this.roles = set;
 	}
 
 	@JsonIgnore
@@ -191,19 +170,19 @@ public class UsuarioDTO {
 	}
 
 	@JsonIgnore
-	protected void setLastModifiedBy(String lastModifiedBy) {
+	public void setLastModifiedBy(String lastModifiedBy) {
 		this.lastModifiedBy = lastModifiedBy;
 
 	}
 
 	@JsonIgnore
-	protected void setCreatedDate(Instant createdDate) {
+	public void setCreatedDate(Instant createdDate) {
 		this.createdDate = createdDate;
 
 	}
 
 	@JsonIgnore
-	protected void setCreatedBy(String createdBy) {
+	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 
 	}
@@ -270,7 +249,7 @@ public class UsuarioDTO {
 		private Instant createdDate;
 		private String lastModifiedBy;
 		private Instant lastModifiedDate;
-		private Set<String> authorities;
+		private Set<RolDTO> authorities;
 		private Long optLock;
 
 		public UsuarioDTO build() {
@@ -363,7 +342,7 @@ public class UsuarioDTO {
 			return this;
 		}
 
-		public Builder setAuthorities(Set<String> authorities) {
+		public Builder setAuthorities(Set<RolDTO> authorities) {
 			this.authorities = authorities;
 			return this;
 		}
