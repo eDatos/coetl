@@ -4,3 +4,4 @@ export * from './operacion.service';
 export * from './operacion-dialog.component';
 export * from './operacion.component';
 export * from './operacion.route';
+export * from './operacion-search';

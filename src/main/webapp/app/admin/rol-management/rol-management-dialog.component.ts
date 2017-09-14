@@ -6,7 +6,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { RolModalService } from './rol-modal.service';
 import { JhiLanguageHelper, User, UserService, RolService, Rol } from '../../shared';
-import { Operacion, OperacionService } from '../../entities/operacion/index';
+import { Operacion, OperacionService, OperacionFilter } from '../../entities/operacion';
 import { Subscription } from 'rxjs/Rx';
 
 @Component({
@@ -21,6 +21,7 @@ export class RolMgmtDialogComponent implements OnInit {
     isSaving: Boolean;
 
     private subscription: Subscription;
+    private operacionFilter: OperacionFilter;
 
     constructor(
         private rolService: RolService,
@@ -36,9 +37,22 @@ export class RolMgmtDialogComponent implements OnInit {
             this.load(params['nombre']);
         });
         this.operaciones = [];
-        this.operacionService.query().subscribe((operaciones) => {
+        this.operacionFilter = new OperacionFilter();
+        this.loadOperaciones();
+    }
+
+    loadOperaciones() {
+        this.operacionService.query({
+            query: this.operacionFilter ? this.operacionFilter.toOrQuery() : '',
+        }).subscribe((operaciones) => {
             this.operaciones = operaciones.json;
         });
+    }
+
+    filterOperaciones($event) {
+        this.operacionFilter.accion = $event.query;
+        this.operacionFilter.sujeto = $event.query;
+        this.loadOperaciones();
     }
 
     operacionItemTemplate(operacion: Operacion) {

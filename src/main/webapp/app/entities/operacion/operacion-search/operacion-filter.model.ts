@@ -24,10 +24,21 @@ export class OperacionFilter implements EntityFilter {
     }
 
     toQuery() {
-        const accionFilter = !!this.accion ? 'ACCION ILIKE \'%' + this.accion + '%\'' : '';
-        const sujetoFilter = !!this.sujeto ? 'SUJETO ILIKE \'%' + this.sujeto + '%\'' : '';
-        let query = accionFilter;
-        query += (!!query && !!sujetoFilter ? ' AND ' : '') + sujetoFilter;
-        return query;
+        return this.getCriterias().join(' AND ');
+    }
+
+    toOrQuery() {
+        return this.getCriterias().join(' OR ');
+    }
+
+    getCriterias() {
+        const criterias = [];
+        if (this.accion) {
+            criterias.push(`ACCION ILIKE '%${this.accion}%'`);
+        }
+        if (this.sujeto) {
+            criterias.push(`SUJETO ILIKE '%${this.sujeto}%'`);
+        }
+        return criterias;
     }
 }

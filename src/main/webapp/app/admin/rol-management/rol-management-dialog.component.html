@@ -40,7 +40,7 @@
         <div class="form-group">
             <label jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
 
-            <ac-autocomplete name="operacion" [propertiesToQuery]="['accion', 'sujeto']" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
+            <ac-autocomplete name="operacion" (completeMethod)="filterOperaciones($event)" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
                 [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
         </div>
     </fieldset>

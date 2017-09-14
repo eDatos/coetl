@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, forwardRef, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { AutoComplete } from 'primeng/primeng';
@@ -14,81 +14,105 @@ export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     templateUrl: 'autocomplete.component.html',
     providers: [AC_AUTOCOMPLETE_VALUE_ACCESSOR]
 })
-// <ac-autocomplete name="operacion"
-// [propertiesToQuery]="['accion', 'sujeto']"
-// [(ngModel)]="rol.Suggestions"
-// [suggestions]="Suggestions"
-// [itemTemplate]="operacionItemTemplate">
-// </ac-autocomplete>
-export class AutocompleteComponent implements OnInit, ControlValueAccessor {
-
-    _selectedSuggestions: any[];
-
-    @Input()
-    propertiesToQuery: string[];
+// Sample where the calls are made to the service
+// <ac-autocomplete name="operacion" (completeMethod)="filterOperaciones($event)" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
+// [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
+//
+// Sample where array is static and is filtered via properties
+// <ac-autocomplete name="operacion" [propertiesToQuery]="['accion', 'sujeto']" [debouncedMode]="false" [(ngModel)]="rol.operaciones"
+// [suggestions]="operaciones" [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
+export class AutocompleteComponent implements ControlValueAccessor {
 
     @Input()
-    suggestions: any[];
+    private propertiesToQuery: string[];
 
     @Input()
-    itemTemplate: Function;
+    public debouncedMode = true;
 
-    filteredSuggestions: any[];
+    @Output()
+    private completeMethod: EventEmitter<any> = new EventEmitter();
+
+    private _selectedSuggestions: any[];
+
+    private _suggestions: any[];
+
+    public filteredSuggestions: any[];
 
     @ViewChild(AutoComplete)
     private autoComplete: AutoComplete;
 
     private focusMustOpenPanel = true;
 
-    onModelChange: Function = () => { };
+    @Input()
+    public minLength = 3;
 
-    onModelTouched: Function = () => { };
+    private onModelChange: Function = () => { };
 
-    constructor() {
+    private onModelTouched: Function = () => { };
+
+    @Input()
+    public itemTemplate: Function = (item) => item;
+
+    constructor() { }
+
+    onCompleteMethod($event) {
+        this.completeMethod.emit($event);
+        this.filteredSuggestions = this.getFilteredSuggestions($event.query);
     }
 
-    ngOnInit() {
-        this.filteredSuggestions = this.buildFilteredSuggestions('');
-        if (!this.itemTemplate) {
-            this.itemTemplate = (item) => item;
+    getFilteredSuggestions(query) {
+        if (this.propertiesToQuery) {
+            return this.suggestions
+                .filter((suggestion) => {
+                    if (this.propertiesToQuery.length > 0) {
+                        return this.propertiesToQuery.findIndex((property) =>
+                            suggestion[property].toUpperCase().indexOf(query.toUpperCase()) !== -1
+                        ) !== -1;
+                    } else {
+                        return suggestion.toUpperCase().indexOf(query.toUpperCase()) !== -1
+                    }
+                });
+        } else {
+            return this.suggestions;
         }
     }
 
-    buildFilteredSuggestions(query) {
-        return this.suggestions
-            .filter((operacion) => {
-                if (this.propertiesToQuery && this.propertiesToQuery.length) {
-                    return this.propertiesToQuery.findIndex((property) =>
-                        operacion[property].toUpperCase().indexOf(query.toUpperCase()) !== -1
-                    ) !== -1;
-                } else {
-                    return operacion.toUpperCase().indexOf(query.toUpperCase()) !== -1
-                }
-            })
-            .map((operacion) => operacion);
-    }
-
-    searchSuggestions(event) {
-        this.filteredSuggestions = this.buildFilteredSuggestions(event.query);
-    }
-
+    // https://github.com/primefaces/primeng/issues/745
     handleDropdownSuggestions(event) {
         this.focusMustOpenPanel = !this.autoComplete.panelVisible;
     }
 
-    handleOnFocusSuggestions(event) {
-        setTimeout(() => {
-            this.filteredSuggestions = this.buildFilteredSuggestions('');
-            if (this.focusMustOpenPanel) {
-                this.autoComplete.show();
-            } else {
-                this.autoComplete.hide();
-            }
-        }, 0)
-    }
-
     handleOnFocusOutSuggestions(event) {
         this.focusMustOpenPanel = true;
+    }
+
+    handleOnFocusSuggestions() {
+        const queryValue = this.getQueryValue();
+        if (!this.debouncedMode || queryValue.length >= this.minLength) {
+            this.filteredSuggestions = this.getFilteredSuggestions(queryValue);
+
+            setTimeout(() => {
+                if (this.focusMustOpenPanel) {
+                    this.autoComplete.show();
+                } else {
+                    this.autoComplete.hide();
+                }
+            }, 0);
+        }
+    }
+
+    getQueryValue() {
+        return this.autoComplete.multiInputEL ? this.autoComplete.multiInputEL.nativeElement.value : '';
+    }
+
+    @Input()
+    set suggestions(suggestions: any[]) {
+        this._suggestions = suggestions;
+        this.filteredSuggestions = this.getFilteredSuggestions(this.getQueryValue());
+    }
+
+    get suggestions(): any[] {
+        return this._suggestions;
     }
 
     /* ControlValueAccessor */
