@@ -1,18 +1,14 @@
 package es.tenerife.secretaria.libro.web.rest.mapper;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
-import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
@@ -30,10 +26,27 @@ public class UsuarioMapper {
 	UsuarioRepository usuarioRepository;
 
 	@Autowired
-	RolRepository rolRepository;
+	RolMapper rolMapper;
 
 	public UsuarioDTO userToUserDTO(Usuario user) {
-		return new UsuarioDTO(user);
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setId(user.getId());
+		usuarioDTO.setLogin(user.getLogin());
+		usuarioDTO.setNombre(user.getNombre());
+		usuarioDTO.setApellido1(user.getApellido1());
+		usuarioDTO.setApellido2(user.getApellido2());
+		usuarioDTO.setEmail(user.getEmail());
+		usuarioDTO.setActivado(user.getActivado());
+		usuarioDTO.setUrlImagen(user.getUrlImagen());
+		usuarioDTO.setIdioma(user.getIdioma());
+		usuarioDTO.setCreatedBy(user.getCreatedBy());
+		usuarioDTO.setCreatedDate(user.getCreatedDate());
+		usuarioDTO.setLastModifiedBy(user.getLastModifiedBy());
+		usuarioDTO.setLastModifiedDate(user.getLastModifiedDate());
+		usuarioDTO.setRoles(user.getRoles().stream().map(rolMapper::toDto).collect(Collectors.toSet()));
+		usuarioDTO.setDeletionDate(user.getDeletionDate());
+		usuarioDTO.setOptLock(user.getOptLock());
+		return usuarioDTO;
 	}
 
 	public List<UsuarioDTO> usersToUserDTOs(List<Usuario> users) {
@@ -56,10 +69,7 @@ public class UsuarioMapper {
 			user.setIdioma(userDTO.getIdioma());
 			user.setDeletionDate(userDTO.getDeletionDate());
 			user.setOptLock(userDTO.getOptLock());
-			Set<Rol> authorities = this.authoritiesFromStrings(userDTO.getRoles());
-			if (authorities != null) {
-				user.setRoles(authorities);
-			}
+			user.setRoles(rolMapper.toEntity(userDTO.getRoles()));
 			return user;
 		}
 	}
@@ -88,21 +98,8 @@ public class UsuarioMapper {
 		user.setActivado(userVM.isActivado());
 		user.setIdioma(userVM.getIdioma());
 		user.setOptLock(userVM.getOptLock());
-		Set<Rol> managedAuthorities = user.getRoles();
-		managedAuthorities.clear();
-		userVM.getRoles().stream().map(rolRepository::findOneByNombre).forEach(managedAuthorities::add);
+		user.setRoles(rolMapper.toEntity(userVM.getRoles()));
 		return user;
-	}
-
-	public Set<Rol> authoritiesFromStrings(Set<String> strings) {
-		if (strings == null) {
-			return new HashSet<>();
-		}
-		return strings.stream().map(string -> {
-			Rol auth = new Rol();
-			auth.setNombre(string);
-			return auth;
-		}).collect(Collectors.toSet());
 	}
 
 	public UsuarioDTO usuarioLdapEntryToUsuarioDTO(UsuarioLdapEntry usuarioLdapEntry) {

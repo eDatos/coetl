@@ -1,5 +1,7 @@
 package es.tenerife.secretaria.libro.web.rest.mapper;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import es.tenerife.secretaria.libro.domain.Rol;
@@ -10,6 +12,10 @@ public abstract class RolMapper implements EntityMapper<RolDTO, Rol> {
 
 	@Autowired
 	protected RolRepository rolRepository;
+
+	public abstract Set<RolDTO> toDto(Set<Rol> entityList);
+
+	public abstract Set<Rol> toEntity(Set<RolDTO> dtoList);
 
 	public Rol fromNombre(String name) {
 		if (name == null) {

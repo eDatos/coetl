@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 
@@ -39,11 +38,13 @@ import es.tenerife.secretaria.libro.SecretariaLibroApp;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
+import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
+import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 import es.tenerife.secretaria.libro.web.rest.errors.ExceptionTranslator;
 import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
@@ -80,6 +81,9 @@ public class UserResourceIntTest {
 
 	@Autowired
 	private UsuarioRepository userRepository;
+
+	@Autowired
+	private RolRepository rolRepository;
 
 	@Autowired
 	private MailService mailService;
@@ -119,6 +123,15 @@ public class UserResourceIntTest {
 				.setMessageConverters(jacksonMessageConverter).build();
 	}
 
+	private Set<RolDTO> mockRolesDTO() {
+		// Create the User
+		Set<RolDTO> authorities = new HashSet<>();
+		RolDTO rolDTO = new RolDTO();
+		rolDTO.setNombre(AuthoritiesConstants.ADMIN);
+		authorities.add(rolDTO);
+		return authorities;
+	}
+
 	/**
 	 * Create a User.
 	 *
@@ -148,9 +161,7 @@ public class UserResourceIntTest {
 		int databaseSizeBeforeCreate = userRepository.findAll().size();
 		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
-		// Create the User
-		Set<String> authorities = new HashSet<>();
-		authorities.add("ROLE_USER");
+		Set<RolDTO> authorities = mockRolesDTO();
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
 		UsuarioDTO source = UsuarioDTO.builder()
@@ -192,8 +203,6 @@ public class UserResourceIntTest {
 	public void createUserWithExistingId() throws Exception {
 		int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-		Set<String> authorities = new HashSet<>();
-		authorities.add("ROLE_USER");
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
 		UsuarioDTO source = UsuarioDTO.builder()
@@ -209,7 +218,7 @@ public class UserResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(authorities)
+				.setAuthorities(mockRolesDTO())
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on
@@ -230,8 +239,8 @@ public class UserResourceIntTest {
 		userRepository.saveAndFlush(user);
 		int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-		Set<String> authorities = new HashSet<>();
-		authorities.add("ROLE_USER");
+		Set<Long> authorities = new HashSet<>();
+		authorities.add(1L);
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
 		UsuarioDTO source = UsuarioDTO.builder()
@@ -247,7 +256,7 @@ public class UserResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(authorities)
+				.setAuthorities(mockRolesDTO())
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on
@@ -268,8 +277,8 @@ public class UserResourceIntTest {
 		userRepository.saveAndFlush(user);
 		int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-		Set<String> authorities = new HashSet<>();
-		authorities.add("ROLE_USER");
+		Set<Long> authorities = new HashSet<>();
+		authorities.add(1L);
 
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
@@ -286,7 +295,7 @@ public class UserResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(authorities)
+				.setAuthorities(mockRolesDTO())
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on
@@ -352,8 +361,8 @@ public class UserResourceIntTest {
 		// Update the user
 		Usuario updatedUser = userRepository.findOne(user.getId());
 
-		Set<String> authorities = new HashSet<>();
-		authorities.add("ROLE_USER");
+		Set<Long> authorities = new HashSet<>();
+		authorities.add(1L);
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
 		UsuarioDTO source = UsuarioDTO.builder()
@@ -369,7 +378,7 @@ public class UserResourceIntTest {
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
 				.setLastModifiedDate(updatedUser.getLastModifiedDate())
-				.setAuthorities(authorities)
+				.setAuthorities(mockRolesDTO())
 				.setOptLock(updatedUser.getOptLock())
 				.build();
 		managedUserVM.updateFrom(source);
@@ -402,8 +411,8 @@ public class UserResourceIntTest {
 		// Update the user
 		Usuario updatedUser = userRepository.findOne(user.getId());
 
-		Set<String> authorities = new HashSet<>();
-		authorities.add("ROLE_USER");
+		Set<Long> authorities = new HashSet<>();
+		authorities.add(1L);
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
 		UsuarioDTO source = UsuarioDTO.builder()
@@ -419,7 +428,7 @@ public class UserResourceIntTest {
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
 				.setLastModifiedDate(updatedUser.getLastModifiedDate())
-				.setAuthorities(authorities)
+				.setAuthorities(mockRolesDTO())
 				.setOptLock(updatedUser.getOptLock())
 				.build();
 		managedUserVM.updateFrom(source);
@@ -460,8 +469,8 @@ public class UserResourceIntTest {
 		// Update the user
 		Usuario updatedUser = userRepository.findOne(user.getId());
 
-		Set<String> authorities = new HashSet<>();
-		authorities.add("ROLE_USER");
+		Set<Long> authorities = new HashSet<>();
+		authorities.add(1L);
 		//@formatter:off
 				ManagedUserVM managedUserVM = new ManagedUserVM();
 				UsuarioDTO source = UsuarioDTO.builder()
@@ -477,7 +486,7 @@ public class UserResourceIntTest {
 						.setCreatedDate(updatedUser.getCreatedDate())
 						.setLastModifiedBy(updatedUser.getLastModifiedBy())
 						.setLastModifiedDate(updatedUser.getLastModifiedDate())
-						.setAuthorities(authorities)
+						.setAuthorities(mockRolesDTO())
 						.build();
 				managedUserVM.updateFrom(source);
 				//@formatter:on
@@ -505,8 +514,6 @@ public class UserResourceIntTest {
 		// Update the user
 		Usuario updatedUser = userRepository.findOne(user.getId());
 
-		Set<String> authorities = new HashSet<>();
-		authorities.add("ROLE_USER");
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
 		UsuarioDTO source = UsuarioDTO.builder()
@@ -522,7 +529,7 @@ public class UserResourceIntTest {
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
 				.setLastModifiedDate(updatedUser.getLastModifiedDate())
-				.setAuthorities(authorities)
+				.setAuthorities(mockRolesDTO())
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on
@@ -570,6 +577,7 @@ public class UserResourceIntTest {
 	}
 
 	@Test
+	@Transactional
 	public void testUserDTOtoUser() {
 
 		//@formatter:off
@@ -587,7 +595,7 @@ public class UserResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(DEFAULT_LOGIN)
 				.setLastModifiedDate(null)
-				.setAuthorities(Stream.of(AuthoritiesConstants.USER).collect(Collectors.toSet()))
+				.setAuthorities(mockRolesDTO())
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on
@@ -604,10 +612,11 @@ public class UserResourceIntTest {
 		assertThat(user.getCreatedDate()).isNotNull();
 		assertThat(user.getLastModifiedBy()).isNull();
 		assertThat(user.getLastModifiedDate()).isNotNull();
-		assertThat(user.getRoles()).extracting("nombre").containsExactly(AuthoritiesConstants.USER);
+		assertThat(user.getRoles()).extracting("nombre").containsExactly(AuthoritiesConstants.ADMIN);
 	}
 
 	@Test
+	@Transactional
 	public void testUserToUserDTO() {
 		user.setId(DEFAULT_ID);
 		user.setCreatedBy(DEFAULT_LOGIN);
@@ -616,8 +625,8 @@ public class UserResourceIntTest {
 		user.setLastModifiedDate(Instant.now());
 
 		Set<Rol> authorities = new HashSet<>();
-		Rol authority = new Rol();
-		authority.setNombre(AuthoritiesConstants.USER);
+		Rol authority = rolRepository.findOneByNombre(AuthoritiesConstants.USER);
+
 		authorities.add(authority);
 		user.setRoles(authorities);
 
@@ -635,7 +644,7 @@ public class UserResourceIntTest {
 		assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
 		assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(userDTO.getLastModifiedDate()).isEqualTo(user.getLastModifiedDate());
-		assertThat(userDTO.getRoles()).containsExactly(AuthoritiesConstants.USER);
+		userDTO.getRoles().forEach((rol) -> assertThat(rol.getNombre()).isEqualTo(authority.getNombre()));
 		assertThat(userDTO.toString()).isNotNull();
 	}
 

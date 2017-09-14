@@ -15,6 +15,9 @@
         "delete": {
             "question": "¿Seguro que quieres eliminar el usuario {{ login }}?"
         },
+        "restore": {
+            "question": "¿Seguro que quieres restaurar el usuario {{ login }}?"
+        },
         "detail": {
             "title": "Usuario"
         },

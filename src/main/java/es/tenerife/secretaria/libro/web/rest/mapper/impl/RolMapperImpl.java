@@ -63,6 +63,19 @@ public class RolMapperImpl extends RolMapper {
 		return list;
 	}
 
+	public Set<Rol> toEntity(Set<RolDTO> dtoList) {
+		if (dtoList == null) {
+			return new HashSet<>();
+		}
+
+		Set<Rol> set = new HashSet<>();
+		for (RolDTO rolDTO : dtoList) {
+			set.add(toEntity(rolDTO));
+		}
+
+		return set;
+	}
+
 	@Override
 	public List<RolDTO> toDto(List<Rol> entityList) {
 		if (entityList == null) {
@@ -75,6 +88,19 @@ public class RolMapperImpl extends RolMapper {
 		}
 
 		return list;
+	}
+
+	public Set<RolDTO> toDto(Set<Rol> entityList) {
+		if (entityList == null) {
+			return new HashSet<>();
+		}
+
+		Set<RolDTO> set = new HashSet<>();
+		for (Rol rol : entityList) {
+			set.add(toDto(rol));
+		}
+
+		return set;
 	}
 
 	@Override

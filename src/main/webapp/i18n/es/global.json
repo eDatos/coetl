@@ -80,6 +80,7 @@
             "cancel": "Cancelar",
             "delete": "Eliminar",
             "edit": "Editar",
+            "restore": "Restaurar",
             "open": "Open",
             "save": "Guardar",
             "view": "Vista",
@@ -91,6 +92,9 @@
         },
         "delete": {
             "title": "Confirmar operación de borrado"
+        },
+        "restore": {
+            "title": "Confirmar restauración"
         },
         "validation": {
             "required": "Este campo es obligatorio.",
