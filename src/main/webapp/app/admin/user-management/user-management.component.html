@@ -13,14 +13,11 @@
                 <thead>
                     <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                         <th jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="nombre"><span jhiTranslate="userManagement.nombre">Email</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="apellido1"><span jhiTranslate="userManagement.apellido1">Email</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="apellido2"><span jhiTranslate="userManagement.apellido2">Email</span> <span class="fa fa-sort"></span></th>
                         <th jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <span class="fa fa-sort"></span></th>
-                        <th></th>
-                        <th jhiSortBy="langKey"> <span jhiTranslate="userManagement.idioma">Lang Key</span> <span class="fa fa-sort"></span></th>
                         <th><span jhiTranslate="userManagement.profiles">Profiles</span></th>
-                        <th jhiSortBy="createdDate"><span jhiTranslate="userManagement.createdDate">Created Date</span> <span class="fa fa-sort"></span></th>
-                        <th jhiSortBy="lastModifiedBy"><span jhiTranslate="userManagement.lastModifiedBy">Last Modified By</span> <span class="fa fa-sort"></span></th>
-                        <th jhiSortBy="lastModifiedDate"><span jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</span> <span class="fa fa-sort"></span></th>
-                        <th jhiSortBy="deletionDate"><span jhiTranslate="userManagement.deletionDate">Deletion Date</span> <span class="fa fa-sort"></span></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -28,44 +25,19 @@
                     <ng-container *ngFor="let user of users; trackBy: trackIdentity">
                         <tr [ngClass]="{'deleted': !!user.deletionDate }" [routerLink]="['../user-management', user.login]">
                             <td>{{user.login}}</td>
+                            <td>{{user.nombre}}</td>
+                            <td>{{user.apellido1}}</td>
+                            <td>{{user.apellido2}}</td>
                             <td>{{user.email}}</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activado" jhiTranslate="userManagement.desactivado">Deactivated</button>
-                                <button class="btn btn-success btn-sm" (click)="setActive(user, false)" *ngIf="user.activado" [disabled]="currentAccount.login === user.login"
-                                    jhiTranslate="userManagement.activado">Activated</button>
-                            </td>
-                            <td>{{user.idioma}}</td>
                             <td>
                                 <div *ngFor="let rol of user.roles">
                                     <span class="badge badge-info">{{ rol }}</span>
                                 </div>
                             </td>
-                            <td>{{user.createdDate | date:'dd/MM/yy HH:mm'}}</td>
-                            <td>{{user.lastModifiedBy}}</td>
-                            <td>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</td>
-                            <td>{{user.deletionDate | date:'dd/MM/yy HH:mm'}}</td>
-                            <td class="text-center">
-                                <div class="btn-group flex-btn-group-container" (click)="$event.stopPropagation()">
-                                    <ac-split-button>
-                                        <ac-split-button-main>
-                                            <button type="submit" [routerLink]="['../user-management', user.login]" class="btn btn-info btn-sm">
-                                                    <span class="fa fa-eye"></span>
-                                                    <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                                                </button>
-                                        </ac-split-button-main>
-                                        <ac-split-button-others>
-                                            <button type="submit" [routerLink]="['../user-management', user.login, 'edit']" class="btn btn-primary btn-sm">
-                                                    <span class="fa fa-pencil"></span>
-                                                    <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
-                                                </button>
-                                            <button type="submit" [routerLink]="['/', { outlets: { popup: 'user-management/'+ user.login + '/delete'} }]" replaceUrl="true"
-                                                class="btn btn-danger btn-sm" [disabled]="currentAccount.login === user.login">
-                                                    <span class="fa fa-remove"></span>
-                                                    <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                                                </button>
-                                        </ac-split-button-others>
-                                    </ac-split-button>
-                                </div>
+                            <td>
+                                <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activado" jhiTranslate="userManagement.desactivado">Deactivated</button>
+                                <button class="btn btn-success btn-sm" (click)="setActive(user, false)" *ngIf="user.activado" [disabled]="currentAccount.login === user.login"
+                                    jhiTranslate="userManagement.activado">Activated</button>
                             </td>
                         </tr>
                 </tbody>
