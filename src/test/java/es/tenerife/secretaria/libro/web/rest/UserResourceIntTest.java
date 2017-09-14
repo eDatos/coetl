@@ -76,9 +76,6 @@ public class UserResourceIntTest {
 	private static final String DEFAULT_IMAGEURL = "http://placehold.it/50x50";
 	private static final String UPDATED_IMAGEURL = "http://placehold.it/40x40";
 
-	private static final String DEFAULT_LANGKEY = "en";
-	private static final String UPDATED_LANGKEY = "fr";
-
 	@Autowired
 	private UsuarioRepository userRepository;
 
@@ -146,7 +143,6 @@ public class UserResourceIntTest {
 		user.setNombre(DEFAULT_FIRSTNAME);
 		user.setApellido1(DEFAULT_LASTNAME);
 		user.seturlImagen(DEFAULT_IMAGEURL);
-		user.setIdioma(DEFAULT_LANGKEY);
 		return user;
 	}
 
@@ -172,7 +168,6 @@ public class UserResourceIntTest {
 				.setEmail(DEFAULT_EMAIL)
 				.setActivated(true)
 				.setImageUrl(DEFAULT_IMAGEURL)
-				.setLangKey(DEFAULT_LANGKEY)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -195,7 +190,6 @@ public class UserResourceIntTest {
 		assertThat(testUser.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
 		assertThat(testUser.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
-		assertThat(testUser.getIdioma()).isEqualTo(DEFAULT_LANGKEY);
 	}
 
 	@Test
@@ -213,7 +207,6 @@ public class UserResourceIntTest {
 				.setEmail(DEFAULT_EMAIL)
 				.setActivated(true)
 				.setImageUrl(DEFAULT_IMAGEURL)
-				.setLangKey(DEFAULT_LANGKEY)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -251,7 +244,6 @@ public class UserResourceIntTest {
 				.setEmail("anothermail@localhost")
 				.setActivated(true)
 				.setImageUrl(DEFAULT_IMAGEURL)
-				.setLangKey(DEFAULT_LANGKEY)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -290,7 +282,6 @@ public class UserResourceIntTest {
 				.setEmail(DEFAULT_EMAIL)
 				.setActivated(true)
 				.setImageUrl(DEFAULT_IMAGEURL)
-				.setLangKey(DEFAULT_LANGKEY)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -322,8 +313,7 @@ public class UserResourceIntTest {
 				.andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_FIRSTNAME)))
 				.andExpect(jsonPath("$.[*].apellido1").value(hasItem(DEFAULT_LASTNAME)))
 				.andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-				.andExpect(jsonPath("$.[*].urlImagen").value(hasItem(DEFAULT_IMAGEURL)))
-				.andExpect(jsonPath("$.[*].idioma").value(hasItem(DEFAULT_LANGKEY)));
+				.andExpect(jsonPath("$.[*].urlImagen").value(hasItem(DEFAULT_IMAGEURL)));
 	}
 
 	@Test
@@ -339,8 +329,7 @@ public class UserResourceIntTest {
 				.andExpect(jsonPath("$.nombre").value(DEFAULT_FIRSTNAME))
 				.andExpect(jsonPath("$.apellido1").value(DEFAULT_LASTNAME))
 				.andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-				.andExpect(jsonPath("$.urlImagen").value(DEFAULT_IMAGEURL))
-				.andExpect(jsonPath("$.idioma").value(DEFAULT_LANGKEY));
+				.andExpect(jsonPath("$.urlImagen").value(DEFAULT_IMAGEURL));
 	}
 
 	@Test
@@ -373,7 +362,6 @@ public class UserResourceIntTest {
 				.setEmail(UPDATED_EMAIL)
 				.setActivated(updatedUser.getActivado())
 				.setImageUrl(UPDATED_IMAGEURL)
-				.setLangKey(UPDATED_LANGKEY)
 				.setCreatedBy(updatedUser.getCreatedBy())
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -396,7 +384,6 @@ public class UserResourceIntTest {
 		assertThat(testUser.getApellido1()).isEqualTo(UPDATED_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
 		assertThat(testUser.getUrlImagen()).isEqualTo(UPDATED_IMAGEURL);
-		assertThat(testUser.getIdioma()).isEqualTo(UPDATED_LANGKEY);
 	}
 
 	@Test
@@ -423,7 +410,6 @@ public class UserResourceIntTest {
 				.setEmail(UPDATED_EMAIL)
 				.setActivated(updatedUser.getActivado())
 				.setImageUrl(UPDATED_IMAGEURL)
-				.setLangKey(UPDATED_LANGKEY)
 				.setCreatedBy(updatedUser.getCreatedBy())
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -447,7 +433,6 @@ public class UserResourceIntTest {
 		assertThat(testUser.getApellido1()).isEqualTo(UPDATED_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
 		assertThat(testUser.getUrlImagen()).isEqualTo(UPDATED_IMAGEURL);
-		assertThat(testUser.getIdioma()).isEqualTo(UPDATED_LANGKEY);
 	}
 
 	@Test
@@ -463,7 +448,6 @@ public class UserResourceIntTest {
 		anotherUser.setNombre("java");
 		anotherUser.setApellido1("hipster");
 		anotherUser.seturlImagen("");
-		anotherUser.setIdioma("en");
 		userRepository.saveAndFlush(anotherUser);
 
 		// Update the user
@@ -481,7 +465,6 @@ public class UserResourceIntTest {
 						.setEmail("jhipster@localhost")
 						.setActivated(updatedUser.getActivado())
 						.setImageUrl( updatedUser.getUrlImagen())
-						.setLangKey(updatedUser.getIdioma())
 						.setCreatedBy(updatedUser.getCreatedBy())
 						.setCreatedDate(updatedUser.getCreatedDate())
 						.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -508,7 +491,6 @@ public class UserResourceIntTest {
 		anotherUser.setNombre("java");
 		anotherUser.setApellido1("hipster");
 		anotherUser.seturlImagen("");
-		anotherUser.setIdioma("en");
 		userRepository.saveAndFlush(anotherUser);
 
 		// Update the user
@@ -524,7 +506,6 @@ public class UserResourceIntTest {
 				.setEmail("jhipster@localhost")
 				.setActivated(updatedUser.getActivado())
 				.setImageUrl( updatedUser.getUrlImagen())
-				.setLangKey(updatedUser.getIdioma())
 				.setCreatedBy(updatedUser.getCreatedBy())
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -590,7 +571,6 @@ public class UserResourceIntTest {
 				.setEmail(DEFAULT_EMAIL)
 				.setActivated(true)
 				.setImageUrl(DEFAULT_IMAGEURL)
-				.setLangKey(DEFAULT_LANGKEY)
 				.setCreatedBy(DEFAULT_LOGIN)
 				.setCreatedDate(null)
 				.setLastModifiedBy(DEFAULT_LOGIN)
@@ -607,7 +587,6 @@ public class UserResourceIntTest {
 		assertThat(user.getEmail()).isEqualTo(DEFAULT_EMAIL);
 		assertThat(user.getActivado()).isEqualTo(true);
 		assertThat(user.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
-		assertThat(user.getIdioma()).isEqualTo(DEFAULT_LANGKEY);
 		assertThat(user.getCreatedBy()).isNull();
 		assertThat(user.getCreatedDate()).isNotNull();
 		assertThat(user.getLastModifiedBy()).isNull();
@@ -639,7 +618,6 @@ public class UserResourceIntTest {
 		assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
 		assertThat(userDTO.isActivado()).isEqualTo(true);
 		assertThat(userDTO.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
-		assertThat(userDTO.getIdioma()).isEqualTo(DEFAULT_LANGKEY);
 		assertThat(userDTO.getCreatedBy()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
 		assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);

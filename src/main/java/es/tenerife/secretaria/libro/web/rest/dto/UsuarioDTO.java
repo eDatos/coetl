@@ -46,9 +46,6 @@ public class UsuarioDTO {
 
 	private boolean activado = false;
 
-	@Size(min = 2, max = 5)
-	private String idioma;
-
 	private String createdBy;
 
 	private Instant createdDate;
@@ -76,7 +73,6 @@ public class UsuarioDTO {
 		this.email = source.getEmail();
 		this.activado = source.isActivado();
 		this.urlImage = source.getUrlImagen();
-		this.idioma = source.getIdioma();
 		this.createdBy = source.getCreatedBy();
 		this.createdDate = source.getCreatedDate();
 		this.lastModifiedBy = source.getLastModifiedBy();
@@ -136,10 +132,6 @@ public class UsuarioDTO {
 		return activado;
 	}
 
-	public String getIdioma() {
-		return idioma;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -187,11 +179,6 @@ public class UsuarioDTO {
 
 	}
 
-	public void setIdioma(String langKey) {
-		this.idioma = langKey;
-
-	}
-
 	public void setActivado(boolean activated) {
 		this.activado = activated;
 
@@ -230,7 +217,7 @@ public class UsuarioDTO {
 	public String toString() {
 		return "UserDTO{" + "login='" + login + '\'' + ", firstName='" + nombre + '\'' + ", lastName='" + apellido1
 				+ '\'' + ", email='" + email + '\'' + ", imageUrl='" + urlImage + '\'' + ", activated=" + activado
-				+ ", langKey='" + idioma + '\'' + ", createdBy=" + createdBy + ", createdDate=" + createdDate
+				+ ", createdBy=" + createdBy + ", createdDate=" + createdDate
 				+ ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate
 				+ ", authorities=" + roles + "}";
 	}
@@ -244,7 +231,6 @@ public class UsuarioDTO {
 		private String email;
 		private String imageUrl;
 		private boolean activated = false;
-		private String langKey;
 		private String createdBy;
 		private Instant createdDate;
 		private String lastModifiedBy;
@@ -263,7 +249,6 @@ public class UsuarioDTO {
 			userDTO.setEmail(this.email);
 			userDTO.setUrlImagen(this.imageUrl);
 			userDTO.setActivado(this.activated);
-			userDTO.setIdioma(this.langKey);
 			userDTO.setCreatedBy(this.createdBy);
 			userDTO.setCreatedDate(this.createdDate);
 			userDTO.setLastModifiedBy(this.lastModifiedBy);
@@ -314,11 +299,6 @@ public class UsuarioDTO {
 
 		public Builder setActivated(boolean activated) {
 			this.activated = activated;
-			return this;
-		}
-
-		public Builder setLangKey(String langKey) {
-			this.langKey = langKey;
 			return this;
 		}
 

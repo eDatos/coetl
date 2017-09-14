@@ -7,7 +7,7 @@
             "title": "Usuarios",
             "createLabel": "Crear un nuevo usuario",
             "createOrEditLabel": "Crear o editar un usuario",
-            "includeDeleted": "Incluir borrados"
+            "includeDeleted": "Incluir desactivados"
         },
         "created": "A new user is created with identifier {{ param }}",
         "updated": "An user is updated with identifier {{ param }}",
@@ -29,12 +29,11 @@
         "activado": "Activado",
         "desactivado": "Desactivado",
         "profiles": "Roles",
-        "idioma": "Idioma",
         "createdBy": "Creado por",
         "createdDate": "Fecha de creación",
         "lastModifiedBy": "Modificado por",
         "lastModifiedDate": "Fecha de modificación",
-        "deletionDate": "Fecha de borrado",
+        "deletionDate": "Fecha de desactivación",
         "roles": "Roles",
         "filters": {
             "name": {

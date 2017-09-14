@@ -41,7 +41,6 @@
       <column name="activado" type="boolean" valueBoolean="false">
         <constraints nullable="false" />
       </column>
-      <column name="idioma" type="varchar(5)" />
       <column name="clave_reinicio" type="varchar(20)" />
       <column name="deletion_date" type="timestamp">
         <constraints nullable="true" />

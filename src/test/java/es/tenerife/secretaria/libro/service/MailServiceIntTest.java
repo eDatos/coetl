@@ -126,7 +126,6 @@ public class MailServiceIntTest {
 		Usuario user = new Usuario();
 		user.setLogin("john");
 		user.setEmail("john.doe@example.com");
-		user.setIdioma("en");
 		mailService.sendEmailFromTemplate(user, "testEmail", "email.test.title");
 		verify(javaMailSender).send((MimeMessage) messageCaptor.capture());
 		MimeMessage message = (MimeMessage) messageCaptor.getValue();
@@ -140,7 +139,6 @@ public class MailServiceIntTest {
 	@Test
 	public void testCreationEmail() throws Exception {
 		Usuario user = new Usuario();
-		user.setIdioma("en");
 		user.setLogin("john");
 		user.setEmail("john.doe@example.com");
 		mailService.sendCreationEmail(user);

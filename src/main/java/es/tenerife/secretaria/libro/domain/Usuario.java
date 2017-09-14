@@ -80,10 +80,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 	@Column(nullable = false)
 	private boolean activado = false;
 
-	@Size(min = 2, max = 5)
-	@Column(name = "idioma", length = 5)
-	private String idioma;
-
 	@Size(max = 256)
 	@Column(name = "url_imagen", length = 256)
 	private String urlImagen;
@@ -197,14 +193,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 		this.fechaReinicio = resetDate;
 	}
 
-	public String getIdioma() {
-		return idioma;
-	}
-
-	public void setIdioma(String langKey) {
-		this.idioma = langKey;
-	}
-
 	public Set<Rol> getRoles() {
 		return roles;
 	}
@@ -246,6 +234,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 	public String toString() {
 		return "Usuario{" + "login='" + login + '\'' + ", nombre='" + nombre + '\'' + ", apellido1='" + apellido1 + '\''
 				+ ", email='" + email + '\'' + ", urlImagen='" + urlImagen + '\'' + ", activado='" + activado + '\''
-				+ ", idioma='" + idioma + '\'' + "}";
+				+ "}";
 	}
 }
