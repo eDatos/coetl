@@ -6,40 +6,36 @@
                     </button>
 
             <span *ngIf="operacion.id">
-                        <span jhiTranslate="secretariaLibroApp.operacion.detail.title">Operacion</span> [<b>{{operacion.id}}</b>]
+                <span >{{operacion.accion}} - {{operacion.sujeto}}</span>
             </span>
         </div>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
     <fieldset disabled>
-        <div class="form-group" [hidden]="!operacion.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="operacion.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="secretariaLibroApp.operacion.accion" for="field_accion">Accion</label>
-            <input type="text" class="form-control" name="accion" id="field_accion" [(ngModel)]="operacion.accion" required />
-            <div [hidden]="!(editForm.controls.accion?.dirty && editForm.controls.accion?.invalid)">
-                <small class="form-text text-danger" [hidden]="!editForm.controls.accion?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
+        <div class="entity-fields">
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="secretariaLibroApp.operacion.accion" for="field_accion">Accion</label>
+                <input type="text" class="form-control" name="accion" id="field_accion" [(ngModel)]="operacion.accion" required />
+                <div [hidden]="!(editForm.controls.accion?.dirty && editForm.controls.accion?.invalid)">
+                    <small class="form-text text-danger" [hidden]="!editForm.controls.accion?.errors?.required" jhiTranslate="entity.validation.required">
+                    This field is required.
+                    </small>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="secretariaLibroApp.operacion.sujeto" for="field_sujeto">Sujeto</label>
-            <input type="text" class="form-control" name="sujeto" id="field_sujeto" [(ngModel)]="operacion.sujeto" required />
-            <div [hidden]="!(editForm.controls.sujeto?.dirty && editForm.controls.sujeto?.invalid)">
-                <small class="form-text text-danger" [hidden]="!editForm.controls.sujeto?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="secretariaLibroApp.operacion.sujeto" for="field_sujeto">Sujeto</label>
+                <input type="text" class="form-control" name="sujeto" id="field_sujeto" [(ngModel)]="operacion.sujeto" required />
+                <div [hidden]="!(editForm.controls.sujeto?.dirty && editForm.controls.sujeto?.invalid)">
+                    <small class="form-text text-danger" [hidden]="!editForm.controls.sujeto?.errors?.required" jhiTranslate="entity.validation.required">
+                    This field is required.
+                    </small>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label jhiTranslate="secretariaLibroApp.operacion.roles.roles">Roles</label>
-            <select class="form-control" multiple name="rol" [(ngModel)]="operacion.roles">
-                    <option *ngFor="let rol of roles" [value]="rol.nombre">{{rol.nombre}}</option>
-                </select>
+            <div class="form-group">
+                <label jhiTranslate="secretariaLibroApp.operacion.roles.roles">Roles</label>
+                <ac-autocomplete name="rol" [(ngModel)]="operacion.roles" [suggestions]="authorities"></ac-autocomplete>
+            </div>
         </div>
     </fieldset>
 

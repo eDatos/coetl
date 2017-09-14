@@ -12,7 +12,6 @@
                         <th jhiSortBy="accion"><span jhiTranslate="secretariaLibroApp.operacion.accion">Accion</span> <span class="fa fa-sort"></span></th>
                         <th jhiSortBy="sujeto"><span jhiTranslate="secretariaLibroApp.operacion.sujeto">Sujeto</span> <span class="fa fa-sort"></span></th>
                         <th><span jhiTranslate="secretariaLibroApp.operacion.roles.roles">Roles</span></th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,14 +22,6 @@
                             <ng-container *ngFor="let rol of operacion.roles">
                                 <span class="badge badge-info">{{rol}}</span>
                             </ng-container>
-                        </td>
-                        <td class="text-right" (click)="$event.stopPropagation()">
-                            <div class="btn-group flex-btn-group-container">
-                                <button type="submit" [routerLink]="['../operacion', operacion.id ]" class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                            </div>
                         </td>
                     </tr>
                 </tbody>
