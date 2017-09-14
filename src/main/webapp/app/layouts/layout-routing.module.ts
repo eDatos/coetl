@@ -3,8 +3,10 @@ import { RouterModule } from '@angular/router';
 
 import { navbarRoute } from '../app.route';
 import { errorRoute } from './';
+import { HOME_ROUTE } from '../home';
 
 const LAYOUT_ROUTES = [
+    HOME_ROUTE,
     navbarRoute,
     ...errorRoute
 ];

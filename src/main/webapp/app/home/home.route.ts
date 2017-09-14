@@ -1,11 +1,9 @@
 import { Route } from '@angular/router';
 
-import { UserRouteAccessService } from '../shared';
-import { HomeComponent } from './';
-
 export const HOME_ROUTE: Route = {
     path: '',
-    component: HomeComponent,
+    redirectTo: '/user-management', // FIXME Redirect to appropiate home page. Beware is accesible for all roles
+    pathMatch: 'full',
     data: {
         roles: [],
         pageTitle: 'home.title'
