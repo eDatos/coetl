@@ -6,7 +6,6 @@ export class User {
     public apellido2?: string;
     public email?: string;
     public activado?: Boolean;
-    public idioma?: string;
     public roles?: any[];
     public createdBy?: string;
     public createdDate?: Date;
@@ -22,7 +21,6 @@ export class User {
         apellido2?: string,
         email?: string,
         activado?: Boolean,
-        idioma?: string,
         roles?: any[],
         createdBy?: string,
         createdDate?: Date,
@@ -37,7 +35,6 @@ export class User {
         this.apellido2 = apellido2 ? apellido2 : null;
         this.email = email ? email : null;
         this.activado = activado ? activado : false;
-        this.idioma = idioma ? idioma : null;
         this.roles = roles ? roles : null;
         this.createdBy = createdBy ? createdBy : null;
         this.createdDate = createdDate ? createdDate : null;

@@ -63,11 +63,6 @@ public class UsuarioService {
 		newUser.setApellido2(user.getApellido2());
 		newUser.setEmail(user.getEmail());
 		newUser.seturlImagen(user.getUrlImagen());
-		if (user.getIdioma() == null) {
-			newUser.setIdioma("en"); // default language
-		} else {
-			newUser.setIdioma(user.getIdioma());
-		}
 		if (user.getRoles() != null) {
 			Set<Rol> authorities = new HashSet<>();
 			user.getRoles()
@@ -95,7 +90,7 @@ public class UsuarioService {
 	 * @param imageUrl
 	 *            image URL of user
 	 */
-	public void updateUsuario(String firstName, String apellido1, String apellido2, String email, String langKey,
+	public void updateUsuario(String firstName, String apellido1, String apellido2, String email,
 			String imageUrl) {
 		usuarioRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
 			validarUsuarioLdap(user);
@@ -103,7 +98,6 @@ public class UsuarioService {
 			user.setApellido1(apellido1);
 			user.setApellido2(apellido2);
 			user.setEmail(email);
-			user.setIdioma(langKey);
 			user.seturlImagen(imageUrl);
 			log.debug("Changed Information for User: {}", user);
 		});
