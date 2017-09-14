@@ -38,7 +38,7 @@
         "filters": {
             "name": {
                 "label": "Búsqueda de usuario",
-                "placeholder": "Búsqueda de usuario"
+                "placeholder": "Búsqueda de usuarios por nombre, apellidos o nombre de usuario"
             }
         }
     }

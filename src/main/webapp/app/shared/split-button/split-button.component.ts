@@ -27,10 +27,10 @@ export class SplitButtonComponent {
         this.menuVisible = !this.menuVisible;
     }
 
-    // Menu wont be keyboard accesible!
     onFocusOut($event) {
         if (!this.element.nativeElement.contains($event.relatedTarget)) {
-            this.menuVisible = false;
+            // https://github.com/angular/angular/issues/17572
+            setTimeout(() => this.menuVisible = false, 0);
         }
     }
 
