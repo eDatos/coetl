@@ -48,7 +48,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     }
 
     rolItemTemplate(item: Rol) {
-        return item;
+        return item.nombre;
     }
 
     isEditMode(): Boolean {

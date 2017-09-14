@@ -74,5 +74,10 @@ export const userDialogRoute: Routes = [
         path: 'user-management/:login/delete',
         component: UserDeleteDialogComponent,
         outlet: 'popup'
+    },
+    {
+        path: 'user-management/:login/restore',
+        component: UserDeleteDialogComponent,
+        outlet: 'popup'
     }
 ];

@@ -20,7 +20,7 @@ export class UserModalService {
         this.isOpen = true;
 
         if (login) {
-            this.userService.find(login).subscribe((user) => this.userModalRef(component, user));
+            this.userService.find(login, true).subscribe((user) => this.userModalRef(component, user));
         } else {
             // Este setTimeout es un fix para evitar el error "ExpressionChangedAfterItHasBeenCheckedError" que aparece.
             // Ver: https://github.com/jhipster/generator-jhipster/issues/5985

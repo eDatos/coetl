@@ -22,6 +22,7 @@ import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.security.SecurityUtils;
 import es.tenerife.secretaria.libro.service.UsuarioService;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
+import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
 import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
 
 /**
@@ -37,10 +38,13 @@ public class AccountResource extends AbstractResource {
 
 	private final UsuarioService userService;
 
-	public AccountResource(UsuarioRepository userRepository, UsuarioService userService) {
+	private UsuarioMapper usuarioMapper;
+
+	public AccountResource(UsuarioRepository userRepository, UsuarioService userService, UsuarioMapper usuarioMapper) {
 
 		this.userRepository = userRepository;
 		this.userService = userService;
+		this.usuarioMapper = usuarioMapper;
 	}
 
 	/**
@@ -68,7 +72,7 @@ public class AccountResource extends AbstractResource {
 	@Timed
 	public ResponseEntity<UsuarioDTO> getAccount() {
 		return Optional.ofNullable(userService.getUsuarioWithAuthorities())
-				.map(user -> new ResponseEntity<>(new UsuarioDTO(user), HttpStatus.OK))
+				.map(user -> new ResponseEntity<>(usuarioMapper.userToUserDTO(user), HttpStatus.OK))
 				.orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
 	}
 

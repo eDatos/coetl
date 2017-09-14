@@ -37,7 +37,7 @@
                             <td>{{user.idioma}}</td>
                             <td>
                                 <div *ngFor="let rol of user.roles">
-                                    <span class="badge badge-info">{{ rol }}</span>
+                                    <span class="badge badge-info">{{ rol.nombre }}</span>
                                 </div>
                             </td>
                             <td>{{user.createdDate | date:'dd/MM/yy HH:mm'}}</td>
@@ -58,10 +58,15 @@
                                                     <span class="fa fa-pencil"></span>
                                                     <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
                                                 </button>
-                                            <button type="submit" [routerLink]="['/', { outlets: { popup: 'user-management/'+ user.login + '/delete'} }]" replaceUrl="true"
-                                                class="btn btn-danger btn-sm" [disabled]="currentAccount.login === user.login">
+                                            <button *ngIf="!user.deletionDate" type="submit" [routerLink]="['/', { outlets: { popup: 'user-management/'+ user.login + '/delete'} }]"
+                                                replaceUrl="true" class="btn btn-danger btn-sm" [disabled]="currentAccount.login === user.login">
                                                     <span class="fa fa-remove"></span>
                                                     <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                                                </button>
+                                            <button *ngIf="user.deletionDate" type="submit" [routerLink]="['/', { outlets: { popup: 'user-management/'+ user.login + '/restore'} }]"
+                                                replaceUrl="true" class="btn btn-danger btn-sm" [disabled]="currentAccount.login === user.login">
+                                                    <span class="fa fa-remove"></span>
+                                                    <span class="hidden-md-down" jhiTranslate="entity.action.restore">Delete</span>
                                                 </button>
                                         </ac-split-button-others>
                                     </ac-split-button>
