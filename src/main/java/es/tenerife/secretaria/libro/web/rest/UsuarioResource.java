@@ -214,10 +214,11 @@ public class UsuarioResource extends AbstractResource {
 	 */
 	@GetMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
 	@Timed
-	public ResponseEntity<UsuarioDTO> getUser(@PathVariable String login) {
+	public ResponseEntity<UsuarioDTO> getUser(@PathVariable String login,
+			@ApiParam(required = false, defaultValue = "false") Boolean includeDeleted) {
 		log.debug("REST request to get User : {}", login);
-		return ResponseUtil.wrapOrNotFound(
-				usuarioService.getUsuarioWithAuthoritiesByLogin(login).map(usuarioMapper::userToUserDTO));
+		return ResponseUtil.wrapOrNotFound(usuarioService.getUsuarioWithAuthoritiesByLogin(login, includeDeleted)
+				.map(usuarioMapper::userToUserDTO));
 	}
 
 	@GetMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}/ldap")
@@ -249,6 +250,22 @@ public class UsuarioResource extends AbstractResource {
 		log.debug("REST request to delete User: {}", login);
 		usuarioService.deleteUsuario(login);
 		return ResponseEntity.ok().headers(HeaderUtil.createAlert("userManagement.deleted", login)).build();
+	}
+
+	@PutMapping("/usuarios/{login}/restore")
+	@Timed
+	@Secured(AuthoritiesConstants.ADMIN)
+	public ResponseEntity<UsuarioDTO> updateUser(@Valid @PathVariable String login) {
+		log.debug("REST request to restore User : {}", login);
+
+		Optional<Usuario> deletedUser = userRepository.findOneByLogin(login.toLowerCase());
+		if (deletedUser.isPresent()) {
+			usuarioService.restore(deletedUser.get());
+		}
+
+		Optional<UsuarioDTO> updatedUser = Optional.ofNullable(usuarioMapper.userToUserDTO(deletedUser.orElse(null)));
+
+		return ResponseUtil.wrapOrNotFound(updatedUser, HeaderUtil.createAlert("userManagement.updated", login));
 	}
 
 	private String buildUserQueryFromSearch(String userSearch) {

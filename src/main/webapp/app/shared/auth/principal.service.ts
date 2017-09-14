@@ -20,7 +20,6 @@ export class Principal {
         this.authenticationState.next(this.userIdentity);
     }
 
-
     hasAnyRol(roles: String[]): Promise<boolean> {
         return Promise.resolve(this.hasAnyRolDirect(roles));
     }

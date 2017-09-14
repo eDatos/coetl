@@ -22,8 +22,9 @@ export class UserService {
             .map((res: Response) => this.convertResponse(res));
     }
 
-    find(login: string): Observable<User> {
-        return this.http.get(`${this.resourceUrl}/${login}`).map((res: Response) => res.json());
+    find(login: string, includeDeleted = false): Observable<User> {
+        const options = createRequestOption({ includeDeleted });
+        return this.http.get(`${this.resourceUrl}/${login}`, options).map((res: Response) => res.json());
     }
 
     query(req?: any): Observable<ResponseWrapper> {
@@ -34,6 +35,11 @@ export class UserService {
 
     delete(login: string): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${login}`);
+    }
+
+    restore(login: string): Observable<ResponseWrapper> {
+        return this.http.put(`${this.resourceUrl}/${login}/restore`, null)
+            .map((res: Response) => this.convertResponse(res));
     }
 
     buscarUsuarioEnLdap(login: string): Observable<User> {

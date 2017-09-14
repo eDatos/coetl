@@ -38,7 +38,7 @@ public class UsuarioService {
 
 	private final Logger log = LoggerFactory.getLogger(UsuarioService.class);
 
-	private final UsuarioRepository userRepository;
+	private final UsuarioRepository usuarioRepository;
 
 	private final RolRepository authorityRepository;
 
@@ -48,7 +48,7 @@ public class UsuarioService {
 
 	public UsuarioService(UsuarioRepository userRepository, RolRepository authorityRepository, LdapService ldapService,
 			QueryUtil queryUtil) {
-		this.userRepository = userRepository;
+		this.usuarioRepository = userRepository;
 		this.authorityRepository = authorityRepository;
 		this.ldapService = ldapService;
 		this.queryUtil = queryUtil;
@@ -75,7 +75,7 @@ public class UsuarioService {
 			newUser.setRoles(authorities);
 		}
 		newUser.setActivado(true);
-		userRepository.save(newUser);
+		usuarioRepository.save(newUser);
 		log.debug("Created Information for User: {}", newUser);
 		return newUser;
 	}
@@ -97,7 +97,7 @@ public class UsuarioService {
 	 */
 	public void updateUsuario(String firstName, String apellido1, String apellido2, String email, String langKey,
 			String imageUrl) {
-		userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
+		usuarioRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
 			validarUsuarioLdap(user);
 			user.setNombre(firstName);
 			user.setApellido1(apellido1);
@@ -118,15 +118,24 @@ public class UsuarioService {
 	 */
 	public Usuario updateUsuario(Usuario user) {
 		validarUsuarioLdap(user);
-		return userRepository.save(user);
+		return usuarioRepository.save(user);
 	}
 
 	public void deleteUsuario(String login) {
-		userRepository.findOneByLoginAndDeletionDateIsNull(login).ifPresent(user -> {
+		usuarioRepository.findOneByLoginAndDeletionDateIsNull(login).ifPresent(user -> {
 			user.setDeletionDate(ZonedDateTime.now());
-			userRepository.save(user);
+			usuarioRepository.save(user);
 			log.debug("Deleted User: {}", user);
 		});
+	}
+
+	public void restore(Usuario usuario) {
+		if (usuario == null) {
+			throw new CustomParameterizedException("error.userManagement.usuario-no-valido");
+		}
+		usuario.setDeletionDate(null);
+		usuarioRepository.save(usuario);
+		log.debug("Restored User: {}", usuario);
 	}
 
 	@Transactional(readOnly = true)
@@ -137,27 +146,31 @@ public class UsuarioService {
 				finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
 			}
 			DetachedCriteria criteria = queryUtil.queryToUserCriteria(finalQuery);
-			return userRepository.findAll(criteria, pageable);
+			return usuarioRepository.findAll(criteria, pageable);
 		}
 		if (BooleanUtils.isTrue(includeDeleted)) {
-			return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER);
+			return usuarioRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER);
 		}
-		return userRepository.findAllByLoginNotAndDeletionDateIsNull(pageable, Constants.ANONYMOUS_USER);
+		return usuarioRepository.findAllByLoginNotAndDeletionDateIsNull(pageable, Constants.ANONYMOUS_USER);
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<Usuario> getUsuarioWithAuthoritiesByLogin(String login) {
-		return userRepository.findOneWithRolesByLoginAndDeletionDateIsNull(login);
+	public Optional<Usuario> getUsuarioWithAuthoritiesByLogin(String login, Boolean includeDeleted) {
+		if (BooleanUtils.isTrue(includeDeleted)) {
+			return usuarioRepository.findOneByLogin(login);
+		} else {
+			return usuarioRepository.findOneWithRolesByLoginAndDeletionDateIsNull(login);
+		}
 	}
 
 	@Transactional(readOnly = true)
 	public Usuario getUsuarioWithAuthorities(Long id) {
-		return userRepository.findOneWithRolesByIdAndDeletionDateIsNull(id);
+		return usuarioRepository.findOneWithRolesByIdAndDeletionDateIsNull(id);
 	}
 
 	@Transactional(readOnly = true)
 	public Usuario getUsuarioWithAuthorities() {
-		return userRepository.findOneWithRolesByLoginAndDeletionDateIsNull(SecurityUtils.getCurrentUserLogin())
+		return usuarioRepository.findOneWithRolesByLoginAndDeletionDateIsNull(SecurityUtils.getCurrentUserLogin())
 				.orElse(null);
 	}
 
@@ -168,7 +181,7 @@ public class UsuarioService {
 	 */
 	@Scheduled(cron = "0 0 1 * * ?")
 	public void removeUsuariosNoActivados() {
-		List<Usuario> users = userRepository.findAllByActivadoIsFalseAndCreatedDateBeforeAndDeletionDateIsNull(
+		List<Usuario> users = usuarioRepository.findAllByActivadoIsFalseAndCreatedDateBeforeAndDeletionDateIsNull(
 				Instant.now().minus(3, ChronoUnit.DAYS));
 		for (Usuario user : users) {
 			log.debug("Deleting not activated user {}", user.getLogin());
