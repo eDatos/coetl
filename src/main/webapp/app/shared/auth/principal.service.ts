@@ -3,9 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { AccountService } from './account.service';
 import { Rol } from '../index';
+import { Operacion } from '../../entities/operacion/index';
 
 @Injectable()
 export class Principal {
+    [x: string]: any;
     private userIdentity: any;
     private authenticated = false;
     private authenticationState = new Subject<any>();
@@ -18,6 +20,40 @@ export class Principal {
         this.userIdentity = identity;
         this.authenticated = identity !== null;
         this.authenticationState.next(this.userIdentity);
+    }
+
+    canDoAnyOperacion(operaciones: Operacion[]): boolean {
+        for (let i = 0; i < operaciones.length; i++) {
+            if (this.canDoOperacion(operaciones[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    canDoOperacion(operacion: Operacion): boolean {
+        const userRoles: Rol[] = this.userIdentity.roles;
+        for (let i = 0; i < userRoles.length; i++) {
+            if (this.rolHasOperacion(userRoles[i], operacion)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    rolHasOperacion(rol: Rol, operacion: Operacion): boolean {
+        for (let i = 0; i < rol.operaciones.length; i++) {
+            if (this.sameOperacion(operacion, rol.operaciones[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private sameOperacion(o1: Operacion, o2: Operacion) {
+        return o1 && o2
+            && o1.accion === o2.accion
+            && o1.sujeto === o2.sujeto;
     }
 
     hasAnyRol(roles: String[]): Promise<boolean> {
