@@ -1,5 +1,6 @@
 import { Component, OnInit, forwardRef, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AutoComplete } from 'primeng/primeng';
 
@@ -46,6 +47,9 @@ export class AutocompleteComponent implements ControlValueAccessor {
     @Input()
     public minLength = 3;
 
+    @Input()
+    emptyMessage = this.translateService.instant('entity.list.empty');
+
     private onModelChange: Function = () => { };
 
     private onModelTouched: Function = () => { };
@@ -53,7 +57,7 @@ export class AutocompleteComponent implements ControlValueAccessor {
     @Input()
     public itemTemplate: Function = (item) => item;
 
-    constructor() { }
+    constructor(private translateService: TranslateService) { }
 
     onCompleteMethod($event) {
         this.completeMethod.emit($event);

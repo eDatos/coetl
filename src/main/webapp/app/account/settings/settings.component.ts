@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Principal, AccountService, JhiLanguageHelper } from '../../shared';
+import { Principal, AccountService } from '../../shared';
 
 @Component({
     selector: 'jhi-settings',
@@ -10,21 +10,16 @@ export class SettingsComponent implements OnInit {
     error: string;
     success: string;
     settingsAccount: any;
-    languages: any[];
 
     constructor(
         private account: AccountService,
-        private principal: Principal,
-        private languageHelper: JhiLanguageHelper
+        private principal: Principal
     ) {
     }
 
     ngOnInit() {
         this.principal.identity().then((account) => {
             this.settingsAccount = this.copyAccount(account);
-        });
-        this.languageHelper.getAll().then((languages) => {
-            this.languages = languages;
         });
     }
 

@@ -5,7 +5,7 @@ import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { RolModalService } from './rol-modal.service';
-import { JhiLanguageHelper, User, UserService, RolService, Rol } from '../../shared';
+import { User, UserService, RolService, Rol } from '../../shared';
 import { Operacion, OperacionService, OperacionFilter } from '../../entities/operacion';
 import { Subscription } from 'rxjs/Rx';
 

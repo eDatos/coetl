@@ -28,9 +28,9 @@ module.exports = (options) => {
                     options: {
                         minimize: true,
                         caseSensitive: true,
-                        removeAttributeQuotes:false,
-                        minifyJS:false,
-                        minifyCSS:false
+                        removeAttributeQuotes: false,
+                        minifyJS: false,
+                        minifyCSS: false
                     },
                     exclude: ['./src/main/webapp/index.html']
                 },
@@ -88,6 +88,7 @@ module.exports = (options) => {
                 { from: './node_modules/swagger-ui/dist/lib', to: 'swagger-ui/dist/lib' },
                 { from: './node_modules/swagger-ui/dist/swagger-ui.min.js', to: 'swagger-ui/dist/swagger-ui.min.js' },
                 { from: './src/main/webapp/swagger-ui/', to: 'swagger-ui' },
+                // FIXME Modificar el favicon con el correspondiente a la aplicación
                 { from: './src/main/webapp/favicon.ico', to: 'favicon.ico' },
                 { from: './src/main/webapp/manifest.webapp', to: 'manifest.webapp' },
                 // { from: './src/main/webapp/sw.js', to: 'sw.js' },
@@ -100,7 +101,6 @@ module.exports = (options) => {
             new MergeJsonWebpackPlugin({
                 output: {
                     groupBy: [
-                        { pattern: "./src/main/webapp/i18n/en/*.json", fileName: "./i18n/en.json" },
                         { pattern: "./src/main/webapp/i18n/es/*.json", fileName: "./i18n/es.json" }
                         // jhipster-needle-i18n-language-webpack - JHipster will add/remove languages in this array
                     ]

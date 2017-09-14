@@ -21,4 +21,4 @@ import { MockLanguageService } from './helpers/mock-language.service';
         }
     ]
 })
-export class SecretariaLibroTestModule {}
+export class SecretariaLibroTestModule { }

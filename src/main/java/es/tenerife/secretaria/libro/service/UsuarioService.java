@@ -76,7 +76,7 @@ public class UsuarioService {
 	}
 
 	/**
-	 * Update basic information (first name, last name, email, language) for the
+	 * Update basic information (first name, last name, email) for the
 	 * current user.
 	 *
 	 * @param firstName
@@ -85,8 +85,6 @@ public class UsuarioService {
 	 *            last name of user
 	 * @param email
 	 *            email id of user
-	 * @param langKey
-	 *            language key
 	 * @param imageUrl
 	 *            image URL of user
 	 */

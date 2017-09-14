@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, NavigationEnd, RoutesRecognized } from '@angular/router';
 
+import { JhiLanguageService } from 'ng-jhipster';
 import { JhiLanguageHelper, StateStorageService, AuthServerProvider } from '../../shared';
 import { ConfigService } from '../../config/index';
 
@@ -13,6 +14,7 @@ export class JhiMainComponent implements OnInit {
 
     constructor(
         private jhiLanguageHelper: JhiLanguageHelper,
+        private languageService: JhiLanguageService,
         private router: Router,
         private $storageService: StateStorageService,
         private authServerProvider: AuthServerProvider,

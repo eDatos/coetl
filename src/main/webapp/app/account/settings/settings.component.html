@@ -31,10 +31,12 @@
                     <label class="form-control-label" for="apellido1" jhiTranslate="settings.form.apellido1">Last Name</label>
                     <input type="text" class="form-control" id="apellido1" name="apellido1" placeholder="{{'settings.form.apellido1.placeholder' | translate}}"
                         [(ngModel)]="settingsAccount.apellido1" minlength=1 maxlength=50 #apellido1Input="ngModel" required>
-                    <div *ngIf="apellido1Input.dirty && apellido1Input.invalid">
+                    <div *ngIf="(apellido1Input.dirty || apellido1Input.touched) && apellido1Input.invalid">
                         <small class="form-text text-danger" *ngIf="apellido1Input.errors.required" jhiTranslate="settings.messages.validate.apellido1.required">
                             Your last name is required.
                         </small>
+                    </div>
+                    <div *ngIf="apellido1Input.dirty && apellido1Input.invalid">
                         <small class="form-text text-danger" *ngIf="apellido1Input.errors.minlength" jhiTranslate="settings.messages.validate.apellido1.minlength">
                             Your last name is required to be at least 1 character.
                         </small>
@@ -47,10 +49,12 @@
                     <label class="form-control-label" for="apellido2" jhiTranslate="settings.form.apellido2">Last Name</label>
                     <input type="text" class="form-control" id="apellido2" name="apellido2" placeholder="{{'settings.form.apellido2.placeholder' | translate}}"
                         [(ngModel)]="settingsAccount.apellido2" minlength=1 maxlength=50 #apellido2Input="ngModel" required>
-                    <div *ngIf="apellido2Input.dirty && apellido2Input.invalid">
+                    <div *ngIf="(apellido2Input.dirty || apellido2Input.touched) && apellido2Input.invalid">
                         <small class="form-text text-danger" *ngIf="apellido2Input.errors.required" jhiTranslate="settings.messages.validate.apellido2.required">
                             Your last name is required.
                         </small>
+                    </div>
+                    <div *ngIf="apellido2Input.dirty && apellido2Input.invalid">
                         <small class="form-text text-danger" *ngIf="apellido2Input.errors.minlength" jhiTranslate="settings.messages.validate.apellido2.minlength">
                             Your last name is required to be at least 1 character.
                         </small>
@@ -77,12 +81,6 @@
                             Your email cannot be longer than 100 characters.
                         </small>
                     </div>
-                </div>
-                <div class="form-group" *ngIf="languages && languages.length > 0">
-                    <label for="idioma" jhiTranslate="settings.form.language">Language</label>
-                    <select class="form-control" id="idioma" name="idioma" [(ngModel)]="settingsAccount.idioma">
-                        <option *ngFor="let language of languages" [value]="language">{{language | findLanguageFromKey}}</option>
-                    </select>
                 </div>
                 <button type="submit" [disabled]="settingsForm.form.invalid" class="btn btn-primary" jhiTranslate="settings.form.button">Save</button>
             </form>
