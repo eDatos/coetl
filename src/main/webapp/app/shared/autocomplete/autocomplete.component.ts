@@ -78,15 +78,15 @@ export class AutocompleteComponent implements ControlValueAccessor {
     }
 
     // https://github.com/primefaces/primeng/issues/745
-    handleDropdownSuggestions(event) {
+    handleDropdownSuggestions($event) {
         this.focusMustOpenPanel = !this.autoComplete.panelVisible;
     }
 
-    handleOnFocusOutSuggestions(event) {
+    handleOnFocusOutSuggestions($event) {
         this.focusMustOpenPanel = true;
     }
 
-    handleOnFocusSuggestions() {
+    handleOnFocusSuggestions($event) {
         const queryValue = this.getQueryValue();
         if (!this.debouncedMode || queryValue.length >= this.minLength) {
             this.filteredSuggestions = this.getFilteredSuggestions(queryValue);
