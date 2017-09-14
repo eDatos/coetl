@@ -7,7 +7,7 @@
                     </button>
             <span *ngIf="!rol.nombre" jhiTranslate="rolManagement.home.createLabel">Crear rol</span>
             <span *ngIf="rol.nombre">
-                        <span jhiTranslate="rolManagement.detail.title">Rol</span> [<b>{{rol.nombre}}</b>]
+                        <span jhiTranslate="rolManagement.detail.title">Rol</span>
             </span>
         </div>
         <div>
@@ -20,28 +20,33 @@
             <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
                         <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                     </button>
+            <button *ngIf="isEditMode()" type="button" class="btn btn-danger"
+                [routerLink]="['/', { outlets: { popup: 'rol-management/'+ rol.nombre + '/borrar'} }]">
+                    <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.delete">Cancel</span>
+                </button>
         </div>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
     <fieldset [disabled]="!isEditMode()">
+        <div class="entity-fields">
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="rolManagement.nombre">Nombre</label>
+                <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="rol.nombre" required minlength="1"
+                    pattern="^[_A-Za-z0-9-]*$">
 
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="rolManagement.nombre">Nombre</label>
-            <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="rol.nombre" required minlength="1"
-                pattern="^[_A-Za-z0-9-]*$">
-
-            <div *ngIf="nombreInput.dirty && nombreInput.invalid">
-                <small class="form-text text-danger" *ngIf="nombreInput.errors.required" jhiTranslate="entity.validation.required">
-                    This field is required.
-                </small>
+                <div *ngIf="nombreInput.dirty && nombreInput.invalid">
+                    <small class="form-text text-danger" *ngIf="nombreInput.errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
+            <div class="form-group">
+                <label jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
 
-            <ac-autocomplete name="operacion" (completeMethod)="filterOperaciones($event)" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
-                [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
+                <ac-autocomplete name="operacion" (completeMethod)="filterOperaciones($event)" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
+                    [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
+            </div>
         </div>
     </fieldset>
 </form>

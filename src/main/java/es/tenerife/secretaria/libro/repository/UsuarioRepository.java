@@ -48,4 +48,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	Usuario findOneByIdAndDeletionDateIsNull(Long id);
 
 	Page<Usuario> findAll(DetachedCriteria criteria, Pageable pageable);
+	
+	List<Usuario> findAllByRoles_Nombre(String nombre);
 }

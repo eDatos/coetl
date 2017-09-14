@@ -99,7 +99,7 @@ Custom alerts for notification
     }
     &.toast {
         position: fixed;
-        z-index: $zindex-modal;
+        z-index: $zindex-popover;
         max-width: 90%;
         &.left {
             left: 5px;
@@ -117,7 +117,7 @@ Custom alerts for notification
 }
 
 .alert-backdrop {
-    z-index: $zindex-modal-backdrop;
+    z-index: $zindex-popover - 5;
     position: fixed;
     top: 0;
     bottom: 0;
