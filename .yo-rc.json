@@ -31,7 +31,6 @@
     "enableTranslation": true,
     "nativeLanguage": "en",
     "languages": [
-      "en",
       "es"
     ]
   }

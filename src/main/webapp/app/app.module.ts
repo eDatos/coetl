@@ -23,7 +23,6 @@ import {
     FooterComponent,
     ProfileService,
     PageRibbonComponent,
-    ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
 
@@ -58,7 +57,6 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
-        ActiveMenuDirective,
         FooterComponent
     ],
     providers: [

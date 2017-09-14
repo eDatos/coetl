@@ -6,7 +6,8 @@
             "nombre.placeholder": "Su nombre",
             "apellido1": "Primer apellido",
             "apellido2": "Segundo apellido",
-            "apellidos.placeholder": "Sus apellidos",
+            "apellido1.placeholder": "Su primer apellido",
+            "apellido2.placeholder": "Su segundo apellido",
             "idioma": "Idioma",
             "button": "Guardar"
         },
@@ -17,15 +18,20 @@
             },
             "success": "<strong>¡Ajustes guardados!</strong>",
             "validate": {
-                "firstname": {
+                "nombre": {
                     "required": "Se requiere que ingrese su nombre.",
-                    "minlength": "Se requiere que su nombre tenga por lo menos 1 caracter",
-                    "maxlength": "Su nombre no puede tener más de 50 caracteres"
+                    "minlength": "Se requiere que su nombre tenga por lo menos 1 carácter",
+                    "maxlength": "Su nombre no puede tener más de 50 carácteres"
                 },
-                "lastname": {
-                    "required": "Se requiere que ingrese sus apellidos.",
-                    "minlength": "Se requiere que sus apellidos tengan por lo menos 1 caracter",
-                    "maxlength": "Sus apellidos no pueden tener más de 50 caracteres"
+                "apellido1": {
+                    "required": "Se requiere que ingrese su primer apellido.",
+                    "minlength": "Se requiere que su primer apellido tenga por lo menos 1 carácter",
+                    "maxlength": "Su primer apellido no puede tener más de 50 carácteres"
+                },
+                "apellido2": {
+                    "required": "Se requiere que ingrese su segundo apellido.",
+                    "minlength": "Se requiere que su segundo apellido tenga por lo menos 1 carácter",
+                    "maxlength": "Su segundo apellido no puede tener más de 50 carácteres"
                 }
             }
         }

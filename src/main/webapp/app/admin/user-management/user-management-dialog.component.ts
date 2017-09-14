@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { UserModalService } from './user-modal.service';
-import { JhiLanguageHelper, User, UserService, RolService, Rol } from '../../shared';
+import { User, UserService, RolService, Rol } from '../../shared';
 import { Subscription } from 'rxjs/Rx';
 
 @Component({
@@ -14,7 +14,6 @@ import { Subscription } from 'rxjs/Rx';
 export class UserMgmtDialogComponent implements OnInit, OnDestroy {
 
     user: User;
-    languages: any[];
     authorities: any[];
     isSaving: Boolean;
     usuarioValido = false;
@@ -22,7 +21,6 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     paramLogin: string;
 
     constructor(
-        private languageHelper: JhiLanguageHelper,
         private userService: UserService,
         private eventManager: JhiEventManager,
         private rolService: RolService,
@@ -35,10 +33,6 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
         this.authorities = [];
         this.rolService.roles().subscribe((roles) => {
             this.authorities = roles.map((rol: any) => rol.nombre);
-        });
-
-        this.languageHelper.getAll().then((languages) => {
-            this.languages = languages;
         });
 
         this.subscription = this.route.params.subscribe((params) => {
