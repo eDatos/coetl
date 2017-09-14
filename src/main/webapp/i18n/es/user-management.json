@@ -33,7 +33,7 @@
         "createdDate": "Fecha de creación",
         "lastModifiedBy": "Modificado por",
         "lastModifiedDate": "Fecha de modificación",
-        "deletionDate": "Fecha de borrado",
+        "deletionDate": "Fecha de desactivación",
         "roles": "Roles",
         "filters": {
             "name": {

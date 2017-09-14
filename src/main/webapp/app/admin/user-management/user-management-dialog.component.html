@@ -121,6 +121,10 @@
                     <span jhiTranslate="userManagement.activado">activado</span>
                 </label>
             </div>
+            <dl class="row-md jh-entity-details">
+                <dt><label jhiTranslate="userManagement.deletionDate">Created By</label></dt>
+                <dd>{{user.deletionDate | date:'dd/MM/yy HH:mm' }}</dd>
+            </dl>
         </div>
         </div>
         <h3 jhiTranslate="userManagement.audits">Auditoría</h3>

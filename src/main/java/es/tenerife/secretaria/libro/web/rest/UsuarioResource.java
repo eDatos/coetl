@@ -274,7 +274,7 @@ public class UsuarioResource extends AbstractResource {
 			//@formatter:off
 			List<QueryProperty> queryProperties = Arrays.asList(UsuarioCriteriaProcessor.QueryProperty.values());
 			for (QueryProperty property : queryProperties ) {
-				queryBuilder = queryBuilder.append(property).append(" LIKE ")
+				queryBuilder = queryBuilder.append(property).append(" ILIKE ")
 						.append("'%").append(userSearch).append("%'");
 				if (queryProperties.indexOf(property) != queryProperties.size() - 1 ) {
 						queryBuilder.append(" OR ");
