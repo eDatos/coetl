@@ -20,6 +20,10 @@
             <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
                         <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                     </button>
+            <button *ngIf="isEditMode()" type="button" class="btn btn-danger"
+                [routerLink]="['/', { outlets: { popup: 'rol-management/'+ rol.nombre + '/borrar'} }]">
+                    <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.delete">Cancel</span>
+                </button>
         </div>
     </h2>
 
