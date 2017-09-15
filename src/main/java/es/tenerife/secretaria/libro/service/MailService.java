@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
+import es.tenerife.secretaria.libro.config.Constants;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import io.github.jhipster.config.JHipsterProperties;
 
@@ -75,7 +76,7 @@ public class MailService {
 
 	@Async
 	public void sendEmailFromTemplate(Usuario user, String templateName, String titleKey) {
-		Locale locale = Locale.forLanguageTag("es");
+		Locale locale = Constants.DEFAULT_LOCALE;
 		Context context = new Context(locale);
 		context.setVariable(USER, user);
 		context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
