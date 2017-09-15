@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -116,9 +115,8 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 		return login;
 	}
 
-	// Lowercase the login before saving it in database
 	public void setLogin(String login) {
-		this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
+		this.login = StringUtils.lowerCase(login);
 	}
 
 	public String getPassword() {

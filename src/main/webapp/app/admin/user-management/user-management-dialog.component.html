@@ -10,7 +10,7 @@
             <span *ngIf="user.id">{{user.login}}</span>
         </div>
         <div>
-            <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']">
+            <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']" type="button">
                 <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
             </button>
             <button *ngIf="!isEditMode() && !user.deletionDate" type="button" class="btn btn-danger" 
