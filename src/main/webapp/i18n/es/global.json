@@ -8,7 +8,8 @@
             "entities": {
                 "main": "Entidades",
                 "operacion": "Operacion",
-                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
+                "entity01": "Entidad01"
             },
             "account": {
                 "main": "Cuenta",
@@ -16,7 +17,8 @@
                 "sessions": "Sesiones",
                 "login": "Iniciar sesión",
                 "logout": "Cerrar la sesión",
-                "register": "Crear una cuenta"
+                "register": "Crear una cuenta",
+                "myAccount": "Mi cuenta"
             },
             "admin": {
                 "main": "Administración",
