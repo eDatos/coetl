@@ -124,7 +124,7 @@ public class RolResource extends AbstractResource {
 	@PreAuthorize("hasPermission('ROL', 'ELIMINAR')")
 	public ResponseEntity<RolDTO> deleteRol(@PathVariable String nombre) {
 		log.debug("REST request to get Rol : {}", nombre);
-		if (!usuarioRepository.findAllByRoles_Nombre(nombre).isEmpty()) {
+		if (!usuarioRepository.findAllByRolesNombre(nombre).isEmpty()) {
 			return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "usuario-rol",
 					"No se puede eliminar un rol que está asignado a algunos usuarios")).body(null);
 		}
