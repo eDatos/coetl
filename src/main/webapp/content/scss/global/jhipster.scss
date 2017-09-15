@@ -180,8 +180,7 @@ entity detail page css
     }
     dd {
         padding: $input-padding-y $input-padding-x;
-        margin-bottom: $spacer-y;
-        border-bottom: 1px solid $grey-light;
+        margin-bottom: 0;
         &:after {
             content: "\200b"; // Don't collapse height if empty
         }

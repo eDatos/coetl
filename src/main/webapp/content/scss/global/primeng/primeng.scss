@@ -1,4 +1,5 @@
 .ui-autocomplete {
+    width: 100%;
     .ui-autocomplete-multiple-container {
         width: 100%;
         padding-right: 2em;
@@ -13,12 +14,11 @@
 }
 
 fieldset:disabled {
-    .ui-widget {
+    .ui-autocomplete-multiple-container {
         border: none;
         cursor: none;
         pointer-events: none;
         background-color: transparent;
-        border-bottom: $border-width solid $grey-light;
         .fa-close {
             display: none;
         }
