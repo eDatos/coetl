@@ -13,20 +13,6 @@
     }
 }
 
-fieldset:disabled {
-    .ui-autocomplete-multiple-container {
-        border: none;
-        cursor: none;
-        pointer-events: none;
-        background-color: transparent;
-        .fa-close {
-            display: none;
-        }
-        .ui-autocomplete-token-label {
-            margin-right: .125em;
-        }                       
-    }
-}
 .ui-widget.form-control {
     padding: 0;
     border: none;
