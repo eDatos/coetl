@@ -5,11 +5,12 @@ import { Response } from '@angular/http';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { UserService } from '../../shared/index';
+import { RolService } from '../../shared/rol/rol.service'
 
 import { Operacion } from './operacion.model';
-import { OperacionPopupService } from './operacion-popup.service';
 import { OperacionService } from './operacion.service';
-import { UserService, RolService } from '../../shared/index';
+import { OperacionPopupService } from './operacion-popup.service';
 
 @Component({
     selector: 'jhi-operacion-dialog',

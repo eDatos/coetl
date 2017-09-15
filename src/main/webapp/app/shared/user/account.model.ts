@@ -1,7 +1,9 @@
+import { Rol } from '../index';
+
 export class Account {
     constructor(
         public activated: boolean,
-        public roles: string[],
+        public roles: Rol[],
         public email: string,
         public nombre: string,
         public idioma: string,

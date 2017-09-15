@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, Data } from '@angular/router';
 
-import { Principal, Rol } from '../';
 import { LoginModalService } from '../login/login-modal.service';
 import { StateStorageService } from './state-storage.service';
 import { ConfigService } from '../../config/index';
 import { Operacion } from '../../entities/operacion/index';
+import { Principal } from './principal.service';
 
 @Injectable()
 export class UserRouteAccessService implements CanActivate {
 
     public static AUTH_REDIRECT = 'authRedirect';
+    private static OPERACIONES = 'operaciones';
 
-    constructor(private router: Router,
+    constructor(
+        private router: Router,
         private loginModalService: LoginModalService,
         private principal: Principal,
         private stateStorageService: StateStorageService,
@@ -22,58 +24,51 @@ export class UserRouteAccessService implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
 
-        const roles = route.data['roles'];
-        const operaciones = route.data['operaciones'];
+        const operaciones = this.operacionesFromRoute(route);
 
-        if (this.noPermissionRequired(roles, operaciones)) {
-            return true;
-        }
-
-        return Promise.resolve(this.checkLogin(roles, operaciones, state.url).then((canActivate) => {
+        return Promise.resolve(this.checkLogin(operaciones, state.url).then((canActivate) => {
             if (canActivate) {
                 return true;
             } else {
                 this.redirect(route.data);
             }
         }));
-
     }
 
-    checkLogin(roles: String[], operaciones: Operacion[], url: string): Promise<boolean> {
+    checkLogin(operaciones: Operacion[], url: string): Promise<boolean> {
         const principal = this.principal;
         return Promise.resolve(principal.identity().then((account) => {
-
-            // Access using roles
-            if (account && roles && principal.hasAnyRolDirect(roles)) {
-                return true;
+            if (!!account) { // User is logged in
+                return this.noPermissionRequired(operaciones) || principal.canDoAnyOperacion(operaciones);
+            } else { // User is not logged in, redirect to CAS
+                this.redirectToCas();
             }
-
-            // Access using operations
-            if (account && operaciones && principal.canDoAnyOperacion(operaciones)) {
-                return true;
-            }
-
-            // User is logged in, but has no permissions
-            if (account) {
-                return false;
-            }
-
-            // User is not logged in, redirect to CAS
-            const config = this.configService.getConfig();
-            window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
-            return false;
         }));
     }
 
-    private noPermissionRequired(roles: string[], operaciones: Operacion[]) {
-        return (!roles || roles.length === 0) && (!operaciones || operaciones.length === 0)
+    private noPermissionRequired(operaciones: Operacion[]) {
+        return (!operaciones || operaciones.length === 0)
     }
 
     private redirect(data: Data) {
         if (data[UserRouteAccessService.AUTH_REDIRECT]) {
             this.router.navigate([data[UserRouteAccessService.AUTH_REDIRECT]]);
         } else {
-            this.router.navigate([UserRouteAccessService.AUTH_REDIRECT]);
+            this.router.navigate(['accessdenied']);
         }
+    }
+
+    private operacionesFromRoute(route: ActivatedRouteSnapshot): Operacion[] {
+        if (route.firstChild && route.firstChild.data && route.firstChild.data[UserRouteAccessService.OPERACIONES]) {
+            return route.firstChild.data[UserRouteAccessService.OPERACIONES];
+        } else {
+            return route.data[UserRouteAccessService.OPERACIONES];
+        }
+    }
+
+    private redirectToCas() {
+        const config = this.configService.getConfig();
+        window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
+        return false;
     }
 }

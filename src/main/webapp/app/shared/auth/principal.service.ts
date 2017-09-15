@@ -53,7 +53,8 @@ export class Principal {
     private sameOperacion(o1: Operacion, o2: Operacion) {
         return o1 && o2
             && o1.accion === o2.accion
-            && o1.sujeto === o2.sujeto;
+            && o1.sujeto === o2.sujeto
+            ;
     }
 
     hasAnyRol(roles: String[]): Promise<boolean> {

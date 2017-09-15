@@ -2,3 +2,4 @@ id;opt_lock;accion;sujeto
 1;0;LEER;ROL
 2;0;EDITAR;ROL
 3;0;CREAR;ROL
+4;0;BORRAR;ROL
