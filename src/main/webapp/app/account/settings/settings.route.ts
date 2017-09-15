@@ -1,14 +1,25 @@
-import { Route } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
 import { SettingsComponent } from './settings.component';
 
-export const settingsRoute: Route = {
-    path: 'settings',
-    component: SettingsComponent,
-    data: {
-        roles: ['ROLE_USER'],
-        pageTitle: 'global.menu.account.settings'
+export const settingsRoute: Routes = [
+    {
+        path: 'settings',
+        component: SettingsComponent,
+        data: {
+            roles: ['ROLE_USER'],
+            pageTitle: 'global.menu.account.settings'
+        },
+        canActivate: [UserRouteAccessService]
     },
-    canActivate: [UserRouteAccessService]
-};
+    {
+        path: 'settings/edit',
+        component: SettingsComponent,
+        data: {
+            roles: ['ROLE_USER'],
+            pageTitle: 'global.menu.account.settings'
+        },
+        canActivate: [UserRouteAccessService]
+    }
+];
