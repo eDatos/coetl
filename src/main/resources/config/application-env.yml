@@ -31,11 +31,10 @@ spring:
 # ===================================================================
 
 jhipster:
-	mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: secretaria_libro@localhost
-        base-url: http://my-server-url-to-change # Modify according to your server's URL
-	
-	
+    mail: 
+        from: FILL_EMAIL
+        base-url: http://FILL_APPLICATION_URL 
+  
 # ===================================================================
 # Application specific properties
 # Add your own application properties here.

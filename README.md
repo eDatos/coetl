@@ -93,13 +93,13 @@ Pueden modificarse los ficheros relacionados con la configuración de logging en
 - `spring.mail.port`
    - Puerto del servidor para el envío del mail.
 - `spring.mail.username`
-   - Nombre del usuario para el envió del mail.
+   - Nombre del usuario para el envío del mail.
 - `spring.mail.password`
    - Contraseña del usuario especificado anteriormente.
 - `jhipster.mail.from`
-   - Cuenta desde la que se envía el mail.
+   - Cuenta desde la que se quiere especificar que se envían los e-mails.
 - `jhipster.mail.base-url`
-   - Endpoint desde el que se envía el mail.
+   - URL de acceso a la aplicación. Esta URL se usará para enviarla por correo a los nuevos usuarios que sean dados de alta en la aplicación.
 - `application.cas.endpoint`
    - Endpoint donde se localiza el CAS.
 - `application.cas.applicationHome`
