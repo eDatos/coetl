@@ -4,11 +4,12 @@ import { Subject } from 'rxjs/Subject';
 import { AccountService } from './account.service';
 import { Rol } from '../index';
 import { Operacion } from '../../entities/operacion/index';
+import { Account } from '../../shared/user/account.model';
 
 @Injectable()
 export class Principal {
     [x: string]: any;
-    private userIdentity: any;
+    private userIdentity: Account;
     private authenticated = false;
     private authenticationState = new Subject<any>();
 
@@ -22,32 +23,14 @@ export class Principal {
         this.authenticationState.next(this.userIdentity);
     }
 
-    canDoAnyOperacion(operaciones: Operacion[]): boolean {
-        for (let i = 0; i < operaciones.length; i++) {
-            if (this.canDoOperacion(operaciones[i])) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    canDoOperacion(operacion: Operacion): boolean {
-        const userRoles: Rol[] = this.userIdentity.roles;
-        for (let i = 0; i < userRoles.length; i++) {
-            if (this.rolHasOperacion(userRoles[i], operacion)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    rolHasOperacion(rol: Rol, operacion: Operacion): boolean {
-        for (let i = 0; i < rol.operaciones.length; i++) {
-            if (this.sameOperacion(operacion, rol.operaciones[i])) {
-                return true;
-            }
-        }
-        return false;
+    canDoAnyOperacion(operacionesRuta: Operacion[]): boolean {
+        const operacionesUsuario: Operacion[] = this.userIdentity.roles
+            .map((r) => r.operaciones)
+            .reduce(([], operacion) => operacion);
+        return operacionesRuta
+            .filter((or) => operacionesUsuario
+                .filter((ou) => this.sameOperacion(or, ou)))
+            .length !== 0;
     }
 
     private sameOperacion(o1: Operacion, o2: Operacion) {
@@ -130,6 +113,6 @@ export class Principal {
     }
 
     getImageUrl(): String {
-        return this.isIdentityResolved() ? this.userIdentity.imageUrl : null;
+        return this.isIdentityResolved() ? this.userIdentity.urlImage : null;
     }
 }
