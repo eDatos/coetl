@@ -1,4 +1,4 @@
-<div>
+<div class="entity">
     <h2>
         <span jhiTranslate="userManagement.home.title">Users</span>
         <button class="btn btn-secondary float-right jh-create-entity" [routerLink]="['../user-management-new']">
@@ -7,7 +7,7 @@
     </h2>
     <jhi-alert></jhi-alert>
     <ac-user-search [filters]="userFilter"></ac-user-search>
-    <ng-container *ngIf="users?.length > 0;else entity_empty_list">
+    <ng-container *ngIf="users?.length > 0;else emptyList">
         <div class="table-responsive">
             <table class="table table-hover" acStickyTableHeader>
                 <thead>
@@ -48,7 +48,7 @@
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
         </ng-container>
-        <ng-template #entity_empty_list>
-            <ac-entity-list-empty *ngIf="users?.length === 0"></ac-entity-list-empty>
+        <ng-template #emptyList>
+            <ac-entity-list-empty></ac-entity-list-empty>
         </ng-template>
 </div>
