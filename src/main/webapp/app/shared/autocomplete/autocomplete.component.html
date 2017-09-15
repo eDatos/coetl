@@ -1,6 +1,7 @@
-<p-autoComplete [multiple]="true" [(ngModel)]="selectedSuggestions" [suggestions]="filteredSuggestions" (completeMethod)="onCompleteMethod($event)"
+<p-autoComplete [multiple]="multiple" [(ngModel)]="selectedSuggestions" [suggestions]="filteredSuggestions" (completeMethod)="onCompleteMethod($event)"
     [dropdown]="!debouncedMode" (onDropdownClick)="handleDropdownSuggestions($event)" (onFocus)="handleOnFocusSuggestions($event)"
-    (onBlur)="handleOnFocusOutSuggestions($event)" [minLength]="minLength" [emptyMessage]="emptyMessage">
+    (onBlur)="handleOnFocusOutSuggestions($event)" [minLength]="minLength" [emptyMessage]="emptyMessage" forceSelection="true"
+    [field]="field">
     <ng-template let-item pTemplate="item">
         {{itemTemplate(item)}}
     </ng-template>

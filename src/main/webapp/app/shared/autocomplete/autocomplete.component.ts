@@ -33,7 +33,7 @@ export class AutocompleteComponent implements ControlValueAccessor {
     @Output()
     private completeMethod: EventEmitter<any> = new EventEmitter();
 
-    private _selectedSuggestions: any[];
+    private _selectedSuggestions: any;
 
     private _suggestions: any[];
 
@@ -49,6 +49,13 @@ export class AutocompleteComponent implements ControlValueAccessor {
 
     @Input()
     emptyMessage = this.translateService.instant('entity.list.empty');
+
+    @Input()
+    public multiple = true;
+
+    @Input()
+    public field: string;
+
 
     private onModelChange: Function = () => { };
 
@@ -70,11 +77,17 @@ export class AutocompleteComponent implements ControlValueAccessor {
     }
 
     getFilteredSuggestions(query) {
-        const dontIncludeAlreadySelectedSuggestions = this.suggestions
-            .filter((suggestion) => {
-                return !this._selectedSuggestions || this._selectedSuggestions.findIndex((selectedSuggestion) => this.compareWith(selectedSuggestion, suggestion)) === -1;
-            });
+        let dontIncludeAlreadySelectedSuggestions = [];
+        if (this._selectedSuggestions instanceof Array) {
+            dontIncludeAlreadySelectedSuggestions = this.suggestions
+                .filter((suggestion) => {
+                    let self = this;
+                    return !self._selectedSuggestions || self._selectedSuggestions.findIndex((selectedSuggestion) => self.compareWith(selectedSuggestion, suggestion)) === -1;
+                });
 
+        } else {
+            dontIncludeAlreadySelectedSuggestions = this.suggestions;
+        }
         if (this.propertiesToQuery) {
             return dontIncludeAlreadySelectedSuggestions
                 .filter((suggestion) => {
@@ -116,7 +129,11 @@ export class AutocompleteComponent implements ControlValueAccessor {
     }
 
     getQueryValue() {
-        return this.autoComplete.multiInputEL ? this.autoComplete.multiInputEL.nativeElement.value : '';
+        if (this.multiple) {
+            return this.autoComplete.multiInputEL ? this.autoComplete.multiInputEL.nativeElement.value : '';
+        } else {
+            return this.autoComplete.inputEL ? this.autoComplete.inputEL.nativeElement.value : '';
+        }
     }
 
     @Input()
@@ -136,7 +153,7 @@ export class AutocompleteComponent implements ControlValueAccessor {
     }
 
     @Input()
-    get selectedSuggestions(): any[] {
+    get selectedSuggestions(): any {
         return this._selectedSuggestions;
     }
 
