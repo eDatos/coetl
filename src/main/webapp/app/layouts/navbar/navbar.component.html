@@ -9,29 +9,29 @@
         <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
             <ul class="navbar-nav">
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-                <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                    <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
-                    <span>
-                        <i class="fa fa-th-list" aria-hidden="true"></i>
-                        <span jhiTranslate="global.menu.entities.main">
-                            Entities
+                <li *ngSwitchCase="true" class="nav-item pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a class="nav-link" href="javascript:void(0);" id="entity-menu">
+                        <span>
+                            <i class="fa fa-th-list" aria-hidden="true"></i>
+                            <!-- FIXME: Cambiar Entidad01 por el nombre de la entidad correspondiente -->
+                            <span jhiTranslate="global.menu.entities.entity01"></span>
                         </span>
-                        <b class="caret"></b>
-                    </span>
-                </a>
-                    <ul class="dropdown-menu" ngbDropdownMenu>
-                        <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
-                    </ul>
+                    </a>
                 </li>
                 <li *jhiHasAnyRol="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                     <span>
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
-                        <span jhiTranslate="global.menu.admin.main">Administration</span>
                         <b class="caret"></b>
                     </span>
                 </a>
-                    <ul class="dropdown-menu" ngbDropdownMenu>
+                    <ul class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                        <li>
+                            <a class="dropdown-item" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-user" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.account.myAccount">User management</span>
+                            </a>
+                        </li>
                         <li>
                             <a class="dropdown-item" routerLink="user-management" routerLinkActive="active" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-user" aria-hidden="true"></i>
@@ -50,43 +50,46 @@
                                 <span jhiTranslate="secretariaLibroApp.operacion.menu.title">Operacion</span>
                             </a>
                         </li>
+                        <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
+                    </ul>
+                </li>
+                <li *jhiHasAnyRol="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
+                        <span>
+                            <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
                         <li>
                             <a class="dropdown-item" routerLink="jhi-metrics" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-tachometer" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
-                        </a>
+                                <i class="fa fa-fw fa-tachometer" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
+                            </a>
                         </li>
                         <li>
                             <a class="dropdown-item" routerLink="jhi-health" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-heart" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.health">Health</span>
-                        </a>
+                                <i class="fa fa-fw fa-heart" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.health">Health</span>
+                            </a>
                         </li>
                         <li>
                             <a class="dropdown-item" routerLink="jhi-configuration" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-list" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
-                        </a>
+                                <i class="fa fa-fw fa-list" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
+                            </a>
                         </li>
                         <li>
                             <a class="dropdown-item" routerLink="audits" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-bell" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.audits">Audits</span>
-                        </a>
+                                <i class="fa fa-fw fa-bell" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.audits">Audits</span>
+                            </a>
                         </li>
                         <li>
                             <a class="dropdown-item" routerLink="logs" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-tasks" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.logs">Logs</span>
-                        </a>
+                                <i class="fa fa-fw fa-tasks" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.logs">Logs</span>
+                            </a>
                         </li>
-                        <li *ngIf="swaggerEnabled">
-                            <a class="dropdown-item" routerLink="docs" routerLinkActive="active" (click)="collapseNavbar()">
-                            <i class="fa fa-fw fa-book" aria-hidden="true"></i>
-                            <span jhiTranslate="global.menu.admin.apidocs">API</span>
-                        </a>
-                        </li>
-                        <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                     </ul>
                 </li>
             </ul>
@@ -105,9 +108,6 @@
             </a>
             <a *ngSwitchCase="false" class="nav-link" routerLink="register" routerLinkActive="active" (click)="collapseNavbar()" [title]="'global.menu.account.register' | translate">
                 <i class="fa fa-fw fa-registered" aria-hidden="true"></i>
-            </a>
-            <a *ngSwitchCase="true" class="nav-link" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()" [title]="'global.menu.account.settings' | translate">
-                <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
             </a>
             <a *ngSwitchCase="true" class="nav-link" (click)="logout()" id="logout" [title]="'global.menu.account.logout' | translate">
                 <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
