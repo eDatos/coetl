@@ -88,6 +88,18 @@ Pueden modificarse los ficheros relacionados con la configuración de logging en
    - Password de conexión a la base de datos.
 - `spring.jpa.show-sql`
    - Permite añadir al log las sentencias SQL.
+- `spring.mail.host`
+   - Host del servidor para el envío del mail.
+- `spring.mail.port`
+   - Puerto del servidor para el envío del mail.
+- `spring.mail.username`
+   - Nombre del usuario para el envió del mail.
+- `spring.mail.password`
+   - Contraseña del usuario especificado anteriormente.
+- `jhipster.mail.from`
+   - Cuenta desde la que se envía el mail.
+- `jhipster.mail.base-url`
+   - Endpoint desde el que se envía el mail.
 - `application.cas.endpoint`
    - Endpoint donde se localiza el CAS.
 - `application.cas.applicationHome`

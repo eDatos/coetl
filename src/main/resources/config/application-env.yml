@@ -17,8 +17,25 @@ spring:
         password: FILL_PASS
     jpa:
         show-sql: false
+    mail:
+        host: FILL_HOST
+        port: FILL_PORT
+        username: FILL_USER
+        password: FILL_PASS
 
 
+# ===================================================================
+# JHipster specific properties
+#
+# Full reference is available at: https://jhipster.github.io/common-application-properties/
+# ===================================================================
+
+jhipster:
+	mail: # specific JHipster mail property, for standard properties see MailProperties
+        from: secretaria_libro@localhost
+        base-url: http://my-server-url-to-change # Modify according to your server's URL
+	
+	
 # ===================================================================
 # Application specific properties
 # Add your own application properties here.
