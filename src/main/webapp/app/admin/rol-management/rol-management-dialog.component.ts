@@ -42,11 +42,25 @@ export class RolMgmtDialogComponent implements OnInit {
     }
 
     loadOperaciones() {
+        const criterias = [];
+        if (this.operacionFilter && this.operacionFilter.toOrQuery()) {
+            criterias.push('(' + this.operacionFilter.toOrQuery() + ')');
+        }
+        if (this.excludeSelectedOperacionesQuery()) {
+            criterias.push('(' + this.excludeSelectedOperacionesQuery() + ')');
+        }
         this.operacionService.query({
-            query: this.operacionFilter ? this.operacionFilter.toOrQuery() : '',
+            query: criterias.join(' AND ')
         }).subscribe((operaciones) => {
             this.operaciones = operaciones.json;
         });
+    }
+
+    excludeSelectedOperacionesQuery() {
+        const operacionesIds = this.rol.operaciones
+            .map((operacion) => `(id NE ${operacion.id})`)
+            .join(' AND ');
+        return operacionesIds; // ? `ID NOT IN (${operacionesIds})` : '';
     }
 
     filterOperaciones($event) {

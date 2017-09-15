@@ -57,6 +57,11 @@ export class AutocompleteComponent implements ControlValueAccessor {
     @Input()
     public itemTemplate: Function = (item) => item;
 
+    @Input()
+    private compareWith: Function = (selectedSuggestion, suggestion) => {
+        return selectedSuggestion && suggestion ? selectedSuggestion.id === suggestion.id : selectedSuggestion === suggestion;
+    };
+
     constructor(private translateService: TranslateService) { }
 
     onCompleteMethod($event) {
@@ -65,8 +70,13 @@ export class AutocompleteComponent implements ControlValueAccessor {
     }
 
     getFilteredSuggestions(query) {
+        const dontIncludeAlreadySelectedSuggestions = this.suggestions
+            .filter((suggestion) => {
+                return !this._selectedSuggestions || this._selectedSuggestions.findIndex((selectedSuggestion) => this.compareWith(selectedSuggestion, suggestion)) === -1;
+            });
+
         if (this.propertiesToQuery) {
-            return this.suggestions
+            return dontIncludeAlreadySelectedSuggestions
                 .filter((suggestion) => {
                     if (this.propertiesToQuery.length > 0) {
                         return this.propertiesToQuery.findIndex((property) =>
@@ -77,7 +87,7 @@ export class AutocompleteComponent implements ControlValueAccessor {
                     }
                 });
         } else {
-            return this.suggestions;
+            return dontIncludeAlreadySelectedSuggestions;
         }
     }
 

@@ -15,7 +15,7 @@ public class OperacionCriteriaProcessor extends AbstractCriteriaProcessor {
 	}
 
 	public enum QueryProperty {
-		ACCION, SUJETO
+		ACCION, SUJETO, ID
 	}
 
 	@Override
@@ -28,6 +28,10 @@ public class OperacionCriteriaProcessor extends AbstractCriteriaProcessor {
     	registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
     			.withQueryProperty(QueryProperty.SUJETO)
     			.withEntityProperty(ENTITY_FIELD_SUJETO).build());
+    	
+    	registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
+    			.withQueryProperty(QueryProperty.ID)
+    			.withEntityProperty(P_ID).build());
         //@formatter:on
 	}
 
