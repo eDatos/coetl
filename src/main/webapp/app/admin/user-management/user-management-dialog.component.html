@@ -115,11 +115,9 @@
                 <label jhiTranslate="userManagement.profiles">Profiles</label>
                 <ac-autocomplete name="rol" [(ngModel)]="user.roles" [suggestions]="authorities" [itemTemplate]="rolItemTemplate"></ac-autocomplete>
             </div>
-            <div class="form-check">
-                <label class="form-check-label" for="activado">
-                    <input class="form-check-input" [disabled]="user.id === null" type="checkbox" id="activado" name="activado" [(ngModel)]="user.activado">
-                    <span jhiTranslate="userManagement.activado">activado</span>
-                </label>
+            <div class="form-group">
+                <label jhiTranslate="userManagement.activado">activado</label>
+                <ac-tri-input-switch [disabled]="user.id === null" name="activado" [(ngModel)]="user.activado"></ac-tri-input-switch>
             </div>
             <dl class="row-md jh-entity-details">
                 <dt><label jhiTranslate="userManagement.deletionDate">Created By</label></dt>
