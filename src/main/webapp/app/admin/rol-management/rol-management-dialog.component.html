@@ -34,7 +34,7 @@
                 <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="rol.nombre" required minlength="1"
                     pattern="^[_A-Za-z0-9-]*$">
 
-                <div *ngIf="nombreInput.dirty && nombreInput.invalid">
+                <div *ngIf="nombreInput.dirty && nombreInput.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="nombreInput.errors.required" jhiTranslate="entity.validation.required">
                         This field is required.
                     </small>
