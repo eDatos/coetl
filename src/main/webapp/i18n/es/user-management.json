@@ -18,6 +18,9 @@
         "restore": {
             "question": "¿Seguro que quieres restaurar el usuario {{ login }}?"
         },
+        "deactivate": {
+            "question": "¿Seguro que desea desactivar el usuario {{ login }}"
+        },
         "detail": {
             "title": "Usuario"
         },

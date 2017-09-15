@@ -11,8 +11,15 @@
         </div>
         <div>
             <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']">
-                        <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
-                    </button>
+                <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+            <button *ngIf="!isEditMode() && !user.deletionDate" type="button" class="btn btn-danger" 
+                [routerLink]="['/', { outlets: { popup: 'user-management/'+ user.login + '/delete'} }]">
+                    <span class="fa fa-remove"> </span><span jhiTranslate="entity.action.deactivate"></span>
+            </button>
+            <button *ngIf="!isEditMode() && user.deletionDate" type="button" class="btn btn-warning" (click)="restore(user.login)">
+                    <span class="fa fa-repeat"></span> <span jhiTranslate="entity.action.activate"></span>
+            </button>
             <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                         <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                     </button>
@@ -116,7 +123,7 @@
             </div>
             <div class="form-group">
                 <label jhiTranslate="userManagement.activado">activado</label>
-                <ac-tri-input-switch [disabled]="user.id === null" name="activado" [(ngModel)]="user.activado"></ac-tri-input-switch>
+                <ac-tri-input-switch [disabled]="true" name="activado" [(ngModel)]="user.activado"></ac-tri-input-switch>
             </div>
             <dl class="jh-entity-details">
                 <dt><label jhiTranslate="userManagement.deletionDate">Created By</label></dt>

@@ -38,7 +38,7 @@
         },
         "form": {
             "username": "Usuario",
-            "username.placeholder": "Nombre de usuario",
+            "username.placeholder": " de usuario",
             "email": "Correo electrónico",
             "email.placeholder": "Su correo electrónico"
         },
@@ -86,7 +86,9 @@
             "open": "Open",
             "save": "Guardar",
             "view": "Vista",
-            "filtersReset": "Reiniciar filtros"
+            "filtersReset": "Reiniciar filtros",
+            "deactivate": "Desactivar",
+            "activate": "Activar"
         },
         "detail": {
             "field": "Campo",
@@ -97,6 +99,9 @@
         },
         "restore": {
             "title": "Confirmar restauración"
+        },
+        "deactivate": {
+            "title": "Confirmar desactivación"
         },
         "validation": {
             "required": "Este campo es obligatorio.",

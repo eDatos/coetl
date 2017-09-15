@@ -22,7 +22,7 @@ export class UserService {
             .map((res: Response) => this.convertResponse(res));
     }
 
-    find(login: string, includeDeleted = false): Observable<User> {
+    find(login: string, includeDeleted = true): Observable<User> {
         const options = createRequestOption({ includeDeleted });
         return this.http.get(`${this.resourceUrl}/${login}`, options).map((res: Response) => res.json());
     }

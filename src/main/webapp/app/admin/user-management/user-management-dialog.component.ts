@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Response } from '@angular/http';
 
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -19,6 +20,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     usuarioValido = false;
     private subscription: Subscription;
     paramLogin: string;
+    eventSubscriber: Subscription;
 
     constructor(
         private userService: UserService,
@@ -39,6 +41,7 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
             this.paramLogin = params['login'];
             this.load(this.paramLogin);
         });
+        this.eventSubscriber = this.eventManager.subscribe('UserModified', (response) => this.load(response.content));
     }
 
     rolItemTemplate(item: Rol) {
@@ -93,6 +96,17 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
                 this.usuarioValido = false;
             }
         );
+    }
+
+    restore(login: string) {
+        this.userService.restore(login)
+            .subscribe((res: Response) => {
+                this.eventManager.broadcast(
+                    {
+                        name: 'UserModified',
+                        content: login
+                    });
+            })
     }
 
     private onSaveSuccess(result) {
