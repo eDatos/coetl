@@ -36,9 +36,9 @@ $stateHighlightBgColor: $main-medium;
 $stateHighlightTextColor: $white;
 
 //Focus State
-$stateFocusBorderColor: #74b2e2;
-$stateFocusBgColor: #e4f1fb;
-$stateFocusTextColor: #0070a3;
+$stateFocusBorderColor: $main-medium;
+$stateFocusBgColor: null;
+$stateFocusTextColor: null;
 
 //Error State
 $stateErrorBorderColor: $btn-danger-bg;
@@ -46,8 +46,8 @@ $stateErrorBgColor: $btn-danger-bg;
 $stateErrorTextColor: $white;
 
 //Hover State
-$stateHoverBorderColor: darken($btn-primary-border, 15%);
-$stateHoverBgColor: darken($btn-primary-bg, 15%);
+$stateHoverBorderColor: $btn-primary-border;
+$stateHoverBgColor: $btn-primary-bg;
 $stateHoverTextColor: $btn-primary-color;
 
 
