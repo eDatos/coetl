@@ -10,14 +10,15 @@
             <span *ngIf="user.id">{{user.login}}</span>
         </div>
         <div>
-            <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']" type="button">
-                <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
+            <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']"
+                type="button">
+                <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
             </button>
             <button *ngIf="!isEditMode() && !user.deletionDate" type="button" class="btn btn-danger" [routerLink]="['/', { outlets: { popup: 'user-management/'+ user.login + '/delete'} }]">
-                    <span class="fa fa-remove"> </span><span jhiTranslate="entity.action.deactivate"></span>
+                    <span class="fa fa-remove"></span>&nbsp;<span jhiTranslate="entity.action.deactivate"></span>
             </button>
             <button *ngIf="!isEditMode() && user.deletionDate" type="button" class="btn btn-warning" (click)="restore(user.login)">
-                    <span class="fa fa-repeat"></span> <span jhiTranslate="entity.action.activate"></span>
+                    <span class="fa fa-repeat"></span>&nbsp;<span jhiTranslate="entity.action.activate"></span>
             </button>
             <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                         <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
