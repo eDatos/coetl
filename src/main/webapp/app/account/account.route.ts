@@ -5,7 +5,7 @@ import {
 } from './';
 
 const ACCOUNT_ROUTES = [
-    settingsRoute
+    ...settingsRoute
 ];
 
 export const accountState: Routes = [{
