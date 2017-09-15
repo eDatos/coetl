@@ -27,11 +27,10 @@ export class UserRouteAccessService implements CanActivate {
         const operaciones = this.operacionesFromRoute(route);
 
         return Promise.resolve(this.checkLogin(operaciones, state.url).then((canActivate) => {
-            if (canActivate) {
-                return true;
-            } else {
+            if (!canActivate) {
                 this.redirect(route.data);
             }
+            return true;
         }));
     }
 
@@ -59,11 +58,22 @@ export class UserRouteAccessService implements CanActivate {
     }
 
     private operacionesFromRoute(route: ActivatedRouteSnapshot): Operacion[] {
+        let operaciones = [];
         if (route.firstChild && route.firstChild.data && route.firstChild.data[UserRouteAccessService.OPERACIONES]) {
-            return route.firstChild.data[UserRouteAccessService.OPERACIONES];
+            operaciones = route.firstChild.data[UserRouteAccessService.OPERACIONES];
         } else {
-            return route.data[UserRouteAccessService.OPERACIONES];
+            operaciones = route.data[UserRouteAccessService.OPERACIONES];
         }
+        if (operaciones && operaciones.length > 0) {
+            operaciones = operaciones.map((operacion) => {
+                if (typeof operacion === 'string') {
+                    const operacionValues = operacion.split('#');
+                    operacion = new Operacion(null, operacionValues[0], operacionValues[1]);
+                }
+                return operacion;
+            });
+        }
+        return operaciones;
     }
 
     private redirectToCas() {
