@@ -24,7 +24,11 @@ export const errorRoute: Routes = [
     },
     {
         path: 'notfound',
-        component: NotFoundComponent
+        component: NotFoundComponent,
+        data: {
+            roles: [],
+            pageTitle: 'error.title'
+        }
     }
 ];
 
