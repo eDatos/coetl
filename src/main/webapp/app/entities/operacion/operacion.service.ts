@@ -29,7 +29,7 @@ export class OperacionService {
             operaciones = operaciones.map((operacion) => {
                 if (typeof operacion === 'string') {
                     const operacionValues = operacion.split(':');
-                    if (operacionValues.length > 2) {
+                    if (operacionValues.length >= 2) {
                         return new Operacion(null, operacionValues[0], operacionValues[1]);
                     }
                 }

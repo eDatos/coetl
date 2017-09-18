@@ -30,22 +30,30 @@ export class Principal {
     }
 
     private operacionesRutaMatchesOperacionesUsuario(operacionesRuta: Operacion[] | string[]) {
-        const operacionesUsuario: Operacion[] = this.userIdentity.roles
-            .map((r) => r.operaciones)
-            .reduce(([], operacion) => operacion);
-        operacionesRuta = this.operacionService.operacionFromString(operacionesRuta);
-        // TODO CORREGIR COMPROBACIONES DE RUTA
-        return operacionesRuta
-            .filter((or) => operacionesUsuario
-                .filter((ou) => this.sameOperacion(or, ou)))
-            .length !== 0;
+        let operacionesUsuario: Operacion[] = [];
+        operacionesRuta = operacionesRuta || [];
+        if (operacionesRuta.length === 0) {
+            return true;
+        }
+        if (!this.userIdentity.roles) {
+            return false;
+        }
+        operacionesUsuario = [].concat.apply([], this.userIdentity.roles.map((r) => r.operaciones))
+        return this.operacionService.operacionFromString(operacionesRuta)
+            .filter((ou) =>
+                operacionesUsuario
+                    .filter((or) => this.sameOperacion(or, ou)).length >= 1)
+            .length >= 1;
+
     }
 
     private sameOperacion(o1: Operacion, o2: Operacion) {
-        return o1 && o2
+        const result = o1 && o2
+            && o1.accion !== undefined && o1.sujeto !== undefined
+            && o2.accion !== undefined && o2.sujeto !== undefined
             && o1.accion === o2.accion
             && o1.sujeto === o2.sujeto
-            ;
+        return result;
     }
 
     hasAnyRol(roles: String[]): Promise<boolean> {
