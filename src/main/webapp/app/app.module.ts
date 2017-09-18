@@ -1,6 +1,7 @@
 import './vendor.ts';
 
 import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
 
@@ -23,8 +24,14 @@ import {
     FooterComponent,
     ProfileService,
     PageRibbonComponent,
-    ErrorComponent
+    ErrorComponent,
+    NotFoundComponent,
+    notFoundRoute
 } from './layouts';
+
+const APP_ROUTES = [
+    notFoundRoute
+]
 
 export function init(configService: ConfigService, authServerProvider: AuthServerProvider) {
     return () => {
@@ -51,11 +58,13 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
         SecretariaLibroEntityModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         SecretariaConfigModule,
+        RouterModule.forRoot(APP_ROUTES, { useHash: true })
     ],
     declarations: [
         JhiMainComponent,
         NavbarComponent,
         ErrorComponent,
+        NotFoundComponent,
         PageRibbonComponent,
         FooterComponent
     ],
