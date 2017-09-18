@@ -45,8 +45,6 @@
 
                 <ac-autocomplete name="operacion" (completeMethod)="filterOperaciones($event)" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
                     [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
-                <!-- <ac-autocomplete name="operacion" [propertiesToQuery]="['accion', 'sujeto']" [debouncedMode]="false" [(ngModel)]="rol.operaciones"
-                [suggestions]="operaciones" [itemTemplate]="operacionItemTemplate" [emptyMessage]="'no luck friend'"></ac-autocomplete> -->
             </div>
     </fieldset>
 </form>
