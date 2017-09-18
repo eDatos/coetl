@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { JhiParseLinks } from 'ng-jhipster';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';
@@ -16,10 +17,12 @@ export class AuditsComponent implements OnInit {
     audits: Audit[];
     fromDate: string;
     itemsPerPage: any;
+    routeData: any;
     links: any;
     page: number;
     orderProp: string;
     reverse: boolean;
+    predicate: any;
     toDate: string;
     totalItems: number;
 
@@ -27,21 +30,19 @@ export class AuditsComponent implements OnInit {
         private auditsService: AuditsService,
         private parseLinks: JhiParseLinks,
         private paginationConfig: PaginationConfig,
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
         private datePipe: DatePipe
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 1;
         this.reverse = false;
-        this.orderProp = 'timestamp';
-    }
-
-    getAudits() {
-        return this.sortAudits(this.audits);
+        this.predicate = 'auditEventDate';
     }
 
     loadPage(page: number) {
         this.page = page;
-        this.onChangeDate();
+        this.transition();
     }
 
     ngOnInit() {
@@ -84,17 +85,32 @@ export class AuditsComponent implements OnInit {
         this.toDate = this.datePipe.transform(date, dateFormat);
     }
 
-    private sortAudits(audits: Audit[]) {
-        audits = audits.slice(0).sort((a, b) => {
-            if (a[this.orderProp] < b[this.orderProp]) {
-                return -1;
-            } else if ([b[this.orderProp] < a[this.orderProp]]) {
-                return 1;
-            } else {
-                return 0;
+    transition() {
+        this.router.navigate(['/audits'], {
+            queryParams: {
+                page: this.page,
+                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         });
+        this.loadAll();
+    }
 
-        return this.reverse ? audits.reverse() : audits;
+    loadAll() {
+        this.auditsService.query({
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort(),
+            fromDate: this.fromDate, toDate: this.toDate
+        }).subscribe((res) => {
+            this.audits = res.json();
+            this.links = this.parseLinks.parse(res.headers.get('link'));
+            this.totalItems = + res.headers.get('X-Total-Count');
+            console.log(this.audits);
+        });
+    }
+
+    sort() {
+        const sort = this.predicate + ',' + (this.reverse ? 'asc' : 'desc');
+        return sort;
     }
 }
