@@ -125,8 +125,8 @@
         "url.not.found": "No encontrado",
         "NotNull": "¡El campo {{fieldName}} no puede estar vacío!",
         "Size": "¡El campo {{fieldName}} no cumple con los requisitos de tamaño mínimo/máximo!",
-        "userexists": "El login usado ya está siendo usado",
-        "emailexists": "El email usado ya está siendo usado",
+        "userexists": "El nombre de usuario introducido ya está siendo usado",
+        "emailexists": "El email introducido ya está siendo usado",
         "idexists": "Un nuevo {{entityName}} no puede tener previamente un ID",
         "userManagement": {
             "usuario-ldap-no-encontrado": "No se ha encontrado el usuario especificado"
