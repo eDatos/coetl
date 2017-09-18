@@ -1,3 +1,10 @@
 export enum TipoSujetoOperacion {
-    ROL, USUARIO
+    ROL,
+    USUARIO,
+    OPERACION,
+    METRICA,
+    SALUD,
+    CONFIG,
+    AUDITORIA,
+    LOGS
 }
