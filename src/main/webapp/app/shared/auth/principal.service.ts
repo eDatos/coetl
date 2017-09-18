@@ -5,6 +5,7 @@ import { AccountService } from './account.service';
 import { Rol } from '../index';
 import { Operacion } from '../../entities/operacion/index';
 import { Account } from '../../shared/user/account.model';
+import { OperacionService } from '../../entities/operacion/operacion.service';
 
 @Injectable()
 export class Principal {
@@ -14,7 +15,8 @@ export class Principal {
     private authenticationState = new Subject<any>();
 
     constructor(
-        private account: AccountService
+        private account: AccountService,
+        private operacionService: OperacionService,
     ) { }
 
     authenticate(identity) {
@@ -23,10 +25,16 @@ export class Principal {
         this.authenticationState.next(this.userIdentity);
     }
 
-    canDoAnyOperacion(operacionesRuta: Operacion[]): boolean {
+    canDoAnyOperacion(operacionesRuta: Operacion[] | string[]): Promise<boolean> {
+        return Promise.resolve(this.operacionesRutaMatchesOperacionesUsuario(operacionesRuta));
+    }
+
+    private operacionesRutaMatchesOperacionesUsuario(operacionesRuta: Operacion[] | string[]) {
         const operacionesUsuario: Operacion[] = this.userIdentity.roles
             .map((r) => r.operaciones)
             .reduce(([], operacion) => operacion);
+        operacionesRuta = this.operacionService.operacionFromString(operacionesRuta);
+        // TODO CORREGIR COMPROBACIONES DE RUTA
         return operacionesRuta
             .filter((or) => operacionesUsuario
                 .filter((ou) => this.sameOperacion(or, ou)))
@@ -41,33 +49,7 @@ export class Principal {
     }
 
     hasAnyRol(roles: String[]): Promise<boolean> {
-        return Promise.resolve(this.hasAnyRolDirect(roles));
-    }
-
-    hasAnyRolDirect(roles: String[]): boolean {
-        if (!this.authenticated || !this.userIdentity || !this.userIdentity.roles) {
-            return false;
-        }
-
-        for (let i = 0; i < this.userIdentity.roles.length; i++) {
-            if (roles.indexOf(this.userIdentity.roles[i].nombre) !== -1) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    hasRol(rol: string): Promise<boolean> {
-        if (!this.authenticated) {
-            return Promise.resolve(false);
-        }
-
-        return this.identity().then((id) => {
-            return Promise.resolve(id.roles && id.roles.indexOf(rol) !== -1);
-        }, () => {
-            return Promise.resolve(false);
-        });
+        throw new Error('NOT IMPLEMENTED');
     }
 
     identity(force?: boolean): Promise<any> {

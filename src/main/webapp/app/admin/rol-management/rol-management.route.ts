@@ -11,16 +11,6 @@ import { Principal, UserRouteAccessService } from '../../shared';
 import { TipoAccionOperacion, TipoSujetoOperacion } from '../../entities/operacion/index';
 
 @Injectable()
-export class RolResolve implements CanActivate {
-
-    constructor(private principal: Principal) { }
-
-    canActivate() {
-        return this.principal.identity().then((account) => this.principal.hasAnyRol(['ROLE_ADMIN']));
-    }
-}
-
-@Injectable()
 export class RolResolvePagingParams implements Resolve<any> {
 
     constructor(private paginationUtil: JhiPaginationUtil) { }
@@ -49,7 +39,7 @@ export const rolMgmtRoute: Routes = [
                 },
                 data: {
                     pageTitle: 'rolManagement.home.title',
-                    operaciones: ['LEER#ROL'],
+                    operaciones: ['LEER:ROL'],
                 },
             },
             {
@@ -57,21 +47,21 @@ export const rolMgmtRoute: Routes = [
                 component: RolMgmtDialogComponent,
                 data: {
                     pageTitle: 'rolManagement.home.title',
-                    operaciones: ['LEER#ROL']
+                    operaciones: ['LEER:ROL']
                 }
             },
             {
                 path: 'rol-management-new',
                 component: RolMgmtDialogComponent,
                 data: {
-                    operaciones: ['CREAR#ROL'],
+                    operaciones: ['CREAR:ROL'],
                 }
             },
             {
                 path: 'rol-management/:nombre/editar',
                 component: RolMgmtDialogComponent,
                 data: {
-                    operaciones: ['EDITAR#ROL'],
+                    operaciones: ['EDITAR:ROL'],
                 },
             },
         ]
