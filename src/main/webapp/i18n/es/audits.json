@@ -20,7 +20,8 @@
                 "data": "Datos extra"
             },
             "data": {
-                "remoteAddress": "Dirección remota:"
+                "remoteAddress": "Dirección remota:",
+                "code": "Código:"
             }
         }
     }

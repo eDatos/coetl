@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import es.tenerife.secretaria.libro.config.AuditConstants;
+import es.tenerife.secretaria.libro.config.audit.AuditEventPublisher;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.service.RolService;
@@ -45,11 +47,13 @@ public class RolResource extends AbstractResource {
 	private RolService rolService;
 	private RolMapper rolMapper;
 	private UsuarioRepository usuarioRepository;
+	private AuditEventPublisher auditPublisher;
 
-	public RolResource(RolService rolService, RolMapper rolMapper, UsuarioRepository usuarioRepository) {
+	public RolResource(RolService rolService, RolMapper rolMapper, UsuarioRepository usuarioRepository, AuditEventPublisher auditPublisher) {
 		this.rolService = rolService;
 		this.rolMapper = rolMapper;
 		this.usuarioRepository = usuarioRepository;
+		this.auditPublisher = auditPublisher;
 
 	}
 
@@ -89,6 +93,7 @@ public class RolResource extends AbstractResource {
 					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "rol-existe", "El rol ya exsitía")).body(null);
 		}
 		rol = rolService.save(rolMapper.toEntity(rolDTO));
+		auditPublisher.publish(AuditConstants.ROL_CREACION, rolDTO.getNombre());
 		return ResponseEntity.created(new URI("/api/usuarios/" + rol.getNombre()))
 				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, rol.getNombre())).body(rolMapper.toDto(rol));
 	}

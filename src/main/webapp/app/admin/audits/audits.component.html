@@ -28,8 +28,9 @@
                 <td><small>{{audit.principal}}</small></td>
                 <td>{{audit.type}}</td>
                 <td>
-                    <span *ngIf="audit.data" ng-show="audit.data.message">{{audit.data.message}}</span>
-                    <span *ngIf="audit.data" ng-show="audit.data.remoteAddress"><span jhiTranslate="audits.table.data.remoteAddress">Remote Address</span> {{audit.data.remoteAddress}}</span>
+                    <span *ngIf="audit.data.message" ng-show="audit.data.message">{{audit.data.message}}</span>
+                    <span *ngIf="audit.data.remoteAddress" ng-show="audit.data.remoteAddress"><strong><span jhiTranslate="audits.table.data.remoteAddress">Remote Address</span></strong>&nbsp;{{audit.data.remoteAddress}}</span>
+                    <span *ngIf="audit.data.code" ng-show="audit.data.code"><strong><span jhiTranslate="audits.table.data.code">Code</span></strong>&nbsp;{{audit.data.code}}</span>
                 </td>
             </tr>
         </table>
