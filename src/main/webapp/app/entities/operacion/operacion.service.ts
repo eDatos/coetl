@@ -25,6 +25,9 @@ export class OperacionService {
     }
 
     operacionFromString(operaciones: any[]): Operacion[] {
+        if (typeof operaciones === 'string') {
+            operaciones = [operaciones];
+        }
         if (operaciones && operaciones.length > 0) {
             operaciones = operaciones.map((operacion) => {
                 if (typeof operacion === 'string') {

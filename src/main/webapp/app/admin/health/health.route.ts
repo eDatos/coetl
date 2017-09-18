@@ -9,8 +9,7 @@ export const healthRoute: Route = {
     component: JhiHealthCheckComponent,
     data: {
         pageTitle: 'health.title',
-        roles: ['ROLE_ADMIN'],
-        // operaciones: [{ accion: TipoAccionOperacion.LEER, sujeto: TipoSujetoOperacion.ROL }]
+        operaciones: 'LEER:SALUD'
     },
     canActivate: [UserRouteAccessService]
 };

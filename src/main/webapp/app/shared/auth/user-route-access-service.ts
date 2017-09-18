@@ -66,16 +66,6 @@ export class UserRouteAccessService implements CanActivate {
         } else {
             operaciones = route.data[UserRouteAccessService.OPERACIONES];
         }
-        // // TODO SACAR A PRINCIPAL SERVICE PARA QUE LA DIRECTIVA TAMBIEN PUEDA USAR STRINGS
-        // if (operaciones && operaciones.length > 0) {
-        //     operaciones = operaciones.map((operacion) => {
-        //         if (typeof operacion === 'string') {
-        //             const operacionValues = operacion.split('#');
-        //             operacion = new Operacion(null, operacionValues[0], operacionValues[1]);
-        //         }
-        //         return operacion;
-        //     });
-        // }
         operaciones = this.operacionService.operacionFromString(operaciones);
         return operaciones;
     }

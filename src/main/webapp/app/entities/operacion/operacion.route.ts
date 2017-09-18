@@ -31,7 +31,7 @@ export const operacionRoute: Routes = [
             'pagingParams': OperacionResolvePagingParams
         },
         data: {
-            roles: ['ROLE_USER'],
+            operaciones: 'LEER:OPERACION',
             pageTitle: 'secretariaLibroApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -39,7 +39,7 @@ export const operacionRoute: Routes = [
         path: 'operacion/:id',
         component: OperacionDialogComponent,
         data: {
-            roles: ['ROLE_USER'],
+            operaciones: 'LEER:OPERACION',
             pageTitle: 'secretariaLibroApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService]
