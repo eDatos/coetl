@@ -56,7 +56,6 @@ export class AutocompleteComponent implements ControlValueAccessor {
     @Input()
     public field: string;
 
-
     private onModelChange: Function = () => { };
 
     private onModelTouched: Function = () => { };
@@ -81,7 +80,7 @@ export class AutocompleteComponent implements ControlValueAccessor {
         if (this._selectedSuggestions instanceof Array) {
             dontIncludeAlreadySelectedSuggestions = this.suggestions
                 .filter((suggestion) => {
-                    let self = this;
+                    const self = this;
                     return !self._selectedSuggestions || self._selectedSuggestions.findIndex((selectedSuggestion) => self.compareWith(selectedSuggestion, suggestion)) === -1;
                 });
 
