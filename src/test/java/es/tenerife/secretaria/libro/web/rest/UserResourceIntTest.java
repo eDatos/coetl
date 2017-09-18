@@ -35,6 +35,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.tenerife.secretaria.libro.SecretariaLibroApp;
+import es.tenerife.secretaria.libro.config.audit.AuditEventPublisher;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
@@ -109,12 +110,15 @@ public class UserResourceIntTest {
 	private MockMvc restUserMockMvc;
 
 	private Usuario user;
+	
+	@Autowired
+	private AuditEventPublisher auditPublisher;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		UsuarioResource userResource = new UsuarioResource(userRepository, mailService, userService, userMapper,
-				ldapService);
+				ldapService, auditPublisher);
 		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(userResource)
 				.setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
 				.setMessageConverters(jacksonMessageConverter).build();

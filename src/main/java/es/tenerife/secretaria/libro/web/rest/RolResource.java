@@ -120,6 +120,7 @@ public class RolResource extends AbstractResource {
 		}
 		rolMapper.update(rol, rolDTO);
 		rolService.save(rol);
+		auditPublisher.publish(AuditConstants.ROL_EDICION, rolDTO.getNombre());
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rol.getNombre()))
 				.body(rolMapper.toDto(rol));
 	}
@@ -134,6 +135,7 @@ public class RolResource extends AbstractResource {
 					"No se puede eliminar un rol que está asignado a algunos usuarios")).body(null);
 		}
 		rolService.delete(nombre);
+		auditPublisher.publish(AuditConstants.ROL_BORRADO, nombre);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, nombre)).build();
 	}
 }

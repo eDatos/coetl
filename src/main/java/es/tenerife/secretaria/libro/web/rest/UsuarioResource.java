@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import es.tenerife.secretaria.libro.config.AuditConstants;
 import es.tenerife.secretaria.libro.config.Constants;
+import es.tenerife.secretaria.libro.config.audit.AuditEventPublisher;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
@@ -93,15 +95,18 @@ public class UsuarioResource extends AbstractResource {
 	private UsuarioMapper usuarioMapper;
 
 	private LdapService ldapService;
+	
+	private AuditEventPublisher auditPublisher;
 
 	public UsuarioResource(UsuarioRepository userRepository, MailService mailService, UsuarioService userService,
-			UsuarioMapper userMapper, LdapService ldapService) {
+			UsuarioMapper userMapper, LdapService ldapService, AuditEventPublisher auditPublisher) {
 
 		this.userRepository = userRepository;
 		this.mailService = mailService;
 		this.usuarioService = userService;
 		this.usuarioMapper = userMapper;
 		this.ldapService = ldapService;
+		this.auditPublisher = auditPublisher;
 	}
 
 	/**
@@ -141,6 +146,7 @@ public class UsuarioResource extends AbstractResource {
 		} else {
 			Usuario newUser = usuarioService.createUsuario(usuarioMapper.userDTOToUser(managedUserVM));
 			mailService.sendCreationEmail(newUser);
+			auditPublisher.publish(AuditConstants.USUARIO_CREACION, managedUserVM.getLogin());
 			return ResponseEntity.created(new URI("/api/usuarios/" + newUser.getLogin()))
 					.headers(HeaderUtil.createAlert("userManagement.created", newUser.getLogin())).body(newUser);
 		}
@@ -182,6 +188,7 @@ public class UsuarioResource extends AbstractResource {
 		usuario = usuarioService.updateUsuario(usuario);
 		Optional<UsuarioDTO> updatedUser = Optional.ofNullable(usuarioMapper.userToUserDTO(usuario));
 
+		auditPublisher.publish(AuditConstants.USUARIO_EDICION, managedUserVM.getLogin());
 		return ResponseUtil.wrapOrNotFound(updatedUser,
 				HeaderUtil.createAlert("userManagement.updated", managedUserVM.getLogin()));
 	}
@@ -249,6 +256,7 @@ public class UsuarioResource extends AbstractResource {
 	public ResponseEntity<Void> deleteUser(@PathVariable String login) {
 		log.debug("REST request to delete User: {}", login);
 		usuarioService.deleteUsuario(login);
+		auditPublisher.publish(AuditConstants.USUARIO_DESACTIVACION, login);
 		return ResponseEntity.ok().headers(HeaderUtil.createAlert("userManagement.deleted", login)).build();
 	}
 
@@ -265,6 +273,7 @@ public class UsuarioResource extends AbstractResource {
 
 		Optional<UsuarioDTO> updatedUser = Optional.ofNullable(usuarioMapper.userToUserDTO(deletedUser.orElse(null)));
 
+		auditPublisher.publish(AuditConstants.USUARIO_ACTIVACION, login);
 		return ResponseUtil.wrapOrNotFound(updatedUser, HeaderUtil.createAlert("userManagement.updated", login));
 	}
 
