@@ -6,5 +6,6 @@ export enum TipoSujetoOperacion {
     SALUD,
     CONFIG,
     AUDITORIA,
-    LOGS
+    LOGS,
+    CUENTA_PROPIA,
 }

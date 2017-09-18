@@ -27,7 +27,6 @@ import {
     RolResolvePagingParams,
     RolModalService,
     UserResolvePagingParams,
-    UserResolve,
     UserModalService
 } from './';
 import { RolMgmtDialogComponent } from './rol-management/rol-management-dialog.component';
@@ -76,7 +75,6 @@ import { UserSearchComponent } from './user-management/user-search/index';
         RolResolvePagingParams,
         RolModalService,
         UserResolvePagingParams,
-        UserResolve,
         UserModalService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

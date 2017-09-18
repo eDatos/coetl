@@ -7,9 +7,9 @@ import { Principal } from './principal.service';
  *
  * @howToUse
  * ```
- *     <some-element *acHasAnyOperacion="'ROLE_ADMIN'">...</some-element>
+ *     <some-element *acHasAnyOperacion="'ACCION:SUJETO'">...</some-element>
  *
- *     <some-element *acHasAnyOperacion="['ROLE_ADMIN', 'ROLE_USER']">...</some-element>
+ *     <some-element *acHasAnyOperacion="['ACCION1:SUJETO1', 'ACCION2:SUJETO2']">...</some-element>
  * ```
  */
 @Directive({

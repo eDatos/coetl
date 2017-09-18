@@ -10,16 +10,6 @@ import { UserDeleteDialogComponent } from './user-management-delete-dialog.compo
 import { Principal, UserRouteAccessService } from '../../shared';
 
 @Injectable()
-export class UserResolve implements CanActivate {
-
-    constructor(private principal: Principal) { }
-
-    canActivate() {
-        return this.principal.identity().then((account) => this.principal.hasAnyRol(['ROLE_ADMIN']));
-    }
-}
-
-@Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
 
     constructor(private paginationUtil: JhiPaginationUtil) { }
