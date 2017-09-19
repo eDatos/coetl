@@ -27,7 +27,6 @@ import com.codahale.metrics.annotation.Timed;
 import es.tenerife.secretaria.libro.config.AuditConstants;
 import es.tenerife.secretaria.libro.config.audit.AuditEventPublisher;
 import es.tenerife.secretaria.libro.domain.Rol;
-import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.service.RolService;
 import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
 import es.tenerife.secretaria.libro.web.rest.mapper.RolMapper;
@@ -46,13 +45,11 @@ public class RolResource extends AbstractResource {
 
 	private RolService rolService;
 	private RolMapper rolMapper;
-	private UsuarioRepository usuarioRepository;
 	private AuditEventPublisher auditPublisher;
 
-	public RolResource(RolService rolService, RolMapper rolMapper, UsuarioRepository usuarioRepository, AuditEventPublisher auditPublisher) {
+	public RolResource(RolService rolService, RolMapper rolMapper, AuditEventPublisher auditPublisher) {
 		this.rolService = rolService;
 		this.rolMapper = rolMapper;
-		this.usuarioRepository = usuarioRepository;
 		this.auditPublisher = auditPublisher;
 
 	}
@@ -130,10 +127,6 @@ public class RolResource extends AbstractResource {
 	@PreAuthorize("hasPermission('ROL', 'ELIMINAR')")
 	public ResponseEntity<RolDTO> deleteRol(@PathVariable String nombre) {
 		log.debug("REST request to get Rol : {}", nombre);
-		if (!usuarioRepository.findAllByRolesNombre(nombre).isEmpty()) {
-			return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "usuario-rol",
-					"No se puede eliminar un rol que está asignado a algunos usuarios")).body(null);
-		}
 		rolService.delete(nombre);
 		auditPublisher.publish(AuditConstants.ROL_BORRADO, nombre);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, nombre)).build();

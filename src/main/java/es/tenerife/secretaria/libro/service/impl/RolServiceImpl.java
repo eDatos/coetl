@@ -10,17 +10,22 @@ import org.springframework.stereotype.Service;
 
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.repository.RolRepository;
+import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.service.RolService;
+import es.tenerife.secretaria.libro.web.rest.errors.CustomParameterizedException;
 
 @Service
 public class RolServiceImpl implements RolService {
 
 	private RolRepository rolRepository;
+	
+	private UsuarioRepository usuarioRepository;
 
 	private final Logger log = LoggerFactory.getLogger(RolServiceImpl.class);
 
-	public RolServiceImpl(RolRepository rolRepository) {
+	public RolServiceImpl(RolRepository rolRepository, UsuarioRepository usuarioRepository) {
 		this.rolRepository = rolRepository;
+		this.usuarioRepository = usuarioRepository;
 	}
 
 	@Override
@@ -50,6 +55,9 @@ public class RolServiceImpl implements RolService {
 	@Override
 	public void delete(String name) {
 		log.debug("Petición para eliminar rol {}", name);
+		if (!usuarioRepository.findAllByRolesNombre(name).isEmpty()) {
+			throw new CustomParameterizedException("error.palabraClave.users-has-role", name);
+		}
 		Rol rol = rolRepository.findOneByNombre(name);
 		rolRepository.delete(rol.getId());
 	}

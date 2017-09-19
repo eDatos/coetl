@@ -130,6 +130,9 @@
         "idexists": "Un nuevo {{entityName}} no puede tener previamente un ID",
         "userManagement": {
             "usuario-ldap-no-encontrado": "No se ha encontrado el usuario especificado"
+        },
+        "palabraClave": {
+            "users-has-role": "No se puede eliminar un rol que está asignado a algunos usuarios"
         }
     },
     "footer": "pie de página"

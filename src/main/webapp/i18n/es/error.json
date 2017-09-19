@@ -2,7 +2,6 @@
     "error": {
         "title": "¡Página de error!",
         "403": "No tiene permisos para acceder a la página.",
-        "accessDenied": "No tiene permisos para acceder a la página.",
-        "usuario-rol": "No se puede eliminar un rol que está asignado a algunos usuarios"
+        "accessDenied": "No tiene permisos para acceder a la página."
     }
 }
