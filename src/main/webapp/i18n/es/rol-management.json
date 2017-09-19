@@ -14,6 +14,7 @@
         "detail": {
             "title": "Rol"
         },
+        "codigo": "Código",
         "nombre": "Nombre",
         "operaciones": {
             "operaciones": "Operaciones",

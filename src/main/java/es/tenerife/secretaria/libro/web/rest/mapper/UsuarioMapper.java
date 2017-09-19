@@ -37,7 +37,6 @@ public class UsuarioMapper {
 		usuarioDTO.setApellido2(user.getApellido2());
 		usuarioDTO.setEmail(user.getEmail());
 		usuarioDTO.setActivado(user.getActivado());
-		usuarioDTO.setUrlImagen(user.getUrlImagen());
 		usuarioDTO.setCreatedBy(user.getCreatedBy());
 		usuarioDTO.setCreatedDate(user.getCreatedDate());
 		usuarioDTO.setLastModifiedBy(user.getLastModifiedBy());
@@ -63,7 +62,6 @@ public class UsuarioMapper {
 			user.setApellido1(userDTO.getApellido1());
 			user.setApellido2(userDTO.getApellido2());
 			user.setEmail(userDTO.getEmail());
-			user.seturlImagen(userDTO.getUrlImagen());
 			user.setActivado(userDTO.isActivado());
 			user.setDeletionDate(userDTO.getDeletionDate());
 			user.setOptLock(userDTO.getOptLock());
@@ -92,7 +90,6 @@ public class UsuarioMapper {
 		user.setApellido1(userVM.getApellido1());
 		user.setApellido2(userVM.getApellido2());
 		user.setEmail(userVM.getEmail());
-		user.seturlImagen(userVM.getUrlImagen());
 		user.setActivado(userVM.isActivado());
 		user.setOptLock(userVM.getOptLock());
 		user.setRoles(rolMapper.toEntity(userVM.getRoles()));

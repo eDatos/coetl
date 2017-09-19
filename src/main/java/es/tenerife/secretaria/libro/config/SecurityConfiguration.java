@@ -116,7 +116,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return serviceProperties;
 	}
 
-	@Bean
+	// @Bean
 	public CasEhCacheBasedTicketCache statelessTicketCache() {
 		CasEhCacheBasedTicketCache statelessTicketCache = new CasEhCacheBasedTicketCache();
 		CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
@@ -138,7 +138,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		casAuthenticationProvider.setAuthenticationUserDetailsService(authenticationUserDetailsService());
 		casAuthenticationProvider.setServiceProperties(serviceProperties());
 		casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
-		casAuthenticationProvider.setStatelessTicketCache(statelessTicketCache());
 		casAuthenticationProvider.setKey("SECRETARIA_LIBRO_CAS");
 		return casAuthenticationProvider;
 	}

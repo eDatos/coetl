@@ -23,26 +23,23 @@ public class UsuarioDTO {
 
 	@NotBlank
 	@Pattern(regexp = Constants.LOGIN_REGEX)
-	@Size(min = 1, max = 50)
+	@Size(min = 1, max = 255)
 	private String login;
 
 	private Long optLock;
 
-	@Size(max = 50)
+	@Size(max = 255)
 	private String nombre;
 
-	@Size(max = 50)
+	@Size(max = 255)
 	private String apellido1;
 
-	@Size(max = 50)
+	@Size(max = 255)
 	private String apellido2;
 
 	@Email
-	@Size(min = 5, max = 100)
+	@Size(min = 3, max = 255)
 	private String email;
-
-	@Size(max = 256)
-	private String urlImage;
 
 	private boolean activado = false;
 
@@ -62,7 +59,6 @@ public class UsuarioDTO {
 		// Empty constructor needed for Jackson.
 	}
 
-
 	public void updateFrom(UsuarioDTO source) {
 		this.id = source.getId();
 		this.optLock = source.getOptLock();
@@ -72,7 +68,6 @@ public class UsuarioDTO {
 		this.apellido2 = source.getApellido2();
 		this.email = source.getEmail();
 		this.activado = source.isActivado();
-		this.urlImage = source.getUrlImagen();
 		this.createdBy = source.getCreatedBy();
 		this.createdDate = source.getCreatedDate();
 		this.lastModifiedBy = source.getLastModifiedBy();
@@ -122,10 +117,6 @@ public class UsuarioDTO {
 
 	public String getEmail() {
 		return email;
-	}
-
-	public String getUrlImagen() {
-		return urlImage;
 	}
 
 	public boolean isActivado() {
@@ -184,11 +175,6 @@ public class UsuarioDTO {
 
 	}
 
-	public void setUrlImagen(String imageUrl) {
-		this.urlImage = imageUrl;
-
-	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -216,10 +202,9 @@ public class UsuarioDTO {
 	@Override
 	public String toString() {
 		return "UserDTO{" + "login='" + login + '\'' + ", firstName='" + nombre + '\'' + ", lastName='" + apellido1
-				+ '\'' + ", email='" + email + '\'' + ", imageUrl='" + urlImage + '\'' + ", activated=" + activado
-				+ ", createdBy=" + createdBy + ", createdDate=" + createdDate
-				+ ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate
-				+ ", authorities=" + roles + "}";
+				+ '\'' + ", email='" + email + '\'' + ", activated=" + activado + ", createdBy=" + createdBy
+				+ ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate="
+				+ lastModifiedDate + ", authorities=" + roles + "}";
 	}
 
 	public static class Builder {
@@ -229,7 +214,6 @@ public class UsuarioDTO {
 		private String lastName;
 		private String lastName2;
 		private String email;
-		private String imageUrl;
 		private boolean activated = false;
 		private String createdBy;
 		private Instant createdDate;
@@ -247,7 +231,6 @@ public class UsuarioDTO {
 			userDTO.setApellido1(this.lastName);
 			userDTO.setApellido2(this.lastName2);
 			userDTO.setEmail(this.email);
-			userDTO.setUrlImagen(this.imageUrl);
 			userDTO.setActivado(this.activated);
 			userDTO.setCreatedBy(this.createdBy);
 			userDTO.setCreatedDate(this.createdDate);
@@ -289,11 +272,6 @@ public class UsuarioDTO {
 
 		public Builder setEmail(String email) {
 			this.email = email;
-			return this;
-		}
-
-		public Builder setImageUrl(String imageUrl) {
-			this.imageUrl = imageUrl;
 			return this;
 		}
 

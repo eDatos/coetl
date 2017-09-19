@@ -49,5 +49,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	Page<Usuario> findAll(DetachedCriteria criteria, Pageable pageable);
 	
-	List<Usuario> findAllByRolesNombre(String nombre);
+	List<Usuario> findAllByRolesCodigo(String nombre);
 }

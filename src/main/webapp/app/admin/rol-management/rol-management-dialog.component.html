@@ -11,7 +11,7 @@
             </span>
         </div>
         <div>
-            <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/rol-management', rol.nombre, 'editar']">
+            <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/rol-management', rol.codigo, 'editar']">
                         <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
                     </button>
             <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
@@ -20,7 +20,7 @@
             <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
                         <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
                     </button>
-            <button *ngIf="!isEditMode()" type="button" class="btn btn-danger" [routerLink]="['/', { outlets: { popup: 'rol-management/'+ rol.nombre + '/borrar'} }]">
+            <button *ngIf="!isEditMode()" type="button" class="btn btn-danger" [routerLink]="['/', { outlets: { popup: 'rol-management/'+ rol.codigo + '/borrar'} }]">
                     <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.delete">Cancel</span>
                 </button>
         </div>
@@ -30,9 +30,19 @@
     <fieldset [disabled]="!isEditMode()">
         <div class="entity-fields">
             <div class="form-group">
-                <label class="form-control-label" jhiTranslate="rolManagement.nombre">Nombre</label>
-                <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="rol.nombre" required minlength="1"
+                <label class="form-control-label" jhiTranslate="rolManagement.codigo">Codigo</label>
+                <input type="text" class="form-control" name="codigo" #codigoInput="ngModel" [(ngModel)]="rol.codigo" required minlength="1"
                     pattern="^[_A-Za-z0-9-]*$">
+
+                <div *ngIf="codigoInput.dirty && codigoInput.invalid" class="entity-field-error">
+                    <small class="form-text text-danger" *ngIf="codigoInput.errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="rolManagement.nombre">Nombre</label>
+                <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="rol.nombre" required minlength="1">
 
                 <div *ngIf="nombreInput.dirty && nombreInput.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="nombreInput.errors.required" jhiTranslate="entity.validation.required">

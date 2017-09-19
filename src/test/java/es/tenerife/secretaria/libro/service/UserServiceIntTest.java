@@ -63,7 +63,6 @@ public class UserServiceIntTest {
 		user.setApellido1("Doe");
 		user.setApellido2("Doe2");
 		user.setEmail("john.doe@localhost");
-		user.seturlImagen("http://placehold.it/50x50");
 		user.setActivado(false);
 		userRepository.save(user);
 		assertThat(userRepository.findOneByLogin("johndoe")).isPresent();

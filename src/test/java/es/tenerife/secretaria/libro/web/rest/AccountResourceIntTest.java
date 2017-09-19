@@ -125,7 +125,7 @@ public class AccountResourceIntTest {
 	@Transactional
 	public void testGetExistingAccount() throws Exception {
 		Set<Rol> authorities = new HashSet<>();
-		Rol authority = rolRepository.findOneByNombre(AuthoritiesConstants.ADMIN);
+		Rol authority = rolRepository.findOneByCodigo(AuthoritiesConstants.ADMIN);
 		authorities.add(authority);
 
 		Usuario user = new Usuario();
@@ -133,7 +133,6 @@ public class AccountResourceIntTest {
 		user.setNombre("john");
 		user.setApellido1("doe");
 		user.setEmail("john.doe@jhipster.com");
-		user.seturlImagen("http://placehold.it/50x50");
 		user.setRoles(authorities);
 		when(mockUserService.getUsuarioWithAuthorities()).thenReturn(user);
 
@@ -142,8 +141,7 @@ public class AccountResourceIntTest {
 				.andExpect(jsonPath("$.login").value("test")).andExpect(jsonPath("$.nombre").value("john"))
 				.andExpect(jsonPath("$.apellido1").value("doe"))
 				.andExpect(jsonPath("$.email").value("john.doe@jhipster.com"))
-				.andExpect(jsonPath("$.urlImagen").value("http://placehold.it/50x50"))
-				.andExpect(jsonPath("$.roles[*].nombre").value(AuthoritiesConstants.ADMIN));
+				.andExpect(jsonPath("$.roles[*].codigo").value(AuthoritiesConstants.ADMIN));
 	}
 
 	@Test
@@ -174,7 +172,6 @@ public class AccountResourceIntTest {
 				.setLastName("lastname")
 				.setEmail("save-account@example.com")
 				.setActivated(false)
-				.setImageUrl("http://placehold.it/50x50")
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -190,7 +187,6 @@ public class AccountResourceIntTest {
 		assertThat(updatedUser.getNombre()).isEqualTo(userDTO.getNombre());
 		assertThat(updatedUser.getApellido1()).isEqualTo(userDTO.getApellido1());
 		assertThat(updatedUser.getEmail()).isEqualTo(userDTO.getEmail());
-		assertThat(updatedUser.getUrlImagen()).isEqualTo(userDTO.getUrlImagen());
 		assertThat(updatedUser.getActivado()).isEqualTo(true);
 		assertThat(updatedUser.getRoles()).isEmpty();
 	}
@@ -214,7 +210,6 @@ public class AccountResourceIntTest {
 				.setLastName("lastname")
 				.setEmail("invalid email")
 				.setActivated(false)
-				.setImageUrl("http://placehold.it/50x50")
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -254,7 +249,6 @@ public class AccountResourceIntTest {
 				.setLastName("lastname")
 				.setEmail("save-existing-email2@example.com")
 				.setActivated(false)
-				.setImageUrl("http://placehold.it/50x50")
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -290,7 +284,6 @@ public class AccountResourceIntTest {
 				.setLastName("lastname")
 				.setEmail("save-existing-email-and-login@example.com")
 				.setActivated(false)
-				.setImageUrl("http://placehold.it/50x50")
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)

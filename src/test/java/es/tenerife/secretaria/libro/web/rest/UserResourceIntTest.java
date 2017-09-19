@@ -48,6 +48,7 @@ import es.tenerife.secretaria.libro.service.UsuarioService;
 import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 import es.tenerife.secretaria.libro.web.rest.errors.ExceptionTranslator;
+import es.tenerife.secretaria.libro.web.rest.mapper.RolMapper;
 import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
 import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 
@@ -74,9 +75,6 @@ public class UserResourceIntTest {
 	private static final String DEFAULT_LASTNAME = "doe";
 	private static final String UPDATED_LASTNAME = "jhipsterLastName";
 
-	private static final String DEFAULT_IMAGEURL = "http://placehold.it/50x50";
-	private static final String UPDATED_IMAGEURL = "http://placehold.it/40x40";
-
 	@Autowired
 	private UsuarioRepository userRepository;
 
@@ -91,6 +89,9 @@ public class UserResourceIntTest {
 
 	@Autowired
 	private UsuarioMapper userMapper;
+
+	@Autowired
+	private RolMapper rolMapper;
 
 	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -110,7 +111,7 @@ public class UserResourceIntTest {
 	private MockMvc restUserMockMvc;
 
 	private Usuario user;
-	
+
 	@Autowired
 	private AuditEventPublisher auditPublisher;
 
@@ -125,10 +126,18 @@ public class UserResourceIntTest {
 	}
 
 	private Set<RolDTO> mockRolesDTO() {
+		return mockRolesDTO(false);
+	}
+
+	private Set<RolDTO> mockRolesDTO(boolean save) {
 		// Create the User
 		Set<RolDTO> authorities = new HashSet<>();
 		RolDTO rolDTO = new RolDTO();
+		rolDTO.setCodigo(AuthoritiesConstants.ADMIN);
 		rolDTO.setNombre(AuthoritiesConstants.ADMIN);
+		if (save) {
+			em.persist(rolMapper.toEntity(rolDTO));
+		}
 		authorities.add(rolDTO);
 		return authorities;
 	}
@@ -146,7 +155,6 @@ public class UserResourceIntTest {
 		user.setEmail(DEFAULT_EMAIL);
 		user.setNombre(DEFAULT_FIRSTNAME);
 		user.setApellido1(DEFAULT_LASTNAME);
-		user.seturlImagen(DEFAULT_IMAGEURL);
 		return user;
 	}
 
@@ -161,7 +169,7 @@ public class UserResourceIntTest {
 		int databaseSizeBeforeCreate = userRepository.findAll().size();
 		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
-		Set<RolDTO> authorities = mockRolesDTO();
+		Set<RolDTO> authorities = mockRolesDTO(true);
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
 		UsuarioDTO source = UsuarioDTO.builder()
@@ -171,7 +179,6 @@ public class UserResourceIntTest {
 				.setLastName(DEFAULT_LASTNAME)
 				.setEmail(DEFAULT_EMAIL)
 				.setActivated(true)
-				.setImageUrl(DEFAULT_IMAGEURL)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -193,7 +200,6 @@ public class UserResourceIntTest {
 		assertThat(testUser.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
 		assertThat(testUser.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
-		assertThat(testUser.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
 	}
 
 	@Test
@@ -210,7 +216,6 @@ public class UserResourceIntTest {
 				.setLastName(DEFAULT_LASTNAME)
 				.setEmail(DEFAULT_EMAIL)
 				.setActivated(true)
-				.setImageUrl(DEFAULT_IMAGEURL)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -247,7 +252,6 @@ public class UserResourceIntTest {
 				.setLastName(DEFAULT_LASTNAME)
 				.setEmail("anothermail@localhost")
 				.setActivated(true)
-				.setImageUrl(DEFAULT_IMAGEURL)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -285,7 +289,6 @@ public class UserResourceIntTest {
 				.setLastName(DEFAULT_LASTNAME)
 				.setEmail(DEFAULT_EMAIL)
 				.setActivated(true)
-				.setImageUrl(DEFAULT_IMAGEURL)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -316,8 +319,7 @@ public class UserResourceIntTest {
 				.andExpect(jsonPath("$.[*].login").value(hasItem(DEFAULT_LOGIN)))
 				.andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_FIRSTNAME)))
 				.andExpect(jsonPath("$.[*].apellido1").value(hasItem(DEFAULT_LASTNAME)))
-				.andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-				.andExpect(jsonPath("$.[*].urlImagen").value(hasItem(DEFAULT_IMAGEURL)));
+				.andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)));
 	}
 
 	@Test
@@ -332,8 +334,7 @@ public class UserResourceIntTest {
 				.andExpect(jsonPath("$.login").value(user.getLogin()))
 				.andExpect(jsonPath("$.nombre").value(DEFAULT_FIRSTNAME))
 				.andExpect(jsonPath("$.apellido1").value(DEFAULT_LASTNAME))
-				.andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-				.andExpect(jsonPath("$.urlImagen").value(DEFAULT_IMAGEURL));
+				.andExpect(jsonPath("$.email").value(DEFAULT_EMAIL));
 	}
 
 	@Test
@@ -365,7 +366,6 @@ public class UserResourceIntTest {
 				.setLastName(UPDATED_LASTNAME)
 				.setEmail(UPDATED_EMAIL)
 				.setActivated(updatedUser.getActivado())
-				.setImageUrl(UPDATED_IMAGEURL)
 				.setCreatedBy(updatedUser.getCreatedBy())
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -387,7 +387,6 @@ public class UserResourceIntTest {
 		assertThat(testUser.getNombre()).isEqualTo(UPDATED_FIRSTNAME);
 		assertThat(testUser.getApellido1()).isEqualTo(UPDATED_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
-		assertThat(testUser.getUrlImagen()).isEqualTo(UPDATED_IMAGEURL);
 	}
 
 	@Test
@@ -413,7 +412,6 @@ public class UserResourceIntTest {
 				.setLastName(UPDATED_LASTNAME)
 				.setEmail(UPDATED_EMAIL)
 				.setActivated(updatedUser.getActivado())
-				.setImageUrl(UPDATED_IMAGEURL)
 				.setCreatedBy(updatedUser.getCreatedBy())
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -436,7 +434,6 @@ public class UserResourceIntTest {
 		assertThat(testUser.getNombre()).isEqualTo(UPDATED_FIRSTNAME);
 		assertThat(testUser.getApellido1()).isEqualTo(UPDATED_LASTNAME);
 		assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
-		assertThat(testUser.getUrlImagen()).isEqualTo(UPDATED_IMAGEURL);
 	}
 
 	@Test
@@ -451,7 +448,6 @@ public class UserResourceIntTest {
 		anotherUser.setEmail("jhipster@localhost");
 		anotherUser.setNombre("java");
 		anotherUser.setApellido1("hipster");
-		anotherUser.seturlImagen("");
 		userRepository.saveAndFlush(anotherUser);
 
 		// Update the user
@@ -468,7 +464,6 @@ public class UserResourceIntTest {
 						.setLastName(updatedUser.getApellido1())
 						.setEmail("jhipster@localhost")
 						.setActivated(updatedUser.getActivado())
-						.setImageUrl( updatedUser.getUrlImagen())
 						.setCreatedBy(updatedUser.getCreatedBy())
 						.setCreatedDate(updatedUser.getCreatedDate())
 						.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -494,7 +489,6 @@ public class UserResourceIntTest {
 		anotherUser.setEmail("jhipster@localhost");
 		anotherUser.setNombre("java");
 		anotherUser.setApellido1("hipster");
-		anotherUser.seturlImagen("");
 		userRepository.saveAndFlush(anotherUser);
 
 		// Update the user
@@ -509,7 +503,6 @@ public class UserResourceIntTest {
 				.setLastName(updatedUser.getApellido1())
 				.setEmail("jhipster@localhost")
 				.setActivated(updatedUser.getActivado())
-				.setImageUrl( updatedUser.getUrlImagen())
 				.setCreatedBy(updatedUser.getCreatedBy())
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -574,7 +567,6 @@ public class UserResourceIntTest {
 				.setLastName(DEFAULT_LASTNAME)
 				.setEmail(DEFAULT_EMAIL)
 				.setActivated(true)
-				.setImageUrl(DEFAULT_IMAGEURL)
 				.setCreatedBy(DEFAULT_LOGIN)
 				.setCreatedDate(null)
 				.setLastModifiedBy(DEFAULT_LOGIN)
@@ -590,12 +582,11 @@ public class UserResourceIntTest {
 		assertThat(user.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(user.getEmail()).isEqualTo(DEFAULT_EMAIL);
 		assertThat(user.getActivado()).isEqualTo(true);
-		assertThat(user.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
 		assertThat(user.getCreatedBy()).isNull();
 		assertThat(user.getCreatedDate()).isNotNull();
 		assertThat(user.getLastModifiedBy()).isNull();
 		assertThat(user.getLastModifiedDate()).isNotNull();
-		assertThat(user.getRoles()).extracting("nombre").containsExactly(AuthoritiesConstants.ADMIN);
+		assertThat(user.getRoles()).extracting("codigo").containsExactly(AuthoritiesConstants.ADMIN);
 	}
 
 	@Test
@@ -608,7 +599,7 @@ public class UserResourceIntTest {
 		user.setLastModifiedDate(Instant.now());
 
 		Set<Rol> authorities = new HashSet<>();
-		Rol authority = rolRepository.findOneByNombre(AuthoritiesConstants.USER);
+		Rol authority = rolRepository.findOneByCodigo(AuthoritiesConstants.USER);
 
 		authorities.add(authority);
 		user.setRoles(authorities);
@@ -621,12 +612,11 @@ public class UserResourceIntTest {
 		assertThat(userDTO.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
 		assertThat(userDTO.isActivado()).isEqualTo(true);
-		assertThat(userDTO.getUrlImagen()).isEqualTo(DEFAULT_IMAGEURL);
 		assertThat(userDTO.getCreatedBy()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
 		assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(userDTO.getLastModifiedDate()).isEqualTo(user.getLastModifiedDate());
-		userDTO.getRoles().forEach((rol) -> assertThat(rol.getNombre()).isEqualTo(authority.getNombre()));
+		userDTO.getRoles().forEach((rol) -> assertThat(rol.getCodigo()).isEqualTo(authority.getCodigo()));
 		assertThat(userDTO.toString()).isNotNull();
 	}
 

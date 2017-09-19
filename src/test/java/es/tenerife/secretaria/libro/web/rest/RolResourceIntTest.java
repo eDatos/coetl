@@ -101,7 +101,7 @@ public class RolResourceIntTest {
 
 	public static Rol createEntity(EntityManager em) {
 		Rol rol = new Rol();
-		rol.setNombre(ROLE_ADMIN);
+		rol.setCodigo(ROLE_ADMIN);
 		return rol;
 
 	}
@@ -109,12 +109,14 @@ public class RolResourceIntTest {
 	private RolDTO createRolDTO() {
 		RolDTO rolDTO = new RolDTO();
 		rolDTO.setNombre(TEST_ROL);
+		rolDTO.setCodigo(TEST_ROL);
 		return rolDTO;
 	}
 
-	private Rol mockRol(String rolName) {
+	private Rol mockRol(String rolCode) {
 		Rol rol = new Rol();
-		rol.setNombre(rolName);
+		rol.setCodigo(rolCode);
+		rol.setNombre("ROL NAME " + rolCode);
 		return rol;
 	}
 
@@ -138,8 +140,8 @@ public class RolResourceIntTest {
 				.perform(get("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8)
 						.contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$[0].nombre").value("ROLE_" + ROLE_ADMIN))
-				.andExpect(jsonPath("$[1].nombre").value("ROLE_USER"));
+				.andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$[0].codigo").value(ROLE_ADMIN))
+				.andExpect(jsonPath("$[1].codigo").value("USER"));
 	}
 
 	@Test
@@ -163,10 +165,10 @@ public class RolResourceIntTest {
 		Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
 		restUserMockMvc
-				.perform(get("/api/roles/" + "ROLE_" + ROLE_ADMIN).accept(TestUtil.APPLICATION_JSON_UTF8)
+				.perform(get("/api/roles/" + ROLE_ADMIN).accept(TestUtil.APPLICATION_JSON_UTF8)
 						.contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$.nombre").value("ROLE_" + ROLE_ADMIN));
+				.andExpect(jsonPath("$.codigo").value(ROLE_ADMIN));
 	}
 
 	@Test
@@ -193,7 +195,7 @@ public class RolResourceIntTest {
 				.andExpect(status().isCreated());
 
 		boolean created = rolService.findAll(null).getContent().stream()
-				.anyMatch(rol -> rol.getNombre().equals(TEST_ROL.toString()));
+				.anyMatch(rol -> rol.getCodigo().equals(TEST_ROL.toString()));
 		assertThat(created).isTrue();
 	}
 

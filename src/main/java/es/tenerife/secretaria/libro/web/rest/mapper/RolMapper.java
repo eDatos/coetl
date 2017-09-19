@@ -17,18 +17,11 @@ public abstract class RolMapper implements EntityMapper<RolDTO, Rol> {
 
 	public abstract Set<Rol> toEntity(Set<RolDTO> dtoList);
 
-	public Rol fromNombre(String name) {
-		if (name == null) {
+	public Rol fromCodigo(String codigo) {
+		if (codigo == null) {
 			return null;
 		}
-		return rolRepository.findOneByNombre(name);
-	}
-
-	public String nombreFromRol(Rol rol) {
-		if (rol == null) {
-			return null;
-		}
-		return rol.getNombre();
+		return rolRepository.findOneByCodigo(codigo);
 	}
 
 }

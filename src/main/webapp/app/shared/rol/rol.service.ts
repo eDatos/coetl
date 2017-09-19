@@ -27,8 +27,8 @@ export class RolService {
             .map((res: Response) => this.convertResponse(res));
     }
 
-    find(name: string): Observable<Rol> {
-        return this.http.get(`${this.resourceUrl}/${name}`).map((res: Response) => {
+    find(codigo: string): Observable<Rol> {
+        return this.http.get(`${this.resourceUrl}/${codigo}`).map((res: Response) => {
             return res.json();
         });
     }

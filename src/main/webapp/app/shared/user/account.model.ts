@@ -10,6 +10,5 @@ export class Account {
         public apellido1: string,
         public apellido2: string,
         public login: string,
-        public urlImage: string
     ) { }
 }

@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs/Rx';
 export class RolMgmtDialogComponent implements OnInit {
 
     rol: Rol;
-    nombreOriginalRol = '';
+    codigoOriginalRol = '';
     operaciones: Operacion[];
     isSaving: Boolean;
 
@@ -34,7 +34,7 @@ export class RolMgmtDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.subscription = this.route.params.subscribe((params) => {
-            this.load(params['nombre']);
+            this.load(params['codigo']);
         });
         this.operaciones = [];
         this.operacionFilter = new OperacionFilter();
@@ -57,9 +57,12 @@ export class RolMgmtDialogComponent implements OnInit {
     }
 
     excludeSelectedOperacionesQuery() {
-        const operacionesIds = this.rol.operaciones
-            .map((operacion) => `(id NE ${operacion.id})`)
-            .join(' AND ');
+        let operacionesIds = '';
+        if (this.rol) {
+            operacionesIds = this.rol.operaciones
+                .map((operacion) => `(id NE ${operacion.id})`)
+                .join(' AND ');
+        }
         return operacionesIds; // ? `ID NOT IN (${operacionesIds})` : '';
     }
 
@@ -77,7 +80,7 @@ export class RolMgmtDialogComponent implements OnInit {
         if (id) {
             this.rolService.find(id).subscribe((rol) => {
                 this.rol = rol
-                this.nombreOriginalRol = this.rol.nombre;
+                this.codigoOriginalRol = this.rol.codigo;
             });
         } else {
             this.rol = new Rol();
@@ -86,15 +89,15 @@ export class RolMgmtDialogComponent implements OnInit {
 
     clear() {
         const returnPath = ['rol-management'];
-        if (this.nombreOriginalRol) {
-            returnPath.push(this.nombreOriginalRol);
+        if (this.codigoOriginalRol) {
+            returnPath.push(this.codigoOriginalRol);
         }
         this.router.navigate(returnPath);
     }
 
     save() {
         this.isSaving = true;
-        if (!!this.nombreOriginalRol) {
+        if (!!this.codigoOriginalRol) {
             this.rolService.update(this.rol).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         } else {
             this.rolService.create(this.rol).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());

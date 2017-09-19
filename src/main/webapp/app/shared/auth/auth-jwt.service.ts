@@ -22,25 +22,6 @@ export class AuthServerProvider {
 
     }
 
-    // login(credentials): Observable<any> {
-
-    //     const data = {
-    //         username: credentials.username,
-    //         password: credentials.password,
-    //         rememberMe: credentials.rememberMe
-    //     };
-    //     return this.http.post('api/authenticate', data).map(authenticateSuccess.bind(this));
-
-    //     function authenticateSuccess(resp) {
-    //         const bearerToken = resp.headers.get('Authorization');
-    //         if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
-    //             const jwt = bearerToken.slice(7, bearerToken.length);
-    //             this.storeAuthenticationToken(jwt, credentials.rememberMe);
-    //             return jwt;
-    //         }
-    //     }
-    // }
-
     loginWithToken(jwt, rememberMe) {
         if (jwt) {
             this.storeAuthenticationToken(jwt, rememberMe);
