@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +34,6 @@ import es.tenerife.secretaria.libro.config.audit.AuditEventPublisher;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
-import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
@@ -95,7 +94,7 @@ public class UsuarioResource extends AbstractResource {
 	private UsuarioMapper usuarioMapper;
 
 	private LdapService ldapService;
-	
+
 	private AuditEventPublisher auditPublisher;
 
 	public UsuarioResource(UsuarioRepository userRepository, MailService mailService, UsuarioService userService,
@@ -126,7 +125,7 @@ public class UsuarioResource extends AbstractResource {
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/usuarios")
 	@Timed
-	@Secured(AuthoritiesConstants.ADMIN)
+	@PreAuthorize("hasPermission('USUARIO', 'CREAR')")
 	public ResponseEntity createUser(@Valid @RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
 		log.debug("REST request to save User : {}", managedUserVM);
 
@@ -164,7 +163,7 @@ public class UsuarioResource extends AbstractResource {
 	 */
 	@PutMapping("/usuarios")
 	@Timed
-	@Secured(AuthoritiesConstants.ADMIN)
+	@PreAuthorize("hasPermission('USUARIO', 'EDITAR')")
 	public ResponseEntity<UsuarioDTO> updateUser(@Valid @RequestBody ManagedUserVM managedUserVM) {
 		log.debug("REST request to update User : {}", managedUserVM);
 		Optional<Usuario> existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());
@@ -202,6 +201,7 @@ public class UsuarioResource extends AbstractResource {
 	 */
 	@GetMapping("/usuarios")
 	@Timed
+	@PreAuthorize("hasPermission('USUARIO', 'LEER')")
 	public ResponseEntity<List<UsuarioDTO>> getAllUsers(@ApiParam Pageable pageable,
 			@ApiParam(defaultValue = "false") Boolean includeDeleted, @ApiParam(required = false) String query) {
 		String queryString = buildUserQueryFromSearch(query);
@@ -221,6 +221,7 @@ public class UsuarioResource extends AbstractResource {
 	 */
 	@GetMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
 	@Timed
+	@PreAuthorize("hasPermission('USUARIO', 'LEER')")
 	public ResponseEntity<UsuarioDTO> getUser(@PathVariable String login,
 			@ApiParam(required = false, defaultValue = "false") Boolean includeDeleted) {
 		log.debug("REST request to get User : {}", login);
@@ -230,6 +231,7 @@ public class UsuarioResource extends AbstractResource {
 
 	@GetMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}/ldap")
 	@Timed
+	@PreAuthorize("hasPermission('USUARIO', 'LEER')")
 	public ResponseEntity<UsuarioDTO> getUserFromLdap(@PathVariable String login) {
 		log.debug("REST request to get User from LDAP : {}", login);
 		UsuarioLdapEntry usuarioLdap = ldapService.buscarUsuarioLdap(login);
@@ -252,7 +254,7 @@ public class UsuarioResource extends AbstractResource {
 	 */
 	@DeleteMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
 	@Timed
-	@Secured(AuthoritiesConstants.ADMIN)
+	@PreAuthorize("hasPermission('USUARIO', 'BORRAR')")
 	public ResponseEntity<Void> deleteUser(@PathVariable String login) {
 		log.debug("REST request to delete User: {}", login);
 		usuarioService.deleteUsuario(login);
@@ -262,7 +264,7 @@ public class UsuarioResource extends AbstractResource {
 
 	@PutMapping("/usuarios/{login}/restore")
 	@Timed
-	@Secured(AuthoritiesConstants.ADMIN)
+	@PreAuthorize("hasPermission('USUARIO', 'EDITAR')")
 	public ResponseEntity<UsuarioDTO> updateUser(@Valid @PathVariable String login) {
 		log.debug("REST request to restore User : {}", login);
 
