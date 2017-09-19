@@ -5,9 +5,10 @@ import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiAlertService } fr
 
 import { Operacion } from './operacion.model';
 import { OperacionService } from './operacion.service';
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 import { OperacionFilter } from './operacion-search/index';
+import { ITEMS_PER_PAGE, ResponseWrapper } from '../../shared';
+import { Principal } from '../../shared/auth/principal.service';
 
 @Component({
     selector: 'jhi-operacion',

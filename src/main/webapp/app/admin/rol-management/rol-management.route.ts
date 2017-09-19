@@ -7,17 +7,8 @@ import { RolMgmtComponent } from './rol-management.component';
 import { RolMgmtDialogComponent } from './rol-management-dialog.component';
 import { RolDeleteDialogComponent } from './rol-management-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
-@Injectable()
-export class RolResolve implements CanActivate {
-
-    constructor(private principal: Principal) { }
-
-    canActivate() {
-        return this.principal.identity().then((account) => this.principal.hasAnyRol(['ROLE_ADMIN']));
-    }
-}
+import { Principal, UserRouteAccessService } from '../../shared';
+import { TipoAccionOperacion, TipoSujetoOperacion } from '../../entities/operacion/index';
 
 @Injectable()
 export class RolResolvePagingParams implements Resolve<any> {
@@ -37,36 +28,54 @@ export class RolResolvePagingParams implements Resolve<any> {
 
 export const rolMgmtRoute: Routes = [
     {
-        path: 'rol-management',
-        component: RolMgmtComponent,
-        resolve: {
-            'pagingParams': RolResolvePagingParams
-        },
-        data: {
-            pageTitle: 'rolManagement.home.title'
-        }
-    },
-    {
-        path: 'rol-management/:nombre',
-        component: RolMgmtDialogComponent,
-        data: {
-            pageTitle: 'rolManagement.home.title'
-        }
-    },
-    {
-        path: 'rol-management-new',
-        component: RolMgmtDialogComponent,
-    },
-    {
-        path: 'rol-management/:nombre/editar',
-        component: RolMgmtDialogComponent,
-    },
+        path: '',
+        canActivate: [UserRouteAccessService],
+        children: [
+            {
+                path: 'rol-management',
+                component: RolMgmtComponent,
+                resolve: {
+                    'pagingParams': RolResolvePagingParams
+                },
+                data: {
+                    pageTitle: 'rolManagement.home.title',
+                    operaciones: ['LEER:ROL'],
+                },
+            },
+            {
+                path: 'rol-management/:nombre',
+                component: RolMgmtDialogComponent,
+                data: {
+                    pageTitle: 'rolManagement.home.title',
+                    operaciones: ['LEER:ROL']
+                }
+            },
+            {
+                path: 'rol-management-new',
+                component: RolMgmtDialogComponent,
+                data: {
+                    operaciones: ['CREAR:ROL'],
+                }
+            },
+            {
+                path: 'rol-management/:nombre/editar',
+                component: RolMgmtDialogComponent,
+                data: {
+                    operaciones: ['EDITAR:ROL'],
+                },
+            },
+        ]
+    }
 ];
 
 export const rolDialogRoute: Routes = [
     {
         path: 'rol-management/:nombre/borrar',
         component: RolDeleteDialogComponent,
-        outlet: 'popup'
+        outlet: 'popup',
+        data: {
+            operaciones: ['BORRAR:ROL'],
+        },
+        canActivate: [UserRouteAccessService],
     }
 ];

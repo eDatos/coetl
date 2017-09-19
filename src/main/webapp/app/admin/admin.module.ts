@@ -25,10 +25,8 @@ import {
     JhiMetricsService,
     LogsService,
     RolResolvePagingParams,
-    RolResolve,
     RolModalService,
     UserResolvePagingParams,
-    UserResolve,
     UserModalService
 } from './';
 import { RolMgmtDialogComponent } from './rol-management/rol-management-dialog.component';
@@ -75,10 +73,8 @@ import { UserSearchComponent } from './user-management/user-search/index';
         JhiMetricsService,
         LogsService,
         RolResolvePagingParams,
-        RolResolve,
         RolModalService,
         UserResolvePagingParams,
-        UserResolve,
         UserModalService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

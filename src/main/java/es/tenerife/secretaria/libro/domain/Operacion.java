@@ -37,7 +37,7 @@ public class Operacion extends AbstractVersionedEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "operacion_id_seq")
-	@SequenceGenerator(name = "operacion_id_seq", sequenceName = "operacion_id_seq", allocationSize = 50, initialValue = 10)
+	@SequenceGenerator(name = "operacion_id_seq", sequenceName = "operacion_id_seq", allocationSize = 50, initialValue = 1000)
 	private Long id;
 
 	@NotNull

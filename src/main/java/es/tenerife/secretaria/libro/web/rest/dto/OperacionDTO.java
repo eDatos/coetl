@@ -1,9 +1,7 @@
 package es.tenerife.secretaria.libro.web.rest.dto;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
@@ -23,8 +21,6 @@ public class OperacionDTO implements Serializable {
 	private String sujeto;
 
 	private Long optLock;
-
-	private Set<String> roles = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -56,14 +52,6 @@ public class OperacionDTO implements Serializable {
 
 	public void setOptLock(Long optLock) {
 		this.optLock = optLock;
-	}
-
-	public Set<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<String> roles) {
-		this.roles = roles;
 	}
 
 	@Override

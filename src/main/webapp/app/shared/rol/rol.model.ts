@@ -1,6 +1,7 @@
 import { Operacion } from '../../entities/operacion/index';
 
 export class Rol {
+
     public id: number;
     public nombre: string;
     public operaciones: Operacion[];
@@ -12,6 +13,7 @@ export class Rol {
     ) {
         this.id = id;
         this.nombre = !!nombre ? nombre : null;
-        this.operaciones = !!operaciones ? operaciones : null;
+        this.operaciones = !!operaciones ? operaciones.map((o) => new Operacion(o.id, o.accion.toString(), o.sujeto.toString())) : null;
     }
+
 }

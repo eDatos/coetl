@@ -7,17 +7,7 @@ import { UserMgmtComponent } from './user-management.component';
 import { UserMgmtDialogComponent } from './user-management-dialog.component';
 import { UserDeleteDialogComponent } from './user-management-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
-@Injectable()
-export class UserResolve implements CanActivate {
-
-    constructor(private principal: Principal) { }
-
-    canActivate() {
-        return this.principal.identity().then((account) => this.principal.hasAnyRol(['ROLE_ADMIN']));
-    }
-}
+import { Principal, UserRouteAccessService } from '../../shared';
 
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
@@ -38,32 +28,40 @@ export class UserResolvePagingParams implements Resolve<any> {
 export const userMgmtRoute: Routes = [
     {
         path: 'user-management',
+        canActivate: [UserRouteAccessService],
         component: UserMgmtComponent,
         resolve: {
             'pagingParams': UserResolvePagingParams
         },
         data: {
-            pageTitle: 'userManagement.home.title'
+            pageTitle: 'userManagement.home.title',
+            operaciones: 'LEER:USUARIO'
         }
     },
     {
         path: 'user-management/:login',
+        canActivate: [UserRouteAccessService],
         component: UserMgmtDialogComponent,
         data: {
-            pageTitle: 'userManagement.home.title'
-        }
+            pageTitle: 'userManagement.home.title',
+            operaciones: 'LEER:USUARIO'
+        },
     },
     {
         path: 'user-management-new',
+        canActivate: [UserRouteAccessService],
         component: UserMgmtDialogComponent,
         data: {
-            pageTitle: 'userManagement.home.title'
+            pageTitle: 'userManagement.home.title',
+            operaciones: 'CREAR:USUARIO'
         }
     },
     {
         path: 'user-management/:login/edit',
+        canActivate: [UserRouteAccessService],
         component: UserMgmtDialogComponent,
         data: {
+            operaciones: 'EDITAR:USUARIO',
             pageTitle: 'userManagement.home.title'
         }
     }
@@ -72,12 +70,20 @@ export const userMgmtRoute: Routes = [
 export const userDialogRoute: Routes = [
     {
         path: 'user-management/:login/delete',
+        canActivate: [UserRouteAccessService],
         component: UserDeleteDialogComponent,
-        outlet: 'popup'
+        outlet: 'popup',
+        data: {
+            operaciones: 'BORRAR:USUARIO',
+        }
     },
     {
         path: 'user-management/:login/restore',
+        canActivate: [UserRouteAccessService],
         component: UserDeleteDialogComponent,
-        outlet: 'popup'
+        outlet: 'popup',
+        data: {
+            operaciones: 'EDITAR:USUARIO',
+        }
     }
 ];

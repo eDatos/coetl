@@ -8,7 +8,7 @@ export const settingsRoute: Routes = [
         path: 'settings',
         component: SettingsComponent,
         data: {
-            roles: ['ROLE_USER'],
+            operaciones: 'LEER:CUENTA_PROPIA',
             pageTitle: 'global.menu.account.settings'
         },
         canActivate: [UserRouteAccessService]
@@ -17,7 +17,7 @@ export const settingsRoute: Routes = [
         path: 'settings/edit',
         component: SettingsComponent,
         data: {
-            roles: ['ROLE_USER'],
+            operaciones: 'EDITAR:CUENTA_PROPIA',
             pageTitle: 'global.menu.account.settings'
         },
         canActivate: [UserRouteAccessService]

@@ -24,6 +24,24 @@ export class OperacionService {
             .map((res: Response) => this.convertResponse(res));
     }
 
+    operacionFromString(operaciones: any[]): Operacion[] {
+        if (typeof operaciones === 'string') {
+            operaciones = [operaciones];
+        }
+        if (operaciones && operaciones.length > 0) {
+            operaciones = operaciones.map((operacion) => {
+                if (typeof operacion === 'string') {
+                    const operacionValues = operacion.split(':');
+                    if (operacionValues.length >= 2) {
+                        return new Operacion(null, operacionValues[0], operacionValues[1]);
+                    }
+                }
+                return operacion;
+            });
+        }
+        return operaciones;
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         return new ResponseWrapper(res.headers, jsonResponse, res.status);

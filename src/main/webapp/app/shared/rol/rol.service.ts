@@ -13,6 +13,7 @@ export class RolService {
 
     constructor(private http: Http) { }
 
+    // TODO SECRETARIA-51 ELIMINAR para dejar solo query
     roles(): Observable<string[]> {
         return this.http.get('api/roles').map((res: Response) => {
             const json = res.json();

@@ -6,6 +6,8 @@ import { Principal, AccountService } from '../../../../../../main/webapp/app/sha
 import { SettingsComponent } from '../../../../../../main/webapp/app/account/settings/settings.component';
 import { MockAccountService } from '../../../helpers/mock-account.service';
 import { MockPrincipal } from '../../../helpers/mock-principal.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MockRouter } from '../../../helpers/mock-route.service';
 
 describe('Component Tests', () => {
 
@@ -33,9 +35,17 @@ describe('Component Tests', () => {
                         provide: JhiLanguageHelper,
                         useValue: null
                     },
+                    {
+                        provide: ActivatedRoute,
+                        useValue: null
+                    },
+                    {
+                        provide: Router,
+                        useValue: new MockRouter()
+                    }
                 ]
             }).overrideTemplate(SettingsComponent, '')
-            .compileComponents();
+                .compileComponents();
         }));
 
         beforeEach(() => {

@@ -7,31 +7,31 @@ import { Principal } from './principal.service';
  *
  * @howToUse
  * ```
- *     <some-element *jhiHasAnyRol="'ROLE_ADMIN'">...</some-element>
+ *     <some-element *acHasAnyOperacion="'ACCION:SUJETO'">...</some-element>
  *
- *     <some-element *jhiHasAnyRol="['ROLE_ADMIN', 'ROLE_USER']">...</some-element>
+ *     <some-element *acHasAnyOperacion="['ACCION1:SUJETO1', 'ACCION2:SUJETO2']">...</some-element>
  * ```
  */
 @Directive({
-    selector: '[jhiHasAnyRol]'
+    selector: '[acHasAnyOperacion]'
 })
-export class HasAnyRolDirective {
+export class HasAnyOperacionDirective {
 
-    private roles: string[];
+    private operaciones: string[];
 
     constructor(private principal: Principal, private templateRef: TemplateRef<any>, private viewContainerRef: ViewContainerRef) {
     }
 
     @Input()
-    set jhiHasAnyRol(value: string | string[]) {
-        this.roles = typeof value === 'string' ? [<string>value] : <string[]>value;
+    set acHasAnyOperacion(value: string | string[]) {
+        this.operaciones = typeof value === 'string' ? [<string>value] : <string[]>value;
         this.updateView();
         // Get notified each time authentication state changes.
         this.principal.getAuthenticationState().subscribe((identity) => this.updateView());
     }
 
     private updateView(): void {
-        this.principal.hasAnyRol(this.roles).then((result) => {
+        this.principal.canDoAnyOperacion(this.operaciones).then((result) => {
             this.viewContainerRef.clear();
             if (result) {
                 this.viewContainerRef.createEmbeddedView(this.templateRef);

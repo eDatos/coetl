@@ -14,7 +14,7 @@
   <!-- Added the entity Operacion. -->
   <changeSet id="20170824105121-1" author="jhipster">
     <createSequence sequenceName="operacion_id_seq"
-      startValue="10" incrementBy="50" />
+      startValue="1000" incrementBy="50" />
     <createTable tableName="operacion">
       <column name="id" type="bigint" autoIncrement="${autoIncrement}">
         <constraints primaryKey="true" nullable="false" />
@@ -56,10 +56,11 @@
       baseTableName="roles_operaciones" constraintName="fk_roles_operaciones_operacion_id"
       referencedColumnNames="id" referencedTableName="operacion" />
 
-  <loadData encoding="UTF-8" file="config/liquibase/operaciones.csv"
+    <loadData encoding="UTF-8" file="config/liquibase/operaciones.csv"
       separator=";" tableName="operacion" />
-      <loadData encoding="UTF-8" file="config/liquibase/roles_operaciones.csv"
+
+    <loadData encoding="UTF-8" file="config/liquibase/roles_operaciones.csv"
       separator=";" tableName="roles_operaciones" />
   </changeSet>
-  
+
 </databaseChangeLog>
