@@ -27,46 +27,40 @@
       <column name="opt_lock" type="bigint">
         <constraints nullable="true" />
       </column>
-      <column name="login" type="varchar(50)">
+      <column name="login" type="varchar(255)">
         <constraints unique="true" nullable="false" />
       </column>
-      <column name="password_hash" type="varchar(60)" />
-      <column name="nombre" type="varchar(50)" />
-      <column name="apellido1" type="varchar(50)" />
-      <column name="apellido2" type="varchar(50)" />
-      <column name="email" type="varchar(100)">
+      <column name="nombre" type="varchar(255)" />
+      <column name="apellido1" type="varchar(255)" />
+      <column name="apellido2" type="varchar(255)" />
+      <column name="email" type="varchar(255)">
         <constraints unique="true" nullable="true" />
       </column>
-      <column name="url_imagen" type="varchar(256)" />
       <column name="activado" type="boolean" valueBoolean="false">
         <constraints nullable="false" />
       </column>
-      <column name="clave_reinicio" type="varchar(20)" />
       <column name="deletion_date" type="timestamp">
         <constraints nullable="true" />
       </column>
-      <column name="created_by" type="varchar(50)">
+      <column name="created_by" type="varchar(255)">
         <constraints nullable="false" />
       </column>
       <column name="created_date" type="timestamp"
         defaultValueDate="${now}">
         <constraints nullable="false" />
       </column>
-      <column name="fecha_reinicio" type="timestamp">
-        <constraints nullable="true" />
-      </column>
-      <column name="last_modified_by" type="varchar(50)" />
+      <column name="last_modified_by" type="varchar(255)" />
       <column name="last_modified_date" type="timestamp" />
     </createTable>
     
     <createIndex indexName="idx_user_login" tableName="usuario"
       unique="true">
-      <column name="login" type="varchar(50)" />
+      <column name="login" type="varchar(255)" />
     </createIndex>
 
     <createIndex indexName="idx_user_email" tableName="usuario"
       unique="true">
-      <column name="email" type="varchar(100)" />
+      <column name="email" type="varchar(255)" />
     </createIndex>
 
     <createTable tableName="rol">

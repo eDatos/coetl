@@ -1,7 +1,6 @@
 package es.tenerife.secretaria.libro.domain;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Objects;
@@ -49,47 +48,30 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
 	@NotNull
 	@Pattern(regexp = Constants.LOGIN_REGEX)
-	@Size(min = 1, max = 50)
-	@Column(length = 50, unique = true, nullable = false)
+	@Size(min = 1, max = 255)
+	@Column(length = 255, unique = true, nullable = false)
 	private String login;
 
-	@JsonIgnore
-	@Size(min = 60, max = 60)
-	@Column(name = "password_hash", length = 60)
-	private String password;
-
-	@Size(max = 50)
-	@Column(name = "nombre", length = 50)
+	@Size(max = 255)
+	@Column(name = "nombre", length = 255)
 	private String nombre;
 
-	@Size(max = 50)
-	@Column(name = "apellido1", length = 50)
+	@Size(max = 255)
+	@Column(name = "apellido1", length = 255)
 	private String apellido1;
 
-	@Size(max = 50)
-	@Column(name = "apellido2", length = 50)
+	@Size(max = 255)
+	@Column(name = "apellido2", length = 255)
 	private String apellido2;
 
 	@Email
-	@Size(min = 5, max = 100)
+	@Size(min = 3, max = 255)
 	@Column(length = 100, unique = true)
 	private String email;
 
 	@NotNull
 	@Column(nullable = false)
 	private boolean activado = false;
-
-	@Size(max = 256)
-	@Column(name = "url_imagen", length = 256)
-	private String urlImagen;
-
-	@Size(max = 20)
-	@Column(name = "clave_reinicio", length = 20)
-	@JsonIgnore
-	private String claveReinicio;
-
-	@Column(name = "fecha_reinicio")
-	private Instant fechaReinicio = null;
 
 	@JsonIgnore
 	@ManyToMany
@@ -117,14 +99,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
 	public void setLogin(String login) {
 		this.login = StringUtils.lowerCase(login);
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getNombre() {
@@ -159,36 +133,12 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 		this.email = email;
 	}
 
-	public String getUrlImagen() {
-		return urlImagen;
-	}
-
-	public void seturlImagen(String imageUrl) {
-		this.urlImagen = imageUrl;
-	}
-
 	public boolean getActivado() {
 		return activado;
 	}
 
 	public void setActivado(boolean activated) {
 		this.activado = activated;
-	}
-
-	public String getClaveReinicio() {
-		return claveReinicio;
-	}
-
-	public void setClaveReinicio(String resetKey) {
-		this.claveReinicio = resetKey;
-	}
-
-	public Instant getFechaReinicio() {
-		return fechaReinicio;
-	}
-
-	public void setFechaReinicio(Instant resetDate) {
-		this.fechaReinicio = resetDate;
 	}
 
 	public Set<Rol> getRoles() {
@@ -231,7 +181,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 	@Override
 	public String toString() {
 		return "Usuario{" + "login='" + login + '\'' + ", nombre='" + nombre + '\'' + ", apellido1='" + apellido1 + '\''
-				+ ", email='" + email + '\'' + ", urlImagen='" + urlImagen + '\'' + ", activado='" + activado + '\''
-				+ "}";
+				+ ", email='" + email + '\'' + ", activado='" + activado + '\'' + "}";
 	}
 }

@@ -48,9 +48,6 @@ export class SettingsComponent implements OnInit {
     clear() {
         // const with arrays: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
         const returnPath = ['settings'];
-        // if (this.paramLogin) {
-        //     returnPath.push(this.paramLogin);
-        // }
         this.router.navigate(returnPath);
     }
 
@@ -63,7 +60,6 @@ export class SettingsComponent implements OnInit {
             apellido1: account.apellido1,
             apellido2: account.apellido2,
             login: account.login,
-            urlImagen: account.urlImagen
         };
     }
 

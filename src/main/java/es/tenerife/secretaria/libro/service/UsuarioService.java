@@ -62,11 +62,10 @@ public class UsuarioService {
 		newUser.setApellido1(user.getApellido1());
 		newUser.setApellido2(user.getApellido2());
 		newUser.setEmail(user.getEmail());
-		newUser.seturlImagen(user.getUrlImagen());
 		if (user.getRoles() != null) {
 			Set<Rol> authorities = new HashSet<>();
 			user.getRoles()
-					.forEach(authority -> authorities.add(authorityRepository.findOneByCodigo(authority.getNombre())));
+					.forEach(authority -> authorities.add(authorityRepository.findOneByCodigo(authority.getCodigo())));
 			newUser.setRoles(authorities);
 		}
 		newUser.setActivado(true);
@@ -76,8 +75,7 @@ public class UsuarioService {
 	}
 
 	/**
-	 * Update basic information (first name, last name, email) for the
-	 * current user.
+	 * Update basic information (first name, last name, email) for the current user.
 	 *
 	 * @param firstName
 	 *            first name of user
@@ -85,18 +83,14 @@ public class UsuarioService {
 	 *            last name of user
 	 * @param email
 	 *            email id of user
-	 * @param imageUrl
-	 *            image URL of user
 	 */
-	public void updateUsuario(String firstName, String apellido1, String apellido2, String email,
-			String imageUrl) {
+	public void updateUsuario(String firstName, String apellido1, String apellido2, String email) {
 		usuarioRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(user -> {
 			validarUsuarioLdap(user);
 			user.setNombre(firstName);
 			user.setApellido1(apellido1);
 			user.setApellido2(apellido2);
 			user.setEmail(email);
-			user.seturlImagen(imageUrl);
 			log.debug("Changed Information for User: {}", user);
 		});
 	}
