@@ -13,14 +13,14 @@ export class RolModalService {
         private rolService: RolService
     ) { }
 
-    open(component: Component, name?: string): NgbModalRef {
+    open(component: Component, codigo?: string): NgbModalRef {
         if (this.isOpen) {
             return;
         }
         this.isOpen = true;
 
-        if (name) {
-            this.rolService.find(name).subscribe((rol) => this.rolModalRef(component, rol));
+        if (codigo) {
+            this.rolService.find(codigo).subscribe((rol) => this.rolModalRef(component, rol));
         } else {
             // Este setTimeout es un fix para evitar el error "ExpressionChangedAfterItHasBeenCheckedError" que aparece.
             // Ver: https://github.com/jhipster/generator-jhipster/issues/5985

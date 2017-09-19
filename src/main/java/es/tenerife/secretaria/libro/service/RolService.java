@@ -13,11 +13,11 @@ public interface RolService {
 
 	Page<Rol> findAll(Pageable pageable);
 
-	Rol findOne(String name);
+	Rol findOne(String codigo);
 
 	Rol findOne(Long id);
 
-	void delete(String name);
+	void delete(String codigo);
 
 	Set<Rol> findByUsuario(String name);
 

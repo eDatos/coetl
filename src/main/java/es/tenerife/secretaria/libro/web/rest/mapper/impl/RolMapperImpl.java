@@ -30,6 +30,7 @@ public class RolMapperImpl extends RolMapper {
 
 		entity.setOptLock(dto.getOptLock());
 		entity.setNombre(dto.getNombre());
+		entity.setCodigo(dto.getCodigo());
 		entity.setId(dto.getId());
 		if (entity.getOperaciones() != null) {
 			Set<Operacion> set = operacionDTOSetToOperacionSet(dto.getOperaciones());
@@ -114,6 +115,7 @@ public class RolMapperImpl extends RolMapper {
 		rolDTO.setId(entity.getId());
 		rolDTO.setOptLock(entity.getOptLock());
 		rolDTO.setNombre(entity.getNombre());
+		rolDTO.setCodigo(entity.getCodigo());
 		Set<OperacionDTO> set = operacionSetToOperacionDTOSet(entity.getOperaciones());
 		if (set != null) {
 			rolDTO.setOperaciones(set);
@@ -129,9 +131,10 @@ public class RolMapperImpl extends RolMapper {
 			return null;
 		}
 
-		Rol rol = rolRepository.findOneByNombre(dto.getNombre());
+		Rol rol = rolRepository.findOneByCodigo(dto.getNombre());
 		if (rol == null) {
 			rol = new Rol();
+			rol.setCodigo(dto.getCodigo());
 			rol.setNombre(dto.getNombre());
 			rol.setOptLock(dto.getOptLock());
 			rol.setNombre(dto.getNombre());

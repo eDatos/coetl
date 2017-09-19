@@ -12,7 +12,7 @@ export class AccountService {
         return this.http.get('api/account')
             .map((res: Response) => res.json())
             .map((account: Account) => {
-                account.roles = account.roles.map((rol) => new Rol(rol.id, rol.nombre, rol.operaciones))
+                account.roles = account.roles.map((rol) => new Rol(rol.id, rol.codigo, rol.nombre, rol.operaciones))
                 return account;
             });
     }

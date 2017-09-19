@@ -45,6 +45,11 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 	@NotNull
 	@Size(min = 0, max = 50)
 	@Column(length = 50, unique = true)
+	private String codigo;
+
+	@NotNull
+	@Size(min = 0, max = 255)
+	@Column(length = 255, unique = true)
 	private String nombre;
 
 	@JsonIgnore
@@ -62,6 +67,14 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNombre() {

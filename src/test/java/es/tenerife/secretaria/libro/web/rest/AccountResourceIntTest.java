@@ -125,7 +125,7 @@ public class AccountResourceIntTest {
 	@Transactional
 	public void testGetExistingAccount() throws Exception {
 		Set<Rol> authorities = new HashSet<>();
-		Rol authority = rolRepository.findOneByNombre(AuthoritiesConstants.ADMIN);
+		Rol authority = rolRepository.findOneByCodigo(AuthoritiesConstants.ADMIN);
 		authorities.add(authority);
 
 		Usuario user = new Usuario();

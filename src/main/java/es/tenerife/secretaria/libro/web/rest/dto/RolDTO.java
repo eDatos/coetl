@@ -10,6 +10,8 @@ public class RolDTO extends AbstractVersionedEntityDTO implements Serializable {
 
 	private Long id;
 
+	private String codigo;
+
 	private String nombre;
 
 	private Set<OperacionDTO> operaciones = new HashSet<>();
@@ -20,6 +22,14 @@ public class RolDTO extends AbstractVersionedEntityDTO implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNombre() {

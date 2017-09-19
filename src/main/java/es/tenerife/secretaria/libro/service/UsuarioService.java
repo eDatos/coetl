@@ -66,7 +66,7 @@ public class UsuarioService {
 		if (user.getRoles() != null) {
 			Set<Rol> authorities = new HashSet<>();
 			user.getRoles()
-					.forEach(authority -> authorities.add(authorityRepository.findOneByNombre(authority.getNombre())));
+					.forEach(authority -> authorities.add(authorityRepository.findOneByCodigo(authority.getNombre())));
 			newUser.setRoles(authorities);
 		}
 		newUser.setActivado(true);

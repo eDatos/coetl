@@ -608,7 +608,7 @@ public class UserResourceIntTest {
 		user.setLastModifiedDate(Instant.now());
 
 		Set<Rol> authorities = new HashSet<>();
-		Rol authority = rolRepository.findOneByNombre(AuthoritiesConstants.USER);
+		Rol authority = rolRepository.findOneByCodigo(AuthoritiesConstants.USER);
 
 		authorities.add(authority);
 		user.setRoles(authorities);

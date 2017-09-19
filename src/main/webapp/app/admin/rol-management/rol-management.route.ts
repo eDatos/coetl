@@ -43,7 +43,7 @@ export const rolMgmtRoute: Routes = [
                 },
             },
             {
-                path: 'rol-management/:nombre',
+                path: 'rol-management/:codigo',
                 component: RolMgmtDialogComponent,
                 data: {
                     pageTitle: 'rolManagement.home.title',
@@ -58,7 +58,7 @@ export const rolMgmtRoute: Routes = [
                 }
             },
             {
-                path: 'rol-management/:nombre/editar',
+                path: 'rol-management/:codigo/editar',
                 component: RolMgmtDialogComponent,
                 data: {
                     operaciones: ['EDITAR:ROL'],
@@ -70,7 +70,7 @@ export const rolMgmtRoute: Routes = [
 
 export const rolDialogRoute: Routes = [
     {
-        path: 'rol-management/:nombre/borrar',
+        path: 'rol-management/:codigo/borrar',
         component: RolDeleteDialogComponent,
         outlet: 'popup',
         data: {

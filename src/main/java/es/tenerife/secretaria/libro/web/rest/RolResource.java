@@ -64,12 +64,12 @@ public class RolResource extends AbstractResource {
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
 
-	@GetMapping("/roles/{nombre}")
+	@GetMapping("/roles/{codigo}")
 	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
-	public ResponseEntity<RolDTO> getRol(@PathVariable String nombre) {
-		log.debug("REST request to get Rol : {}", nombre);
-		RolDTO rolDTO = rolMapper.toDto(rolService.findOne(nombre));
+	public ResponseEntity<RolDTO> getRol(@PathVariable String codigo) {
+		log.debug("REST request to get Rol : {}", codigo);
+		RolDTO rolDTO = rolMapper.toDto(rolService.findOne(codigo));
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rolDTO));
 	}
 
@@ -79,20 +79,20 @@ public class RolResource extends AbstractResource {
 	public ResponseEntity<RolDTO> createRol(@RequestBody RolDTO rolDTO) throws URISyntaxException {
 		log.debug("REST request to create Rol {}", rolDTO);
 		Rol rol;
-		if (rolDTO.getNombre() == null) {
+		if (rolDTO.getCodigo() == null) {
 			return ResponseEntity.badRequest().headers(
-					HeaderUtil.createFailureAlert(ENTITY_NAME, "nombre-falta", "Un nuevo rol necesita un nombre"))
+					HeaderUtil.createFailureAlert(ENTITY_NAME, "codigo-falta", "Un nuevo rol necesita un codigo"))
 					.body(null);
 		}
-		rol = rolService.findOne(rolDTO.getNombre());
+		rol = rolService.findOne(rolDTO.getCodigo());
 		if (rol != null) {
 			return ResponseEntity.badRequest()
 					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "rol-existe", "El rol ya exsitía")).body(null);
 		}
 		rol = rolService.save(rolMapper.toEntity(rolDTO));
-		auditPublisher.publish(AuditConstants.ROL_CREACION, rolDTO.getNombre());
-		return ResponseEntity.created(new URI("/api/usuarios/" + rol.getNombre()))
-				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, rol.getNombre())).body(rolMapper.toDto(rol));
+		auditPublisher.publish(AuditConstants.ROL_CREACION, rolDTO.getCodigo());
+		return ResponseEntity.created(new URI("/api/usuarios/" + rol.getCodigo()))
+				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, rol.getCodigo())).body(rolMapper.toDto(rol));
 	}
 
 	@PutMapping("/roles")
@@ -100,9 +100,9 @@ public class RolResource extends AbstractResource {
 	@Timed
 	public ResponseEntity<RolDTO> updateRol(@RequestBody RolDTO rolDTO) {
 		log.debug("REST request to update Rol {}", rolDTO);
-		if (rolDTO.getNombre() == null) {
+		if (rolDTO.getCodigo() == null) {
 			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "nombre-falta", "Un rol necesita un nombre"))
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "codigo-falta", "Un rol necesita un codigo"))
 					.body(null);
 		}
 		if (rolDTO.getId() == null) {
@@ -117,18 +117,18 @@ public class RolResource extends AbstractResource {
 		}
 		rolMapper.update(rol, rolDTO);
 		rolService.save(rol);
-		auditPublisher.publish(AuditConstants.ROL_EDICION, rolDTO.getNombre());
-		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rol.getNombre()))
+		auditPublisher.publish(AuditConstants.ROL_EDICION, rolDTO.getCodigo());
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, rol.getCodigo()))
 				.body(rolMapper.toDto(rol));
 	}
 
-	@DeleteMapping("/roles/{nombre}")
+	@DeleteMapping("/roles/{codigo}")
 	@Timed
 	@PreAuthorize("hasPermission('ROL', 'ELIMINAR')")
-	public ResponseEntity<RolDTO> deleteRol(@PathVariable String nombre) {
-		log.debug("REST request to get Rol : {}", nombre);
-		rolService.delete(nombre);
-		auditPublisher.publish(AuditConstants.ROL_BORRADO, nombre);
-		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, nombre)).build();
+	public ResponseEntity<RolDTO> deleteRol(@PathVariable String codigo) {
+		log.debug("REST request to get Rol : {}", codigo);
+		rolService.delete(codigo);
+		auditPublisher.publish(AuditConstants.ROL_BORRADO, codigo);
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, codigo)).build();
 	}
 }

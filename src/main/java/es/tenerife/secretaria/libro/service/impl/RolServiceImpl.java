@@ -41,9 +41,9 @@ public class RolServiceImpl implements RolService {
 	}
 
 	@Override
-	public Rol findOne(String name) {
-		log.debug("Petición para buscar rol {}", name);
-		return rolRepository.findOneByNombre(name);
+	public Rol findOne(String codigo) {
+		log.debug("Petición para buscar rol {}", codigo);
+		return rolRepository.findOneByCodigo(codigo);
 	}
 
 	@Override
@@ -53,12 +53,12 @@ public class RolServiceImpl implements RolService {
 	}
 
 	@Override
-	public void delete(String name) {
-		log.debug("Petición para eliminar rol {}", name);
-		if (!usuarioRepository.findAllByRolesNombre(name).isEmpty()) {
-			throw new CustomParameterizedException("error.palabraClave.users-has-role", name);
+	public void delete(String codigo) {
+		log.debug("Petición para eliminar rol {}", codigo);
+		if (!usuarioRepository.findAllByRolesCodigo(codigo).isEmpty()) {
+			throw new CustomParameterizedException("error.palabraClave.users-has-role", codigo);
 		}
-		Rol rol = rolRepository.findOneByNombre(name);
+		Rol rol = rolRepository.findOneByCodigo(codigo);
 		rolRepository.delete(rol.getId());
 	}
 
