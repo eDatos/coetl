@@ -24,11 +24,4 @@ public abstract class RolMapper implements EntityMapper<RolDTO, Rol> {
 		return rolRepository.findOneByCodigo(codigo);
 	}
 
-	public String nombreFromRol(Rol rol) {
-		if (rol == null) {
-			return null;
-		}
-		return rol.getNombre();
-	}
-
 }

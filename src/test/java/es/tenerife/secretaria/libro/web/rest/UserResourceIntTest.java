@@ -48,6 +48,7 @@ import es.tenerife.secretaria.libro.service.UsuarioService;
 import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 import es.tenerife.secretaria.libro.web.rest.errors.ExceptionTranslator;
+import es.tenerife.secretaria.libro.web.rest.mapper.RolMapper;
 import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
 import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 
@@ -90,6 +91,9 @@ public class UserResourceIntTest {
 	private UsuarioMapper userMapper;
 
 	@Autowired
+	private RolMapper rolMapper;
+
+	@Autowired
 	private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
 	@Autowired
@@ -122,10 +126,18 @@ public class UserResourceIntTest {
 	}
 
 	private Set<RolDTO> mockRolesDTO() {
+		return mockRolesDTO(false);
+	}
+
+	private Set<RolDTO> mockRolesDTO(boolean save) {
 		// Create the User
 		Set<RolDTO> authorities = new HashSet<>();
 		RolDTO rolDTO = new RolDTO();
+		rolDTO.setCodigo(AuthoritiesConstants.ADMIN);
 		rolDTO.setNombre(AuthoritiesConstants.ADMIN);
+		if (save) {
+			em.persist(rolMapper.toEntity(rolDTO));
+		}
 		authorities.add(rolDTO);
 		return authorities;
 	}
@@ -157,7 +169,7 @@ public class UserResourceIntTest {
 		int databaseSizeBeforeCreate = userRepository.findAll().size();
 		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
-		Set<RolDTO> authorities = mockRolesDTO();
+		Set<RolDTO> authorities = mockRolesDTO(true);
 		//@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
 		UsuarioDTO source = UsuarioDTO.builder()
@@ -574,7 +586,7 @@ public class UserResourceIntTest {
 		assertThat(user.getCreatedDate()).isNotNull();
 		assertThat(user.getLastModifiedBy()).isNull();
 		assertThat(user.getLastModifiedDate()).isNotNull();
-		assertThat(user.getRoles()).extracting("nombre").containsExactly(AuthoritiesConstants.ADMIN);
+		assertThat(user.getRoles()).extracting("codigo").containsExactly(AuthoritiesConstants.ADMIN);
 	}
 
 	@Test
@@ -604,7 +616,7 @@ public class UserResourceIntTest {
 		assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
 		assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(userDTO.getLastModifiedDate()).isEqualTo(user.getLastModifiedDate());
-		userDTO.getRoles().forEach((rol) -> assertThat(rol.getNombre()).isEqualTo(authority.getNombre()));
+		userDTO.getRoles().forEach((rol) -> assertThat(rol.getCodigo()).isEqualTo(authority.getCodigo()));
 		assertThat(userDTO.toString()).isNotNull();
 	}
 

@@ -44,7 +44,7 @@ public class DomainUserDetailsService implements UserDetailsService {
 				throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
 			}
 			List<GrantedAuthority> grantedAuthorities = user.getRoles().stream()
-					.map(authority -> new SimpleGrantedAuthority(authority.getNombre())).collect(Collectors.toList());
+					.map(authority -> new SimpleGrantedAuthority(authority.getCodigo())).collect(Collectors.toList());
 			return new org.springframework.security.core.userdetails.User(lowercaseLogin, "", grantedAuthorities);
 		}).orElseThrow(
 				() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " + "database"));

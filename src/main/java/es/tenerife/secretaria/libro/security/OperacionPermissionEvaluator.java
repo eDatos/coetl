@@ -57,9 +57,9 @@ public class OperacionPermissionEvaluator implements PermissionEvaluator {
 		if (auth == null || operacion == null) {
 			return false;
 		}
-		Set<String> rolesOperacion = operacion.getRoles().stream().map(Rol::getNombre).map(String::toUpperCase)
+		Set<String> rolesOperacion = operacion.getRoles().stream().map(Rol::getCodigo).map(String::toUpperCase)
 				.collect(Collectors.toSet());
-		Set<String> rolesUsuario = rolService.findByUsuario(auth.getName()).stream().map(Rol::getNombre)
+		Set<String> rolesUsuario = rolService.findByUsuario(auth.getName()).stream().map(Rol::getCodigo)
 				.map(String::toUpperCase).collect(Collectors.toSet());
 		return !Collections.disjoint(rolesOperacion, rolesUsuario);
 	}
