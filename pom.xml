@@ -75,7 +75,6 @@
     <!-- These remain empty unless the corresponding profile is active -->
     <profile.no-liquibase />
     <profile.swagger />
-    <prometheus-simpleclient.version>0.0.20</prometheus-simpleclient.version>
     <!-- Sonar properties -->
     <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
     <run.addResources>false</run.addResources>
@@ -862,127 +861,6 @@
         <!-- default Spring profiles -->
         <spring.profiles.active>env${profile.swagger}${profile.no-liquibase}</spring.profiles.active>
       </properties>
-    </profile>
-    <profile>
-      <!-- Profile for doing "continuous compilation" with the Scala Maven 
-        plugin. It allows automatic compilation of Java classes as soon as they are 
-        saved. To use it, run in 3 terminals: - './mvnw -Pcc scala:cc' for continuous 
-        compilation of your classes - './mvnw -Pcc' for hot reload of Spring boot 
-        - 'gulp' for hot reload of the HTML/JavaScript assets Everything should hot 
-        reload automatically! -->
-      <id>cc</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-devtools</artifactId>
-          <optional>true</optional>
-        </dependency>
-      </dependencies>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <configuration>
-              <warSourceDirectory>src/main/webapp/</warSourceDirectory>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-              <executable>true</executable>
-              <fork>true</fork>
-              <addResources>true</addResources>
-              <!-- Enable the line below to have remote debugging of your 
-                application on port 5005 <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments> -->
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>default-compile</id>
-                <phase>none</phase>
-              </execution>
-              <execution>
-                <id>default-testCompile</id>
-                <phase>none</phase>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>net.alchim31.maven</groupId>
-            <artifactId>scala-maven-plugin</artifactId>
-            <version>${scala-maven-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>compile</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>add-source</goal>
-                  <goal>compile</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>test-compile</id>
-                <phase>test-compile</phase>
-                <goals>
-                  <goal>add-source</goal>
-                  <goal>testCompile</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <recompileMode>incremental</recompileMode>
-              <verbose>true</verbose>
-              <scalaVersion>${scala.version}</scalaVersion>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-      <properties>
-        <!-- log configuration -->
-        <logback.loglevel>DEBUG</logback.loglevel>
-        <!-- default Spring profiles -->
-        <spring.profiles.active>dev,swagger</spring.profiles.active>
-      </properties>
-    </profile>
-    <profile>
-      <!-- Profile for monitoring the application with Graphite. -->
-      <id>graphite</id>
-      <dependencies>
-        <dependency>
-          <groupId>io.dropwizard.metrics</groupId>
-          <artifactId>metrics-graphite</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <!-- Profile for monitoring the application with Prometheus. -->
-      <id>prometheus</id>
-      <dependencies>
-        <dependency>
-          <groupId>io.prometheus</groupId>
-          <artifactId>simpleclient</artifactId>
-          <version>${prometheus-simpleclient.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>io.prometheus</groupId>
-          <artifactId>simpleclient_servlet</artifactId>
-          <version>${prometheus-simpleclient.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>io.prometheus</groupId>
-          <artifactId>simpleclient_dropwizard</artifactId>
-          <version>${prometheus-simpleclient.version}</version>
-        </dependency>
-      </dependencies>
     </profile>
     <profile>
       <!-- Profile for applying IDE-specific configuration. At the moment 
