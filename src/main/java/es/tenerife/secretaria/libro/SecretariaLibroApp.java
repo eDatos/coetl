@@ -1,26 +1,27 @@
 package es.tenerife.secretaria.libro;
 
-import es.tenerife.secretaria.libro.config.ApplicationProperties;
-import es.tenerife.secretaria.libro.config.Constants;
-import es.tenerife.secretaria.libro.config.DefaultProfileUtil;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collection;
 
-import io.github.jhipster.config.JHipsterConstants;
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.autoconfigure.*;
+import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
-import javax.annotation.PostConstruct;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Collection;
+import es.tenerife.secretaria.libro.config.ApplicationProperties;
+import es.tenerife.secretaria.libro.config.Constants;
+import es.tenerife.secretaria.libro.config.DefaultProfileUtil;
+import io.github.jhipster.config.JHipsterConstants;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = { MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class })
@@ -51,11 +52,6 @@ public class SecretariaLibroApp {
 				&& activeProfiles.contains(Constants.SPRING_PROFILE_ENV)) {
 			log.error("You have misconfigured your application! It should not run "
 					+ "with both the 'dev' and 'prod' profiles at the same time.");
-		}
-		if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT)
-				&& activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_CLOUD)) {
-			log.error("You have misconfigured your application! It should not "
-					+ "run with both the 'dev' and 'cloud' profiles at the same time.");
 		}
 	}
 
