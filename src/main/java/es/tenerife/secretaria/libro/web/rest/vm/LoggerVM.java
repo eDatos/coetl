@@ -2,9 +2,6 @@ package es.tenerife.secretaria.libro.web.rest.vm;
 
 import ch.qos.logback.classic.Logger;
 
-/**
- * View Model object for storing a Logback logger.
- */
 public class LoggerVM {
 
 	private String name;

@@ -18,9 +18,6 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import es.tenerife.secretaria.libro.web.rest.vm.LoggerVM;
 
-/**
- * Controller for view and managing Log Level at runtime.
- */
 @RestController
 @RequestMapping("/management")
 public class LogsResource extends AbstractResource {

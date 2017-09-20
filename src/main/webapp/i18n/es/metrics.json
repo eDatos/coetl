@@ -15,11 +15,11 @@
                 "title": "Hilos",
                 "all": "Todo",
                 "runnable": "Ejecutables",
-                "timedwaiting": "Timed waiting",
+                "timedwaiting": "Tiempo esperando",
                 "waiting": "Esperando",
                 "blocked": "Bloqueados",
                 "dump": {
-                    "title": "Threads dump",
+                    "title": "Hilos ",
                     "id": "Id: ",
                     "blockedtime": "Tiempo bloqueado",
                     "blockedcount": "Contador bloqueados",
@@ -33,10 +33,10 @@
             },
             "gc": {
                 "title": "Colecciones de basura",
-                "marksweepcount": "Mark Sweep count",
-                "marksweeptime": "Mark Sweep time",
-                "scavengecount": "Scavenge count",
-                "scavengetime": "Scavenge time"
+                "marksweepcount": "Nº marcas Sweep",
+                "marksweeptime": "Tiempo marcas Sweep ",
+                "scavengecount": "Nº Scavenge",
+                "scavengetime": "Tiempo Scavenge "
             },
             "http": {
                 "title": "Peticiones HTTP (eventos por segundo)",

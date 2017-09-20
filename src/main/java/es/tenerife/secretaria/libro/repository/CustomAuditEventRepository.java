@@ -1,8 +1,7 @@
 package es.tenerife.secretaria.libro.repository;
 
-import es.tenerife.secretaria.libro.config.Constants;
-import es.tenerife.secretaria.libro.config.audit.AuditEventConverter;
-import es.tenerife.secretaria.libro.domain.PersistentAuditEvent;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.actuate.audit.AuditEventRepository;
@@ -10,12 +9,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import es.tenerife.secretaria.libro.config.Constants;
+import es.tenerife.secretaria.libro.config.audit.AuditEventConverter;
+import es.tenerife.secretaria.libro.domain.PersistentAuditEvent;
 
-/**
- * An implementation of Spring Boot's AuditEventRepository.
- */
 @Repository
 public class CustomAuditEventRepository implements AuditEventRepository {
 

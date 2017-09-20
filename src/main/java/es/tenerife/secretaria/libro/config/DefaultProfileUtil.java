@@ -36,17 +36,11 @@ public final class DefaultProfileUtil {
 			props = PropertiesLoaderUtils.loadProperties(resource);
 			return props;
 		} catch (IOException e) {
-			LOGGER.debug("Unable to load resource specified in data-location", e);
+			LOGGER.debug("Imposible cargar el recurso especificado en la localización", e);
 		}
 		return props;
 	}
 
-	/**
-	 * Set a default to use when no profile is configured.
-	 *
-	 * @param app
-	 *            the Spring application
-	 */
 	public static void addDefaultProfile(SpringApplication app) {
 		Properties defProperties = createDefaultProperties();
 
@@ -63,13 +57,6 @@ public final class DefaultProfileUtil {
 		app.setDefaultProperties(defProperties);
 	}
 
-	/**
-	 * Get the profiles that are applied else get default profiles.
-	 *
-	 * @param env
-	 *            spring environment
-	 * @return profiles
-	 */
 	public static String[] getActiveProfiles(Environment env) {
 		String[] profiles = env.getActiveProfiles();
 		if (profiles.length == 0) {

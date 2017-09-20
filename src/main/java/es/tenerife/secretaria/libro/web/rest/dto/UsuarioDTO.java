@@ -14,9 +14,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import es.tenerife.secretaria.libro.config.Constants;
 
-/**
- * A DTO representing a user, with his authorities.
- */
 public class UsuarioDTO {
 
 	private Long id;

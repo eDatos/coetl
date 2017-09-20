@@ -36,6 +36,7 @@ import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
+import es.tenerife.secretaria.libro.web.rest.errors.ErrorConstants;
 import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
 import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
 import es.tenerife.secretaria.libro.web.rest.util.PaginationUtil;
@@ -43,39 +44,13 @@ import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
 
-/**
- * REST controller for managing users.
- * <p>
- * This class accesses the User entity, and needs to fetch its collection of
- * authorities.
- * <p>
- * For a normal use-case, it would be better to have an eager relationship
- * between User and Authority, and send everything to the client side: there
- * would be no View Model and DTO, a lot less code, and an outer-join which
- * would be good for performance.
- * <p>
- * We use a View Model and a DTO for 3 reasons:
- * <ul>
- * <li>We want to keep a lazy association between the user and the authorities,
- * because people will quite often do relationships with the user, and we don't
- * want them to get the authorities all the time for nothing (for performance
- * reasons). This is the #1 goal: we should not impact our users' application
- * because of this use-case.</li>
- * <li>Not having an outer join causes n+1 requests to the database. This is not
- * a real issue as we have by default a second-level cache. This means on the
- * first HTTP call we do the n+1 requests, but then all authorities come from
- * the cache, so in fact it's much better than doing an outer join (which will
- * get lots of data from the database, for each HTTP call).</li>
- * <li>As this manages users, for security reasons, we'd rather have a DTO
- * layer.</li>
- * </ul>
- * <p>
- * Another option would be to have a specific JPA entity graph to handle this
- * case.
- */
 @RestController
 @RequestMapping("/api")
 public class UsuarioResource extends AbstractResource {
+
+	private static final String EMAIL_EXISTS = "emailexists";
+
+	private static final String USER_EXISTS = "userexists";
 
 	private final Logger log = LoggerFactory.getLogger(UsuarioResource.class);
 
@@ -104,40 +79,22 @@ public class UsuarioResource extends AbstractResource {
 		this.auditPublisher = auditPublisher;
 	}
 
-	/**
-	 * POST /usuarios : Creates a new user.
-	 * <p>
-	 * Creates a new user if the login and email are not already used, and sends an
-	 * mail with an activation link. The user needs to be activated on creation.
-	 *
-	 * @param managedUserVM
-	 *            the user to create
-	 * @return the ResponseEntity with status 201 (Created) and with body the new
-	 *         user, or with status 400 (Bad Request) if the login or email is
-	 *         already in use
-	 * @throws URISyntaxException
-	 *             if the Location URI syntax is incorrect
-	 */
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/usuarios")
 	@Timed
 	@PreAuthorize("hasPermission('USUARIO', 'CREAR')")
 	public ResponseEntity createUser(@Valid @RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
-		log.debug("REST request to save User : {}", managedUserVM);
+		log.debug("REST Petición para guardar User : {}", managedUserVM);
 
 		if (managedUserVM.getId() != null) {
-			return ResponseEntity.badRequest().headers(
-					HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new user cannot already have an ID"))
-					.body(null);
-			// Lowercase the user login before comparing with database
+			return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME,
+					ErrorConstants.ID_EXISTE, "Un usuario no puede tener ID")).body(null);
 		} else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
 			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use"))
-					.body(null);
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, USER_EXISTS, "Login ya en uso")).body(null);
 		} else if (userRepository.findOneByEmail(managedUserVM.getEmail()).isPresent()) {
 			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email already in use"))
-					.body(null);
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, EMAIL_EXISTS, "Email ya en uso")).body(null);
 		} else {
 			Usuario newUser = usuarioService.createUsuario(usuarioMapper.userDTOToUser(managedUserVM));
 			mailService.sendCreationEmail(newUser);
@@ -147,34 +104,22 @@ public class UsuarioResource extends AbstractResource {
 		}
 	}
 
-	/**
-	 * PUT /usuarios : Updates an existing User.
-	 *
-	 * @param managedUserVM
-	 *            the user to update
-	 * @return the ResponseEntity with status 200 (OK) and with body the updated
-	 *         user, or with status 400 (Bad Request) if the login or email is
-	 *         already in use, or with status 500 (Internal Server Error) if the
-	 *         user couldn't be updated
-	 */
 	@PutMapping("/usuarios")
 	@Timed
 	@PreAuthorize("hasPermission('USUARIO', 'EDITAR')")
 	public ResponseEntity<UsuarioDTO> updateUser(@Valid @RequestBody ManagedUserVM managedUserVM) {
-		log.debug("REST request to update User : {}", managedUserVM);
+		log.debug("REST petición para actualizar User : {}", managedUserVM);
 		Optional<Usuario> existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());
 		if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
 			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email already in use"))
-					.body(null);
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, EMAIL_EXISTS, "Email ya en uso")).body(null);
 		}
 		if (!existingUser.isPresent()) {
 			existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
 		}
 		if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
 			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login already in use"))
-					.body(null);
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, USER_EXISTS, "Login ya en uso")).body(null);
 		}
 		if (!existingUser.isPresent()) {
 			existingUser = Optional.ofNullable(userRepository.findOne(managedUserVM.getId()));
@@ -188,13 +133,6 @@ public class UsuarioResource extends AbstractResource {
 				HeaderUtil.createAlert("userManagement.updated", managedUserVM.getLogin()));
 	}
 
-	/**
-	 * GET /usuarios : get all users.
-	 *
-	 * @param pageable
-	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and with body all users
-	 */
 	@GetMapping("/usuarios")
 	@Timed
 	@PreAuthorize("hasPermission('USUARIO', 'LEER')")
@@ -206,20 +144,12 @@ public class UsuarioResource extends AbstractResource {
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
 
-	/**
-	 * GET /usuarios/:login : get the "login" user.
-	 *
-	 * @param login
-	 *            the login of the user to find
-	 * @return the ResponseEntity with status 200 (OK) and with body the "login"
-	 *         user, or with status 404 (Not Found)
-	 */
 	@GetMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
 	@Timed
 	@PreAuthorize("hasPermission('USUARIO', 'LEER')")
 	public ResponseEntity<UsuarioDTO> getUser(@PathVariable String login,
 			@ApiParam(required = false, defaultValue = "false") Boolean includeDeleted) {
-		log.debug("REST request to get User : {}", login);
+		log.debug("REST petición para obtener  User : {}", login);
 		return ResponseUtil.wrapOrNotFound(usuarioService.getUsuarioWithAuthoritiesByLogin(login, includeDeleted)
 				.map(usuarioMapper::userToUserDTO));
 	}
@@ -228,7 +158,7 @@ public class UsuarioResource extends AbstractResource {
 	@Timed
 	@PreAuthorize("hasPermission('USUARIO', 'LEER')")
 	public ResponseEntity<UsuarioDTO> getUserFromLdap(@PathVariable String login) {
-		log.debug("REST request to get User from LDAP : {}", login);
+		log.debug("REST petición para obtener  User from LDAP : {}", login);
 		UsuarioLdapEntry usuarioLdap = ldapService.buscarUsuarioLdap(login);
 		if (usuarioLdap == null) {
 			return ResponseEntity
@@ -240,13 +170,6 @@ public class UsuarioResource extends AbstractResource {
 		return ResponseEntity.ok().body(usuarioDTO);
 	}
 
-	/**
-	 * DELETE /usuarios/:login : delete the "login" User.
-	 *
-	 * @param login
-	 *            the login of the user to delete
-	 * @return the ResponseEntity with status 200 (OK)
-	 */
 	@DeleteMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
 	@Timed
 	@PreAuthorize("hasPermission('USUARIO', 'BORRAR')")
@@ -254,7 +177,7 @@ public class UsuarioResource extends AbstractResource {
 		log.debug("REST request to delete User: {}", login);
 		usuarioService.deleteUsuario(login);
 		auditPublisher.publish(AuditConstants.USUARIO_DESACTIVACION, login);
-		return ResponseEntity.ok().headers(HeaderUtil.createAlert("userManagement.deleted", login)).build();
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, login)).build();
 	}
 
 	@PutMapping("/usuarios/{login}/restore")
@@ -271,6 +194,6 @@ public class UsuarioResource extends AbstractResource {
 		Optional<UsuarioDTO> updatedUser = Optional.ofNullable(usuarioMapper.userToUserDTO(deletedUser.orElse(null)));
 
 		auditPublisher.publish(AuditConstants.USUARIO_ACTIVACION, login);
-		return ResponseUtil.wrapOrNotFound(updatedUser, HeaderUtil.createAlert("userManagement.updated", login));
+		return ResponseUtil.wrapOrNotFound(updatedUser, HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, login));
 	}
 }

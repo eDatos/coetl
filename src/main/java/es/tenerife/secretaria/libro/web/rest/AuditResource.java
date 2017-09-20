@@ -21,9 +21,6 @@ import es.tenerife.secretaria.libro.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
 
-/**
- * REST controller for getting the audit events.
- */
 @RestController
 @RequestMapping("/management/audits")
 public class AuditResource extends AbstractResource {
@@ -34,14 +31,6 @@ public class AuditResource extends AbstractResource {
 		this.auditEventService = auditEventService;
 	}
 
-	/**
-	 * GET /audits : get a page of AuditEvents.
-	 *
-	 * @param pageable
-	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and the list of AuditEvents
-	 *         in body
-	 */
 	@GetMapping
 	public ResponseEntity<List<AuditEvent>> getAll(@ApiParam Pageable pageable) {
 		Page<AuditEvent> page = auditEventService.findAll(pageable);
@@ -49,18 +38,6 @@ public class AuditResource extends AbstractResource {
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
 
-	/**
-	 * GET /audits : get a page of AuditEvents between the fromDate and toDate.
-	 *
-	 * @param fromDate
-	 *            the start of the time period of AuditEvents to get
-	 * @param toDate
-	 *            the end of the time period of AuditEvents to get
-	 * @param pageable
-	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and the list of AuditEvents
-	 *         in body
-	 */
 	@GetMapping(params = { "fromDate", "toDate" })
 	public ResponseEntity<List<AuditEvent>> getByDates(@RequestParam(value = "fromDate") LocalDate fromDate,
 			@RequestParam(value = "toDate") LocalDate toDate, @ApiParam Pageable pageable) {
@@ -71,14 +48,6 @@ public class AuditResource extends AbstractResource {
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
 
-	/**
-	 * GET /audits/:id : get an AuditEvent by id.
-	 *
-	 * @param id
-	 *            the id of the entity to get
-	 * @return the ResponseEntity with status 200 (OK) and the AuditEvent in body,
-	 *         or status 404 (Not Found)
-	 */
 	@GetMapping("/{id:.+}")
 	public ResponseEntity<AuditEvent> get(@PathVariable Long id) {
 		return ResponseUtil.wrapOrNotFound(auditEventService.find(id));

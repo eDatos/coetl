@@ -1,18 +1,22 @@
 package es.tenerife.secretaria.libro.config;
 
-import io.github.jhipster.config.JHipsterProperties;
-import io.github.jhipster.web.filter.CachingHttpHeadersFilter;
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.EnumSet;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.servlet.InstrumentedFilter;
-import com.codahale.metrics.servlets.MetricsServlet;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.*;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.boot.context.embedded.undertow.UndertowEmbeddedServletContainerFactory;
-import io.undertow.UndertowOptions;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,10 +25,13 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import java.io.File;
-import java.nio.file.Paths;
-import java.util.*;
-import javax.servlet.*;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.servlet.InstrumentedFilter;
+import com.codahale.metrics.servlets.MetricsServlet;
+
+import io.github.jhipster.config.JHipsterProperties;
+import io.github.jhipster.web.filter.CachingHttpHeadersFilter;
+import io.undertow.UndertowOptions;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
@@ -49,7 +56,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		if (env.getActiveProfiles().length != 0) {
-			log.info("Web application configuration, using profiles: {}", (Object[]) env.getActiveProfiles());
+			log.info("Configuración de aplicación usando perfiles: {}", (Object[]) env.getActiveProfiles());
 		}
 		EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD,
 				DispatcherType.ASYNC);
@@ -57,7 +64,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 		if (env.acceptsProfiles(Constants.SPRING_PROFILE_ENV)) {
 			initCachingHttpHeadersFilter(servletContext, disps);
 		}
-		log.info("Web application fully configured");
+		log.info("Aplicación web configurada");
 	}
 
 	/**
@@ -129,18 +136,18 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 	 * Initializes Metrics.
 	 */
 	private void initMetrics(ServletContext servletContext, EnumSet<DispatcherType> disps) {
-		log.debug("Initializing Metrics registries");
+		log.debug("Inicializando regitros de Metrics");
 		servletContext.setAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE, metricRegistry);
 		servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY, metricRegistry);
 
-		log.debug("Registering Metrics Filter");
+		log.debug("Registrando filtros de Metrics");
 		FilterRegistration.Dynamic metricsFilter = servletContext.addFilter("webappMetricsFilter",
 				new InstrumentedFilter());
 
 		metricsFilter.addMappingForUrlPatterns(disps, true, "/*");
 		metricsFilter.setAsyncSupported(true);
 
-		log.debug("Registering Metrics Servlet");
+		log.debug("Registrando Metrics Servlet");
 		ServletRegistration.Dynamic metricsAdminServlet = servletContext.addServlet("metricsServlet",
 				new MetricsServlet());
 
@@ -154,7 +161,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = jHipsterProperties.getCors();
 		if (config.getAllowedOrigins() != null && !config.getAllowedOrigins().isEmpty()) {
-			log.debug("Registering CORS filter");
+			log.debug("Registrando filtro CORS ");
 			source.registerCorsConfiguration("/api/**", config);
 			source.registerCorsConfiguration("/v2/api-docs", config);
 		}

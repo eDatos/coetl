@@ -3,9 +3,6 @@ package es.tenerife.secretaria.libro.web.rest.errors;
 import java.io.Serializable;
 import java.util.Map;
 
-/**
- * View Model for sending a parameterized error message.
- */
 public class ParameterizedErrorVM implements Serializable {
 
 	private static final long serialVersionUID = 1L;

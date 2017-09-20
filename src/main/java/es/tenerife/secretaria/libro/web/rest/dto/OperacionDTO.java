@@ -5,9 +5,6 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * A DTO for the Operacion entity.
- */
 public class OperacionDTO implements Serializable {
 
 	private static final long serialVersionUID = 5895492694533589512L;

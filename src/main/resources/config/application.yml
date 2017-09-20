@@ -50,7 +50,6 @@ spring:
             hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: false
-            hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.NoDefaultJCacheRegionFactory
     mail:
         host: FILL_HOST
         port: FILL_PORT
@@ -158,14 +157,6 @@ jhipster:
         base-url: http://my-server-url-to-change # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
-        graphite:
-            enabled: false
-            host: localhost
-            port: 2003
-            prefix: secretaria_libro
-        prometheus:
-            enabled: false
-            endpoint: /prometheusMetrics
         logs: # Reports Dropwizard metrics in the logs
             enabled: false
             report-frequency: 60 # in seconds

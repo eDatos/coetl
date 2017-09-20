@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import es.tenerife.secretaria.libro.config.DefaultProfileUtil;
 import io.github.jhipster.config.JHipsterProperties;
 
-/**
- * Resource to return information about the currently running Spring profiles.
- */
 @RestController
 @RequestMapping("/api")
 public class ProfileInfoResource extends AbstractResource {

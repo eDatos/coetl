@@ -29,6 +29,7 @@ import es.tenerife.secretaria.libro.config.audit.AuditEventPublisher;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.service.RolService;
 import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
+import es.tenerife.secretaria.libro.web.rest.errors.ErrorConstants;
 import es.tenerife.secretaria.libro.web.rest.mapper.RolMapper;
 import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
 import es.tenerife.secretaria.libro.web.rest.util.PaginationUtil;
@@ -58,7 +59,7 @@ public class RolResource extends AbstractResource {
 	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
 	public ResponseEntity<List<RolDTO>> getRoles(@ApiParam Pageable pageable) {
-		log.debug("REST request to get a page of Roles");
+		log.debug("REST petición para obtener una página de Roles");
 		Page<RolDTO> page = rolService.findAll(pageable).map(rolMapper::toDto);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/roles");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -68,7 +69,7 @@ public class RolResource extends AbstractResource {
 	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
 	public ResponseEntity<RolDTO> getRol(@PathVariable String codigo) {
-		log.debug("REST request to get Rol : {}", codigo);
+		log.debug("REST petición para obtener Rol : {}", codigo);
 		RolDTO rolDTO = rolMapper.toDto(rolService.findOne(codigo));
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rolDTO));
 	}
@@ -80,14 +81,14 @@ public class RolResource extends AbstractResource {
 		log.debug("REST request to create Rol {}", rolDTO);
 		Rol rol;
 		if (rolDTO.getCodigo() == null) {
-			return ResponseEntity.badRequest().headers(
-					HeaderUtil.createFailureAlert(ENTITY_NAME, "codigo-falta", "Un nuevo rol necesita un codigo"))
-					.body(null);
+			return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME,
+					ErrorConstants.CODIGO_FALTA, "Un nuevo rol necesita un codigo")).body(null);
 		}
 		rol = rolService.findOne(rolDTO.getCodigo());
 		if (rol != null) {
-			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "rol-existe", "El rol ya exsitía")).body(null);
+			return ResponseEntity.badRequest().headers(
+					HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_EXISTE, "El rol ya exsitía"))
+					.body(null);
 		}
 		rol = rolService.save(rolMapper.toEntity(rolDTO));
 		auditPublisher.publish(AuditConstants.ROL_CREACION, rolDTO.getCodigo());
@@ -99,15 +100,14 @@ public class RolResource extends AbstractResource {
 	@PreAuthorize("hasPermission('ROL', 'EDITAR')")
 	@Timed
 	public ResponseEntity<RolDTO> updateRol(@RequestBody RolDTO rolDTO) {
-		log.debug("REST request to update Rol {}", rolDTO);
+		log.debug("REST petición para actualizar Rol {}", rolDTO);
 		if (rolDTO.getCodigo() == null) {
-			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "codigo-falta", "Un rol necesita un codigo"))
-					.body(null);
+			return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME,
+					ErrorConstants.CODIGO_FALTA, "Un rol necesita un codigo")).body(null);
 		}
 		if (rolDTO.getId() == null) {
-			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "id-falta", "Se necesita un identificador"))
+			return ResponseEntity.badRequest().headers(
+					HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, "Se necesita un identificador"))
 					.body(null);
 		}
 		Rol rol = rolService.findOne(rolDTO.getId());
@@ -126,7 +126,7 @@ public class RolResource extends AbstractResource {
 	@Timed
 	@PreAuthorize("hasPermission('ROL', 'ELIMINAR')")
 	public ResponseEntity<RolDTO> deleteRol(@PathVariable String codigo) {
-		log.debug("REST request to get Rol : {}", codigo);
+		log.debug("REST petición para eliminar Rol : {}", codigo);
 		rolService.delete(codigo);
 		auditPublisher.publish(AuditConstants.ROL_BORRADO, codigo);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, codigo)).build();

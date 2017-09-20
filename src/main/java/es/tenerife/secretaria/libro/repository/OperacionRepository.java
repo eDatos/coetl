@@ -8,9 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import es.tenerife.secretaria.libro.domain.Operacion;
 
-/**
- * Spring Data JPA repository for the Operacion entity.
- */
 @SuppressWarnings("unused")
 @Repository
 public interface OperacionRepository extends JpaRepository<Operacion, Long> {

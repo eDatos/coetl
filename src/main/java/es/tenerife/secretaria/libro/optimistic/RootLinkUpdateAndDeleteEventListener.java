@@ -31,11 +31,15 @@ public class RootLinkUpdateAndDeleteEventListener implements FlushEntityEventLis
 			RootLink<?> rootLink = (RootLink<?>) entity;
 			if (updated(event)) {
 				Object root = rootLink.root();
-				LOGGER.debug("Incrementing {} entity version because a {} child entity has been updated", root, entity);
+				// LOGGER.debug("Incrementing {} entity version because a {} child entity has
+				// been updated", root, entity);
+				LOGGER.debug("Incrementando {} versión de la entidad debido a {} entidad hija ha sido actualizada ",
+						root, entity);
 				incrementRootVersion(event, root);
 			} else if (deleted(event)) {
 				Object root = rootLink.root();
-				LOGGER.debug("Incrementing {} entity version because a {} child entity has been deleted", root, entity);
+				LOGGER.debug("Incrementando {} versión de la entidad debido a {} entidad hija ha sido borrada", root,
+						entity);
 				incrementRootVersion(event, root);
 			}
 		}

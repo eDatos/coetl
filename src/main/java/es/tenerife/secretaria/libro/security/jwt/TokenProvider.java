@@ -1,9 +1,10 @@
 package es.tenerife.secretaria.libro.security.jwt;
 
-import io.github.jhipster.config.JHipsterProperties;
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.stream.Collectors;
+
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -15,7 +16,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.*;
+import io.github.jhipster.config.JHipsterProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class TokenProvider {
@@ -79,20 +87,20 @@ public class TokenProvider {
 			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
 			return true;
 		} catch (SignatureException e) {
-			log.info("Invalid JWT signature.");
-			log.trace("Invalid JWT signature trace: {}", e);
+			log.info("JWT: Firma no válida.");
+			log.trace("JWT: Firma no válida traza: {}", e);
 		} catch (MalformedJwtException e) {
-			log.info("Invalid JWT token.");
-			log.trace("Invalid JWT token trace: {}", e);
+			log.info("JWT: Token no valido.");
+			log.trace("JWT: Token no valido trace: {}", e);
 		} catch (ExpiredJwtException e) {
-			log.info("Expired JWT token.");
-			log.trace("Expired JWT token trace: {}", e);
+			log.info("JWT: Token expirado.");
+			log.trace("JWT: Token expirado trace: {}", e);
 		} catch (UnsupportedJwtException e) {
-			log.info("Unsupported JWT token.");
-			log.trace("Unsupported JWT token trace: {}", e);
+			log.info("JWT: Token no soportado.");
+			log.trace("JWT: Token no soportado trace: {}", e);
 		} catch (IllegalArgumentException e) {
-			log.info("JWT token compact of handler are invalid.");
-			log.trace("JWT token compact of handler are invalid trace: {}", e);
+			log.info("JWT: token del handler no es válido.");
+			log.trace("JWT: token del handler no es válido trace: {}", e);
 		}
 		return false;
 	}

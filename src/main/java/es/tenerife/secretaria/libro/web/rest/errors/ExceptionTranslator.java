@@ -14,7 +14,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly
@@ -69,9 +72,9 @@ public class ExceptionTranslator {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorVM> processException(Exception ex) {
 		if (log.isDebugEnabled()) {
-			log.debug("An unexpected error occurred: {}", ex.getMessage(), ex);
+			log.debug("Error inesperado: {}", ex.getMessage(), ex);
 		} else {
-			log.error("An unexpected error occurred: {}", ex.getMessage());
+			log.error("Error inesperado: {}", ex.getMessage());
 		}
 		BodyBuilder builder;
 		ErrorVM errorVM;

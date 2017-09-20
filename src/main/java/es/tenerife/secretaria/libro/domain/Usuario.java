@@ -31,9 +31,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import es.tenerife.secretaria.libro.config.Constants;
 import es.tenerife.secretaria.libro.optimistic.AbstractVersionedAndAuditingEntity;
 
-/**
- * A user.
- */
 @Entity
 @Table(name = "usuario")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

@@ -13,12 +13,6 @@ import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 import es.tenerife.secretaria.libro.web.rest.vm.ManagedUserVM;
 
-/**
- * Mapper for the entity User and its DTO called UserDTO.
- *
- * Normal mappers are generated using MapStruct, this one is hand-coded as
- * MapStruct support is still in beta, and requires a manual step with an IDE.
- */
 @Service
 public class UsuarioMapper {
 

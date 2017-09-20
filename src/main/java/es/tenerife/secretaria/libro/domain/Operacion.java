@@ -25,9 +25,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import es.tenerife.secretaria.libro.optimistic.AbstractVersionedEntity;
 
-/**
- * A Operacion.
- */
 @Entity
 @Table(name = "operacion")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

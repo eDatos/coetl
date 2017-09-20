@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 import io.github.jhipster.config.JHipsterProperties;
 
+/// Desactivado para evitar el uso de cache 
 //@Configuration
 //@EnableCaching
 //@AutoConfigureAfter(value = { MetricsConfiguration.class })

@@ -36,7 +36,7 @@ public class QueryUtil {
 
 	private DetachedCriteria queryToCriteria(String query, AbstractCriteriaProcessor processor) {
 		QueryRequest queryRequest = null;
-		logger.debug("Request to map query: {}", query);
+		logger.debug("Petición para mapear query: {}", query);
 		if (StringUtils.isNotBlank(query)) {
 			DefaultQueryExprVisitor visitor = new DefaultQueryExprVisitor();
 			queryExprCompiler.parse(query, visitor);

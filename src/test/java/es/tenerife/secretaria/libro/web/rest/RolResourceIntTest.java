@@ -35,7 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
 import es.tenerife.secretaria.libro.SecretariaLibroApp;
 import es.tenerife.secretaria.libro.domain.Operacion;
 import es.tenerife.secretaria.libro.domain.Rol;
-import es.tenerife.secretaria.libro.domain.enums.TipoAccionOperacion;
+import es.tenerife.secretaria.libro.domain.enumeration.TipoAccionOperacion;
 import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.service.OperacionService;
 import es.tenerife.secretaria.libro.service.RolService;

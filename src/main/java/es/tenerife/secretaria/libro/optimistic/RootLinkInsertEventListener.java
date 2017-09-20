@@ -31,8 +31,8 @@ public class RootLinkInsertEventListener implements PersistEventListener {
 			if (LOGGER.isDebugEnabled() && root instanceof VersionedEntity) {
 				Long version = ((VersionedEntity) root).getOptLock();
 				if (version != null && version > 0) {
-					LOGGER.debug("Incrementing {} entity version because a {} child entity has been inserted", root,
-							entity);
+					LOGGER.debug("Incrementando {} versión de la entidad debido a {} entidad hija ha sido insertada",
+							root, entity);
 				}
 			}
 		}

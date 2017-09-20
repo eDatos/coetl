@@ -26,9 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import es.tenerife.secretaria.libro.optimistic.AbstractVersionedEntity;
 import es.tenerife.secretaria.libro.optimistic.OptLockId;
 
-/**
- * An authority (a security role) used by Spring Security.
- */
 @Entity
 @Table(name = "rol")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -114,7 +111,7 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Authority{" + "name='" + nombre + '\'' + "}";
+		return "Authority{" + "codigo='" + codigo + '\'' + "nombre='" + nombre + '\'' + "}";
 	}
 
 }

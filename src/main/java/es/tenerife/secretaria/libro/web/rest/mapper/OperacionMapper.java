@@ -8,9 +8,6 @@ import es.tenerife.secretaria.libro.repository.OperacionRepository;
 import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.web.rest.dto.OperacionDTO;
 
-/**
- * Mapper for the entity Operacion and its DTO OperacionDTO.
- */
 @Mapper(componentModel = "spring", uses = { RolMapper.class })
 public abstract class OperacionMapper implements EntityMapper<OperacionDTO, Operacion> {
 

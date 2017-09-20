@@ -5,19 +5,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-/**
- * Utility class for Spring Security.
- */
 public final class SecurityUtils {
 
 	private SecurityUtils() {
 	}
 
-	/**
-	 * Get the login of the current user.
-	 *
-	 * @return the login of the current user
-	 */
 	public static String getCurrentUserLogin() {
 		SecurityContext securityContext = SecurityContextHolder.getContext();
 		Authentication authentication = securityContext.getAuthentication();
@@ -33,11 +25,6 @@ public final class SecurityUtils {
 		return userName;
 	}
 
-	/**
-	 * Get the JWT of the current user.
-	 *
-	 * @return the JWT of the current user
-	 */
 	public static String getCurrentUserJWT() {
 		SecurityContext securityContext = SecurityContextHolder.getContext();
 		Authentication authentication = securityContext.getAuthentication();
@@ -47,11 +34,6 @@ public final class SecurityUtils {
 		return null;
 	}
 
-	/**
-	 * Check if a user is authenticated.
-	 *
-	 * @return true if the user is authenticated, false otherwise
-	 */
 	public static boolean isAuthenticated() {
 		SecurityContext securityContext = SecurityContextHolder.getContext();
 		Authentication authentication = securityContext.getAuthentication();

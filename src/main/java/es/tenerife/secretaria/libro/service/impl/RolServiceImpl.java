@@ -1,3 +1,4 @@
+
 package es.tenerife.secretaria.libro.service.impl;
 
 import java.util.Set;
@@ -18,7 +19,7 @@ import es.tenerife.secretaria.libro.web.rest.errors.CustomParameterizedException
 public class RolServiceImpl implements RolService {
 
 	private RolRepository rolRepository;
-	
+
 	private UsuarioRepository usuarioRepository;
 
 	private final Logger log = LoggerFactory.getLogger(RolServiceImpl.class);
@@ -30,13 +31,13 @@ public class RolServiceImpl implements RolService {
 
 	@Override
 	public Rol save(Rol rol) {
-		log.debug("Request to save rol {}", rol);
+		log.debug("Petición para guardar rol {}", rol);
 		return rolRepository.save(rol);
 	}
 
 	@Override
 	public Page<Rol> findAll(Pageable pageable) {
-		log.debug("Request to find roles");
+		log.debug("Petición para buscar roles");
 		return rolRepository.findAll(pageable);
 	}
 
