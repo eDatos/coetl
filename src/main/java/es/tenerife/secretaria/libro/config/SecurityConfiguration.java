@@ -101,7 +101,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		try {
 			authenticationManagerBuilder.authenticationProvider(casAuthenticationProvider());
 		} catch (Exception e) {
-			throw new BeanInitializationException("Security configuration failed", e);
+			throw new BeanInitializationException("Configuración de seguridad fallida", e);
 		}
 	}
 

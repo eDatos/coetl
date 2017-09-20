@@ -27,9 +27,9 @@ public class CustomParameterizedException extends RuntimeException {
 
 	private final Map<String, String> paramMap = new HashMap<>();
 
-	public CustomParameterizedException(String message, String... params) {
-		super(message);
-		this.message = message;
+	public CustomParameterizedException(String code, String... params) {
+		super(code);
+		this.message = code;
 		if (params != null && params.length > 0) {
 			for (int i = 0; i < params.length; i++) {
 				paramMap.put(PARAM + i, params[i]);
@@ -37,9 +37,9 @@ public class CustomParameterizedException extends RuntimeException {
 		}
 	}
 
-	public CustomParameterizedException(String message, Map<String, String> paramMap) {
-		super(message);
-		this.message = message;
+	public CustomParameterizedException(String code, Map<String, String> paramMap) {
+		super(code);
+		this.message = code;
 		this.paramMap.putAll(paramMap);
 	}
 

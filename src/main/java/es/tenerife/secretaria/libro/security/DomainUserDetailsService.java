@@ -41,12 +41,12 @@ public class DomainUserDetailsService implements UserDetailsService {
 				.findOneWithRolesByLoginAndDeletionDateIsNull(lowercaseLogin);
 		return userFromDatabase.map(user -> {
 			if (!user.getActivado()) {
-				throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
+				throw new UserNotActivatedException("Usuario " + lowercaseLogin + " no estaba activado");
 			}
 			List<GrantedAuthority> grantedAuthorities = user.getRoles().stream()
 					.map(authority -> new SimpleGrantedAuthority(authority.getCodigo())).collect(Collectors.toList());
 			return new org.springframework.security.core.userdetails.User(lowercaseLogin, "", grantedAuthorities);
-		}).orElseThrow(
-				() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " + "database"));
+		}).orElseThrow(() -> new UsernameNotFoundException(
+				"Usuario " + lowercaseLogin + " no encontrado en la " + "database"));
 	}
 }

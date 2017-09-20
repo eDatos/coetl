@@ -13,9 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import es.tenerife.secretaria.libro.domain.Usuario;
 
-/**
- * Spring Data JPA repository for the User entity.
- */
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
@@ -48,6 +45,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	Usuario findOneByIdAndDeletionDateIsNull(Long id);
 
 	Page<Usuario> findAll(DetachedCriteria criteria, Pageable pageable);
-	
+
 	List<Usuario> findAllByRolesCodigo(String nombre);
 }

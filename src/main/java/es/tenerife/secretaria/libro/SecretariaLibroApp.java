@@ -55,14 +55,6 @@ public class SecretariaLibroApp {
 		}
 	}
 
-	/**
-	 * Main method, used to run the application.
-	 *
-	 * @param args
-	 *            the command line arguments
-	 * @throws UnknownHostException
-	 *             if the local host name could not be resolved into an address
-	 */
 	public static void main(String[] args) throws UnknownHostException {
 		SpringApplication app = new SpringApplication(SecretariaLibroApp.class);
 		DefaultProfileUtil.addDefaultProfile(app);
@@ -73,9 +65,9 @@ public class SecretariaLibroApp {
 		}
 		log.info(
 				"\n----------------------------------------------------------\n\t"
-						+ "Application '{}' is running! Access URLs:\n\t" + "Local: \t\t{}://localhost:{}\n\t"
-						+ "External: \t{}://{}:{}\n\t"
-						+ "Profile(s): \t{}\n----------------------------------------------------------",
+						+ "La aplicación '{}' se ha lanzaso! URLs:\n\t" + "Local: \t\t{}://localhost:{}\n\t"
+						+ "Externa: \t{}://{}:{}\n\t"
+						+ "Perfiles(s): \t{}\n----------------------------------------------------------",
 				env.getProperty("spring.application.name"), protocol, env.getProperty("server.port"), protocol,
 				InetAddress.getLocalHost().getHostAddress(), env.getProperty("server.port"), env.getActiveProfiles());
 	}

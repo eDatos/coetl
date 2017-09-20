@@ -7,7 +7,6 @@ import org.springframework.ldap.query.LdapQuery;
 import org.springframework.ldap.query.LdapQueryBuilder;
 import org.springframework.stereotype.Service;
 
-import es.tenerife.secretaria.libro.config.ApplicationProperties;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
 import es.tenerife.secretaria.libro.repository.UsuarioLdapRepository;
 import es.tenerife.secretaria.libro.service.LdapService;
@@ -17,9 +16,6 @@ import es.tenerife.secretaria.libro.service.LdapService;
 public class LdapServiceImpl implements LdapService {
 
 	private static final String WHERE_FILTER_UID = "uid";
-
-	@Autowired
-	private ApplicationProperties applicationProperties;
 
 	@Autowired
 	private UsuarioLdapRepository usuarioLdapRepository;

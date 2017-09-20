@@ -1,16 +1,14 @@
 package es.tenerife.secretaria.libro.repository;
 
-import es.tenerife.secretaria.libro.domain.PersistentAuditEvent;
+import java.time.Instant;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.Instant;
-import java.util.List;
+import es.tenerife.secretaria.libro.domain.PersistentAuditEvent;
 
-/**
- * Spring Data JPA repository for the PersistentAuditEvent entity.
- */
 public interface PersistenceAuditEventRepository extends JpaRepository<PersistentAuditEvent, Long> {
 
 	List<PersistentAuditEvent> findByPrincipal(String principal);

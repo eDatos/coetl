@@ -58,7 +58,7 @@ public class RolResource extends AbstractResource {
 	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
 	public ResponseEntity<List<RolDTO>> getRoles(@ApiParam Pageable pageable) {
-		log.debug("REST request to get a page of Roles");
+		log.debug("REST petición para obtener una página de Roles");
 		Page<RolDTO> page = rolService.findAll(pageable).map(rolMapper::toDto);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/roles");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -68,7 +68,7 @@ public class RolResource extends AbstractResource {
 	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
 	public ResponseEntity<RolDTO> getRol(@PathVariable String codigo) {
-		log.debug("REST request to get Rol : {}", codigo);
+		log.debug("REST petición para obtener Rol : {}", codigo);
 		RolDTO rolDTO = rolMapper.toDto(rolService.findOne(codigo));
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rolDTO));
 	}
@@ -99,7 +99,7 @@ public class RolResource extends AbstractResource {
 	@PreAuthorize("hasPermission('ROL', 'EDITAR')")
 	@Timed
 	public ResponseEntity<RolDTO> updateRol(@RequestBody RolDTO rolDTO) {
-		log.debug("REST request to update Rol {}", rolDTO);
+		log.debug("REST petición para actualizar Rol {}", rolDTO);
 		if (rolDTO.getCodigo() == null) {
 			return ResponseEntity.badRequest()
 					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "codigo-falta", "Un rol necesita un codigo"))
@@ -126,7 +126,7 @@ public class RolResource extends AbstractResource {
 	@Timed
 	@PreAuthorize("hasPermission('ROL', 'ELIMINAR')")
 	public ResponseEntity<RolDTO> deleteRol(@PathVariable String codigo) {
-		log.debug("REST request to get Rol : {}", codigo);
+		log.debug("REST petición para eliminar Rol : {}", codigo);
 		rolService.delete(codigo);
 		auditPublisher.publish(AuditConstants.ROL_BORRADO, codigo);
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, codigo)).build();

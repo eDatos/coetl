@@ -25,9 +25,6 @@ import es.tenerife.secretaria.libro.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
 
-/**
- * REST controller for managing Operacion.
- */
 @RestController
 @RequestMapping("/api")
 public class OperacionResource extends AbstractResource {
@@ -43,38 +40,22 @@ public class OperacionResource extends AbstractResource {
 		this.operacionMapper = operacionMapper;
 	}
 
-	/**
-	 * GET /operaciones : get all the operaciones.
-	 *
-	 * @param pageable
-	 *            the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and the list of operaciones
-	 *         in body
-	 */
 	@GetMapping("/operaciones")
 	@Timed
 	@PreAuthorize("hasPermission('OPERACION', 'LEER')")
 	public ResponseEntity<List<OperacionDTO>> getAllOperacions(@ApiParam Pageable pageable,
 			@ApiParam(defaultValue = "") String query) {
-		log.debug("REST request to get a page of Operacions");
+		log.debug("REST petición para obtener una página de Operacions");
 		Page<OperacionDTO> page = operacionService.findAll(pageable, query).map(operacionMapper::toDto);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operaciones");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
 
-	/**
-	 * GET /operaciones/:id : get the "id" operacion.
-	 *
-	 * @param id
-	 *            the id of the operacionDTO to retrieve
-	 * @return the ResponseEntity with status 200 (OK) and with body the
-	 *         operacionDTO, or with status 404 (Not Found)
-	 */
 	@GetMapping("/operaciones/{id}")
 	@Timed
 	@PreAuthorize("hasPermission('OPERACION', 'LEER')")
 	public ResponseEntity<OperacionDTO> getOperacion(@PathVariable Long id) {
-		log.debug("REST request to get Operacion : {}", id);
+		log.debug("REST petición para obtener  Operacion : {}", id);
 		OperacionDTO operacionDTO = operacionMapper.toDto(operacionService.findOne(id));
 		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(operacionDTO));
 	}

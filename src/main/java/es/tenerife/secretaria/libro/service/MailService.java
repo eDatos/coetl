@@ -52,7 +52,7 @@ public class MailService {
 
 	@Async
 	public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
-		log.debug("Send email[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}", isMultipart,
+		log.debug("Enviar email [multipart '{}' y html '{}'] a '{}' con asunto '{}' y contenido={}", isMultipart,
 				isHtml, to, subject, content);
 
 		// Prepare message using a Spring helper
@@ -64,12 +64,12 @@ public class MailService {
 			message.setSubject(subject);
 			message.setText(content, isHtml);
 			javaMailSender.send(mimeMessage);
-			log.debug("Sent email to User '{}'", to);
+			log.debug("Correo enviado al usuario '{}'", to);
 		} catch (Exception e) {
 			if (log.isDebugEnabled()) {
-				log.warn("Email could not be sent to user '{}'", to, e);
+				log.warn("Email no pudo ser enviado al usuario '{}'", to, e);
 			} else {
-				log.warn("Email could not be sent to user '{}': {}", to, e.getMessage());
+				log.warn("Email no pudo ser enviado al usuario '{}': {}", to, e.getMessage());
 			}
 		}
 	}
@@ -87,12 +87,14 @@ public class MailService {
 	}
 
 	@Async
+	// TODO SECRETARIA-62 Eliminar si no se usa
 	public void sendActivationEmail(Usuario user) {
 		log.debug("Sending activation email to '{}'", user.getEmail());
 		sendEmailFromTemplate(user, "activationEmail", "email.activation.title");
 	}
 
 	@Async
+	// TODO SECRETARIA-62 Eliminar si no se usa
 	public void sendCreationEmail(Usuario user) {
 		log.debug("Sending creation email to '{}'", user.getEmail());
 		sendEmailFromTemplate(user, "creationEmail", "email.activation.title");

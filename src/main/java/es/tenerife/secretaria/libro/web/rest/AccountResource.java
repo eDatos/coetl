@@ -25,9 +25,6 @@ import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
 import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
 
-/**
- * REST controller for managing the current user's account.
- */
 @RestController
 @RequestMapping("/api")
 public class AccountResource extends AbstractResource {
@@ -47,27 +44,13 @@ public class AccountResource extends AbstractResource {
 		this.usuarioMapper = usuarioMapper;
 	}
 
-	/**
-	 * GET /authenticate : check if the user is authenticated, and return its login.
-	 *
-	 * @param request
-	 *            the HTTP request
-	 * @return the login if the user is authenticated
-	 */
 	@GetMapping("/authenticate")
 	@Timed
 	public String isAuthenticated(HttpServletRequest request) {
-		log.debug("REST request to check if the current user is authenticated");
+		log.debug("REST petición para comprobar si el usuario actual está autenticado");
 		return request.getRemoteUser();
 	}
 
-	/**
-	 * GET /account : get the current user.
-	 *
-	 * @return the ResponseEntity with status 200 (OK) and the current user in body,
-	 *         or status 500 (Internal Server Error) if the user couldn't be
-	 *         returned
-	 */
 	@GetMapping("/account")
 	@Timed
 	public ResponseEntity<UsuarioDTO> getAccount() {
@@ -76,14 +59,6 @@ public class AccountResource extends AbstractResource {
 				.orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
 	}
 
-	/**
-	 * POST /account : update the current user information.
-	 *
-	 * @param userDTO
-	 *            the current user information
-	 * @return the ResponseEntity with status 200 (OK), or status 400 (Bad Request)
-	 *         or 500 (Internal Server Error) if the user couldn't be updated
-	 */
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/account")
 	@Timed

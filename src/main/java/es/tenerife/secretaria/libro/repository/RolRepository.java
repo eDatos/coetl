@@ -10,9 +10,6 @@ import org.springframework.data.jpa.repository.QueryHints;
 
 import es.tenerife.secretaria.libro.domain.Rol;
 
-/**
- * Spring Data JPA repository for the Authority entity.
- */
 public interface RolRepository extends JpaRepository<Rol, Long> {
 
 	@QueryHints(value = { @QueryHint(name = org.hibernate.annotations.QueryHints.FLUSH_MODE, value = "MANUAL") })

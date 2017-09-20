@@ -13,9 +13,6 @@ import es.tenerife.secretaria.libro.repository.OperacionRepository;
 import es.tenerife.secretaria.libro.service.OperacionService;
 import es.tenerife.secretaria.libro.web.rest.util.QueryUtil;
 
-/**
- * Service Implementation for managing Operacion.
- */
 @Service
 public class OperacionServiceImpl implements OperacionService {
 
@@ -30,38 +27,24 @@ public class OperacionServiceImpl implements OperacionService {
 		this.queryUtil = queryUtil;
 	}
 
-	/**
-	 * Get all the operacions.
-	 *
-	 * @param pageable
-	 *            the pagination information
-	 * @return the list of entities
-	 */
 	@Override
 	@Transactional(readOnly = true)
 	public Page<Operacion> findAll(Pageable pageable, String query) {
-		log.debug("Request to get all Operacions");
+		log.debug("Petición para obtener todas las Operaciones");
 		DetachedCriteria criteria = queryUtil.queryToOperacionCriteria(query);
 		return operacionRepository.findAll(criteria, pageable);
 	}
 
-	/**
-	 * Get one operacion by id.
-	 *
-	 * @param id
-	 *            the id of the entity
-	 * @return the entity
-	 */
 	@Override
 	@Transactional(readOnly = true)
 	public Operacion findOne(Long id) {
-		log.debug("Request to get Operacion : {}", id);
+		log.debug("Petición para obtener Operacion : {}", id);
 		return operacionRepository.findOne(id);
 	}
 
 	@Override
 	public Operacion findBySujetoAndAccion(String sujeto, String accion) {
-		log.debug("Request to get Operacion : {}, {}", sujeto, accion);
+		log.debug("Petición para obtener Operacion : {}, {}", sujeto, accion);
 		return operacionRepository.findBySujetoAndAccion(sujeto, accion);
 
 	}
