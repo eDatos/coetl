@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate } from '@angular/router';
 
-import { UserRouteAccessService } from '../../shared';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { OperacionComponent } from './operacion.component';
 import { OperacionDialogComponent } from './operacion-dialog.component';
+import { UserRouteAccessService } from '../../shared/auth/user-route-access-service';
 
 @Injectable()
 export class OperacionResolvePagingParams implements Resolve<any> {
