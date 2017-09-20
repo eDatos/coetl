@@ -6,6 +6,7 @@
             <button *ngIf="!isEditMode()" type="button" routerLink="/user-management" class="btn btn-secondary btn-frameless" [attr.aria-label]="'entity.action.back' | translate">
                         <span class="fa fa-arrow-left"></span>
                     </button>
+            <i class="fa fa-fw fa-user" aria-hidden="true"></i>
             <span *ngIf="!user.id" jhiTranslate="userManagement.home.createLabel">Create a User</span>
             <span *ngIf="user.id">{{user.login}}</span>
         </div>
