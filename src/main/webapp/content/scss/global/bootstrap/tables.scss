@@ -6,8 +6,8 @@
     .table-responsive {
         width: inherit;
         min-width: 100%;
-        margin-left: -$grid-gutter-width-base / 2;
-        margin-right: -$grid-gutter-width-base / 2;
+        margin-left: -$page-padding;
+        margin-right: -$page-padding;
         margin-bottom: $spacer-y;
         overflow-x: unset;
         
@@ -24,10 +24,10 @@
         
         tr {
             td:first-child, th:first-child {
-                padding-left: $grid-gutter-width-base / 2;
+                padding-left: $page-padding;
             }
             td:last-child, th:last-child {
-                padding-right: $grid-gutter-width-base / 2;
+                padding-right: $page-padding;
             }
             cursor: pointer;
         }

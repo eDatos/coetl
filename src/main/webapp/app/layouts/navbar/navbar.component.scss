@@ -66,7 +66,7 @@ Navbar
         align-items: unset;
     }
     .nav-link {    
-        padding-right: 1.5em;
+        padding-right: $page-padding;
         padding-left: 1em;
         display: inline-block;
     }
@@ -77,14 +77,10 @@ Logo styles
 ========================================================================== */
 .navbar-brand {
     &.logo {
-        padding: $navbar-padding-y 15px;
+        padding: $navbar-padding-y $page-padding;
         .logo-img {
             height: $navbar-height;
-            width: 70px;
-            display: inline-block;
-            vertical-align: middle;
-            background: url("../../../content/images/logo-cabildo.png") no-repeat center center;
-            background-size: contain;
+            margin-right: $grid-gutter-width-base / 2;
         }
     }
 }

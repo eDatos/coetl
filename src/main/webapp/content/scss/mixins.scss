@@ -6,3 +6,28 @@
     -moz-appearance: $appearance; /* Firefox */
     -webkit-appearance: $appearance; /* Safari and Chrome */
 }
+
+@mixin make-narrowed-container($gutters: $grid-gutter-widths) {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+  
+    @each $breakpoint in map-keys($gutters) {
+        @include media-breakpoint-up($breakpoint) {
+            padding-right: $page-padding;
+            padding-left: $page-padding;
+        }
+    }
+}
+
+@mixin make-narrowed-row($gutters: $grid-gutter-widths) {
+    display: flex;
+    flex-wrap: wrap;
+  
+    @each $breakpoint in map-keys($gutters) {
+      @include media-breakpoint-up($breakpoint) {
+        margin-right: -$page-padding;
+        margin-left:  -$page-padding;
+      }
+    }
+  }

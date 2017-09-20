@@ -17,7 +17,7 @@ h2 {
 
     background: $grey-lightest;        
     
-    @include make-container();
+    @include make-narrowed-container();
     html & {
         @extend .fixed-top;
         z-index: $zindex-fixed-navs;
@@ -32,7 +32,6 @@ h3 {
 }
 
 fieldset {
-    @include make-container();
     .entity-fields {    
         padding-top: $spacer-y;
         @include make-row();
@@ -46,7 +45,8 @@ fieldset {
             align-items: baseline;      
             label {
                 @include make-col-ready();
-                @include make-col(4);   
+                @include make-col(4);  
+                padding-left: 0 !important; 
             }
             .form-control {
                 @include make-col-ready();
@@ -104,6 +104,7 @@ fieldset {
             dt {
                 @include make-col-ready();
                 @include make-col(4);  
+                padding-left: 0 !important; 
             }
             dd {
                 @include make-col-ready();
@@ -161,9 +162,10 @@ $entity-search-field-btn-width: 200px;
         top: $entity-header-height + $navbar-full-height;  
         width: 100%;
         padding-right: $entity-search-field-btn-width;
+        padding-left: $page-padding - $grid-gutter-width-base / 2;
         z-index: $zindex-fixed-navs;
 
-        @include make-row();
+        @include make-narrowed-row();
         .entity-search-field {        
             @include make-col-ready();
             @include make-col(3);
@@ -175,9 +177,11 @@ $entity-search-field-btn-width: 200px;
         }
         .entity-search-field-btn {
             position: absolute;
-            right: -50px;
+            right: 0;
             bottom: $form-group-margin-bottom;
             width: $entity-search-field-btn-width;
+            text-align: right;
+            margin-right: $page-padding;
         }
     }
 
@@ -191,3 +195,7 @@ $entity-search-field-btn-width: 200px;
             width: 200px;
         }
     }
+
+.container-fluid {
+    @include make-narrowed-container();
+}
