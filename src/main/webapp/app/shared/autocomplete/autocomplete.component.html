@@ -1,11 +1,11 @@
 <p-autoComplete [multiple]="multiple" [(ngModel)]="selectedSuggestions" [suggestions]="filteredSuggestions" (completeMethod)="onCompleteMethod($event)"
     [dropdown]="!debouncedMode" (onDropdownClick)="handleDropdownSuggestions($event)" (onFocus)="handleOnFocusSuggestions($event)"
-    (onBlur)="handleOnFocusOutSuggestions($event)" [minLength]="minLength" [emptyMessage]="emptyMessage" forceSelection="true"
+    (onBlur)="handleOnFocusOutSuggestions($event)" [minLength]="minLength" [emptyMessage]="emptyMessage" [forceSelection]="!multiple"
     [field]="field">
     <ng-template let-item pTemplate="item">
-        {{itemTemplate(item)}}
+        {{internalItemTemplate(item)}}
     </ng-template>
     <ng-template let-item pTemplate="selectedItem">
-        {{itemTemplate(item)}}
+        {{internalItemTemplate(item)}}
     </ng-template>
 </p-autoComplete>

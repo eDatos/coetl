@@ -5,6 +5,11 @@
         <input class="form-control" [attr.aria-label]="'userManagement.filters.name.placeholder' | translate" placeholder="{{'userManagement.filters.name.placeholder' | translate}}"
             [(ngModel)]="filters.name" (keyup)="filter()" />
     </div>
+    <div class="entity-search-field">
+        <label jhiTranslate="userManagement.filters.rol.label">Filtrar</label>
+        <input class="form-control" [attr.aria-label]="'userManagement.filters.rol.placeholder' | translate" placeholder="{{'userManagement.filters.rol.placeholder' | translate}}"
+            [(ngModel)]="filters.rol" (keyup)="filter()" />
+    </div>
 
     <div class="entity-search-field">
         <label jhiTranslate="userManagement.home.includeDeleted">Include deleted</label>

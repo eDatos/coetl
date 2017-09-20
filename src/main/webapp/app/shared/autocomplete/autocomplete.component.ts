@@ -22,7 +22,7 @@ export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 // Sample where array is static and is filtered via properties
 // <ac-autocomplete name="operacion" [propertiesToQuery]="['accion', 'sujeto']" [debouncedMode]="false" [(ngModel)]="rol.operaciones"
 // [suggestions]="operaciones" [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
-export class AutocompleteComponent implements ControlValueAccessor {
+export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
     @Input()
     private propertiesToQuery: string[];
@@ -54,7 +54,9 @@ export class AutocompleteComponent implements ControlValueAccessor {
     public multiple = true;
 
     @Input()
-    public field: string;
+    public field: string = null;
+
+    public internalItemTemplate: Function;
 
     private onModelChange: Function = () => { };
 
@@ -69,6 +71,10 @@ export class AutocompleteComponent implements ControlValueAccessor {
     };
 
     constructor(private translateService: TranslateService) { }
+
+    ngOnInit() {
+        this.internalItemTemplate = this.itemTemplate;
+    }
 
     onCompleteMethod($event) {
         this.completeMethod.emit($event);

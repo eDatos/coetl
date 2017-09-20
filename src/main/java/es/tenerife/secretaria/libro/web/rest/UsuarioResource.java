@@ -2,13 +2,11 @@ package es.tenerife.secretaria.libro.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -37,8 +35,6 @@ import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
-import es.tenerife.secretaria.libro.service.criteria.UsuarioCriteriaProcessor;
-import es.tenerife.secretaria.libro.service.criteria.UsuarioCriteriaProcessor.QueryProperty;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
 import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
 import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
@@ -204,8 +200,7 @@ public class UsuarioResource extends AbstractResource {
 	@PreAuthorize("hasPermission('USUARIO', 'LEER')")
 	public ResponseEntity<List<UsuarioDTO>> getAllUsers(@ApiParam Pageable pageable,
 			@ApiParam(defaultValue = "false") Boolean includeDeleted, @ApiParam(required = false) String query) {
-		String queryString = buildUserQueryFromSearch(query);
-		final Page<UsuarioDTO> page = usuarioService.getAllUsuarios(pageable, includeDeleted, queryString)
+		final Page<UsuarioDTO> page = usuarioService.getAllUsuarios(pageable, includeDeleted, query)
 				.map(usuarioMapper::userToUserDTO);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/usuarios");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
@@ -277,22 +272,5 @@ public class UsuarioResource extends AbstractResource {
 
 		auditPublisher.publish(AuditConstants.USUARIO_ACTIVACION, login);
 		return ResponseUtil.wrapOrNotFound(updatedUser, HeaderUtil.createAlert("userManagement.updated", login));
-	}
-
-	private String buildUserQueryFromSearch(String userSearch) {
-		StringBuilder queryBuilder = new StringBuilder();
-		if (StringUtils.isNotBlank(userSearch)) {
-			//@formatter:off
-			List<QueryProperty> queryProperties = Arrays.asList(UsuarioCriteriaProcessor.QueryProperty.values());
-			for (QueryProperty property : queryProperties ) {
-				queryBuilder = queryBuilder.append(property).append(" ILIKE ")
-						.append("'%").append(userSearch).append("%'");
-				if (queryProperties.indexOf(property) != queryProperties.size() - 1 ) {
-						queryBuilder.append(" OR ");
-				}
-			}
-			//@formatter:on
-		}
-		return queryBuilder.toString();
 	}
 }

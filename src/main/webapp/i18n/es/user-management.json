@@ -42,6 +42,10 @@
             "name": {
                 "label": "Búsqueda de usuario",
                 "placeholder": "Búsqueda de usuarios por nombre, apellidos o nombre de usuario"
+            },
+            "rol": {
+                "label": "Búsqueda por rol",
+                "placeholder": "Búsqueda de usuarios por rol"
             }
         }
     }
