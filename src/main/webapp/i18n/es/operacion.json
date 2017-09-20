@@ -9,9 +9,9 @@
             "menu": {
                 "title": "Gestión de operaciones"
             },
-            "created": "Un nuevo Operacion ha sido creado con el identificador {{ param }}",
-            "updated": "Un Operacion ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Operacion ha sido eliminado con el identificador {{ param }}",
+            "created": "Una nueva Operacion ha sido creada con el identificador {{ param }}",
+            "updated": "Una Operacion ha sido actualizada con el identificador {{ param }}",
+            "deleted": "Una Operacion ha sido eliminada con el identificador {{ param }}",
             "delete": {
                 "question": "¿Seguro que quiere eliminar Operacion {{ id }}?"
             },
