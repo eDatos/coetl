@@ -36,6 +36,7 @@ import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
 import es.tenerife.secretaria.libro.web.rest.dto.UsuarioDTO;
+import es.tenerife.secretaria.libro.web.rest.errors.ErrorConstants;
 import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
 import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
 import es.tenerife.secretaria.libro.web.rest.util.PaginationUtil;
@@ -46,6 +47,10 @@ import io.swagger.annotations.ApiParam;
 @RestController
 @RequestMapping("/api")
 public class UsuarioResource extends AbstractResource {
+
+	private static final String EMAIL_EXISTS = "emailexists";
+
+	private static final String USER_EXISTS = "userexists";
 
 	private final Logger log = LoggerFactory.getLogger(UsuarioResource.class);
 
@@ -82,15 +87,14 @@ public class UsuarioResource extends AbstractResource {
 		log.debug("REST Petición para guardar User : {}", managedUserVM);
 
 		if (managedUserVM.getId() != null) {
-			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "id-existe", "Un usuario no puede tener ID"))
-					.body(null);
+			return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME,
+					ErrorConstants.ID_EXISTE, "Un usuario no puede tener ID")).body(null);
 		} else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
 			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login ya en uso")).body(null);
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, USER_EXISTS, "Login ya en uso")).body(null);
 		} else if (userRepository.findOneByEmail(managedUserVM.getEmail()).isPresent()) {
 			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email ya en uso")).body(null);
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, EMAIL_EXISTS, "Email ya en uso")).body(null);
 		} else {
 			Usuario newUser = usuarioService.createUsuario(usuarioMapper.userDTOToUser(managedUserVM));
 			mailService.sendCreationEmail(newUser);
@@ -108,14 +112,14 @@ public class UsuarioResource extends AbstractResource {
 		Optional<Usuario> existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());
 		if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
 			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "emailexists", "Email ya en uso")).body(null);
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, EMAIL_EXISTS, "Email ya en uso")).body(null);
 		}
 		if (!existingUser.isPresent()) {
 			existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
 		}
 		if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
 			return ResponseEntity.badRequest()
-					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "userexists", "Login ya en uso")).body(null);
+					.headers(HeaderUtil.createFailureAlert(ENTITY_NAME, USER_EXISTS, "Login ya en uso")).body(null);
 		}
 		if (!existingUser.isPresent()) {
 			existingUser = Optional.ofNullable(userRepository.findOne(managedUserVM.getId()));
@@ -173,7 +177,7 @@ public class UsuarioResource extends AbstractResource {
 		log.debug("REST request to delete User: {}", login);
 		usuarioService.deleteUsuario(login);
 		auditPublisher.publish(AuditConstants.USUARIO_DESACTIVACION, login);
-		return ResponseEntity.ok().headers(HeaderUtil.createAlert("userManagement.deleted", login)).build();
+		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, login)).build();
 	}
 
 	@PutMapping("/usuarios/{login}/restore")
@@ -190,6 +194,6 @@ public class UsuarioResource extends AbstractResource {
 		Optional<UsuarioDTO> updatedUser = Optional.ofNullable(usuarioMapper.userToUserDTO(deletedUser.orElse(null)));
 
 		auditPublisher.publish(AuditConstants.USUARIO_ACTIVACION, login);
-		return ResponseUtil.wrapOrNotFound(updatedUser, HeaderUtil.createAlert("userManagement.updated", login));
+		return ResponseUtil.wrapOrNotFound(updatedUser, HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, login));
 	}
 }
