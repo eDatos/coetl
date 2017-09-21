@@ -24,7 +24,6 @@ export class OperacionService {
             .map((res: Response) => this.convertResponse(res));
     }
 
-
     operacionFromString(operaciones: any[]): Operacion[] {
         if (typeof operaciones === 'string') {
             operaciones = [operaciones];
