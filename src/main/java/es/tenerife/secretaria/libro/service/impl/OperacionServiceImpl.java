@@ -34,13 +34,6 @@ public class OperacionServiceImpl implements OperacionService {
 		DetachedCriteria criteria = queryUtil.queryToOperacionCriteria(query);
 		return operacionRepository.findAll(criteria);
 	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<Operacion> findAll() {
-		log.debug("Petición para obtener todas las Operaciones sin paginación");
-		return operacionRepository.findAll();
-	}
 
 	@Override
 	@Transactional(readOnly = true)
