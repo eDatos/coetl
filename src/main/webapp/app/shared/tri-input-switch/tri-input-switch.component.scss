@@ -31,7 +31,11 @@ $color-valid: $brand-danger;
     }
 }
 
-$same-with-si-and-no: 38px;
-p-selectButton /deep/ .ui-button-text-only .ui-button-text {
-    min-width: $same-with-si-and-no;
+$same-width-si-and-no: 38px;
+p-selectButton {
+    padding-left: $grid-gutter-width-base / 2;
+    padding-right: $grid-gutter-width-base / 2;
+    /deep/ .ui-button-text-only .ui-button-text {
+        min-width: $same-width-si-and-no;
+    }
 }

@@ -58,26 +58,3 @@ $invalidInputBorderColor: $btn-danger-bg;
 $inputGroupTextColor: $white;
 
 @import '~primeng/resources/themes/theme';
-
-fieldset:disabled {
-    .entity-fields .form-group {    
-        .ui-state-default {
-            @extend .ui-state-disabled; 
-            pointer-events: none;
-            cursor: initial;
-            &:hover {
-                border-bottom: none;
-                margin-bottom: initial;
-            } 
-        }
-        .ui-autocomplete {
-            cursor: initial;
-            .fa-close {
-                display: none;
-            }
-            .ui-autocomplete-token {
-                padding-right: .5em;
-            }
-        }
-    }
-}

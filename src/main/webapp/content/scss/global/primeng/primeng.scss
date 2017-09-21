@@ -1,3 +1,5 @@
+@import '~scss/variables';
+
 .ui-autocomplete {
     width: 100%;
     .ui-autocomplete-multiple-container {
@@ -11,7 +13,12 @@
         position: absolute;
         right: 0;
     }
+    .ui-inputtext {
+        padding-left: $grid-gutter-width-base / 2;
+        padding-right: $grid-gutter-width-base / 2;
+    }
 }
+
 
 .ui-listbox {
     width: 100%;
@@ -24,4 +31,41 @@
 
 .ui-button-text-only .ui-button-text {
     padding: $input-padding-y $input-padding-x;
+}
+
+.ui-state-default {
+    border: none;
+    &:hover {
+        border-width: 0 0 2 * $border-width 0;
+        border-style: solid;
+        border-color: $grey-medium !important;
+        margin-bottom: -2 * $border-width;
+    }                
+}
+
+.ui-state-disabled:hover {
+    border-bottom: none !important;
+    margin-bottom: initial !important;
+}
+
+fieldset:disabled {
+    .entity-fields .form-group {    
+        .ui-state-default {
+            pointer-events: none;
+            cursor: initial;
+            &:hover {
+                border-bottom: none;
+                margin-bottom: initial;
+            } 
+        }
+        .ui-autocomplete {
+            cursor: initial;
+            .fa-close {
+                display: none;
+            }
+            .ui-autocomplete-token {
+                padding-right: .5em;
+            }
+        }
+    }
 }
