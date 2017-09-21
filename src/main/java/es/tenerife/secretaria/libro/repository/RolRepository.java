@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.QueryHint;
 
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
@@ -19,4 +20,6 @@ public interface RolRepository extends JpaRepository<Rol, Long> {
 	Set<Rol> findByUsuarioLogin(String login);
 
 	Set<Rol> findByOperacionesId(Long operacionId);
+
+	Set<Rol> findAll(DetachedCriteria criteria);
 }

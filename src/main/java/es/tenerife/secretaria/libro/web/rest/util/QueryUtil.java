@@ -12,6 +12,7 @@ import com.arte.libs.grammar.domain.QueryRequest;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 
 import es.tenerife.secretaria.libro.service.criteria.OperacionCriteriaProcessor;
+import es.tenerife.secretaria.libro.service.criteria.RolCriteriaProcessor;
 import es.tenerife.secretaria.libro.service.criteria.UsuarioCriteriaProcessor;
 
 @Component
@@ -27,6 +28,10 @@ public class QueryUtil {
 
 	public DetachedCriteria queryToOperacionCriteria(String query) {
 		return queryToCriteria(query, new OperacionCriteriaProcessor());
+	}
+
+	public DetachedCriteria queryToRolCriteria(String query) {
+		return queryToCriteria(query, new RolCriteriaProcessor());
 	}
 
 	public String queryIncludingDeleted(String query) {

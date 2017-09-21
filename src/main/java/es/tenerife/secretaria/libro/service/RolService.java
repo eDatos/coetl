@@ -8,7 +8,7 @@ public interface RolService {
 
 	Rol save(Rol operacion);
 
-	Set<Rol> findAll();
+	Set<Rol> findAll(String query);
 
 	Rol findOne(String codigo);
 

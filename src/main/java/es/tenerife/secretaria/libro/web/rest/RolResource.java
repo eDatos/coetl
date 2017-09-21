@@ -54,13 +54,14 @@ public class RolResource extends AbstractResource {
 	@GetMapping("/roles")
 	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
-	public ResponseEntity<Set<RolDTO>> getRoles(@ApiParam(required = false) Long operacionId) {
+	public ResponseEntity<Set<RolDTO>> getRoles(@ApiParam(required = false) Long operacionId,
+			@ApiParam(required = false) String query) {
 		log.debug("REST petición para obtener una página de Roles");
 		Set<Rol> roles;
 		if (operacionId != null) {
 			roles = rolService.findByOperacion(operacionId);
 		} else {
-			roles = rolService.findAll();
+			roles = rolService.findAll(query);
 		}
 		return new ResponseEntity<>(rolMapper.toDto(roles), null, HttpStatus.OK);
 	}

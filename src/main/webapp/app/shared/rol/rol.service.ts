@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { Rol } from './rol.model';
 import { ResponseWrapper } from '../model/response-wrapper.model';
 import { createRequestOption } from '../model/request-util';
+import { orderParamsToQuery } from '../index';
 
 @Injectable()
 export class RolService {
@@ -56,10 +57,14 @@ export class RolService {
         const options: BaseRequestOptions = new BaseRequestOptions();
         if (req) {
             const params: URLSearchParams = new URLSearchParams();
-            params.set('query', req.query);
+            let query = req.query || '';
             if (req['operacionId']) {
                 params.set('operacionId', req['operacionId']);
             }
+            if (req.sort) {
+                query += ' ORDER BY ' + orderParamsToQuery(req.sort);
+            }
+            params.set('query', query);
             options.params = params;
         }
         return options;
