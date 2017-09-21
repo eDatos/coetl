@@ -5,8 +5,6 @@ import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,10 +29,10 @@ public class OperacionServiceImpl implements OperacionService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Operacion> findAll(Pageable pageable, String query) {
+	public List<Operacion> findAll(String query) {
 		log.debug("Petición para obtener todas las Operaciones");
 		DetachedCriteria criteria = queryUtil.queryToOperacionCriteria(query);
-		return operacionRepository.findAll(criteria, pageable);
+		return operacionRepository.findAll(criteria);
 	}
 	
 	@Override

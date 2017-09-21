@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.arte.libs.grammar.antlr.DefaultQueryExprVisitor;
 import com.arte.libs.grammar.antlr.QueryExprCompiler;
 import com.arte.libs.grammar.domain.QueryRequest;
-import com.arte.libs.grammar.domain.QuerySort;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 
 import es.tenerife.secretaria.libro.service.criteria.OperacionCriteriaProcessor;
@@ -41,7 +40,6 @@ public class QueryUtil {
 			DefaultQueryExprVisitor visitor = new DefaultQueryExprVisitor();
 			queryExprCompiler.parse(query, visitor);
 			queryRequest = visitor.getQueryRequest();
-			queryRequest.setSort(new QuerySort());
 		}
 		return processor.process(queryRequest);
 	}

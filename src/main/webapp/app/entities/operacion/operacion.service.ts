@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, BaseRequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { Operacion } from './operacion.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import { ResponseWrapper, createRequestOption, orderParamsToQuery } from '../../shared';
 
 @Injectable()
 export class OperacionService {
@@ -19,7 +19,7 @@ export class OperacionService {
     }
 
     query(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
+        const options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
             .map((res: Response) => this.convertResponse(res));
     }
@@ -56,4 +56,19 @@ export class OperacionService {
         const copy: Operacion = Object.assign({}, operacion);
         return copy;
     }
+
+    private createRequestOption = (req?: any): BaseRequestOptions => {
+        const options: BaseRequestOptions = new BaseRequestOptions();
+        if (req) {
+            const params: URLSearchParams = new URLSearchParams();
+            let query = req.query || '';
+            if (req.sort) {
+                query += ' ORDER BY ' + orderParamsToQuery(req.sort);
+            }
+            params.set('query', query);
+            options.params = params;
+        }
+        return options;
+    };
+
 }
