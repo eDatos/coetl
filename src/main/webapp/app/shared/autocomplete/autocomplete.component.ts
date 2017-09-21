@@ -28,7 +28,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     private propertiesToQuery: string[];
 
     @Input()
-    public debouncedMode = true;
+    public debouncedMode = false;
 
     @Output()
     private completeMethod: EventEmitter<any> = new EventEmitter();
@@ -61,6 +61,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
     @Input()
     public field: string = null;
+
+    @Input()
+    public placeholder: string = null;
 
     public internalItemTemplate: Function;
 

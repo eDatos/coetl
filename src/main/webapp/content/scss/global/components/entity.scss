@@ -165,6 +165,9 @@ $entity-search-field-btn-width: 200px;
                 display: flex;
                 margin-bottom: 0;
             }
+            ::placeholder {
+                color: $grey-medium;
+            } 
             margin-bottom: $form-group-margin-bottom;
         }
         .entity-search-field-btn {
