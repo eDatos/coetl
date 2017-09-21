@@ -1,5 +1,6 @@
 package es.tenerife.secretaria.libro.web.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import es.tenerife.secretaria.libro.domain.Operacion;
 import es.tenerife.secretaria.libro.service.OperacionService;
 import es.tenerife.secretaria.libro.web.rest.dto.OperacionDTO;
 import es.tenerife.secretaria.libro.web.rest.mapper.OperacionMapper;
@@ -49,6 +51,19 @@ public class OperacionResource extends AbstractResource {
 		Page<OperacionDTO> page = operacionService.findAll(pageable, query).map(operacionMapper::toDto);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operaciones");
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/operaciones/all")
+	@Timed
+	@PreAuthorize("hasPermission('OPERACION', 'LEER')")
+	public ResponseEntity<List<OperacionDTO>> getListOperaciones() {
+		log.debug("REST petición para obtener todas las Operaciones");
+		List<OperacionDTO> operacionDTOList = new ArrayList<OperacionDTO>();
+		List<Operacion> operacionList = operacionService.findAll();
+		for (int i = 0; i < operacionList.size(); i++) {
+			operacionDTOList.add(operacionMapper.toDto(operacionList.get(i)));
+		}
+		return new ResponseEntity<>(operacionDTOList, HttpStatus.OK);
 	}
 
 	@GetMapping("/operaciones/{id}")

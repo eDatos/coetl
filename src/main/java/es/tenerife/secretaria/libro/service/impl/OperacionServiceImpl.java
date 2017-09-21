@@ -1,5 +1,7 @@
 package es.tenerife.secretaria.libro.service.impl;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,13 @@ public class OperacionServiceImpl implements OperacionService {
 		log.debug("Petición para obtener todas las Operaciones");
 		DetachedCriteria criteria = queryUtil.queryToOperacionCriteria(query);
 		return operacionRepository.findAll(criteria, pageable);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Operacion> findAll() {
+		log.debug("Petición para obtener todas las Operaciones sin paginación");
+		return operacionRepository.findAll();
 	}
 
 	@Override

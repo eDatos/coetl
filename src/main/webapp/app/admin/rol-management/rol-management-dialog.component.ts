@@ -19,6 +19,7 @@ export class RolMgmtDialogComponent implements OnInit {
     codigoOriginalRol = '';
     operaciones: Operacion[];
     isSaving: Boolean;
+    operacionesString: any[];
 
     private subscription: Subscription;
     private operacionFilter: OperacionFilter;
@@ -49,10 +50,14 @@ export class RolMgmtDialogComponent implements OnInit {
         if (this.excludeSelectedOperacionesQuery()) {
             criterias.push('(' + this.excludeSelectedOperacionesQuery() + ')');
         }
-        this.operacionService.query({
-            query: criterias.join(' AND ')
-        }).subscribe((operaciones) => {
+        this.operacionService.queryAll().subscribe((operaciones) => {
             this.operaciones = operaciones.json;
+            this.operacionesString = this.operaciones.map((operacion) => {
+                return {
+                    label: operacion.accion + ' - ' + operacion.sujeto,
+                    value: operacion
+                }
+            });
         });
     }
 
@@ -70,10 +75,6 @@ export class RolMgmtDialogComponent implements OnInit {
         this.operacionFilter.accion = $event.query;
         this.operacionFilter.sujeto = $event.query;
         this.loadOperaciones();
-    }
-
-    operacionItemTemplate(operacion: Operacion) {
-        return `${operacion.accion} - ${operacion.sujeto}`;
     }
 
     load(id) {

@@ -105,7 +105,6 @@ export class AuditsComponent implements OnInit {
             this.audits = res.json();
             this.links = this.parseLinks.parse(res.headers.get('link'));
             this.totalItems = + res.headers.get('X-Total-Count');
-            console.log(this.audits);
         });
     }
 

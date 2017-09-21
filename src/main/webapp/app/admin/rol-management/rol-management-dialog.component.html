@@ -11,7 +11,7 @@
             </span>
         </div>
         <div>
-            <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/rol-management', rol.codigo, 'editar']">
+            <button *ngIf="!isEditMode()" type="button" class="btn btn-secondary jh-create-entity" [routerLink]="['/rol-management', rol.codigo, 'editar']">
                         <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
                     </button>
             <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
@@ -51,10 +51,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
-
-                <ac-autocomplete name="operacion" (completeMethod)="filterOperaciones($event)" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
-                    [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
+                <label class="form-control-label" jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
+                <p-listbox name="operacion" [options]="operacionesString" [multiple]="true" [checkbox]="true" [filter]="true" 
+                    [disabled]="!isEditMode()" class="form-control" [(ngModel)]="rol.operaciones"></p-listbox>
             </div>
     </fieldset>
 </form>
