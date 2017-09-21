@@ -8,6 +8,10 @@ html {
 Bootstrap tweaks
 ===============================================================*/
 
+body {
+    overflow-y: scroll;
+}
+
 body, h1, h2, h4 {
     font-weight: $font-weight-light;
 }
@@ -38,14 +42,6 @@ Generic styles
 
 .pad {
     padding: 10px;
-}
-
-.w-40 {
-    width: 40% !important;
-}
-
-.w-60 {
-    width: 60% !important;
 }
 
 .break {
