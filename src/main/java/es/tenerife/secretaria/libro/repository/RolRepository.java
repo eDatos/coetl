@@ -4,8 +4,6 @@ import java.util.Set;
 
 import javax.persistence.QueryHint;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
@@ -20,5 +18,5 @@ public interface RolRepository extends JpaRepository<Rol, Long> {
 	@Query("select r from Rol r, Usuario u where u.login = ?1")
 	Set<Rol> findByUsuarioLogin(String login);
 
-	Page<Rol> findByOperacionesId(Long operacionId, Pageable pageable);
+	Set<Rol> findByOperacionesId(Long operacionId);
 }

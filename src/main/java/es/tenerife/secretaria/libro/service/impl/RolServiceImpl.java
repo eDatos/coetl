@@ -1,13 +1,14 @@
 
 package es.tenerife.secretaria.libro.service.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.repository.RolRepository;
@@ -36,9 +37,9 @@ public class RolServiceImpl implements RolService {
 	}
 
 	@Override
-	public Page<Rol> findAll(Pageable pageable) {
+	public Set<Rol> findAll() {
 		log.debug("Petición para buscar roles");
-		return rolRepository.findAll(pageable);
+		return new HashSet<>(Lists.newArrayList(rolRepository.findAll()));
 	}
 
 	@Override
@@ -70,9 +71,9 @@ public class RolServiceImpl implements RolService {
 	}
 
 	@Override
-	public Page<Rol> findByOperacion(Long operacionId, Pageable pageable) {
+	public Set<Rol> findByOperacion(Long operacionId) {
 		log.debug("Petición para buscar roles de usuario {}", operacionId);
-		return rolRepository.findByOperacionesId(operacionId, null);
+		return rolRepository.findByOperacionesId(operacionId);
 	}
 
 }
