@@ -6,7 +6,8 @@ import { JhiHealthModalComponent } from './health-modal.component';
 
 @Component({
     selector: 'jhi-health',
-    templateUrl: './health.component.html'
+    templateUrl: './health.component.html',
+    styles: ['.table-responsive { margin-top: 1px; }']
 })
 export class JhiHealthCheckComponent implements OnInit {
     healthData: any;
@@ -50,7 +51,7 @@ export class JhiHealthCheckComponent implements OnInit {
     }
 
     showHealth(health: any) {
-        const modalRef  = this.modalService.open(JhiHealthModalComponent);
+        const modalRef = this.modalService.open(JhiHealthModalComponent);
         modalRef.componentInstance.currentHealth = health;
         modalRef.result.then((result) => {
             // Left blank intentionally, nothing to do here

@@ -23,6 +23,7 @@ h2 {
         z-index: $zindex-fixed-navs;
         margin-top: $navbar-full-height;
     }
+    box-shadow: $nav-shadow;;
 }
 
 h3 {
@@ -172,6 +173,8 @@ $entity-search-field-btn-width: 200px;
         padding-right: $entity-search-field-btn-width;
         padding-left: $page-padding - $grid-gutter-width-base / 2;
         z-index: $zindex-fixed-navs;
+
+        box-shadow: $nav-shadow;
 
         @include make-narrowed-row();
         .entity-search-field {        
