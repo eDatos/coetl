@@ -9,8 +9,7 @@ import { Subscription } from 'rxjs/Rx';
 
 @Component({
     selector: 'jhi-rol-mgmt',
-    templateUrl: './rol-management.component.html',
-    styleUrls: ['./rol-management.component.scss'],
+    templateUrl: './rol-management.component.html'
 })
 export class RolMgmtComponent implements OnInit, OnDestroy {
 
