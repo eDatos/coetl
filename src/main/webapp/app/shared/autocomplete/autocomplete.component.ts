@@ -33,6 +33,12 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     @Output()
     private completeMethod: EventEmitter<any> = new EventEmitter();
 
+    @Output()
+    private onSelect: EventEmitter<any> = new EventEmitter();
+
+    @Output()
+    private onUnselect: EventEmitter<any> = new EventEmitter();
+
     private _selectedSuggestions: any;
 
     private _suggestions: any[];
@@ -79,6 +85,14 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     onCompleteMethod($event) {
         this.completeMethod.emit($event);
         this.filteredSuggestions = this.getFilteredSuggestions($event.query);
+    }
+
+    onSelectMethod($event) {
+        this.onSelect.emit($event);
+    }
+
+    onUnselectMethod($event) {
+        this.onUnselect.emit($event);
     }
 
     getFilteredSuggestions(query) {
