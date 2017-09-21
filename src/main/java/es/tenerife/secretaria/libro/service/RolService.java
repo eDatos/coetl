@@ -21,4 +21,6 @@ public interface RolService {
 
 	Set<Rol> findByUsuario(String name);
 
+	Page<Rol> findByOperacion(Long operacionId, Pageable pageable);
+
 }

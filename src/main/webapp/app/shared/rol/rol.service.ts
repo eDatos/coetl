@@ -23,6 +23,9 @@ export class RolService {
 
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
+        if (req['operacionId']) {
+            options.params.set('operacionId', req['operacionId']);
+        }
         return this.http.get(this.resourceUrl, options)
             .map((res: Response) => this.convertResponse(res));
     }

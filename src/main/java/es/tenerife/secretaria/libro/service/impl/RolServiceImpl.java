@@ -69,4 +69,10 @@ public class RolServiceImpl implements RolService {
 		return rolRepository.findByUsuarioLogin(login);
 	}
 
+	@Override
+	public Page<Rol> findByOperacion(Long operacionId, Pageable pageable) {
+		log.debug("Petición para buscar roles de usuario {}", operacionId);
+		return rolRepository.findByOperacionesId(operacionId, null);
+	}
+
 }
