@@ -35,7 +35,7 @@ export class Principal {
         if (operacionesRuta.length === 0) {
             return true;
         }
-        if (!this.userIdentity.roles) {
+        if (!this.userIdentity || !this.userIdentity.roles) {
             return false;
         }
         operacionesUsuario = [].concat.apply([], this.userIdentity.roles.map((r) => r.operaciones))

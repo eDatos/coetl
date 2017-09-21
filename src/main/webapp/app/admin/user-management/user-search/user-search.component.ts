@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Subject, Subscription } from 'rxjs';
-import { User } from '../../../shared/index';
+import { User, Rol, RolService } from '../../../shared/index';
 import { UserFilter } from './index';
 
 @Component({
@@ -10,10 +10,13 @@ import { UserFilter } from './index';
     templateUrl: 'user-search.component.html'
 })
 
-export class UserSearchComponent implements OnInit, OnDestroy {
+export class UserSearchComponent implements OnInit, OnDestroy, OnChanges {
 
     private filterChangesSubject: Subject<any> = new Subject<any>();
     subscription: Subscription;
+
+    @Input()
+    roles: Rol[];
 
     @Input()
     filters: UserFilter;
@@ -30,9 +33,13 @@ export class UserSearchComponent implements OnInit, OnDestroy {
             .subscribe(() =>
                 this.eventManager.broadcast({
                     name: 'userSearch',
-                    content: this.filters
+                    content: this.filtersToUrl(),
                 })
             );
+    }
+
+    ngOnChanges() {
+        this.filters.setAllRoles(this.roles);
     }
 
     ngOnDestroy() {
@@ -46,5 +53,13 @@ export class UserSearchComponent implements OnInit, OnDestroy {
     resetFilters() {
         this.filters.reset();
         this.filter();
+    }
+
+    rolItemTemplate(item: Rol) {
+        return item.nombre;
+    }
+
+    private filtersToUrl() {
+        return this.filters.toUrl();
     }
 }

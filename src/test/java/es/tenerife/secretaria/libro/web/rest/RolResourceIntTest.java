@@ -194,7 +194,7 @@ public class RolResourceIntTest {
 				.contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
 				.andExpect(status().isCreated());
 
-		boolean created = rolService.findAll(null).getContent().stream()
+		boolean created = rolService.findAll(null).stream()
 				.anyMatch(rol -> rol.getCodigo().equals(TEST_ROL.toString()));
 		assertThat(created).isTrue();
 	}
@@ -225,8 +225,7 @@ public class RolResourceIntTest {
 						.contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(rolDTO)))
 				.andExpect(status().isOk());
 
-		boolean updated = rolService.findAll(null).getContent().stream()
-				.anyMatch(r -> r.getNombre().equals("UPDATED_NAME"));
+		boolean updated = rolService.findAll(null).stream().anyMatch(r -> r.getNombre().equals("UPDATED_NAME"));
 		assertThat(updated).isTrue();
 	}
 
@@ -250,18 +249,18 @@ public class RolResourceIntTest {
 				.thenReturn(mockOperacion());
 		Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
-		int preCreateRoles = rolService.findAll(null).getContent().size();
+		int preCreateRoles = rolService.findAll(null).size();
 		Rol rol = mockRol(TEST_ROL);
 		rolRepository.saveAndFlush(rol);
 
-		int preDeleteRoles = rolService.findAll(null).getContent().size();
+		int preDeleteRoles = rolService.findAll(null).size();
 		assertThat(preDeleteRoles).isEqualTo(preCreateRoles + 1);
 
 		restUserMockMvc.perform(delete("/api/roles/" + TEST_ROL).accept(TestUtil.APPLICATION_JSON_UTF8)
 				.contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
 				.andExpect(status().isOk());
 
-		int afterDeleteRoles = rolService.findAll(null).getContent().size();
+		int afterDeleteRoles = rolService.findAll(null).size();
 
 		assertThat(afterDeleteRoles).isEqualTo(preDeleteRoles - 1);
 	}

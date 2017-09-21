@@ -2,14 +2,11 @@ package es.tenerife.secretaria.libro.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,7 +29,6 @@ import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
 import es.tenerife.secretaria.libro.web.rest.errors.ErrorConstants;
 import es.tenerife.secretaria.libro.web.rest.mapper.RolMapper;
 import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
-import es.tenerife.secretaria.libro.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
 
@@ -58,11 +54,16 @@ public class RolResource extends AbstractResource {
 	@GetMapping("/roles")
 	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
-	public ResponseEntity<List<RolDTO>> getRoles(@ApiParam Pageable pageable) {
+	public ResponseEntity<Set<RolDTO>> getRoles(@ApiParam(required = false) Long operacionId,
+			@ApiParam(required = false) String query) {
 		log.debug("REST petición para obtener una página de Roles");
-		Page<RolDTO> page = rolService.findAll(pageable).map(rolMapper::toDto);
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/roles");
-		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+		Set<Rol> roles;
+		if (operacionId != null) {
+			roles = rolService.findByOperacion(operacionId);
+		} else {
+			roles = rolService.findAll(query);
+		}
+		return new ResponseEntity<>(rolMapper.toDto(roles), null, HttpStatus.OK);
 	}
 
 	@GetMapping("/roles/{codigo}")

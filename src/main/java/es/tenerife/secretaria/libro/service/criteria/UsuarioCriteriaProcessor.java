@@ -1,5 +1,7 @@
 package es.tenerife.secretaria.libro.service.criteria;
 
+import java.util.stream.Collectors;
+
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
@@ -78,12 +80,9 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
 	        			"WHERE " + 
 	        			"	U.ID = UR.USUARIO_ID " + 
 	        			"	AND R.ID = UR.ROL_ID " + 
-	        			"	AND (" +
-	        			" 		R.CODIGO " + property.getOperationType() + " (%s) " + 
-	        			" 		OR R.NOMBRE " + property.getOperationType() + " (%s) " + 
-	        			"	)" +
+	        			"	AND (R.ID " + property.getOperationType() + " (%s) )" +
 	        			")", 
-	        			property.getRightExpression(), property.getRightExpression());
+	        			property.getRightExpressions().stream().collect(Collectors.joining(",")));
 	            // @formatter:on
 			return Restrictions.sqlRestriction(sql);
 		}
