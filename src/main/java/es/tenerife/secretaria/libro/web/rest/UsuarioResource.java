@@ -172,7 +172,7 @@ public class UsuarioResource extends AbstractResource {
 
 	@DeleteMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
 	@Timed
-	@PreAuthorize("hasPermission('USUARIO', 'BORRAR')")
+	@PreAuthorize("hasPermission('USUARIO', 'ELIMINAR')")
 	public ResponseEntity<Void> deleteUser(@PathVariable String login) {
 		log.debug("REST request to delete User: {}", login);
 		usuarioService.deleteUsuario(login);

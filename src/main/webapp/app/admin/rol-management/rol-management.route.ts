@@ -72,7 +72,7 @@ export const rolDialogRoute: Routes = [
         component: RolDeleteDialogComponent,
         outlet: 'popup',
         data: {
-            operaciones: ['BORRAR:ROL'],
+            operaciones: ['ELIMINAR:ROL'],
         },
         canActivate: [UserRouteAccessService],
     }
