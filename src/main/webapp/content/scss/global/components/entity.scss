@@ -146,50 +146,50 @@ fieldset {
 
 $entity-search-field-btn-width: 200px;
 
-    .entity-search {
-        background: $grey-lightest;
-        position: fixed;
-        top: $entity-header-height + $navbar-full-height;  
-        width: 100%;
-        padding-right: $entity-search-field-btn-width;
-        padding-left: $page-padding - $grid-gutter-width-base / 2;
-        z-index: $zindex-fixed-navs;
+.entity-search {
+    background: $grey-lightest;
+    position: fixed;
+    top: $entity-header-height + $navbar-full-height;  
+    width: 100%;
+    padding-right: $entity-search-field-btn-width;
+    padding-left: $page-padding - $grid-gutter-width-base / 2;
+    z-index: $zindex-fixed-navs;
 
-        box-shadow: $nav-shadow;
+    box-shadow: $nav-shadow;
 
-        @include make-narrowed-row();
-        .entity-search-field {        
-            @include make-col-ready();
-            @include make-col(3);
-            .form-group {
-                display: flex;
-                margin-bottom: 0;
-            }
-            ::placeholder {
-                color: $grey-medium;
-            } 
-            margin-bottom: $form-group-margin-bottom;
+    @include make-narrowed-row();
+    .entity-search-field {        
+        @include make-col-ready();
+        @include make-col(3);
+        .form-group {
+            display: flex;
+            margin-bottom: 0;
         }
-        .entity-search-field-btn {
-            position: absolute;
-            right: 0;
-            bottom: $form-group-margin-bottom;
-            width: $entity-search-field-btn-width;
-            text-align: right;
-            margin-right: $page-padding;
-        }
+        ::placeholder {
+            color: $grey-medium;
+        } 
+        margin-bottom: $form-group-margin-bottom;
     }
-
-    .entity-list-empty {
-        text-align: center;
-        padding: $spacer-y 0;
-        & > * {
-            margin-top: $spacer-y;
-        }
-        img {
-            width: 200px;
-        }
+    .entity-search-field-btn {
+        position: absolute;
+        right: 0;
+        bottom: $form-group-margin-bottom;
+        width: $entity-search-field-btn-width;
+        text-align: right;
+        margin-right: $page-padding;
     }
+}
+
+.entity-list-empty {
+    text-align: center;
+    padding: $spacer-y 0;
+    & > * {
+        margin-top: $spacer-y;
+    }
+    img {
+        width: 200px;
+    }
+}
 
 .container-fluid {
     @include make-narrowed-container();
