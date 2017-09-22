@@ -87,14 +87,6 @@ public class MailService {
 	}
 
 	@Async
-	// TODO SECRETARIA-62 Eliminar si no se usa
-	public void sendActivationEmail(Usuario user) {
-		log.debug("Sending activation email to '{}'", user.getEmail());
-		sendEmailFromTemplate(user, "activationEmail", "email.activation.title");
-	}
-
-	@Async
-	// TODO SECRETARIA-62 Eliminar si no se usa
 	public void sendCreationEmail(Usuario user) {
 		log.debug("Sending creation email to '{}'", user.getEmail());
 		sendEmailFromTemplate(user, "creationEmail", "email.activation.title");

@@ -50,7 +50,7 @@ export class RolMgmtDialogComponent implements OnInit {
         if (this.excludeSelectedOperacionesQuery()) {
             criterias.push('(' + this.excludeSelectedOperacionesQuery() + ')');
         }
-        this.operacionService.queryAll().subscribe((operaciones) => {
+        this.operacionService.query().subscribe((operaciones) => {
             this.operaciones = operaciones.json;
             this.operacionesString = this.operaciones.map((operacion) => {
                 return {

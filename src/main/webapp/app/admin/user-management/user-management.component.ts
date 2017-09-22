@@ -3,7 +3,7 @@ import { Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager, JhiPaginationUtil, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { ITEMS_PER_PAGE, Principal, User, UserService, ResponseWrapper } from '../../shared';
+import { ITEMS_PER_PAGE, Principal, User, UserService, ResponseWrapper, Rol, RolService } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 import { Subscription } from 'rxjs/Rx';
 import { UserFilter } from './user-search/index';
@@ -31,9 +31,11 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     searchSubscription: Subscription;
     userListModification: Subscription;
     userFilter: UserFilter;
+    roles: Rol[] = [];
 
     constructor(
         private userService: UserService,
+        private rolService: RolService,
         private parseLinks: JhiParseLinks,
         private alertService: JhiAlertService,
         private principal: Principal,
@@ -57,6 +59,7 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
 
         this.principal.identity().then((account) => {
             this.currentAccount = account;
+            this.rolService.query().subscribe((roles) => this.roles = roles.json);
             this.registerChangeInUsers();
             this.activatedRoute.queryParams.subscribe((params) => {
                 this.userFilter.fromQueryParams(params);
@@ -73,9 +76,9 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
 
     registerChangeInUsers() {
         this.userListModification = this.eventManager.subscribe('userListModification', (response) => this.loadAll());
-        this.searchSubscription = this.eventManager.subscribe('userSearch', (response) =>
+        this.searchSubscription = this.eventManager.subscribe('userSearch', (response) => {
             this.router.navigate([this.activatedRoute.snapshot.url], { queryParams: response.content })
-        );
+        });
     }
 
     setActive(user, isActivated) {

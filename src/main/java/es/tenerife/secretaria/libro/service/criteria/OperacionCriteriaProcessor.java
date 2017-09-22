@@ -1,6 +1,7 @@
 package es.tenerife.secretaria.libro.service.criteria;
 
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
+import com.arte.libs.grammar.orm.jpa.criteria.OrderProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.RestrictionProcessorBuilder;
 
 import es.tenerife.secretaria.libro.domain.Operacion;
@@ -23,15 +24,31 @@ public class OperacionCriteriaProcessor extends AbstractCriteriaProcessor {
 		//@formatter:off
     	registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.ACCION)
-                .withEntityProperty(ENTITY_FIELD_ACCION).build());
+                .withEntityProperty(ENTITY_FIELD_ACCION)
+                .build());
+		
+		registerOrderProcessor(
+	            OrderProcessorBuilder.orderProcessor()
+	                .withQueryProperty(QueryProperty.ACCION)
+	                .withEntityProperty(ENTITY_FIELD_ACCION)
+	            .build());
     	
     	registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
     			.withQueryProperty(QueryProperty.SUJETO)
-    			.withEntityProperty(ENTITY_FIELD_SUJETO).build());
+    			.withEntityProperty(ENTITY_FIELD_SUJETO)
+    			.sortable()
+    			.build());
+
+    	registerOrderProcessor(
+    			OrderProcessorBuilder.orderProcessor()
+    			.withQueryProperty(QueryProperty.SUJETO)
+    			.withEntityProperty(ENTITY_FIELD_SUJETO)
+    			.build());
     	
     	registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
     			.withQueryProperty(QueryProperty.ID)
-    			.withEntityProperty(P_ID).build());
+    			.withEntityProperty(P_ID)
+    			.sortable().build());
         //@formatter:on
 	}
 

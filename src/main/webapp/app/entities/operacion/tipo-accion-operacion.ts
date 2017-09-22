@@ -1,3 +1,3 @@
 export enum TipoAccionOperacion {
-    LEER, CREAR, EDITAR, BORRAR
+    LEER, CREAR, EDITAR, ELIMINAR
 }

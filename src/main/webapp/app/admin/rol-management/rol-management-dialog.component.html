@@ -8,7 +8,7 @@
             <i class="fa fa-fw fa-users" aria-hidden="true"></i>
             <span *ngIf="!rol.nombre" jhiTranslate="rolManagement.home.createLabel">Crear rol</span>
             <span *ngIf="rol.nombre">
-                        <span jhiTranslate="rolManagement.detail.title">Rol</span>
+                        <span jhiTranslate="rolManagement.detail.title">Rol</span><span> {{rol.nombre}}</span>
             </span>
         </div>
         <div>

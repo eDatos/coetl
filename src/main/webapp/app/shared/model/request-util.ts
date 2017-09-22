@@ -18,3 +18,14 @@ export const createRequestOption = (req?: any): BaseRequestOptions => {
     }
     return options;
 };
+
+export const orderParamsToQuery = (param) => {
+    // Ejemplo: ['sujeto,asc', 'accion,desc', 'id'] => 'SUJETO ASC, ACCION DESC'
+    return param
+        .map((p) => p.split(','))
+        .filter((a) => a.length === 2)
+        .map((a) => a
+            .map((s) => s.toUpperCase())
+            .join(' '))
+        .join(',')
+}
