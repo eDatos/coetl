@@ -36,12 +36,7 @@ export class SideMenuComponent implements OnInit, AfterViewChecked {
 
             this.addClassHasMenu(titlesContainerElement);
             this.buildMenu(titles);
-
-            if (this.fragment) {
-                this.scrollToFragment(titlesContainerElement, this.fragment);
-            } else {
-                window.scroll(0, 0);
-            }
+            this.scrollToFragment(titlesContainerElement, this.fragment);
         }
     }
 
@@ -73,9 +68,11 @@ export class SideMenuComponent implements OnInit, AfterViewChecked {
     scrollToFragment(titlesContainerElement: HTMLElement, fragment: string) {
         const offset: number = this.calculateFixedNavbarOffset(titlesContainerElement);
         const elementTitle: HTMLElement = <HTMLElement>titlesContainerElement.querySelector('#' + this.fragment);
-        elementTitle.scrollIntoView();
-        if (this.needsOffsetScrolling(elementTitle)) {
-            window.scrollBy(0, -offset);
+        if (elementTitle !== null) {
+            elementTitle.scrollIntoView();
+            if (this.needsOffsetScrolling(elementTitle)) {
+                window.scrollBy(0, -offset);
+            }
         }
     }
 
