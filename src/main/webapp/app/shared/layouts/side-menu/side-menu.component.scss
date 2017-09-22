@@ -1,0 +1,38 @@
+@import '~scss/variables';
+
+.side-menu {
+    background: $grey-light;
+    color: $black;
+
+    position: fixed;
+    width: $side-menu-width;
+    left: 0;
+    top: $navbar-height;
+    bottom: 0;
+
+    padding-top: $entity-header-height / 2;
+
+    border-right: $border-width solid $grey-medium;
+
+    /deep/ .side-menu-item {
+        width: 100%;
+        display: block;
+        border-radius: 0;
+        cursor: pointer;        
+
+        padding: $input-padding-y $input-padding-x $input-padding-y $page-padding;        
+
+        text-align: left;
+
+        word-break: break-word;
+        
+        &:hover {
+            background: $grey-lightest;
+        }
+    }
+
+    /deep/ a.side-menu-item {
+        color: $black;
+        text-decoration: none;
+    }
+}

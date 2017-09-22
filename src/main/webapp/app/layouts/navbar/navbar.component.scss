@@ -42,7 +42,7 @@ Navbar
     }
     a.nav-link {
         font-weight: $font-weight-normal;
-        line-height: $navbar-height;
+        line-height: $navbar-content-height;
     }
     .jh-navbar-toggler {
         color: $grey-lightest;
@@ -79,7 +79,7 @@ Logo styles
     &.logo {
         padding: $navbar-padding-y $page-padding;
         .logo-img {
-            height: $navbar-height;
+            height: $navbar-content-height;
             margin-right: $grid-gutter-width-base / 2;
         }
     }

@@ -14,8 +14,9 @@ $accent-medium: #F94758;
 $accent-dark: #b10616;
 $green-medium:  #5cb85c;
 
-$navbar-height: 30px;
+$navbar-content-height: 30px;
 $navbar-padding-y: 5px;
+$navbar-height: $navbar-content-height + ($navbar-padding-y)*2;
 $nav-link-padding: $navbar-padding-y 1em;
 
 $font-weight-light: 300;
@@ -26,6 +27,8 @@ $entity-search-default-height: 76px;
 $letter-spacing: -0.04em;
 
 $nav-shadow: 0 3px 3px $grey-light;
+
+$side-menu-width: 240px;
 
 // Bootstrap
 $gray-lightest: $grey-lightest;

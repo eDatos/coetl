@@ -2,7 +2,6 @@
 @import '~scss/mixins';
 @import 'node_modules/bootstrap/scss/utilities/_position';
 
-$navbar-full-height: $navbar-height + ($navbar-padding-y)*2;
 $zindex-fixed-navs: $zindex-dropdown - 5; // Dont cover navbar dropdown
 $error-font-size: 0.8rem;
 // Jhipster always generates the same layout. We can trust h2 is where is needed
@@ -21,7 +20,7 @@ h2 {
     html & {
         @extend .fixed-top;
         z-index: $zindex-fixed-navs;
-        margin-top: $navbar-full-height;
+        margin-top: $navbar-height;
     }
     box-shadow: $nav-shadow;
 }
@@ -146,10 +145,19 @@ fieldset {
 
 $entity-search-field-btn-width: 200px;
 
+.entity {
+    &.has-menu {
+        padding-left: $side-menu-width;
+        h2 {
+            left: $side-menu-width;
+        }
+    }
+}
+
 .entity-search {
     background: $grey-lightest;
     position: fixed;
-    top: $entity-header-height + $navbar-full-height;  
+    top: $entity-header-height + $navbar-height;  
     width: 100%;
     padding-right: $entity-search-field-btn-width;
     padding-left: $page-padding - $grid-gutter-width-base / 2;

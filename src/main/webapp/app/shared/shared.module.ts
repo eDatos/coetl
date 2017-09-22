@@ -1,4 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router'
 import { DatePipe } from '@angular/common';
 
 import {
@@ -17,20 +18,23 @@ import {
     RolService,
     EntityListEmptyComponent,
     SplitButtonComponent,
-    AutocompleteComponent
+    AutocompleteComponent,
+    SideMenuComponent
 } from './';
 
 @NgModule({
     imports: [
         SecretariaLibroSharedLibsModule,
-        SecretariaLibroSharedCommonModule
+        SecretariaLibroSharedCommonModule,
+        RouterModule
     ],
     declarations: [
         JhiLoginModalComponent,
         HasAnyOperacionDirective,
         EntityListEmptyComponent,
         SplitButtonComponent,
-        AutocompleteComponent
+        AutocompleteComponent,
+        SideMenuComponent
     ],
     providers: [
         LoginService,
@@ -52,7 +56,8 @@ import {
         DatePipe,
         EntityListEmptyComponent,
         SplitButtonComponent,
-        AutocompleteComponent
+        AutocompleteComponent,
+        SideMenuComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
