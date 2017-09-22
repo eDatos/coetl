@@ -1,0 +1,15 @@
+@import '~scss/mixins';
+
+$checkbox-width: 0.25em + 1.125em;
+.operacion-listbox-item {
+    @include make-row();
+    float: right;
+    width: calc(100% - #{$checkbox-width});
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    .operacion-listbox-item-column {
+        @include make-col-ready();
+        @include make-col(6);
+    }
+}

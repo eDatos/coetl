@@ -51,13 +51,21 @@
                     </small>
                 </div>
             </div>
-        </fieldset>
-        <fieldset>
-            <div class="entity-fields">
-                <div class="form-group" >
-                    <label class="form-control-label" jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
-                    <p-listbox name="operacion" [metaKeySelection]="false" [options]="operacionesString" [multiple]="true" [checkbox]="true"[filter]="true" [styleClass]="!isEditMode() ? 'disabled-mode' : ''" [(ngModel)]="rol.operaciones"></p-listbox>
-                </div>
+    </fieldset>
+    <fieldset>
+        <div class="entity-fields">
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
+                <p-listbox name="operacion" [metaKeySelection]="false" [options]="operacionesString" [multiple]="true" [checkbox]="true"
+                    [filter]="true" [styleClass]="!isEditMode() ? 'disabled-mode' : ''" [(ngModel)]="rol.operaciones">
+                    <ng-template let-element pTemplate="item">
+                        <div class="operacion-listbox-item">
+                            <div class="operacion-listbox-item-column">{{element.value.accion}}</div>
+                            <div class="operacion-listbox-item-column">{{element.value.sujeto}}</div>
+                        </div>
+                    </ng-template>
+                </p-listbox>
             </div>
-        </fieldset>
+        </div>
+    </fieldset>
 </form>
