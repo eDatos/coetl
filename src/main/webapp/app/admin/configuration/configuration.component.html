@@ -1,4 +1,5 @@
-<div *ngIf="allConfiguration && configuration" class="entity">
+<ac-side-menu [parent]="instance"></ac-side-menu>
+<div *ngIf="allConfiguration && configuration" class="entity" #titlesContainer>
     <h2 jhiTranslate="configuration.title">Configuration</h2>
 
     <div class="entity-search">

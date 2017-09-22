@@ -1,19 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { JhiConfigurationService } from './configuration.service';
+import { HasTitlesContainer } from '../../shared';
 
 @Component({
     selector: 'jhi-configuration',
     templateUrl: './configuration.component.html',
     styleUrls: ['./configuration.component.scss']
 })
-export class JhiConfigurationComponent implements OnInit {
+export class JhiConfigurationComponent implements OnInit, HasTitlesContainer {
     allConfiguration: any = null;
     configuration: any = null;
     configKeys: any[];
     filter: string;
     orderProp: string;
     reverse: boolean;
+
+    @ViewChild('titlesContainer') titlesContainer: ElementRef;
+    public instance: JhiConfigurationComponent;
 
     constructor(
         private configurationService: JhiConfigurationService
@@ -22,6 +26,7 @@ export class JhiConfigurationComponent implements OnInit {
         this.filter = '';
         this.orderProp = 'prefix';
         this.reverse = false;
+        this.instance = this;
     }
 
     keys(dict): Array<string> {
@@ -42,5 +47,9 @@ export class JhiConfigurationComponent implements OnInit {
         this.configurationService.getEnv().subscribe((configuration) => {
             this.allConfiguration = configuration;
         });
+    }
+
+    getTitlesContainer() {
+        return this.titlesContainer;
     }
 }
