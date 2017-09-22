@@ -48,6 +48,10 @@
     margin-bottom: initial !important;
 }
 
+p-listbox {
+    padding: 0.5rem 0.75rem;
+}
+
 p-listbox /deep/ {
     .ui-state-default {
         background: none;
