@@ -1,10 +1,7 @@
 package es.tenerife.secretaria.libro.service;
 
-import java.time.Instant;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -17,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,17 +134,6 @@ public class UsuarioService {
 	public Usuario getUsuarioWithAuthorities() {
 		return usuarioRepository.findOneWithRolesByLoginAndDeletionDateIsNull(SecurityUtils.getCurrentUserLogin())
 				.orElse(null);
-	}
-
-	// TODO SECRETARIA-62 es necesario?
-	@Scheduled(cron = "0 0 1 * * ?")
-	public void removeUsuariosNoActivados() {
-		List<Usuario> users = usuarioRepository.findAllByActivadoIsFalseAndCreatedDateBeforeAndDeletionDateIsNull(
-				Instant.now().minus(3, ChronoUnit.DAYS));
-		for (Usuario user : users) {
-			log.debug("Eliminando usuarios no activos {}", user.getLogin());
-			deleteUsuario(user.getLogin());
-		}
 	}
 
 	private void validarUsuarioLdap(Usuario user) {
