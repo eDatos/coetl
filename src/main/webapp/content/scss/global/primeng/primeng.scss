@@ -14,8 +14,7 @@
         right: 0;
     }
     .ui-inputtext {
-        padding-left: $grid-gutter-width-base / 2;
-        padding-right: $grid-gutter-width-base / 2;
+        padding: 2px $input-padding-x;
     }
 }
 
@@ -33,14 +32,16 @@
     padding: $input-padding-y $input-padding-x;
 }
 
-.ui-state-default {
-    border: none;
-    &:hover {
-        border-width: 0 0 2 * $border-width 0;
-        border-style: solid;
-        border-color: $grey-medium !important;
-        margin-bottom: -2 * $border-width;
-    }                
+fieldset {
+    .ui-state-default {
+        border: none;
+        &:hover {
+            border-width: 0 0 2 * $border-width 0;
+            border-style: solid;
+            border-color: $grey-medium !important;
+            margin-bottom: -2 * $border-width;
+        }                
+    }
 }
 
 .ui-state-disabled:hover {
