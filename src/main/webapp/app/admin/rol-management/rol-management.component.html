@@ -11,8 +11,8 @@
             <table class="table table-hover" acStickyTableHeader>
                 <thead>
                     <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                        <th width="40%" jhiSortBy="codigo"><span jhiTranslate="rolManagement.codigo">Codigo</span> <span class="fa fa-sort"></span></th width="40%">
-                        <th width="60%" jhiSortBy="name"><span jhiTranslate="rolManagement.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
+                        <th style="width: 40%" jhiSortBy="codigo"><span jhiTranslate="rolManagement.codigo">Codigo</span> <span class="fa fa-sort"></span></th>
+                        <th style="width: 60%" jhiSortBy="name"><span jhiTranslate="rolManagement.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
                     </tr>
                 </thead>
                 <tbody *ngIf="roles">
