@@ -1,2 +1,11 @@
 @import '~scss/variables';
 @import 'node_modules/bootstrap/scss/bootstrap';
+
+// Overriding _normalize.scss
+button,
+input,
+optgroup,
+select,
+textarea {
+   font-family: $font-family-sans-serif;
+}
