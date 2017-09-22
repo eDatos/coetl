@@ -14,6 +14,9 @@ export class EntityListEmptyComponent {
     @Input()
     buttonLabel: string;
 
+    @Input()
+    operacionButton: string[] = [];
+
     constructor(
         private router: Router
     ) { }
