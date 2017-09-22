@@ -2,10 +2,6 @@ package es.tenerife.secretaria.libro.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,16 +33,6 @@ public class UserServiceIntTest {
 	private UsuarioService userService;
 
 	@Test
-
-	public void testFindNotActivatedUsersByCreationDateBefore() {
-		userService.removeUsuariosNoActivados();
-		Instant now = Instant.now();
-		List<Usuario> users = userRepository
-				.findAllByActivadoIsFalseAndCreatedDateBefore(now.minus(3, ChronoUnit.DAYS));
-		assertThat(users).isEmpty();
-	}
-
-	@Test
 	public void assertThatAnonymousUserIsNotGet() {
 		final PageRequest pageable = new PageRequest(0, (int) userRepository.count());
 		final Page<Usuario> allManagedUsers = userService.getAllUsuarios(pageable, false, null);
@@ -54,21 +40,4 @@ public class UserServiceIntTest {
 				.noneMatch(user -> Constants.ANONYMOUS_USER.equals(user.getLogin()))).isTrue();
 	}
 
-	@Test
-	public void testRemoveNotActivatedUsers() {
-
-		Usuario user = new Usuario();
-		user.setLogin("johndoe");
-		user.setNombre("John");
-		user.setApellido1("Doe");
-		user.setApellido2("Doe2");
-		user.setEmail("john.doe@localhost");
-		user.setActivado(false);
-		userRepository.save(user);
-		assertThat(userRepository.findOneByLogin("johndoe")).isPresent();
-		user.setCreatedDate(Instant.now().minus(30, ChronoUnit.DAYS));
-		userRepository.save(user);
-		userService.removeUsuariosNoActivados();
-		assertThat(userRepository.findOneByLoginAndDeletionDateIsNull("johndoe")).isNotPresent();
-	}
 }
