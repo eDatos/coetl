@@ -3,7 +3,8 @@
 
     <h2>
         <div>
-            <button *ngIf="!isEditMode()" type="button" routerLink="/user-management" class="btn btn-secondary btn-frameless" [attr.aria-label]="'entity.action.back' | translate">
+            <button *ngIf="!isEditMode()" type="button" routerLink="/user-management" class="btn btn-secondary btn-frameless back-arrow"
+                [attr.aria-label]="'entity.action.back' | translate">
                         <span class="fa fa-arrow-left"></span>
                     </button>
             <i class="fa fa-fw fa-user" aria-hidden="true"></i>

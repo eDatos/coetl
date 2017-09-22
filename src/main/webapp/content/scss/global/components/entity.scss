@@ -23,6 +23,18 @@ h2 {
         margin-top: $navbar-height;
     }
     box-shadow: $nav-shadow;
+
+    $arrow-padding: 8px;
+    .back-arrow {
+        position: absolute;
+        left: -$arrow-padding/3;
+        padding: $arrow-padding*2 $arrow-padding $arrow-padding $arrow-padding;
+        margin: auto;
+        height: $entity-header-height;
+        .fa {
+            height: $page-padding - $arrow-padding * 2;
+        }
+    }
 }
 
 h3 {
