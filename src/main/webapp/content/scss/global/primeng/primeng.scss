@@ -48,6 +48,27 @@
     margin-bottom: initial !important;
 }
 
+p-listbox /deep/ {
+    .ui-state-default {
+        background: none;
+        border: $border-width solid $grey-medium;
+
+        &:hover {
+            border: $border-width solid $grey-medium;
+            margin-bottom: 0;
+        }
+    }
+
+    .disabled-mode.ui-listbox  {
+        cursor: initial;
+        pointer-events: none;
+    }
+
+    input.ui-inputtext {
+        pointer-events: initial;
+    }
+}
+
 fieldset:disabled {
     .entity-fields .form-group {    
         .ui-state-default {
