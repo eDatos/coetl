@@ -65,10 +65,12 @@ export class UserFilter implements EntityFilter {
     private getCriterias() {
         const criterias = [];
         if (this.name) {
-            criterias.push(`NOMBRE ILIKE '%${this.name}%'`);
-            criterias.push(`APELLIDO1 ILIKE '%${this.name}%'`);
-            criterias.push(`APELLIDO2 ILIKE '%${this.name}%'`);
-            criterias.push(`LOGIN ILIKE '%${this.name}%'`);
+            const subcriterias = [];
+            subcriterias.push(`NOMBRE ILIKE '%${this.name}%'`);
+            subcriterias.push(`APELLIDO1 ILIKE '%${this.name}%'`);
+            subcriterias.push(`APELLIDO2 ILIKE '%${this.name}%'`);
+            subcriterias.push(`LOGIN ILIKE '%${this.name}%'`);
+            criterias.push(`(${subcriterias.join(' OR ')})`);
         }
         if (this.roles && this.roles.length > 0) {
             criterias.push(`ROL IN (${this.rolesToParam()})`);
