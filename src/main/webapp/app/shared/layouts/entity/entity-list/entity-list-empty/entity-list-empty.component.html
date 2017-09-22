@@ -3,8 +3,10 @@
     />
     <div class="entity-list-empty-message">
         <div jhiTranslate="entity.list.empty">No se han obtenido resultados que cumplan los criterios de búsqueda</div>
-        <button *ngIf="buttonLink" class="btn btn-secondary jh-create-entity" (click)="createNewEntity()">
-        <span class="fa fa-plus"></span> <span>{{buttonLabel}}</span>
-    </button>
+        <ng-container *acHasAnyOperacion="operacionButton">
+            <button *ngIf="buttonLink" class="btn btn-secondary jh-create-entity" (click)="createNewEntity()">
+            <span class="fa fa-plus"></span> <span>{{buttonLabel}}</span>
+            </button>
+        </ng-container>
     </div>
 </div>
