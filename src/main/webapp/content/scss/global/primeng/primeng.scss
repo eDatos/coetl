@@ -91,6 +91,9 @@ fieldset:disabled {
             .ui-autocomplete-token {
                 padding-right: .5em;
             }
+            .ui-autocomplete-dropdown {
+                display: none;
+            }
         }
     }
 }
