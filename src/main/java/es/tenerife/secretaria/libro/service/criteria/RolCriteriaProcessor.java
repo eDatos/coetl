@@ -1,0 +1,38 @@
+package es.tenerife.secretaria.libro.service.criteria;
+
+import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
+import com.arte.libs.grammar.orm.jpa.criteria.OrderProcessorBuilder;
+
+import es.tenerife.secretaria.libro.domain.Rol;
+
+public class RolCriteriaProcessor extends AbstractCriteriaProcessor {
+
+	private static final String ENTITY_FIELD_CODIGO = "codigo";
+	private static final String ENTITY_FIELD_NOMBRE = "nombre";
+
+	public RolCriteriaProcessor() {
+		super(Rol.class);
+	}
+
+	public enum QueryProperty {
+		CODIGO, NOMBRE
+	}
+
+	@Override
+	public void registerProcessors() {
+		//@formatter:off
+		registerOrderProcessor(
+	            OrderProcessorBuilder.orderProcessor()
+	                .withQueryProperty(QueryProperty.CODIGO)
+	                .withEntityProperty(ENTITY_FIELD_CODIGO)
+	            .build());
+    	
+    	registerOrderProcessor(
+    			OrderProcessorBuilder.orderProcessor()
+    			.withQueryProperty(QueryProperty.NOMBRE)
+    			.withEntityProperty(ENTITY_FIELD_NOMBRE)
+    			.build());
+        //@formatter:on
+	}
+
+}

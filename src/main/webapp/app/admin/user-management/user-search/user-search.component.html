@@ -7,8 +7,8 @@
     </div>
     <div class="entity-search-field">
         <label jhiTranslate="userManagement.filters.rol.label">Filtrar</label>
-        <input class="form-control" [attr.aria-label]="'userManagement.filters.rol.placeholder' | translate" placeholder="{{'userManagement.filters.rol.placeholder' | translate}}"
-            [(ngModel)]="filters.rol" (keyup)="filter()" />
+        <ac-autocomplete (onSelect)="filter()" (onUnselect)="filter()" name="rol" [(ngModel)]="filters.roles" [suggestions]="roles"
+            [itemTemplate]="rolItemTemplate" [propertiesToQuery]="['nombre','codigo']" [minLength]="1" [placeholder]="'userManagement.filters.rol.placeholder' | translate"></ac-autocomplete>
     </div>
 
     <div class="entity-search-field">

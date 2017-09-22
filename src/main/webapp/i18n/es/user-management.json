@@ -41,11 +41,11 @@
         "filters": {
             "name": {
                 "label": "Búsqueda de usuario",
-                "placeholder": "Búsqueda de usuarios por nombre, apellidos o nombre de usuario"
+                "placeholder": "Introduzca nombre, usuario o apellidos"
             },
             "rol": {
                 "label": "Búsqueda por rol",
-                "placeholder": "Búsqueda de usuarios por rol"
+                "placeholder": "Introduzca rol"
             }
         }
     }

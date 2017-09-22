@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 import com.arte.libs.grammar.antlr.DefaultQueryExprVisitor;
 import com.arte.libs.grammar.antlr.QueryExprCompiler;
 import com.arte.libs.grammar.domain.QueryRequest;
-import com.arte.libs.grammar.domain.QuerySort;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 
 import es.tenerife.secretaria.libro.service.criteria.OperacionCriteriaProcessor;
+import es.tenerife.secretaria.libro.service.criteria.RolCriteriaProcessor;
 import es.tenerife.secretaria.libro.service.criteria.UsuarioCriteriaProcessor;
 
 @Component
@@ -30,6 +30,10 @@ public class QueryUtil {
 		return queryToCriteria(query, new OperacionCriteriaProcessor());
 	}
 
+	public DetachedCriteria queryToRolCriteria(String query) {
+		return queryToCriteria(query, new RolCriteriaProcessor());
+	}
+
 	public String queryIncludingDeleted(String query) {
 		return new StringBuilder(query).append(" ").append(INCLUDE_DELETED_HINT).toString();
 	}
@@ -41,7 +45,6 @@ public class QueryUtil {
 			DefaultQueryExprVisitor visitor = new DefaultQueryExprVisitor();
 			queryExprCompiler.parse(query, visitor);
 			queryRequest = visitor.getQueryRequest();
-			queryRequest.setSort(new QuerySort());
 		}
 		return processor.process(queryRequest);
 	}

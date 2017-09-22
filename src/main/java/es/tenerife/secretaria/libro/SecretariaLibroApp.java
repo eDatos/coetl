@@ -65,7 +65,7 @@ public class SecretariaLibroApp {
 		}
 		log.info(
 				"\n----------------------------------------------------------\n\t"
-						+ "La aplicación '{}' se ha lanzaso! URLs:\n\t" + "Local: \t\t{}://localhost:{}\n\t"
+						+ "La aplicación '{}' se ha lanzado! URLs:\n\t" + "Local: \t\t{}://localhost:{}\n\t"
 						+ "Externa: \t{}://{}:{}\n\t"
 						+ "Perfiles(s): \t{}\n----------------------------------------------------------",
 				env.getProperty("spring.application.name"), protocol, env.getProperty("server.port"), protocol,

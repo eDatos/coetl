@@ -28,10 +28,16 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     private propertiesToQuery: string[];
 
     @Input()
-    public debouncedMode = true;
+    public debouncedMode = false;
 
     @Output()
     private completeMethod: EventEmitter<any> = new EventEmitter();
+
+    @Output()
+    private onSelect: EventEmitter<any> = new EventEmitter();
+
+    @Output()
+    private onUnselect: EventEmitter<any> = new EventEmitter();
 
     private _selectedSuggestions: any;
 
@@ -56,6 +62,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     @Input()
     public field: string = null;
 
+    @Input()
+    public placeholder: string = null;
+
     public internalItemTemplate: Function;
 
     private onModelChange: Function = () => { };
@@ -79,6 +88,14 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     onCompleteMethod($event) {
         this.completeMethod.emit($event);
         this.filteredSuggestions = this.getFilteredSuggestions($event.query);
+    }
+
+    onSelectMethod($event) {
+        this.onSelect.emit($event);
+    }
+
+    onUnselectMethod($event) {
+        this.onUnselect.emit($event);
     }
 
     getFilteredSuggestions(query) {

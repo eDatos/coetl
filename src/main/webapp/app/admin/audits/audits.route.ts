@@ -8,7 +8,7 @@ export const auditsRoute: Route = {
     component: AuditsComponent,
     data: {
         pageTitle: 'audits.title',
-        operaciones: 'LEER:TEST'
+        operaciones: 'LEER:AUDITORIA'
     },
     canActivate: [UserRouteAccessService]
 };

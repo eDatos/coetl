@@ -5,7 +5,7 @@ import { Response } from '@angular/http';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
-import { UserService } from '../../shared/index';
+import { UserService, Rol } from '../../shared/index';
 import { RolService } from '../../shared/rol/rol.service'
 
 import { Operacion } from './operacion.model';
@@ -36,16 +36,15 @@ export class OperacionDialogComponent implements OnInit {
         this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
-
-        this.roles = [];
-        this.rolService.roles().subscribe((roles) => {
-            this.roles = roles;
-        });
     }
 
     load(id) {
+        this.roles = [];
         if (id) {
             this.operacionService.find(id).subscribe((operacion) => this.operacion = operacion);
+            this.rolService.query({ operacionId: id }).subscribe((roles) => {
+                this.roles = roles.json;
+            });
         } else {
             this.operacion = new Operacion();
         }
@@ -57,6 +56,10 @@ export class OperacionDialogComponent implements OnInit {
             returnPath.push(this.operacion.id.toString());
         }
         this.router.navigate(returnPath);
+    }
+
+    rolItemTemplate(item: Rol) {
+        return item.nombre;
     }
 
     private back() {
