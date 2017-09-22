@@ -15,6 +15,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,6 +59,8 @@ public class RolResourceIntTest {
 	private static final String TEST_ROL = "TEST_ROL";
 
 	private static final String ROLE_ADMIN = "ADMIN";
+
+	private static final String ROLE_USER = "USER";
 
 	private static final String DEFAULT_LOGIN = "testLoginName";
 
@@ -140,8 +143,9 @@ public class RolResourceIntTest {
 				.perform(get("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8)
 						.contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$[0].codigo").value(ROLE_ADMIN))
-				.andExpect(jsonPath("$[1].codigo").value("USER"));
+				.andExpect(jsonPath("$").isArray())
+				.andExpect(jsonPath("$[*].codigo", Matchers.containsInAnyOrder(ROLE_ADMIN, ROLE_USER)));
+
 	}
 
 	@Test
