@@ -200,16 +200,6 @@ $entity-search-field-btn-width: 200px;
     }
 }
 
-.entity-list-empty {
-    text-align: center;
-    padding: $spacer-y 0;
-    & > * {
-        margin-top: $spacer-y;
-    }
-    img {
-        width: 200px;
-    }
-}
 
 .container-fluid {
     @include make-narrowed-container();
