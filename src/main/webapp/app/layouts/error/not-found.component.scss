@@ -1,17 +1,17 @@
 
 @import '~scss/variables';
 
-.entity-list-empty {    
+.not-found {    
     padding: $spacer-y*5 0;    
     display: flex;
     align-items: center;
     justify-content: center;
-
+    
     img {
         width: 200px;
-    }
+    }    
 
-    .entity-list-empty-message {
+    .not-found-message {
         padding: $spacer-y;
         font-size: $font-size-h3;
         margin-left:$spacer-x;
@@ -26,7 +26,6 @@
         .detail {
             text-align: left;
             color: $grey-dark;
-            width: 50%;
         }
             
     }
