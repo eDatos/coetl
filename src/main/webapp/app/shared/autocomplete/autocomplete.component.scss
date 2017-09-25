@@ -1,0 +1,15 @@
+@import '~scss/variables';
+
+:host {
+    border-radius: $border-radius;
+}
+
+:host[required] {
+    border-left: $border-width*5 solid $accent-dark;
+    &.ng-valid {
+        border-left: $border-width*5 solid $brand-success;
+    } 
+    p-autoComplete {
+        border-left: none;
+    }
+}

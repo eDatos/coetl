@@ -13,6 +13,7 @@ export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 @Component({
     selector: 'ac-autocomplete',
     templateUrl: 'autocomplete.component.html',
+    styleUrls: ['autocomplete.component.scss'],
     providers: [AC_AUTOCOMPLETE_VALUE_ACCESSOR]
 })
 // Sample where the calls are made to the service
@@ -64,6 +65,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
     @Input()
     public placeholder: string = null;
+
+    @Input()
+    public required = false;
 
     public internalItemTemplate: Function;
 
@@ -133,6 +137,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
     handleOnFocusOutSuggestions($event) {
         this.focusMustOpenPanel = true;
+        this.onModelTouched();
     }
 
     handleOnFocusSuggestions($event) {

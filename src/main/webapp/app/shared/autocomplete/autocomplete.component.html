@@ -1,7 +1,8 @@
 <p-autoComplete [multiple]="multiple" [(ngModel)]="selectedSuggestions" [suggestions]="filteredSuggestions" (completeMethod)="onCompleteMethod($event)"
     [dropdown]="!debouncedMode" (onDropdownClick)="handleDropdownSuggestions($event)" (onFocus)="handleOnFocusSuggestions($event)"
     (onBlur)="handleOnFocusOutSuggestions($event)" [minLength]="minLength" [emptyMessage]="emptyMessage" [forceSelection]="!multiple"
-    [field]="field" [placeholder]="placeholder" (onSelect)="onSelectMethod($event)" (onUnselect)="onUnselectMethod($event)">
+    [field]="field" [placeholder]="placeholder" (onSelect)="onSelectMethod($event)" (onUnselect)="onUnselectMethod($event)" [required]="required"
+    #rolInput="ngModel">
     <ng-template let-item pTemplate="item">
         {{internalItemTemplate(item)}}
     </ng-template>
@@ -9,3 +10,8 @@
         {{internalItemTemplate(item)}}
     </ng-template>
 </p-autoComplete>
+<div *ngIf="required && ((rolInput.touched || rolInput.dirty) && rolInput.invalid)" class="entity-field-error">
+    <small class="form-text text-danger" *ngIf="rolInput.errors.required" jhiTranslate="entity.validation.required">
+            This field is required.
+        </small>
+</div>

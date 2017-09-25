@@ -93,6 +93,7 @@ fieldset {
                 
                 position: absolute !important;
                 top: 100%;
+                right: 0;
                 font-size: $error-font-size;
                 
                 small.form-text.text-danger {
