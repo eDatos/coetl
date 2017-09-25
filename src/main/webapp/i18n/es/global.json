@@ -102,7 +102,10 @@
             "datetimelocal": "Este campo debe ser una fecha y hora."
         },
         "list": {
-            "empty": "No se han obtenido resultados que cumplan los criterios de búsqueda"
+            "empty": {
+                "sorry": "Lo sentimos.",
+                "detail": "No se han obtenido resultados que cumplan los criterios de búsqueda."
+            }
         }
     },
     "error": {
