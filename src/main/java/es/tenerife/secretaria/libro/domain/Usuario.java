@@ -66,10 +66,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 	@Column(length = 100, unique = true)
 	private String email;
 
-	@NotNull
-	@Column(nullable = false)
-	private boolean activado = false;
-
 	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "usuario_rol", joinColumns = {
@@ -130,14 +126,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 		this.email = email;
 	}
 
-	public boolean getActivado() {
-		return activado;
-	}
-
-	public void setActivado(boolean activated) {
-		this.activado = activated;
-	}
-
 	public Set<Rol> getRoles() {
 		return roles;
 	}
@@ -152,9 +140,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
 	public void setDeletionDate(ZonedDateTime deletionDate) {
 		this.deletionDate = deletionDate;
-		if (deletionDate != null) {
-			setActivado(false);
-		}
 	}
 
 	@Override
@@ -178,6 +163,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 	@Override
 	public String toString() {
 		return "Usuario{" + "login='" + login + '\'' + ", nombre='" + nombre + '\'' + ", apellido1='" + apellido1 + '\''
-				+ ", email='" + email + '\'' + ", activado='" + activado + '\'' + "}";
+				+ ", email='" + email + '\'' + "}";
 	}
 }

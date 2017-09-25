@@ -81,22 +81,6 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         });
     }
 
-    setActive(user, isActivated) {
-        user.activated = isActivated;
-
-        this.userService.update(user).subscribe(
-            (response) => {
-                if (response.status === 200) {
-                    this.error = null;
-                    this.success = 'OK';
-                    this.loadAll();
-                } else {
-                    this.success = null;
-                    this.error = 'ERROR';
-                }
-            });
-    }
-
     loadAll(userFilter?: UserFilter) {
         this.userService.query({
             page: this.page - 1,

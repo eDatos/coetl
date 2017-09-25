@@ -1,6 +1,5 @@
 package es.tenerife.secretaria.libro.repository;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +14,6 @@ import es.tenerife.secretaria.libro.domain.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-
-	List<Usuario> findAllByActivadoIsFalseAndCreatedDateBefore(Instant dateTime);
 
 	Optional<Usuario> findOneByEmail(String email);
 
@@ -37,8 +34,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	@EntityGraph(attributePaths = "roles")
 	Usuario findOneWithRolesByIdAndDeletionDateIsNull(Long id);
-
-	List<Usuario> findAllByActivadoIsFalseAndCreatedDateBeforeAndDeletionDateIsNull(Instant minus);
 
 	Optional<Usuario> findOneByLoginAndDeletionDateIsNull(String login);
 

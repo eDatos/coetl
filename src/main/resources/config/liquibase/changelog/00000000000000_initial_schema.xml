@@ -36,9 +36,6 @@
       <column name="email" type="varchar(255)">
         <constraints unique="true" nullable="true" />
       </column>
-      <column name="activado" type="boolean" valueBoolean="false">
-        <constraints nullable="false" />
-      </column>
       <column name="deletion_date" type="timestamp">
         <constraints nullable="true" />
       </column>
