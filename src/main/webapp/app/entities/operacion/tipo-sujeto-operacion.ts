@@ -7,5 +7,4 @@ export enum TipoSujetoOperacion {
     CONFIG,
     AUDITORIA,
     LOGS,
-    CUENTA_PROPIA,
 }
