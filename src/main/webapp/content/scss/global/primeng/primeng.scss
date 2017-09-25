@@ -42,6 +42,34 @@ fieldset {
             margin-bottom: -2 * $border-width;
         }                
     }
+    p-listbox {
+        padding: $input-padding-y $input-padding-x;
+        /deep/ {
+            .ui-chkbox-box {
+                background: none;
+                border: $border-width solid $grey-medium;
+        
+                &:hover {
+                    border: $border-width solid $grey-medium;
+                    margin-bottom: 0;
+                }
+            }
+            .ui-widget-header {
+                .ui-chkbox-box {
+                    color: $grey-darkest;
+                }
+            }
+        
+            .disabled-mode.ui-listbox  {
+                cursor: initial;
+                pointer-events: none;
+            }
+        
+            input.ui-inputtext {
+                pointer-events: initial;
+            }
+        }
+    }
 }
 
 .ui-state-disabled:hover {
@@ -49,30 +77,6 @@ fieldset {
     margin-bottom: initial !important;
 }
 
-p-listbox {
-    padding: 0.5rem 0.75rem;
-}
-
-p-listbox /deep/ {
-    .ui-state-default {
-        background: none;
-        border: $border-width solid $grey-medium;
-
-        &:hover {
-            border: $border-width solid $grey-medium;
-            margin-bottom: 0;
-        }
-    }
-
-    .disabled-mode.ui-listbox  {
-        cursor: initial;
-        pointer-events: none;
-    }
-
-    input.ui-inputtext {
-        pointer-events: initial;
-    }
-}
 
 fieldset:disabled {
     .entity-fields .form-group {    
