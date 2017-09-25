@@ -18,7 +18,7 @@ export class RolMgmtDialogComponent implements OnInit {
 
     rol: Rol;
     codigoOriginalRol = '';
-    operaciones: Operacion[];
+    operaciones: Operacion[] = [];
     isSaving: Boolean;
     operacionesString: any[];
 
@@ -86,6 +86,7 @@ export class RolMgmtDialogComponent implements OnInit {
             });
         } else {
             this.rol = new Rol();
+            this.rol.operaciones = [];
         }
     }
 
