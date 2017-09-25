@@ -44,30 +44,28 @@ fieldset {
     }
     p-listbox {
         padding: $input-padding-y $input-padding-x;
-        /deep/ {
-            .ui-chkbox-box {
-                background: none;
+        .ui-chkbox-box {
+            background: none;
+            border: $border-width solid $grey-medium;
+    
+            &:hover {
                 border: $border-width solid $grey-medium;
-        
-                &:hover {
-                    border: $border-width solid $grey-medium;
-                    margin-bottom: 0;
-                }
+                margin-bottom: 0;
             }
-            .ui-widget-header {
-                .ui-chkbox-box {
-                    color: $grey-darkest;
-                }
+        }
+        .ui-widget-header {
+            .ui-chkbox-box {
+                color: $grey-darkest;
             }
-        
-            .disabled-mode.ui-listbox  {
-                cursor: initial;
-                pointer-events: none;
-            }
-        
-            input.ui-inputtext {
-                pointer-events: initial;
-            }
+        }
+    
+        .disabled-mode.ui-listbox  {
+            cursor: initial;
+            pointer-events: none;
+        }
+    
+        input.ui-inputtext {
+            pointer-events: initial;
         }
     }
 }
