@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'ac-entity-list-empty',
-    templateUrl: './entity-list-empty.component.html',
-    styleUrls: ['./entity-list-empty.component.scss']
+    templateUrl: './entity-list-empty.component.html'
 })
 export class EntityListEmptyComponent {
 
