@@ -1,5 +1,6 @@
 @import '~scss/variables';
 
+$image-width: 200px;
 .image-message {    
     padding: $spacer-y*5 0;    
     display: flex;
@@ -7,7 +8,7 @@
     justify-content: center;
 
     img {
-        width: 200px;
+        width: $image-width;
     }
 
     .image-message-text {
@@ -25,6 +26,7 @@
         .detail {
             text-align: left;
             color: $grey-dark;
+            max-width: $image-width * 2;
         }            
     }
 }
