@@ -49,6 +49,15 @@ fieldset {
         @include make-row();
 
         .form-group {
+            &.full-width {
+                @include make-col(12); 
+                label {                    
+                    @include make-col(2);            
+                }
+                .form-control {
+                    @include make-col(10);  
+                }
+            }
             
             @include make-col-ready();
             @include make-col(6);
