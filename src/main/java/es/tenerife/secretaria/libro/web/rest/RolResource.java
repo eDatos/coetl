@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import es.tenerife.secretaria.libro.config.AuditConstants;
 import es.tenerife.secretaria.libro.config.audit.AuditEventPublisher;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.service.RolService;
 import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
+import es.tenerife.secretaria.libro.web.rest.dto.Views;
 import es.tenerife.secretaria.libro.web.rest.errors.ErrorConstants;
 import es.tenerife.secretaria.libro.web.rest.mapper.RolMapper;
 import es.tenerife.secretaria.libro.web.rest.util.HeaderUtil;
@@ -54,6 +56,7 @@ public class RolResource extends AbstractResource {
 	@GetMapping("/roles")
 	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
+	@JsonView(Views.Minimal.class)
 	public ResponseEntity<List<RolDTO>> getRoles(@ApiParam(required = false) Long operacionId,
 			@ApiParam(required = false) String query) {
 		log.debug("REST petición para obtener una página de Roles");
