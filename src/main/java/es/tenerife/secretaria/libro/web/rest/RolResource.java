@@ -2,8 +2,8 @@ package es.tenerife.secretaria.libro.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,10 +54,10 @@ public class RolResource extends AbstractResource {
 	@GetMapping("/roles")
 	@PreAuthorize("hasPermission('ROL', 'LEER')")
 	@Timed
-	public ResponseEntity<Set<RolDTO>> getRoles(@ApiParam(required = false) Long operacionId,
+	public ResponseEntity<List<RolDTO>> getRoles(@ApiParam(required = false) Long operacionId,
 			@ApiParam(required = false) String query) {
 		log.debug("REST petición para obtener una página de Roles");
-		Set<Rol> roles;
+		List<Rol> roles;
 		if (operacionId != null) {
 			roles = rolService.findByOperacion(operacionId);
 		} else {

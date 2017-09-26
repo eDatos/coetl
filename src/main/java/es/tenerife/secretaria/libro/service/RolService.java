@@ -1,5 +1,6 @@
 package es.tenerife.secretaria.libro.service;
 
+import java.util.List;
 import java.util.Set;
 
 import es.tenerife.secretaria.libro.domain.Rol;
@@ -8,7 +9,7 @@ public interface RolService {
 
 	Rol save(Rol operacion);
 
-	Set<Rol> findAll(String query);
+	List<Rol> findAll(String query);
 
 	Rol findOne(String codigo);
 
@@ -18,6 +19,6 @@ public interface RolService {
 
 	Set<Rol> findByUsuario(String name);
 
-	Set<Rol> findByOperacion(Long operacionId);
+	List<Rol> findByOperacion(Long operacionId);
 
 }

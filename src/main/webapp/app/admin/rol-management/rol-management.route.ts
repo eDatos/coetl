@@ -16,7 +16,7 @@ export class RolResolvePagingParams implements Resolve<any> {
     constructor(private paginationUtil: JhiPaginationUtil) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'nombre,asc';
+        const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'codigo,asc';
         return {
             predicate: this.paginationUtil.parsePredicate(sort),
             ascending: this.paginationUtil.parseAscending(sort)
