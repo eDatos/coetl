@@ -74,7 +74,8 @@
             "view": "Ver",
             "filtersReset": "Reiniciar filtros",
             "deactivate": "Desactivar",
-            "activate": "Activar"
+            "activate": "Activar",
+            "close": "Cerrar"
         },
         "detail": {
             "field": "Campo",
