@@ -86,17 +86,5 @@ fieldset:disabled {
                 margin-bottom: initial;
             } 
         }
-        .ui-autocomplete {
-            cursor: initial;
-            .fa-close {
-                display: none;
-            }
-            .ui-autocomplete-token {
-                padding-right: .5em;
-            }
-            .ui-autocomplete-dropdown {
-                display: none;
-            }
-        }
     }
 }

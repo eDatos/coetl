@@ -13,3 +13,25 @@
         border-left: none;
     }
 }
+
+fieldset:disabled {
+    .entity-fields .form-group {
+        :host {
+            /deep/ .ui-autocomplete {
+                cursor: initial;
+                .fa-close {
+                    display: none;
+                }
+                .ui-autocomplete-token {
+                    padding-right: .5em;
+                }
+                .ui-autocomplete-dropdown {
+                    display: none;
+                }
+            }
+        }
+    }
+    :host[required] {
+        border-left: none;
+    }
+}
