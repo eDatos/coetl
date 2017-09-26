@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import es.tenerife.secretaria.libro.config.Constants;
 
@@ -113,18 +114,22 @@ public class UsuarioDTO {
 		return email;
 	}
 
+	@JsonProperty
 	public String getCreatedBy() {
 		return createdBy;
 	}
 
+	@JsonProperty
 	public Instant getCreatedDate() {
 		return createdDate;
 	}
 
+	@JsonProperty
 	public String getLastModifiedBy() {
 		return lastModifiedBy;
 	}
 
+	@JsonProperty
 	public Instant getLastModifiedDate() {
 		return lastModifiedDate;
 	}
@@ -176,10 +181,12 @@ public class UsuarioDTO {
 		this.nombre = firstName;
 	}
 
+	@JsonProperty
 	public ZonedDateTime getDeletionDate() {
 		return deletionDate;
 	}
 
+	@JsonIgnore
 	public void setDeletionDate(ZonedDateTime deletionDate) {
 		this.deletionDate = deletionDate;
 	}
