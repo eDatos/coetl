@@ -16,6 +16,7 @@ import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.service.RolService;
 import es.tenerife.secretaria.libro.web.rest.errors.CustomParameterizedException;
+import es.tenerife.secretaria.libro.web.rest.errors.ErrorConstants;
 import es.tenerife.secretaria.libro.web.rest.util.QueryUtil;
 
 @Service
@@ -67,6 +68,9 @@ public class RolServiceImpl implements RolService {
 			throw new CustomParameterizedException("error.palabraClave.users-has-role", codigo);
 		}
 		Rol rol = rolRepository.findOneByCodigo(codigo);
+		if (rol == null) {
+			throw new CustomParameterizedException(ErrorConstants.ENTIDAD_NO_ENCONTRADA, codigo);
+		}
 		rolRepository.delete(rol.getId());
 	}
 

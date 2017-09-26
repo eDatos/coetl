@@ -41,7 +41,11 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
             this.paramLogin = params['login'];
             this.load(this.paramLogin);
         });
-        this.eventSubscriber = this.eventManager.subscribe('UserModified', (response) => this.load(response.content));
+        this.eventSubscriber = this.eventManager.subscribe('UserModified', (response) => {
+            if (!response.content || response.content.action !== 'deleted') {
+                this.load(response.content)
+            }
+        });
     }
 
     rolItemTemplate(item: Rol) {

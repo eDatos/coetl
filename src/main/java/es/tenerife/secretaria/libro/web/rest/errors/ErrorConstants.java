@@ -13,6 +13,8 @@ public final class ErrorConstants {
 	public static final String CODIGO_FALTA = "codigo-falta";
 	public static final String ENTIDAD_EXISTE = "entidad-existe";
 
+	public static final String ENTIDAD_NO_ENCONTRADA = "entidad-no-encontrada";
+
 	private ErrorConstants() {
 	}
 

@@ -25,13 +25,13 @@ export class RolMgmtDeleteDialogComponent {
         this.activeModal.dismiss('cancel');
     }
 
-    confirmDelete(codigo) {
-        this.rolService.delete(codigo).subscribe((response) => {
+    confirmDelete(rol: Rol) {
+        this.rolService.delete(rol).subscribe((response) => {
             this.eventManager.broadcast({
                 name: 'rolListModification',
                 content: 'Deleted a rol'
             });
-            this.activeModal.dismiss(true);
+            this.activeModal.dismiss('deleted');
         });
     }
 }
