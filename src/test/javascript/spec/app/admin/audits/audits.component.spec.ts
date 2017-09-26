@@ -8,6 +8,7 @@ import { AuditsComponent } from '../../../../../../main/webapp/app/admin/audits/
 import { AuditsService } from '../../../../../../main/webapp/app/admin/audits/audits.service';
 import { ITEMS_PER_PAGE } from '../../../../../../main/webapp/app/shared';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 function getDate(isToday = true) {
     let date: Date = new Date();
@@ -32,8 +33,19 @@ describe('Component Tests', () => {
         let comp: AuditsComponent;
         let fixture: ComponentFixture<AuditsComponent>;
         let service: AuditsService;
+        let routeStub: any;
+        const data = {
+            pagingParams: {
+                page: 1,
+                ascending: true,
+                predicate: 'auditEventDate'
+            }
+        };
 
         beforeEach(async(() => {
+            routeStub = {
+                data: Observable.of(data)
+            }
             TestBed.configureTestingModule({
                 imports: [SecretariaLibroTestModule],
                 declarations: [AuditsComponent],
@@ -44,7 +56,7 @@ describe('Component Tests', () => {
                     PaginationConfig,
                     DatePipe,
                     { provide: Router, useValue: null },
-                    { provide: ActivatedRoute, useValue: null },
+                    { provide: ActivatedRoute, useValue: routeStub },
                 ]
             }).overrideTemplate(AuditsComponent, '')
                 .compileComponents();
@@ -58,26 +70,34 @@ describe('Component Tests', () => {
 
         describe('today function ', () => {
             it('should set toDate to current date', () => {
-                comp.today();
-                expect(comp.toDate).toBe(getDate());
+                comp.getToday();
+                expect(comp.toDate.getDate()).toBe(getDate().getDate());
+                expect(comp.toDate.getMonth()).toBe(getDate().getMonth());
+                expect(comp.toDate.getFullYear()).toBe(getDate().getFullYear());
             });
         });
 
         describe('previousMonth function ', () => {
             it('should set fromDate to current date', () => {
                 comp.previousMonth();
-                expect(comp.fromDate).toBe(getDate(false));
+                expect(comp.fromDate.getDate()).toBe(getDate(false).getDate());
+                expect(comp.fromDate.getMonth()).toBe(getDate(false).getMonth());
+                expect(comp.fromDate.getFullYear()).toBe(getDate(false).getFullYear());
             });
         });
 
         describe('By default, on init', () => {
             it('should set all default values correctly', () => {
                 fixture.detectChanges();
-                expect(comp.toDate).toBe(getDate());
-                expect(comp.fromDate).toBe(getDate(false));
+                expect(comp.toDate.getDate()).toBe(getDate().getDate());
+                expect(comp.toDate.getMonth()).toBe(getDate().getMonth());
+                expect(comp.toDate.getFullYear()).toBe(getDate().getFullYear());
+                expect(comp.fromDate.getDate()).toBe(getDate(false).getDate());
+                expect(comp.fromDate.getMonth()).toBe(getDate(false).getMonth());
+                expect(comp.fromDate.getFullYear()).toBe(getDate(false).getFullYear());
                 expect(comp.itemsPerPage).toBe(ITEMS_PER_PAGE);
                 expect(comp.page).toBe(1);
-                expect(comp.reverse).toBeFalsy();
+                expect(comp.reverse).toBeTruthy();
             });
         });
     });

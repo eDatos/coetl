@@ -38,6 +38,11 @@ export class AuditsComponent implements OnInit {
         this.page = 1;
         this.reverse = false;
         this.predicate = 'auditEventDate';
+        this.routeData = this.activatedRoute.data.subscribe((data) => {
+            this.page = data['pagingParams'].page;
+            this.reverse = data['pagingParams'].ascending;
+            this.predicate = data['pagingParams'].predicate;
+        });
     }
 
     loadPage(page: number) {
@@ -53,8 +58,11 @@ export class AuditsComponent implements OnInit {
 
     onChangeDate() {
         this.auditsService.query({
-            page: this.page - 1, size: this.itemsPerPage,
-            fromDate: this.fromDate, toDate: this.toDate
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort(),
+            fromDate: this.fromDate,
+            toDate: this.toDate
         }).subscribe((res) => {
 
             this.audits = res.json();
