@@ -77,24 +77,9 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     registerChangeInUsers() {
         this.userListModification = this.eventManager.subscribe('userListModification', (response) => this.loadAll());
         this.searchSubscription = this.eventManager.subscribe('userSearch', (response) => {
-            this.router.navigate([this.activatedRoute.snapshot.url], { queryParams: response.content })
+            const queryParams = this.activatedRoute.snapshot.queryParams;
+            this.router.navigate([this.activatedRoute.snapshot.url], { queryParams: Object.assign({}, queryParams, response.content) })
         });
-    }
-
-    setActive(user, isActivated) {
-        user.activated = isActivated;
-
-        this.userService.update(user).subscribe(
-            (response) => {
-                if (response.status === 200) {
-                    this.error = null;
-                    this.success = 'OK';
-                    this.loadAll();
-                } else {
-                    this.success = null;
-                    this.error = 'ERROR';
-                }
-            });
     }
 
     loadAll(userFilter?: UserFilter) {
@@ -130,13 +115,11 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     }
 
     transition() {
-        this.router.navigate(['/user-management'], {
-            queryParams: {
-                page: this.page,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
-        });
-        this.loadAll();
+        const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+        queryParams['page'] = this.page
+        queryParams['predicate'] = this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+        this.router.navigate(['/user-management'], { queryParams });
+        this.loadAll(this.userFilter);
     }
 
     private onSuccess(data, headers) {

@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
 import { DEFAULT_LANGUAGE } from './language/language.constants';
-import { AutoCompleteModule, ButtonModule, SelectButtonModule, ListboxModule } from 'primeng/primeng';
+import { CalendarModule, AutoCompleteModule, ButtonModule, SelectButtonModule, ListboxModule } from 'primeng/primeng';
 
 @NgModule({
     imports: [
@@ -20,6 +21,8 @@ import { AutoCompleteModule, ButtonModule, SelectButtonModule, ListboxModule } f
         }),
         InfiniteScrollModule,
         CookieModule.forRoot(),
+        BrowserAnimationsModule,
+        CalendarModule,
         AutoCompleteModule,
         ButtonModule,
         SelectButtonModule,
@@ -33,6 +36,7 @@ import { AutoCompleteModule, ButtonModule, SelectButtonModule, ListboxModule } f
         NgJhipsterModule,
         InfiniteScrollModule,
         AutoCompleteModule,
+        CalendarModule,
         ButtonModule,
         SelectButtonModule,
         ListboxModule

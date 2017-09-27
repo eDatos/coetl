@@ -1,9 +1,15 @@
 package es.tenerife.secretaria.libro.web.rest.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import es.tenerife.secretaria.libro.domain.Rol;
 
 public class OperacionDTO implements Serializable {
 
@@ -18,6 +24,8 @@ public class OperacionDTO implements Serializable {
 	private String sujeto;
 
 	private Long optLock;
+
+	private List<Rol> roles;
 
 	public Long getId() {
 		return id;
@@ -49,6 +57,16 @@ public class OperacionDTO implements Serializable {
 
 	public void setOptLock(Long optLock) {
 		this.optLock = optLock;
+	}
+
+	@JsonProperty
+	public List<Rol> getRoles() {
+		return roles;
+	}
+
+	@JsonIgnore
+	public void setRoles(List<Rol> roles) {
+		this.roles = roles;
 	}
 
 	@Override

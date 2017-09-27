@@ -1,3 +1,3 @@
-id;opt_lock;login;nombre;apellido1;email;activado;created_by;last_modified_by
-1;0;anonymoususer;Anonymous;User;anonymous@localhost;true;system;system
-2;0;admin;Administrator;Administrator;admin@localhost;true;system;system
+id;opt_lock;login;nombre;apellido1;email;created_by;last_modified_by
+1;0;anonymoususer;Anonymous;User;anonymous@localhost;system;system
+2;0;admin;Administrator;Administrator;admin@localhost;system;system

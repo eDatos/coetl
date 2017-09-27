@@ -45,7 +45,7 @@ export class RolService {
     }
 
     delete(rol: Rol): Observable<ResponseWrapper> {
-        return this.http.delete(`${this.resourceUrl}/${rol}`);
+        return this.http.delete(`${this.resourceUrl}/${rol.codigo}`);
     }
 
     private convertResponse(res: Response): ResponseWrapper {

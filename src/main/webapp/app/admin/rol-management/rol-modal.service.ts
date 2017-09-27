@@ -35,7 +35,11 @@ export class RolModalService {
             this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true });
             this.isOpen = false;
         }, (reason) => {
-            this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true });
+            if (reason === 'deleted') {
+                this.router.navigateByUrl('rol-management');
+            } else {
+                this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true });
+            }
             this.isOpen = false;
         });
         return modalRef;

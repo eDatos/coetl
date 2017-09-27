@@ -61,7 +61,6 @@ public class UsuarioService {
 					.forEach(authority -> authorities.add(authorityRepository.findOneByCodigo(authority.getCodigo())));
 			newUser.setRoles(authorities);
 		}
-		newUser.setActivado(true);
 		usuarioRepository.save(newUser);
 		log.debug("Creada informaicón para el usuario: {}", newUser);
 		return newUser;

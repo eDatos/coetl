@@ -40,7 +40,7 @@ public class DomainUserDetailsService implements UserDetailsService {
 		Optional<Usuario> userFromDatabase = userRepository
 				.findOneWithRolesByLoginAndDeletionDateIsNull(lowercaseLogin);
 		return userFromDatabase.map(user -> {
-			if (!user.getActivado()) {
+			if (user.getDeletionDate() != null) {
 				throw new UserNotActivatedException("Usuario " + lowercaseLogin + " no estaba activado");
 			}
 			List<GrantedAuthority> grantedAuthorities = user.getRoles().stream()

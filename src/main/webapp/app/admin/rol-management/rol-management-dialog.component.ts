@@ -112,14 +112,10 @@ export class RolMgmtDialogComponent implements OnInit {
         return lastPath === 'editar' || lastPath === 'rol-management-new';
     }
 
-    private back() {
-        this.router.navigate(['rol-management']);
-    }
-
     private onSaveSuccess(result) {
         this.eventManager.broadcast({ name: 'rolListModification', content: 'OK' });
         this.isSaving = false;
-        this.back();
+        this.router.navigate(['rol-management', this.rol.codigo]);
     }
 
     private onSaveError() {

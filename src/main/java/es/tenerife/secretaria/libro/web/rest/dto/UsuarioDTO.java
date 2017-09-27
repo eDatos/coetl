@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import es.tenerife.secretaria.libro.config.Constants;
 
@@ -38,8 +39,6 @@ public class UsuarioDTO {
 	@Size(min = 3, max = 255)
 	private String email;
 
-	private boolean activado = false;
-
 	private String createdBy;
 
 	private Instant createdDate;
@@ -64,7 +63,6 @@ public class UsuarioDTO {
 		this.apellido1 = source.getApellido1();
 		this.apellido2 = source.getApellido2();
 		this.email = source.getEmail();
-		this.activado = source.isActivado();
 		this.createdBy = source.getCreatedBy();
 		this.createdDate = source.getCreatedDate();
 		this.lastModifiedBy = source.getLastModifiedBy();
@@ -116,22 +114,22 @@ public class UsuarioDTO {
 		return email;
 	}
 
-	public boolean isActivado() {
-		return activado;
-	}
-
+	@JsonProperty
 	public String getCreatedBy() {
 		return createdBy;
 	}
 
+	@JsonProperty
 	public Instant getCreatedDate() {
 		return createdDate;
 	}
 
+	@JsonProperty
 	public String getLastModifiedBy() {
 		return lastModifiedBy;
 	}
 
+	@JsonProperty
 	public Instant getLastModifiedDate() {
 		return lastModifiedDate;
 	}
@@ -167,11 +165,6 @@ public class UsuarioDTO {
 
 	}
 
-	public void setActivado(boolean activated) {
-		this.activado = activated;
-
-	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -188,10 +181,12 @@ public class UsuarioDTO {
 		this.nombre = firstName;
 	}
 
+	@JsonProperty
 	public ZonedDateTime getDeletionDate() {
 		return deletionDate;
 	}
 
+	@JsonIgnore
 	public void setDeletionDate(ZonedDateTime deletionDate) {
 		this.deletionDate = deletionDate;
 	}
@@ -199,9 +194,9 @@ public class UsuarioDTO {
 	@Override
 	public String toString() {
 		return "UserDTO{" + "login='" + login + '\'' + ", firstName='" + nombre + '\'' + ", lastName='" + apellido1
-				+ '\'' + ", email='" + email + '\'' + ", activated=" + activado + ", createdBy=" + createdBy
-				+ ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate="
-				+ lastModifiedDate + ", authorities=" + roles + "}";
+				+ '\'' + ", email='" + email + '\'' + ", createdBy=" + createdBy + ", createdDate=" + createdDate
+				+ ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate
+				+ ", authorities=" + roles + "}";
 	}
 
 	public static class Builder {
@@ -211,7 +206,6 @@ public class UsuarioDTO {
 		private String lastName;
 		private String lastName2;
 		private String email;
-		private boolean activated = false;
 		private String createdBy;
 		private Instant createdDate;
 		private String lastModifiedBy;
@@ -228,7 +222,6 @@ public class UsuarioDTO {
 			userDTO.setApellido1(this.lastName);
 			userDTO.setApellido2(this.lastName2);
 			userDTO.setEmail(this.email);
-			userDTO.setActivado(this.activated);
 			userDTO.setCreatedBy(this.createdBy);
 			userDTO.setCreatedDate(this.createdDate);
 			userDTO.setLastModifiedBy(this.lastModifiedBy);
@@ -269,11 +262,6 @@ public class UsuarioDTO {
 
 		public Builder setEmail(String email) {
 			this.email = email;
-			return this;
-		}
-
-		public Builder setActivated(boolean activated) {
-			this.activated = activated;
 			return this;
 		}
 

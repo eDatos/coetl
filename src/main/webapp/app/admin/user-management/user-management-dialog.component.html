@@ -126,12 +126,14 @@
             </div>
             <div class="form-group">
                 <label jhiTranslate="userManagement.activado">activado</label>
-                <ac-tri-input-switch [disabled]="true" name="activado" [(ngModel)]="user.activado"></ac-tri-input-switch>
+                <ac-tri-input-switch [disabled]="true" name="activado" [ngModel]="!user.deletionDate"></ac-tri-input-switch>
             </div>
-            <dl class="jh-entity-details">
-                <dt><label jhiTranslate="userManagement.deletionDate">Created By</label></dt>
-                <dd>{{user.deletionDate | date:'dd/MM/yy HH:mm' }}</dd>
-            </dl>
+            <ng-container *ngIf="user && user.deletionDate">
+                <dl class="jh-entity-details">
+                    <dt><label jhiTranslate="userManagement.deletionDate">Deletion date </label></dt>
+                    <dd>{{user.deletionDate | date:'dd/MM/yy HH:mm' }}</dd>
+                </dl>
+            </ng-container>
         </div>
         </div>
         <h3 jhiTranslate="userManagement.audits">Auditoría</h3>

@@ -1,5 +1,6 @@
 package es.tenerife.secretaria.libro.repository;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.QueryHint;
@@ -19,7 +20,7 @@ public interface RolRepository extends JpaRepository<Rol, Long> {
 	@Query("select r from Rol r, Usuario u where u.login = ?1")
 	Set<Rol> findByUsuarioLogin(String login);
 
-	Set<Rol> findByOperacionesId(Long operacionId);
+	List<Rol> findByOperacionesId(Long operacionId);
 
-	Set<Rol> findAll(DetachedCriteria criteria);
+	List<Rol> findAll(DetachedCriteria criteria);
 }

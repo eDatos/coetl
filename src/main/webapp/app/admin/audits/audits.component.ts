@@ -8,6 +8,8 @@ import { AuditsService } from './audits.service';
 import { ITEMS_PER_PAGE } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
+import { Validators, FormControl, FormGroup } from '@angular/forms';
+
 @Component({
     selector: 'jhi-audit',
     templateUrl: './audits.component.html',
@@ -15,7 +17,7 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 })
 export class AuditsComponent implements OnInit {
     audits: Audit[];
-    fromDate: string;
+    fromDate: Date;
     itemsPerPage: any;
     routeData: any;
     links: any;
@@ -23,8 +25,9 @@ export class AuditsComponent implements OnInit {
     orderProp: string;
     reverse: boolean;
     predicate: any;
-    toDate: string;
+    toDate: Date;
     totalItems: number;
+    today: Date;
 
     constructor(
         private auditsService: AuditsService,
@@ -38,6 +41,11 @@ export class AuditsComponent implements OnInit {
         this.page = 1;
         this.reverse = false;
         this.predicate = 'auditEventDate';
+        this.routeData = this.activatedRoute.data.subscribe((data) => {
+            this.page = data['pagingParams'].page;
+            this.reverse = data['pagingParams'].ascending;
+            this.predicate = data['pagingParams'].predicate;
+        });
     }
 
     loadPage(page: number) {
@@ -46,15 +54,18 @@ export class AuditsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.today();
+        this.getToday();
         this.previousMonth();
         this.onChangeDate();
     }
 
     onChangeDate() {
         this.auditsService.query({
-            page: this.page - 1, size: this.itemsPerPage,
-            fromDate: this.fromDate, toDate: this.toDate
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort(),
+            fromDate: this.dateToString(this.fromDate),
+            toDate: this.dateToString(this.toDate)
         }).subscribe((res) => {
 
             this.audits = res.json();
@@ -73,16 +84,17 @@ export class AuditsComponent implements OnInit {
             fromDate = new Date(fromDate.getFullYear(), fromDate.getMonth() - 1, fromDate.getDate());
         }
 
-        this.fromDate = this.datePipe.transform(fromDate, dateFormat);
+        this.fromDate = fromDate;
     }
 
-    today() {
+    getToday() {
         const dateFormat = 'yyyy-MM-dd';
         // Today + 1 day - needed if the current day must be included
         const today: Date = new Date();
         today.setDate(today.getDate() + 1);
         const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        this.toDate = this.datePipe.transform(date, dateFormat);
+        this.toDate = date;
+        this.today = date;
     }
 
     transition() {
@@ -100,7 +112,7 @@ export class AuditsComponent implements OnInit {
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort(),
-            fromDate: this.fromDate, toDate: this.toDate
+            fromDate: this.dateToString(this.fromDate), toDate: this.dateToString(this.toDate)
         }).subscribe((res) => {
             this.audits = res.json();
             this.links = this.parseLinks.parse(res.headers.get('link'));
@@ -111,5 +123,10 @@ export class AuditsComponent implements OnInit {
     sort() {
         const sort = this.predicate + ',' + (this.reverse ? 'asc' : 'desc');
         return sort;
+    }
+
+    private dateToString(date: Date): string {
+        const dateFormat = 'yyyy-MM-dd';
+        return this.datePipe.transform(date, dateFormat)
     }
 }

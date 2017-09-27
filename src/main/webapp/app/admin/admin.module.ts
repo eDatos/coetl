@@ -27,7 +27,8 @@ import {
     RolResolvePagingParams,
     RolModalService,
     UserResolvePagingParams,
-    UserModalService
+    UserModalService,
+    AuditsResolvePagingParams
 } from './';
 import { RolMgmtDialogComponent } from './rol-management/rol-management-dialog.component';
 import { RolMgmtDeleteDialogComponent, RolDeleteDialogComponent } from './rol-management/rol-management-delete-dialog.component';
@@ -72,6 +73,7 @@ import { UserSearchComponent } from './user-management/user-search/index';
         JhiHealthService,
         JhiMetricsService,
         LogsService,
+        AuditsResolvePagingParams,
         RolResolvePagingParams,
         RolModalService,
         UserResolvePagingParams,

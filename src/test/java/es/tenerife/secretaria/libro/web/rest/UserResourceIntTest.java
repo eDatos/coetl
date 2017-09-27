@@ -151,7 +151,6 @@ public class UserResourceIntTest {
 	public static Usuario createEntity(EntityManager em) {
 		Usuario user = new Usuario();
 		user.setLogin(DEFAULT_LOGIN);
-		user.setActivado(true);
 		user.setEmail(DEFAULT_EMAIL);
 		user.setNombre(DEFAULT_FIRSTNAME);
 		user.setApellido1(DEFAULT_LASTNAME);
@@ -178,7 +177,6 @@ public class UserResourceIntTest {
 				.setFirstName(DEFAULT_FIRSTNAME)
 				.setLastName(DEFAULT_LASTNAME)
 				.setEmail(DEFAULT_EMAIL)
-				.setActivated(true)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -215,7 +213,6 @@ public class UserResourceIntTest {
 				.setFirstName(DEFAULT_FIRSTNAME)
 				.setLastName(DEFAULT_LASTNAME)
 				.setEmail(DEFAULT_EMAIL)
-				.setActivated(true)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -251,7 +248,6 @@ public class UserResourceIntTest {
 				.setFirstName(DEFAULT_FIRSTNAME)
 				.setLastName(DEFAULT_LASTNAME)
 				.setEmail("anothermail@localhost")
-				.setActivated(true)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -288,7 +284,6 @@ public class UserResourceIntTest {
 				.setFirstName(DEFAULT_FIRSTNAME)
 				.setLastName(DEFAULT_LASTNAME)
 				.setEmail(DEFAULT_EMAIL)
-				.setActivated(true)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -365,7 +360,6 @@ public class UserResourceIntTest {
 				.setFirstName(UPDATED_FIRSTNAME)
 				.setLastName(UPDATED_LASTNAME)
 				.setEmail(UPDATED_EMAIL)
-				.setActivated(updatedUser.getActivado())
 				.setCreatedBy(updatedUser.getCreatedBy())
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -411,7 +405,6 @@ public class UserResourceIntTest {
 				.setFirstName(UPDATED_FIRSTNAME)
 				.setLastName(UPDATED_LASTNAME)
 				.setEmail(UPDATED_EMAIL)
-				.setActivated(updatedUser.getActivado())
 				.setCreatedBy(updatedUser.getCreatedBy())
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -444,7 +437,6 @@ public class UserResourceIntTest {
 
 		Usuario anotherUser = new Usuario();
 		anotherUser.setLogin("jhipster");
-		anotherUser.setActivado(true);
 		anotherUser.setEmail("jhipster@localhost");
 		anotherUser.setNombre("java");
 		anotherUser.setApellido1("hipster");
@@ -463,7 +455,6 @@ public class UserResourceIntTest {
 						.setFirstName(updatedUser.getNombre())
 						.setLastName(updatedUser.getApellido1())
 						.setEmail("jhipster@localhost")
-						.setActivated(updatedUser.getActivado())
 						.setCreatedBy(updatedUser.getCreatedBy())
 						.setCreatedDate(updatedUser.getCreatedDate())
 						.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -485,7 +476,6 @@ public class UserResourceIntTest {
 
 		Usuario anotherUser = new Usuario();
 		anotherUser.setLogin("jhipster");
-		anotherUser.setActivado(true);
 		anotherUser.setEmail("jhipster@localhost");
 		anotherUser.setNombre("java");
 		anotherUser.setApellido1("hipster");
@@ -502,7 +492,6 @@ public class UserResourceIntTest {
 				.setFirstName(updatedUser.getNombre())
 				.setLastName(updatedUser.getApellido1())
 				.setEmail("jhipster@localhost")
-				.setActivated(updatedUser.getActivado())
 				.setCreatedBy(updatedUser.getCreatedBy())
 				.setCreatedDate(updatedUser.getCreatedDate())
 				.setLastModifiedBy(updatedUser.getLastModifiedBy())
@@ -566,7 +555,6 @@ public class UserResourceIntTest {
 				.setFirstName(DEFAULT_FIRSTNAME)
 				.setLastName(DEFAULT_LASTNAME)
 				.setEmail(DEFAULT_EMAIL)
-				.setActivated(true)
 				.setCreatedBy(DEFAULT_LOGIN)
 				.setCreatedDate(null)
 				.setLastModifiedBy(DEFAULT_LOGIN)
@@ -581,7 +569,6 @@ public class UserResourceIntTest {
 		assertThat(user.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
 		assertThat(user.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(user.getEmail()).isEqualTo(DEFAULT_EMAIL);
-		assertThat(user.getActivado()).isEqualTo(true);
 		assertThat(user.getCreatedBy()).isNull();
 		assertThat(user.getCreatedDate()).isNotNull();
 		assertThat(user.getLastModifiedBy()).isNull();
@@ -611,7 +598,6 @@ public class UserResourceIntTest {
 		assertThat(userDTO.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
 		assertThat(userDTO.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
 		assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
-		assertThat(userDTO.isActivado()).isEqualTo(true);
 		assertThat(userDTO.getCreatedBy()).isEqualTo(DEFAULT_LOGIN);
 		assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
 		assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);

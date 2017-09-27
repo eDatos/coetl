@@ -158,7 +158,6 @@ public class AccountResourceIntTest {
 		Usuario user = new Usuario();
 		user.setLogin("save-account");
 		user.setEmail("save-account@example.com");
-		user.setActivado(true);
 
 		userRepository.saveAndFlush(user);
 		//@formatter:off
@@ -168,7 +167,6 @@ public class AccountResourceIntTest {
 				.setFirstName("firstname")
 				.setLastName("lastname")
 				.setEmail("save-account@example.com")
-				.setActivated(false)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -184,7 +182,6 @@ public class AccountResourceIntTest {
 		assertThat(updatedUser.getNombre()).isEqualTo(userDTO.getNombre());
 		assertThat(updatedUser.getApellido1()).isEqualTo(userDTO.getApellido1());
 		assertThat(updatedUser.getEmail()).isEqualTo(userDTO.getEmail());
-		assertThat(updatedUser.getActivado()).isEqualTo(true);
 		assertThat(updatedUser.getRoles()).isEmpty();
 	}
 
@@ -195,7 +192,6 @@ public class AccountResourceIntTest {
 		Usuario user = new Usuario();
 		user.setLogin("save-invalid-email");
 		user.setEmail("save-invalid-email@example.com");
-		user.setActivado(true);
 
 		userRepository.saveAndFlush(user);
 
@@ -206,7 +202,6 @@ public class AccountResourceIntTest {
 				.setFirstName("firstname")
 				.setLastName("lastname")
 				.setEmail("invalid email")
-				.setActivated(false)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -228,14 +223,12 @@ public class AccountResourceIntTest {
 		Usuario user = new Usuario();
 		user.setLogin("save-existing-email");
 		user.setEmail("save-existing-email@example.com");
-		user.setActivado(true);
 
 		userRepository.saveAndFlush(user);
 
 		Usuario anotherUser = new Usuario();
 		anotherUser.setLogin("save-existing-email2");
 		anotherUser.setEmail("save-existing-email2@example.com");
-		anotherUser.setActivado(true);
 
 		userRepository.saveAndFlush(anotherUser);
 		//@formatter:off
@@ -245,7 +238,6 @@ public class AccountResourceIntTest {
 				.setFirstName("firstname")
 				.setLastName("lastname")
 				.setEmail("save-existing-email2@example.com")
-				.setActivated(false)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
@@ -270,7 +262,6 @@ public class AccountResourceIntTest {
 		Usuario user = new Usuario();
 		user.setLogin("save-existing-email-and-login");
 		user.setEmail("save-existing-email-and-login@example.com");
-		user.setActivado(true);
 
 		userRepository.saveAndFlush(user);
 		//@formatter:off
@@ -280,7 +271,6 @@ public class AccountResourceIntTest {
 				.setFirstName("firstname")
 				.setLastName("lastname")
 				.setEmail("save-existing-email-and-login@example.com")
-				.setActivated(false)
 				.setCreatedBy(null)
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)

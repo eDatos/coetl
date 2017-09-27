@@ -37,11 +37,11 @@ export class UserMgmtDeleteDialogComponent {
 
     private confirmDelete(login) {
         this.userService.delete(login).subscribe((response) => {
+            this.activeModal.dismiss('deleted');
             this.eventManager.broadcast({
                 name: 'UserModified',
-                content: login
+                content: { login, action: 'deleted' }
             });
-            this.activeModal.dismiss(true);
         });
     }
 
