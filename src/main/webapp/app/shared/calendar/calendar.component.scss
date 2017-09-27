@@ -1,0 +1,18 @@
+@import '~scss/variables';
+
+:host {
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    /deep/ p-calendar {
+        padding: 0;
+        margin: 0;
+        input {
+            text-align: right;
+            padding: $input-padding-x $input-padding-y;
+            width: 100%;
+            border: 0;
+        }
+    }
+}

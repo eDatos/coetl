@@ -19,6 +19,7 @@ import {
     EntityListEmptyComponent,
     SplitButtonComponent,
     AutocompleteComponent,
+    CalendarComponent,
     SideMenuComponent
 } from './';
 
@@ -34,6 +35,7 @@ import {
         EntityListEmptyComponent,
         SplitButtonComponent,
         AutocompleteComponent,
+        CalendarComponent,
         SideMenuComponent
     ],
     providers: [
@@ -57,6 +59,7 @@ import {
         EntityListEmptyComponent,
         SplitButtonComponent,
         AutocompleteComponent,
+        CalendarComponent,
         SideMenuComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
