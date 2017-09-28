@@ -55,7 +55,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     public minLength = 3;
 
     @Input()
-    emptyMessage = this.translateService.instant('entity.list.empty');
+    emptyMessage = this.translateService.instant('entity.list.empty.detail');
 
     @Input()
     public multiple = true;
