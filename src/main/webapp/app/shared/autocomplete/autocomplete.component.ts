@@ -96,6 +96,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
     onSelectMethod($event) {
         this.onSelect.emit($event);
+        this.focusMustOpenPanel = false;
     }
 
     onUnselectMethod($event) {
