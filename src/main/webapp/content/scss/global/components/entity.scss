@@ -35,6 +35,21 @@ h2 {
             height: $page-padding - $arrow-padding * 2;
         }
     }
+
+    // Buttons
+    & > *:last-child {
+        flex-shrink: 0;
+        margin-left: $page-padding;        
+    }
+    // Title
+    & > *:first-child {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        flex-shrink: unset;
+        margin-left: 0;
+    }
 }
 
 h3 {
