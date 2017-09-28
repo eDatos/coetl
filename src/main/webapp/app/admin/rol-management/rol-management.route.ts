@@ -52,6 +52,7 @@ export const rolMgmtRoute: Routes = [
                 path: 'rol-management-new',
                 component: RolMgmtDialogComponent,
                 data: {
+                    pageTitle: 'rolManagement.home.title',
                     operaciones: ['CREAR:ROL'],
                 }
             },
@@ -59,6 +60,7 @@ export const rolMgmtRoute: Routes = [
                 path: 'rol-management/:codigo/editar',
                 component: RolMgmtDialogComponent,
                 data: {
+                    pageTitle: 'rolManagement.home.title',
                     operaciones: ['EDITAR:ROL'],
                 },
             },

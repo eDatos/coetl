@@ -1,6 +1,6 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" *ngIf="!!rol">
 
-    <h2 id="myRolLabel">
+    <h2>
         <div>
             <button *ngIf="!isEditMode()" type="button" routerLink="/rol-management" class="btn btn-secondary btn-frameless back-arrow"
                 [attr.aria-label]="'entity.action.back' | translate">
