@@ -141,7 +141,11 @@ public class UsuarioDTO {
 	}
 
 	public void setRoles(Set<RolDTO> set) {
-		this.roles = new TreeSet<>(set);
+		if (set == null) {
+			this.roles = new TreeSet<>();
+		} else {
+			this.roles = new TreeSet<>(set);
+		}
 	}
 
 	@JsonIgnore

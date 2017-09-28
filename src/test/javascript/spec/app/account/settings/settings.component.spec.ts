@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { JhiLanguageHelper } from '../../../../../../main/webapp/app/shared';
 import { SecretariaLibroTestModule } from '../../../test.module';
-import { Principal, AccountService } from '../../../../../../main/webapp/app/shared';
+import { Principal, UserService } from '../../../../../../main/webapp/app/shared';
 import { SettingsComponent } from '../../../../../../main/webapp/app/account/settings/settings.component';
-import { MockAccountService } from '../../../helpers/mock-account.service';
 import { MockPrincipal } from '../../../helpers/mock-principal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MockRouter } from '../../../helpers/mock-route.service';
+import { MockUserService } from '../../../helpers/mock-user.service';
 
 describe('Component Tests', () => {
 
@@ -28,8 +28,8 @@ describe('Component Tests', () => {
                         useClass: MockPrincipal
                     },
                     {
-                        provide: AccountService,
-                        useClass: MockAccountService
+                        provide: UserService,
+                        useClass: MockUserService
                     },
                     {
                         provide: JhiLanguageHelper,
@@ -51,7 +51,7 @@ describe('Component Tests', () => {
         beforeEach(() => {
             fixture = TestBed.createComponent(SettingsComponent);
             comp = fixture.componentInstance;
-            mockAuth = fixture.debugElement.injector.get(AccountService);
+            mockAuth = fixture.debugElement.injector.get(UserService);
             mockPrincipal = fixture.debugElement.injector.get(Principal);
         });
 
