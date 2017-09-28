@@ -14,14 +14,6 @@ export class RolService {
 
     constructor(private http: Http) { }
 
-    // TODO SECRETARIA-51 ELIMINAR para dejar solo query
-    roles(): Observable<string[]> {
-        return this.http.get('api/roles').map((res: Response) => {
-            const json = res.json();
-            return <string[]>json;
-        });
-    }
-
     query(req?: any): Observable<ResponseWrapper> {
         const options = this.createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
