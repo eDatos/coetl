@@ -33,8 +33,8 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = [];
-        this.rolService.roles().subscribe((roles) => {
-            this.authorities = roles.map((rol: any) => rol);
+        this.rolService.query().subscribe((roles) => {
+            this.authorities = roles.json.map((rol: any) => rol);
         });
 
         this.subscription = this.route.params.subscribe((params) => {

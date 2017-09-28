@@ -52,12 +52,14 @@
                     </small>
                 </div>
             </div>
+        </div>
     </fieldset>
     <fieldset>
+
         <div class="entity-fields">
             <div class="form-group">
                 <label class="form-control-label" jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
-                <p-listbox name="operacion" [metaKeySelection]="false" [options]="operacionesString" [multiple]="true" [checkbox]="true"
+                <p-listbox dataKey="id" name="operacion" [metaKeySelection]="false" [options]="operacionesString" [multiple]="true" [checkbox]="true"
                     [filter]="true" [styleClass]="!isEditMode() ? 'disabled-mode' : ''" [(ngModel)]="rol.operaciones">
                     <ng-template let-element pTemplate="item">
                         <div class="operacion-listbox-item">

@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { SecretariaLibroTestModule } from '../../../test.module';
 
-import { MockAccountService } from '../../../helpers/mock-account.service';
-import { AccountService, Principal } from '../../../../../../main/webapp/app/shared/index';
+import { MockUserService } from '../../../helpers/mock-user.service';
+import { Principal, UserService } from '../../../../../../main/webapp/app/shared/index';
 import { SettingsComponent } from '../../../../../../main/webapp/app/account/index';
 import { getTestBed } from '@angular/core/testing';
 import { OperacionService } from '../../../../../../main/webapp/app/entities/operacion/operacion.service';
@@ -25,8 +25,8 @@ describe('Principal Service', () => {
             providers: [
                 Principal,
                 {
-                    provide: AccountService,
-                    useClass: MockAccountService
+                    provide: UserService,
+                    useClass: MockUserService
                 },
                 {
                     provide: OperacionService,
@@ -36,12 +36,12 @@ describe('Principal Service', () => {
         })
         const testbed = getTestBed();
         principal = testbed.get(Principal);
-        mockAuth = testbed.get(AccountService);
+        mockAuth = testbed.get(UserService);
     }));
 
     it('should return false if user has no operations', () => {
         // GIVEN
-        mockAuth.get.and.returnValue(Observable.from([accountValue]));
+        mockAuth.getLogueado.and.returnValue(Observable.from([accountValue]));
 
         // WHEN
         let result;
@@ -55,7 +55,7 @@ describe('Principal Service', () => {
         // GIVEN
         const operacion = new Operacion(null, 'LEER', 'ROL');
         accountValue['roles'] = [{ operaciones: [operacion] }];
-        mockAuth.get.and.returnValue(Observable.from([accountValue]));
+        mockAuth.getLogueado.and.returnValue(Observable.from([accountValue]));
 
         // WHEN
         let result;
@@ -69,7 +69,7 @@ describe('Principal Service', () => {
         // GIVEN
         const operacion = new Operacion(null, 'LEER', 'ROL');
         accountValue['roles'] = [{ operaciones: [operacion] }];
-        mockAuth.get.and.returnValue(Observable.from([accountValue]));
+        mockAuth.getLogueado.and.returnValue(Observable.from([accountValue]));
 
         // WHEN
         principal.identity().then(() =>
@@ -84,7 +84,7 @@ describe('Principal Service', () => {
         // GIVEN
         const operacion = new Operacion(null, 'LEER', 'ROL');
         accountValue['roles'] = [{ operaciones: [operacion] }];
-        mockAuth.get.and.returnValue(Observable.from([accountValue]));
+        mockAuth.getLogueado.and.returnValue(Observable.from([accountValue]));
 
         // WHEN
         principal.identity().then(() =>
@@ -97,7 +97,7 @@ describe('Principal Service', () => {
 
     it('should return true if route has no operations needed', () => {
         // GIVEN
-        mockAuth.get.and.returnValue(Observable.from([accountValue]));
+        mockAuth.getLogueado.and.returnValue(Observable.from([accountValue]));
 
         // WHEN
         principal.identity().then(() =>
@@ -110,7 +110,7 @@ describe('Principal Service', () => {
 
     it('should return false if route has a non valid operation', () => {
         // GIVEN
-        mockAuth.get.and.returnValue(Observable.from([accountValue]));
+        mockAuth.getLogueado.and.returnValue(Observable.from([accountValue]));
 
         // WHEN
         principal.identity().then(() =>

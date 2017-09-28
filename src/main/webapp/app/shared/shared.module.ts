@@ -7,7 +7,6 @@ import {
     SecretariaLibroSharedCommonModule,
     CSRFService,
     AuthServerProvider,
-    AccountService,
     UserService,
     StateStorageService,
     LoginService,
@@ -41,7 +40,6 @@ import {
     providers: [
         LoginService,
         LoginModalService,
-        AccountService,
         StateStorageService,
         Principal,
         CSRFService,

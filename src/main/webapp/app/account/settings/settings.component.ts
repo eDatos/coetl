@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Principal, AccountService } from '../../shared';
+import { Principal, UserService } from '../../shared';
 
 @Component({
     selector: 'jhi-settings',
@@ -14,7 +14,7 @@ export class SettingsComponent implements OnInit {
     settingsAccount: any;
 
     constructor(
-        private account: AccountService,
+        private userService: UserService,
         private route: ActivatedRoute,
         private router: Router,
         private principal: Principal
@@ -30,7 +30,7 @@ export class SettingsComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.account.save(this.settingsAccount).subscribe(() => {
+        this.userService.update(this.settingsAccount).subscribe(() => {
             this.error = null;
             this.success = 'OK';
             this.isSaving = false;
@@ -53,12 +53,15 @@ export class SettingsComponent implements OnInit {
 
     copyAccount(account) {
         return {
+            id: account.id,
+            optLock: account.optLock,
             email: account.email,
             nombre: account.nombre,
             idioma: account.idioma,
             apellido1: account.apellido1,
             apellido2: account.apellido2,
             login: account.login,
+            roles: account.roles,
         };
     }
 

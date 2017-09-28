@@ -34,7 +34,7 @@ public class UsuarioMapper {
 		usuarioDTO.setCreatedDate(user.getCreatedDate());
 		usuarioDTO.setLastModifiedBy(user.getLastModifiedBy());
 		usuarioDTO.setLastModifiedDate(user.getLastModifiedDate());
-		usuarioDTO.setRoles(user.getRoles().stream().map(rolMapper::toDto).collect(Collectors.toSet()));
+		usuarioDTO.setRoles(user.getRoles().stream().sorted().map(rolMapper::toDto).collect(Collectors.toSet()));
 		usuarioDTO.setDeletionDate(user.getDeletionDate());
 		usuarioDTO.setOptLock(user.getOptLock());
 		return usuarioDTO;

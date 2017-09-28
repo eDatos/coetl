@@ -1,19 +1,19 @@
 import { SpyObject } from './spyobject';
-import { AccountService } from '../../../../main/webapp/app/shared/auth/account.service';
 import Spy = jasmine.Spy;
+import { UserService } from '../../../../main/webapp/app/shared/index';
 
-export class MockAccountService extends SpyObject {
+export class MockUserService extends SpyObject {
 
     getSpy: Spy;
     saveSpy: Spy;
     fakeResponse: any;
 
     constructor() {
-        super(AccountService);
+        super(UserService);
 
         this.fakeResponse = null;
-        this.getSpy = this.spy('get').andReturn(this);
-        this.saveSpy = this.spy('save').andReturn(this);
+        this.getSpy = this.spy('getLogueado').andReturn(this);
+        this.saveSpy = this.spy('update').andReturn(this);
     }
 
     subscribe(callback: any) {

@@ -10,6 +10,32 @@ export const AC_CALENDAR_VALUE_ACCESSOR: any = {
     multi: true
 };
 
+class Locale {
+    firstDayOfWeek: number;
+    dayNames: string[];
+    dayNamesShort: string[];
+    dayNamesMin: string[];
+    monthNames: string[];
+    monthNamesShort: string[];
+    today: string;
+    clear: string;
+}
+
+class LocaleEs {
+    static getLocale(): Locale {
+        return {
+            firstDayOfWeek: 0,
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+            dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            today: 'Hoy',
+            clear: 'Reiniciar'
+        }
+    };
+}
+
 @Component({
     selector: 'ac-calendar',
     templateUrl: 'calendar.component.html',
@@ -19,6 +45,8 @@ export const AC_CALENDAR_VALUE_ACCESSOR: any = {
 export class CalendarComponent implements ControlValueAccessor, OnInit {
 
     _date;
+
+    locale = LocaleEs.getLocale();
 
     @Input()
     name = 'calendar';

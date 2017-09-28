@@ -154,7 +154,7 @@ public class RolMapperImpl extends RolMapper {
 
 		Set<Operacion> setEntities = new HashSet<>();
 		for (OperacionDTO operacionDTO : setDTOs) {
-			setEntities.add(operacionMapper.toEntity(operacionDTO));
+			setEntities.add(operacionMapper.fromId(operacionDTO.getId()));
 		}
 
 		return setEntities;
@@ -167,7 +167,11 @@ public class RolMapperImpl extends RolMapper {
 
 		Set<OperacionDTO> setDTOs = new HashSet<>();
 		for (Operacion operacion : setEntities) {
-			setDTOs.add(operacionMapper.toDto(operacion));
+			OperacionDTO operacionDTO = new OperacionDTO();
+			operacionDTO.setAccion(operacion.getAccion());
+			operacionDTO.setId(operacion.getId());
+			operacionDTO.setSujeto(operacion.getSujeto());
+			setDTOs.add(operacionDTO);
 		}
 
 		return setDTOs;

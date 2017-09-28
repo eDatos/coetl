@@ -3,6 +3,8 @@ package es.tenerife.secretaria.libro.web.rest.dto;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -47,7 +49,7 @@ public class UsuarioDTO {
 
 	private Instant lastModifiedDate;
 
-	private Set<RolDTO> roles;
+	private SortedSet<RolDTO> roles;
 
 	private ZonedDateTime deletionDate;
 
@@ -67,7 +69,7 @@ public class UsuarioDTO {
 		this.createdDate = source.getCreatedDate();
 		this.lastModifiedBy = source.getLastModifiedBy();
 		this.lastModifiedDate = source.getLastModifiedDate();
-		this.roles = source.getRoles();
+		this.roles = new TreeSet<>(source.getRoles());
 	}
 
 	public static Builder builder() {
@@ -139,7 +141,11 @@ public class UsuarioDTO {
 	}
 
 	public void setRoles(Set<RolDTO> set) {
-		this.roles = set;
+		if (set == null) {
+			this.roles = new TreeSet<>();
+		} else {
+			this.roles = new TreeSet<>(set);
+		}
 	}
 
 	@JsonIgnore

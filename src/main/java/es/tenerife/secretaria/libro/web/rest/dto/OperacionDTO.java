@@ -3,13 +3,12 @@ package es.tenerife.secretaria.libro.web.rest.dto;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import es.tenerife.secretaria.libro.domain.Rol;
 
 public class OperacionDTO implements Serializable {
 
@@ -25,7 +24,7 @@ public class OperacionDTO implements Serializable {
 
 	private Long optLock;
 
-	private List<Rol> roles;
+	private List<RolDTO> roles;
 
 	public Long getId() {
 		return id;
@@ -60,13 +59,17 @@ public class OperacionDTO implements Serializable {
 	}
 
 	@JsonProperty
-	public List<Rol> getRoles() {
+	public List<RolDTO> getRoles() {
 		return roles;
 	}
 
 	@JsonIgnore
-	public void setRoles(List<Rol> roles) {
-		this.roles = roles;
+	public void setRoles(List<RolDTO> roles) {
+		if (roles == null) {
+			this.roles = null;
+		} else {
+			this.roles = roles.stream().sorted().collect(Collectors.toList());
+		}
 	}
 
 	@Override

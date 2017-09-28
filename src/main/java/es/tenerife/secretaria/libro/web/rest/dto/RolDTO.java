@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-public class RolDTO extends AbstractVersionedEntityDTO implements Serializable {
+public class RolDTO extends AbstractVersionedEntityDTO implements Serializable, Comparable<RolDTO> {
 
 	private static final long serialVersionUID = 3662329403989469628L;
 
@@ -51,6 +51,17 @@ public class RolDTO extends AbstractVersionedEntityDTO implements Serializable {
 
 	public void setOperaciones(Set<OperacionDTO> operaciones) {
 		this.operaciones = operaciones;
+	}
+
+	@Override
+	public int compareTo(RolDTO o) {
+		if (o == null || o.getCodigo() == null) {
+			return -1;
+		}
+		if (this.getCodigo() == null) {
+			return 1;
+		}
+		return this.getCodigo().compareTo(o.getCodigo());
 	}
 
 }

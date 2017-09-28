@@ -5,8 +5,10 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -32,6 +34,7 @@ import es.tenerife.secretaria.libro.config.audit.AuditEventPublisher;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
+import es.tenerife.secretaria.libro.security.SecurityUtils;
 import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
@@ -106,7 +109,7 @@ public class UsuarioResource extends AbstractResource {
 
 	@PutMapping("/usuarios")
 	@Timed
-	@PreAuthorize("hasPermission('USUARIO', 'EDITAR')")
+	@PreAuthorize("this.isCurrentUser(#managedUserVM) or hasPermission('USUARIO', 'EDITAR')")
 	public ResponseEntity<UsuarioDTO> updateUser(@Valid @RequestBody ManagedUserVM managedUserVM) {
 		log.debug("REST petición para actualizar User : {}", managedUserVM);
 		Optional<Usuario> existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());
@@ -195,5 +198,33 @@ public class UsuarioResource extends AbstractResource {
 
 		auditPublisher.publish(AuditConstants.USUARIO_ACTIVACION, login);
 		return ResponseUtil.wrapOrNotFound(updatedUser, HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, login));
+	}
+
+	@GetMapping("/autenticar")
+	@Timed
+	public String isAuthenticated(HttpServletRequest request) {
+		log.debug("REST petición para comprobar si el usuario actual está autenticado");
+		return request.getRemoteUser();
+	}
+
+	@GetMapping("/usuario")
+	@Timed
+	public ResponseEntity<UsuarioDTO> getAccount() {
+		return Optional.ofNullable(usuarioService.getUsuarioWithAuthorities())
+				.map(user -> new ResponseEntity<>(usuarioMapper.userToUserDTO(user), HttpStatus.OK))
+				.orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+	}
+
+	public boolean isCurrentUser(UsuarioDTO usuarioDTO) {
+		final String userLogin = SecurityUtils.getCurrentUserLogin();
+		//@formatter:off
+		return (
+			StringUtils.isNotBlank(userLogin) 
+			&& usuarioDTO != null 
+			&& StringUtils.isNotBlank(usuarioDTO.getLogin())
+			&& userLogin.equals(usuarioDTO.getLogin())
+		);
+		//@formatter:on
+
 	}
 }
