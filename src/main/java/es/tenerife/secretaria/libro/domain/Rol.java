@@ -29,7 +29,7 @@ import es.tenerife.secretaria.libro.optimistic.OptLockId;
 @Entity
 @Table(name = "rol")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Rol extends AbstractVersionedEntity implements Serializable {
+public class Rol extends AbstractVersionedEntity implements Serializable, Comparable<Rol> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -112,6 +112,17 @@ public class Rol extends AbstractVersionedEntity implements Serializable {
 	@Override
 	public String toString() {
 		return "Authority{" + "codigo='" + codigo + '\'' + "nombre='" + nombre + '\'' + "}";
+	}
+
+	@Override
+	public int compareTo(Rol o) {
+		if (o == null || o.getCodigo() == null) {
+			return -1;
+		}
+		if (this.getCodigo() == null) {
+			return 1;
+		}
+		return this.codigo.compareTo(o.getCodigo());
 	}
 
 }
