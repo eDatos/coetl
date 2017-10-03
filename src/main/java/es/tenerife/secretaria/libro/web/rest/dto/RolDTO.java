@@ -64,4 +64,14 @@ public class RolDTO extends AbstractVersionedEntityDTO implements Serializable, 
 		return this.getCodigo().compareTo(o.getCodigo());
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
 }
