@@ -1,6 +1,5 @@
-/* tslint:disable */
-// import 'core-js/es6';
-// We can´t add everything, see issue AngularClass/angular2-webpack-starter#709, so we add almost everything else, the parts of es6 which are necessary for your project or your browser support requirements.
+// https://github.com/jhipster/generator-jhipster/blob/master/generators/client/templates/angular/src/main/webapp/app/_polyfills.ts
+
 import 'core-js/es6/symbol';
 import 'core-js/es6/object';
 import 'core-js/es6/function';
@@ -13,15 +12,12 @@ import 'core-js/es6/date';
 import 'core-js/es6/array';
 import 'core-js/es6/regexp';
 import 'core-js/es6/map';
-import 'core-js/es6/set';
 import 'core-js/es6/weak-map';
-import 'core-js/es6/weak-set';
-import 'core-js/es6/typed';
-import 'core-js/es6/reflect';
-// except es6 promise (see issue AngularClass/angular2-webpack-starter#709)
-// import 'core-js/es6/promise';
+import 'core-js/es6/set';
 
-import 'reflect-metadata/Reflect';
+import 'core-js/es6/reflect';
+import 'core-js/es7/reflect';
+
 import 'zone.js/dist/zone';
 
 require('../manifest.webapp');
