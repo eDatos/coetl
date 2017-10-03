@@ -14,5 +14,41 @@
             width: 100%;
             border: 0;
         }
+
+        .ui-datepicker {
+            padding: $input-padding-y $input-padding-x;
+            th {
+                font-weight: $font-weight-normal;
+                border-top: $border-width solid $grey-medium;
+                border-bottom: $border-width solid $grey-medium;
+            }
+            td span, 
+            td a {
+                text-align: center;
+            }
+            .ui-datepicker-header {
+                font-weight: $font-weight-light;
+                border: none;
+
+            }
+            .ui-state-default {
+                border: none;
+                border-radius: $border-radius;
+                background: $white;
+            }
+            .ui-state-active {
+                border-color: $main-medium;
+                background: $main-light;
+                color: $white;
+            }
+            .ui-state-highlight {
+                border-color: $main-medium;
+                background: $main-medium;
+                color: $white;
+            }
+            .ui-datepicker-other-month a {
+                color: $grey-medium;
+            }
+        }
     }
 }
