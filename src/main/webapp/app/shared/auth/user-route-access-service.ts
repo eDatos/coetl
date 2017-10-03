@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, Data } from '@angular/router';
 
-import { LoginModalService } from '../login/login-modal.service';
 import { StateStorageService } from './state-storage.service';
 import { ConfigService } from '../../config/index';
 import { Operacion } from '../../entities/operacion/index';
@@ -16,7 +15,6 @@ export class UserRouteAccessService implements CanActivate {
 
     constructor(
         private router: Router,
-        private loginModalService: LoginModalService,
         private principal: Principal,
         private stateStorageService: StateStorageService,
         private configService: ConfigService,
