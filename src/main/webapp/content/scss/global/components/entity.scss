@@ -168,12 +168,15 @@ fieldset {
     }    
 
     .form-group {
-        .form-control:disabled, .form-control[readonly] {
+        .form-control:disabled, 
+        .form-control[disabled], 
+        .form-control[readonly] {
             @extend %disabled-form-control;
         }    
     }   
     
-    &:disabled {
+    &:disabled,
+    &[disabled] {
         .form-control {
             @extend %disabled-form-control;
         }

@@ -76,7 +76,8 @@ fieldset {
 }
 
 
-fieldset:disabled {
+fieldset:disabled,
+fieldset[disabled] {
     .entity-fields .form-group {    
         .ui-state-default {
             pointer-events: none;
