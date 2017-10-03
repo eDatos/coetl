@@ -178,6 +178,19 @@ fieldset {
             @extend %disabled-form-control;
         }
     }
+    
+    /* to set absolute position for :after content */
+    position: relative;
+
+    /* this will 'screen' all fieldset content from clicks */
+    &[disabled]:after {    
+        content: ' ';
+        position: absolute;
+        z-index: 1;
+        top: 0; right: 0; bottom: 0; left: 0;
+        /* i don't know... it was necessary to set background */
+        background: url( data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==);
+    }
 }
 
 $entity-search-field-btn-width: 200px;

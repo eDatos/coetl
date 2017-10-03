@@ -27,8 +27,8 @@
      }
 }
 
-fieldset:disabled {
-    .entity-fields .form-group {
+fieldset[disabled] {
+     .entity-fields .form-group {
         :host {
             /deep/ .ui-autocomplete {
                 cursor: initial;
