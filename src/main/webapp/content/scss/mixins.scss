@@ -7,6 +7,13 @@
     -webkit-appearance: $appearance; /* Safari and Chrome */
 }
 
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content}
+    &:-moz-placeholder           {@content}
+    &::-moz-placeholder          {@content}
+    &:-ms-input-placeholder      {@content}  
+}
+
 @mixin make-narrowed-container($gutters: $grid-gutter-widths) {
     position: relative;
     margin-left: auto;

@@ -51,7 +51,8 @@ export class SideMenuComponent implements OnInit, AfterViewChecked {
 
     buildMenu(titles: HTMLElement[]) {
         if (this.menu.length === 0) {
-            titles.forEach((element: HTMLElement) => {
+            for (let i = 0; i < titles.length; i++) {
+                const element = titles[i];
                 if (element.textContent) {
                     if (!element.id) {
                         element.id = this.htmlIdGenerator(element.textContent);
@@ -61,7 +62,7 @@ export class SideMenuComponent implements OnInit, AfterViewChecked {
                         title: element.textContent
                     });
                 }
-            });
+            };
         }
     }
 
