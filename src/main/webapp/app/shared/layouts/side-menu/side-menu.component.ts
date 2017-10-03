@@ -22,11 +22,16 @@ export class SideMenuComponent implements OnInit, AfterViewChecked {
 
     public menu: any[] = [];
 
+    private hasToScroll = false;
+
     constructor(
         private route: ActivatedRoute
     ) { }
     ngOnInit() {
-        this.route.fragment.subscribe((fragment) => { this.fragment = fragment; });
+        this.route.fragment.subscribe((fragment) => {
+            this.fragment = fragment;
+            this.hasToScroll = true;
+        });
     }
 
     ngAfterViewChecked() {
@@ -66,18 +71,21 @@ export class SideMenuComponent implements OnInit, AfterViewChecked {
     }
 
     scrollToFragment(titlesContainerElement: HTMLElement, fragment: string) {
-        const offset: number = this.calculateFixedNavbarOffset(titlesContainerElement);
-        const elementTitle: HTMLElement = <HTMLElement>titlesContainerElement.querySelector('#' + this.fragment);
-        if (elementTitle !== null) {
-            elementTitle.scrollIntoView();
-            if (this.needsOffsetScrolling(elementTitle)) {
-                window.scrollBy(0, -offset);
+        if (this.hasToScroll) {
+            const elementTitle: HTMLElement = <HTMLElement>titlesContainerElement.querySelector('#' + this.fragment);
+            if (elementTitle !== null) {
+                const offset: number = this.calculateFixedNavbarOffsetBeforeScrollIntoView(titlesContainerElement);
+                elementTitle.scrollIntoView();
+                if (this.needsOffsetScrolling(elementTitle)) {
+                    window.scrollBy(0, -offset);
+                }
+                this.hasToScroll = false;
             }
         }
     }
 
     // Ugly solution to take into account the fixed navbar after scrollIntoView
-    calculateFixedNavbarOffset(titlesContainerElement: HTMLElement): number {
+    calculateFixedNavbarOffsetBeforeScrollIntoView(titlesContainerElement: HTMLElement): number {
         // Lets move to the start of the page so getBoundingClientRect give us the correct value
         window.scroll(0, 0);
         // Lets see where is located the titles container
