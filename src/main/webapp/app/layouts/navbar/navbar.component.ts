@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProfileService } from '../profiles/profile.service';
-import { Principal, LoginModalService, LoginService } from '../../shared';
+import { Principal, LoginService } from '../../shared';
 
 import { VERSION, DEBUG_INFO_ENABLED } from '../../app.constants';
 import { ConfigService } from '../../config/index';
@@ -26,7 +26,6 @@ export class NavbarComponent implements OnInit {
     constructor(
         private loginService: LoginService,
         private principal: Principal,
-        private loginModalService: LoginModalService,
         private profileService: ProfileService,
         private router: Router,
         private configService: ConfigService,
@@ -48,10 +47,6 @@ export class NavbarComponent implements OnInit {
 
     isAuthenticated() {
         return this.principal.isAuthenticated();
-    }
-
-    login() {
-        this.modalRef = this.loginModalService.open();
     }
 
     logout() {

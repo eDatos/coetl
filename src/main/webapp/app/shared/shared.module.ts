@@ -10,10 +10,8 @@ import {
     UserService,
     StateStorageService,
     LoginService,
-    LoginModalService,
     Principal,
     HasAnyOperacionDirective,
-    JhiLoginModalComponent,
     RolService,
     EntityListEmptyComponent,
     SplitButtonComponent,
@@ -29,7 +27,6 @@ import {
         RouterModule
     ],
     declarations: [
-        JhiLoginModalComponent,
         HasAnyOperacionDirective,
         EntityListEmptyComponent,
         SplitButtonComponent,
@@ -39,7 +36,6 @@ import {
     ],
     providers: [
         LoginService,
-        LoginModalService,
         StateStorageService,
         Principal,
         CSRFService,
@@ -48,10 +44,9 @@ import {
         UserService,
         DatePipe,
     ],
-    entryComponents: [JhiLoginModalComponent],
+    entryComponents: [],
     exports: [
         SecretariaLibroSharedCommonModule,
-        JhiLoginModalComponent,
         HasAnyOperacionDirective,
         DatePipe,
         EntityListEmptyComponent,
