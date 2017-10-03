@@ -88,3 +88,10 @@ fieldset:disabled {
         }
     }
 }
+
+.ui-inputtext.ui-state-focus,
+.ui-inputtext:focus {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}

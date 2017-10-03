@@ -14,6 +14,19 @@
     }
 }
 
+/deep/ {
+    .ui-autocomplete-dd input.ui-corner-all ,
+    .ui-autocomplete-dd .ui-autocomplete-multiple-container.ui-corner-all,
+    .ui-autocomplete-dd .ui-autocomplete-dropdown.ui-corner-all {
+         -moz-border-radius-topright: $border-radius; 
+         -webkit-border-top-right-radius: $border-radius;
+         border-top-right-radius: $border-radius;
+         -moz-border-radius-bottomright: $border-radius;
+         -webkit-border-bottom-right-radius: $border-radius;
+         border-bottom-right-radius: $border-radius;
+     }
+}
+
 fieldset:disabled {
     .entity-fields .form-group {
         :host {
