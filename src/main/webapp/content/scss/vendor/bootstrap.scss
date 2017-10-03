@@ -9,3 +9,7 @@ select,
 textarea {
    font-family: $font-family-sans-serif;
 }
+
+input::placeholder {
+    font-weight: $font-weight-light;
+}
