@@ -72,9 +72,9 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     @ViewChild(Calendar)
     private calendar: Calendar;
 
-    private onModelChange: (_: any) => {};
+    public onModelChange: (_: any) => {};
 
-    private onModelTouched: Function = () => { };
+    public onModelTouched: Function = () => { };
 
     constructor(private translateService: TranslateService) { }
 
@@ -83,6 +83,7 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
 
     onSelectMethod($event) {
         this.onSelect.emit($event);
+        this.onModelChange($event);
     }
 
     // Value Accesor
