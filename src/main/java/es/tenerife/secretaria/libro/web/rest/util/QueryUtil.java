@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Component;
 
 import com.arte.libs.grammar.antlr.DefaultQueryExprVisitor;
@@ -36,6 +38,30 @@ public class QueryUtil {
 
 	public String queryIncludingDeleted(String query) {
 		return new StringBuilder(query).append(" ").append(INCLUDE_DELETED_HINT).toString();
+	}
+
+	public String pageableSortToQueryString(Pageable pageable) {
+		if (pageable == null || pageable.getSort() == null) {
+			return StringUtils.EMPTY;
+		}
+
+		StringBuilder result = new StringBuilder();
+		for (Order pageableOrder : pageable.getSort()) {
+			if (!"ID".equalsIgnoreCase(pageableOrder.getProperty())) {
+				if (result.length() == 0) {
+					result.append(" ORDER BY ");
+				} else {
+					result.append(", ");
+				}
+				result.append(pageableOrder.getProperty().toUpperCase());
+				if (pageableOrder.isAscending()) {
+					result.append(" ").append("ASC");
+				} else {
+					result.append(" ").append("DESC");
+				}
+			}
+		}
+		return result.toString();
 	}
 
 	private DetachedCriteria queryToCriteria(String query, AbstractCriteriaProcessor processor) {

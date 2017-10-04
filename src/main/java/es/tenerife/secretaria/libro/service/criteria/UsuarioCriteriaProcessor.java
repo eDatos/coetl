@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 import com.arte.libs.grammar.orm.jpa.criteria.CriteriaProcessorContext;
+import com.arte.libs.grammar.orm.jpa.criteria.OrderProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.RestrictionProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
@@ -20,32 +21,33 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
 	private static final String ENTITY_FIELD_NOMBRE = "nombre";
 	private static final String ENTITY_FIELD_APELLIDO1 = "apellido1";
 	private static final String ENTITY_FIELD_APELLIDO2 = "apellido2";
+	private static final String ENTITY_FIELD_EMAIL = "email";
 
 	public UsuarioCriteriaProcessor() {
 		super(Usuario.class);
 	}
 
 	public enum QueryProperty {
-		NOMBRE, APELLIDO1, APELLIDO2, LOGIN, ROL
+		NOMBRE, APELLIDO1, APELLIDO2, LOGIN, ROL, EMAIL
 	}
 
 	@Override
 	public void registerProcessors() {
 		//@formatter:off
     	registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
-                .withQueryProperty(QueryProperty.LOGIN)
+                .withQueryProperty(QueryProperty.LOGIN).sortable()
                 .withEntityProperty(ENTITY_FIELD_LOGIN).build());
     	
     	registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
-    			.withQueryProperty(QueryProperty.NOMBRE)
+    			.withQueryProperty(QueryProperty.NOMBRE).sortable()
     			.withEntityProperty(ENTITY_FIELD_NOMBRE).build());
     	
     	registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
-    			.withQueryProperty(QueryProperty.APELLIDO1)
+    			.withQueryProperty(QueryProperty.APELLIDO1).sortable()
     			.withEntityProperty(ENTITY_FIELD_APELLIDO1).build());
     	
     	registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
-    			.withQueryProperty(QueryProperty.APELLIDO2)
+    			.withQueryProperty(QueryProperty.APELLIDO2).sortable()
     			.withEntityProperty(ENTITY_FIELD_APELLIDO2).build());
     	
     	registerProcessorsWithLogicalDeletionPolicy(
@@ -53,6 +55,12 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.ROL)
                 .withCriterionConverter(new SqlCriterionBuilder())
                 .build());
+    	
+    	registerOrderProcessor(
+	            OrderProcessorBuilder.orderProcessor()
+	                .withQueryProperty(QueryProperty.EMAIL)
+	                .withEntityProperty(ENTITY_FIELD_EMAIL)
+	            .build());
 
         //@formatter:on
 	}

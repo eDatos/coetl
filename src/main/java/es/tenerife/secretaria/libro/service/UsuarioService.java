@@ -101,18 +101,37 @@ public class UsuarioService {
 
 	@Transactional(readOnly = true)
 	public Page<Usuario> getAllUsuarios(Pageable pageable, Boolean includeDeleted, String query) {
-		if (!StringUtils.isEmpty(query)) {
-			String finalQuery = "(" + query + ") AND LOGIN NE '" + Constants.ANONYMOUS_USER + "'";
-			if (BooleanUtils.isTrue(includeDeleted)) {
-				finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
-			}
-			DetachedCriteria criteria = queryUtil.queryToUserCriteria(finalQuery);
-			return usuarioRepository.findAll(criteria, pageable);
+		DetachedCriteria criteria = buildUsuarioCriteria(pageable, includeDeleted, query);
+		return usuarioRepository.findAll(criteria, pageable);
+	}
+
+	private DetachedCriteria buildUsuarioCriteria(Pageable pageable, Boolean includeDeleted, String query) {
+		StringBuilder queryBuilder = new StringBuilder();
+		initializeQueryBuilder(query, queryBuilder);
+		transalateSort(pageable, queryBuilder);
+		String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
+		return queryUtil.queryToUserCriteria(finalQuery);
+	}
+
+	private void initializeQueryBuilder(String query, StringBuilder queryBuilder) {
+		if (StringUtils.isNotBlank(query)) {
+			queryBuilder.append("(" + query + ") AND ");
 		}
+		queryBuilder.append(" LOGIN NE '").append(Constants.ANONYMOUS_USER).append("'");
+	}
+
+	private String getFinalQuery(Boolean includeDeleted, StringBuilder queryBuilder) {
+		String finalQuery = queryBuilder.toString();
 		if (BooleanUtils.isTrue(includeDeleted)) {
-			return usuarioRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER);
+			finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
 		}
-		return usuarioRepository.findAllByLoginNotAndDeletionDateIsNull(pageable, Constants.ANONYMOUS_USER);
+		return finalQuery;
+	}
+
+	private void transalateSort(Pageable pageable, StringBuilder queryBuilder) {
+		if (pageable != null) {
+			queryBuilder.append(queryUtil.pageableSortToQueryString(pageable));
+		}
 	}
 
 	@Transactional(readOnly = true)
