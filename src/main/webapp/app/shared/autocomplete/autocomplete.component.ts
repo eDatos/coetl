@@ -96,7 +96,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
     onCompleteMethod($event) {
         this.completeMethod.emit($event);
-        this.updateFilteredSuggestions($event.query);
+        this.filteredSuggestions = this.getFilteredSuggestions($event.query);
         if ($event.query && this.createNonFound && this.filteredSuggestions && !this.filteredSuggestions.some((s) => s[this.field] === $event.query)) {
             this.myNewLabel = $event.query;
             const newLabel = {};
@@ -119,7 +119,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     }
 
     getFilteredSuggestions(query) {
-        let filteredSuggestions = this.suggestions;
+        let filteredSuggestions = this.suggestions ? this.suggestions.slice() : [];
 
         if (this._selectedSuggestions instanceof Array) {
             filteredSuggestions = this.excludeAlreadySelectedSuggestions(this.suggestions);
@@ -166,7 +166,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     handleOnFocusSuggestions($event) {
         const queryValue = this.getQueryValue();
         if (!this.debouncedMode || queryValue.length >= this.minLength) {
-            this.updateFilteredSuggestions(queryValue);
+            this.filteredSuggestions = this.getFilteredSuggestions(queryValue);
 
             setTimeout(() => {
                 if (this.focusMustOpenPanel) {
@@ -175,17 +175,6 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
                     this.autoComplete.hide();
                 }
             }, 0);
-        }
-    }
-
-    updateFilteredSuggestions(queryValue) {
-        this.updateLoadingIcon();
-        this.filteredSuggestions = this.getFilteredSuggestions(queryValue);
-    }
-
-    updateLoadingIcon() {
-        if (!this.debouncedMode) {
-            this.autoComplete.loading = false;
         }
     }
 
@@ -200,7 +189,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     @Input()
     set suggestions(suggestions: any[]) {
         this._suggestions = suggestions;
-        this.updateFilteredSuggestions(this.getQueryValue());
+        this.filteredSuggestions = this.getFilteredSuggestions(this.getQueryValue());
     }
 
     get suggestions(): any[] {
