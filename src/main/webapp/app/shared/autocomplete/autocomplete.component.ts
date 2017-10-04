@@ -96,7 +96,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
     onCompleteMethod($event) {
         this.completeMethod.emit($event);
-        this.filteredSuggestions = this.getFilteredSuggestions($event.query);
+        this.updateFilteredSuggestions($event.query);
         if ($event.query && this.createNonFound && this.filteredSuggestions && !this.filteredSuggestions.some((s) => s[this.field] === $event.query)) {
             this.myNewLabel = $event.query;
             const newLabel = {};
@@ -119,34 +119,38 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     }
 
     getFilteredSuggestions(query) {
-        let dontIncludeAlreadySelectedSuggestions = [];
-        if (!this.debouncedMode) {
-            this.autoComplete.loading = false;
-        }
-        if (this._selectedSuggestions instanceof Array) {
-            dontIncludeAlreadySelectedSuggestions = this.suggestions
-                .filter((suggestion) => {
-                    const self = this;
-                    return !self._selectedSuggestions || self._selectedSuggestions.findIndex((selectedSuggestion) => self.compareWith(selectedSuggestion, suggestion)) === -1;
-                });
+        let filteredSuggestions = this.suggestions;
 
-        } else {
-            dontIncludeAlreadySelectedSuggestions = this.suggestions;
+        if (this._selectedSuggestions instanceof Array) {
+            filteredSuggestions = this.excludeAlreadySelectedSuggestions(this.suggestions);
         }
+
         if (this.propertiesToQuery) {
-            return dontIncludeAlreadySelectedSuggestions
-                .filter((suggestion) => {
-                    if (this.propertiesToQuery.length > 0) {
-                        return this.propertiesToQuery.findIndex((property) =>
-                            suggestion[property].toUpperCase().indexOf(query.toUpperCase()) !== -1
-                        ) !== -1;
-                    } else {
-                        return suggestion.toUpperCase().indexOf(query.toUpperCase()) !== -1
-                    }
-                });
-        } else {
-            return dontIncludeAlreadySelectedSuggestions;
+            filteredSuggestions = this.filterByPropertiesToQuery(filteredSuggestions, query);
         }
+
+        return filteredSuggestions;
+    }
+
+    filterByPropertiesToQuery(suggestions: any[], query: string) {
+        return suggestions
+            .filter((suggestion) => {
+                if (this.propertiesToQuery.length > 0) {
+                    return this.propertiesToQuery.findIndex((property) =>
+                        suggestion[property].toUpperCase().indexOf(query.toUpperCase()) !== -1
+                    ) !== -1;
+                } else {
+                    return suggestion.toUpperCase().indexOf(query.toUpperCase()) !== -1
+                }
+            });
+    }
+
+    excludeAlreadySelectedSuggestions(suggestions: any[]) {
+        return suggestions
+            .filter((suggestion) => {
+                const self = this;
+                return !self._selectedSuggestions || self._selectedSuggestions.findIndex((selectedSuggestion) => self.compareWith(selectedSuggestion, suggestion)) === -1;
+            });
     }
 
     // https://github.com/primefaces/primeng/issues/745
@@ -162,7 +166,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     handleOnFocusSuggestions($event) {
         const queryValue = this.getQueryValue();
         if (!this.debouncedMode || queryValue.length >= this.minLength) {
-            this.filteredSuggestions = this.getFilteredSuggestions(queryValue);
+            this.updateFilteredSuggestions(queryValue);
 
             setTimeout(() => {
                 if (this.focusMustOpenPanel) {
@@ -171,6 +175,17 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
                     this.autoComplete.hide();
                 }
             }, 0);
+        }
+    }
+
+    updateFilteredSuggestions(queryValue) {
+        this.updateLoadingIcon();
+        this.filteredSuggestions = this.getFilteredSuggestions(queryValue);
+    }
+
+    updateLoadingIcon() {
+        if (!this.debouncedMode) {
+            this.autoComplete.loading = false;
         }
     }
 
@@ -185,7 +200,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     @Input()
     set suggestions(suggestions: any[]) {
         this._suggestions = suggestions;
-        this.filteredSuggestions = this.getFilteredSuggestions(this.getQueryValue());
+        this.updateFilteredSuggestions(this.getQueryValue());
     }
 
     get suggestions(): any[] {
