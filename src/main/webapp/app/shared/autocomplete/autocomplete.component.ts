@@ -17,11 +17,11 @@ export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     providers: [AC_AUTOCOMPLETE_VALUE_ACCESSOR]
 })
 // Sample where the calls are made to the service
-// <ac-autocomplete name="operacion" (completeMethod)="filterOperaciones($event)" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
+// <ac-autocomplete name="operacion" (completeMethod)="filterOperaciones($event)" [debouncedMode]="true" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
 // [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
 //
 // Sample where array is static and is filtered via properties
-// <ac-autocomplete name="operacion" [propertiesToQuery]="['accion', 'sujeto']" [debouncedMode]="false" [(ngModel)]="rol.operaciones"
+// <ac-autocomplete name="operacion" [propertiesToQuery]="['accion', 'sujeto']"  [(ngModel)]="rol.operaciones"
 // [suggestions]="operaciones" [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
 export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
@@ -120,6 +120,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
     getFilteredSuggestions(query) {
         let dontIncludeAlreadySelectedSuggestions = [];
+        if (!this.debouncedMode) {
+            this.autoComplete.loading = false;
+        }
         if (this._selectedSuggestions instanceof Array) {
             dontIncludeAlreadySelectedSuggestions = this.suggestions
                 .filter((suggestion) => {
