@@ -69,6 +69,11 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     @Input()
     public required = false;
 
+    @Input()
+    public createNonFound = false;
+
+    private myNewLabel = '';
+
     public internalItemTemplate: Function;
 
     private onModelChange: Function = () => { };
@@ -92,6 +97,16 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     onCompleteMethod($event) {
         this.completeMethod.emit($event);
         this.filteredSuggestions = this.getFilteredSuggestions($event.query);
+        if ($event.query && this.createNonFound && this.filteredSuggestions && !this.filteredSuggestions.some((s) => s[this.field] === $event.query)) {
+            this.myNewLabel = $event.query;
+            const newLabel = {};
+            newLabel[this.field] = $event.query;
+            this.filteredSuggestions.push(newLabel);
+        }
+    }
+
+    itsNewLabel(item) {
+        return this.myNewLabel === item[this.field] ? this.translateService.instant('entity.list.empty.createNewItem') : '';
     }
 
     onSelectMethod($event) {

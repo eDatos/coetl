@@ -4,7 +4,7 @@
     [field]="field" [placeholder]="placeholder" (onSelect)="onSelectMethod($event)" (onUnselect)="onUnselectMethod($event)" [required]="required"
     #rolInput="ngModel">
     <ng-template let-item pTemplate="item">
-        {{internalItemTemplate(item)}}
+        {{internalItemTemplate(item)}} <span class="create-new-item-label">{{itsNewLabel(item)}}</span>
     </ng-template>
     <ng-template let-item pTemplate="selectedItem">
         {{internalItemTemplate(item)}}

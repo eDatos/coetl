@@ -2,7 +2,15 @@
 
 :host {
     border-radius: $border-radius;
+    
+    /deep/ .ui-autocomplete {
+        .create-new-item-label {
+            color:$grey-medium;
+            font-style: italic
+        }
+    }
 }
+
 
 :host[required] {
     border-left: $border-width*5 solid $accent-dark;
@@ -48,3 +56,4 @@ fieldset[disabled] {
         border-left: none;
     }
 }
+
