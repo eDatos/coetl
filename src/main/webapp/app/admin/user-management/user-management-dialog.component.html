@@ -38,7 +38,7 @@
             <div class="form-group">
                 <label class="form-control-label" jhiTranslate="userManagement.login">Login</label>
                 <input type="text" class="form-control" name="login" #loginInput="ngModel" [(ngModel)]="user.login" required minlength="1"
-                    maxlength="255" pattern="^[_'.@A-Za-z0-9-]*$" (blur)="validarUsuario()">
+                    maxlength="255" pattern="^[_'.@A-Za-z0-9-]*$" (blur)="validarUsuario(loginInput.dirty)">
 
                 <div *ngIf="loginInput.touched || loginInput.dirty" class="entity-field-error">
                     <ng-container *ngIf="loginInput.invalid">
