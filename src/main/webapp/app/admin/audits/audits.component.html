@@ -1,15 +1,17 @@
-<div *ngIf="audits" class="entity">
-    <h2 jhiTranslate="audits.title">Audits</h2>
+<div *ngIf="audits" class="entity" acMakeFixedRoom>
 
-    <div class="entity-search audits-search">
-        <div class="entity-search-field audit-date-search-field">
-            <label jhiTranslate="audits.filter.title">Filter by date</label>
-            <div class="form-group">
-                <span jhiTranslate="audits.filter.from" class="input-group-addon">from</span>
-                <ac-calendar class="form-control" [(ngModel)]="fromDate" name="start" placeholder="fecha inicio" (onSelect)="onChangeDate($event)"></ac-calendar>
-                <span jhiTranslate="audits.filter.to" class="input-group-addon">to</span>
-                <ac-calendar class="form-control" [(ngModel)]="toDate" name="end" placeholder="fecha fin" (onSelect)="onChangeDate($event)"
-                    [maxDate]="today"></ac-calendar>
+    <div class="entity-header">
+        <h2 jhiTranslate="audits.title">Audits</h2>
+        <div class="entity-search audits-search">
+            <div class="entity-search-field audit-date-search-field">
+                <label jhiTranslate="audits.filter.title">Filter by date</label>
+                <div class="form-group">
+                    <span jhiTranslate="audits.filter.from" class="input-group-addon">from</span>
+                    <ac-calendar class="form-control" [(ngModel)]="fromDate" name="start" placeholder="fecha inicio" (onSelect)="onChangeDate($event)"></ac-calendar>
+                    <span jhiTranslate="audits.filter.to" class="input-group-addon">to</span>
+                    <ac-calendar class="form-control" [(ngModel)]="toDate" name="end" placeholder="fecha fin" (onSelect)="onChangeDate($event)"
+                        [maxDate]="today"></ac-calendar>
+                </div>
             </div>
         </div>
     </div>

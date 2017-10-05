@@ -12,8 +12,7 @@ import { Principal } from '../../shared/auth/principal.service';
 
 @Component({
     selector: 'jhi-operacion',
-    templateUrl: './operacion.component.html',
-    styleUrls: ['operacion.component.scss'],
+    templateUrl: './operacion.component.html'
 })
 export class OperacionComponent implements OnInit, OnDestroy {
 

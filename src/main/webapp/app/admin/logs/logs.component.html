@@ -1,11 +1,13 @@
-<div *ngIf="loggers" class="entity">
-    <h2 jhiTranslate="logs.title">Logs</h2>
+<div *ngIf="loggers" class="entity" acMakeFixedRoom>
+    <div class="entity-header">
+        <h2 jhiTranslate="logs.title">Logs</h2>
 
-    <div class="entity-search">
-        <div class="entity-search-field">
-            <p jhiTranslate="logs.nbloggers" translateValues="{total: '{{ loggers.length }}'}">There are {{ loggers.length }} loggers.</p>
-            <label jhiTranslate="logs.filter">Filter</label>
-            <input type="text" [(ngModel)]="filter" class="form-control">
+        <div class="entity-search">
+            <div class="entity-search-field">
+                <p jhiTranslate="logs.nbloggers" translateValues="{total: '{{ loggers.length }}'}">There are {{ loggers.length }} loggers.</p>
+                <label jhiTranslate="logs.filter">Filter</label>
+                <input type="text" [(ngModel)]="filter" class="form-control">
+            </div>
         </div>
     </div>
 

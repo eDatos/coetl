@@ -1,12 +1,14 @@
-<div class="entity">
-    <h2>
-        <span jhiTranslate="userManagement.home.title">Users</span>
-        <button class="btn btn-secondary float-right jh-create-entity" [routerLink]="['../user-management-new']">
-            <span class="fa fa-plus"></span> <span jhiTranslate="userManagement.home.createLabel">Create a new User</span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
-    <ac-user-search [filters]="userFilter" [roles]="roles"></ac-user-search>
+<div class="entity" acMakeFixedRoom>
+    <div class="entity-header">
+        <h2>
+            <span jhiTranslate="userManagement.home.title">Users</span>
+            <button class="btn btn-secondary float-right jh-create-entity" [routerLink]="['../user-management-new']">
+                <span class="fa fa-plus"></span> <span jhiTranslate="userManagement.home.createLabel">Create a new User</span>
+            </button>
+        </h2>
+        <jhi-alert></jhi-alert>
+        <ac-user-search [filters]="userFilter" [roles]="roles"></ac-user-search>
+    </div>
     <ng-container *ngIf="users?.length > 0;else emptyList">
         <div class="table-responsive">
             <table class="table table-hover" acStickyTableHeader>

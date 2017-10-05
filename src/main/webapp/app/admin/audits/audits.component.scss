@@ -1,10 +1,6 @@
 @import '~scss/variables';
 @import '~scss/mixins';
 
-.entity {
-    padding-top: $entity-search-default-height;
-}
-
 .audit-date-search-field {
     @include make-col(12);
     @include media-breakpoint-up(md) {

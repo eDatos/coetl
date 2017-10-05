@@ -11,7 +11,7 @@ import { UserFilter } from './user-search/index';
 @Component({
     selector: 'jhi-user-mgmt',
     templateUrl: './user-management.component.html',
-    styleUrls: ['./user-management.component.scss', './user-management-delete-dialog.component.scss'],
+    styleUrls: ['./user-management-delete-dialog.component.scss'],
 })
 export class UserMgmtComponent implements OnInit, OnDestroy {
 
