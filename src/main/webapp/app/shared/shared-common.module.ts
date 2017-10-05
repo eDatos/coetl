@@ -8,7 +8,8 @@ import {
     JhiAlertComponent,
     JhiAlertErrorComponent,
     StickyTableHeaderDirective,
-    TriInputSwitchComponent
+    TriInputSwitchComponent,
+    MakeFixedRoomDirective
 } from './';
 
 @NgModule({
@@ -20,7 +21,8 @@ import {
         JhiAlertComponent,
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
-        TriInputSwitchComponent
+        TriInputSwitchComponent,
+        MakeFixedRoomDirective
     ],
     providers: [
         JhiLanguageHelper,
@@ -36,7 +38,8 @@ import {
         JhiAlertComponent,
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
-        TriInputSwitchComponent
+        TriInputSwitchComponent,
+        MakeFixedRoomDirective
     ]
 })
 export class SecretariaLibroSharedCommonModule { }
