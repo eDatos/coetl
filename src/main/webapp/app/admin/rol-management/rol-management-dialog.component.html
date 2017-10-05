@@ -64,7 +64,8 @@
             <div class="form-group">
                 <label class="form-control-label" jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
                 <p-listbox dataKey="id" name="operacion" [metaKeySelection]="false" [options]="operacionesString" [multiple]="true" [checkbox]="true"
-                    [filter]="true" [styleClass]="!isEditMode() ? 'disabled-mode' : ''" [(ngModel)]="rol.operaciones">
+                    [filter]="true" [styleClass]="!isEditMode() ? 'disabled-mode' : ''" [(ngModel)]="rol.operaciones" required
+                    #rolListInput="ngModel">
                     <ng-template let-element pTemplate="item">
                         <div class="operacion-listbox-item">
                             <div class="operacion-listbox-item-column">{{element.value.accion}}</div>
@@ -72,6 +73,11 @@
                         </div>
                     </ng-template>
                 </p-listbox>
+                <div *ngIf="rolListInput.invalid" class="entity-field-error">
+                    <small class="form-text text-danger" *ngIf="rolListInput.errors.required" jhiTranslate="entity.validation.required">
+                                    This field is required.
+                                </small>
+                </div>
             </div>
         </div>
     </fieldset>

@@ -6,6 +6,11 @@
         "404": {
             "title": "404 error",
             "detail": "Lo sentimos, la página que busca no existe."
+        },
+        "rol": {
+            "validation": {
+                "rol-necesita-operaciones": "Un rol necesita al menos de una operación"
+            }
         }
     }
 }
