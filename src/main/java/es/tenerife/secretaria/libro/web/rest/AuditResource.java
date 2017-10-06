@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ public class AuditResource extends AbstractResource {
 	}
 
 	@GetMapping
+	@PreAuthorize("hasPermission('AUDITORIA', 'LEER')")
 	public ResponseEntity<List<AuditEvent>> getAll(@ApiParam Pageable pageable) {
 		Page<AuditEvent> page = auditEventService.findAll(pageable);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/management/audits");
@@ -39,6 +41,7 @@ public class AuditResource extends AbstractResource {
 	}
 
 	@GetMapping(params = { "fromDate", "toDate" })
+	@PreAuthorize("hasPermission('AUDITORIA', 'LEER')")
 	public ResponseEntity<List<AuditEvent>> getByDates(@RequestParam(value = "fromDate") LocalDate fromDate,
 			@RequestParam(value = "toDate") LocalDate toDate, @ApiParam Pageable pageable) {
 
@@ -49,6 +52,7 @@ public class AuditResource extends AbstractResource {
 	}
 
 	@GetMapping("/{id:.+}")
+	@PreAuthorize("hasPermission('AUDITORIA', 'LEER')")
 	public ResponseEntity<AuditEvent> get(@PathVariable Long id) {
 		return ResponseUtil.wrapOrNotFound(auditEventService.find(id));
 	}
