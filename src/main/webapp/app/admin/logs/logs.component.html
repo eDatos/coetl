@@ -4,7 +4,8 @@
 
         <div class="entity-search">
             <div class="entity-search-field">
-                <p jhiTranslate="logs.nbloggers" translateValues="{total: '{{ loggers.length }}'}">There are {{ loggers.length }} loggers.</p>
+                <p jhiTranslate="logs.nbloggers" translateValues="{total: '{{ loggers.length }}'}">There are {{ loggers.length }} loggers. Elements marked with <i class="fa fa-asterisk"></i> don't inherit
+                    its value from its parent. </p>
                 <label jhiTranslate="logs.filter">Filter</label>
                 <input type="text" [(ngModel)]="filter" class="form-control">
             </div>
@@ -31,6 +32,7 @@
                     <button (click)="changeLevel(logger.name, 'WARN')" [ngClass]="(logger.level=='WARN') ? 'btn-success' : 'btn-secondary'" class="btn btn-sm">WARN</button>
                     <button (click)="changeLevel(logger.name, 'ERROR')" [ngClass]="(logger.level=='ERROR') ? 'btn-primary' : 'btn-secondary'"
                         class="btn btn-sm">ERROR</button>
+                    <span *ngIf="!logger.inherited">&nbsp;<i class="fa fa-asterisk"></i></span>
                 </td>
             </tr>
         </table>

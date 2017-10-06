@@ -1,7 +1,7 @@
 {
     "logs": {
         "title": "Logs",
-        "nbloggers": "Hay {{ total }} registros.",
+        "nbloggers": "Hay {{ total }} registros. Los registros marcados con <i class='fa fa-asterisk'></i> no heredan el valor de su padre.",
         "filter": "Filtro",
         "table": {
             "name": "Nombre",
