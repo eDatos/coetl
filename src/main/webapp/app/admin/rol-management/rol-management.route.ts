@@ -27,7 +27,6 @@ export class RolResolvePagingParams implements Resolve<any> {
 export const rolMgmtRoute: Routes = [
     {
         path: '',
-        canActivate: [UserRouteAccessService],
         children: [
             {
                 path: 'rol-management',
@@ -39,6 +38,7 @@ export const rolMgmtRoute: Routes = [
                     pageTitle: 'rolManagement.home.title',
                     operaciones: ['LEER:ROL'],
                 },
+                canActivate: [UserRouteAccessService],
             },
             {
                 path: 'rol-management/:codigo',
@@ -46,7 +46,8 @@ export const rolMgmtRoute: Routes = [
                 data: {
                     pageTitle: 'rolManagement.home.title',
                     operaciones: ['LEER:ROL']
-                }
+                },
+                canActivate: [UserRouteAccessService],
             },
             {
                 path: 'rol-management-new',
@@ -54,7 +55,8 @@ export const rolMgmtRoute: Routes = [
                 data: {
                     pageTitle: 'rolManagement.home.title',
                     operaciones: ['CREAR:ROL'],
-                }
+                },
+                canActivate: [UserRouteAccessService],
             },
             {
                 path: 'rol-management/:codigo/editar',
@@ -63,6 +65,7 @@ export const rolMgmtRoute: Routes = [
                     pageTitle: 'rolManagement.home.title',
                     operaciones: ['EDITAR:ROL'],
                 },
+                canActivate: [UserRouteAccessService],
             },
         ]
     }

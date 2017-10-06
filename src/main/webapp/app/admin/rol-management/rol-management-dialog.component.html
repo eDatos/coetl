@@ -13,18 +13,22 @@
             </span>
         </div>
         <div>
-            <button *ngIf="!isEditMode()" type="button" class="btn btn-secondary jh-create-entity" [routerLink]="['/rol-management', rol.codigo, 'editar']">
-                        <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
-                    </button>
-            <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                        <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-                    </button>
-            <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-                        <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-                    </button>
-            <button *ngIf="!isEditMode()" type="button" class="btn btn-danger" [routerLink]="['/', { outlets: { popup: 'rol-management/'+ rol.codigo + '/borrar'} }]">
-                    <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.delete">Cancel</span>
+            <ng-container *ngIf="!isEditMode()">
+                <button *acHasAnyOperacion="['EDITAR:ROL']" type="button" class="btn btn-secondary jh-create-entity" [routerLink]="['/rol-management', rol.codigo, 'editar']">
+                    <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
                 </button>
+                <button *acHasAnyOperacion="['ELIMINAR:ROL']" type="button" class="btn btn-danger" [routerLink]="['/', { outlets: { popup: 'rol-management/'+ rol.codigo + '/borrar'} }]">
+                    <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.delete">Delete</span>
+                </button>
+            </ng-container>
+            <ng-container *ngIf="isEditMode()">
+                <button *acHasAnyOperacion="['EDITAR:ROL']" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                    <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+            </ng-container>
         </div>
     </h2>
 
@@ -63,6 +67,7 @@
         <div class="entity-fields">
             <div class="form-group">
                 <label class="form-control-label" jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
+                <div><span class="form-text text-muted" jhiTranslate="rolManagement.operaciones.operacion-leer-requerida-para-modificar">Operaciones que impliquen modificaciones sobre una entidad requieren el correspondiente permiso de lectura sobre la entidad</span></div>
                 <p-listbox dataKey="id" name="operacion" [metaKeySelection]="false" [options]="operacionesString" [multiple]="true" [checkbox]="true"
                     [filter]="true" [styleClass]="!isEditMode() ? 'disabled-mode' : ''" [(ngModel)]="rol.operaciones" #rolListInput="ngModel">
                     <ng-template let-element pTemplate="item">
