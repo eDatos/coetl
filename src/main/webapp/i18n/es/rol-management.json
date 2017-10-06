@@ -18,7 +18,8 @@
         "nombre": "Nombre",
         "operaciones": {
             "operaciones": "Operaciones",
-            "empty": "No hay operaciones para este rol"
+            "empty": "No hay operaciones para este rol",
+            "operacion-leer-requerida-para-modificar": "Operaciones que impliquen modificaciones sobre una entidad requieren el correspondiente permiso de lectura sobre la entidad"
         }
     }
 }

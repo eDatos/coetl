@@ -7,7 +7,6 @@ export const navbarRoute: Route = {
     path: '',
     component: NavbarComponent,
     data: {
-        roles: ['ROLE_ADMIN', 'ROLE_USER']
     },
     canActivate: [UserRouteAccessService],
     outlet: 'navbar'

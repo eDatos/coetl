@@ -1,3 +1,4 @@
+import { Principal } from './../../shared/auth/principal.service';
 import { Component, OnInit } from '@angular/core';
 
 import { Log } from './log.model';
@@ -16,7 +17,8 @@ export class LogsComponent implements OnInit {
     reverse: boolean;
 
     constructor(
-        private logsService: LogsService
+        private logsService: LogsService,
+        private principal: Principal,
     ) {
         this.filter = '';
         this.orderProp = 'name';
@@ -28,9 +30,13 @@ export class LogsComponent implements OnInit {
     }
 
     changeLevel(name: string, level: string) {
-        const log = new Log(name, level);
-        this.logsService.changeLevel(log).subscribe(() => {
-            this.logsService.findAll().subscribe((loggers) => this.loggers = loggers);
+        this.principal.canDoAnyOperacion(['EDITAR:LOGS']).then((result) => {
+            if (result) {
+                const log = new Log(name, level);
+                this.logsService.changeLevel(log).subscribe(() => {
+                    this.logsService.findAll().subscribe((loggers) => this.loggers = loggers);
+                });
+            }
         });
     }
 }

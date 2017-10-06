@@ -7,4 +7,5 @@ export enum TipoSujetoOperacion {
     CONFIG,
     AUDITORIA,
     LOGS,
+    API,
 }
