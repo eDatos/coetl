@@ -13,3 +13,4 @@ id;opt_lock;accion;sujeto
 51;0;LEER;CONFIG
 61;0;LEER;AUDITORIA
 71;0;LEER;LOGS
+81;0;LEER;API
