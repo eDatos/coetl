@@ -62,6 +62,9 @@ fieldset {
         .disabled-mode.ui-listbox  {
             cursor: initial;
             pointer-events: none;
+            .ui-listbox-header .ui-chkbox {
+                opacity: 0;
+            }
         }
     
         input.ui-inputtext {
