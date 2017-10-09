@@ -9,7 +9,9 @@ import {
     JhiAlertErrorComponent,
     StickyTableHeaderDirective,
     TriInputSwitchComponent,
-    MakeFixedRoomDirective
+    MakeFixedRoomDirective,
+    AutocompleteComponent,
+    OrderListComponent
 } from './';
 
 @NgModule({
@@ -22,7 +24,9 @@ import {
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
         TriInputSwitchComponent,
-        MakeFixedRoomDirective
+        MakeFixedRoomDirective,
+        AutocompleteComponent,
+        OrderListComponent
     ],
     providers: [
         JhiLanguageHelper,
@@ -39,7 +43,9 @@ import {
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
         TriInputSwitchComponent,
-        MakeFixedRoomDirective
+        MakeFixedRoomDirective,
+        AutocompleteComponent,
+        OrderListComponent
     ]
 })
 export class SecretariaLibroSharedCommonModule { }

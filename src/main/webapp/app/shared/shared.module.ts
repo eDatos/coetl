@@ -15,7 +15,6 @@ import {
     RolService,
     EntityListEmptyComponent,
     SplitButtonComponent,
-    AutocompleteComponent,
     CalendarComponent,
     SideMenuComponent
 } from './';
@@ -30,7 +29,6 @@ import {
         HasAnyOperacionDirective,
         EntityListEmptyComponent,
         SplitButtonComponent,
-        AutocompleteComponent,
         CalendarComponent,
         SideMenuComponent
     ],
@@ -51,7 +49,6 @@ import {
         DatePipe,
         EntityListEmptyComponent,
         SplitButtonComponent,
-        AutocompleteComponent,
         CalendarComponent,
         SideMenuComponent
     ],
