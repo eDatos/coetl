@@ -45,5 +45,9 @@
         }
         
         border-bottom: $table-border-width solid $grey-light;
+
+        &.has-datatable {
+            border-bottom: none;
+        }
     }
 }
