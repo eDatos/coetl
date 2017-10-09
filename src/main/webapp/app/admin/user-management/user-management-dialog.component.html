@@ -13,7 +13,8 @@
         </div>
         <div>
             <ng-container *acHasAnyOperacion="['EDITAR:USUARIO']">
-                <button class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']" type="button">
+                <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']"
+                    type="button">
                     <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
                 </button>
 
