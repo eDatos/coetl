@@ -74,7 +74,7 @@ export const userDialogRoute: Routes = [
         component: UserDeleteDialogComponent,
         outlet: 'popup',
         data: {
-            operaciones: 'ELIMINAR:USUARIO',
+            operaciones: 'DESACTIVAR:USUARIO',
         }
     },
     {

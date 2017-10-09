@@ -84,9 +84,15 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     public itemTemplate: Function = (item) => item;
 
     @Input()
-    private compareWith: Function = (selectedSuggestion, suggestion) => {
-        return selectedSuggestion && suggestion ? selectedSuggestion.id === suggestion.id : selectedSuggestion === suggestion;
-    };
+    private compareWith: Function = (selectedSuggestion, existingSuggestion) => {
+        if (selectedSuggestion && existingSuggestion) {
+            if (!selectedSuggestion.id) { console.error('selectedSuggestion don\'t have defined id', selectedSuggestion) };
+            if (!existingSuggestion.id) { console.error('existingSuggestion don\'t have defined id', existingSuggestion) };
+            return selectedSuggestion.id === existingSuggestion.id;
+        } else {
+            return selectedSuggestion === existingSuggestion;
+        }
+    }
 
     constructor(private translateService: TranslateService) { }
 

@@ -175,7 +175,7 @@ public class UsuarioResource extends AbstractResource {
 
 	@DeleteMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
 	@Timed
-	@PreAuthorize("hasPermission('USUARIO', 'ELIMINAR')")
+	@PreAuthorize("hasPermission('USUARIO', 'DESACTIVAR')")
 	public ResponseEntity<Void> deleteUser(@PathVariable String login) {
 		log.debug("REST request to delete User: {}", login);
 		usuarioService.deleteUsuario(login);
@@ -185,7 +185,7 @@ public class UsuarioResource extends AbstractResource {
 
 	@PutMapping("/usuarios/{login}/restore")
 	@Timed
-	@PreAuthorize("hasPermission('USUARIO', 'EDITAR')")
+	@PreAuthorize("hasPermission('USUARIO', 'ACTIVAR')")
 	public ResponseEntity<UsuarioDTO> updateUser(@Valid @PathVariable String login) {
 		log.debug("REST request to restore User : {}", login);
 

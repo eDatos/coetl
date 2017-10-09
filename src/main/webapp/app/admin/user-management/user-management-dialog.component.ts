@@ -90,16 +90,18 @@ export class UserMgmtDialogComponent implements OnInit, OnDestroy {
         }
     }
 
-    validarUsuario() {
-        this.userService.buscarUsuarioEnLdap(this.user.login).subscribe(
-            (usuario) => {
-                this.user = usuario;
-                this.usuarioValido = true;
-            },
-            (error) => {
-                this.usuarioValido = false;
-            }
-        );
+    validarUsuario(inputDirty = true) {
+        if (inputDirty) {
+            this.userService.buscarUsuarioEnLdap(this.user.login).subscribe(
+                (usuario) => {
+                    this.user = usuario;
+                    this.usuarioValido = true;
+                },
+                (error) => {
+                    this.usuarioValido = false;
+                }
+            );
+        }
     }
 
     restore(login: string) {

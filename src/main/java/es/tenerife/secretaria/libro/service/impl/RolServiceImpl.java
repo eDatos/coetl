@@ -13,6 +13,7 @@ import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
 import es.tenerife.secretaria.libro.service.RolService;
+import es.tenerife.secretaria.libro.service.validator.RolValidator;
 import es.tenerife.secretaria.libro.web.rest.errors.CustomParameterizedException;
 import es.tenerife.secretaria.libro.web.rest.errors.ErrorConstants;
 import es.tenerife.secretaria.libro.web.rest.util.QueryUtil;
@@ -28,15 +29,20 @@ public class RolServiceImpl implements RolService {
 
 	private QueryUtil queryUtil;
 
-	public RolServiceImpl(RolRepository rolRepository, UsuarioRepository usuarioRepository, QueryUtil queryUtil) {
+	private RolValidator rolValidator;
+
+	public RolServiceImpl(RolRepository rolRepository, UsuarioRepository usuarioRepository, QueryUtil queryUtil,
+			RolValidator rolValidator) {
 		this.rolRepository = rolRepository;
 		this.usuarioRepository = usuarioRepository;
 		this.queryUtil = queryUtil;
+		this.rolValidator = rolValidator;
 	}
 
 	@Override
 	public Rol save(Rol rol) {
 		log.debug("Petición para guardar rol {}", rol);
+		rolValidator.validate(rol);
 		return rolRepository.save(rol);
 	}
 

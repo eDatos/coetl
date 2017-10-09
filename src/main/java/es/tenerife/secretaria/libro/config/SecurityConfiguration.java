@@ -231,7 +231,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	    	.addFilterBefore(requestCasGlobalLogoutFilter(), LogoutFilter.class)
             .exceptionHandling()
         	.authenticationEntryPoint(casAuthenticationEntryPoint())
-        .and()
+        .and() 
             .csrf().disable()
             .headers()
             .frameOptions().disable()
@@ -243,11 +243,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/profile-info").permitAll()
-            .antMatchers("/management/health").permitAll()
-            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/management/health").access("hasPermission('AUDITORIA', 'LEER')") // FIXME SECRETARIA-77
+            .antMatchers("/management/**").permitAll()
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
-            .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/swagger-ui/index.html").access("hasPermission('API', 'LEER')")  // FIXME SECRETARIA-77
             .antMatchers("/**").authenticated();
         //@formatter:on
 	}

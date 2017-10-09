@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label class="form-control-label" for="nombre" jhiTranslate="settings.form.nombre">First Name</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="{{'settings.form.nombre.placeholder' | translate}}"
-                    [(ngModel)]="settingsAccount.nombre" minlength=1 maxlength=50 #nombreInput="ngModel" required>
+                    [(ngModel)]="settingsAccount.nombre" minlength=1 maxlength=255 #nombreInput="ngModel" required>
                 <div *ngIf="(nombreInput.touched || nombreInput.dirty) && nombreInput.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="nombreInput.errors.required" jhiTranslate="settings.messages.validate.nombre.required">
                         Your first name is required.
@@ -34,7 +34,7 @@
                             Your first name is required to be at least 1 character.
                         </small>
                         <small class="form-text text-danger" *ngIf="nombreInput.errors.maxlength" jhiTranslate="settings.messages.validate.nombre.maxlength">
-                            Your first name cannot be longer than 50 characters.
+                            Your first name cannot be longer than 255 characters.
                         </small>
                     </ng-container>
                 </div>
@@ -43,7 +43,7 @@
             <div class="form-group">
                 <label class="form-control-label" for="apellido1" jhiTranslate="settings.form.apellido1">Last Name</label>
                 <input type="text" class="form-control" id="apellido1" name="apellido1" placeholder="{{'settings.form.apellido1.placeholder' | translate}}"
-                    [(ngModel)]="settingsAccount.apellido1" minlength=1 maxlength=50 #apellido1Input="ngModel" required>
+                    [(ngModel)]="settingsAccount.apellido1" minlength=1 maxlength=255 #apellido1Input="ngModel" required>
                 <div *ngIf="(apellido1Input.dirty || apellido1Input.touched) && apellido1Input.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="apellido1Input.errors.required" jhiTranslate="settings.messages.validate.apellido1.required">
                         Your last name is required.
@@ -53,7 +53,7 @@
                             Your last name is required to be at least 1 character.
                         </small>
                         <small class="form-text text-danger" *ngIf="apellido1Input.errors.maxlength" jhiTranslate="settings.messages.validate.apellido1.maxlength">
-                            Your last name cannot be longer than 50 characters.
+                            Your last name cannot be longer than 255 characters.
                         </small>
                     </ng-container>
                 </div>
@@ -62,13 +62,13 @@
             <div class="form-group">
                 <label class="form-control-label" for="apellido2" jhiTranslate="settings.form.apellido2">Last Name</label>
                 <input type="text" class="form-control" id="apellido2" name="apellido2" placeholder="{{isEditMode() ? ('settings.form.apellido2.placeholder' | translate) : ''}}"
-                    [(ngModel)]="settingsAccount.apellido2" minlength=1 maxlength=50 #apellido2Input="ngModel">
+                    [(ngModel)]="settingsAccount.apellido2" minlength=1 maxlength=255 #apellido2Input="ngModel">
             </div>
 
             <div class="form-group">
                 <label class="form-control-label" for="email" jhiTranslate="global.form.email">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="{{'global.form.email.placeholder' | translate}}"
-                    [(ngModel)]="settingsAccount.email" minlength="5" maxlength="100" #emailInput="ngModel" required email>
+                    [(ngModel)]="settingsAccount.email" minlength="5" maxlength="255" #emailInput="ngModel" required email>
                 <div *ngIf="(emailInput.dirty || emailInput.touched) && emailInput.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="emailInput.errors.required" jhiTranslate="global.messages.validate.email.required">
                         Your email is required.
@@ -81,7 +81,7 @@
                             Your email is required to be at least 5 characters.
                         </small>
                         <small class="form-text text-danger" *ngIf="emailInput.errors.maxlength" jhiTranslate="global.messages.validate.email.maxlength">
-                            Your email cannot be longer than 100 characters.
+                            Your email cannot be longer than 255 characters.
                         </small>
                     </ng-container>
                 </div>

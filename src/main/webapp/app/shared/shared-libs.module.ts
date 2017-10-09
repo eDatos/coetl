@@ -8,7 +8,7 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
 import { DEFAULT_LANGUAGE } from './language/language.constants';
-import { CalendarModule, AutoCompleteModule, ButtonModule, SelectButtonModule, ListboxModule } from 'primeng/primeng';
+import { CalendarModule, AutoCompleteModule, ButtonModule, SelectButtonModule, ListboxModule, OrderListModule } from 'primeng/primeng';
 
 @NgModule({
     imports: [
@@ -26,7 +26,8 @@ import { CalendarModule, AutoCompleteModule, ButtonModule, SelectButtonModule, L
         AutoCompleteModule,
         ButtonModule,
         SelectButtonModule,
-        ListboxModule
+        ListboxModule,
+        OrderListModule
     ],
     exports: [
         FormsModule,
@@ -39,7 +40,8 @@ import { CalendarModule, AutoCompleteModule, ButtonModule, SelectButtonModule, L
         CalendarModule,
         ButtonModule,
         SelectButtonModule,
-        ListboxModule
+        ListboxModule,
+        OrderListModule
     ]
 })
 export class SecretariaLibroSharedLibsModule { }
