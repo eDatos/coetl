@@ -142,9 +142,13 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
         return suggestions
             .filter((suggestion) => {
                 if (this.propertiesToQuery.length > 0) {
-                    return this.propertiesToQuery.findIndex((property) =>
-                        suggestion[property].toUpperCase().indexOf(query.toUpperCase()) !== -1
-                    ) !== -1;
+                    return this.propertiesToQuery.findIndex((property) => {
+                        if (suggestion[property]) {
+                            return suggestion[property].toUpperCase().indexOf(query.toUpperCase()) !== -1;
+                        } else {
+                            return false;
+                        }
+                    }) !== -1;
                 } else {
                     return suggestion.toUpperCase().indexOf(query.toUpperCase()) !== -1
                 }
