@@ -222,9 +222,15 @@ $entity-search-field-btn-width: 200px;
 
 .entity {
     &.has-menu {
-        padding-left: $side-menu-width;
+        padding-left: $side-menu-width;        
         h2 {
             left: $side-menu-width;
+        }
+        .entity-header {
+            left: $side-menu-width;
+            h2 {
+                left: 0;
+            }   
         }
     }
 }

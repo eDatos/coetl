@@ -1,11 +1,13 @@
 <ac-side-menu [parent]="instance"></ac-side-menu>
-<div *ngIf="allConfiguration && configuration" class="entity" #titlesContainer>
-    <h2 jhiTranslate="configuration.title">Configuration</h2>
+<div *ngIf="allConfiguration && configuration" class="entity" #titlesContainer acMakeFixedRoom>
+    <div class="entity-header">
+        <h2 jhiTranslate="configuration.title">Configuration</h2>
 
-    <div class="entity-search">
-        <div class="entity-search-field">
-            <label jhiTranslate="configuration.filter">Filter (by prefix)</label>
-            <input type="text" [(ngModel)]="filter" class="form-control">
+        <div class="entity-search">
+            <div class="entity-search-field">
+                <label jhiTranslate="configuration.filter">Filter (by prefix)</label>
+                <input type="text" [(ngModel)]="filter" class="form-control">
+            </div>
         </div>
     </div>
     <h3>Spring configuration</h3>
