@@ -2,7 +2,7 @@
     [dropdown]="!debouncedMode" (onDropdownClick)="handleDropdownSuggestions($event)" (onFocus)="handleOnFocusSuggestions($event)"
     (onBlur)="handleOnFocusOutSuggestions($event)" [minLength]="minLength" [emptyMessage]="emptyMessage" [forceSelection]="!multiple"
     [field]="field" [placeholder]="placeholder" (onSelect)="onSelectMethod($event)" (onUnselect)="onUnselectMethod($event)" [required]="required"
-    #autocompleteInput="ngModel">
+    #autocompleteInput="ngModel" [styleClass]="selectedSuggestions && selectedSuggestions.length > 0 ? '' : 'is-empty'">
     <ng-template let-item pTemplate="item">
         {{internalItemTemplate(item)}} <span class="create-new-item-label">{{itsNewLabel(item)}}</span>
     </ng-template>

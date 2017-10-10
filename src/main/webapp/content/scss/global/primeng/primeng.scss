@@ -1,20 +1,28 @@
 @import '~scss/variables';
 
+$close-icon-width: 2em;
+
 .ui-autocomplete {
     width: 100%;
+    .ui-autocomplete-input,
     .ui-autocomplete-multiple-container {
         width: 100%;
-        padding-right: 2em;
+        padding-right: $primeng-dropdown-button-width;
+        
         .ui-autocomplete-token {
-            padding-right: 2em;
+            padding-right: $close-icon-width;
         }
+    }
+    .ui-autocomplete-input-token {
+        padding: 0;
     }
     .ui-autocomplete-dropdown {
         position: absolute;
         right: 0;
     }
     .ui-inputtext {
-        padding: 2px $input-padding-x;
+        padding: $input-padding-y $input-padding-x;
+        line-height: $input-line-height;
     }
 }
 
