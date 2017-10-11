@@ -14,6 +14,7 @@ export class UserFilter implements EntityFilter {
 
     setAllRoles(roles: Rol[]) {
         this.allRoles = roles;
+        this.roles = this.getRolesFromIds(this.roles.map((rol) => rol.id));
     }
 
     fromQueryParams(params: any) {
@@ -47,13 +48,27 @@ export class UserFilter implements EntityFilter {
     }
 
     private rolesFromParam(param): Rol[] {
-        const roles = []
-        param.split(',')
-            .map((id) => this.allRoles
-                .filter((r) => r.id.toString() === id)
-                .map((a) => roles.push(a)));
-        return roles;
+        const rolesIds = param.split(',').map((id) => Number(id));
+        if (this.allRoles.length) {
+            return this.getRolesFromIds(rolesIds);
+        } else {
+            return this.buildRolesFromIds(rolesIds);
+        }
     }
+
+    private getRolesFromIds(rolesIds: number[]): Rol[] {
+        return this.allRoles.filter((rol) => {
+            return rolesIds.findIndex((id) => rol.id === id) !== -1;
+        });
+    };
+
+    private buildRolesFromIds(rolesIds: number[]): Rol[] {
+        return rolesIds.map((id) => {
+            const rol = new Rol();
+            rol.id = id;
+            return rol;
+        });
+    };
 
     private rolesToParam(): string {
         if (this.roles) {
