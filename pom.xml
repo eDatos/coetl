@@ -412,6 +412,10 @@
       <version>${arte-libs-grammar.version}</version>
     </dependency>
     <!-- jhipster-needle-maven-add-dependency -->
+    <dependency>
+    	<groupId>org.springframework.security</groupId>
+    	<artifactId>spring-security-acl</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <defaultGoal>spring-boot:run</defaultGoal>
