@@ -31,6 +31,9 @@ export class OrderListComponent implements ControlValueAccessor {
     public hasControls = false;
 
     @Input()
+    public disabled = false;
+
+    @Input()
     public itemTemplate: Function = (item) => item;
 
     private onModelChange: Function = () => { };

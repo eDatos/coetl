@@ -180,6 +180,15 @@ jhipster:
     ribbon:
         display-on-active-profiles: dev
 
+
+# ===================================================================
+# Change log levels
+# ===================================================================
+
+logging:
+    level:
+        org.hibernate.orm.deprecation: ERROR    # SECRETARIA-81
+
 # ===================================================================
 # Application specific properties
 # Add your own application properties here

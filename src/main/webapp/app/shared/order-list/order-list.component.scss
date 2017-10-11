@@ -75,13 +75,26 @@
     fieldset:disabled &,
     fieldset[disabled] &{
         p-orderList /deep/ {     
-            .fa-arrows-v:before {
-                display: none;
-            }
-            .ui-autocomplete-token-icon:before {
-                display: none;
-            }
+            @extend %order-list-disabled;
+        }
+        ac-autocomplete {
+            display: none;
+        }
+    }
+    p-orderList /deep/ { 
+        .ui-orderlist.disabled {
+            @extend %order-list-disabled;
         }
     }
 }
 
+%order-list-disabled {
+    pointer-events: none;
+
+    .fa-arrows-v:before {
+        display: none;
+    }
+    .ui-autocomplete-token-icon:before {
+        display: none;
+    }
+}

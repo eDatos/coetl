@@ -1,7 +1,9 @@
 <div class="order-list">
-    <ac-autocomplete name="acOrderList" [(ngModel)]="orderedList" [suggestions]="suggestions" [itemTemplate]="itemTemplate" [propertiesToQuery]="propertiesToQuery"></ac-autocomplete>
-    <p-orderList [value]="orderedList" dragdrop="dragAndDrop" [dragdropScope]="dragAndDropScope" (onReorder)="onReorder()" [styleClass]="hasControls ? 'has-controls' : ''"
-        [metaKeySelection]="false">
+    <ng-container *ngIf="!disabled">
+        <ac-autocomplete name="acOrderList" [(ngModel)]="orderedList" [suggestions]="suggestions" [itemTemplate]="itemTemplate" [propertiesToQuery]="propertiesToQuery"></ac-autocomplete>
+    </ng-container>
+    <p-orderList [styleClass]="disabled ? 'disabled': ''" [value]="orderedList" dragdrop="dragAndDrop" [dragdropScope]="dragAndDropScope"
+        (onReorder)="onReorder()" [styleClass]="hasControls ? 'has-controls' : ''" [metaKeySelection]="false">
         <ng-template let-item pTemplate="item">
             <span *ngIf="dragAndDrop" class="fa fa-fw fa-arrows-v"></span> {{itemTemplate(item)}}
             <span class="ui-autocomplete-token-icon fa fa-fw fa-close" (click)="removeItem(item)"></span>

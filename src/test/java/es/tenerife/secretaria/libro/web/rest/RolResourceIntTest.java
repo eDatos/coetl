@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +41,7 @@ import es.tenerife.secretaria.libro.domain.enumeration.TipoAccionOperacion;
 import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.service.OperacionService;
 import es.tenerife.secretaria.libro.service.RolService;
+import es.tenerife.secretaria.libro.web.rest.dto.OperacionDTO;
 import es.tenerife.secretaria.libro.web.rest.dto.RolDTO;
 import es.tenerife.secretaria.libro.web.rest.mapper.RolMapper;
 
@@ -63,6 +65,8 @@ public class RolResourceIntTest {
 	private static final String ROLE_USER = "USER";
 
 	private static final String DEFAULT_LOGIN = "testLoginName";
+	
+	private static final String ACCION_EDITAR = "EDITAR";
 
 	@Autowired
 	private EntityManager em;
@@ -101,10 +105,20 @@ public class RolResourceIntTest {
 		operacion.setRoles(roles);
 		return operacion;
 	}
+	
+	private static Operacion mockOperacion(Rol rol) {
+		Operacion operacion = new Operacion();
+		operacion.setId(1L);
+		Set<Rol> roles = new HashSet<>();
+		roles.add(rol);
+		operacion.setRoles(roles);
+		return operacion;
+	}
 
 	public static Rol createEntity(EntityManager em) {
 		Rol rol = new Rol();
 		rol.setCodigo(ROLE_ADMIN);
+		rol.setOperaciones(mockOperaciones(rol));
 		return rol;
 
 	}
@@ -113,7 +127,24 @@ public class RolResourceIntTest {
 		RolDTO rolDTO = new RolDTO();
 		rolDTO.setNombre(TEST_ROL);
 		rolDTO.setCodigo(TEST_ROL);
+		rolDTO.setOperaciones(mockOperacionesDto());
 		return rolDTO;
+	}
+	
+	private Set<OperacionDTO> mockOperacionesDto() {
+		HashSet<OperacionDTO> operaciones = new HashSet<OperacionDTO>();
+		OperacionDTO operacion = new OperacionDTO();
+		operacion.setId(1L);
+		operacion.setAccion(ACCION_EDITAR);
+		operacion.setSujeto(SUJETO_ROL);		
+		operaciones.add(operacion);
+		return operaciones;
+	}
+
+	private Rol mockRolWithOperaciones(String rolCode) {
+		Rol rol = mockRol(rolCode);
+		rol.setOperaciones(mockOperaciones(rol));
+		return rol;
 	}
 
 	private Rol mockRol(String rolCode) {
@@ -121,6 +152,12 @@ public class RolResourceIntTest {
 		rol.setCodigo(rolCode);
 		rol.setNombre("ROL NAME " + rolCode);
 		return rol;
+	}
+	
+	private static HashSet<Operacion> mockOperaciones(Rol rol) {
+		HashSet<Operacion> operaciones = new HashSet<Operacion>();
+		operaciones.add(mockOperacion(rol).accion(ACCION_EDITAR).sujeto(SUJETO_ROL));
+		return operaciones;
 	}
 
 	private Set<Rol> mockRoles(Rol... roles) {
@@ -220,7 +257,7 @@ public class RolResourceIntTest {
 				.thenReturn(mockOperacion());
 		Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
-		Rol rol = mockRol(TEST_ROL);
+		Rol rol = mockRolWithOperaciones(TEST_ROL);
 		em.persist(rol);
 		RolDTO rolDTO = rolMapper.toDto(rol);
 		rolDTO.setNombre("UPDATED_NAME");

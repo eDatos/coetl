@@ -1,16 +1,34 @@
 @import '~scss/variables';
+@import '~scss/mixins';
 
 :host {
     border-radius: $border-radius;
     
     /deep/ .ui-autocomplete {
         .create-new-item-label {
-            color:$grey-medium;
-            font-style: italic
+            color: $grey-medium;
+            font-style: italic;
+        }
+        input {
+            @include placeholder {
+                color: $grey-medium;
+            }
+        }
+        &.is-empty {
+            .ui-autocomplete-input-token {
+                width: 100%;
+                padding-right: $primeng-dropdown-button-width;         
+            }
+            input {
+                width: 100%;
+
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
     }
 }
-
 
 :host[required] {
     border-left: $border-width*5 solid $accent-dark;
