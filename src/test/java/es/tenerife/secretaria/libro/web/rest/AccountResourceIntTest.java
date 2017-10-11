@@ -36,7 +36,6 @@ import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
 import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
-import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
@@ -53,7 +52,9 @@ import es.tenerife.secretaria.libro.web.rest.mapper.UsuarioMapper;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SecretariaLibroApp.class)
 public class AccountResourceIntTest {
-
+	
+	private static final String ROL_ADMIN = "ADMIN";
+	
 	@Autowired
 	private UsuarioRepository userRepository;
 
@@ -91,8 +92,8 @@ public class AccountResourceIntTest {
 
 	private RolDTO mockRolDTO() {
 		RolDTO rolDTO = new RolDTO();
-		rolDTO.setCodigo(AuthoritiesConstants.ADMIN);
-		rolDTO.setNombre(AuthoritiesConstants.ADMIN);
+		rolDTO.setCodigo(AccountResourceIntTest.ROL_ADMIN);
+		rolDTO.setNombre(AccountResourceIntTest.ROL_ADMIN);
 		return rolDTO;
 	}
 
@@ -133,7 +134,7 @@ public class AccountResourceIntTest {
 	@Transactional
 	public void testGetExistingAccount() throws Exception {
 		Set<Rol> authorities = new HashSet<>();
-		Rol authority = rolRepository.findOneByCodigo(AuthoritiesConstants.ADMIN);
+		Rol authority = rolRepository.findOneByCodigo(AccountResourceIntTest.ROL_ADMIN);
 		authorities.add(authority);
 
 		Usuario user = new Usuario();
@@ -149,7 +150,7 @@ public class AccountResourceIntTest {
 				.andExpect(jsonPath("$.login").value("test")).andExpect(jsonPath("$.nombre").value("john"))
 				.andExpect(jsonPath("$.apellido1").value("doe"))
 				.andExpect(jsonPath("$.email").value("john.doe@jhipster.com"))
-				.andExpect(jsonPath("$.roles[*].codigo").value(AuthoritiesConstants.ADMIN));
+				.andExpect(jsonPath("$.roles[*].codigo").value(AccountResourceIntTest.ROL_ADMIN));
 	}
 
 	@Test

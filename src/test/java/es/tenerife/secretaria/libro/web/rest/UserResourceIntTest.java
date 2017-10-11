@@ -41,7 +41,6 @@ import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.entry.UsuarioLdapEntry;
 import es.tenerife.secretaria.libro.repository.RolRepository;
 import es.tenerife.secretaria.libro.repository.UsuarioRepository;
-import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.service.LdapService;
 import es.tenerife.secretaria.libro.service.MailService;
 import es.tenerife.secretaria.libro.service.UsuarioService;
@@ -74,6 +73,9 @@ public class UserResourceIntTest {
 
 	private static final String DEFAULT_LASTNAME = "doe";
 	private static final String UPDATED_LASTNAME = "jhipsterLastName";
+
+	private static final String ROL_ADMIN = "ADMIN";
+	private static final String ROL_USER = "USER";
 
 	@Autowired
 	private UsuarioRepository userRepository;
@@ -133,8 +135,8 @@ public class UserResourceIntTest {
 		// Create the User
 		Set<RolDTO> authorities = new HashSet<>();
 		RolDTO rolDTO = new RolDTO();
-		rolDTO.setCodigo(AuthoritiesConstants.ADMIN);
-		rolDTO.setNombre(AuthoritiesConstants.ADMIN);
+		rolDTO.setCodigo(UserResourceIntTest.ROL_ADMIN);
+		rolDTO.setNombre(UserResourceIntTest.ROL_ADMIN);
 		if (save) {
 			em.persist(rolMapper.toEntity(rolDTO));
 		}
@@ -573,7 +575,7 @@ public class UserResourceIntTest {
 		assertThat(user.getCreatedDate()).isNotNull();
 		assertThat(user.getLastModifiedBy()).isNull();
 		assertThat(user.getLastModifiedDate()).isNotNull();
-		assertThat(user.getRoles()).extracting("codigo").containsExactly(AuthoritiesConstants.ADMIN);
+		assertThat(user.getRoles()).extracting("codigo").containsExactly(UserResourceIntTest.ROL_ADMIN);
 	}
 
 	@Test
@@ -586,7 +588,7 @@ public class UserResourceIntTest {
 		user.setLastModifiedDate(Instant.now());
 
 		Set<Rol> authorities = new HashSet<>();
-		Rol authority = rolRepository.findOneByCodigo(AuthoritiesConstants.USER);
+		Rol authority = rolRepository.findOneByCodigo(UserResourceIntTest.ROL_USER);
 
 		authorities.add(authority);
 		user.setRoles(authorities);
@@ -618,13 +620,13 @@ public class UserResourceIntTest {
 		Rol authorityB = new Rol();
 		assertThat(authorityA).isEqualTo(authorityB);
 
-		authorityB.setNombre(AuthoritiesConstants.ADMIN);
+		authorityB.setNombre(UserResourceIntTest.ROL_ADMIN);
 		assertThat(authorityA).isNotEqualTo(authorityB);
 
-		authorityA.setNombre(AuthoritiesConstants.USER);
+		authorityA.setNombre(UserResourceIntTest.ROL_USER);
 		assertThat(authorityA).isNotEqualTo(authorityB);
 
-		authorityB.setNombre(AuthoritiesConstants.USER);
+		authorityB.setNombre(UserResourceIntTest.ROL_USER);
 		assertThat(authorityA).isEqualTo(authorityB);
 		assertThat(authorityA.hashCode()).isEqualTo(authorityB.hashCode());
 	}
