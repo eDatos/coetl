@@ -45,7 +45,6 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CorsFilter;
 
-import es.tenerife.secretaria.libro.security.AuthoritiesConstants;
 import es.tenerife.secretaria.libro.security.jwt.CasEhCacheBasedTicketCache;
 import es.tenerife.secretaria.libro.security.jwt.JWTAuthenticationSuccessHandler;
 import es.tenerife.secretaria.libro.security.jwt.JWTFilter;
@@ -243,11 +242,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/profile-info").permitAll()
-            .antMatchers("/management/health").access("hasPermission('AUDITORIA', 'LEER')") // FIXME SECRETARIA-77
+            .antMatchers("/management/metrics").access("hasAuthority('LEER_METRICA')")
+            .antMatchers("/management/health").access("hasAuthority('LEER_SALUD')")
+            .antMatchers("/management/configprops").access("hasAuthority('LEER_CONFIG')")
+            .antMatchers("/management/audits").access("hasAuthority('LEER_AUDITORIA')")
+            .antMatchers("/management/logs").access("hasAuthority('LEER_LOGS')")
             .antMatchers("/management/**").permitAll()
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
-            .antMatchers("/swagger-ui/index.html").access("hasPermission('API', 'LEER')")  // FIXME SECRETARIA-77
+            .antMatchers("/swagger-ui/index.html").access("hasAuthority('LEER_API')")  // FIXME SECRETARIA-77
             .antMatchers("/**").authenticated();
         //@formatter:on
 	}
