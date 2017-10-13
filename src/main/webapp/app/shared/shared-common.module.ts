@@ -5,7 +5,6 @@ import {
     SecretariaLibroSharedLibsModule,
     JhiLanguageHelper,
     FindLanguageFromKeyPipe,
-    JhiAlertComponent,
     JhiAlertErrorComponent,
     StickyTableHeaderDirective,
     TriInputSwitchComponent,
@@ -21,7 +20,6 @@ import {
     ],
     declarations: [
         FindLanguageFromKeyPipe,
-        JhiAlertComponent,
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
         TriInputSwitchComponent,
@@ -41,7 +39,6 @@ import {
     exports: [
         SecretariaLibroSharedLibsModule,
         FindLanguageFromKeyPipe,
-        JhiAlertComponent,
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
         TriInputSwitchComponent,

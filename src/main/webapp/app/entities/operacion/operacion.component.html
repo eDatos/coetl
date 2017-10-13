@@ -3,7 +3,6 @@
         <h2>
             <span jhiTranslate="secretariaLibroApp.operacion.home.title">operaciones</span>
         </h2>
-        <jhi-alert></jhi-alert>
         <ac-operacion-search [filters]="filters"></ac-operacion-search>
     </div>
     <ng-container *ngIf="!isEmptyList; else empty_list">
