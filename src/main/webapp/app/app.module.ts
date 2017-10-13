@@ -25,7 +25,6 @@ import {
     ProfileService,
     PageRibbonComponent,
     ErrorComponent,
-    NotFoundComponent,
     notFoundRoute
 } from './layouts';
 
@@ -64,7 +63,6 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
         JhiMainComponent,
         NavbarComponent,
         ErrorComponent,
-        NotFoundComponent,
         PageRibbonComponent,
         FooterComponent
     ],
