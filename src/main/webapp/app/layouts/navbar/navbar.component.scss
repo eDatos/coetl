@@ -19,12 +19,7 @@ Navbar
 }
 .jh-navbar {
     background-color: $main-dark;
-    .profile-image {
-        margin: -10px 0px;
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-    }
+
     .dropdown-item.active, .dropdown-item.active:focus, .dropdown-item.active:hover {
         background-color: $main-dark;
     }
