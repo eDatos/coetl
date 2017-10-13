@@ -4,7 +4,6 @@ import { Title } from '@angular/platform-browser';
 import {
     SecretariaLibroSharedLibsModule,
     JhiLanguageHelper,
-    FindLanguageFromKeyPipe,
     JhiAlertErrorComponent,
     StickyTableHeaderDirective,
     TriInputSwitchComponent,
@@ -19,7 +18,6 @@ import {
         SecretariaLibroSharedLibsModule
     ],
     declarations: [
-        FindLanguageFromKeyPipe,
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
         TriInputSwitchComponent,
@@ -38,7 +36,6 @@ import {
     ],
     exports: [
         SecretariaLibroSharedLibsModule,
-        FindLanguageFromKeyPipe,
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
         TriInputSwitchComponent,

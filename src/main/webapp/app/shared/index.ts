@@ -10,7 +10,6 @@ export * from './auth/has-any-operacion.directive';
 export * from './auth/user-route-access-service';
 export * from './language/language.constants';
 export * from './language/language.helper';
-export * from './language/find-language-from-key.pipe';
 export * from './login/login.service';
 export * from './user/account.model';
 export * from './user/user.model';
