@@ -30,8 +30,6 @@
             }
         },
         "form": {
-            "username": "Usuario",
-            "username.placeholder": " de usuario",
             "email": "Correo electrónico",
             "email.placeholder": "Su correo electrónico"
         },
@@ -44,12 +42,6 @@
                     "maxlength": "Su correo electrónico no puede tener más de 50 caracteres"
                 }
             }
-        },
-        "field": {
-            "id": "ID"
-        },
-        "ribbon": {
-            "dev": "Desarrollo"
         },
         "item-count": "Mostrando {{first}} - {{second}} de {{total}} artículos."
     },
@@ -67,10 +59,6 @@
             "deactivate": "Desactivar",
             "activate": "Activar",
             "close": "Cerrar"
-        },
-        "detail": {
-            "field": "Campo",
-            "value": "Valor"
         },
         "delete": {
             "title": "Confirmar operación de borrado"
@@ -99,7 +87,7 @@
             "empty": {
                 "sorry": "Lo sentimos.",
                 "detail": "No se han obtenido resultados que cumplan los criterios de búsqueda.",
-                "createNewItem": "(Añadir nuevo)"
+                "create-new-item": "(Añadir nuevo)"
             }
         }
     },
