@@ -235,6 +235,9 @@ $entity-search-field-btn-width: 200px;
     }
 }
 
+.entity-deleted {
+    text-decoration: line-through;
+}
 .entity-search {
 
     @include make-row();
