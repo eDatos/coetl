@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,18 +46,22 @@ public class DomainUserDetailsService implements UserDetailsService {
 			if (user.getDeletionDate() != null) {
 				throw new UserNotActivatedException("Usuario " + lowercaseLogin + " no estaba activado");
 			}
-			List<GrantedAuthority> permisos = new ArrayList<GrantedAuthority>();
+			List<GrantedAuthority> permisos = new ArrayList<>();
 			if (user.getRoles() != null) {
 				for (Rol rolAux : user.getRoles()) {
-					if (rolAux.getOperaciones() != null) {
-						for (Operacion operacionAux : rolAux.getOperaciones()) {
-							permisos.add(new SimpleGrantedAuthority(operacionAux.getAccion() + "_" + operacionAux.getSujeto()));
-						}
-					}
+					sumarPermisos(permisos, rolAux);
 				}
 			}
-			return new org.springframework.security.core.userdetails.User(lowercaseLogin, "", permisos);
+			return new User(lowercaseLogin, "", permisos);
 		}).orElseThrow(() -> new UsernameNotFoundException(
 				"Usuario " + lowercaseLogin + " no encontrado en la " + "database"));
+	}
+
+	private void sumarPermisos(List<GrantedAuthority> permisos, Rol rolAux) {
+		if (rolAux.getOperaciones() != null) {
+			for (Operacion operacionAux : rolAux.getOperaciones()) {
+				permisos.add(new SimpleGrantedAuthority(operacionAux.getAccion() + "_" + operacionAux.getSujeto()));
+			}
+		}
 	}
 }
