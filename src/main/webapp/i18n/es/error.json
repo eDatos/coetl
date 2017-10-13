@@ -1,6 +1,6 @@
 {
     "error": {
-        "title": "¡Página de error!",
+        "title": "¡Ups, ha ocurrido un error!",
         "403": {
             "title": "Error 403",
             "detail": "Lo sentimos, no tiene permisos para acceder a la página."
@@ -12,7 +12,7 @@
         },
         "rol": {
             "validation": {
-                "rol-necesita-operaciones": "Un rol necesita al menos de una operación"
+                "rol-necesita-operaciones": "Es obligatorio que al rol se le asigne, al menos, permisos para una operación."
             }
         }
     }

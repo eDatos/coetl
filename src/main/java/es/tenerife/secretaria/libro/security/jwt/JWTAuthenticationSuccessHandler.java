@@ -39,6 +39,7 @@ public class JWTAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucc
 		boolean rememberMe = false;
 		String jwt = tokenProvider.createToken(authentication, rememberMe);
 		Cookie cookie = new Cookie(JHI_AUTHENTICATIONTOKEN, jwt);
+		cookie.setSecure(true);
 		cookie.setMaxAge(Ints.saturatedCast(tokenValidityInSeconds));
 		cookie.setHttpOnly(false);
 		cookie.setPath("/");
