@@ -2,7 +2,8 @@
     <h2>
         <span jhiTranslate="rolManagement.home.title">Users</span>
         <button *acHasAnyOperacion="['CREAR:ROL']" class="btn btn-secondary float-right jh-create-entity" [routerLink]="['../rol-management-new']">
-            <span class="fa fa-plus"></span> <span jhiTranslate="rolManagement.home.createLabel">Create a new User</span>
+            <span class="fa fa-plus"></span>
+            <span jhiTranslate="rolManagement.home.createLabel">Create a new User</span>
         </button>
     </h2>
 
@@ -11,8 +12,14 @@
             <table class="table table-hover" acStickyTableHeader>
                 <thead>
                     <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                        <th style="width: 40%" jhiSortBy="codigo"><span jhiTranslate="rolManagement.codigo">Codigo</span> <span class="fa fa-sort"></span></th>
-                        <th style="width: 60%" jhiSortBy="nombre"><span jhiTranslate="rolManagement.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
+                        <th style="width: 40%" jhiSortBy="codigo">
+                            <span jhiTranslate="rolManagement.codigo">Codigo</span>
+                            <span class="fa fa-sort"></span>
+                        </th>
+                        <th style="width: 60%" jhiSortBy="nombre">
+                            <span jhiTranslate="rolManagement.nombre">Nombre</span>
+                            <span class="fa fa-sort"></span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody *ngIf="roles">
@@ -26,7 +33,7 @@
             </table>
         </div>
     </ng-container>
-    <ng-template #emptyList>
+    <div *ngIf="firstQueryFinished && roles?.length == 0">
         <ac-entity-list-empty></ac-entity-list-empty>
-    </ng-template>
+    </div>
 </div>
