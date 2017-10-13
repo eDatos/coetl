@@ -90,7 +90,6 @@ module.exports = (options) => {
                 // FIXME Modificar el favicon con el correspondiente a la aplicación
                 { from: './src/main/webapp/favicon.ico', to: 'favicon.ico' },
                 { from: './src/main/webapp/manifest.webapp', to: 'manifest.webapp' },
-                // { from: './src/main/webapp/sw.js', to: 'sw.js' },
                 { from: './src/main/webapp/robots.txt', to: 'robots.txt' }
             ]),
             new webpack.ProvidePlugin({
