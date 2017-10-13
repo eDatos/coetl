@@ -1,15 +1,15 @@
 {
     "error": {
-        "title": "¡Página de error!",
+        "title": "¡Ups, ha ocurrido un error!",
         "403": "No tiene permisos para acceder a la página.",
         "accessDenied": "No tiene permisos para acceder a la página.",
         "404": {
-            "title": "404 error",
+            "title": "Error 404",
             "detail": "Lo sentimos, la página que busca no existe."
         },
         "rol": {
             "validation": {
-                "rol-necesita-operaciones": "Un rol necesita al menos de una operación"
+                "rol-necesita-operaciones": "Es obligatorio que al rol se le asigne, al menos, permisos para una operación."
             }
         }
     }

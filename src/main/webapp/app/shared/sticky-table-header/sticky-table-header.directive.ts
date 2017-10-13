@@ -37,7 +37,7 @@ export class StickyTableHeaderDirective implements AfterViewInit, DoCheck {
     }
 
     calculateCurrentOffset() {
-        return this.el.nativeElement.getBoundingClientRect().top + window.scrollY;
+        return this.el.nativeElement.getBoundingClientRect().top + window.pageYOffset;
     }
 
     updateStickyTableHeader() {
