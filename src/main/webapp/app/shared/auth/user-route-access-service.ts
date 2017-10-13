@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, Data } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, Data, Route } from '@angular/router';
 
 import { StateStorageService } from './state-storage.service';
 import { ConfigService } from '../../config/index';
@@ -24,9 +24,9 @@ export class UserRouteAccessService implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
 
-        const operaciones = this.operacionesFromRoute(route);
+        const operaciones = this.operacionesFromRouteSnapshot(route);
 
-        return Promise.resolve(this.checkLogin(operaciones, state.url).then((canActivate) => {
+        return Promise.resolve(this.checkLogin(operaciones).then((canActivate) => {
             if (!canActivate) {
                 this.redirect(route.data);
             }
@@ -34,7 +34,7 @@ export class UserRouteAccessService implements CanActivate {
         }));
     }
 
-    checkLogin(operaciones: Operacion[], url: string): Promise<boolean> {
+    checkLogin(operaciones: Operacion[]): Promise<boolean> {
         const principal = this.principal;
         return Promise.resolve(principal.identity().then((account) => {
             if (!!account) { // User is logged in
@@ -57,15 +57,16 @@ export class UserRouteAccessService implements CanActivate {
         }
     }
 
-    private operacionesFromRoute(route: ActivatedRouteSnapshot): Operacion[] {
-        let operaciones = [];
+    private operacionesFromRouteSnapshot(route: ActivatedRouteSnapshot): Operacion[] {
         if (route.firstChild && route.firstChild.data && route.firstChild.data[UserRouteAccessService.OPERACIONES]) {
-            operaciones = route.firstChild.data[UserRouteAccessService.OPERACIONES];
+            return this.operacionesFromRoute(route.firstChild);
         } else {
-            operaciones = route.data[UserRouteAccessService.OPERACIONES];
+            return this.operacionesFromRoute(route);
         }
-        operaciones = this.operacionService.operacionFromString(operaciones);
-        return operaciones;
+    }
+
+    public operacionesFromRoute(route): Operacion[] {
+        return this.operacionService.operacionFromString(route.data[UserRouteAccessService.OPERACIONES]);
     }
 
     private redirectToCas() {

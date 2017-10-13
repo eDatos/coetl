@@ -111,6 +111,11 @@
             }
         }
     },
+    "home": {
+        "pageTitle": "Bienvenido",
+        "title": "Bienvenido, {{user}}",
+        "detail": "Acceda al apartado deseado a través del menú de navegación"
+    },
     "error": {
         "internalServerError": "Internal server error",
         "server.not.reachable": "Servidor no accesible",

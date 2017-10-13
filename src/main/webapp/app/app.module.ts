@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
 
 import { SecretariaLibroSharedModule, UserRouteAccessService, AuthServerProvider } from './shared';
+import { SecretariaLibroHomeModule } from './home/home.module';
 import { SecretariaLibroAdminModule } from './admin/admin.module';
 import { SecretariaLibroAccountModule } from './account/account.module';
 import { SecretariaLibroEntityModule } from './entities/entity.module';
@@ -52,6 +53,7 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
         LayoutRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         SecretariaLibroSharedModule,
+        SecretariaLibroHomeModule,
         SecretariaLibroAdminModule,
         SecretariaLibroAccountModule,
         SecretariaLibroEntityModule,
