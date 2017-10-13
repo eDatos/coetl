@@ -30,7 +30,7 @@ export class LogsComponent implements OnInit {
     }
 
     changeLevel(name: string, level: string) {
-        this.principal.canDoAnyOperacion(['EDITAR:LOGS']).then((result) => {
+        this.principal.canDoAnyOperacion(['LEER:LOGS']).then((result) => {
             if (result) {
                 const log = new Log(name, level);
                 this.logsService.changeLevel(log).subscribe(() => {

@@ -1,7 +1,7 @@
 @import '~scss/variables';
 
 $close-icon-width: 2em;
-
+$autocomplete-vertical-padding: 0.3rem;
 .ui-autocomplete {
     width: 100%;
     .ui-autocomplete-input,
@@ -15,13 +15,14 @@ $close-icon-width: 2em;
     }
     .ui-autocomplete-input-token {
         padding: 0;
+        margin-bottom: $autocomplete-vertical-padding;
     }
     .ui-autocomplete-dropdown {
         position: absolute;
         right: 0;
     }
     .ui-inputtext {
-        padding: $input-padding-y $input-padding-x;
+        padding: $input-padding-y $input-padding-x ($input-padding-y - $autocomplete-vertical-padding) $input-padding-x;
         line-height: $input-line-height;
     }
 }

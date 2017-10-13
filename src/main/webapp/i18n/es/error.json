@@ -1,8 +1,11 @@
 {
     "error": {
         "title": "¡Ups, ha ocurrido un error!",
-        "403": "No tiene permisos para acceder a la página.",
-        "accessDenied": "No tiene permisos para acceder a la página.",
+        "403": {
+            "title": "Error 403",
+            "detail": "Lo sentimos, no tiene permisos para acceder a la página."
+        },
+        "accessDenied": "Lo sentimos, no tiene permisos para acceder a la página.",
         "404": {
             "title": "Error 404",
             "detail": "Lo sentimos, la página que busca no existe."

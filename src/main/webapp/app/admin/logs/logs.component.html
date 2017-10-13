@@ -1,11 +1,10 @@
 <div *ngIf="loggers" class="entity" acMakeFixedRoom>
     <div class="entity-header">
         <h2 jhiTranslate="logs.title">Logs</h2>
-
+        <p jhiTranslate="logs.nbloggers" translateValues="{total: '{{ loggers.length }}'}">There are {{ loggers.length }} loggers. Elements marked with <i class="fa fa-asterisk"></i> don't inherit its value
+            from its parent. </p>
         <div class="entity-search">
             <div class="entity-search-field">
-                <p jhiTranslate="logs.nbloggers" translateValues="{total: '{{ loggers.length }}'}">There are {{ loggers.length }} loggers. Elements marked with <i class="fa fa-asterisk"></i> don't inherit
-                    its value from its parent. </p>
                 <label jhiTranslate="logs.filter">Filter</label>
                 <input type="text" [(ngModel)]="filter" class="form-control">
             </div>
