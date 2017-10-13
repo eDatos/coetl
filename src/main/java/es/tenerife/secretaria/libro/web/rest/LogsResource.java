@@ -34,7 +34,7 @@ public class LogsResource extends AbstractResource {
 	@PutMapping("/logs")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Timed
-	@PreAuthorize("hasPermission('LOGS', 'EDITAR')")
+	@PreAuthorize("hasPermission('LOGS', 'LEER')")
 	public void changeLevel(@RequestBody LoggerVM jsonLogger) {
 		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 		context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));
