@@ -66,7 +66,10 @@
 
         <div class="entity-fields">
             <div class="form-group">
-                <label class="form-control-label" jhiTranslate="rolManagement.operaciones.operaciones">Profiles</label>
+                <label class="form-control-label">
+                    <span jhiTranslate="rolManagement.operaciones.operaciones">Profiles</span>
+                    <ac-help-tooltip [label]="'rolManagement.operaciones.operacion-leer-requerida-para-modificar' | translate"></ac-help-tooltip>
+                </label>
                 <p-listbox dataKey="id" name="operacion" [metaKeySelection]="false" [options]="operacionesString" [multiple]="true" [checkbox]="true"
                     [filter]="true" [styleClass]="!isEditMode() ? 'disabled-mode' : ''" [(ngModel)]="rol.operaciones" #rolListInput="ngModel">
                     <ng-template let-element pTemplate="item">
@@ -82,7 +85,6 @@
                 </small>
                 </div>
             </div>
-            <div><span class="form-text text-muted" jhiTranslate="rolManagement.operaciones.operacion-leer-requerida-para-modificar">Operaciones que impliquen modificaciones sobre una entidad requieren el correspondiente permiso de lectura sobre la entidad</span></div>
         </div>
     </fieldset>
 </form>

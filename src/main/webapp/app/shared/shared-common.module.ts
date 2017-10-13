@@ -11,7 +11,8 @@ import {
     TriInputSwitchComponent,
     MakeFixedRoomDirective,
     AutocompleteComponent,
-    OrderListComponent
+    OrderListComponent,
+    HelpTooltipComponent
 } from './';
 
 @NgModule({
@@ -26,7 +27,8 @@ import {
         TriInputSwitchComponent,
         MakeFixedRoomDirective,
         AutocompleteComponent,
-        OrderListComponent
+        OrderListComponent,
+        HelpTooltipComponent
     ],
     providers: [
         JhiLanguageHelper,
@@ -45,7 +47,8 @@ import {
         TriInputSwitchComponent,
         MakeFixedRoomDirective,
         AutocompleteComponent,
-        OrderListComponent
+        OrderListComponent,
+        HelpTooltipComponent
     ]
 })
 export class SecretariaLibroSharedCommonModule { }
