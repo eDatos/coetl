@@ -22,7 +22,6 @@ import {
     JhiMainComponent,
     LayoutRoutingModule,
     NavbarComponent,
-    FooterComponent,
     ProfileService,
     PageRibbonComponent,
     ErrorComponent,
@@ -66,7 +65,6 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
-        FooterComponent
     ],
     providers: [
         {
