@@ -250,7 +250,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/management/**").permitAll()
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
-            .antMatchers("/swagger-ui/index.html").access("hasAuthority('LEER_API')")  // FIXME SECRETARIA-77
+            .antMatchers("/swagger-ui/index.html").access("hasAuthority('LEER_API')")
             .antMatchers("/**").authenticated();
         //@formatter:on
 	}
