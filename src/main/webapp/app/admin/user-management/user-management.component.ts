@@ -33,6 +33,8 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     userFilter: UserFilter;
     roles: Rol[] = [];
 
+    public firstQueryFinished: boolean;
+
     constructor(
         private userService: UserService,
         private rolService: RolService,
@@ -52,6 +54,7 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
         });
+        this.firstQueryFinished = false;
     }
 
     ngOnInit() {
@@ -127,6 +130,8 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
         this.users = data;
+        console.log(this.users);
+        this.firstQueryFinished = true;
     }
 
     private onError(error) {

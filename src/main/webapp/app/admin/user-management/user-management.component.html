@@ -9,7 +9,7 @@
         <jhi-alert></jhi-alert>
         <ac-user-search [filters]="userFilter" [roles]="roles"></ac-user-search>
     </div>
-    <ng-container *ngIf="users?.length > 0;else emptyList">
+    <ng-container *ngIf="users?.length > 0">
         <div class="table-responsive">
             <table class="table table-hover" acStickyTableHeader>
                 <thead>
@@ -45,7 +45,7 @@
             <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
         </div>
         </ng-container>
-        <ng-template #emptyList>
+        <div *ngIf="firstQueryFinished && users?.length == 0">
             <ac-entity-list-empty></ac-entity-list-empty>
-        </ng-template>
+        </div>
 </div>
