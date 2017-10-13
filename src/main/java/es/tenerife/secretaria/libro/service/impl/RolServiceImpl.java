@@ -69,7 +69,7 @@ public class RolServiceImpl implements RolService {
 	public void delete(String codigo) {
 		log.debug("Petición para eliminar rol {}", codigo);
 		if (!usuarioRepository.findAllByRolesCodigo(codigo).isEmpty()) {
-			throw new CustomParameterizedException("error.palabraClave.users-has-role", codigo);
+			throw new CustomParameterizedException("error.rol.users-has-role", codigo);
 		}
 		Rol rol = rolRepository.findOneByCodigo(codigo);
 		if (rol == null) {
