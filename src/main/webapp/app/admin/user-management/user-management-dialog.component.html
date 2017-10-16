@@ -18,11 +18,14 @@
                     <span class="fa fa-pencil"></span>&nbsp;
                     <span jhiTranslate="entity.action.edit">Edit</span>
                 </button>
-
+            </ng-container>
+            <ng-container *acHasAnyOperacion="['CREAR:USUARIO']">
                 <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <span class="fa fa-floppy-o"></span>&nbsp;
                     <span jhiTranslate="entity.action.save">Save</span>
                 </button>
+            </ng-container>
+            <ng-container>
                 <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
                     <span class="fa fa-ban"></span>&nbsp;
                     <span jhiTranslate="entity.action.cancel">Cancel</span>

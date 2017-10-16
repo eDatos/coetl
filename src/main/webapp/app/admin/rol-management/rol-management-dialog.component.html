@@ -22,7 +22,7 @@
                 </button>
             </ng-container>
             <ng-container *ngIf="isEditMode()">
-                <button *acHasAnyOperacion="['EDITAR:ROL']" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <button *acHasAnyOperacion="['CREAR:ROL']" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
                 </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
