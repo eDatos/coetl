@@ -1,11 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Response } from '@angular/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { JhiEventManager, JhiPaginationUtil, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
-
-import { ITEMS_PER_PAGE, Principal, User, UserService, ResponseWrapper, Rol, RolService } from '../../shared';
-import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { JhiAlertService, JhiEventManager, JhiPaginationUtil, JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs/Rx';
+
+import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { ITEMS_PER_PAGE, Principal, ResponseWrapper, Rol, RolService, User, UserService } from '../../shared';
 import { UserFilter } from './user-search/index';
 
 @Component({
@@ -32,8 +31,6 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     userFilter: UserFilter;
     roles: Rol[] = [];
 
-    public firstQueryFinished: boolean;
-
     constructor(
         private userService: UserService,
         private rolService: RolService,
@@ -53,7 +50,6 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
         });
-        this.firstQueryFinished = false;
     }
 
     ngOnInit() {
@@ -129,7 +125,6 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
         this.users = data;
-        this.firstQueryFinished = true;
     }
 
     private onError(error) {
