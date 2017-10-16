@@ -9,8 +9,7 @@ import { UserFilter } from './user-search/index';
 
 @Component({
     selector: 'jhi-user-mgmt',
-    templateUrl: './user-management.component.html',
-    styleUrls: ['./user-management-delete-dialog.component.scss'],
+    templateUrl: './user-management.component.html'
 })
 export class UserMgmtComponent implements OnInit, OnDestroy {
 
@@ -127,7 +126,6 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         this.queryCount = this.totalItems;
         this.users = data;
     }
-
 
     private onError(error) {
         this.alertService.error(error.error, error.message, null);

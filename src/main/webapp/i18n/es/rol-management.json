@@ -5,9 +5,9 @@
             "createLabel": "Crear un nuevo rol",
             "createOrEditLabel": "Crear o editar un rol"
         },
-        "created": "Se ha creado un nuevo rol: {{ param }}",
-        "updated": "Se ha actualizado un nuevo rol {{ param }}",
-        "deleted": "Se ha borrado un nuevo rol {{ param }}",
+        "created": "Se ha creado el rol {{ param }}",
+        "updated": "Se ha actualizado el rol {{ param }}",
+        "deleted": "Se ha borrado el rol {{ param }}",
         "delete": {
             "question": "¿Seguro que quiere eliminar el rol {{ nombre }}?"
         },
@@ -19,7 +19,7 @@
         "operaciones": {
             "operaciones": "Operaciones",
             "empty": "No hay operaciones para este rol",
-            "operacion-leer-requerida-para-modificar": "Operaciones que impliquen modificaciones sobre una entidad requieren el correspondiente permiso de lectura sobre la entidad"
+            "operacion-leer-requerida-para-modificar": "Las operaciones que impliquen modificaciones sobre una entidad requieren el correspondiente permiso de lectura sobre la entidad"
         }
     }
 }

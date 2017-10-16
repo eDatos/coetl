@@ -89,7 +89,7 @@ public class MailService {
 	@Async
 	public void sendCreationEmail(Usuario user) {
 		log.debug("Sending creation email to '{}'", user.getEmail());
-		sendEmailFromTemplate(user, "creationEmail", "email.activation.title");
+		sendEmailFromTemplate(user, "creationEmail", "email.creation.title");
 	}
 
 }

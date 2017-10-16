@@ -115,7 +115,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     }
 
     itsNewLabel(item) {
-        return this.myNewLabel === item[this.field] ? this.translateService.instant('entity.list.empty.createNewItem') : '';
+        return this.myNewLabel === item[this.field] ? this.translateService.instant('entity.list.empty.create-new-item') : '';
     }
 
     onSelectMethod($event) {

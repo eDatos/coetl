@@ -40,22 +40,9 @@ Generic styles
     background-color: $accent-medium;
 }
 
-.pad {
-    padding: 10px;
-}
-
 .break {
     white-space: normal;
     word-break:break-all;
-}
-
-.readonly {
-    background-color: #eee;
-    opacity: 1;
-}
-
-.footer {
-    border-top: 1px solid rgba(0,0,0,.125);
 }
 
 /* ==========================================================================
@@ -129,32 +116,6 @@ Custom alerts for notification
     }
 }
 
-/* ==========================================================================
-entity tables helpers
-========================================================================== */
-
-/* Remove Bootstrap padding from the element
-   http://stackoverflow.com/questions/19562903/remove-padding-from-columns-in-bootstrap-3 */
-@mixin no-padding($side) {
-    @if $side == 'all' {
-        .no-padding {
-            padding: 0 !important;
-        }
-    } @else {
-        .no-padding-#{$side} {
-            padding-#{$side}: 0 !important;
-        }
-    }
-}
-@include no-padding("left");
-@include no-padding("right");
-@include no-padding("top");
-@include no-padding("bottom");
-@include no-padding("all");
-
-/* bootstrap 3 input-group 100% width
-   http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
-.width-min { width: 1% !important; }
 
 /* Makes toolbar not wrap on smaller screens
    http://www.sketchingwithcss.com/samplechapter/cheatsheet.html#right */

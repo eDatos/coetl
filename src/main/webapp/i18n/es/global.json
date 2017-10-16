@@ -6,10 +6,7 @@
             "home": "Inicio",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
-                "main": "Entidades",
-                "operacion": "Operacion",
-                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
-                "entity01": "Entidad01"
+                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
                 "main": "Cuenta",
@@ -23,21 +20,16 @@
                 "main": "Administración",
                 "userManagement": "Gestión de usuarios",
                 "rolManagement": "Gestión de roles",
-                "tracker": "Registro de los usuarios",
                 "metrics": "Métricas",
                 "health": "Salud",
                 "configuration": "Configuración",
                 "logs": "Logs",
                 "audits": "Auditorías",
                 "apidocs": "API",
-                "database": "Base de datos",
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
-            },
-            "language": "Idioma"
+            }
         },
         "form": {
-            "username": "Usuario",
-            "username.placeholder": " de usuario",
             "email": "Correo electrónico",
             "email.placeholder": "Su correo electrónico"
         },
@@ -51,18 +43,10 @@
                 }
             }
         },
-        "field": {
-            "id": "ID"
-        },
-        "ribbon": {
-            "dev": "Desarrollo"
-        },
         "item-count": "Mostrando {{first}} - {{second}} de {{total}} artículos."
     },
     "entity": {
         "action": {
-            "addblob": "Añadir fichero",
-            "addimage": "Añadir imagen",
             "back": "Volver",
             "cancel": "Cancelar",
             "delete": "Eliminar",
@@ -75,10 +59,6 @@
             "deactivate": "Desactivar",
             "activate": "Activar",
             "close": "Cerrar"
-        },
-        "detail": {
-            "field": "Campo",
-            "value": "Valor"
         },
         "delete": {
             "title": "Confirmar operación de borrado"
@@ -107,7 +87,7 @@
             "empty": {
                 "sorry": "Lo sentimos.",
                 "detail": "No se han obtenido resultados que cumplan los criterios de búsqueda.",
-                "createNewItem": "(Añadir nuevo)"
+                "create-new-item": "(Añadir nuevo)"
             }
         }
     },
@@ -131,6 +111,5 @@
         "rol": {
             "users-has-role": "No se puede eliminar un rol que está asignado a algunos usuarios"
         }
-    },
-    "footer": "pie de página"
+    }
 }

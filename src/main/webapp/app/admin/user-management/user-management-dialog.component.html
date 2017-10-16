@@ -5,8 +5,8 @@
         <div>
             <button *ngIf="!isEditMode()" type="button" routerLink="/user-management" class="btn btn-secondary btn-frameless back-arrow"
                 [attr.aria-label]="'entity.action.back' | translate">
-                        <span class="fa fa-arrow-left"></span>
-                    </button>
+                <span class="fa fa-arrow-left"></span>
+            </button>
             <i class="fa fa-fw fa-user" aria-hidden="true"></i>
             <span *ngIf="!user.id" jhiTranslate="userManagement.home.createLabel">Create a User</span>
             <span *ngIf="user.id">{{user.login}}</span>
@@ -15,30 +15,34 @@
             <ng-container *acHasAnyOperacion="['EDITAR:USUARIO']">
                 <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']"
                     type="button">
-                    <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+                    <span class="fa fa-pencil"></span>&nbsp;
+                    <span jhiTranslate="entity.action.edit">Edit</span>
                 </button>
 
                 <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                        <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                    <span class="fa fa-floppy-o"></span>&nbsp;
+                    <span jhiTranslate="entity.action.save">Save</span>
                 </button>
                 <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-                    <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                    <span class="fa fa-ban"></span>&nbsp;
+                    <span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
             </ng-container>
             <ng-container *acHasAnyOperacion="['ACTIVAR:USUARIO']">
                 <button *ngIf="!isEditMode() && user.deletionDate" type="button" class="btn btn-warning" (click)="restore(user.login)">
-                    <span class="fa fa-repeat"></span>&nbsp;<span jhiTranslate="entity.action.activate"></span>
+                    <span class="fa fa-repeat"></span>&nbsp;
+                    <span jhiTranslate="entity.action.activate"></span>
                 </button>
             </ng-container>
             <ng-container *acHasAnyOperacion="['DESACTIVAR:USUARIO']">
                 <button *ngIf="!isEditMode() && !user.deletionDate" type="button" class="btn btn-danger" [routerLink]="['/', { outlets: { popup: 'user-management/'+ user.login + '/delete'} }]">
-                    <span class="fa fa-remove"></span>&nbsp;<span jhiTranslate="entity.action.deactivate"></span>
+                    <span class="fa fa-remove"></span>&nbsp;
+                    <span jhiTranslate="entity.action.deactivate"></span>
                 </button>
             </ng-container>
         </div>
     </h2>
 
-    <jhi-alert-error></jhi-alert-error>
     <fieldset [disabled]="!isEditMode()">
         <h3 jhiTranslate="userManagement.personalData">Datos personales</h3>
         <div class="entity-fields">
@@ -108,21 +112,20 @@
                     </small>
                     <ng-container *ngIf="emailInput.dirty">
                         <small class="form-text text-danger" *ngIf="emailInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
-                                This field cannot be longer than 255 characters.
+                            This field cannot be longer than 255 characters.
                         </small>
 
                         <small class="form-text text-danger" *ngIf="emailInput.errors.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 3}">
-                                This field is required to be at least 3 characters.
+                            This field is required to be at least 3 characters.
                         </small>
 
                         <small class="form-text text-danger" *ngIf="emailInput.errors.email" jhiTranslate="global.messages.validate.email.invalid">
-                                Your email is invalid.
+                            Your email is invalid.
                         </small>
                     </ng-container>
                 </div>
             </div>
 
-        </div>
         </div>
         <h3 jhiTranslate="userManagement.permissions">Permisos</h3>
         <div class="entity-fields">
@@ -137,28 +140,37 @@
             </div>
             <ng-container *ngIf="user && user.deletionDate">
                 <dl class="jh-entity-details">
-                    <dt><label jhiTranslate="userManagement.deletionDate">Deletion date </label></dt>
+                    <dt>
+                        <label jhiTranslate="userManagement.deletionDate">Deletion date </label>
+                    </dt>
                     <dd>{{user.deletionDate | date:'dd/MM/yy HH:mm' }}</dd>
                 </dl>
             </ng-container>
         </div>
-        </div>
         <h3 jhiTranslate="userManagement.audits">Auditoría</h3>
         <div class="entity-fields">
             <dl class="jh-entity-details">
-                <dt><label jhiTranslate="userManagement.createdBy">Created By</label></dt>
+                <dt>
+                    <label jhiTranslate="userManagement.createdBy">Created By</label>
+                </dt>
                 <dd>{{user.createdBy}}</dd>
             </dl>
             <dl class="jh-entity-details">
-                <dt><label jhiTranslate="userManagement.lastModifiedBy">Last Modified By</label></dt>
+                <dt>
+                    <label jhiTranslate="userManagement.lastModifiedBy">Last Modified By</label>
+                </dt>
                 <dd>{{user.lastModifiedBy}}</dd>
             </dl>
             <dl class="jh-entity-details">
-                <dt><label jhiTranslate="userManagement.createdDate">Created Date</label></dt>
+                <dt>
+                    <label jhiTranslate="userManagement.createdDate">Created Date</label>
+                </dt>
                 <dd>{{user.createdDate | date:'dd/MM/yy HH:mm' }}</dd>
             </dl>
             <dl class="jh-entity-details">
-                <dt><label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label></dt>
+                <dt>
+                    <label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label>
+                </dt>
                 <dd>{{user.lastModifiedDate | date:'dd/MM/yy HH:mm'}}</dd>
             </dl>
         </div>
