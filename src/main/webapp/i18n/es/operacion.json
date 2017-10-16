@@ -3,22 +3,22 @@
         "operacion": {
             "home": {
                 "title": "Operaciones",
-                "createLabel": "Crear nueva Operacion",
-                "createOrEditLabel": "Crear o editar Operacion"
+                "createLabel": "Crear nueva operación",
+                "createOrEditLabel": "Crear o editar operación"
             },
             "menu": {
                 "title": "Gestión de operaciones"
             },
-            "created": "Una nueva Operacion ha sido creada con el identificador {{ param }}",
-            "updated": "Una Operacion ha sido actualizada con el identificador {{ param }}",
-            "deleted": "Una Operacion ha sido eliminada con el identificador {{ param }}",
+            "created": "Se ha creado la operación {{ param }}",
+            "updated": "Se ha actualizado la operación {{ param }}",
+            "deleted": "Se ha eliminado la operación {{ param }}",
             "delete": {
-                "question": "¿Seguro que quiere eliminar Operacion {{ id }}?"
+                "question": "¿Seguro que quiere eliminar la operación {{ id }}?"
             },
             "detail": {
-                "title": "Operacion"
+                "title": "Operación"
             },
-            "accion": "Accion",
+            "accion": "Acción",
             "sujeto": "Sujeto",
             "roles": {
                 "roles": "Roles asociados",
