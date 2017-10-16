@@ -9,43 +9,45 @@
         <jhi-alert></jhi-alert>
         <ac-user-search [filters]="userFilter" [roles]="roles"></ac-user-search>
     </div>
-    <ng-container *ngIf="users?.length > 0">
-        <div class="table-responsive">
-            <table class="table table-hover" acStickyTableHeader>
-                <thead>
-                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                        <th style="width: 15%" jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <span class="fa fa-sort"></span></th>
-                        <th style="width: 20%" jhiSortBy="nombre"><span jhiTranslate="userManagement.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
-                        <th style="width: 15%" jhiSortBy="apellido1"><span jhiTranslate="userManagement.apellido1">Primer apellido</span> <span class="fa fa-sort"></span></th>
-                        <th style="width: 15%" jhiSortBy="apellido2"><span jhiTranslate="userManagement.apellido2">Segundo apellido</span> <span class="fa fa-sort"></span></th>
-                        <th style="width: 20%" jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <span class="fa fa-sort"></span></th>
-                        <th style="width: 15%"><span jhiTranslate="userManagement.profiles">Profiles</span></th>
-                    </tr>
-                </thead>
-                <tbody *ngIf="users">
-                    <ng-container *ngFor="let user of users; trackBy: trackIdentity">
-                        <tr [ngClass]="{'deleted': !!user.deletionDate }" [routerLink]="['../user-management', user.login]">
-                            <td>{{user.login}}</td>
-                            <td>{{user.nombre}}</td>
-                            <td>{{user.apellido1}}</td>
-                            <td>{{user.apellido2}}</td>
-                            <td>{{user.email}}</td>
-                            <td>
-                                <div *ngFor="let rol of user.roles">
-                                    <span class="badge badge-info">{{ rol.nombre }}</span>
-                                </div>
-                            </td>
+    <ng-container *ngIf="users">
+        <ng-container *ngIf="users.length > 0;else emptyList">
+            <div class="table-responsive">
+                <table class="table table-hover" acStickyTableHeader>
+                    <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                            <th style="width: 15%" jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <span class="fa fa-sort"></span></th>
+                            <th style="width: 20%" jhiSortBy="nombre"><span jhiTranslate="userManagement.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
+                            <th style="width: 15%" jhiSortBy="apellido1"><span jhiTranslate="userManagement.apellido1">Primer apellido</span> <span class="fa fa-sort"></span></th>
+                            <th style="width: 15%" jhiSortBy="apellido2"><span jhiTranslate="userManagement.apellido2">Segundo apellido</span> <span class="fa fa-sort"></span></th>
+                            <th style="width: 20%" jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <span class="fa fa-sort"></span></th>
+                            <th style="width: 15%"><span jhiTranslate="userManagement.profiles">Profiles</span></th>
                         </tr>
-                    </ng-container>
-                </tbody>
-            </table>
-        </div>
-        <div class="d-flex justify-content-between">
-            <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
+                    </thead>
+                    <tbody *ngIf="users">
+                        <ng-container *ngFor="let user of users; trackBy: trackIdentity">
+                            <tr [ngClass]="{'deleted': !!user.deletionDate }" [routerLink]="['../user-management', user.login]">
+                                <td>{{user.login}}</td>
+                                <td>{{user.nombre}}</td>
+                                <td>{{user.apellido1}}</td>
+                                <td>{{user.apellido2}}</td>
+                                <td>{{user.email}}</td>
+                                <td>
+                                    <div *ngFor="let rol of user.roles">
+                                        <span class="badge badge-info">{{ rol.nombre }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-between">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
         </ng-container>
-        <div *ngIf="firstQueryFinished && users?.length == 0">
+        <ng-template #emptyList>
             <ac-entity-list-empty></ac-entity-list-empty>
-        </div>
+        </ng-template>
+    </ng-container>
 </div>

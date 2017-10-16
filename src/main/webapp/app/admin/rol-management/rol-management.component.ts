@@ -28,8 +28,6 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
     reverse: any;
     rolListModificationSubscription: Subscription;
 
-    public firstQueryFinished: boolean;
-
     constructor(
         private rolService: RolService,
         private parseLinks: JhiParseLinks,
@@ -46,15 +44,8 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
         });
-        this.firstQueryFinished = false;
     }
 
-    public comprobarMostrarImg(): boolean {
-        if (this.roles !== null && this.roles.length > 0 && this.comprobarMostrarImg) {
-            return true;
-        }
-        return false;
-    }
     ngOnInit() {
         this.principal.identity().then((account) => {
             this.currentAccount = account;
@@ -110,7 +101,6 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
 
     private onSuccess(data, headers) {
         this.roles = data;
-        this.firstQueryFinished = true;
     }
 
     private onError(error) {

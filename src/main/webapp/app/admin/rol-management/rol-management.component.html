@@ -6,27 +6,29 @@
         </button>
     </h2>
     <jhi-alert></jhi-alert>
-    <ng-container *ngIf="roles && roles.length">
-        <div class="table-responsive">
-            <table class="table table-hover" acStickyTableHeader>
-                <thead>
-                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                        <th style="width: 40%" jhiSortBy="codigo"><span jhiTranslate="rolManagement.codigo">Codigo</span> <span class="fa fa-sort"></span></th>
-                        <th style="width: 60%" jhiSortBy="nombre"><span jhiTranslate="rolManagement.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
-                    </tr>
-                </thead>
-                <tbody *ngIf="roles">
-                    <ng-container *ngFor="let rol of roles; ">
-                        <tr [routerLink]="['../rol-management', rol.codigo]">
-                            <td>{{rol.codigo}}</td>
-                            <td>{{rol.nombre}}</td>
+    <ng-container *ngIf="roles">
+        <ng-container *ngIf="roles.length; else emptyList">
+            <div class="table-responsive">
+                <table class="table table-hover" acStickyTableHeader>
+                    <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                            <th style="width: 40%" jhiSortBy="codigo"><span jhiTranslate="rolManagement.codigo">Codigo</span> <span class="fa fa-sort"></span></th>
+                            <th style="width: 60%" jhiSortBy="nombre"><span jhiTranslate="rolManagement.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
                         </tr>
-                    </ng-container>
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody *ngIf="roles">
+                        <ng-container *ngFor="let rol of roles; ">
+                            <tr [routerLink]="['../rol-management', rol.codigo]">
+                                <td>{{rol.codigo}}</td>
+                                <td>{{rol.nombre}}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </ng-container>
+        <ng-template #emptyList>
+            <ac-entity-list-empty></ac-entity-list-empty>
+        </ng-template>
     </ng-container>
-    <div *ngIf="firstQueryFinished && roles?.length == 0">
-        <ac-entity-list-empty></ac-entity-list-empty>
-    </div>
 </div>
