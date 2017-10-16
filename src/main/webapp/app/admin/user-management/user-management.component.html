@@ -3,7 +3,8 @@
         <h2>
             <span jhiTranslate="userManagement.home.title">Users</span>
             <button *acHasAnyOperacion="['CREAR:USUARIO']" class="btn btn-secondary float-right jh-create-entity" [routerLink]="['../user-management-new']">
-                <span class="fa fa-plus"></span> <span jhiTranslate="userManagement.home.createLabel">Create a new User</span>
+                <span class="fa fa-plus"></span>
+                <span jhiTranslate="userManagement.home.createLabel">Create a new User</span>
             </button>
         </h2>
         <jhi-alert></jhi-alert>
@@ -15,12 +16,28 @@
                 <table class="table table-hover" acStickyTableHeader>
                     <thead>
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                            <th style="width: 15%" jhiSortBy="login"><span jhiTranslate="userManagement.login">Login</span> <span class="fa fa-sort"></span></th>
-                            <th style="width: 20%" jhiSortBy="nombre"><span jhiTranslate="userManagement.nombre">Nombre</span> <span class="fa fa-sort"></span></th>
-                            <th style="width: 15%" jhiSortBy="apellido1"><span jhiTranslate="userManagement.apellido1">Primer apellido</span> <span class="fa fa-sort"></span></th>
-                            <th style="width: 15%" jhiSortBy="apellido2"><span jhiTranslate="userManagement.apellido2">Segundo apellido</span> <span class="fa fa-sort"></span></th>
-                            <th style="width: 20%" jhiSortBy="email"><span jhiTranslate="userManagement.email">Email</span> <span class="fa fa-sort"></span></th>
-                            <th style="width: 15%"><span jhiTranslate="userManagement.profiles">Profiles</span></th>
+                            <th style="width: 15%" jhiSortBy="login">
+                                <span jhiTranslate="userManagement.login">Login</span>
+                                <span class="fa fa-sort"></span>
+                            </th>
+                            <th style="width: 20%" jhiSortBy="nombre">
+                                <span jhiTranslate="userManagement.nombre">Nombre</span>
+                                <span class="fa fa-sort"></span>
+                            </th>
+                            <th style="width: 15%" jhiSortBy="apellido1">
+                                <span jhiTranslate="userManagement.apellido1">Primer apellido</span>
+                                <span class="fa fa-sort"></span>
+                            </th>
+                            <th style="width: 15%" jhiSortBy="apellido2">
+                                <span jhiTranslate="userManagement.apellido2">Segundo apellido</span>
+                                <span class="fa fa-sort"></span>
+                            </th>
+                            <th style="width: 20%" jhiSortBy="email">
+                                <span jhiTranslate="userManagement.email">Email</span>
+                                <span class="fa fa-sort"></span>
+                            </th>
+                            <th style="width: 15%">
+                                <span jhiTranslate="userManagement.profiles">Profiles</span>
 
                         </tr>
                     </thead>
