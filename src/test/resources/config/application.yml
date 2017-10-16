@@ -47,7 +47,7 @@ spring:
         host: localhost
         port: 0
     messages:
-        basename: i18n/messages
+        basename: i18n/test_messages, i18n/messages
     mvc:
         favicon:
             enabled: false
