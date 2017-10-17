@@ -11,6 +11,8 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;
+            <span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
         <button *ngIf="!user.deletionDate" type="submit" class="btn btn-danger">
             <span class="fa fa-remove"></span>&nbsp;
