@@ -158,7 +158,7 @@ public class AccountResourceIntTest {
 		when(mockUserService.getUsuarioWithAuthorities()).thenReturn(null);
 
 		restUserMockMvc.perform(get("/api/usuario").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isInternalServerError());
+				.andExpect(status().isOk());
 	}
 
 	@Test
