@@ -1,3 +1,4 @@
+import { errorRoute } from '../layouts/error/error.route';
 import { Component, OnInit } from '@angular/core';
 
 import { Router, Data } from '@angular/router';
@@ -19,13 +20,21 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.userRouteAccessService.checkLogin(this.userRouteAccessService.operacionesFromRoute(DEFAULT_ROUTE)).then((canActivate) => {
-            if (canActivate) {
-                this.router.navigate([DEFAULT_ROUTE.path]);
-            }
-        });
         this.principal.identity().then((account) => {
             this.account = account;
+
+            if (!account.id && account.roles.length === 0) {
+                this.router.navigate(['non-existent-user']);
+            }
+
+            if (account.deletionDate) {
+                this.router.navigate(['blocked']);
+            }
+            this.userRouteAccessService.checkLogin(this.userRouteAccessService.operacionesFromRoute(DEFAULT_ROUTE)).then((canActivate) => {
+                if (canActivate) {
+                    this.router.navigate([DEFAULT_ROUTE.path]);
+                }
+            });
         });
     }
 

@@ -210,21 +210,21 @@ public class UsuarioResource extends AbstractResource {
 	@GetMapping("/usuario")
 	@Timed
 	public ResponseEntity<UsuarioDTO> getAccount() {
-		return Optional.ofNullable(usuarioService.getUsuarioWithAuthorities())
-				.map(user -> new ResponseEntity<>(usuarioMapper.userToUserDTO(user), HttpStatus.OK))
-				.orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+		Usuario databaseUser = usuarioService.getUsuarioWithAuthorities();
+
+		if (databaseUser == null) {
+			return new ResponseEntity<>((UsuarioDTO) null, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(usuarioMapper.userToUserDTO(databaseUser), HttpStatus.OK);
+		}
 	}
 
 	public boolean isCurrentUser(UsuarioDTO usuarioDTO) {
 		final String userLogin = SecurityUtils.getCurrentUserLogin();
-		//@formatter:off
-		return (
-			StringUtils.isNotBlank(userLogin) 
-			&& usuarioDTO != null 
-			&& StringUtils.isNotBlank(usuarioDTO.getLogin())
-			&& userLogin.equals(usuarioDTO.getLogin())
-		);
-		//@formatter:on
+		// @formatter:off
+		return (StringUtils.isNotBlank(userLogin) && usuarioDTO != null && StringUtils.isNotBlank(usuarioDTO.getLogin())
+				&& userLogin.equals(usuarioDTO.getLogin()));
+		// @formatter:on
 
 	}
 }

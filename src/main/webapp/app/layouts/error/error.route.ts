@@ -29,6 +29,24 @@ export const errorRoute: Routes = [
             pageTitle: 'error.title',
             error404: true
         }
+    },
+    {
+        path: 'non-existent-user',
+        component: ErrorComponent,
+        data: {
+            roles: [],
+            pageTitle: 'error.title',
+            nonExistentUser: true
+        }
+    },
+    {
+        path: 'blocked',
+        component: ErrorComponent,
+        data: {
+            roles: [],
+            pageTitle: 'error.title',
+            blockedUser: true
+        }
     }
 ];
 

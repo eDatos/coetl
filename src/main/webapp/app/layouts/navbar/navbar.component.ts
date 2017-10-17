@@ -61,4 +61,8 @@ export class NavbarComponent implements OnInit {
         this.isNavbarCollapsed = !this.isNavbarCollapsed;
     }
 
+    public correctlyLogged(): boolean {
+        return Boolean(this.principal.correctlyLogged());
+    }
+
 }

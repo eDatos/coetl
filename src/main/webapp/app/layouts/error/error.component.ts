@@ -9,6 +9,8 @@ export class ErrorComponent implements OnInit {
     public errorMessage: string;
     public error403: boolean;
     public error404: boolean;
+    public nonExistentUser: boolean;
+    public blockedUser: boolean;
 
     public title: string;
     public detail: string;
@@ -27,6 +29,16 @@ export class ErrorComponent implements OnInit {
             if (routeData.error404) {
                 this.title = 'error.404.title';
                 this.detail = 'error.404.detail';
+            }
+
+            if (routeData.nonExistentUser) {
+                this.title = 'error.nonExistingUser.title';
+                this.detail = 'error.nonExistingUser.detail';
+            }
+
+            if (routeData.blockedUser) {
+                this.title = 'error.blockedUser.title';
+                this.detail = 'error.blockedUser.detail';
             }
 
             if (routeData.errorMessage) {

@@ -101,4 +101,8 @@ export class Principal {
     getAuthenticationState(): Observable<any> {
         return this.authenticationState.asObservable();
     }
+
+    public correctlyLogged(): boolean {
+        return Boolean(this.userIdentity.roles.length !== 0);
+    }
 }

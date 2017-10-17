@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.tenerife.secretaria.libro.config.Constants;
+import es.tenerife.secretaria.libro.domain.Operacion;
 import es.tenerife.secretaria.libro.domain.Rol;
 import es.tenerife.secretaria.libro.domain.Usuario;
 import es.tenerife.secretaria.libro.repository.RolRepository;
@@ -150,8 +151,13 @@ public class UsuarioService {
 
 	@Transactional(readOnly = true)
 	public Usuario getUsuarioWithAuthorities() {
-		return usuarioRepository.findOneWithRolesByLoginAndDeletionDateIsNull(SecurityUtils.getCurrentUserLogin())
-				.orElse(null);
+		Usuario returnValue = usuarioRepository.findOneWithRolesByLogin(SecurityUtils.getCurrentUserLogin())
+				.orElse(new Usuario());
+		if (returnValue.getDeletionDate() != null) {
+			returnValue.setRoles(generarRolesVacios());
+		}
+		
+		return returnValue;
 	}
 
 	private void validarUsuarioLdap(Usuario user) {
@@ -159,5 +165,18 @@ public class UsuarioService {
 			throw new CustomParameterizedException("error.userManagement.usuario-ldap-no-encontrado", user.getLogin());
 		}
 	}
-
+	
+	private Set<Rol> generarRolesVacios() {
+		Set<Rol> returnValue = new HashSet<>();
+		Set<Operacion> operacionesList = new HashSet<>();
+		
+		Rol loginRol = new Rol();
+		Operacion loginOperacion = new Operacion();
+		
+		loginOperacion.setAccion("LOGIN");
+		loginOperacion.setSujeto("SECRETARIA");
+		
+		loginRol.setOperaciones(operacionesList);
+		return returnValue;
+	}
 }
