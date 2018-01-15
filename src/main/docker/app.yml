@@ -1,14 +1,16 @@
+# FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 version: '2'
 services:
-    secretaria_libro-app:
-        image: secretaria_libro
+    arte_application_template-app:
+        image: arte_application_template
         environment:
             - SPRING_PROFILES_ACTIVE=prod,swagger
-            - SPRING_DATASOURCE_URL=jdbc:postgresql://secretaria_libro-postgresql:5432/secretaria_libro
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://arte_application_template-postgresql:5432/arte_application_template
             - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
         ports:
             - 8080:8080
-    secretaria_libro-postgresql:
+    arte_application_template-postgresql:
         extends:
             file: postgresql.yml
-            service: secretaria_libro-postgresql
+            service: arte_application_template-postgresql

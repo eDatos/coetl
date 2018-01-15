@@ -23,8 +23,9 @@ export class JhiMainComponent implements OnInit {
 
     }
 
+    // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
-        let title: string = (routeSnapshot.data && routeSnapshot.data['pageTitle']) ? routeSnapshot.data['pageTitle'] : 'secretariaLibroApp';
+        let title: string = (routeSnapshot.data && routeSnapshot.data['pageTitle']) ? routeSnapshot.data['pageTitle'] : 'arteApplicationTemplateApp';
         if (routeSnapshot.firstChild) {
             title = this.getPageTitle(routeSnapshot.firstChild) || title;
         }

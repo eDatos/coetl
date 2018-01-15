@@ -1,7 +1,8 @@
 {
-  "name": "secretaria-libro",
+  "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
+  "name": "arte-application-template",
   "version": "0.0.0",
-  "description": "Description for secretaria_libro",
+  "description": "Description for arte_application_template",
   "private": true,
   "license": "UNLICENSED",
   "cacheDirectories": [

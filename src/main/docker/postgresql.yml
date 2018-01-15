@@ -1,11 +1,13 @@
+# FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 version: '2'
 services:
-    secretaria_libro-postgresql:
+    arte_application_template-postgresql:
         image: postgres:9.6.2
         # volumes:
-        #     - ~/volumes/jhipster/secretaria_libro/postgresql/:/var/lib/postgresql/data/
+        #     - ~/volumes/jhipster/arte_application_template/postgresql/:/var/lib/postgresql/data/
         environment:
-            - POSTGRES_USER=secretaria_libro
+            - POSTGRES_USER=arte_application_template
             - POSTGRES_PASSWORD=
             - POSTGRES_DB=dev
         ports:

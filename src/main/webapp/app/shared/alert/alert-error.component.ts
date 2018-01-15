@@ -19,11 +19,12 @@ export class JhiAlertErrorComponent implements OnDestroy {
 
     alerts: any[];
     cleanHttpErrorListener: Subscription;
-
+	
+	// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
     constructor(public alertService: JhiAlertService, private eventManager: JhiEventManager, private translateService: TranslateService) {
         this.alerts = [];
 
-        this.cleanHttpErrorListener = eventManager.subscribe('secretariaLibroApp.httpError', (response) => {
+        this.cleanHttpErrorListener = eventManager.subscribe('arteApplicationTemplateApp.httpError', (response) => {
             let i;
             const httpResponse = response.content;
             switch (httpResponse.status) {
@@ -57,7 +58,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                             const fieldError = fieldErrors[i];
                             // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
                             const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
-                            const fieldName = translateService.instant('secretariaLibroApp.' +
+                            const fieldName = translateService.instant('arteApplicationTemplateApp.' +
                                 fieldError.objectName + '.' + convertedField);
                             this.addErrorAlert(
                                 'Error on field "' + fieldName + '"', 'error.' + fieldError.message, { fieldName });

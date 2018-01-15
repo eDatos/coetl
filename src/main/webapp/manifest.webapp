@@ -1,6 +1,7 @@
 {
-  "name": "SecretariaLibro",
-  "short_name": "SecretariaLibro",
+  "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
+  "name": "ArteApplicationTemplate",
+  "short_name": "ArteApplicationTemplate",
   "icons": [
       {
           "src": "./content/images/logo-cabildo.png",

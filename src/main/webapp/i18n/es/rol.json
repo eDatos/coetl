@@ -1,5 +1,6 @@
 {
-    "secretariaLibroApp": {
+    "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
+    "arteApplicationTemplateApp": {
         "rol": {
             "created": "Se ha creado el rol {{ param }}",
             "updated": "Se ha actualizado el rol {{ param }}",

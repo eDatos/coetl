@@ -1,3 +1,5 @@
+// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 import { NgModule } from '@angular/core';
 import { MockBackend } from '@angular/http/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
@@ -21,4 +23,4 @@ import { MockLanguageService } from './helpers/mock-language.service';
         }
     ]
 })
-export class SecretariaLibroTestModule { }
+export class ArteApplicationTemplateTestModule { }

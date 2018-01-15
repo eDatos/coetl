@@ -1,3 +1,5 @@
+// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -44,4 +46,4 @@ import { CalendarModule, AutoCompleteModule, ButtonModule, SelectButtonModule, L
         OrderListModule
     ]
 })
-export class SecretariaLibroSharedLibsModule { }
+export class ArteApplicationTemplateSharedLibsModule { }

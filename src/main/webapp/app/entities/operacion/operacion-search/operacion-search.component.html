@@ -1,15 +1,17 @@
+<!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
+
 <div class="entity-search operacion-search">
 
     <div class="entity-search-field">
-        <label for="accion" jhiTranslate="secretariaLibroApp.operacion.filters.accion.label">Acción</label>
-        <input class="form-control" [attr.aria-label]="'secretariaLibroApp.operacion.filters.accion.placeholder' | translate" placeholder="{{'secretariaLibroApp.operacion.filters.accion.placeholder' | translate}}"
+        <label for="accion" jhiTranslate="arteApplicationTemplateApp.operacion.filters.accion.label">Acción</label>
+        <input class="form-control" [attr.aria-label]="'arteApplicationTemplateApp.operacion.filters.accion.placeholder' | translate" placeholder="{{'arteApplicationTemplateApp.operacion.filters.accion.placeholder' | translate}}"
             id="accion" name="accion" [(ngModel)]="filters.accion" (keyup)="filter()" />
         <span class="icon-search icon-flueco-icon-buscar"></span>
     </div>
 
     <div class="entity-search-field">
-        <label for="sujeto" jhiTranslate="secretariaLibroApp.operacion.filters.sujeto.label">Sujeto</label>
-        <input class="form-control" [attr.aria-label]="'secretariaLibroApp.operacion.filters.sujeto.placeholder' | translate" placeholder="{{'secretariaLibroApp.operacion.filters.sujeto.placeholder' | translate}}"
+        <label for="sujeto" jhiTranslate="arteApplicationTemplateApp.operacion.filters.sujeto.label">Sujeto</label>
+        <input class="form-control" [attr.aria-label]="'arteApplicationTemplateApp.operacion.filters.sujeto.placeholder' | translate" placeholder="{{'arteApplicationTemplateApp.operacion.filters.sujeto.placeholder' | translate}}"
             [(ngModel)]="filters.sujeto" (keyup)="filter()" />
         <span class="icon-search icon-flueco-icon-buscar"></span>
     </div>

@@ -1,13 +1,15 @@
+// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { SecretariaLibroSharedModule } from '../shared';
+import { ArteApplicationTemplateSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
 
 @NgModule({
     imports: [
-        SecretariaLibroSharedModule,
+        ArteApplicationTemplateSharedModule,
         RouterModule.forRoot([HOME_ROUTE], { useHash: true })
     ],
     declarations: [
@@ -19,4 +21,4 @@ import { HOME_ROUTE, HomeComponent } from './';
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SecretariaLibroHomeModule { }
+export class ArteApplicationTemplateHomeModule { }

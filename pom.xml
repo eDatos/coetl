@@ -10,21 +10,22 @@
     <relativePath />
   </parent>
 
-  <groupId>es.tenerife.secretaria.libro</groupId>
-  <artifactId>secretaria-libro</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
+
+  <groupId>com.arte.application.template</groupId>
+  <artifactId>arte-application-template</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>Secretaria Libro</name>
 
   <scm>
-    <connection>scm:git:http://git.arte-consultores.com/ecit/secretaria-libro/</connection>
-    <developerConnection>scm:git:http://git.arte-consultores.com/ecit/secretaria-libro/</developerConnection>
+    <connection>scm:git:http://git.arte-consultores.com/artesl/arte-application-template/</connection>
+    <developerConnection>scm:git:http://git.arte-consultores.com/artesl/arte-application-template/</developerConnection>
     <tag>HEAD</tag>
-    <url>http://git.arte-consultores.com/ecit/secretaria-libro</url>
+    <url>http://git.arte-consultores.com/artesl/arte-application-template</url>
   </scm>
   <issueManagement>
     <system>Jira</system>
-    <url>http://jira.arte-consultores.com/browse/SECRETARIA</url>
+    <url>http://jira.arte-consultores.com/browse/INFRASTR</url>
   </issueManagement>
   <distributionManagement>
     <repository>
@@ -559,11 +560,11 @@
           <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
           <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
           <driver>org.postgresql.Driver</driver>
-          <url>jdbc:postgresql://localhost:5432/secretaria_libro</url>
+          <url>jdbc:postgresql://localhost:5432/arte_application_template</url>
           <defaultSchemaName />
-          <username>secretaria_libro</username>
+          <username>arte_application_template</username>
           <password />
-          <referenceUrl>hibernate:spring:es.tenerife.secretaria.libro.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
+          <referenceUrl>hibernate:spring:com.arte.application.template.domain?dialect=org.hibernate.dialect.PostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
           <verbose>true</verbose>
           <logging>debug</logging>
         </configuration>
@@ -616,7 +617,7 @@
         <artifactId>docker-maven-plugin</artifactId>
         <version>${docker-maven-plugin.version}</version>
         <configuration>
-          <imageName>secretaria_libro</imageName>
+          <imageName>arte_application_template</imageName>
           <dockerDirectory>src/main/docker</dockerDirectory>
           <resources>
             <resource>
@@ -877,4 +878,5 @@
       </dependencies>
     </profile>
   </profiles>
+  <name>Template Arte Aplicaciones</name>
 </project>

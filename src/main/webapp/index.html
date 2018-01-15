@@ -15,13 +15,13 @@
 </head>
 
 <body>
-
+    <!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
     <script th:inline="javascript">
         /*<![CDATA[*/
         window.CONFIGURATION = {};
         window.CONFIGURATION.cas = {};
-        window.CONFIGURATION.cas.login = /*[[${cas.getEndpoint()}]]*/ 'https://secretaria.arte-consultores.com/cas/login';
-        window.CONFIGURATION.cas.logout = /*[[${cas.getLogout()}]]*/ 'https://secretaria.arte-consultores.com/cas/logout';
+        window.CONFIGURATION.cas.login = /*[[${cas.getEndpoint()}]]*/ 'https://arte-application-template.arte-consultores.com/cas/login';
+        window.CONFIGURATION.cas.logout = /*[[${cas.getLogout()}]]*/ 'https://arte-application-template.arte-consultores.com/cas/logout';
         window.CONFIGURATION.cas.applicationHome = /*[[${cas.getApplicationHome()}]]*/ 'http://localhost:9000/login/cas';
 
        	/*]]>*/

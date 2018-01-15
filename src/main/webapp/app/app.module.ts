@@ -1,3 +1,5 @@
+// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 import './vendor.ts';
 
 import { NgModule, APP_INITIALIZER } from '@angular/core';
@@ -5,18 +7,18 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
 
-import { SecretariaLibroSharedModule, UserRouteAccessService, AuthServerProvider } from './shared';
-import { SecretariaLibroHomeModule } from './home/home.module';
-import { SecretariaLibroAdminModule } from './admin/admin.module';
-import { SecretariaLibroAccountModule } from './account/account.module';
-import { SecretariaLibroEntityModule } from './entities/entity.module';
+import { ArteApplicationTemplateSharedModule, UserRouteAccessService, AuthServerProvider } from './shared';
+import { ArteApplicationTemplateHomeModule } from './home/home.module';
+import { ArteApplicationTemplateAdminModule } from './admin/admin.module';
+import { ArteApplicationTemplateAccountModule } from './account/account.module';
+import { ArteApplicationTemplateEntityModule } from './entities/entity.module';
 
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
-import { SecretariaConfigModule, ConfigService } from './config';
+import { ArteApplicationTemplateConfigModule, ConfigService } from './config';
 
 import {
     JhiMainComponent,
@@ -50,13 +52,13 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
         BrowserModule,
         LayoutRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
-        SecretariaLibroSharedModule,
-        SecretariaLibroHomeModule,
-        SecretariaLibroAdminModule,
-        SecretariaLibroAccountModule,
-        SecretariaLibroEntityModule,
+        ArteApplicationTemplateSharedModule,
+        ArteApplicationTemplateHomeModule,
+        ArteApplicationTemplateAdminModule,
+        ArteApplicationTemplateAccountModule,
+        ArteApplicationTemplateEntityModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
-        SecretariaConfigModule,
+        ArteApplicationTemplateConfigModule,
         RouterModule.forRoot(APP_ROUTES, { useHash: true })
     ],
     declarations: [
@@ -78,4 +80,4 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
     ],
     bootstrap: [JhiMainComponent]
 })
-export class SecretariaLibroAppModule { }
+export class ArteApplicationTemplateAppModule { }

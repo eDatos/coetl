@@ -13,7 +13,9 @@
     class="ch.qos.logback.classic.AsyncAppender"> <queueSize>512</queueSize> 
     <appender-ref ref="FILE"/> </appender> -->
 
-  <property name="LOGS_HOME" value="/data/ecit/secretaria-libro/serverlogs" />
+  <!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
+
+  <property name="LOGS_HOME" value="/data/artesl/arte-application-template/serverlogs" />
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
@@ -25,7 +27,7 @@
   <appender name="FILE"
     class="ch.qos.logback.core.rolling.RollingFileAppender">
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>${LOGS_HOME}/secretaria-libro-${servidor}.%d{yyyy-MM-dd}.log
+      <fileNamePattern>${LOGS_HOME}/arte-application-template-${servidor}.%d{yyyy-MM-dd}.log
       </fileNamePattern>
       <maxHistory>90</maxHistory>
     </rollingPolicy>
@@ -35,7 +37,7 @@
     </encoder>
   </appender>
 
-  <logger name="es.tenerife.secretaria.libro" level="#logback.loglevel#" />
+  <logger name="com.arte.application.template" level="#logback.loglevel#" />
 
   <logger name="io.github.jhipster" level="#logback.loglevel#" />
 

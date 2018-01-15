@@ -13,17 +13,18 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+# FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
 
 spring:
     application:
-        name: secretaria_libro
+        name: arte_application_template
     jackson:
         serialization.write_dates_as_timestamps: false
     cache:
         type: none
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:h2:mem:secretaria_libro;DB_CLOSE_DELAY=-1
+        url: jdbc:h2:mem:arte_application_template;DB_CLOSE_DELAY=-1
         name:
         username:
         password:

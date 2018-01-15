@@ -21,6 +21,8 @@ export class OperacionResolvePagingParams implements Resolve<any> {
     }
 }
 
+// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 export const operacionRoute: Routes = [
     {
         path: 'operacion',
@@ -30,7 +32,7 @@ export const operacionRoute: Routes = [
         },
         data: {
             operaciones: 'LEER:OPERACION',
-            pageTitle: 'secretariaLibroApp.operacion.home.title'
+            pageTitle: 'arteApplicationTemplateApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService]
     }, {
@@ -38,7 +40,7 @@ export const operacionRoute: Routes = [
         component: OperacionDialogComponent,
         data: {
             operaciones: 'LEER:OPERACION',
-            pageTitle: 'secretariaLibroApp.operacion.home.title'
+            pageTitle: 'arteApplicationTemplateApp.operacion.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
