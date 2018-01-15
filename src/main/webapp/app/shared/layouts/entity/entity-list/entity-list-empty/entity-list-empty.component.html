@@ -1,0 +1,13 @@
+<div class="image-message">
+    <img src="~images/no-results.png" alt="No se han obtenido resultados que cumplan los criterios de búsqueda" [alt]="'entity.list.empty' | translate"
+    />
+    <div class="image-message-text">
+        <div class="title" jhiTranslate="entity.list.empty.sorry">Lo sentimos</div>
+        <div class="detail" jhiTranslate="entity.list.empty.detail">No se han obtenido resultados que cumplan los criterios de búsqueda</div>
+        <ng-container *acHasAnyOperacion="operacionButton">
+            <button *ngIf="buttonLink" class="btn btn-secondary jh-create-entity" (click)="createNewEntity()">
+            <span class="fa fa-plus"></span> <span>{{buttonLabel}}</span>
+            </button>
+        </ng-container>
+    </div>
+</div>

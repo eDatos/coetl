@@ -1,0 +1,89 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm" *ngIf="!!rol">
+
+    <h2>
+        <div>
+            <button *ngIf="!isEditMode()" type="button" routerLink="/rol-management" class="btn btn-secondary btn-frameless back-arrow"
+                [attr.aria-label]="'entity.action.back' | translate">
+                        <span class="fa fa-arrow-left"></span>
+                    </button>
+            <i class="fa fa-fw fa-users" aria-hidden="true"></i>
+            <span *ngIf="!rol.nombre" jhiTranslate="rolManagement.home.createLabel">Crear rol</span>
+            <span *ngIf="rol.nombre">
+                        <span jhiTranslate="rolManagement.detail.title">Rol</span><span> {{rol.nombre}}</span>
+            </span>
+        </div>
+        <div>
+            <ng-container *ngIf="!isEditMode()">
+                <button *acHasAnyOperacion="['EDITAR:ROL']" type="button" class="btn btn-secondary jh-create-entity" [routerLink]="['/rol-management', rol.codigo, 'editar']">
+                    <span class="fa fa-pencil"></span> <span jhiTranslate="entity.action.edit">Edit</span>
+                </button>
+                <button *acHasAnyOperacion="['ELIMINAR:ROL']" type="button" class="btn btn-danger" [routerLink]="['/', { outlets: { popup: 'rol-management/'+ rol.codigo + '/borrar'} }]">
+                    <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.delete">Delete</span>
+                </button>
+            </ng-container>
+            <ng-container *ngIf="isEditMode()">
+                <button *acHasAnyOperacion="['CREAR:ROL']" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <span class="fa fa-floppy-o"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                    <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+            </ng-container>
+        </div>
+    </h2>
+
+    <fieldset [disabled]="!isEditMode()">
+        <div class="entity-fields">
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="rolManagement.codigo">Codigo</label>
+                <input type="text" class="form-control" name="codigo" #codigoInput="ngModel" [(ngModel)]="rol.codigo" required minlength="1"
+                    maxlength="255" pattern="^[_A-Za-z0-9-]*$">
+
+                <div *ngIf="codigoInput.dirty && codigoInput.invalid" class="entity-field-error">
+                    <small class="form-text text-danger" *ngIf="codigoInput.errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                    <small class="form-text text-danger" *ngIf="codigoInput.invalid" jhiTranslate="entity.validation.not-valid">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="rolManagement.nombre">Nombre</label>
+                <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="rol.nombre" required minlength="1"
+                    maxlength="255">
+
+                <div *ngIf="nombreInput.dirty && nombreInput.invalid" class="entity-field-error">
+                    <small class="form-text text-danger" *ngIf="nombreInput.errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+
+        <div class="entity-fields">
+            <div class="form-group">
+                <label class="form-control-label">
+                    <span jhiTranslate="rolManagement.operaciones.operaciones">Profiles</span>
+                    <ac-help-tooltip [label]="'rolManagement.operaciones.operacion-leer-requerida-para-modificar' | translate"></ac-help-tooltip>
+                </label>
+                <p-listbox dataKey="id" name="operacion" [metaKeySelection]="false" [options]="operacionesString" [multiple]="true" [checkbox]="true"
+                    [filter]="true" [styleClass]="!isEditMode() ? 'disabled-mode' : ''" [(ngModel)]="rol.operaciones" #rolListInput="ngModel">
+                    <ng-template let-element pTemplate="item">
+                        <div class="operacion-listbox-item">
+                            <div class="operacion-listbox-item-column">{{element.value.accion}}</div>
+                            <div class="operacion-listbox-item-column">{{element.value.sujeto}}</div>
+                        </div>
+                    </ng-template>
+                </p-listbox>
+                <div *ngIf="rolListInput.invalid" class="entity-field-error">
+                    <small class="form-text text-danger" *ngIf="rolListInput.errors.required" jhiTranslate="entity.validation.required">
+                    This field is required.
+                </small>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>

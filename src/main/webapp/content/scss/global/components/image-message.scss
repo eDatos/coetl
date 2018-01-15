@@ -1,0 +1,32 @@
+@import '~scss/variables';
+
+$image-width: 200px;
+.image-message {    
+    padding: $spacer-y*5 0;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        width: $image-width;
+    }
+
+    .image-message-text {
+        padding: $spacer-y;
+        font-size: $font-size-h3;
+        margin-left: $spacer-x;
+        display: flex;
+        align-items: left;
+        justify-content: space-between;
+        flex-direction: column;
+        .title {
+            font-weight: $font-weight-bold;
+            color: $main-dark;
+        }
+        .detail {
+            text-align: left;
+            color: $grey-dark;
+            max-width: $image-width * 2;
+        }            
+    }
+}

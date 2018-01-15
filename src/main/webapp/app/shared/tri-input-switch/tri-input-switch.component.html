@@ -1,0 +1,6 @@
+<ng-container *ngIf="options">
+    <p-selectButton [options]="options" [(ngModel)]="selectedValue" [required]="required" [disabled]="disabled"></p-selectButton>
+    <ng-container *ngIf="!required && nullable">
+        <i class="fa fa-times clear" (click)="clear()"></i>
+    </ng-container>
+</ng-container>

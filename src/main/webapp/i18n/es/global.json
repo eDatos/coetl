@@ -1,0 +1,115 @@
+{
+    "global": {
+        "title": "Secretaría - Libro de resoluciones y decretos",
+        "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor, <a href=\"http://browsehappy.com/?locale=en\">actualice su navegador</a> para mejorar su experiencia.",
+        "menu": {
+            "home": "Inicio",
+            "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+            "entities": {
+                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+            },
+            "account": {
+                "main": "Cuenta",
+                "settings": "Ajustes",
+                "sessions": "Sesiones",
+                "login": "Iniciar sesión",
+                "logout": "Cerrar la sesión",
+                "myAccount": "Mi cuenta"
+            },
+            "admin": {
+                "main": "Administración",
+                "userManagement": "Gestión de usuarios",
+                "rolManagement": "Gestión de roles",
+                "metrics": "Métricas",
+                "health": "Salud",
+                "configuration": "Configuración",
+                "logs": "Logs",
+                "audits": "Auditorías",
+                "apidocs": "API",
+                "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
+            }
+        },
+        "form": {
+            "email": "Correo electrónico",
+            "email.placeholder": "Su correo electrónico"
+        },
+        "messages": {
+            "validate": {
+                "email": {
+                    "required": "Se requiere un correo electrónico.",
+                    "invalid": "Su correo electrónico no es válido.",
+                    "minlength": "Se requiere que su correo electrónico tenga por lo menos 5 caracteres",
+                    "maxlength": "Su correo electrónico no puede tener más de 50 caracteres"
+                }
+            }
+        },
+        "item-count": "Mostrando {{first}} - {{second}} de {{total}} artículos."
+    },
+    "entity": {
+        "action": {
+            "back": "Volver",
+            "cancel": "Cancelar",
+            "delete": "Eliminar",
+            "edit": "Editar",
+            "restore": "Restaurar",
+            "open": "Abrir",
+            "save": "Guardar",
+            "view": "Ver",
+            "filtersReset": "Reiniciar filtros",
+            "deactivate": "Desactivar",
+            "activate": "Activar",
+            "close": "Cerrar"
+        },
+        "delete": {
+            "title": "Confirmar operación de borrado"
+        },
+        "restore": {
+            "title": "Confirmar restauración"
+        },
+        "deactivate": {
+            "title": "Confirmar desactivación"
+        },
+        "validation": {
+            "required": "Este campo es obligatorio.",
+            "minlength": "Este campo requiere al menos {{min}} caracteres.",
+            "maxlength": "Este campo no puede superar más de {{max}} caracteres.",
+            "min": "Este campo debe ser mayor que {{min}}.",
+            "max": "Este campo no puede ser mayor que {{max}}.",
+            "minbytes": "Este campo debe tener como mínimo {{min}} bytes.",
+            "maxbytes": "Este campo no puede tener más de {{max}} bytes.",
+            "pattern": "Este campo debe seguir el patrón {{pattern}}.",
+            "number": "Este campo debe ser un número.",
+            "datetimelocal": "Este campo debe ser una fecha y hora.",
+            "ZonedDateTimelocal": "Este campo debe ser una fecha y hora.",
+            "not-valid": "El valor de este campo no es válido"
+        },
+        "list": {
+            "empty": {
+                "sorry": "Lo sentimos.",
+                "detail": "No se han obtenido resultados que cumplan los criterios de búsqueda.",
+                "create-new-item": "(Añadir nuevo)"
+            }
+        }
+    },
+    "home": {
+        "pageTitle": "Bienvenido",
+        "title": "Bienvenido, {{user}}",
+        "detail": "Acceda al apartado deseado a través del menú de navegación"
+    },
+    "error": {
+        "internalServerError": "Error interno del servidor",
+        "server.not.reachable": "Servidor no accesible",
+        "url.not.found": "No encontrado",
+        "NotNull": "¡El campo {{fieldName}} no puede estar vacío!",
+        "Size": "¡El campo {{fieldName}} no cumple con los requisitos de tamaño mínimo/máximo!",
+        "userexists": "El nombre de usuario introducido ya está siendo usado",
+        "emailexists": "El email introducido ya está siendo usado",
+        "id-existe": "Un nuevo {{entityName}} no puede tener previamente un ID",
+        "userManagement": {
+            "usuario-ldap-no-encontrado": "No se ha encontrado el usuario especificado"
+        },
+        "rol": {
+            "users-has-role": "No se puede eliminar un rol que está asignado a algunos usuarios"
+        }
+    }
+}

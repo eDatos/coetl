@@ -1,0 +1,39 @@
+{
+    "settings": {
+        "title": "Mi cuenta",
+        "form": {
+            "nombre": "Nombre",
+            "nombre.placeholder": "Su nombre",
+            "apellido1": "Primer apellido",
+            "apellido2": "Segundo apellido",
+            "apellido1.placeholder": "Su primer apellido",
+            "apellido2.placeholder": "Su segundo apellido",
+            "idioma": "Idioma",
+            "button": "Guardar"
+        },
+        "messages": {
+            "error": {
+                "fail": "<strong>¡Ha ocurrido un error!</strong> Los ajustes no se han podido guardar.",
+                "emailexists": "<strong>¡La dirección de correo ya existe!</strong> Por favor, escoja otra."
+            },
+            "success": "<strong>¡Ajustes guardados!</strong>",
+            "validate": {
+                "nombre": {
+                    "required": "Se requiere que ingrese su nombre.",
+                    "minlength": "Se requiere que su nombre tenga por lo menos 1 carácter",
+                    "maxlength": "Su nombre no puede tener más de 50 carácteres"
+                },
+                "apellido1": {
+                    "required": "Se requiere que ingrese su primer apellido.",
+                    "minlength": "Se requiere que su primer apellido tenga por lo menos 1 carácter",
+                    "maxlength": "Su primer apellido no puede tener más de 50 carácteres"
+                },
+                "apellido2": {
+                    "required": "Se requiere que ingrese su segundo apellido.",
+                    "minlength": "Se requiere que su segundo apellido tenga por lo menos 1 carácter",
+                    "maxlength": "Su segundo apellido no puede tener más de 50 carácteres"
+                }
+            }
+        }
+    }
+}

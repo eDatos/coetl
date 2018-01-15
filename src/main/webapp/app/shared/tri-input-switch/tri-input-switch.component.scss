@@ -1,0 +1,41 @@
+@import '~scss/variables';
+
+$border-width: 5px;
+$color-invalid: $brand-success;
+$color-valid: $brand-danger;
+
+.clear {
+    cursor: pointer;
+}
+
+:host {
+    display: block;
+    &.ng-invalid {
+        border-left: none;
+        p-selectButton {
+            border-left: none;
+            /deep/ .ui-button:first-child {
+                border-left: $border-width $color-invalid solid;
+            }
+        }
+    }
+    
+    &.ng-valid[required] {
+        border-left: none;
+        p-selectButton {
+            border-left: none;
+            /deep/ .ui-button:first-child {
+                border-left: $border-width $color-valid solid;
+            }
+        }
+    }
+}
+
+$same-width-si-and-no: 38px;
+p-selectButton {
+    padding-left: $grid-gutter-width-base / 2;
+    padding-right: $grid-gutter-width-base / 2;
+    /deep/ .ui-button-text-only .ui-button-text {
+        min-width: $same-width-si-and-no;
+    }
+}

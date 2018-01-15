@@ -1,0 +1,19 @@
+$fa-font-path: '~font-awesome/fonts';
+@import 'node_modules/font-awesome/scss/font-awesome';
+
+.fa-arrow-left:before {
+    content: '';
+}
+.fa.fa-arrow-left {    
+    background-image: url("~images/arrow-back.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 2em;
+    height: 2em;
+    opacity: 0.5;
+
+    &:hover {
+        opacity: 1;
+    }
+}

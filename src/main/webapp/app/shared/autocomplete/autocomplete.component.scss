@@ -1,0 +1,77 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+
+:host {
+    border-radius: $border-radius;
+    
+    /deep/ .ui-autocomplete {
+        .create-new-item-label {
+            color: $grey-medium;
+            font-style: italic;
+        }
+        input {
+            @include placeholder {
+                color: $grey-medium;
+            }
+        }
+        &.is-empty {
+            .ui-autocomplete-input-token {
+                width: 100%;
+                padding-right: $primeng-dropdown-button-width;         
+            }
+            input {
+                width: 100%;
+
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+:host[required] {
+    border-left: $border-width*5 solid $accent-dark;
+    &.ng-valid {
+        border-left: $border-width*5 solid $brand-success;
+    } 
+    p-autoComplete {
+        border-left: none;
+    }
+}
+
+/deep/ {
+    .ui-autocomplete-dd input.ui-corner-all ,
+    .ui-autocomplete-dd .ui-autocomplete-multiple-container.ui-corner-all,
+    .ui-autocomplete-dd .ui-autocomplete-dropdown.ui-corner-all {
+         -moz-border-radius-topright: $border-radius; 
+         -webkit-border-top-right-radius: $border-radius;
+         border-top-right-radius: $border-radius;
+         -moz-border-radius-bottomright: $border-radius;
+         -webkit-border-bottom-right-radius: $border-radius;
+         border-bottom-right-radius: $border-radius;
+     }
+}
+
+fieldset[disabled] {
+     .entity-fields .form-group {
+        :host {
+            /deep/ .ui-autocomplete {
+                cursor: initial;
+                .fa-close {
+                    display: none;
+                }
+                .ui-autocomplete-token {
+                    padding-right: .5em;
+                }
+                .ui-autocomplete-dropdown {
+                    display: none;
+                }
+            }
+        }
+    }
+    :host[required] {
+        border-left: none;
+    }
+}
+

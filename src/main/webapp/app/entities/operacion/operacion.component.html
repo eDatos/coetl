@@ -1,0 +1,38 @@
+<div class="entity" acMakeFixedRoom>
+    <div class="entity-header">
+        <h2>
+            <span jhiTranslate="secretariaLibroApp.operacion.home.title">operaciones</span>
+        </h2>
+        <ac-operacion-search [filters]="filters"></ac-operacion-search>
+    </div>
+    <ng-container *ngIf="!isEmptyList; else empty_list">
+        <div class="table-responsive">
+            <table class="table table-hover" acStickyTableHeader>
+                <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                        <th style="width: 30%" jhiSortBy="accion"><span jhiTranslate="secretariaLibroApp.operacion.accion">Accion</span> <span class="fa fa-sort"></span></th>
+                        <th style="width: 30%" jhiSortBy="sujeto"><span jhiTranslate="secretariaLibroApp.operacion.sujeto">Sujeto</span> <span class="fa fa-sort"></span></th>
+                        <th style="width: 40%"><span jhiTranslate="secretariaLibroApp.operacion.roles.roles">Roles</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let operacion of operaciones ;trackBy: trackId" [routerLink]="['../operacion', operacion.id ]">
+                        <td>{{operacion.accion}}</td>
+                        <td>{{operacion.sujeto}}</td>
+                        <td>
+                            <ng-container *ngFor="let rol of operacion.roles">
+                                <span class="badge badge-info">{{rol.nombre}}</span>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </ng-container>
+    <ng-template #empty_list>
+        <div class="entity-list-empty">
+            <ac-entity-list-empty *ngIf="isEmptyList"></ac-entity-list-empty>
+        </div>
+    </ng-template>
+</div>

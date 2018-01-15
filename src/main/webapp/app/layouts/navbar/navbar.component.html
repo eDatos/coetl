@@ -1,0 +1,112 @@
+<nav class="navbar-inverse fixed-top navbar-toggleable-lg jh-navbar d-flex justify-content-between">
+    <div class="navbar-collapse">
+        <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
+            <img class="logo-img" src="~images/logo-cabildo.png" alt="Logo" />
+            <span jhiTranslate="global.title" class="navbar-title">Secretaria_libro</span>
+            <span class="navbar-version">{{version}}</span>
+        </a>
+    </div>
+    <div class="d-flex justify-content-end">
+        <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
+            <ul class="navbar-nav">
+                <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
+                <li *ngIf="correctlyLogged()"  ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
+                        <span>
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                            <b class="caret"></b>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                        <li>
+                            <a class="dropdown-item" routerLink="settings" routerLinkActive="active" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-user" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.account.myAccount">My account</span>
+                            </a>
+                        </li>
+                        <li *acHasAnyOperacion="['LEER:USUARIO']">
+                            <a class="dropdown-item" routerLink="user-management" routerLinkActive="active" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-user" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.userManagement">User management</span>
+                            </a>
+                        </li>
+                        <li *acHasAnyOperacion="['LEER:ROL']">
+                            <a class="dropdown-item" routerLink="rol-management" routerLinkActive="active" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-users" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.rolManagement">Rol management</span>
+                            </a>
+                        </li>
+                        <li *acHasAnyOperacion="['LEER:OPERACION']">
+                            <a class="dropdown-item" routerLink="operacion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-key" aria-hidden="true"></i>
+                                <span jhiTranslate="secretariaLibroApp.operacion.menu.title">Operacion</span>
+                            </a>
+                        </li>
+                        <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
+                    </ul>
+                </li>
+                <li *acHasAnyOperacion="['LEER:METRICA','LEER:SALUD','LEER:CONFIG','LEER:AUDITORIA','LEER:LOGS','LEER:API']" ngbDropdown
+                    class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
+                        <span>
+                            <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                        <li *acHasAnyOperacion="['LEER:METRICA']">
+                            <a class="dropdown-item" routerLink="jhi-metrics" routerLinkActive="active" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-tachometer" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
+                            </a>
+                        </li>
+                        <li *acHasAnyOperacion="['LEER:SALUD']">
+                            <a class="dropdown-item" routerLink="jhi-health" routerLinkActive="active" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-heart" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.health">Health</span>
+                            </a>
+                        </li>
+                        <li *acHasAnyOperacion="['LEER:CONFIG']">
+                            <a class="dropdown-item" routerLink="jhi-configuration" routerLinkActive="active" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-list" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
+                            </a>
+                        </li>
+                        <li *acHasAnyOperacion="['LEER:AUDITORIA']">
+                            <a class="dropdown-item" routerLink="audits" routerLinkActive="active" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-bell" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.audits">Audits</span>
+                            </a>
+                        </li>
+                        <li *acHasAnyOperacion="['LEER:LOGS']">
+                            <a class="dropdown-item" routerLink="logs" routerLinkActive="active" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-tasks" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.logs">Logs</span>
+                            </a>
+                        </li>
+                        <ng-container *ngIf="swaggerEnabled">
+                            <li *acHasAnyOperacion="['LEER:API']">
+                                <a class="dropdown-item" routerLink="docs" routerLinkActive="active" (click)="collapseNavbar()">
+                                    <i class="fa fa-fw fa-book" aria-hidden="true"></i>
+                                    <span jhiTranslate="global.menu.admin.apidocs">API</span>
+                                </a>
+                            </li>
+                        </ng-container>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="hidden-xl-up">
+            <a class="jh-navbar-toggler" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+
+        <div class="navbar-nav navbar-toggleable" [ngSwitch]="isAuthenticated()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            id="account-menu">
+            <a *ngSwitchCase="true" class="nav-link" (click)="logout()" id="logout" [title]="'global.menu.account.logout' | translate">
+                <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</nav>

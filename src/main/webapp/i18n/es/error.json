@@ -1,0 +1,27 @@
+{
+    "error": {
+        "title": "¡Ups, ha ocurrido un error!",
+        "403": {
+            "title": "Error 403",
+            "detail": "Lo sentimos, no tiene permisos para acceder a la página."
+        },
+        "accessDenied": "Lo sentimos, no tiene permisos para acceder a la página.",
+        "404": {
+            "title": "Error 404",
+            "detail": "Lo sentimos, la página que busca no existe."
+        },
+        "blockedUser": {
+            "title": "Error de usuario",
+            "detail": "Lo sentimos, el usuario con el que intenta acceder está bloqueado."
+        },
+        "nonExistingUser": {
+            "title": "Error de usuario",
+            "detail": "Lo sentimos, el usuario con el que intenta acceder no se ha dado de alta."
+        },
+        "rol": {
+            "validation": {
+                "rol-necesita-operaciones": "Es obligatorio que al rol se le asigne, al menos, permisos para una operación."
+            }
+        }
+    }
+}

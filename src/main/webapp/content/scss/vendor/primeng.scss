@@ -1,0 +1,60 @@
+@import '~primeng/resources/primeng.css';
+
+$fontFamily: $font-family-sans-serif;
+$fontSize: 1em;
+$borderRadius: $border-radius;
+$disabledOpacity: 1;
+
+//Header
+$headerBorderWidth: 1px;
+$headerBorderColor: $grey-medium;
+$headerBgColor: $white;
+$headerTextColor: $grey-darkest;
+$headerFontWeight: bold;
+$headerIconTextColor: $grey-darkest;
+
+//Content
+$contentBorderWidth: 1px;
+$contentBorderColor: $grey-light;
+$contentBgColor: $white;
+$contentTextColor: $grey-darkest;
+
+//Default State
+$stateDefaultBorderWidth: 1px;
+$stateDefaultBorderColor: $input-border-color;
+$stateDefaultBgColor: $grey-medium;
+$stateDefaultTextColor: $grey-darkest;
+
+//Active State
+$stateActiveBorderColor: $btn-primary-border;
+$stateActiveBgColor: $btn-primary-bg;
+$stateActiveTextColor: $btn-primary-color;
+
+//Highlight State
+$stateHighlightBorderColor: $main-medium;
+$stateHighlightBgColor: $main-medium;
+$stateHighlightTextColor: $white;
+
+//Focus State
+$stateFocusBorderColor: $main-light;
+$stateFocusBgColor: null;
+$stateFocusTextColor: null;
+
+//Error State
+$stateErrorBorderColor: $btn-danger-bg;
+$stateErrorBgColor: $btn-danger-bg;
+$stateErrorTextColor: $white;
+
+//Hover State
+$stateHoverBorderColor: $btn-primary-border;
+$stateHoverBgColor: $btn-primary-bg;
+$stateHoverTextColor: $btn-primary-color;
+
+
+//Forms
+$inputBgColor: $white;
+$inputTextColor: $grey-darkest;
+$invalidInputBorderColor: $btn-danger-bg;
+$inputGroupTextColor: $white;
+
+@import '~primeng/resources/themes/theme';

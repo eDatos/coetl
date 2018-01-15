@@ -1,0 +1,164 @@
+@import '~scss/variables';
+
+$close-icon-width: 2em;
+$autocomplete-vertical-padding: 0.3rem;
+.ui-autocomplete {
+    width: 100%;
+    .ui-autocomplete-input,
+    .ui-autocomplete-multiple-container {
+        width: 100%;
+        padding-right: $primeng-dropdown-button-width;
+        
+        .ui-autocomplete-token {
+            padding-right: $close-icon-width;
+        }
+    }
+    .ui-autocomplete-input-token {
+        padding: 0;
+        margin-bottom: $autocomplete-vertical-padding;
+    }
+    .ui-autocomplete-dropdown {
+        position: absolute;
+        right: 0;
+    }
+    .ui-inputtext {
+        padding: $input-padding-y $input-padding-x ($input-padding-y - $autocomplete-vertical-padding) $input-padding-x;
+        line-height: $input-line-height;
+    }
+}
+
+.ui-listbox {
+    width: 100%;
+}
+
+.ui-widget.form-control {
+    padding: 0;
+    border: none;
+}
+
+.ui-button-text-only .ui-button-text {
+    padding: $input-padding-y $input-padding-x;
+}
+
+fieldset {
+    .ui-state-default {
+        border: none;
+        &:hover {
+            border-width: 0 0 2 * $border-width 0;
+            border-style: solid;
+            border-color: $grey-medium !important;
+            margin-bottom: -2 * $border-width;
+        }                
+    }
+    p-listbox {
+        padding: $input-padding-y $input-padding-x;
+        .ui-chkbox-box {
+            background: none;
+            border: $border-width solid $grey-medium;
+    
+            &:hover {
+                border: $border-width solid $grey-medium;
+                margin-bottom: 0;
+            }
+        }
+        .ui-widget-header {
+            .ui-chkbox-box {
+                color: $grey-darkest;
+            }
+        }
+    
+        .disabled-mode.ui-listbox  {
+            cursor: initial;
+            pointer-events: none;
+            .ui-listbox-header .ui-chkbox {
+                opacity: 0;
+            }
+        }
+    
+        input.ui-inputtext {
+            pointer-events: initial;
+        }
+    }
+}
+
+.ui-state-disabled:hover {
+    border-bottom: none !important;
+    margin-bottom: initial !important;
+}
+
+
+fieldset:disabled,
+fieldset[disabled] {
+    .entity-fields .form-group {    
+        .ui-state-default {
+            pointer-events: none;
+            cursor: initial;
+            &:hover {
+                border-bottom: none;
+                margin-bottom: initial;
+            } 
+        }
+    }
+}
+
+.ui-inputtext.ui-state-focus,
+.ui-inputtext:focus {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+p-dataTable /deep/ {
+    .ui-datatable .ui-sortable-column:not(.ui-state-active):hover {
+        background: $white;
+        color: $grey-darkest;
+    }
+    .ui-datatable .ui-datatable-data > tr > td,
+    .ui-datatable .ui-datatable-thead > tr > th {
+        padding: $table-cell-padding;
+
+        border-left: none;
+        border-right: none;
+
+        text-align: left;
+
+        font-weight: $font-weight-light;
+    }
+    .ui-datatable .ui-datatable-data > tr.ui-rowgroup-header > td {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .row-group-item {
+        padding: $table-cell-padding 0;
+    }
+
+    th,
+    .ui-widget-header,
+    .ui-widget-content {
+        border-left: none;
+        border-right: none;
+
+        font-weight: $font-weight-normal;
+    }
+
+    .ui-datatable .ui-datatable-footer {
+        border-bottom: none;
+        padding-left: $page-padding;
+        padding-right: $page-padding;
+    }
+
+    .ui-datatable {
+        .fa-chevron-circle-right, .fa-chevron-circle-down {
+            width: $dataTable-toggle-width;
+        }
+        .ui-rowgroup-header a {
+            position: absolute;
+            padding: $table-cell-padding 0;
+            left: 0;
+        }
+        .ui-rowgroup-header-name {
+            width: 100%;
+        }
+    }    
+}

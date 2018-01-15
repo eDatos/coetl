@@ -1,0 +1,10 @@
+<div class="image-message">
+    <img src="~images/error.png" alt="No tiene permiso para acceder a la página" [alt]="title | translate" />
+    <div class="image-message-text">
+        <div class="title" [jhiTranslate]="title">Error</div>
+        <div class="detail" [jhiTranslate]="detail">Se ha producido un error</div>
+        <div [hidden]="!errorMessage">
+            <div class="alert alert-danger">{{errorMessage}}</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="entity-search operacion-search">
+
+    <div class="entity-search-field">
+        <label jhiTranslate="userManagement.filters.name.label">Filtrar</label>
+        <input class="form-control" [attr.aria-label]="'userManagement.filters.name.placeholder' | translate" placeholder="{{'userManagement.filters.name.placeholder' | translate}}"
+            [(ngModel)]="filters.name" (keyup)="filter()" />
+    </div>
+    <div class="entity-search-field">
+        <label jhiTranslate="userManagement.filters.rol.label">Filtrar</label>
+        <ac-autocomplete (onSelect)="filter()" (onUnselect)="filter()" name="rol" [(ngModel)]="filters.roles" [suggestions]="roles"
+            [itemTemplate]="rolItemTemplate" [propertiesToQuery]="['nombre','codigo']" [minLength]="1" [placeholder]="'userManagement.filters.rol.placeholder' | translate"></ac-autocomplete>
+    </div>
+
+    <div class="entity-search-field">
+        <label jhiTranslate="userManagement.home.includeDeleted">Include deleted</label>
+        <ac-tri-input-switch [(ngModel)]="filters.includeDeleted" (ngModelChange)="filter()"></ac-tri-input-switch>
+    </div>
+
+    <div class="entity-search-field-btn">
+        <button class="btn btn-default" (click)="resetFilters();">
+            <i class="fa fa-times"></i> 
+            <span  jhiTranslate="entity.action.filtersReset">Reset</span>
+        </button>
+    </div>
+</div>

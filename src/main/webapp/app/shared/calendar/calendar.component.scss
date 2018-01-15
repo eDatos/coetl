@@ -1,0 +1,72 @@
+@import '~scss/variables';
+
+
+fieldset .entity-fields .form-group {
+    :host[required] {
+        border-left: $border-width*5 solid $accent-dark;
+        &.ng-valid {
+            border-left: $border-width*5 solid $brand-success;
+        } 
+        p-calendar {
+            border-left: none;
+        }
+    }
+}
+
+:host {
+    padding: 0;
+
+    /deep/ p-calendar {    
+        input {
+            padding: $input-padding-y $input-padding-x;
+            width: 100%;
+            border: 0;
+        }
+        
+        .ui-calendar {
+            width: 100%;
+        }
+        .ui-state-default:hover {
+            border: none;
+            margin-bottom: 0;
+        }
+        .entity-field-error {
+            margin-top: 2 * $border-width;
+        }
+        .ui-datepicker {
+            padding: $input-padding-y $input-padding-x;
+            th {
+                font-weight: $font-weight-normal;
+                border-top: $border-width solid $grey-medium;
+                border-bottom: $border-width solid $grey-medium;
+            }
+            td span, 
+            td a {
+                text-align: center;
+            }
+            .ui-datepicker-header {
+                font-weight: $font-weight-light;
+                border: none;
+
+            }
+            .ui-state-default {
+                border: none;
+                border-radius: $border-radius;
+                background: $white;
+            }
+            .ui-state-active {
+                border-color: $main-medium;
+                background: $main-light;
+                color: $white;
+            }
+            .ui-state-highlight {
+                border-color: $main-medium;
+                background: $main-medium;
+                color: $white;
+            }
+            .ui-datepicker-other-month a {
+                color: $grey-medium;
+            }
+        }
+    }
+}

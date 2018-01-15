@@ -1,0 +1,100 @@
+@import '~scss/variables';
+
+:host {
+    padding: $input-padding-y $input-padding-x;
+
+    .order-list {
+        border: $border-width solid $grey-light;
+        padding: .25em;
+    }
+
+    ac-autocomplete /deep/ {
+        .ui-autocomplete-token {
+            display: none;
+        }
+    }
+
+    p-orderList /deep/ {                        
+        .ui-orderlist {
+            display: block;
+
+            &.has-controls {
+                .ui-orderlist-controls {
+                    display: block;
+                    text-align: center;
+                    height: auto;
+                    .ui-button {
+                        display: inline;
+                    }
+                }
+            }
+
+            .ui-orderlist-controls {
+                display: none;                
+            }
+
+            .ui-orderlist-list {
+                height: auto;
+                width: 100%;
+                border: none;
+                
+                .ui-orderlist-item {
+                    width: 99%;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+
+                    padding: $input-padding-y $input-padding-x * 2 $input-padding-y $input-padding-x;
+
+                    border: $border-width solid $grey-medium;
+                    background: $white;
+                    color: $grey-darkest;
+                    border-radius: $border-radius;
+
+                    &.ui-state-highlight {
+                        border-color: $main-medium;
+                        background: $main-medium;
+                        color: $white;
+                    }
+                    
+                    .ui-autocomplete-token-icon {
+                        top: unset;
+                        margin-top: unset;
+                        right: $input-padding-x * 2.5;
+                    }
+                }
+                .ui-orderlist-droppoint {
+                    &.ui-state-highlight {
+                        background: $green-medium;
+                    }
+                }
+            }
+        }
+    }
+
+    fieldset:disabled &,
+    fieldset[disabled] &{
+        p-orderList /deep/ {     
+            @extend %order-list-disabled;
+        }
+        ac-autocomplete {
+            display: none;
+        }
+    }
+    p-orderList /deep/ { 
+        .ui-orderlist.disabled {
+            @extend %order-list-disabled;
+        }
+    }
+}
+
+%order-list-disabled {
+    pointer-events: none;
+
+    .fa-arrows-v:before {
+        display: none;
+    }
+    .ui-autocomplete-token-icon:before {
+        display: none;
+    }
+}
