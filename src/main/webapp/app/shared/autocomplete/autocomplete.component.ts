@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, forwardRef, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -23,7 +23,7 @@ export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 // Sample where array is static and is filtered via properties
 // <ac-autocomplete name="operacion" [propertiesToQuery]="['accion', 'sujeto']"  [(ngModel)]="rol.operaciones"
 // [suggestions]="operaciones" [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
-export class AutocompleteComponent implements ControlValueAccessor, OnInit {
+export class AutocompleteComponent implements ControlValueAccessor, OnInit, AfterViewInit {
 
     @Input()
     private propertiesToQuery: string[];
@@ -42,6 +42,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
     @Output()
     private onClear: EventEmitter<any> = new EventEmitter();
+
+    @Output()
+    private onBlur: EventEmitter<any> = new EventEmitter();
 
     private _selectedSuggestions: any;
 
@@ -73,6 +76,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
     public required = false;
 
     @Input()
+    public disabled = false;
+
+    @Input()
     public createNonFound = false;
 
     private myNewLabel = '';
@@ -101,6 +107,43 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit {
 
     ngOnInit() {
         this.internalItemTemplate = this.itemTemplate;
+    }
+
+    ngAfterViewInit() {
+        this.autoComplete.onInputBlur = this.onInputBlur;
+    }
+
+    // Override of autoComplete.onInputBlur to patch trailing spaces issue (https://github.com/primefaces/primeng/issues/4332)
+    onInputBlur(event) {
+        this.autoComplete.focus = false;
+        this.autoComplete.onModelTouched();
+        this.autoComplete.onBlur.emit(event);
+
+        if (this.autoComplete.forceSelection) {
+            let valid = false;
+            const inputValue = event.target.value.toLowerCase(); // .trim(); 
+
+            if (this.autoComplete.suggestions) {
+                for (let suggestion of this.autoComplete.suggestions) {
+                    const itemValue = this.autoComplete.field ? this.autoComplete.objectUtils.resolveFieldData(suggestion, this.autoComplete.field) : suggestion;
+                    if (itemValue && inputValue === itemValue.toLowerCase()) {
+                        valid = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!valid) {
+                if (this.autoComplete.multiple) {
+                    this.autoComplete.multiInputEL.nativeElement.value = '';
+                } else {
+                    this.autoComplete.value = null;
+                    this.autoComplete.inputEL.nativeElement.value = '';
+                }
+
+                this.autoComplete.onModelChange(this.autoComplete.value);
+            }
+        }
     }
 
     onCompleteMethod($event) {
