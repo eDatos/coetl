@@ -24,12 +24,18 @@
         
         tr {
             td:first-child, th:first-child {
+                position: relative;
                 padding-left: $page-padding;
             }
             td:last-child, th:last-child {
                 padding-right: $page-padding;
             }
             cursor: pointer;
+        }
+
+        .row-selector {
+            position: absolute;
+            left: $page-padding / 3;
         }
         
         .flex-btn-group-container {
