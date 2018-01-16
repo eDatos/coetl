@@ -38,6 +38,11 @@ local.properties
 .factorypath
 /src/main/resources/rebel.xml
 
+######################
+# STS
+######################
+.springBeans
+
 # External tool builders
 .externalToolBuilders/**
 
