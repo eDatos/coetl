@@ -1,8 +1,10 @@
+// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 import {
-    SecretariaLibroSharedLibsModule,
+    ArteApplicationTemplateSharedLibsModule,
     JhiLanguageHelper,
     JhiAlertErrorComponent,
     StickyTableHeaderDirective,
@@ -15,7 +17,7 @@ import {
 
 @NgModule({
     imports: [
-        SecretariaLibroSharedLibsModule
+        ArteApplicationTemplateSharedLibsModule
     ],
     declarations: [
         JhiAlertErrorComponent,
@@ -35,7 +37,7 @@ import {
         },
     ],
     exports: [
-        SecretariaLibroSharedLibsModule,
+        ArteApplicationTemplateSharedLibsModule,
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
         TriInputSwitchComponent,
@@ -45,4 +47,4 @@ import {
         HelpTooltipComponent
     ]
 })
-export class SecretariaLibroSharedCommonModule { }
+export class ArteApplicationTemplateSharedCommonModule { }

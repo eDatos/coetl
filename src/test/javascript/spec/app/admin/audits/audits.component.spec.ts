@@ -1,8 +1,10 @@
+// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
 import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { JhiParseLinks } from 'ng-jhipster';
-import { SecretariaLibroTestModule } from '../../../test.module';
+import { ArteApplicationTemplateTestModule } from '../../../test.module';
 import { PaginationConfig } from '../../../../../../main/webapp/app/blocks/config/uib-pagination.config'
 import { AuditsComponent } from '../../../../../../main/webapp/app/admin/audits/audits.component';
 import { AuditsService } from '../../../../../../main/webapp/app/admin/audits/audits.service';
@@ -47,7 +49,7 @@ describe('Component Tests', () => {
                 data: Observable.of(data)
             }
             TestBed.configureTestingModule({
-                imports: [SecretariaLibroTestModule],
+                imports: [ArteApplicationTemplateTestModule],
                 declarations: [AuditsComponent],
                 providers: [
                     AuditsService,

@@ -1,4 +1,5 @@
-# secretaria_libro
+# Arte Application Template
+
 En este tutorial se explica el proceso a seguir para llevar a cabo el proceso de instalación de la aplicación. Se recomienda llevar a cabo una lectura rápida de todo el tutorial antes de comenzar con el proceso de instalación.
 Además, podrá encontrar otros anexos de utilidad en los que se detallan algunas cuestiones relacionadas con el desarrollo, los diferentes perfiles de compilación,...
 
@@ -7,15 +8,9 @@ Además, podrá encontrar otros anexos de utilidad en los que se detallan alguna
 ## Introducción
 
 ### Descripción de la aplicación
-El libro de Resoluciones y Decretos de Secretaría es la solución corporativa del ECIT para llevar a cabo el manejo de los documentos de tipo resolución y decreto. 
-La aplicación está basada en tecnologías web estándar (HTML5, CSS3, Javascript y Java). 
-La implantación de la solución permite llevar a cabo las siguientes tareas: 
-- Manejar los usuarios y roles con acceso a la aplicación. 
-- Gestionar el ciclo de vida de los documentos de tipo resolución y decreto.
-- Gestionar los firmantes de los documentos.
-- Gestionar los grupos de firmantes. 
-- Gestionar las ausencias planificadas de cada uno de los firmantes.
-Además, la aplicación cuenta con un servicio web de tipo REST que permite <TODO>.
+Arte Application Template es la plantilla base de aplicaciones web de gestión sobre la que Arte Consultores S.L. crea sus proyectos.
+
+La plantilla está basada en el nuevo stack (ver [JHipster](http://www.jhipster.tech)) aportando toda la arquitectura y configuración necesaria sobre la que trabajar en nuevos proyectos. Para mantenerlo lo más simple posible solo implementa el manejo de los usuarios y roles con acceso a la aplicación. 
 
 ### Requerimientos previos
 
@@ -29,18 +24,11 @@ En este apartado se especifican los requisitos necesarios, referidos al entorno,
 #### Dependencias
 La aplicación requiere de determinados servicios para poder estar completamente operativa. Algunos de ellos son necesarios de manera directa y otros de manera indirecta:
 Los servicios necesarios de manera directa (son atacados directamente por la aplicación):
-- Kafka. Se utiliza para interactuar con los servicios de notificación de cambios en portafirmas y en la base de datos de organización. 
-- Servicio de Gestión Documental. Se utiliza para albergar los documentos una vez que han sido firmados. 
 - CAS. Se utiliza para llevar a cabo las labores de autenticación.
-Los servicios necesarios de manera indirecta (son atacados por servicios que, a su vez, requiere la aplicación):
-- Servicio de Notificación de cambios en Base de Datos de Organización (BDO). Se utiliza para manejar la relación de áreas y servicios.
-- Servicio de Notificación de cambios en Portafirmas. Se utiliza para enviar los documentos a firmar por el firmante del área y ser notificado de que el cambio se ha realizado correctamente. 
-- LDAP. Se utiliza para validar las credenciales de los usuarios. 
 
 
 ### Componentes de la instalación
-La aplicación consta de una única aplicación que estará disponible para el uso interno del personal del ECIT.
-La aplicación consta de una interfaz web y de un servicio web REST.
+La plantilla consta de una aplicación con interfaz web y un servicio web REST.
 
 ----------
 
@@ -51,21 +39,21 @@ La aplicación consta de una interfaz web y de un servicio web REST.
 - Configuración de la base de datos. 
     1. La aplicación cuenta con un mecanismo para llevar a cabo la gestión de los cambios de base de datos de manera automatizada (liquidbase).
     2. A priori lo único que es necesario es crear en la aplicación el esquema de base de datos que se va a utilizar. El esquema debe recibir el nombre de "TODO".
-    2. Por otra parte, será necesario que el usuario que use la aplicación tenga permisos para la creación de objetos sobre el esquema anterior.
-    3. De esta forma la aplicación, en el momento de arrancar, llevará a cabo la creación de todos los objetos que sean necesarios sobre la base de datos.
+    3. Por otra parte, será necesario que el usuario que use la aplicación tenga permisos para la creación de objetos sobre el esquema anterior.
+    4. De esta forma la aplicación, en el momento de arrancar, llevará a cabo la creación de todos los objetos que sean necesarios sobre la base de datos.
 
 ### Paso 2. Despliegue en servidor de aplicaciones.
-- Ubicar el archivo *.war compilado con el perfil adecuado en el servidor de aplicaciones. Se pueden obtener más detalles en el [Anexo de perfiles de compilación](http://git.arte-consultores.com/ecit/secretaria-libro/edit/master/README.md#anexo-perfiles-de-compilaci%C3%B3n). 
+- Ubicar el archivo *.war compilado con el perfil adecuado en el servidor de aplicaciones. Se pueden obtener más detalles en el [Anexo de perfiles de compilación](http://git.arte-consultores.com/artesl/arte-application-template/blob/master/README.md#anexo-perfiles-de-compilaci%C3%B3n). 
 - Definir si se desea externalizar la configuración de la aplicación o mantener dentro del propio archivo war.
     1. Si no se desea externalizar la configuración de las propiedades a un directorio DATA se puede omitir este paso.
     2. Si se desea externalizar la configuración de las propiedades a un directorio DATA se tendrán que realizar los siguientes pasos:
-        - Se hará una copia del archivo **secretaria-libro.war/WEB-INF/classes/config/application-env.yml** a un directorio externalizado de su elección.
-        - Se editará el archivo **secretaria-libro.war/WEB-INF/classes/config/data-location.properties** y se especificará la ruta anterior.
-- Se cumplimentarán las propiedades del fichero **application-env.yml**. Se puede consultar el detalle sobre cada una de las propiedades en el [Anexo de descripción de propiedades de configuración](http://git.arte-consultores.com/ecit/secretaria-libro/blob/master/README.md#anexo-descripci%C3%B3n-de-las-propiedades-de-configuraci%C3%B3n).
+        - Se hará una copia del archivo **arte-application-template.war/WEB-INF/classes/config/application-env.yml** a un directorio externalizado de su elección.
+        - Se editará el archivo **arte-application-template.war/WEB-INF/classes/config/data-location.properties** y se especificará la ruta anterior.
+- Se cumplimentarán las propiedades del fichero **application-env.yml**. Se puede consultar el detalle sobre cada una de las propiedades en el [Anexo de descripción de propiedades de configuración](http://git.arte-consultores.com/artesl/arte-applcation-template/blob/master/README.md#anexo-descripci%C3%B3n-de-las-propiedades-de-configuraci%C3%B3n).
 
 
 ### Paso 3. Configuración de logging.
-Pueden modificarse los ficheros relacionados con la configuración de logging en **secretaria-libro.war/WEB-INF/classes/logback.xml**.
+Pueden modificarse los ficheros relacionados con la configuración de logging en **arte-application-template.war/WEB-INF/classes/logback.xml**.
 
 
 ### Paso 4. Arrancar la aplicación.
@@ -75,7 +63,6 @@ Pueden modificarse los ficheros relacionados con la configuración de logging en
 ## Procedimiento de actualización desde versiones anteriores
 
 ### Desde versión 1.0.0 a x.y.z
-
 
 ----------
 
@@ -110,7 +97,7 @@ Pueden modificarse los ficheros relacionados con la configuración de logging en
    - URL a la que se debe acceder para realizar la acción de logout. Sólo debe cumplimentarse en el caso se que su valor sea distinto a `application.cas.endopoint`+ '/logout'.
 - `application.cas.validate`
    - URL a la que se debe acceder para realizar la acción de logout. Sólo debe cumplimentarse en el caso se que su valor sea distinto a `application.cas.endopoint`+ '/logout'.
--  `debug`
+- `debug`
    - Permite aumentar el nivel de log a DEBUG.    
 - `application.ldap.url`
    - URL del servidor LDAP. Ejemplo: ldap://ldap.miorganizacion.com
@@ -140,28 +127,32 @@ Para proceder a instalar la aplicación en un servidor de aplicaciones, debemos 
 
 Para compilar el proyecto con el perfil de producción es necesario ejecutar lo siguiente:
 
-    mvn clean install -Penv
+```bash
+mvn clean install -Penv
+```
 
 Por otro lado, para compilar el proyecto con el perfil de desarrollo es necesario ejecutar:
 
-    mvn clean install -Pdev
+```bash
+mvn clean install -Pdev
+```
 
 Por defecto, si no se especifica un perfil, la aplicación se compila con el perfil de desarrollo `dev`.
 
-Hay que tener presente que si la aplicación se compila con el perfil de desarrollo, para terminar de construir la misma y poder ejecutarla es necesario seguir los pasos descritos en el [Anexo de desarrollo](http://git.arte-consultores.com/ecit/secretaria-libro#anexo-desarrollo).
+Hay que tener presente que si la aplicación se compila con el perfil de desarrollo, para terminar de construir la misma y poder ejecutarla es necesario seguir los pasos descritos en el [Anexo de desarrollo](http://git.arte-consultores.com/artesl/arte-application-template/blob/README.md#anexo-desarrollo).
 
 ## Anexo. Desarrollo
 
 A continuación se describen los pasos a seguir para configurar el entorno de desarrollo sobre el cual podamos arrancar y modificar la aplicación.
 
-En primer lugar, tal y como se describe en el [Anexo Perfiles de compilación](http://git.arte-consultores.com/ecit/secretaria-libro/blob/master/README.md#anexo-perfiles-de-compilaci%C3%B3n), debemos compilar la aplicación con Maven.  Para trabajar en un entorno de desarrollo, basta que la compilemos con el perfil `dev`.
+En primer lugar, tal y como se describe en el [Anexo Perfiles de compilación](http://git.arte-consultores.com/artesl/arte-application-template/blob/master/README.md#anexo-perfiles-de-compilaci%C3%B3n), debemos compilar la aplicación con Maven.  Para trabajar en un entorno de desarrollo, basta que la compilemos con el perfil `dev`.
 
 A continuación, para terminar de construir la aplicación, es necesario instalar las siguientes dependencias:
 
 1. [Node.js][]: Lo usamos para levantar un servidor de desarrollo y construir el proyecto.
-   
+
 2. [Yarn][]: Lo usamos para manejar las dependencias de Node.
-   
+
 Estas herramientas nos permitirán trabajar de forma sencilla con los ficheros y las dependencias de la capa cliente de la aplicación (JavaScript). 
 
 El siguiente paso es instalar las dependencias que se necesitan para trabajar con JavaScript en el proyecto. Para ello debe ejecutarse el comando:
@@ -172,12 +163,12 @@ Generalmente este comando sólo es necesario ejecutarlo cuando modifiquemos las 
 
 Realizados los pasos anteriores, podemos proceder a arrancar la aplicación en "modo desarrollo".  Para ello necesitamos:
 
- 1. Arrancar la parte servidora de la aplicación. Esto lo podemos hacer ejecutando la clase [SecretariaLibroApp](src/main/java/es/tenerife/secretaria/libro/SecretariaLibroApp.java). Al ejecutar esta clase se estamos levantando un servidor Tomcat embebido. Este Tomcat embebido nos permite desarrollar de forma más rápida y eficiente. 
+ 1. Arrancar la parte servidora de la aplicación. Esto lo podemos hacer ejecutando la clase [ArteApplicationTemplateApp](src/main/java/com/arte/application/template/ArteApplicationTemplateApp.java). Al ejecutar esta clase se estamos levantando un servidor Tomcat embebido. Este Tomcat embebido nos permite desarrollar de forma más rápida y eficiente. 
  2. Ejecutar el siguiente comando de `yarn`:
 
     yarn start
 
-Este comando arranca la parte cliente de la aplicación. Al ejecutar `yarn start` se abrirá una ventana en el navegador con la aplicación. Por defecto, la aplicación estará disponible en la URL http://localhost:9000.
+Este comando arranca la parte cliente de la aplicación. Al ejecutar `yarn start` se abrirá una ventana en el navegador con la aplicación. Por defecto, la aplicación estará disponible en la URL [http://localhost:9000](http://localhost:9000).
 
 A continuación, podemos comenzar a modificar los ficheros que deseemos en la aplicación. 
 Si modificamos algún fichero de la parte servidora de la aplicación (ficheros Java y ficheros de configuración), debemos reiniciar el servidor Tomcat embebido que hemos levantado. 
@@ -188,11 +179,15 @@ En la aplicación se han incluido una serie de tests que permiten probar todas l
 
 Los tests de la parte servidora son tests de [JUnit][] y están ubicados en [src/test/java/](src/test/java/). Pueden ejecutarse mendiante [Maven][]:
 
-    mvn clean test
+```bash
+mvn clean test
+```
 
 Los tests de la parte cliente son tests unitarios que se ejecutan con [Karma][] y están escritos con  [Jasmine][]. Estos tests se ubican en [src/test/javascript/](src/test/javascript/) y se pueden ejecutar con:
 
-    yarn test
+```bash
+yarn test
+```
 
 ### Más información
 La base de la aplicación ha sido generada usando JHipster 4.6.2. Puede consultarse más información en https://jhipster.github.io/documentation-archive/v4.6.2.

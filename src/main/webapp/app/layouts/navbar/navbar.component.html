@@ -1,8 +1,9 @@
+<!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
 <nav class="navbar-inverse fixed-top navbar-toggleable-lg jh-navbar d-flex justify-content-between">
     <div class="navbar-collapse">
         <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
-            <img class="logo-img" src="~images/logo-cabildo.png" alt="Logo" />
-            <span jhiTranslate="global.title" class="navbar-title">Secretaria_libro</span>
+            <img class="logo-img" src="~images/logo-arte.png" alt="Logo" />
+            <span jhiTranslate="global.title" class="navbar-title">Arte_Application_Template</span>
             <span class="navbar-version">{{version}}</span>
         </a>
     </div>
@@ -39,7 +40,7 @@
                         <li *acHasAnyOperacion="['LEER:OPERACION']">
                             <a class="dropdown-item" routerLink="operacion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                                 <i class="fa fa-fw fa-key" aria-hidden="true"></i>
-                                <span jhiTranslate="secretariaLibroApp.operacion.menu.title">Operacion</span>
+                                <span jhiTranslate="arteApplicationTemplateApp.operacion.menu.title">Operacion</span>
                             </a>
                         </li>
                         <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->

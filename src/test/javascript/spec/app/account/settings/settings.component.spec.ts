@@ -1,7 +1,9 @@
+// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { JhiLanguageHelper } from '../../../../../../main/webapp/app/shared';
-import { SecretariaLibroTestModule } from '../../../test.module';
+import { ArteApplicationTemplateTestModule } from '../../../test.module';
 import { Principal, UserService } from '../../../../../../main/webapp/app/shared';
 import { SettingsComponent } from '../../../../../../main/webapp/app/account/settings/settings.component';
 import { MockPrincipal } from '../../../helpers/mock-principal.service';
@@ -20,7 +22,7 @@ describe('Component Tests', () => {
 
         beforeEach(async(() => {
             TestBed.configureTestingModule({
-                imports: [SecretariaLibroTestModule],
+                imports: [ArteApplicationTemplateTestModule],
                 declarations: [SettingsComponent],
                 providers: [
                     {

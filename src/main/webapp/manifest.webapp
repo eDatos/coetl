@@ -1,24 +1,25 @@
 {
-  "name": "SecretariaLibro",
-  "short_name": "SecretariaLibro",
+  "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
+  "name": "ArteApplicationTemplate",
+  "short_name": "ArteApplicationTemplate",
   "icons": [
       {
-          "src": "./content/images/logo-cabildo.png",
+          "src": "./content/images/logo-arte.png",
           "sizes": "192x192",
           "type": "image/png"
       },
       {
-          "src": "./content/images/logo-cabildo.png",
+          "src": "./content/images/logo-arte.png",
           "sizes": "256x256",
           "type": "image/png"
       },
       {
-          "src": "./content/images/logo-cabildo.png",
+          "src": "./content/images/logo-arte.png",
           "sizes": "384x384",
           "type": "image/png"
       },
       {
-          "src": "./content/images/logo-cabildo.png",
+          "src": "./content/images/logo-arte.png",
           "sizes": "512x512",
           "type": "image/png"
       }

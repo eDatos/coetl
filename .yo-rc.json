@@ -1,13 +1,14 @@
 {
+  "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
   "generator-jhipster": {
     "promptValues": {
-      "packageName": "es.tenerife.secretaria.libro",
+      "packageName": "com.arte.application.template",
       "nativeLanguage": "en"
     },
     "jhipsterVersion": "4.6.2",
-    "baseName": "secretaria_libro",
-    "packageName": "es.tenerife.secretaria.libro",
-    "packageFolder": "es/tenerife/secretaria/libro",
+    "baseName": "arte_application_template",
+    "packageName": "com.arte.application.template",
+    "packageFolder": "com/arte/application/template",
     "serverPort": "8080",
     "authenticationType": "jwt",
     "hibernateCache": "ehcache",

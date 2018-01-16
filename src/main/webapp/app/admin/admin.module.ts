@@ -1,7 +1,9 @@
+// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { SecretariaLibroSharedModule } from '../shared';
+import { ArteApplicationTemplateSharedModule } from '../shared';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 import {
@@ -36,7 +38,7 @@ import { UserSearchComponent } from './user-management/user-search/index';
 
 @NgModule({
     imports: [
-        SecretariaLibroSharedModule,
+        ArteApplicationTemplateSharedModule,
         RouterModule.forRoot(adminState, { useHash: true }),
         /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
     ],
@@ -81,4 +83,4 @@ import { UserSearchComponent } from './user-management/user-search/index';
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class SecretariaLibroAdminModule { }
+export class ArteApplicationTemplateAdminModule { }

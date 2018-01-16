@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
+
 <configuration scan="true">
   <include resource="org/springframework/boot/logging/logback/base.xml" />
 
-  <logger name="es.tenerife.secretaria.libro" level="INFO" />
+  <logger name="com.arte.application.template" level="INFO" />
 
   <logger name="io.github.jhipster" level="WARN" />
 

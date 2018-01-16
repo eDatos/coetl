@@ -1,3 +1,4 @@
+<!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
 <form name="editForm" role="form" novalidate #editForm="ngForm" *ngIf="operacion">
     <h2 id="myOperacionLabel">
         <div>
@@ -15,7 +16,7 @@
     <fieldset disabled>
         <div class="entity-fields">
             <div class="form-group">
-                <label class="form-control-label" jhiTranslate="secretariaLibroApp.operacion.accion" for="field_accion">Accion</label>
+                <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.operacion.accion" for="field_accion">Accion</label>
                 <input type="text" class="form-control" name="accion" id="field_accion" [(ngModel)]="operacion.accion" required />
                 <div [hidden]="!(editForm.controls.accion?.dirty && editForm.controls.accion?.invalid)">
                     <small class="form-text text-danger" [hidden]="!editForm.controls.accion?.errors?.required" jhiTranslate="entity.validation.required">
@@ -24,7 +25,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="form-control-label" jhiTranslate="secretariaLibroApp.operacion.sujeto" for="field_sujeto">Sujeto</label>
+                <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.operacion.sujeto" for="field_sujeto">Sujeto</label>
                 <input type="text" class="form-control" name="sujeto" id="field_sujeto" [(ngModel)]="operacion.sujeto" required />
                 <div [hidden]="!(editForm.controls.sujeto?.dirty && editForm.controls.sujeto?.invalid)">
                     <small class="form-text text-danger" [hidden]="!editForm.controls.sujeto?.errors?.required" jhiTranslate="entity.validation.required">
@@ -33,7 +34,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label jhiTranslate="secretariaLibroApp.operacion.roles.roles">Roles</label>
+                <label jhiTranslate="arteApplicationTemplateApp.operacion.roles.roles">Roles</label>
                 <ac-autocomplete name="rol" [(ngModel)]="roles" [suggestions]="roles" [itemTemplate]="rolItemTemplate"></ac-autocomplete>
             </div>
         </div>

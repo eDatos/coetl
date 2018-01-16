@@ -1,3 +1,4 @@
+<!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
 <!doctype html>
 <html class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="es">
 
@@ -5,7 +6,7 @@
     <base href="/" th:href="@{/}" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Secretaría</title>
+    <title>ArteApplicationTemplate</title>
     <meta name="description" content="" />
     <meta name="google" value="notranslate" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,13 +16,13 @@
 </head>
 
 <body>
-
+    <!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
     <script th:inline="javascript">
         /*<![CDATA[*/
         window.CONFIGURATION = {};
         window.CONFIGURATION.cas = {};
-        window.CONFIGURATION.cas.login = /*[[${cas.getEndpoint()}]]*/ 'https://secretaria.arte-consultores.com/cas/login';
-        window.CONFIGURATION.cas.logout = /*[[${cas.getLogout()}]]*/ 'https://secretaria.arte-consultores.com/cas/logout';
+        window.CONFIGURATION.cas.login = /*[[${cas.getEndpoint()}]]*/ 'https://demo-cas.arte-consultores.com/login';
+        window.CONFIGURATION.cas.logout = /*[[${cas.getLogout()}]]*/ 'https://demo-cas.arte-consultores.com/logout';
         window.CONFIGURATION.cas.applicationHome = /*[[${cas.getApplicationHome()}]]*/ 'http://localhost:9000/login/cas';
 
        	/*]]>*/
