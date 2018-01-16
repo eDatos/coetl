@@ -41,7 +41,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
 		executor.setCorePoolSize(jHipsterProperties.getAsync().getCorePoolSize());
 		executor.setMaxPoolSize(jHipsterProperties.getAsync().getMaxPoolSize());
 		executor.setQueueCapacity(jHipsterProperties.getAsync().getQueueCapacity());
-		executor.setThreadNamePrefix("arte-application-theme-Executor-");
+		executor.setThreadNamePrefix("arte-application-template-Executor-");
 		return new ExceptionHandlingAsyncTaskExecutor(executor);
 	}
 
