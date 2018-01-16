@@ -19,8 +19,8 @@ export class JhiAlertErrorComponent implements OnDestroy {
 
     alerts: any[];
     cleanHttpErrorListener: Subscription;
-	
-	// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+
+    // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
     constructor(public alertService: JhiAlertService, private eventManager: JhiEventManager, private translateService: TranslateService) {
         this.alerts = [];
 
