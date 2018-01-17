@@ -85,7 +85,7 @@ public class RolServiceImplTest {
     public void findByUsuarioDevuelveRolesDelUsuarioHabiendoOtrosUsuarios() {
         Usuario usuario2 = mockUsuario();
         usuario2.setId(2L);
-        usuario2.setLogin("otroUsuario");
+        usuario2.setLogin("otraUsuaria");
         usuarioRepository.saveAndFlush(usuario2);
         usuario2.setRoles(mockRoles("usuario"));
         usuarioRepository.saveAndFlush(usuario2);
@@ -104,7 +104,7 @@ public class RolServiceImplTest {
     public void findByUsuarioDevuelveRolesDelUsuarioHabiendoOtrosUsuariosConMasRoles() {
         Usuario usuario2 = mockUsuario();
         usuario2.setId(2L);
-        usuario2.setLogin("otroUsuario");
+        usuario2.setLogin("otraUsuaria");
         usuarioRepository.saveAndFlush(usuario2);
         usuario2.setRoles(mockRoles("usuario", "gestor", "administrador", "secretario"));
         usuarioRepository.saveAndFlush(usuario2);
