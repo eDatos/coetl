@@ -20,9 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestUtil {
 
     /** MediaType for JSON UTF8 */
-    public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
-            MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+    public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
     /**
      * Convert an object to JSON byte array.
@@ -32,8 +30,7 @@ public class TestUtil {
      * @return the JSON byte array
      * @throws IOException
      */
-    public static byte[] convertObjectToJsonBytes(Object object)
-            throws IOException {
+    public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
@@ -78,8 +75,7 @@ public class TestUtil {
                 }
                 return true;
             } catch (DateTimeParseException e) {
-                mismatchDescription.appendText("was ").appendValue(item)
-                    .appendText(", which could not be parsed as a ZonedDateTime");
+                mismatchDescription.appendText("was ").appendValue(item).appendText(", which could not be parsed as a ZonedDateTime");
                 return false;
             }
 
@@ -93,6 +89,7 @@ public class TestUtil {
 
     /**
      * Creates a matcher that matches when the examined string reprensents the same instant as the reference datetime
+     * 
      * @param date the reference datetime against which the examined string is checked
      */
     public static ZonedDateTimeMatcher sameInstant(ZonedDateTime date) {
@@ -102,7 +99,7 @@ public class TestUtil {
     /**
      * Verifies the equals/hashcode contract on the domain object.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static void equalsVerifier(Class clazz) throws Exception {
         Object domainObject1 = clazz.getConstructor().newInstance();
         assertThat(domainObject1.toString()).isNotNull();

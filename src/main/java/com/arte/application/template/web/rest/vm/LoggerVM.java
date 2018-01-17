@@ -4,48 +4,48 @@ import ch.qos.logback.classic.Logger;
 
 public class LoggerVM {
 
-	private String name;
+    private String name;
 
-	private String level;
-	
-	private Boolean inherited;
+    private String level;
 
-	public LoggerVM(Logger logger) {
-		this.name = logger.getName();
-		this.level = logger.getEffectiveLevel().toString();
-		this.setInherited(logger.getLevel() == null);
-	}
+    private Boolean inherited;
 
-	public LoggerVM() {
-		// Empty public constructor used by Jackson.
-	}
+    public LoggerVM(Logger logger) {
+        this.name = logger.getName();
+        this.level = logger.getEffectiveLevel().toString();
+        this.setInherited(logger.getLevel() == null);
+    }
 
-	public String getName() {
-		return name;
-	}
+    public LoggerVM() {
+        // Empty public constructor used by Jackson.
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getLevel() {
-		return level;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setLevel(String level) {
-		this.level = level;
-	}
-	
-	public Boolean getInherited() {
-		return inherited;
-	}
-	
-	public void setInherited(Boolean inherited) {
-		this.inherited = inherited;
-	}
+    public String getLevel() {
+        return level;
+    }
 
-	@Override
-	public String toString() {
-		return "LoggerVM{" + "name='" + name + '\'' + ", level='" + level + '\'' + '}';
-	}
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public Boolean getInherited() {
+        return inherited;
+    }
+
+    public void setInherited(Boolean inherited) {
+        this.inherited = inherited;
+    }
+
+    @Override
+    public String toString() {
+        return "LoggerVM{" + "name='" + name + '\'' + ", level='" + level + '\'' + '}';
+    }
 }

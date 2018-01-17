@@ -8,16 +8,16 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 public abstract class AbstractValidator<E> {
 
-	@Autowired
-	private PlatformTransactionManager platformTransactionManager;
+    @Autowired
+    private PlatformTransactionManager platformTransactionManager;
 
-	public abstract void validate(E entity);
+    public abstract void validate(E entity);
 
-	protected E getOriginalEntity(TransactionCallback<E> callback) {
-		TransactionTemplate template = new TransactionTemplate(platformTransactionManager);
-		template.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
-		template.setReadOnly(true);
-		return template.execute(callback);
-	}
+    protected E getOriginalEntity(TransactionCallback<E> callback) {
+        TransactionTemplate template = new TransactionTemplate(platformTransactionManager);
+        template.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        template.setReadOnly(true);
+        return template.execute(callback);
+    }
 
 }

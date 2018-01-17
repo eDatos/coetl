@@ -19,37 +19,35 @@ import io.github.jhipster.config.JHipsterProperties;
 
 public class JWTAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-	public static final String TOKEN = "token";
-	public static final String JHI_AUTHENTICATIONTOKEN = "jhi-authenticationtoken";
+    public static final String TOKEN = "token";
+    public static final String JHI_AUTHENTICATIONTOKEN = "jhi-authenticationtoken";
 
-	protected final Log log = LogFactory.getLog(this.getClass());
+    protected final Log log = LogFactory.getLog(this.getClass());
 
-	private long tokenValidityInSeconds;
-	private TokenProvider tokenProvider;
+    private long tokenValidityInSeconds;
+    private TokenProvider tokenProvider;
 
-	public JWTAuthenticationSuccessHandler(TokenProvider tokenProvider, JHipsterProperties jHipsterProperties) {
-		this.tokenProvider = tokenProvider;
-		this.tokenValidityInSeconds = jHipsterProperties.getSecurity().getAuthentication().getJwt()
-				.getTokenValidityInSeconds();
-	}
+    public JWTAuthenticationSuccessHandler(TokenProvider tokenProvider, JHipsterProperties jHipsterProperties) {
+        this.tokenProvider = tokenProvider;
+        this.tokenValidityInSeconds = jHipsterProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSeconds();
+    }
 
-	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws IOException, ServletException {
-		boolean rememberMe = false;
-		String jwt = tokenProvider.createToken(authentication, rememberMe);
-		Cookie cookie = new Cookie(JHI_AUTHENTICATIONTOKEN, jwt);
-		cookie.setSecure(true);
-		cookie.setMaxAge(Ints.saturatedCast(tokenValidityInSeconds));
-		cookie.setHttpOnly(false);
-		cookie.setPath("/");
-		response.addCookie(cookie);
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        boolean rememberMe = false;
+        String jwt = tokenProvider.createToken(authentication, rememberMe);
+        Cookie cookie = new Cookie(JHI_AUTHENTICATIONTOKEN, jwt);
+        cookie.setSecure(true);
+        cookie.setMaxAge(Ints.saturatedCast(tokenValidityInSeconds));
+        cookie.setHttpOnly(false);
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
-		// For evict JSESSIONID, invalidate the session of CASFilter
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		handle(request, response, authentication);
-	}
+        // For evict JSESSIONID, invalidate the session of CASFilter
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        handle(request, response, authentication);
+    }
 }

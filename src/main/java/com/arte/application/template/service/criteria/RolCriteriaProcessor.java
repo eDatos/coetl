@@ -6,20 +6,20 @@ import com.arte.libs.grammar.orm.jpa.criteria.OrderProcessorBuilder;
 
 public class RolCriteriaProcessor extends AbstractCriteriaProcessor {
 
-	private static final String ENTITY_FIELD_CODIGO = "codigo";
-	private static final String ENTITY_FIELD_NOMBRE = "nombre";
+    private static final String ENTITY_FIELD_CODIGO = "codigo";
+    private static final String ENTITY_FIELD_NOMBRE = "nombre";
 
-	public RolCriteriaProcessor() {
-		super(Rol.class);
-	}
+    public RolCriteriaProcessor() {
+        super(Rol.class);
+    }
 
-	public enum QueryProperty {
-		CODIGO, NOMBRE
-	}
+    public enum QueryProperty {
+        CODIGO, NOMBRE
+    }
 
-	@Override
-	public void registerProcessors() {
-		//@formatter:off
+    @Override
+    public void registerProcessors() {
+        //@formatter:off
 		registerOrderProcessor(
 	            OrderProcessorBuilder.orderProcessor()
 	                .withQueryProperty(QueryProperty.CODIGO)
@@ -32,6 +32,6 @@ public class RolCriteriaProcessor extends AbstractCriteriaProcessor {
     			.withEntityProperty(ENTITY_FIELD_NOMBRE)
     			.build());
         //@formatter:on
-	}
+    }
 
 }

@@ -58,157 +58,152 @@ import io.github.jhipster.security.Http401UnauthorizedEntryPoint;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private final UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-	private final TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
 
-	private final CorsFilter corsFilter;
+    private final CorsFilter corsFilter;
 
-	private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-	private JHipsterProperties jHipsterProperties;
+    private JHipsterProperties jHipsterProperties;
 
-	private ApplicationProperties applicationProperties;
+    private ApplicationProperties applicationProperties;
 
-	public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder,
-			UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter,
-			JHipsterProperties jHipsterProperties, ApplicationProperties applicationProperties) {
+    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter,
+            JHipsterProperties jHipsterProperties, ApplicationProperties applicationProperties) {
 
-		this.authenticationManagerBuilder = authenticationManagerBuilder;
-		this.userDetailsService = userDetailsService;
-		this.tokenProvider = tokenProvider;
-		this.corsFilter = corsFilter;
-		this.jHipsterProperties = jHipsterProperties;
-		this.applicationProperties = applicationProperties;
-	}
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.userDetailsService = userDetailsService;
+        this.tokenProvider = tokenProvider;
+        this.corsFilter = corsFilter;
+        this.jHipsterProperties = jHipsterProperties;
+        this.applicationProperties = applicationProperties;
+    }
 
-	@Configuration
-	@EnableGlobalMethodSecurity(prePostEnabled = true)
-	static class MethodSecurityConfiguration extends GlobalMethodSecurityConfiguration {
-		@Autowired
-		private PermissionEvaluator permissionEvaluator;
+    @Configuration
+    @EnableGlobalMethodSecurity(prePostEnabled = true)
+    static class MethodSecurityConfiguration extends GlobalMethodSecurityConfiguration {
 
-		@Override
-		protected MethodSecurityExpressionHandler createExpressionHandler() {
-			DefaultMethodSecurityExpressionHandler handler = new DefaultMethodSecurityExpressionHandler();
-			handler.setPermissionEvaluator(permissionEvaluator);
-			return handler;
-		}
-	}
+        @Autowired
+        private PermissionEvaluator permissionEvaluator;
 
-	@PostConstruct
-	public void init() {
-		try {
-			authenticationManagerBuilder.authenticationProvider(casAuthenticationProvider());
-		} catch (Exception e) {
-			throw new BeanInitializationException("Configuración de seguridad fallida", e);
-		}
-	}
+        @Override
+        protected MethodSecurityExpressionHandler createExpressionHandler() {
+            DefaultMethodSecurityExpressionHandler handler = new DefaultMethodSecurityExpressionHandler();
+            handler.setPermissionEvaluator(permissionEvaluator);
+            return handler;
+        }
+    }
 
-	// ******************* CAS **********
+    @PostConstruct
+    public void init() {
+        try {
+            authenticationManagerBuilder.authenticationProvider(casAuthenticationProvider());
+        } catch (Exception e) {
+            throw new BeanInitializationException("Configuración de seguridad fallida", e);
+        }
+    }
 
-	@Bean
-	public ServiceProperties serviceProperties() {
-		ServiceProperties serviceProperties = new ServiceProperties();
-		serviceProperties.setService(
-				StringUtils.removeEnd(applicationProperties.getCas().getApplicationHome(), "/") + "/login/cas");
-		serviceProperties.setSendRenew(false);
-		return serviceProperties;
-	}
+    // ******************* CAS **********
 
-	// @Bean
-	public CasEhCacheBasedTicketCache statelessTicketCache() {
-		CasEhCacheBasedTicketCache statelessTicketCache = new CasEhCacheBasedTicketCache();
-		CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
-				.withCache("casTickets", CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class,
-						CasAuthenticationToken.class, ResourcePoolsBuilder.heap(10)))
-				.build();
-		cacheManager.init();
+    @Bean
+    public ServiceProperties serviceProperties() {
+        ServiceProperties serviceProperties = new ServiceProperties();
+        serviceProperties.setService(StringUtils.removeEnd(applicationProperties.getCas().getApplicationHome(), "/") + "/login/cas");
+        serviceProperties.setSendRenew(false);
+        return serviceProperties;
+    }
 
-		Cache<String, CasAuthenticationToken> cache = cacheManager.getCache("casTickets", String.class,
-				CasAuthenticationToken.class);
-		statelessTicketCache.setCache((Ehcache<String, CasAuthenticationToken>) cache);
+    // @Bean
+    public CasEhCacheBasedTicketCache statelessTicketCache() {
+        CasEhCacheBasedTicketCache statelessTicketCache = new CasEhCacheBasedTicketCache();
+        CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
+                .withCache("casTickets", CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, CasAuthenticationToken.class, ResourcePoolsBuilder.heap(10))).build();
+        cacheManager.init();
 
-		return statelessTicketCache;
-	}
+        Cache<String, CasAuthenticationToken> cache = cacheManager.getCache("casTickets", String.class, CasAuthenticationToken.class);
+        statelessTicketCache.setCache((Ehcache<String, CasAuthenticationToken>) cache);
 
-	// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-	@Bean
-	public CasAuthenticationProvider casAuthenticationProvider() {
-		CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
-		casAuthenticationProvider.setAuthenticationUserDetailsService(authenticationUserDetailsService());
-		casAuthenticationProvider.setServiceProperties(serviceProperties());
-		casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
-		casAuthenticationProvider.setKey("ARTE_APPLICATION_TEMPLATE_CAS");
-		return casAuthenticationProvider;
-	}
+        return statelessTicketCache;
+    }
 
-	@Bean
-	public AuthenticationUserDetailsService<CasAssertionAuthenticationToken> authenticationUserDetailsService() {
-		return new UserDetailsByNameServiceWrapper<>(userDetailsService);
-	}
+    // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+    @Bean
+    public CasAuthenticationProvider casAuthenticationProvider() {
+        CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
+        casAuthenticationProvider.setAuthenticationUserDetailsService(authenticationUserDetailsService());
+        casAuthenticationProvider.setServiceProperties(serviceProperties());
+        casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
+        casAuthenticationProvider.setKey("ARTE_APPLICATION_TEMPLATE_CAS");
+        return casAuthenticationProvider;
+    }
 
-	@Bean
-	public Cas20ServiceTicketValidator cas20ServiceTicketValidator() {
-		return new Cas20ServiceTicketValidator(applicationProperties.getCas().getValidate());
-	}
+    @Bean
+    public AuthenticationUserDetailsService<CasAssertionAuthenticationToken> authenticationUserDetailsService() {
+        return new UserDetailsByNameServiceWrapper<>(userDetailsService);
+    }
 
-	@Bean
-	public AuthenticationSuccessHandler authenticationSuccessHandler() {
-		return new JWTAuthenticationSuccessHandler(tokenProvider, jHipsterProperties);
-	}
+    @Bean
+    public Cas20ServiceTicketValidator cas20ServiceTicketValidator() {
+        return new Cas20ServiceTicketValidator(applicationProperties.getCas().getValidate());
+    }
 
-	@Bean
-	public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
-		CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
-		casAuthenticationFilter.setAuthenticationManager(authenticationManager());
-		casAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
-		return casAuthenticationFilter;
-	}
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new JWTAuthenticationSuccessHandler(tokenProvider, jHipsterProperties);
+    }
 
-	@Bean
-	public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
-		CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CasAuthenticationEntryPoint();
-		casAuthenticationEntryPoint.setLoginUrl(applicationProperties.getCas().getLogin());
-		casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
-		return casAuthenticationEntryPoint;
-	}
+    @Bean
+    public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
+        CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
+        casAuthenticationFilter.setAuthenticationManager(authenticationManager());
+        casAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
+        return casAuthenticationFilter;
+    }
 
-	public SingleSignOutFilter singleSignOutFilter() {
-		SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
-		singleSignOutFilter.setCasServerUrlPrefix(applicationProperties.getCas().getEndpoint());
-		return singleSignOutFilter;
-	}
+    @Bean
+    public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
+        CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CasAuthenticationEntryPoint();
+        casAuthenticationEntryPoint.setLoginUrl(applicationProperties.getCas().getLogin());
+        casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
+        return casAuthenticationEntryPoint;
+    }
 
-	@Bean
-	public SecurityContextLogoutHandler casLogoutHandler() {
-		SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-		logoutHandler.setClearAuthentication(true);
-		logoutHandler.setInvalidateHttpSession(true);
-		return logoutHandler;
-	}
+    public SingleSignOutFilter singleSignOutFilter() {
+        SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
+        singleSignOutFilter.setCasServerUrlPrefix(applicationProperties.getCas().getEndpoint());
+        return singleSignOutFilter;
+    }
 
-	@Bean
-	public LogoutFilter requestCasGlobalLogoutFilter() {
-		LogoutFilter logoutFilter = new LogoutFilter(
-				StringUtils.removeEnd(applicationProperties.getCas().getLogout(), "/"), casLogoutHandler());
-		logoutFilter.setLogoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
-		return logoutFilter;
-	}
+    @Bean
+    public SecurityContextLogoutHandler casLogoutHandler() {
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.setClearAuthentication(true);
+        logoutHandler.setInvalidateHttpSession(true);
+        return logoutHandler;
+    }
 
-	@Bean
-	public Http401UnauthorizedEntryPoint http401UnauthorizedEntryPoint() {
-		return new Http401UnauthorizedEntryPoint();
-	}
+    @Bean
+    public LogoutFilter requestCasGlobalLogoutFilter() {
+        LogoutFilter logoutFilter = new LogoutFilter(StringUtils.removeEnd(applicationProperties.getCas().getLogout(), "/"), casLogoutHandler());
+        logoutFilter.setLogoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
+        return logoutFilter;
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public Http401UnauthorizedEntryPoint http401UnauthorizedEntryPoint() {
+        return new Http401UnauthorizedEntryPoint();
+    }
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		//@formatter:off
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        //@formatter:off
         web.ignoring()
             .antMatchers(HttpMethod.OPTIONS, "/**")
             .antMatchers("/app/**/*.{js,html}")
@@ -218,12 +213,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/swagger-ui/index.html")
             .antMatchers("/test/**");
         //@formatter:on
-	}
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		JWTFilter customFilter = new JWTFilter(tokenProvider);
-		//@formatter:off
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        JWTFilter customFilter = new JWTFilter(tokenProvider);
+        //@formatter:off
         http
         	.addFilter(casAuthenticationFilter())
             .addFilterBefore(corsFilter, CasAuthenticationFilter.class)
@@ -255,11 +250,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/swagger-ui/index.html").access("hasAuthority('LEER_API')")
             .antMatchers("/**").authenticated();
         //@formatter:on
-	}
+    }
 
-	@Bean
-	public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
-		return new SecurityEvaluationContextExtension();
-	}
+    @Bean
+    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
+        return new SecurityEvaluationContextExtension();
+    }
 
 }

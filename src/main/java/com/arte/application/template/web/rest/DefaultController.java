@@ -18,22 +18,21 @@ import com.arte.application.template.config.ApplicationProperties;
 @Controller
 public class DefaultController {
 
-	@Autowired
-	private ApplicationProperties applicationProperties;
+    @Autowired
+    private ApplicationProperties applicationProperties;
 
-	private final Logger log = LoggerFactory.getLogger(DefaultController.class);
+    private final Logger log = LoggerFactory.getLogger(DefaultController.class);
 
-	@RequestMapping(value = { "", "/index.html", "/**/{path:[^\\.]*}" })
-	@SuppressWarnings("unchecked")
-	public ModelAndView index(HttpServletRequest request) {
-		log.debug("DefaultController: Contextpath" + request.getContextPath() + "  ServletPath = "
-				+ request.getServletPath());
-		Map<String, Object> model = new HashMap<>();
-		model.put("cas", applicationProperties.getCas());
-		Map<String, Object> flashMap = (Map<String, Object>) RequestContextUtils.getInputFlashMap(request);
-		if (flashMap != null) {
-			model.putAll(flashMap);
-		}
-		return new ModelAndView("index", model);
-	}
+    @RequestMapping(value = {"", "/index.html", "/**/{path:[^\\.]*}"})
+    @SuppressWarnings("unchecked")
+    public ModelAndView index(HttpServletRequest request) {
+        log.debug("DefaultController: Contextpath" + request.getContextPath() + "  ServletPath = " + request.getServletPath());
+        Map<String, Object> model = new HashMap<>();
+        model.put("cas", applicationProperties.getCas());
+        Map<String, Object> flashMap = (Map<String, Object>) RequestContextUtils.getInputFlashMap(request);
+        if (flashMap != null) {
+            model.putAll(flashMap);
+        }
+        return new ModelAndView("index", model);
+    }
 }

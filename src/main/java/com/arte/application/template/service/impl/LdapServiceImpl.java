@@ -15,15 +15,15 @@ import com.arte.application.template.service.LdapService;
 @Transactional
 public class LdapServiceImpl implements LdapService {
 
-	private static final String WHERE_FILTER_UID = "uid";
+    private static final String WHERE_FILTER_UID = "uid";
 
-	@Autowired
-	private UsuarioLdapRepository usuarioLdapRepository;
+    @Autowired
+    private UsuarioLdapRepository usuarioLdapRepository;
 
-	@Override
-	public UsuarioLdapEntry buscarUsuarioLdap(String nombreUsuario) {
-		LdapQuery query = LdapQueryBuilder.query().where(WHERE_FILTER_UID).is(nombreUsuario);
-		return usuarioLdapRepository.findOne(query);
-	}
+    @Override
+    public UsuarioLdapEntry buscarUsuarioLdap(String nombreUsuario) {
+        LdapQuery query = LdapQueryBuilder.query().where(WHERE_FILTER_UID).is(nombreUsuario);
+        return usuarioLdapRepository.findOne(query);
+    }
 
 }

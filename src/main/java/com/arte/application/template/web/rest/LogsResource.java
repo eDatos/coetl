@@ -23,20 +23,20 @@ import ch.qos.logback.classic.LoggerContext;
 @RequestMapping("/management")
 public class LogsResource extends AbstractResource {
 
-	@GetMapping("/logs")
-	@Timed
-	@PreAuthorize("hasPermission('LOGS', 'LEER')")
-	public List<LoggerVM> getList() {
-		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-		return context.getLoggerList().stream().map(LoggerVM::new).collect(Collectors.toList());
-	}
+    @GetMapping("/logs")
+    @Timed
+    @PreAuthorize("hasPermission('LOGS', 'LEER')")
+    public List<LoggerVM> getList() {
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        return context.getLoggerList().stream().map(LoggerVM::new).collect(Collectors.toList());
+    }
 
-	@PutMapping("/logs")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@Timed
-	@PreAuthorize("hasPermission('LOGS', 'LEER')")
-	public void changeLevel(@RequestBody LoggerVM jsonLogger) {
-		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-		context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));
-	}
+    @PutMapping("/logs")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Timed
+    @PreAuthorize("hasPermission('LOGS', 'LEER')")
+    public void changeLevel(@RequestBody LoggerVM jsonLogger) {
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));
+    }
 }

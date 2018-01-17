@@ -21,73 +21,72 @@ import com.arte.application.template.web.rest.util.QueryUtil;
 @Service
 public class RolServiceImpl implements RolService {
 
-	private RolRepository rolRepository;
+    private RolRepository rolRepository;
 
-	private UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
-	private final Logger log = LoggerFactory.getLogger(RolServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(RolServiceImpl.class);
 
-	private QueryUtil queryUtil;
+    private QueryUtil queryUtil;
 
-	private RolValidator rolValidator;
+    private RolValidator rolValidator;
 
-	public RolServiceImpl(RolRepository rolRepository, UsuarioRepository usuarioRepository, QueryUtil queryUtil,
-			RolValidator rolValidator) {
-		this.rolRepository = rolRepository;
-		this.usuarioRepository = usuarioRepository;
-		this.queryUtil = queryUtil;
-		this.rolValidator = rolValidator;
-	}
+    public RolServiceImpl(RolRepository rolRepository, UsuarioRepository usuarioRepository, QueryUtil queryUtil, RolValidator rolValidator) {
+        this.rolRepository = rolRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.queryUtil = queryUtil;
+        this.rolValidator = rolValidator;
+    }
 
-	@Override
-	public Rol save(Rol rol) {
-		log.debug("Petición para guardar rol {}", rol);
-		rolValidator.validate(rol);
-		return rolRepository.save(rol);
-	}
+    @Override
+    public Rol save(Rol rol) {
+        log.debug("Petición para guardar rol {}", rol);
+        rolValidator.validate(rol);
+        return rolRepository.save(rol);
+    }
 
-	@Override
-	public List<Rol> findAll(String query) {
-		log.debug("Petición para buscar roles con query {}", query);
-		DetachedCriteria criteria = queryUtil.queryToRolCriteria(query);
-		return rolRepository.findAll(criteria);
-	}
+    @Override
+    public List<Rol> findAll(String query) {
+        log.debug("Petición para buscar roles con query {}", query);
+        DetachedCriteria criteria = queryUtil.queryToRolCriteria(query);
+        return rolRepository.findAll(criteria);
+    }
 
-	@Override
-	public Rol findOne(String codigo) {
-		log.debug("Petición para buscar rol {}", codigo);
-		return rolRepository.findOneByCodigo(codigo);
-	}
+    @Override
+    public Rol findOne(String codigo) {
+        log.debug("Petición para buscar rol {}", codigo);
+        return rolRepository.findOneByCodigo(codigo);
+    }
 
-	@Override
-	public Rol findOne(Long id) {
-		log.debug("Petición para buscar rol {}", id);
-		return rolRepository.findOne(id);
-	}
+    @Override
+    public Rol findOne(Long id) {
+        log.debug("Petición para buscar rol {}", id);
+        return rolRepository.findOne(id);
+    }
 
-	@Override
-	public void delete(String codigo) {
-		log.debug("Petición para eliminar rol {}", codigo);
-		if (!usuarioRepository.findAllByRolesCodigo(codigo).isEmpty()) {
-			throw new CustomParameterizedException("error.rol.users-has-role", codigo);
-		}
-		Rol rol = rolRepository.findOneByCodigo(codigo);
-		if (rol == null) {
-			throw new CustomParameterizedException(ErrorConstants.ENTIDAD_NO_ENCONTRADA, codigo);
-		}
-		rolRepository.delete(rol.getId());
-	}
+    @Override
+    public void delete(String codigo) {
+        log.debug("Petición para eliminar rol {}", codigo);
+        if (!usuarioRepository.findAllByRolesCodigo(codigo).isEmpty()) {
+            throw new CustomParameterizedException("error.rol.users-has-role", codigo);
+        }
+        Rol rol = rolRepository.findOneByCodigo(codigo);
+        if (rol == null) {
+            throw new CustomParameterizedException(ErrorConstants.ENTIDAD_NO_ENCONTRADA, codigo);
+        }
+        rolRepository.delete(rol.getId());
+    }
 
-	@Override
-	public Set<Rol> findByUsuario(String login) {
-		log.debug("Petición para buscar roles de usuario {}", login);
-		return rolRepository.findByUsuarioLogin(login);
-	}
+    @Override
+    public Set<Rol> findByUsuario(String login) {
+        log.debug("Petición para buscar roles de usuario {}", login);
+        return rolRepository.findByUsuarioLogin(login);
+    }
 
-	@Override
-	public List<Rol> findByOperacion(Long operacionId) {
-		log.debug("Petición para buscar roles de usuario {}", operacionId);
-		return rolRepository.findByOperacionesId(operacionId);
-	}
+    @Override
+    public List<Rol> findByOperacion(Long operacionId) {
+        log.debug("Petición para buscar roles de usuario {}", operacionId);
+        return rolRepository.findByOperacionesId(operacionId);
+    }
 
 }

@@ -11,14 +11,13 @@ import com.arte.application.template.domain.PersistentAuditEvent;
 
 public interface PersistenceAuditEventRepository extends JpaRepository<PersistentAuditEvent, Long> {
 
-	List<PersistentAuditEvent> findByPrincipal(String principal);
+    List<PersistentAuditEvent> findByPrincipal(String principal);
 
-	List<PersistentAuditEvent> findByAuditEventDateAfter(Instant after);
+    List<PersistentAuditEvent> findByAuditEventDateAfter(Instant after);
 
-	List<PersistentAuditEvent> findByPrincipalAndAuditEventDateAfter(String principal, Instant after);
+    List<PersistentAuditEvent> findByPrincipalAndAuditEventDateAfter(String principal, Instant after);
 
-	List<PersistentAuditEvent> findByPrincipalAndAuditEventDateAfterAndAuditEventType(String principle, Instant after,
-			String type);
+    List<PersistentAuditEvent> findByPrincipalAndAuditEventDateAfterAndAuditEventType(String principle, Instant after, String type);
 
-	Page<PersistentAuditEvent> findAllByAuditEventDateBetween(Instant fromDate, Instant toDate, Pageable pageable);
+    Page<PersistentAuditEvent> findAllByAuditEventDateBetween(Instant fromDate, Instant toDate, Pageable pageable);
 }

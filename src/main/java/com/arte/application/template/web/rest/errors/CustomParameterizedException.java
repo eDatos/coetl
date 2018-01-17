@@ -19,31 +19,31 @@ import java.util.Map;
  */
 public class CustomParameterizedException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final String PARAM = "param";
+    private static final String PARAM = "param";
 
-	private final String message;
+    private final String message;
 
-	private final Map<String, String> paramMap = new HashMap<>();
+    private final Map<String, String> paramMap = new HashMap<>();
 
-	public CustomParameterizedException(String code, String... params) {
-		super(code);
-		this.message = code;
-		if (params != null && params.length > 0) {
-			for (int i = 0; i < params.length; i++) {
-				paramMap.put(PARAM + i, params[i]);
-			}
-		}
-	}
+    public CustomParameterizedException(String code, String... params) {
+        super(code);
+        this.message = code;
+        if (params != null && params.length > 0) {
+            for (int i = 0; i < params.length; i++) {
+                paramMap.put(PARAM + i, params[i]);
+            }
+        }
+    }
 
-	public CustomParameterizedException(String code, Map<String, String> paramMap) {
-		super(code);
-		this.message = code;
-		this.paramMap.putAll(paramMap);
-	}
+    public CustomParameterizedException(String code, Map<String, String> paramMap) {
+        super(code);
+        this.message = code;
+        this.paramMap.putAll(paramMap);
+    }
 
-	public ParameterizedErrorVM getErrorVM() {
-		return new ParameterizedErrorVM(message, paramMap);
-	}
+    public ParameterizedErrorVM getErrorVM() {
+        return new ParameterizedErrorVM(message, paramMap);
+    }
 }

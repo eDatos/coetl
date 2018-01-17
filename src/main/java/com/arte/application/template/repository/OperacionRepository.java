@@ -11,8 +11,8 @@ import com.arte.application.template.domain.Operacion;
 @Repository
 public interface OperacionRepository extends JpaRepository<Operacion, Long> {
 
-	List<Operacion> findAll(DetachedCriteria criteria);
+    List<Operacion> findAll(DetachedCriteria criteria);
 
-	Operacion findBySujetoAndAccion(String sujeto, String accion);
+    Operacion findBySujetoAndAccion(String sujeto, String accion);
 
 }

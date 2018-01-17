@@ -9,10 +9,10 @@ import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
  */
 public class NoFlushModeHibernateJpaDialect extends HibernateJpaDialect {
 
-	private static final long serialVersionUID = -6734786149088803173L;
+    private static final long serialVersionUID = -6734786149088803173L;
 
-	@Override
-	protected FlushMode prepareFlushMode(Session session, boolean readOnly) {
-		return null; // No FlushMode change needed
-	}
+    @Override
+    protected FlushMode prepareFlushMode(Session session, boolean readOnly) {
+        return null; // No FlushMode change needed
+    }
 }

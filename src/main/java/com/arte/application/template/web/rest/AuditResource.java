@@ -27,34 +27,32 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/management/audits")
 public class AuditResource extends AbstractResource {
 
-	private final AuditEventService auditEventService;
+    private final AuditEventService auditEventService;
 
-	public AuditResource(AuditEventService auditEventService) {
-		this.auditEventService = auditEventService;
-	}
+    public AuditResource(AuditEventService auditEventService) {
+        this.auditEventService = auditEventService;
+    }
 
-	@GetMapping
-	@PreAuthorize("hasPermission('AUDITORIA', 'LEER')")
-	public ResponseEntity<List<AuditEvent>> getAll(@ApiParam Pageable pageable) {
-		Page<AuditEvent> page = auditEventService.findAll(pageable);
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/management/audits");
-		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-	}
+    @GetMapping
+    @PreAuthorize("hasPermission('AUDITORIA', 'LEER')")
+    public ResponseEntity<List<AuditEvent>> getAll(@ApiParam Pageable pageable) {
+        Page<AuditEvent> page = auditEventService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/management/audits");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
-	@GetMapping(params = { "fromDate", "toDate" })
-	@PreAuthorize("hasPermission('AUDITORIA', 'LEER')")
-	public ResponseEntity<List<AuditEvent>> getByDates(@RequestParam(value = "fromDate") LocalDate fromDate,
-			@RequestParam(value = "toDate") LocalDate toDate, @ApiParam Pageable pageable) {
+    @GetMapping(params = {"fromDate", "toDate"})
+    @PreAuthorize("hasPermission('AUDITORIA', 'LEER')")
+    public ResponseEntity<List<AuditEvent>> getByDates(@RequestParam(value = "fromDate") LocalDate fromDate, @RequestParam(value = "toDate") LocalDate toDate, @ApiParam Pageable pageable) {
 
-		Page<AuditEvent> page = auditEventService.findByDates(fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant(),
-				toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant(), pageable);
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/management/audits");
-		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-	}
+        Page<AuditEvent> page = auditEventService.findByDates(fromDate.atStartOfDay(ZoneId.systemDefault()).toInstant(), toDate.atStartOfDay(ZoneId.systemDefault()).plusDays(1).toInstant(), pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/management/audits");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
-	@GetMapping("/{id:.+}")
-	@PreAuthorize("hasPermission('AUDITORIA', 'LEER')")
-	public ResponseEntity<AuditEvent> get(@PathVariable Long id) {
-		return ResponseUtil.wrapOrNotFound(auditEventService.find(id));
-	}
+    @GetMapping("/{id:.+}")
+    @PreAuthorize("hasPermission('AUDITORIA', 'LEER')")
+    public ResponseEntity<AuditEvent> get(@PathVariable Long id) {
+        return ResponseUtil.wrapOrNotFound(auditEventService.find(id));
+    }
 }
