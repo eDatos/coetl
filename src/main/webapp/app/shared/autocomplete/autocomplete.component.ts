@@ -121,10 +121,10 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
         if (this.autoComplete.forceSelection) {
             let valid = false;
-            const inputValue = event.target.value.toLowerCase(); // .trim(); 
+            const inputValue = event.target.value.toLowerCase(); // .trim();
 
             if (this.autoComplete.suggestions) {
-                for (let suggestion of this.autoComplete.suggestions) {
+                for (const suggestion of this.autoComplete.suggestions) {
                     const itemValue = this.autoComplete.field ? this.autoComplete.objectUtils.resolveFieldData(suggestion, this.autoComplete.field) : suggestion;
                     if (itemValue && inputValue === itemValue.toLowerCase()) {
                         valid = true;
