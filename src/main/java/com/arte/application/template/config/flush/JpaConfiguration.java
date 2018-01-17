@@ -12,17 +12,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JpaConfiguration {
 
-	@Autowired
-	private JpaProperties jpaProperties;
+    @Autowired
+    private JpaProperties jpaProperties;
 
-	@Bean
-	public ConfigurableHibernateJpaVendorAdapter jpaVendorAdapter() {
-		ConfigurableHibernateJpaVendorAdapter adapter = new ConfigurableHibernateJpaVendorAdapter();
-		adapter.setJpaDialect(new NoFlushModeHibernateJpaDialect());
-		adapter.setShowSql(jpaProperties.isShowSql());
-		adapter.setDatabase(jpaProperties.getDatabase());
-		adapter.setDatabasePlatform(jpaProperties.getDatabasePlatform());
-		adapter.setGenerateDdl(jpaProperties.isGenerateDdl());
-		return adapter;
-	}
+    @Bean
+    public ConfigurableHibernateJpaVendorAdapter jpaVendorAdapter() {
+        ConfigurableHibernateJpaVendorAdapter adapter = new ConfigurableHibernateJpaVendorAdapter();
+        adapter.setJpaDialect(new NoFlushModeHibernateJpaDialect());
+        adapter.setShowSql(jpaProperties.isShowSql());
+        adapter.setDatabase(jpaProperties.getDatabase());
+        adapter.setDatabasePlatform(jpaProperties.getDatabasePlatform());
+        adapter.setGenerateDdl(jpaProperties.isGenerateDdl());
+        return adapter;
+    }
 }

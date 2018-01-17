@@ -54,268 +54,244 @@ import com.arte.application.template.web.rest.mapper.RolMapper;
 @SpringBootTest(classes = ArteApplicationTemplateApp.class)
 public class RolResourceIntTest {
 
-	private static final String SUJETO_ROL = "ROL";
+    private static final String SUJETO_ROL = "ROL";
 
-	private static final String ADMIN_LOGIN = "ADMIN";
+    private static final String ADMIN_LOGIN = "ADMIN";
 
-	private static final String TEST_ROL = "TEST_ROL";
+    private static final String TEST_ROL = "TEST_ROL";
 
-	private static final String ROLE_ADMIN = "ADMIN";
+    private static final String ROLE_ADMIN = "ADMIN";
 
-	private static final String ROLE_USER = "USER";
+    private static final String ROLE_USER = "USER";
 
-	private static final String DEFAULT_LOGIN = "testLoginName";
-	
-	private static final String ACCION_EDITAR = "EDITAR";
+    private static final String DEFAULT_LOGIN = "testLoginName";
 
-	@Autowired
-	private EntityManager em;
+    private static final String ACCION_EDITAR = "EDITAR";
 
-	@Autowired
-	private WebApplicationContext context;
+    @Autowired
+    private EntityManager em;
 
-	@Autowired
-	private RolMapper rolMapper;
+    @Autowired
+    private WebApplicationContext context;
 
-	@SpyBean
-	private RolService rolService;
+    @Autowired
+    private RolMapper rolMapper;
 
-	@MockBean
-	private OperacionService operacionService;
+    @SpyBean
+    private RolService rolService;
 
-	@Autowired
-	private RolRepository rolRepository;
+    @MockBean
+    private OperacionService operacionService;
 
-	private MockMvc restUserMockMvc;
+    @Autowired
+    private RolRepository rolRepository;
 
-	private Rol rol;
+    private MockMvc restUserMockMvc;
 
-	@Before
-	public void setup() {
-		MockitoAnnotations.initMocks(this);
-		rol = createEntity(em);
-		this.restUserMockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+    private Rol rol;
 
-	}
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        rol = createEntity(em);
+        this.restUserMockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
 
-	private Operacion mockOperacion() {
-		Operacion operacion = new Operacion();
-		Set<Rol> roles = new HashSet<>();
-		roles.add(rol);
-		operacion.setRoles(roles);
-		return operacion;
-	}
-	
-	private static Operacion mockOperacion(Rol rol) {
-		Operacion operacion = new Operacion();
-		operacion.setId(1L);
-		Set<Rol> roles = new HashSet<>();
-		roles.add(rol);
-		operacion.setRoles(roles);
-		return operacion;
-	}
+    }
 
-	public static Rol createEntity(EntityManager em) {
-		Rol rol = new Rol();
-		rol.setCodigo(ROLE_ADMIN);
-		rol.setOperaciones(mockOperaciones(rol));
-		return rol;
+    private Operacion mockOperacion() {
+        Operacion operacion = new Operacion();
+        Set<Rol> roles = new HashSet<>();
+        roles.add(rol);
+        operacion.setRoles(roles);
+        return operacion;
+    }
 
-	}
+    private static Operacion mockOperacion(Rol rol) {
+        Operacion operacion = new Operacion();
+        operacion.setId(1L);
+        Set<Rol> roles = new HashSet<>();
+        roles.add(rol);
+        operacion.setRoles(roles);
+        return operacion;
+    }
 
-	private RolDTO createRolDTO() {
-		RolDTO rolDTO = new RolDTO();
-		rolDTO.setNombre(TEST_ROL);
-		rolDTO.setCodigo(TEST_ROL);
-		rolDTO.setOperaciones(mockOperacionesDto());
-		return rolDTO;
-	}
-	
-	private Set<OperacionDTO> mockOperacionesDto() {
-		HashSet<OperacionDTO> operaciones = new HashSet<OperacionDTO>();
-		OperacionDTO operacion = new OperacionDTO();
-		operacion.setId(1L);
-		operacion.setAccion(ACCION_EDITAR);
-		operacion.setSujeto(SUJETO_ROL);		
-		operaciones.add(operacion);
-		return operaciones;
-	}
+    public static Rol createEntity(EntityManager em) {
+        Rol rol = new Rol();
+        rol.setCodigo(ROLE_ADMIN);
+        rol.setOperaciones(mockOperaciones(rol));
+        return rol;
 
-	private Rol mockRolWithOperaciones(String rolCode) {
-		Rol rol = mockRol(rolCode);
-		rol.setOperaciones(mockOperaciones(rol));
-		return rol;
-	}
+    }
 
-	private Rol mockRol(String rolCode) {
-		Rol rol = new Rol();
-		rol.setCodigo(rolCode);
-		rol.setNombre("ROL NAME " + rolCode);
-		return rol;
-	}
-	
-	private static HashSet<Operacion> mockOperaciones(Rol rol) {
-		HashSet<Operacion> operaciones = new HashSet<Operacion>();
-		operaciones.add(mockOperacion(rol).accion(ACCION_EDITAR).sujeto(SUJETO_ROL));
-		return operaciones;
-	}
+    private RolDTO createRolDTO() {
+        RolDTO rolDTO = new RolDTO();
+        rolDTO.setNombre(TEST_ROL);
+        rolDTO.setCodigo(TEST_ROL);
+        rolDTO.setOperaciones(mockOperacionesDto());
+        return rolDTO;
+    }
 
-	private Set<Rol> mockRoles(Rol... roles) {
-		Set<Rol> set = new HashSet<>();
-		for (Rol rol : roles) {
-			set.add(rol);
-		}
-		return set;
-	}
+    private Set<OperacionDTO> mockOperacionesDto() {
+        HashSet<OperacionDTO> operaciones = new HashSet<OperacionDTO>();
+        OperacionDTO operacion = new OperacionDTO();
+        operacion.setId(1L);
+        operacion.setAccion(ACCION_EDITAR);
+        operacion.setSujeto(SUJETO_ROL);
+        operaciones.add(operacion);
+        return operaciones;
+    }
 
-	@Test
-	@WithMockUser(roles = ROLE_ADMIN, username = ADMIN_LOGIN)
-	@Transactional
-	public void getAllRoles() throws Exception {
-		Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name()))
-				.thenReturn(mockOperacion());
-		Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
+    private Rol mockRolWithOperaciones(String rolCode) {
+        Rol rol = mockRol(rolCode);
+        rol.setOperaciones(mockOperaciones(rol));
+        return rol;
+    }
 
-		restUserMockMvc
-				.perform(get("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8)
-						.contentType(TestUtil.APPLICATION_JSON_UTF8))
-				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$").isArray())
-				.andExpect(jsonPath("$[*].codigo", Matchers.containsInAnyOrder(ROLE_ADMIN, ROLE_USER)));
+    private Rol mockRol(String rolCode) {
+        Rol rol = new Rol();
+        rol.setCodigo(rolCode);
+        rol.setNombre("ROL NAME " + rolCode);
+        return rol;
+    }
 
-	}
+    private static HashSet<Operacion> mockOperaciones(Rol rol) {
+        HashSet<Operacion> operaciones = new HashSet<Operacion>();
+        operaciones.add(mockOperacion(rol).accion(ACCION_EDITAR).sujeto(SUJETO_ROL));
+        return operaciones;
+    }
 
-	@Test
-	@WithMockUser(roles = "", username = DEFAULT_LOGIN)
-	@Transactional
-	public void getAllRolesWithoutPermission() throws Exception {
-		Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name()))
-				.thenReturn(mockOperacion());
+    private Set<Rol> mockRoles(Rol... roles) {
+        Set<Rol> set = new HashSet<>();
+        for (Rol rol : roles) {
+            set.add(rol);
+        }
+        return set;
+    }
 
-		restUserMockMvc.perform(
-				get("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8))
-				.andExpect(status().isForbidden());
-	}
+    @Test
+    @WithMockUser(roles = ROLE_ADMIN, username = ADMIN_LOGIN)
+    @Transactional
+    public void getAllRoles() throws Exception {
+        Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name())).thenReturn(mockOperacion());
+        Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
-	@Test
-	@WithMockUser(roles = ROLE_ADMIN, username = ADMIN_LOGIN)
-	@Transactional
-	public void getRol() throws Exception {
-		Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name()))
-				.thenReturn(mockOperacion());
-		Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
+        restUserMockMvc.perform(get("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)).andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[*].codigo", Matchers.containsInAnyOrder(ROLE_ADMIN, ROLE_USER)));
 
-		restUserMockMvc
-				.perform(get("/api/roles/" + ROLE_ADMIN).accept(TestUtil.APPLICATION_JSON_UTF8)
-						.contentType(TestUtil.APPLICATION_JSON_UTF8))
-				.andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$.codigo").value(ROLE_ADMIN));
-	}
+    }
 
-	@Test
-	@WithMockUser(roles = "", username = DEFAULT_LOGIN)
-	@Transactional
-	public void getRolWithoutPermission() throws Exception {
-		Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name()))
-				.thenReturn(mockOperacion());
+    @Test
+    @WithMockUser(roles = "", username = DEFAULT_LOGIN)
+    @Transactional
+    public void getAllRolesWithoutPermission() throws Exception {
+        Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name())).thenReturn(mockOperacion());
 
-		restUserMockMvc.perform(get("/api/roles/" + ROLE_ADMIN).accept(TestUtil.APPLICATION_JSON_UTF8)
-				.contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isForbidden());
-	}
+        restUserMockMvc.perform(get("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isForbidden());
+    }
 
-	@Test
-	@WithMockUser(roles = ROLE_ADMIN, username = ADMIN_LOGIN)
-	@Transactional
-	public void createRol() throws Exception {
-		Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.CREAR.name()))
-				.thenReturn(mockOperacion());
-		Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
+    @Test
+    @WithMockUser(roles = ROLE_ADMIN, username = ADMIN_LOGIN)
+    @Transactional
+    public void getRol() throws Exception {
+        Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name())).thenReturn(mockOperacion());
+        Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
-		restUserMockMvc.perform(post("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8)
-				.contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
-				.andExpect(status().isCreated());
+        restUserMockMvc.perform(get("/api/roles/" + ROLE_ADMIN).accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)).andExpect(jsonPath("$.codigo").value(ROLE_ADMIN));
+    }
 
-		boolean created = rolService.findAll(null).stream()
-				.anyMatch(rol -> rol.getCodigo().equals(TEST_ROL.toString()));
-		assertThat(created).isTrue();
-	}
+    @Test
+    @WithMockUser(roles = "", username = DEFAULT_LOGIN)
+    @Transactional
+    public void getRolWithoutPermission() throws Exception {
+        Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name())).thenReturn(mockOperacion());
 
-	@Test
-	@WithMockUser(roles = "", username = DEFAULT_LOGIN)
-	@Transactional
-	public void createRolWithoutPermission() throws Exception {
-		restUserMockMvc.perform(post("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8)
-				.contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
-				.andExpect(status().isForbidden());
-	}
+        restUserMockMvc.perform(get("/api/roles/" + ROLE_ADMIN).accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isForbidden());
+    }
 
-	@Test
-	@WithMockUser(roles = ROLE_ADMIN, username = ADMIN_LOGIN)
-	@Transactional
-	public void updateRol() throws Exception {
-		Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.EDITAR.name()))
-				.thenReturn(mockOperacion());
-		Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
+    @Test
+    @WithMockUser(roles = ROLE_ADMIN, username = ADMIN_LOGIN)
+    @Transactional
+    public void createRol() throws Exception {
+        Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.CREAR.name())).thenReturn(mockOperacion());
+        Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
-		Rol rol = mockRolWithOperaciones(TEST_ROL);
-		em.persist(rol);
-		RolDTO rolDTO = rolMapper.toDto(rol);
-		rolDTO.setNombre("UPDATED_NAME");
-		restUserMockMvc
-				.perform(put("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8)
-						.contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(rolDTO)))
-				.andExpect(status().isOk());
+        restUserMockMvc.perform(post("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
+                .andExpect(status().isCreated());
 
-		boolean updated = rolService.findAll(null).stream().anyMatch(r -> r.getNombre().equals("UPDATED_NAME"));
-		assertThat(updated).isTrue();
-	}
+        boolean created = rolService.findAll(null).stream().anyMatch(rol -> rol.getCodigo().equals(TEST_ROL.toString()));
+        assertThat(created).isTrue();
+    }
 
-	@Test
-	@WithMockUser(roles = "", username = DEFAULT_LOGIN)
-	@Transactional
-	public void updateRolWithoutPermission() throws Exception {
-		Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.EDITAR.name()))
-				.thenReturn(mockOperacion());
+    @Test
+    @WithMockUser(roles = "", username = DEFAULT_LOGIN)
+    @Transactional
+    public void createRolWithoutPermission() throws Exception {
+        restUserMockMvc.perform(post("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
+                .andExpect(status().isForbidden());
+    }
 
-		restUserMockMvc.perform(put("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8)
-				.contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
-				.andExpect(status().isForbidden());
-	}
+    @Test
+    @WithMockUser(roles = ROLE_ADMIN, username = ADMIN_LOGIN)
+    @Transactional
+    public void updateRol() throws Exception {
+        Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.EDITAR.name())).thenReturn(mockOperacion());
+        Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
-	@Test
-	@WithMockUser(roles = ROLE_ADMIN, username = ADMIN_LOGIN)
-	@Transactional
-	public void deleteRol() throws Exception {
-		Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.ELIMINAR.name()))
-				.thenReturn(mockOperacion());
-		Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
+        Rol rol = mockRolWithOperaciones(TEST_ROL);
+        em.persist(rol);
+        RolDTO rolDTO = rolMapper.toDto(rol);
+        rolDTO.setNombre("UPDATED_NAME");
+        restUserMockMvc.perform(put("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(rolDTO)))
+                .andExpect(status().isOk());
 
-		int preCreateRoles = rolService.findAll(null).size();
-		Rol rol = mockRol(TEST_ROL);
-		rolRepository.saveAndFlush(rol);
+        boolean updated = rolService.findAll(null).stream().anyMatch(r -> r.getNombre().equals("UPDATED_NAME"));
+        assertThat(updated).isTrue();
+    }
 
-		int preDeleteRoles = rolService.findAll(null).size();
-		assertThat(preDeleteRoles).isEqualTo(preCreateRoles + 1);
+    @Test
+    @WithMockUser(roles = "", username = DEFAULT_LOGIN)
+    @Transactional
+    public void updateRolWithoutPermission() throws Exception {
+        Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.EDITAR.name())).thenReturn(mockOperacion());
 
-		restUserMockMvc.perform(delete("/api/roles/" + TEST_ROL).accept(TestUtil.APPLICATION_JSON_UTF8)
-				.contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
-				.andExpect(status().isOk());
+        restUserMockMvc.perform(put("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
+                .andExpect(status().isForbidden());
+    }
 
-		int afterDeleteRoles = rolService.findAll(null).size();
+    @Test
+    @WithMockUser(roles = ROLE_ADMIN, username = ADMIN_LOGIN)
+    @Transactional
+    public void deleteRol() throws Exception {
+        Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.ELIMINAR.name())).thenReturn(mockOperacion());
+        Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
-		assertThat(afterDeleteRoles).isEqualTo(preDeleteRoles - 1);
-	}
+        int preCreateRoles = rolService.findAll(null).size();
+        Rol rol = mockRol(TEST_ROL);
+        rolRepository.saveAndFlush(rol);
 
-	@Test
-	@WithMockUser(roles = "", username = DEFAULT_LOGIN)
-	@Transactional
-	public void deleteRolWithoutPermission() throws Exception {
-		Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.ELIMINAR.name()))
-				.thenReturn(mockOperacion());
+        int preDeleteRoles = rolService.findAll(null).size();
+        assertThat(preDeleteRoles).isEqualTo(preCreateRoles + 1);
 
-		restUserMockMvc.perform(delete("/api/roles/" + TEST_ROL).accept(TestUtil.APPLICATION_JSON_UTF8)
-				.contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
-				.andExpect(status().isForbidden());
-	}
+        restUserMockMvc
+                .perform(delete("/api/roles/" + TEST_ROL).accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
+                .andExpect(status().isOk());
+
+        int afterDeleteRoles = rolService.findAll(null).size();
+
+        assertThat(afterDeleteRoles).isEqualTo(preDeleteRoles - 1);
+    }
+
+    @Test
+    @WithMockUser(roles = "", username = DEFAULT_LOGIN)
+    @Transactional
+    public void deleteRolWithoutPermission() throws Exception {
+        Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.ELIMINAR.name())).thenReturn(mockOperacion());
+
+        restUserMockMvc
+                .perform(delete("/api/roles/" + TEST_ROL).accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
+                .andExpect(status().isForbidden());
+    }
 
 }

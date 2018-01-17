@@ -17,52 +17,52 @@ import io.github.jhipster.config.JHipsterProperties;
 @RequestMapping("/api")
 public class ProfileInfoResource extends AbstractResource {
 
-	private final Environment env;
+    private final Environment env;
 
-	private final JHipsterProperties jHipsterProperties;
+    private final JHipsterProperties jHipsterProperties;
 
-	public ProfileInfoResource(Environment env, JHipsterProperties jHipsterProperties) {
-		this.env = env;
-		this.jHipsterProperties = jHipsterProperties;
-	}
+    public ProfileInfoResource(Environment env, JHipsterProperties jHipsterProperties) {
+        this.env = env;
+        this.jHipsterProperties = jHipsterProperties;
+    }
 
-	@GetMapping("/profile-info")
-	public ProfileInfoVM getActiveProfiles() {
-		String[] activeProfiles = DefaultProfileUtil.getActiveProfiles(env);
-		return new ProfileInfoVM(activeProfiles, getRibbonEnv(activeProfiles));
-	}
+    @GetMapping("/profile-info")
+    public ProfileInfoVM getActiveProfiles() {
+        String[] activeProfiles = DefaultProfileUtil.getActiveProfiles(env);
+        return new ProfileInfoVM(activeProfiles, getRibbonEnv(activeProfiles));
+    }
 
-	private String getRibbonEnv(String[] activeProfiles) {
-		String[] displayOnActiveProfiles = jHipsterProperties.getRibbon().getDisplayOnActiveProfiles();
-		if (displayOnActiveProfiles == null) {
-			return null;
-		}
-		List<String> ribbonProfiles = new ArrayList<>(Arrays.asList(displayOnActiveProfiles));
-		List<String> springBootProfiles = Arrays.asList(activeProfiles);
-		ribbonProfiles.retainAll(springBootProfiles);
-		if (!ribbonProfiles.isEmpty()) {
-			return ribbonProfiles.get(0);
-		}
-		return null;
-	}
+    private String getRibbonEnv(String[] activeProfiles) {
+        String[] displayOnActiveProfiles = jHipsterProperties.getRibbon().getDisplayOnActiveProfiles();
+        if (displayOnActiveProfiles == null) {
+            return null;
+        }
+        List<String> ribbonProfiles = new ArrayList<>(Arrays.asList(displayOnActiveProfiles));
+        List<String> springBootProfiles = Arrays.asList(activeProfiles);
+        ribbonProfiles.retainAll(springBootProfiles);
+        if (!ribbonProfiles.isEmpty()) {
+            return ribbonProfiles.get(0);
+        }
+        return null;
+    }
 
-	class ProfileInfoVM {
+    class ProfileInfoVM {
 
-		private String[] activeProfiles;
+        private String[] activeProfiles;
 
-		private String ribbonEnv;
+        private String ribbonEnv;
 
-		ProfileInfoVM(String[] activeProfiles, String ribbonEnv) {
-			this.activeProfiles = activeProfiles;
-			this.ribbonEnv = ribbonEnv;
-		}
+        ProfileInfoVM(String[] activeProfiles, String ribbonEnv) {
+            this.activeProfiles = activeProfiles;
+            this.ribbonEnv = ribbonEnv;
+        }
 
-		public String[] getActiveProfiles() {
-			return activeProfiles;
-		}
+        public String[] getActiveProfiles() {
+            return activeProfiles;
+        }
 
-		public String getRibbonEnv() {
-			return ribbonEnv;
-		}
-	}
+        public String getRibbonEnv() {
+            return ribbonEnv;
+        }
+    }
 }

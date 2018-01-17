@@ -21,32 +21,32 @@ import io.github.jhipster.config.JHipsterProperties;
 @EnableScheduling
 public class AsyncConfiguration implements AsyncConfigurer {
 
-	/**
-	 * FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-	 */
-	
-	private final Logger log = LoggerFactory.getLogger(AsyncConfiguration.class);
+    /**
+     * FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
+     */
 
-	private final JHipsterProperties jHipsterProperties;
+    private final Logger log = LoggerFactory.getLogger(AsyncConfiguration.class);
 
-	public AsyncConfiguration(JHipsterProperties jHipsterProperties) {
-		this.jHipsterProperties = jHipsterProperties;
-	}
+    private final JHipsterProperties jHipsterProperties;
 
-	@Override
-	@Bean(name = "taskExecutor")
-	public Executor getAsyncExecutor() {
-		log.debug("Creando Async Task Executor");
-		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(jHipsterProperties.getAsync().getCorePoolSize());
-		executor.setMaxPoolSize(jHipsterProperties.getAsync().getMaxPoolSize());
-		executor.setQueueCapacity(jHipsterProperties.getAsync().getQueueCapacity());
-		executor.setThreadNamePrefix("arte-application-template-Executor-");
-		return new ExceptionHandlingAsyncTaskExecutor(executor);
-	}
+    public AsyncConfiguration(JHipsterProperties jHipsterProperties) {
+        this.jHipsterProperties = jHipsterProperties;
+    }
 
-	@Override
-	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-		return new SimpleAsyncUncaughtExceptionHandler();
-	}
+    @Override
+    @Bean(name = "taskExecutor")
+    public Executor getAsyncExecutor() {
+        log.debug("Creando Async Task Executor");
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(jHipsterProperties.getAsync().getCorePoolSize());
+        executor.setMaxPoolSize(jHipsterProperties.getAsync().getMaxPoolSize());
+        executor.setQueueCapacity(jHipsterProperties.getAsync().getQueueCapacity());
+        executor.setThreadNamePrefix("arte-application-template-Executor-");
+        return new ExceptionHandlingAsyncTaskExecutor(executor);
+    }
+
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return new SimpleAsyncUncaughtExceptionHandler();
+    }
 }

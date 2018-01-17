@@ -5,6 +5,6 @@ import com.arte.application.template.entry.UsuarioLdapEntry;
 @FunctionalInterface
 public interface LdapService {
 
-	public UsuarioLdapEntry buscarUsuarioLdap(String nombreUsuario);
+    public UsuarioLdapEntry buscarUsuarioLdap(String nombreUsuario);
 
 }

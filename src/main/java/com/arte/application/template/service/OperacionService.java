@@ -6,10 +6,10 @@ import com.arte.application.template.domain.Operacion;
 
 public interface OperacionService {
 
-	List<Operacion> findAll(String query);
+    List<Operacion> findAll(String query);
 
-	Operacion findOne(Long id);
+    Operacion findOne(Long id);
 
-	Operacion findBySujetoAndAccion(String sujeto, String accion);
+    Operacion findBySujetoAndAccion(String sujeto, String accion);
 
 }

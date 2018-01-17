@@ -11,19 +11,19 @@ import com.arte.application.template.domain.AbstractAuditingEntity;
 @EntityListeners(OptimisticLockChecker.class)
 public abstract class AbstractVersionedAndAuditingEntity extends AbstractAuditingEntity implements VersionedEntity {
 
-	private static final long serialVersionUID = -3342374611675636866L;
+    private static final long serialVersionUID = -3342374611675636866L;
 
-	@Version
-	@Column(name = "opt_lock")
-	private Long optLock;
+    @Version
+    @Column(name = "opt_lock")
+    private Long optLock;
 
-	@Override
-	public Long getOptLock() {
-		return optLock;
-	}
+    @Override
+    public Long getOptLock() {
+        return optLock;
+    }
 
-	@Override
-	public void setOptLock(Long optLock) {
-		this.optLock = optLock;
-	}
+    @Override
+    public void setOptLock(Long optLock) {
+        this.optLock = optLock;
+    }
 }

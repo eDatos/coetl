@@ -16,39 +16,39 @@ import com.arte.application.template.security.SecurityUtils;
 @Component
 public class AuditEventPublisher implements ApplicationEventPublisherAware {
 
-	private ApplicationEventPublisher publisher;
+    private ApplicationEventPublisher publisher;
 
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher = publisher;
-	}
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
+    }
 
-	public void publish(String type, String identifier, String message) {
-		HashMap<String, Object> map = new HashMap<>();
-		map.put(AuditConstants.CODE, identifier);
-		map.put(AuditConstants.MESSAGE, message);
-		publish(type, map);
-	}
+    public void publish(String type, String identifier, String message) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(AuditConstants.CODE, identifier);
+        map.put(AuditConstants.MESSAGE, message);
+        publish(type, map);
+    }
 
-	public void publish(String type, String identifier) {
-		HashMap<String, Object> map = new HashMap<>();
-		map.put(AuditConstants.CODE, identifier);
-		publish(type, map);
-	}
+    public void publish(String type, String identifier) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(AuditConstants.CODE, identifier);
+        publish(type, map);
+    }
 
-	private void publish(String type, Map<String, Object> map) {
-		AuditEvent event = new AuditEvent(getCurrentUser(), type, map);
-		publish(event);
-	}
+    private void publish(String type, Map<String, Object> map) {
+        AuditEvent event = new AuditEvent(getCurrentUser(), type, map);
+        publish(event);
+    }
 
-	private void publish(AuditEvent event) {
-		if (this.publisher != null) {
-			this.publisher.publishEvent(new AuditApplicationEvent(event));
-		}
-	}
+    private void publish(AuditEvent event) {
+        if (this.publisher != null) {
+            this.publisher.publishEvent(new AuditApplicationEvent(event));
+        }
+    }
 
-	private String getCurrentUser() {
-		String userName = SecurityUtils.getCurrentUserLogin();
-		return userName != null ? userName : Constants.SYSTEM_ACCOUNT;
-	}
+    private String getCurrentUser() {
+        String userName = SecurityUtils.getCurrentUserLogin();
+        return userName != null ? userName : Constants.SYSTEM_ACCOUNT;
+    }
 }

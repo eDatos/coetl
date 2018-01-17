@@ -28,57 +28,55 @@ import com.arte.application.template.repository.UsuarioRepository;
 @Component("userDetailsService")
 public class DomainUserDetailsService implements UserDetailsService {
 
-	private final Logger log = LoggerFactory.getLogger(DomainUserDetailsService.class);
+    private final Logger log = LoggerFactory.getLogger(DomainUserDetailsService.class);
 
-	private final UsuarioRepository userRepository;
+    private final UsuarioRepository userRepository;
 
-	public DomainUserDetailsService(UsuarioRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+    public DomainUserDetailsService(UsuarioRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-	@Override
-	@Transactional
-	public UserDetails loadUserByUsername(final String login) {
-		log.debug("Authenticating {}", login);
-		String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
-		Optional<Usuario> userFromDatabase = userRepository
-				.findOneWithRolesByLoginAndDeletionDateIsNull(lowercaseLogin);
-		if  (!userFromDatabase.isPresent()) {
-			return new User(lowercaseLogin, "", permisoUnico());
-		}
-		
-		return userFromDatabase.map(user -> {
-			if (user.getDeletionDate() != null) {
-				throw new UserNotActivatedException("Usuario " + lowercaseLogin + " no estaba activado");
-			}
-			List<GrantedAuthority> permisos = new ArrayList<>();
-			if (user.getRoles() != null) {
-				for (Rol rolAux : user.getRoles()) {
-					sumarPermisos(permisos, rolAux);
-				}
-			}
-			return new User(lowercaseLogin, "", permisos);
-		}).orElseThrow(() -> new UsernameNotFoundException(
-				"Usuario " + lowercaseLogin + " no encontrado en la " + "database"));
-	}
-	
-	/**
-	 * Este método devuelve un permiso con el que no se podrá hacer nada.
-	 * Esto se usa ya que es necesario tener al menos un permiso para entrar en la aplicación.
-	 * 
-	 * @return
-	 */
-	private Collection<? extends GrantedAuthority> permisoUnico() {
-		List<GrantedAuthority> permisoLogin = new ArrayList<>();
-		permisoLogin.add(new SimpleGrantedAuthority("LOGIN"));
-		return permisoLogin;
-	}
-	
-	private void sumarPermisos(List<GrantedAuthority> permisos, Rol rolAux) {
-		if (rolAux.getOperaciones() != null) {
-			for (Operacion operacionAux : rolAux.getOperaciones()) {
-				permisos.add(new SimpleGrantedAuthority(operacionAux.getAccion() + "_" + operacionAux.getSujeto()));
-			}
-		}
-	}
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(final String login) {
+        log.debug("Authenticating {}", login);
+        String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
+        Optional<Usuario> userFromDatabase = userRepository.findOneWithRolesByLoginAndDeletionDateIsNull(lowercaseLogin);
+        if (!userFromDatabase.isPresent()) {
+            return new User(lowercaseLogin, "", permisoUnico());
+        }
+
+        return userFromDatabase.map(user -> {
+            if (user.getDeletionDate() != null) {
+                throw new UserNotActivatedException("Usuario " + lowercaseLogin + " no estaba activado");
+            }
+            List<GrantedAuthority> permisos = new ArrayList<>();
+            if (user.getRoles() != null) {
+                for (Rol rolAux : user.getRoles()) {
+                    sumarPermisos(permisos, rolAux);
+                }
+            }
+            return new User(lowercaseLogin, "", permisos);
+        }).orElseThrow(() -> new UsernameNotFoundException("Usuario " + lowercaseLogin + " no encontrado en la " + "database"));
+    }
+
+    /**
+     * Este método devuelve un permiso con el que no se podrá hacer nada.
+     * Esto se usa ya que es necesario tener al menos un permiso para entrar en la aplicación.
+     * 
+     * @return
+     */
+    private Collection<? extends GrantedAuthority> permisoUnico() {
+        List<GrantedAuthority> permisoLogin = new ArrayList<>();
+        permisoLogin.add(new SimpleGrantedAuthority("LOGIN"));
+        return permisoLogin;
+    }
+
+    private void sumarPermisos(List<GrantedAuthority> permisos, Rol rolAux) {
+        if (rolAux.getOperaciones() != null) {
+            for (Operacion operacionAux : rolAux.getOperaciones()) {
+                permisos.add(new SimpleGrantedAuthority(operacionAux.getAccion() + "_" + operacionAux.getSujeto()));
+            }
+        }
+    }
 }

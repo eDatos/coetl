@@ -27,18 +27,17 @@ import com.arte.application.template.service.UsuarioService;
 @Transactional
 public class UserServiceIntTest {
 
-	@Autowired
-	private UsuarioRepository userRepository;
+    @Autowired
+    private UsuarioRepository userRepository;
 
-	@Autowired
-	private UsuarioService userService;
+    @Autowired
+    private UsuarioService userService;
 
-	@Test
-	public void assertThatAnonymousUserIsNotGet() {
-		final PageRequest pageable = new PageRequest(0, (int) userRepository.count());
-		final Page<Usuario> allManagedUsers = userService.getAllUsuarios(pageable, false, null);
-		assertThat(allManagedUsers.getContent().stream()
-				.noneMatch(user -> Constants.ANONYMOUS_USER.equals(user.getLogin()))).isTrue();
-	}
+    @Test
+    public void assertThatAnonymousUserIsNotGet() {
+        final PageRequest pageable = new PageRequest(0, (int) userRepository.count());
+        final Page<Usuario> allManagedUsers = userService.getAllUsuarios(pageable, false, null);
+        assertThat(allManagedUsers.getContent().stream().noneMatch(user -> Constants.ANONYMOUS_USER.equals(user.getLogin()))).isTrue();
+    }
 
 }

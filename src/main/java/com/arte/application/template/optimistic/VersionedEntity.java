@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public interface VersionedEntity {
 
-	Serializable getId();
+    Serializable getId();
 
-	Long getOptLock();
+    Long getOptLock();
 
-	void setOptLock(Long optLock);
+    void setOptLock(Long optLock);
 
 }

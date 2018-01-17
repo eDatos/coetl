@@ -25,33 +25,33 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/api")
 public class OperacionResource extends AbstractResource {
 
-	private final Logger log = LoggerFactory.getLogger(OperacionResource.class);
+    private final Logger log = LoggerFactory.getLogger(OperacionResource.class);
 
-	private final OperacionService operacionService;
+    private final OperacionService operacionService;
 
-	private OperacionMapper operacionMapper;
+    private OperacionMapper operacionMapper;
 
-	public OperacionResource(OperacionService operacionService, OperacionMapper operacionMapper) {
-		this.operacionService = operacionService;
-		this.operacionMapper = operacionMapper;
-	}
+    public OperacionResource(OperacionService operacionService, OperacionMapper operacionMapper) {
+        this.operacionService = operacionService;
+        this.operacionMapper = operacionMapper;
+    }
 
-	@GetMapping("/operaciones")
-	@Timed
-	@PreAuthorize("hasPermission('OPERACION', 'LEER')")
-	public ResponseEntity<List<OperacionDTO>> getAllOperacions(@ApiParam(defaultValue = "") String query) {
-		log.debug("REST petición para obtener una página de Operacions");
-		List<OperacionDTO> operacionesDto = operacionMapper.toDto(operacionService.findAll(query));
-		return new ResponseEntity<>(operacionesDto, null, HttpStatus.OK);
-	}
+    @GetMapping("/operaciones")
+    @Timed
+    @PreAuthorize("hasPermission('OPERACION', 'LEER')")
+    public ResponseEntity<List<OperacionDTO>> getAllOperacions(@ApiParam(defaultValue = "") String query) {
+        log.debug("REST petición para obtener una página de Operacions");
+        List<OperacionDTO> operacionesDto = operacionMapper.toDto(operacionService.findAll(query));
+        return new ResponseEntity<>(operacionesDto, null, HttpStatus.OK);
+    }
 
-	@GetMapping("/operaciones/{id}")
-	@Timed
-	@PreAuthorize("hasPermission('OPERACION', 'LEER')")
-	public ResponseEntity<OperacionDTO> getOperacion(@PathVariable Long id) {
-		log.debug("REST petición para obtener  Operacion : {}", id);
-		OperacionDTO operacionDTO = operacionMapper.toDto(operacionService.findOne(id));
-		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(operacionDTO));
-	}
+    @GetMapping("/operaciones/{id}")
+    @Timed
+    @PreAuthorize("hasPermission('OPERACION', 'LEER')")
+    public ResponseEntity<OperacionDTO> getOperacion(@PathVariable Long id) {
+        log.debug("REST petición para obtener  Operacion : {}", id);
+        OperacionDTO operacionDTO = operacionMapper.toDto(operacionService.findOne(id));
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(operacionDTO));
+    }
 
 }

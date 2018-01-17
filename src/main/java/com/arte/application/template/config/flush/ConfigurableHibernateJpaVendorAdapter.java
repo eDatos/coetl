@@ -8,14 +8,14 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
  */
 public class ConfigurableHibernateJpaVendorAdapter extends HibernateJpaVendorAdapter {
 
-	private HibernateJpaDialect jpaDialect;
+    private HibernateJpaDialect jpaDialect;
 
-	@Override
-	public HibernateJpaDialect getJpaDialect() {
-		return jpaDialect != null ? jpaDialect : super.getJpaDialect();
-	}
+    @Override
+    public HibernateJpaDialect getJpaDialect() {
+        return jpaDialect != null ? jpaDialect : super.getJpaDialect();
+    }
 
-	public void setJpaDialect(HibernateJpaDialect jpaDialect) {
-		this.jpaDialect = jpaDialect;
-	}
+    public void setJpaDialect(HibernateJpaDialect jpaDialect) {
+        this.jpaDialect = jpaDialect;
+    }
 }

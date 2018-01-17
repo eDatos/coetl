@@ -19,7 +19,6 @@ import io.github.jhipster.config.JHipsterProperties;
 
 public class JWTFilterTest {
 
-
     private TokenProvider tokenProvider;
 
     private JWTFilter jwtFilter;

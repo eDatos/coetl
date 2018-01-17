@@ -16,23 +16,23 @@ import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
 public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
 
-	private static final String ENTITY_FIELD_LOGIN = "login";
-	private static final String ENTITY_FIELD_NOMBRE = "nombre";
-	private static final String ENTITY_FIELD_APELLIDO1 = "apellido1";
-	private static final String ENTITY_FIELD_APELLIDO2 = "apellido2";
-	private static final String ENTITY_FIELD_EMAIL = "email";
+    private static final String ENTITY_FIELD_LOGIN = "login";
+    private static final String ENTITY_FIELD_NOMBRE = "nombre";
+    private static final String ENTITY_FIELD_APELLIDO1 = "apellido1";
+    private static final String ENTITY_FIELD_APELLIDO2 = "apellido2";
+    private static final String ENTITY_FIELD_EMAIL = "email";
 
-	public UsuarioCriteriaProcessor() {
-		super(Usuario.class);
-	}
+    public UsuarioCriteriaProcessor() {
+        super(Usuario.class);
+    }
 
-	public enum QueryProperty {
-		NOMBRE, APELLIDO1, APELLIDO2, LOGIN, ROL, EMAIL
-	}
+    public enum QueryProperty {
+        NOMBRE, APELLIDO1, APELLIDO2, LOGIN, ROL, EMAIL
+    }
 
-	@Override
-	public void registerProcessors() {
-		//@formatter:off
+    @Override
+    public void registerProcessors() {
+        //@formatter:off
     	registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.LOGIN).sortable()
                 .withEntityProperty(ENTITY_FIELD_LOGIN).build());
@@ -62,20 +62,20 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
 	            .build());
 
         //@formatter:on
-	}
+    }
 
-	private static class SqlCriterionBuilder implements CriterionConverter {
+    private static class SqlCriterionBuilder implements CriterionConverter {
 
-		@Override
-		public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
-			if (QueryProperty.ROL.name().equalsIgnoreCase(property.getLeftExpression())) {
-				return usuariosConRoles(property);
-			}
-			throw new CustomParameterizedException(String.format("Query param not supported: '%s", property));
-		}
+        @Override
+        public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
+            if (QueryProperty.ROL.name().equalsIgnoreCase(property.getLeftExpression())) {
+                return usuariosConRoles(property);
+            }
+            throw new CustomParameterizedException(String.format("Query param not supported: '%s", property));
+        }
 
-		private Criterion usuariosConRoles(QueryPropertyRestriction property) {
-			// @formatter:off
+        private Criterion usuariosConRoles(QueryPropertyRestriction property) {
+            // @formatter:off
 	        	String sql = String.format(
 	        			"{alias}.id in (" +
 	        			"SELECT" + 
@@ -91,8 +91,8 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
 	        			")", 
 	        			property.getRightExpressions().stream().collect(Collectors.joining(",")));
 	            // @formatter:on
-			return Restrictions.sqlRestriction(sql);
-		}
-	}
+            return Restrictions.sqlRestriction(sql);
+        }
+    }
 
 }

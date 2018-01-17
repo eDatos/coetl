@@ -53,129 +53,121 @@ import com.arte.application.template.web.rest.mapper.UsuarioMapper;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ArteApplicationTemplateApp.class)
 public class AccountResourceIntTest {
-	
-	private static final String ROL_ADMIN = "ADMIN";
-	
-	@Autowired
-	private UsuarioRepository userRepository;
 
-	@Autowired
-	private RolRepository rolRepository;
+    private static final String ROL_ADMIN = "ADMIN";
 
-	@Autowired
-	private RolMapper rolMapper;
+    @Autowired
+    private UsuarioRepository userRepository;
 
-	@Autowired
-	private UsuarioService userService;
+    @Autowired
+    private RolRepository rolRepository;
 
-	@Autowired
-	private UsuarioMapper usuarioMapper;
+    @Autowired
+    private RolMapper rolMapper;
 
-	@SuppressWarnings("rawtypes")
-	@Autowired
-	private HttpMessageConverter[] httpMessageConverters;
+    @Autowired
+    private UsuarioService userService;
 
-	@Mock
-	private UsuarioService mockUserService;
+    @Autowired
+    private UsuarioMapper usuarioMapper;
 
-	@Mock
-	private MailService mockMailService;
+    @SuppressWarnings("rawtypes")
+    @Autowired
+    private HttpMessageConverter[] httpMessageConverters;
 
-	@MockBean
-	private LdapService ldapService;
+    @Mock
+    private UsuarioService mockUserService;
 
-	@Autowired
-	private AuditEventPublisher auditPublisher;
+    @Mock
+    private MailService mockMailService;
 
-	private MockMvc restUserMockMvc;
+    @MockBean
+    private LdapService ldapService;
 
-	private MockMvc restMvc;
+    @Autowired
+    private AuditEventPublisher auditPublisher;
 
-	private RolDTO mockRolDTO() {
-		RolDTO rolDTO = new RolDTO();
-		rolDTO.setCodigo(AccountResourceIntTest.ROL_ADMIN);
-		rolDTO.setNombre(AccountResourceIntTest.ROL_ADMIN);
-		return rolDTO;
-	}
+    private MockMvc restUserMockMvc;
 
-	private HashSet<RolDTO> mockRolSet() {
-		return new HashSet<>(Collections.singletonList(mockRolDTO()));
-	}
+    private MockMvc restMvc;
 
-	@Before
-	public void setup() {
-		MockitoAnnotations.initMocks(this);
+    private RolDTO mockRolDTO() {
+        RolDTO rolDTO = new RolDTO();
+        rolDTO.setCodigo(AccountResourceIntTest.ROL_ADMIN);
+        rolDTO.setNombre(AccountResourceIntTest.ROL_ADMIN);
+        return rolDTO;
+    }
 
-		UsuarioResource accountResource = new UsuarioResource(userRepository, null, userService, usuarioMapper, null,
-				auditPublisher);
+    private HashSet<RolDTO> mockRolSet() {
+        return new HashSet<>(Collections.singletonList(mockRolDTO()));
+    }
 
-		UsuarioResource accountUserMockResource = new UsuarioResource(userRepository, null, mockUserService,
-				usuarioMapper, null, auditPublisher);
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
 
-		this.restMvc = MockMvcBuilders.standaloneSetup(accountResource).setMessageConverters(httpMessageConverters)
-				.build();
-		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
-	}
+        UsuarioResource accountResource = new UsuarioResource(userRepository, null, userService, usuarioMapper, null, auditPublisher);
 
-	@Test
-	public void testNonautenticardUser() throws Exception {
-		restUserMockMvc.perform(get("/api/autenticar").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(content().string(""));
-	}
+        UsuarioResource accountUserMockResource = new UsuarioResource(userRepository, null, mockUserService, usuarioMapper, null, auditPublisher);
 
-	@Test
-	public void testautenticardUser() throws Exception {
-		restUserMockMvc.perform(get("/api/autenticar").with(request -> {
-			request.setRemoteUser("test");
-			return request;
-		}).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().string("test"));
-	}
+        this.restMvc = MockMvcBuilders.standaloneSetup(accountResource).setMessageConverters(httpMessageConverters).build();
+        this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
+    }
 
-	@Test
-	@Transactional
-	public void testGetExistingAccount() throws Exception {
-		Set<Rol> authorities = new HashSet<>();
-		Rol authority = rolRepository.findOneByCodigo(AccountResourceIntTest.ROL_ADMIN);
-		authorities.add(authority);
+    @Test
+    public void testNonautenticardUser() throws Exception {
+        restUserMockMvc.perform(get("/api/autenticar").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().string(""));
+    }
 
-		Usuario user = new Usuario();
-		user.setLogin("test");
-		user.setNombre("john");
-		user.setApellido1("doe");
-		user.setEmail("john.doe@jhipster.com");
-		user.setRoles(authorities);
-		when(mockUserService.getUsuarioWithAuthorities()).thenReturn(user);
+    @Test
+    public void testautenticardUser() throws Exception {
+        restUserMockMvc.perform(get("/api/autenticar").with(request -> {
+            request.setRemoteUser("test");
+            return request;
+        }).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().string("test"));
+    }
 
-		restUserMockMvc.perform(get("/api/usuario").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$.login").value("test")).andExpect(jsonPath("$.nombre").value("john"))
-				.andExpect(jsonPath("$.apellido1").value("doe"))
-				.andExpect(jsonPath("$.email").value("john.doe@jhipster.com"))
-				.andExpect(jsonPath("$.roles[*].codigo").value(AccountResourceIntTest.ROL_ADMIN));
-	}
+    @Test
+    @Transactional
+    public void testGetExistingAccount() throws Exception {
+        Set<Rol> authorities = new HashSet<>();
+        Rol authority = rolRepository.findOneByCodigo(AccountResourceIntTest.ROL_ADMIN);
+        authorities.add(authority);
 
-	@Test
-	public void testGetUnknownAccount() throws Exception {
-		when(mockUserService.getUsuarioWithAuthorities()).thenReturn(null);
+        Usuario user = new Usuario();
+        user.setLogin("test");
+        user.setNombre("john");
+        user.setApellido1("doe");
+        user.setEmail("john.doe@jhipster.com");
+        user.setRoles(authorities);
+        when(mockUserService.getUsuarioWithAuthorities()).thenReturn(user);
 
-		restUserMockMvc.perform(get("/api/usuario").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-	}
+        restUserMockMvc.perform(get("/api/usuario").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.login").value("test")).andExpect(jsonPath("$.nombre").value("john")).andExpect(jsonPath("$.apellido1").value("doe"))
+                .andExpect(jsonPath("$.email").value("john.doe@jhipster.com")).andExpect(jsonPath("$.roles[*].codigo").value(AccountResourceIntTest.ROL_ADMIN));
+    }
 
-	@Test
-	@Transactional
-	@WithMockUser("save-account")
-	public void testSaveAccount() throws Exception {
-		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
+    @Test
+    public void testGetUnknownAccount() throws Exception {
+        when(mockUserService.getUsuarioWithAuthorities()).thenReturn(null);
 
-		Usuario user = new Usuario();
-		user.setLogin("save-account");
-		user.setEmail("save-account@example.com");
+        restUserMockMvc.perform(get("/api/usuario").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    }
 
-		userRepository.saveAndFlush(user);
-		HashSet<RolDTO> mockRolSet = mockRolSet();
-		rolRepository.save(mockRolSet.stream().findFirst().map(rolMapper::toEntity).get());
-		//@formatter:off
+    @Test
+    @Transactional
+    @WithMockUser("save-account")
+    public void testSaveAccount() throws Exception {
+        Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
+
+        Usuario user = new Usuario();
+        user.setLogin("save-account");
+        user.setEmail("save-account@example.com");
+
+        userRepository.saveAndFlush(user);
+        HashSet<RolDTO> mockRolSet = mockRolSet();
+        rolRepository.save(mockRolSet.stream().findFirst().map(rolMapper::toEntity).get());
+        //@formatter:off
 		UsuarioDTO userDTO = UsuarioDTO.builder()
 				.setId(user.getId())
 				.setOptLock(user.getOptLock())
@@ -191,30 +183,28 @@ public class AccountResourceIntTest {
 				.build();
 		//@formatter:on
 
-		restMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isOk());
+        restMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isOk());
 
-		Usuario updatedUser = userRepository.findOneByLogin(user.getLogin()).orElse(null);
-		assertThat(updatedUser.getNombre()).isEqualTo(userDTO.getNombre());
-		assertThat(updatedUser.getApellido1()).isEqualTo(userDTO.getApellido1());
-		assertThat(updatedUser.getEmail()).isEqualTo(userDTO.getEmail());
-		assertThat(updatedUser.getRoles()).size().isEqualTo(1);
-		assertThat(((Rol) updatedUser.getRoles().toArray()[0]).getCodigo())
-				.isEqualTo(((RolDTO) mockRolSet.toArray()[0]).getCodigo());
+        Usuario updatedUser = userRepository.findOneByLogin(user.getLogin()).orElse(null);
+        assertThat(updatedUser.getNombre()).isEqualTo(userDTO.getNombre());
+        assertThat(updatedUser.getApellido1()).isEqualTo(userDTO.getApellido1());
+        assertThat(updatedUser.getEmail()).isEqualTo(userDTO.getEmail());
+        assertThat(updatedUser.getRoles()).size().isEqualTo(1);
+        assertThat(((Rol) updatedUser.getRoles().toArray()[0]).getCodigo()).isEqualTo(((RolDTO) mockRolSet.toArray()[0]).getCodigo());
 
-	}
+    }
 
-	@Test
-	@Transactional
-	@WithMockUser("save-invalid-email")
-	public void testSaveInvalidEmail() throws Exception {
-		Usuario user = new Usuario();
-		user.setLogin("save-invalid-email");
-		user.setEmail("save-invalid-email@example.com");
+    @Test
+    @Transactional
+    @WithMockUser("save-invalid-email")
+    public void testSaveInvalidEmail() throws Exception {
+        Usuario user = new Usuario();
+        user.setLogin("save-invalid-email");
+        user.setEmail("save-invalid-email@example.com");
 
-		userRepository.saveAndFlush(user);
+        userRepository.saveAndFlush(user);
 
-		//@formatter:off
+        //@formatter:off
 		UsuarioDTO userDTO = UsuarioDTO.builder()
 				.setId(user.getId())
 				.setLogin(user.getLogin())
@@ -229,28 +219,27 @@ public class AccountResourceIntTest {
 				.build();
 		//@formatter:on
 
-		restMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isBadRequest());
+        restMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isBadRequest());
 
-		assertThat(userRepository.findOneByEmail("invalid email")).isNotPresent();
-	}
+        assertThat(userRepository.findOneByEmail("invalid email")).isNotPresent();
+    }
 
-	@Test
-	@Transactional
-	@WithMockUser("save-existing-email")
-	public void testSaveExistingEmail() throws Exception {
-		Usuario user = new Usuario();
-		user.setLogin("save-existing-email");
-		user.setEmail("save-existing-email@example.com");
+    @Test
+    @Transactional
+    @WithMockUser("save-existing-email")
+    public void testSaveExistingEmail() throws Exception {
+        Usuario user = new Usuario();
+        user.setLogin("save-existing-email");
+        user.setEmail("save-existing-email@example.com");
 
-		userRepository.saveAndFlush(user);
+        userRepository.saveAndFlush(user);
 
-		Usuario anotherUser = new Usuario();
-		anotherUser.setLogin("save-existing-email2");
-		anotherUser.setEmail("save-existing-email2@example.com");
+        Usuario anotherUser = new Usuario();
+        anotherUser.setLogin("save-existing-email2");
+        anotherUser.setEmail("save-existing-email2@example.com");
 
-		userRepository.saveAndFlush(anotherUser);
-		//@formatter:off
+        userRepository.saveAndFlush(anotherUser);
+        //@formatter:off
 		UsuarioDTO userDTO = UsuarioDTO.builder()
 				.setId(user.getId())
 				.setLogin(user.getLogin())
@@ -265,25 +254,24 @@ public class AccountResourceIntTest {
 				.build();
 		//@formatter:on
 
-		restMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isBadRequest());
+        restMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isBadRequest());
 
-		Usuario updatedUser = userRepository.findOneByLogin("save-existing-email").orElse(null);
-		assertThat(updatedUser.getEmail()).isEqualTo("save-existing-email@example.com");
-	}
+        Usuario updatedUser = userRepository.findOneByLogin("save-existing-email").orElse(null);
+        assertThat(updatedUser.getEmail()).isEqualTo("save-existing-email@example.com");
+    }
 
-	@Test
-	@Transactional
-	@WithMockUser("save-existing-email-and-login")
-	public void testSaveExistingEmailAndLogin() throws Exception {
-		Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
+    @Test
+    @Transactional
+    @WithMockUser("save-existing-email-and-login")
+    public void testSaveExistingEmailAndLogin() throws Exception {
+        Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
-		Usuario user = new Usuario();
-		user.setLogin("save-existing-email-and-login");
-		user.setEmail("save-existing-email-and-login@example.com");
+        Usuario user = new Usuario();
+        user.setLogin("save-existing-email-and-login");
+        user.setEmail("save-existing-email-and-login@example.com");
 
-		userRepository.saveAndFlush(user);
-		//@formatter:off
+        userRepository.saveAndFlush(user);
+        //@formatter:off
 		UsuarioDTO userDTO = UsuarioDTO.builder()
 				.setId(user.getId())
 				.setOptLock(user.getOptLock())
@@ -299,11 +287,10 @@ public class AccountResourceIntTest {
 				.build();
 		//@formatter:on
 
-		restMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isOk());
+        restMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isOk());
 
-		Usuario updatedUser = userRepository.findOneByLogin("save-existing-email-and-login").orElse(null);
-		assertThat(updatedUser.getEmail()).isEqualTo("save-existing-email-and-login@example.com");
-	}
+        Usuario updatedUser = userRepository.findOneByLogin("save-existing-email-and-login").orElse(null);
+        assertThat(updatedUser.getEmail()).isEqualTo("save-existing-email-and-login@example.com");
+    }
 
 }

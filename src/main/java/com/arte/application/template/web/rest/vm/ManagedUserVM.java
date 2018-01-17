@@ -8,17 +8,17 @@ import com.arte.application.template.web.rest.dto.UsuarioDTO;
  */
 public class ManagedUserVM extends UsuarioDTO {
 
-	public ManagedUserVM() {
-		// Empty constructor needed for Jackson.
-	}
+    public ManagedUserVM() {
+        // Empty constructor needed for Jackson.
+    }
 
-	public ManagedUserVM(ManagedUserVM userDTO) {
-		super();
-		updateFrom(userDTO);
-	}
+    public ManagedUserVM(ManagedUserVM userDTO) {
+        super();
+        updateFrom(userDTO);
+    }
 
-	@Override
-	public String toString() {
-		return "ManagedUserVM{" + "} " + super.toString();
-	}
+    @Override
+    public String toString() {
+        return "ManagedUserVM{" + "} " + super.toString();
+    }
 }

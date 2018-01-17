@@ -10,10 +10,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.arte.application.template.security.SecurityUtils;
 
 /**
-* Test class for the SecurityUtils utility class.
-*
-* @see SecurityUtils
-*/
+ * Test class for the SecurityUtils utility class.
+ *
+ * @see SecurityUtils
+ */
 public class SecurityUtilsUnitTest {
 
     @Test
