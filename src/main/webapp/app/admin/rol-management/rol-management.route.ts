@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActiva
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { RolMgmtComponent } from './rol-management.component';
-import { RolMgmtDialogComponent } from './rol-management-dialog.component';
+import { RolMgmtFormComponent } from './rol-management-form.component';
 import { RolDeleteDialogComponent } from './rol-management-delete-dialog.component';
 
 import { Principal, UserRouteAccessService } from '../../shared';
@@ -42,7 +42,7 @@ export const rolMgmtRoute: Routes = [
             },
             {
                 path: 'rol-management/:codigo',
-                component: RolMgmtDialogComponent,
+                component: RolMgmtFormComponent,
                 data: {
                     pageTitle: 'rolManagement.home.title',
                     operaciones: ['LEER:ROL']
@@ -51,7 +51,7 @@ export const rolMgmtRoute: Routes = [
             },
             {
                 path: 'rol-management-new',
-                component: RolMgmtDialogComponent,
+                component: RolMgmtFormComponent,
                 data: {
                     pageTitle: 'rolManagement.home.title',
                     operaciones: ['CREAR:ROL'],
@@ -60,7 +60,7 @@ export const rolMgmtRoute: Routes = [
             },
             {
                 path: 'rol-management/:codigo/editar',
-                component: RolMgmtDialogComponent,
+                component: RolMgmtFormComponent,
                 data: {
                     pageTitle: 'rolManagement.home.title',
                     operaciones: ['EDITAR:ROL'],
