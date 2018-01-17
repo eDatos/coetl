@@ -9,10 +9,10 @@ import { User, UserService, RolService, Rol } from '../../shared';
 import { Subscription } from 'rxjs/Rx';
 
 @Component({
-    selector: 'jhi-user-mgmt-dialog',
-    templateUrl: './user-management-dialog.component.html'
+    selector: 'jhi-user-mgmt-form',
+    templateUrl: './user-management-form.component.html'
 })
-export class UserMgmtDialogComponent implements OnInit, OnDestroy {
+export class UserMgmtFormComponent implements OnInit, OnDestroy {
 
     user: User;
     authorities: any[];

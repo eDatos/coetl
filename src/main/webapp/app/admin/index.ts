@@ -23,7 +23,7 @@ export * from './metrics/metrics.route';
 export * from './rol-management/rol-management.component';
 export * from './rol-management/rol-management.route';
 export * from './rol-management/rol-modal.service';
-export * from './user-management/user-management-dialog.component';
+export * from './user-management/user-management-form.component';
 export * from './user-management/user-management-delete-dialog.component';
 export * from './user-management/user-management.component';
 export * from './user-management/user-management.route';

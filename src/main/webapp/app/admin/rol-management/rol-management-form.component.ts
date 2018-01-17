@@ -10,11 +10,11 @@ import { Operacion, OperacionService, OperacionFilter } from '../../entities/ope
 import { Subscription } from 'rxjs/Rx';
 
 @Component({
-    selector: 'jhi-rol-mgmt-dialog',
-    templateUrl: './rol-management-dialog.component.html',
-    styleUrls: ['./rol-management-dialog.component.scss']
+    selector: 'jhi-rol-mgmt-form',
+    templateUrl: './rol-management-form.component.html',
+    styleUrls: ['./rol-management-form.component.scss']
 })
-export class RolMgmtDialogComponent implements OnInit {
+export class RolMgmtFormComponent implements OnInit {
 
     rol: Rol;
     codigoOriginalRol = '';

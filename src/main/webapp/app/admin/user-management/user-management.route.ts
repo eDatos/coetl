@@ -4,7 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActiva
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { UserMgmtComponent } from './user-management.component';
-import { UserMgmtDialogComponent } from './user-management-dialog.component';
+import { UserMgmtFormComponent } from './user-management-form.component';
 import { UserDeleteDialogComponent } from './user-management-delete-dialog.component';
 
 import { Principal, UserRouteAccessService } from '../../shared';
@@ -46,7 +46,7 @@ export const userMgmtRoute: Routes = [
     {
         path: 'user-management/:login',
         canActivate: [UserRouteAccessService],
-        component: UserMgmtDialogComponent,
+        component: UserMgmtFormComponent,
         data: {
             pageTitle: 'userManagement.home.title',
             operaciones: 'LEER:USUARIO'
@@ -55,7 +55,7 @@ export const userMgmtRoute: Routes = [
     {
         path: 'user-management-new',
         canActivate: [UserRouteAccessService],
-        component: UserMgmtDialogComponent,
+        component: UserMgmtFormComponent,
         data: {
             pageTitle: 'userManagement.home.title',
             operaciones: 'CREAR:USUARIO'
@@ -64,7 +64,7 @@ export const userMgmtRoute: Routes = [
     {
         path: 'user-management/:login/edit',
         canActivate: [UserRouteAccessService],
-        component: UserMgmtDialogComponent,
+        component: UserMgmtFormComponent,
         data: {
             operaciones: 'EDITAR:USUARIO',
             pageTitle: 'userManagement.home.title'

@@ -12,7 +12,7 @@ import {
     RolMgmtComponent,
     UserMgmtComponent,
     UserDeleteDialogComponent,
-    UserMgmtDialogComponent,
+    UserMgmtFormComponent,
     UserMgmtDeleteDialogComponent,
     LogsComponent,
     JhiMetricsMonitoringModalComponent,
@@ -32,7 +32,7 @@ import {
     UserModalService,
     AuditsResolvePagingParams
 } from './';
-import { RolMgmtDialogComponent } from './rol-management/rol-management-dialog.component';
+import { RolMgmtFormComponent } from './rol-management/rol-management-form.component';
 import { RolMgmtDeleteDialogComponent, RolDeleteDialogComponent } from './rol-management/rol-management-delete-dialog.component';
 import { UserSearchComponent } from './user-management/user-search/index';
 
@@ -45,13 +45,13 @@ import { UserSearchComponent } from './user-management/user-search/index';
     declarations: [
         AuditsComponent,
         RolMgmtComponent,
-        RolMgmtDialogComponent,
+        RolMgmtFormComponent,
         RolDeleteDialogComponent,
         RolMgmtDeleteDialogComponent,
         UserSearchComponent,
         UserMgmtComponent,
         UserDeleteDialogComponent,
-        UserMgmtDialogComponent,
+        UserMgmtFormComponent,
         UserMgmtDeleteDialogComponent,
         LogsComponent,
         JhiConfigurationComponent,
@@ -62,9 +62,9 @@ import { UserSearchComponent } from './user-management/user-search/index';
         JhiMetricsMonitoringModalComponent
     ],
     entryComponents: [
-        RolMgmtDialogComponent,
+        RolMgmtFormComponent,
         RolMgmtDeleteDialogComponent,
-        UserMgmtDialogComponent,
+        UserMgmtFormComponent,
         UserMgmtDeleteDialogComponent,
         JhiHealthModalComponent,
         JhiMetricsMonitoringModalComponent,
