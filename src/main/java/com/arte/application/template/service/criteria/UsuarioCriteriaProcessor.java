@@ -1,11 +1,14 @@
 package com.arte.application.template.service.criteria;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import com.arte.application.template.domain.Usuario;
+import com.arte.application.template.service.criteria.util.CriteriaUtil;
 import com.arte.application.template.web.rest.errors.CustomParameterizedException;
 import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
@@ -17,9 +20,6 @@ import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
 
     private static final String ENTITY_FIELD_LOGIN = "login";
-    private static final String ENTITY_FIELD_NOMBRE = "nombre";
-    private static final String ENTITY_FIELD_APELLIDO1 = "apellido1";
-    private static final String ENTITY_FIELD_APELLIDO2 = "apellido2";
     private static final String ENTITY_FIELD_EMAIL = "email";
 
     public UsuarioCriteriaProcessor() {
@@ -27,7 +27,7 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        NOMBRE, APELLIDO1, APELLIDO2, LOGIN, ROL, EMAIL
+        LOGIN, ROL, EMAIL, USUARIO
     }
 
     @Override
@@ -38,16 +38,9 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withEntityProperty(ENTITY_FIELD_LOGIN).build());
     	
     	registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
-    			.withQueryProperty(QueryProperty.NOMBRE).sortable()
-    			.withEntityProperty(ENTITY_FIELD_NOMBRE).build());
-    	
-    	registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
-    			.withQueryProperty(QueryProperty.APELLIDO1).sortable()
-    			.withEntityProperty(ENTITY_FIELD_APELLIDO1).build());
-    	
-    	registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
-    			.withQueryProperty(QueryProperty.APELLIDO2).sortable()
-    			.withEntityProperty(ENTITY_FIELD_APELLIDO2).build());
+    			.withQueryProperty(QueryProperty.USUARIO)
+    			.withCriterionConverter(new SqlCriterionBuilder())
+    			.build());
     	
     	registerProcessorsWithLogicalDeletionPolicy(
                 RestrictionProcessorBuilder.restrictionProcessor()
@@ -70,6 +63,10 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
         public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
             if (QueryProperty.ROL.name().equalsIgnoreCase(property.getLeftExpression())) {
                 return usuariosConRoles(property);
+            }
+            if (QueryProperty.USUARIO.name().equalsIgnoreCase(property.getLeftExpression())) {
+                ArrayList<String> fields = new ArrayList<>(Arrays.asList("login", "nombre", "apellido1", "apellido2"));
+                return CriteriaUtil.searchAccentAndCaseInsensitiveCriterion(property, fields);
             }
             throw new CustomParameterizedException(String.format("Query param not supported: '%s", property));
         }
