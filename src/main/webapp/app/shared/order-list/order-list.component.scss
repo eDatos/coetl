@@ -12,6 +12,10 @@
         .ui-autocomplete-token {
             display: none;
         }
+        .ui-autocomplete-multiple {
+            border: $border-width solid $grey-medium;
+            border-radius: $border-radius;
+        }
     }
 
     p-orderList /deep/ {                        
@@ -39,7 +43,7 @@
                 border: none;
                 
                 .ui-orderlist-item {
-                    width: 99%;
+                    margin: 0;
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
@@ -84,6 +88,15 @@
     p-orderList /deep/ { 
         .ui-orderlist.disabled {
             @extend %order-list-disabled;
+        }
+    }
+
+    &:required, &[required] {
+        ac-autocomplete /deep/ {
+            border-left: none;
+            .entity-field-error {
+                padding-right: $grid-gutter-width-base/2 !important;
+            }
         }
     }
 }

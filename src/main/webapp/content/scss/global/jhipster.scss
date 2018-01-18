@@ -10,6 +10,7 @@ Bootstrap tweaks
 
 body {
     overflow-y: scroll;
+    line-height: $input-line-height;
 }
 
 body, h1, h2, h4 {
