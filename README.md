@@ -71,7 +71,7 @@ SELECT add_usuario_with_existing_rol('RELLENAR_USUARIO_LDAP', 'RELLENAR_NOMBRE_U
 ```
 El resto de usuarios pueden ser dados de alta mediante la aplicación, en la sección de **Gestión de usuarios**.
 
->  **:warning: Importante:** Existe un fichero script sql sobre el que editar este rol y usuario iniciales. Dicho fichero se encuentra en la ubicación del proyecto: [:open_file_folder: etc/db/01-configuraciones/entorno-demo-arte/01-insercion-roles-y-usuarios.sql](etc/db/01-configuraciones/entorno-demo-arte/01-insercion-roles-y-usuarios.sql "Fichero de inserción de roles y usuarios").
+>  **Importante:** Existe un fichero script SQL sobre el que editar este rol y usuario iniciales. Dicho fichero se encuentra en la ubicación del proyecto: [etc/db/01-configuraciones/entorno-demo-arte/01-insercion-roles-y-usuarios.sql](etc/db/01-configuraciones/entorno-demo-arte/01-insercion-roles-y-usuarios.sql "Fichero de inserción de roles y usuarios").
 
 ----------
 
