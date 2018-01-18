@@ -12,6 +12,22 @@ $autocomplete-vertical-padding: 0.3rem;
         .ui-autocomplete-token {
             padding-right: $close-icon-width;
         }
+        &.ui-inputtext {
+            padding-top: $input-padding-y;
+            padding-left: $input-padding-x;
+            padding-right: $input-padding-x;
+            line-height: $input-line-height;
+        }
+    }
+    .ui-autocomplete-input {
+        &.ui-inputtext {
+            padding-bottom: $input-padding-y;
+        }
+    }
+    .ui-autocomplete-multiple-container {
+        &.ui-inputtext {
+            padding-bottom: $input-padding-y - $autocomplete-vertical-padding;
+        }
     }
     .ui-autocomplete-input-token {
         padding: 0;
@@ -20,10 +36,6 @@ $autocomplete-vertical-padding: 0.3rem;
     .ui-autocomplete-dropdown {
         position: absolute;
         right: 0;
-    }
-    .ui-inputtext {
-        padding: $input-padding-y $input-padding-x ($input-padding-y - $autocomplete-vertical-padding) $input-padding-x;
-        line-height: $input-line-height;
     }
 }
 
