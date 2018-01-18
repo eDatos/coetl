@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+  <!-- Added the function lower_unaccent. -->
+  <changeSet id="20180118152001-1" author="jhipster">
+  	<createProcedure procedureName="add_rol_with_all_operaciones"
+  		path="../postgresql/procedure_add_rol_with_all_operaciones.sql"
+  		relativeToChangelogFile="true"
+  		dbms="postgresql"></createProcedure>
+  </changeSet>
+
+</databaseChangeLog>

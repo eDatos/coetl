@@ -95,19 +95,9 @@
       baseTableName="usuario_rol" constraintName="fk_usuario_rol_usuario_id"
       referencedColumnNames="id" referencedTableName="usuario" />
 
-    <loadData encoding="UTF-8" file="config/liquibase/usuarios.csv"
-      separator=";" tableName="usuario">
-      <column name="activated" type="boolean" />
-      <column name="created_date" type="timestamp" />
-    </loadData>
     <dropDefaultValue tableName="usuario" columnName="created_date"
       columnDataType="datetime" />
 
-    <loadData encoding="UTF-8" file="config/liquibase/roles.csv"
-      separator=";" tableName="rol" />
-
-    <loadData encoding="UTF-8" file="config/liquibase/usuarios_roles.csv"
-      separator=";" tableName="usuario_rol" />
     <createTable tableName="jhi_persistent_audit_event">
       <column name="event_id" type="bigint" autoIncrement="${autoIncrement}">
         <constraints primaryKey="true" nullable="false" />
