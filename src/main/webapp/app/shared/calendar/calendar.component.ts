@@ -66,8 +66,14 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     @Input()
     maxDate: Date;
 
+    @Input()
+    showTime: boolean;
+
     @Output()
     private onSelect: EventEmitter<any> = new EventEmitter();
+
+    @Output()
+    private onInput: EventEmitter<any> = new EventEmitter();
 
     @ViewChild(Calendar)
     private calendar: Calendar;
@@ -83,7 +89,14 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
 
     onSelectMethod($event) {
         this.onSelect.emit($event);
-        this.onModelChange($event);
+        this.onModelChange(this._date);
+    }
+
+    onInputMethod($event) {
+        if (this.date) {
+            this.onInput.emit($event);
+            this.onModelChange(this._date);
+        }
     }
 
     // Value Accesor
