@@ -129,7 +129,7 @@ fieldset {
                 text-align: right;
                 
                 position: absolute !important;
-                top: 100%;
+                top: 105%;
                 right: 0;
                 font-size: $error-font-size;
                 
@@ -173,7 +173,7 @@ fieldset {
     }
 
     .form-group {
-        .form-control:required {
+        .form-control:required, .form-control[required] {
             border-left: $border-width*5 solid $accent-dark;
         }
         .form-control:required.ng-valid, .ng-valid[required], .ng-valid.required  {

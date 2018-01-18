@@ -221,6 +221,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     handleOnFocusOutSuggestions($event) {
         this.focusMustOpenPanel = true;
         this.onModelTouched();
+        this.onBlur.emit($event);
     }
 
     handleOnFocusSuggestions($event) {

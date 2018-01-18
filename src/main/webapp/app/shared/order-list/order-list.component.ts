@@ -34,6 +34,9 @@ export class OrderListComponent implements ControlValueAccessor {
     public disabled = false;
 
     @Input()
+    public required = true;
+
+    @Input()
     public itemTemplate: Function = (item) => item;
 
     private onModelChange: Function = () => { };
@@ -57,6 +60,10 @@ export class OrderListComponent implements ControlValueAccessor {
 
     onReorder() {
         this.onModelChange(this._orderedList);
+    }
+
+    onBlurMethod() {
+        this.onModelTouched();
     }
 
     generateRandomDragAndDropScope() {
