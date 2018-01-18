@@ -7,6 +7,7 @@
     file="config/liquibase/changelog/00000000000000_initial_schema.xml"
     relativeToChangelogFile="false" />
   <include file="config/liquibase/changelog/20170824105121_added_entity_Operacion.xml" relativeToChangelogFile="false"/>
+  <include file="config/liquibase/changelog/20180117115714_added_function_lower_unaccent.xml" relativeToChangelogFile="false" />
   <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase 
     changelogs here -->
   <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will 
