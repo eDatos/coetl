@@ -17,17 +17,14 @@ public final class CriteriaUtil {
     private static final String POSTGRE_DB_FUNCTION = "lower_unaccent";
 
     /**
-     * Apply Accent and Case Insensitive search conditions in WHERE clause
+     * Apply Accent and Case Insensitive search conditions in WHERE clause with default database function
      * 
      * @param property the query parameters properties
      * @param fields the database fields on which the search is made
      * @return the criterion restrictions of the search conditions
      */
-    public static Criterion searchAccentAndCaseInsensitiveCriterion(QueryPropertyRestriction property, List<String> fields) {
-        final String OR_DELIMETER = " or ";
-        String sentence = fields.stream().map(field -> doSearchSentenceSql(property, field, POSTGRE_DB_FUNCTION)).collect(Collectors.joining(OR_DELIMETER));
-        String sql = "(" + sentence + ")";
-        return Restrictions.sqlRestriction(sql);
+    public static Criterion buildAccentAndCaseInsensitiveCriterion(QueryPropertyRestriction property, List<String> fields) {
+        return buildAccentAndCaseInsensitiveCriterion(property, fields, POSTGRE_DB_FUNCTION);
     }
 
     /**
@@ -38,14 +35,14 @@ public final class CriteriaUtil {
      * @param dbFunction the database function that executes the Accent and Case Insensitive
      * @return the criterion restrictions of the search conditions
      */
-    public static Criterion searchAccentAndCaseInsensitiveCriterion(QueryPropertyRestriction property, List<String> fields, String dbFunction) {
+    public static Criterion buildAccentAndCaseInsensitiveCriterion(QueryPropertyRestriction property, List<String> fields, String dbFunction) {
         final String OR_DELIMETER = " or ";
-        String sentence = fields.stream().map(field -> doSearchSentenceSql(property, field, dbFunction)).collect(Collectors.joining(OR_DELIMETER));
+        String sentence = fields.stream().map(field -> makeSearchSentenceSql(property, field, dbFunction)).collect(Collectors.joining(OR_DELIMETER));
         String sql = "(" + sentence + ")";
         return Restrictions.sqlRestriction(sql);
     }
 
-    private static String doSearchSentenceSql(QueryPropertyRestriction property, String field, String dbFunction) {
+    private static String makeSearchSentenceSql(QueryPropertyRestriction property, String field, String dbFunction) {
         return "(" + dbFunction + "({alias}." + field + ") " + property.getOperationType() + " '%' || " + dbFunction + "('" + property.getRightValue() + "') || '%')";
     }
 }

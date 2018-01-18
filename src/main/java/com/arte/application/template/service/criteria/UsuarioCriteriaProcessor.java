@@ -19,6 +19,11 @@ import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
 public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
 
+    private static final String TABLE_FIELD_LOGIN = "login";
+    private static final String TABLE_FIELD_NOMBRE = "nombre";
+    private static final String TABLE_FIELD_APELLIDO1 = "apellido1";
+    private static final String TABLE_FIELD_APELLIDO2 = "apellido2";
+
     private static final String ENTITY_FIELD_LOGIN = "login";
     private static final String ENTITY_FIELD_EMAIL = "email";
 
@@ -65,8 +70,8 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
                 return usuariosConRoles(property);
             }
             if (QueryProperty.USUARIO.name().equalsIgnoreCase(property.getLeftExpression())) {
-                ArrayList<String> fields = new ArrayList<>(Arrays.asList("login", "nombre", "apellido1", "apellido2"));
-                return CriteriaUtil.searchAccentAndCaseInsensitiveCriterion(property, fields);
+                ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_LOGIN, TABLE_FIELD_NOMBRE, TABLE_FIELD_APELLIDO1, TABLE_FIELD_APELLIDO2));
+                return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
             }
             throw new CustomParameterizedException(String.format("Query param not supported: '%s", property));
         }
