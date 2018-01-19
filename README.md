@@ -10,7 +10,7 @@ Además, podrá encontrar otros anexos de utilidad en los que se detallan alguna
 ### Descripción de la aplicación
 Arte Application Template es la plantilla base de aplicaciones web de gestión sobre la que Arte Consultores S.L. crea sus proyectos.
 
-La plantilla está basada en el nuevo stack (ver [Más Información](http://git.arte-consultores.com/artesl/arte-application-template#m%C3%A1s-informaci%C3%B3n)) aportando toda la arquitectura y configuración necesaria sobre la que trabajar en nuevos proyectos. Para mantenerlo lo más simple posible solo implementa el manejo de los usuarios y roles con acceso a la aplicación. 
+La plantilla está basada en el nuevo stack (ver [Más Información](#M%C3%A1s-informaci%C3%B3n)) aportando toda la arquitectura y configuración necesaria sobre la que trabajar en nuevos proyectos. Para mantenerlo lo más simple posible solo implementa el manejo de los usuarios y roles con acceso a la aplicación. 
 
 ### Requerimientos previos
 
@@ -30,6 +30,10 @@ Los servicios necesarios de manera directa (son atacados directamente por la apl
 ### Componentes de la instalación
 La plantilla consta de una aplicación con interfaz web y un servicio web REST.
 
+### Gestión de roles y permisos
+
+* :construction: **_TODO_**
+
 ----------
 
 ## Procedimiento de instalación desde cero
@@ -43,13 +47,13 @@ La plantilla consta de una aplicación con interfaz web y un servicio web REST.
     4. De esta forma la aplicación, en el momento de arrancar, llevará a cabo la creación de todos los objetos que sean necesarios sobre la base de datos.
 
 ### Paso 2. Despliegue en servidor de aplicaciones.
-- Ubicar el archivo *.war compilado con el perfil adecuado en el servidor de aplicaciones. Se pueden obtener más detalles en el [Anexo de perfiles de compilación](http://git.arte-consultores.com/artesl/arte-application-template#anexo-perfiles-de-compilaci%C3%B3n). 
+- Ubicar el archivo *.war compilado con el perfil adecuado en el servidor de aplicaciones. Se pueden obtener más detalles en el [Anexo de perfiles de compilación](#anexo-perfiles-de-compilaci%C3%B3n). 
 - Definir si se desea externalizar la configuración de la aplicación o mantener dentro del propio archivo war.
     1. Si no se desea externalizar la configuración de las propiedades a un directorio DATA se puede omitir este paso.
     2. Si se desea externalizar la configuración de las propiedades a un directorio DATA se tendrán que realizar los siguientes pasos:
         - Se hará una copia del archivo **arte-application-template.war/WEB-INF/classes/config/application-env.yml** a un directorio externalizado de su elección.
         - Se editará el archivo **arte-application-template.war/WEB-INF/classes/config/data-location.properties** y se especificará la ruta anterior.
-- Se cumplimentarán las propiedades del fichero **application-env.yml**. Se puede consultar el detalle sobre cada una de las propiedades en el [Anexo de descripción de propiedades de configuración](http://git.arte-consultores.com/artesl/arte-application-template#anexo-descripci%C3%B3n-de-las-propiedades-de-configuraci%C3%B3n).
+- Se cumplimentarán las propiedades del fichero **application-env.yml**. Se puede consultar el detalle sobre cada una de las propiedades en el [Anexo de descripción de propiedades de configuración](#anexo-descripci%C3%B3n-de-las-propiedades-de-configuraci%C3%B3n).
 
 
 ### Paso 3. Configuración de logging.
@@ -58,20 +62,25 @@ Pueden modificarse los ficheros relacionados con la configuración de logging en
 ### Paso 4. Arrancar la aplicación.
 
 ### Paso 5. Crear usuario administador
-Para poder acceder a la aplicación __*es necesario dar de alta un rol*__ al que se le debe asignar todas las operaciones disponibles __*y al menos un usuario con dicho rol*__ creado. 
+Para poder acceder a la aplicación __*es necesario dar de alta un rol*__ al que se le debe asignar todas las operaciones disponibles __*y al menos un usuario con dicho rol*__ creado (ver [Gestión de roles y permisos](#Gesti%C3%B3n-de-roles-y-permisos), para conocer más detalles).  A continuación, se enumerarán y  explicarán los procesos a realizar para llevar a cabo esta tarea:
 
-Para simplificar esta tarea, al arrancar la aplicación, se habrán creado dos procedimientos de base de datos:  *add_rol_with_all_operaciones* y *add_usuario_with_existing_rol*. La ejecución de estos procedimientos se muestra en el siguiente ejemplo de script de base de datos:
+1. Crear un rol al que se le asignarán todas las operaciones, para ello es necesario ejecutar la siguiente instrucción SQL:
 
-```sql
--- Crea el rol y se le asigna todos las operaciones
-SELECT add_rol_with_all_operaciones('RELLENAR_CODIGO_ROL', 'RELLENAR_NOMBRE_ROL');
+   ```sql
+   -- Crea el rol y se le asigna todos las operaciones
+   SELECT add_rol_with_all_operaciones('RELLENAR_CODIGO_ROL', 'RELLENAR_NOMBRE_ROL');
+   ```
 
--- Crea un usuario y se le asigna un rol existente
-SELECT add_usuario_with_existing_rol('RELLENAR_USUARIO_LDAP', 'RELLENAR_NOMBRE_USUARIO', 'RELLENAR_PRIMER_APPELLIDO_USUARIO', 'RELLENAR_SEGUNDO_APPELLIDO_USUARIO', 'RELLENAR_CORREO_ELECTRONICO_USUARIO', 'RELLENAR_CODIGO_ROL_EXISTENTE');
-```
-El resto de usuarios pueden ser dados de alta mediante la aplicación, en la sección de **Gestión de usuarios**.
+2. Crear un usuario al que asignarle un rol creado, para ello es necesario ejecutar la siguiente instrucción SQL:
 
->  **Importante:** Existe un fichero script SQL sobre el que editar este rol y usuario iniciales. Dicho fichero se encuentra en la ubicación del proyecto: [etc/db/01-configuraciones/entorno-demo-arte/01-insercion-roles-y-usuarios.sql](etc/db/01-configuraciones/entorno-demo-arte/01-insercion-roles-y-usuarios.sql "Fichero de inserción de roles y usuarios").
+   ```sql
+   -- Crea un usuario y se le asigna un rol existente
+   SELECT add_usuario_with_existing_rol('RELLENAR_USUARIO_LDAP', 'RELLENAR_NOMBRE_USUARIO', 'RELLENAR_PRIMER_APPELLIDO_USUARIO', 'RELLENAR_SEGUNDO_APPELLIDO_USUARIO', 'RELLENAR_CORREO_ELECTRONICO_USUARIO', 'RELLENAR_CODIGO_ROL_EXISTENTE');
+   ```
+
+Una vez generado este usuario administrador (con todos los permisos), este tendrá los permisos necesario para dar de alta el resto de usuarios mediante la aplicación, en la sección de **Gestión de usuarios**.
+
+>  **Importante:** Existe un fichero script SQL sobre el que basarse para realizar las acciones anteriores. Dicho fichero se encuentra en: [etc/db/01-configuraciones/01-insercion-roles-y-usuarios.sql](etc/db/01-configuraciones/01-insercion-roles-y-usuarios.sql "Fichero de inserción de roles y usuarios").
 
 ----------
 
@@ -154,13 +163,13 @@ mvn clean install -Pdev
 
 Por defecto, si no se especifica un perfil, la aplicación se compila con el perfil de desarrollo `dev`.
 
-Hay que tener presente que si la aplicación se compila con el perfil de desarrollo, para terminar de construir la misma y poder ejecutarla es necesario seguir los pasos descritos en el [Anexo de desarrollo](http://git.arte-consultores.com/artesl/arte-application-template#anexo-desarrollo).
+Hay que tener presente que si la aplicación se compila con el perfil de desarrollo, para terminar de construir la misma y poder ejecutarla es necesario seguir los pasos descritos en el [Anexo de desarrollo](#anexo-desarrollo).
 
 ## Anexo. Desarrollo
 
 A continuación se describen los pasos a seguir para configurar el entorno de desarrollo sobre el cual podamos arrancar y modificar la aplicación.
 
-En primer lugar, tal y como se describe en el [Anexo Perfiles de compilación](http://git.arte-consultores.com/artesl/arte-application-template#anexo-perfiles-de-compilaci%C3%B3n), debemos compilar la aplicación con Maven.  Para trabajar en un entorno de desarrollo, basta que la compilemos con el perfil `dev`.
+En primer lugar, tal y como se describe en el [Anexo Perfiles de compilación](#anexo-perfiles-de-compilaci%C3%B3n), debemos compilar la aplicación con Maven.  Para trabajar en un entorno de desarrollo, basta que la compilemos con el perfil `dev`.
 
 A continuación, para terminar de construir la aplicación, es necesario instalar las siguientes dependencias:
 
@@ -205,7 +214,7 @@ yarn test
 ```
 
 ### Más información
-La base de la aplicación ha sido generada usando JHipster 4.6.2. Puede consultarse más información en https://jhipster.github.io/documentation-archive/v4.6.2.
+La base de la aplicación ha sido generada usando JHipster 4.6.2. Puede consultarse más información en la [página oficial](http://www.jhipster.tech/documentation-archive/v4.6.2 "JHipster").
 
 
 [Node.js]: https://nodejs.org/
