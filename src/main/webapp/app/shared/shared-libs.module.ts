@@ -1,18 +1,31 @@
 // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { CommonModule } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Autosize } from 'ng-autosize';
 import { NgJhipsterModule } from 'ng-jhipster';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CookieModule } from 'ngx-cookie';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {
+    AutoCompleteModule,
+    ButtonModule,
+    CalendarModule,
+    CheckboxModule,
+    InputTextareaModule,
+    ListboxModule,
+    OrderListModule,
+    SelectButtonModule,
+} from 'primeng/primeng';
+
 import { DEFAULT_LANGUAGE } from './language/language.constants';
-import { CalendarModule, AutoCompleteModule, ButtonModule, SelectButtonModule, ListboxModule, OrderListModule } from 'primeng/primeng';
 
 @NgModule({
+    declarations: [
+        Autosize,
+    ],
     imports: [
         NgbModule.forRoot(),
         NgJhipsterModule.forRoot({
@@ -29,7 +42,9 @@ import { CalendarModule, AutoCompleteModule, ButtonModule, SelectButtonModule, L
         ButtonModule,
         SelectButtonModule,
         ListboxModule,
-        OrderListModule
+        OrderListModule,
+        CheckboxModule,
+        InputTextareaModule
     ],
     exports: [
         FormsModule,
@@ -43,7 +58,10 @@ import { CalendarModule, AutoCompleteModule, ButtonModule, SelectButtonModule, L
         ButtonModule,
         SelectButtonModule,
         ListboxModule,
-        OrderListModule
+        OrderListModule,
+        CheckboxModule,
+        InputTextareaModule,
+        Autosize
     ]
 })
 export class ArteApplicationTemplateSharedLibsModule { }

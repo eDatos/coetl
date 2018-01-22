@@ -24,6 +24,7 @@
     "expose-loader": "^0.7.3",
     "font-awesome": "4.7.0",
     "jquery": "3.2.1",
+    "ng-autosize": "^1.1.0",
     "ng-jhipster": "0.2.7",
     "ng2-webstorage": "1.8.0",
     "ngx-cookie": "1.0.0",
