@@ -9,16 +9,7 @@ import { Autosize } from 'ng-autosize';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { CookieModule } from 'ngx-cookie';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import {
-    AutoCompleteModule,
-    ButtonModule,
-    CalendarModule,
-    CheckboxModule,
-    InputTextareaModule,
-    ListboxModule,
-    OrderListModule,
-    SelectButtonModule,
-} from 'primeng/primeng';
+import { AutoCompleteModule, ButtonModule, CalendarModule, CheckboxModule, InputTextareaModule, ListboxModule, OrderListModule, SelectButtonModule } from 'primeng/primeng';
 
 import { DEFAULT_LANGUAGE } from './language/language.constants';
 
