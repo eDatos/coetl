@@ -4835,6 +4835,10 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "http://repository.arte-consultores.com/repository/npm-all/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
+ng-autosize@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ng-autosize/-/ng-autosize-1.1.0.tgz#3c2a95c0eb931ca9a5df1408735f051316b2cce1"
+
 ng-jhipster@0.2.7:
   version "0.2.7"
   resolved "http://repository.arte-consultores.com/repository/npm-all/ng-jhipster/-/ng-jhipster-0.2.7.tgz#ddf56233a8f78d80539d00b878f581d29452902e"

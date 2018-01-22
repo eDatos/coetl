@@ -58,9 +58,6 @@
 
     <loadData encoding="UTF-8" file="config/liquibase/operaciones.csv"
       separator=";" tableName="operacion" />
-
-    <loadData encoding="UTF-8" file="config/liquibase/roles_operaciones.csv"
-      separator=";" tableName="roles_operaciones" />
   </changeSet>
 
 </databaseChangeLog>
