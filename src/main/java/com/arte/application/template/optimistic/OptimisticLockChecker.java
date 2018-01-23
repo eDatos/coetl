@@ -54,7 +54,7 @@ public class OptimisticLockChecker {
 
         Long latestVersion = getLatestVersion(tableName, idColName, entity.getId());
 
-        if (latestVersion != null && !attemptVersion.equals(latestVersion)) {
+        if (latestVersion != null && attemptVersion < latestVersion) {
             throw new OptimisticLockException("Newer version [" + latestVersion + "] of entity [" + MessageHelper.infoString(entityClass.getName(), entity.getId()) + "] found in database");
         }
     }

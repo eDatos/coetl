@@ -17,6 +17,7 @@ export * from './user/user.service';
 export * from './model/response-wrapper.model';
 export * from './model/request-util';
 export * from './model/base-entity';
+export * from './model/base-entity-filter';
 export * from './model/entity-filter';
 export * from './model/batch-selection.model';
 export * from './model/has-batch-operations';

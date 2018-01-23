@@ -1,0 +1,42 @@
+{
+    "arteApplicationTemplateApp": {
+        "pelicula" : {
+            "home": {
+                "title": "Películas",
+                "createLabel": "Crear nueva película",
+                "createOrEditLabel": "Crear o editar película"
+            },
+            "deleted": "Una película ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar la película {{ titulo }}?"
+            },
+            "detail": {
+                "title": "Película"
+            },
+            "titulo": {
+                "label": "Titulo",
+                "placholder": "Titulo"
+            },
+            "descripcion": {
+                "label": "Descripción",
+                "placholder": "Descripción"
+            },
+            "annoEstreno": {
+                "label": "Año de estreno",
+                "placholder": "Año de estreno"
+            },
+            "idioma": {
+                "label": "Idioma",
+                "placholder": "Idioma"
+            },
+            "actores": {
+                "label": "Actores",
+                "placholder": "Actores"
+            },
+            "categorias": {
+                "label": "Categorías",
+                "placholder": "Categorías"
+            }
+        }
+    }
+}

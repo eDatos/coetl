@@ -1,0 +1,53 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "idioma",
+            "otherEntityName": "idioma",
+            "otherEntityRelationshipName": "pelicula"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "actores",
+            "otherEntityName": "actor",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "peliculas"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "categorias",
+            "otherEntityName": "categoria",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "peliculas"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "titulo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "descripcion",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "annoestreno",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180122100855",
+    "entityTableName": "pelicula",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl"
+}
