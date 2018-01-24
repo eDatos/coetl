@@ -1,0 +1,41 @@
+<div class="entity-search pelicula-search">
+
+    <div class="entity-search-field">
+        <label for="titulo" jhiTranslate="arteApplicationTemplateApp.pelicula.titulo.label">titulo</label>
+        <input class="form-control" [attr.aria-label]="'arteApplicationTemplateApp.pelicula.titulo.placeholder' | translate"
+            placeholder="{{'arteApplicationTemplateApp.pelicula.titulo.placeholder' | translate}}" [(ngModel)]="filters.titulo"
+            (keyup)="filter()" />
+        <span class="icon-search icon-flueco-icon-buscar"></span>
+    </div>
+
+
+    <div class="entity-search-field">
+        <label for="annoEstreno" jhiTranslate="arteApplicationTemplateApp.pelicula.annoEstreno.label">annoEstreno</label>
+        <ac-calendar class="form-control" [(ngModel)]="filters.annoEstreno" name="annoEstreno" [placeholder]="'arteApplicationTemplateApp.pelicula.annoEstreno.placeholder' | translate"
+            (onSelect)="filter()" (keyup)="filter()"></ac-calendar>
+    </div>
+
+
+    <div class="entity-search-field">
+        <label for="idioma" jhiTranslate="arteApplicationTemplateApp.pelicula.idioma.label">idioma</label>
+        <ac-autocomplete name="idioma" [multiple]="false" field="nombre" (onSelect)="filter()" (onUnselect)="filter()" [(ngModel)]="filters.idioma"
+            [suggestions]="filters.allIdiomas" [itemTemplate]="idiomaItemTemplate" [propertiesToQuery]="['nombre']"
+            [placeholder]="'arteApplicationTemplateApp.pelicula.idioma.placeholder' | translate"></ac-autocomplete>
+    </div>
+
+
+    <div class="entity-search-field">
+        <label for="categorias" jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label">categorias</label>
+        <ac-autocomplete name="categorias" [multiple]="true" field="nombre" (onSelect)="filter()" (onUnselect)="filter()" [(ngModel)]="filters.categorias"
+            [suggestions]="filters.allCategorias" [itemTemplate]="categoriaItemTemplate" [propertiesToQuery]="['nombre']"
+            [placeholder]="'arteApplicationTemplateApp.pelicula.categorias.placeholder' | translate"></ac-autocomplete>
+    </div>
+
+
+    <div class="entity-search-field-btn">
+        <button class="btn btn-default" (click)="resetFilters();">
+            <i class="fa fa-times"></i>
+            <span jhiTranslate="entity.action.filtersReset">Reset</span>
+        </button>
+    </div>
+</div>

@@ -3,8 +3,9 @@ import { DatePipe } from '@angular/common';
 export abstract class BaseEntityFilter {
 
     constructor(
-        private datePipe?: DatePipe,
-    ) { }
+        public datePipe?: DatePipe,
+    ) {
+     }
 
     protected updateQueryParam(id: string, params: any[], field?: string) {
         if (this[id] && (this[id].length === undefined || this[id].length > 0)) {
@@ -35,7 +36,13 @@ export abstract class BaseEntityFilter {
 
     abstract fromQueryParams(params: any);
 
-    abstract toUrl(queryParams);
+    toUrl(queryParams) {
+        const obj = Object.assign({}, queryParams);
+        Object.keys(this).map((id) => {
+            this.updateQueryParam(id, obj)
+        });
+        return obj;
+    }
 
     protected dateToString(date: Date): string {
         const dateFormat = 'dd/MM/yyyy';

@@ -21,10 +21,11 @@ public interface PeliculaService {
     /**
      * Get all the peliculas.
      *
+     * @param query the query filter
      * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<Pelicula> findAll(Pageable pageable);
+    Page<Pelicula> findAll(String query, Pageable pageable);
 
     /**
      * Get the "id" pelicula.

@@ -103,10 +103,9 @@ public class PeliculaResource extends AbstractResource {
      */
     @GetMapping
     @Timed
-    public ResponseEntity<List<PeliculaDTO>> getAllPeliculas(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<PeliculaDTO>> getAllPeliculas(@ApiParam(required = false) String query, @ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Peliculas");
-        Page<Pelicula> page = peliculaService.findAll(pageable);
-        Page<PeliculaDTO> result = page.map(peliculaMapper::toDto);
+        Page<PeliculaDTO> result = peliculaService.findAll(query, pageable).map(peliculaMapper::toDto);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(result, BASE_URL);
         return new ResponseEntity<>(result.getContent(), headers, HttpStatus.OK);
     }

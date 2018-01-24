@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Component;
 
 import com.arte.application.template.service.criteria.OperacionCriteriaProcessor;
+import com.arte.application.template.service.criteria.PeliculaCriteriaProcessor;
 import com.arte.application.template.service.criteria.RolCriteriaProcessor;
 import com.arte.application.template.service.criteria.UsuarioCriteriaProcessor;
 import com.arte.libs.grammar.antlr.DefaultQueryExprVisitor;
@@ -33,6 +34,10 @@ public class QueryUtil {
 
     public DetachedCriteria queryToRolCriteria(String query) {
         return queryToCriteria(query, new RolCriteriaProcessor());
+    }
+
+    public DetachedCriteria queryToPeliculaCriteria(String query) {
+        return queryToCriteria(query, new PeliculaCriteriaProcessor());
     }
 
     public String queryIncludingDeleted(String query) {

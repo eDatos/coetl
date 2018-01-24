@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiAlertService, JhiEventManager, JhiPaginationUtil, JhiParseLinks } from 'ng-jhipster';
@@ -5,6 +6,8 @@ import { Subscription } from 'rxjs/Rx';
 
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
+import { CategoriaService } from '../categoria/categoria.service';
+import { IdiomaService } from '../idioma/idioma.service';
 import { PeliculaFilter } from './pelicula-search/pelicula-filter.model';
 import { Pelicula } from './pelicula.model';
 import { PeliculaService } from './pelicula.service';
@@ -20,6 +23,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     error: any;
     success: any;
     eventSubscriber: Subscription;
+    searchSubsctiption: Subscription;
     routeData: any;
     links: any;
     totalItems: any;
@@ -29,10 +33,13 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     predicate: any;
     previousPage: any;
     reverse: any;
-    filters: PeliculaFilter = new PeliculaFilter();
+    filters: PeliculaFilter;
 
     constructor(
+        private datePipe: DatePipe,
         private peliculaService: PeliculaService,
+        private categoriaService: CategoriaService,
+        private idiomaService: IdiomaService,
         private parseLinks: JhiParseLinks,
         private alertService: JhiAlertService,
         private principal: Principal,
@@ -64,7 +71,9 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         this.peliculaService.query({
             page: this.page - 1,
             size: this.itemsPerPage,
-            sort: this.sort()}).subscribe(
+            sort: this.sort(),
+            query: this.filters.toQuery()
+        }).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)
         );
@@ -103,15 +112,32 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.filters = new PeliculaFilter(this.datePipe);
         this.loadAll();
         this.principal.identity().then((account) => {
             this.currentAccount = account;
         });
+        this.categoriaService.query().subscribe((res) => {
+            this.filters.allCategorias = res.json;
+            this.activatedRoute.queryParams.subscribe((params) => {
+                this.filters.fromQueryParams(params);
+                this.loadAll();
+            });
+        });
+        this.idiomaService.query().subscribe((res) => {
+            this.filters.allIdiomas = res.json;
+            this.activatedRoute.queryParams.subscribe((params) => {
+                this.filters.fromQueryParams(params);
+                this.loadAll();
+            });
+        });
+
         this.registerChangeInPeliculas();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
+        this.eventManager.destroy(this.searchSubsctiption);
     }
 
     trackId(index: number, item: Pelicula) {
@@ -120,6 +146,10 @@ export class PeliculaComponent implements OnInit, OnDestroy {
 
     registerChangeInPeliculas() {
         this.eventSubscriber = this.eventManager.subscribe('peliculaListModification', (response) => this.loadAll());
+        this.searchSubsctiption = this.eventManager.subscribe('peliculaSearch', (response) => {
+            const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams));
+            this.router.navigate(['pelicula'], {queryParams})
+        });
     }
 
     sort() {
@@ -140,9 +170,5 @@ export class PeliculaComponent implements OnInit, OnDestroy {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
-    }
-
-    public normalizedArrays(collection: any[], field: string): string {
-        return collection.map((item) => item[field] ? item[field] : 'FIELD_NOT_EXISTS').join(', ');
     }
 }

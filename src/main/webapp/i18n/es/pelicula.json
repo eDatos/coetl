@@ -15,27 +15,27 @@
             },
             "titulo": {
                 "label": "Titulo",
-                "placholder": "Titulo"
+                "placeholder": "Titulo"
             },
             "descripcion": {
                 "label": "Descripción",
-                "placholder": "Descripción"
+                "placeholder": "Descripción"
             },
             "annoEstreno": {
-                "label": "Año de estreno",
-                "placholder": "Año de estreno"
+                "label": "Fecha de estreno",
+                "placeholder": "Fecha de estreno"
             },
             "idioma": {
                 "label": "Idioma",
-                "placholder": "Idioma"
+                "placeholder": "Idioma"
             },
             "actores": {
                 "label": "Actores",
-                "placholder": "Actores"
+                "placeholder": "Actores"
             },
             "categorias": {
                 "label": "Categorías",
-                "placholder": "Categorías"
+                "placeholder": "Categorías"
             }
         }
     }

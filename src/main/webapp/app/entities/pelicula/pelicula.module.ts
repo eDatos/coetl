@@ -14,6 +14,7 @@ import {
     peliculaRoute,
     PeliculaService,
 } from './';
+import { PeliculaSearchComponent } from './pelicula-search';
 
 const ENTITY_STATES = [
     ...peliculaRoute,
@@ -30,12 +31,14 @@ const ENTITY_STATES = [
         PeliculaFormComponent,
         PeliculaDeleteDialogComponent,
         PeliculaDeletePopupComponent,
+        PeliculaSearchComponent,
     ],
     entryComponents: [
         PeliculaComponent,
         PeliculaFormComponent,
         PeliculaDeleteDialogComponent,
         PeliculaDeletePopupComponent,
+        PeliculaSearchComponent,
     ],
     providers: [
         PeliculaService,

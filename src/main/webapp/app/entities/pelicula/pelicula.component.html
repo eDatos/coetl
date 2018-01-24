@@ -13,10 +13,10 @@
             </div>
         </h2>
         <jhi-alert></jhi-alert>
+        <ac-pelicula-search [filters]="filters"></ac-pelicula-search>
     </div>
     <ng-container *ngIf="peliculas">
         <ng-container *ngIf="peliculas.length > 0;else emptyList">
-
             <div class="table-responsive">
                 <table class="table table-hover" acStickyTableHeader>
                     <thead>
@@ -38,9 +38,8 @@
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.idioma.label">Asunto</span>
                                 <span class="fa fa-sort"></span>
                             </th>
-                            <th style="width: 10%" jhiSortBy="categorias">
+                            <th style="width: 10%">
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label"></span>
-                                <span class="fa fa-sort"></span>
                             </th>
                         </tr>
                     </thead>
@@ -54,7 +53,11 @@
                             <td>{{pelicula.titulo}}</td>
                             <td>{{pelicula.annoEstreno}}</td>
                             <td>{{pelicula.idioma?pelicula.idioma.nombre:'Sin Idioma'}}</td>
-                            <td>{{normalizedArrays(pelicula.categorias.sort(), 'nombre')}}</td>
+                            <td>
+                                <div *ngFor="let categoria of pelicula.categorias">
+                                    <span class="badge badge-info">{{ categoria.nombre }}</span>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

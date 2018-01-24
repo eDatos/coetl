@@ -1,5 +1,6 @@
 package com.arte.application.template.service.impl;
 
+import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.arte.application.template.domain.Pelicula;
 import com.arte.application.template.repository.PeliculaRepository;
 import com.arte.application.template.service.PeliculaService;
+import com.arte.application.template.web.rest.util.QueryUtil;
 
 /**
  * Service Implementation for managing Pelicula.
@@ -21,9 +23,11 @@ public class PeliculaServiceImpl implements PeliculaService {
     private final Logger log = LoggerFactory.getLogger(PeliculaServiceImpl.class);
 
     private final PeliculaRepository peliculaRepository;
+    private final QueryUtil queryUtil;
 
-    public PeliculaServiceImpl(PeliculaRepository peliculaRepository) {
+    public PeliculaServiceImpl(PeliculaRepository peliculaRepository, QueryUtil queryUtil) {
         this.peliculaRepository = peliculaRepository;
+        this.queryUtil = queryUtil;
     }
 
     /**
@@ -41,14 +45,16 @@ public class PeliculaServiceImpl implements PeliculaService {
     /**
      * Get all the peliculas.
      *
+     * @param query the query filter
      * @param pageable the pagination information
      * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Pelicula> findAll(Pageable pageable) {
+    public Page<Pelicula> findAll(String query, Pageable pageable) {
         log.debug("Request to get all Peliculas");
-        return peliculaRepository.findAll(pageable);
+        DetachedCriteria criteria = queryUtil.queryToPeliculaCriteria(query);
+        return peliculaRepository.findAll(criteria, pageable);
     }
 
     /**
