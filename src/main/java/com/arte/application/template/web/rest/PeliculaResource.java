@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -125,7 +126,7 @@ public class PeliculaResource extends AbstractResource {
     }
 
     /**
-     * DELETE /peliculas/:id : delete the "id" pelicula.
+     * DELETE /:id : delete the "id" pelicula.
      *
      * @param id the id of the peliculaDTO to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -136,5 +137,24 @@ public class PeliculaResource extends AbstractResource {
         log.debug("REST request to delete Pelicula : {}", id);
         peliculaService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * DELETE :batchDelete : delete the "id" pelicula.
+     *
+     * @param id the id of the peliculaDTO to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping
+    @Timed
+    public ResponseEntity<Void> batchDeletePeliculas(@ApiParam(required = false) String query) {
+        log.debug("REST request to delete selected Peliculas");
+        List<Pelicula> peliculasToDelete = getPeliculasToDelete(query);
+        peliculasToDelete.stream().forEach(pelicula -> peliculaService.delete(pelicula.getId()));
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, query)).build();
+    }
+
+    private List<Pelicula> getPeliculasToDelete(String query) {
+        return peliculaService.findAll(query, null).getContent().stream().collect(Collectors.toList());
     }
 }

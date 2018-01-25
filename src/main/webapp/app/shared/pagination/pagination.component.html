@@ -1,0 +1,9 @@
+<div class="form-inline">
+    <div class="form-group pageSizeSelector">
+        <label class="form-control-label" jhiTranslate="global.pageSizeSelector">Size</label>
+        <select class="form-control form-control-sm" [(ngModel)]="itemsPerPage" (change)="onChange($event)">
+            <option *ngFor="let option of options" value="{{option}}">{{ option }}</option>
+        </select>
+    </div>
+</div>
+    

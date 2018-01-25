@@ -8,7 +8,10 @@
             },
             "deleted": "Una película ha sido eliminado con el identificador {{ param }}",
             "delete": {
-                "question": "¿Seguro que quiere eliminar la película {{ titulo }}?"
+                "question": "¿Seguro que quiere eliminar la película {{ titulo }}?",
+                "batchQuestion": "¿Seguro que quiere eliminar las películas seleccionadas?",
+                "all": "Eliminar todas las películas",
+                "selection": "Eliminar {{ n }} peliculas"
             },
             "detail": {
                 "title": "Película"

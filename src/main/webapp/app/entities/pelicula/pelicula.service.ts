@@ -47,6 +47,11 @@ export class PeliculaService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
+    deleteSelection(req: any): Observable<Response> {
+        const options = createRequestOption(req);
+        return this.http.delete(this.resourceUrl, options);
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         for (let i = 0; i < jsonResponse.length; i++) {

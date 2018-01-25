@@ -1,11 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { Pelicula } from './pelicula.model';
 import { PeliculaPopupService } from './pelicula-popup.service';
+import { Pelicula } from './pelicula.model';
 import { PeliculaService } from './pelicula.service';
 
 @Component({
@@ -24,7 +23,7 @@ export class PeliculaDeleteDialogComponent {
     }
 
     clear() {
-        this.activeModal.dismiss('cancel');
+        this.activeModal.dismiss(false);
     }
 
     confirmDelete(id: number) {

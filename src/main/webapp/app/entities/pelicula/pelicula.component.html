@@ -3,6 +3,16 @@
         <h2>
             <span jhiTranslate="arteApplicationTemplateApp.pelicula.home.title">Acto Administrativos</span>
             <div>
+                <button [disabled]="!filters.batchSelection.hasSelection()" class="btn btn-danger" (click)="delete()">
+                    <span class="fa fa-times"></span>
+                    <span *ngIf="allVisibleIdsAreSelected()" jhiTranslate="arteApplicationTemplateApp.pelicula.delete.all">
+                        Eliminar todos
+                    </span>
+                    <span *ngIf="!allVisibleIdsAreSelected()" jhiTranslate="arteApplicationTemplateApp.pelicula.delete.selection"
+                        [translateValues]="{ n : filters.batchSelection.selectedIds.length  }">
+                        Eliminar selección
+                    </span>
+                </button>        
                 <button class="btn btn-primary jh-create-entity create-acto-administrativo"
                     [routerLink]="['../pelicula-new']">
                     <span class="fa fa-plus"></span>
@@ -15,7 +25,7 @@
         <jhi-alert></jhi-alert>
         <ac-pelicula-search [filters]="filters"></ac-pelicula-search>
     </div>
-    <ng-container *ngIf="peliculas">
+    <ng-container *ngIf="peliculas" >
         <ng-container *ngIf="peliculas.length > 0;else emptyList">
             <div class="table-responsive">
                 <table class="table table-hover" acStickyTableHeader>
@@ -23,10 +33,10 @@
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                             <th style="width: 3%">
                                 <div class="row-selector" (click)="$event.stopPropagation()">
-                                    <p-checkbox binary="true" (onChange)="toggleVisibleSelection()" [ngModel]="allVisibleIdsAreSelected()"></p-checkbox>
+                                    <p-checkbox binary="true" [disabled]="isDeleting" (onChange)="toggleVisibleSelection()" [ngModel]="allVisibleIdsAreSelected()"></p-checkbox>
                                 </div>
                             </th>
-                            <th style="width: 12%" jhiSortBy="titulo">
+                            <th style="width: 20%" jhiSortBy="titulo">
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.titulo.label">Codigo Documento</span>
                                 <span class="fa fa-sort"></span>
                             </th>
@@ -34,7 +44,7 @@
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.annoEstreno.label">Tipo</span>
                                 <span class="fa fa-sort"></span>
                             </th>
-                            <th style="width: 20%" jhiSortBy="idioma">
+                            <th style="width: 10%" jhiSortBy="idioma">
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.idioma.label">Asunto</span>
                                 <span class="fa fa-sort"></span>
                             </th>
@@ -47,11 +57,11 @@
                         <tr *ngFor="let pelicula of peliculas ;trackBy: trackId" [routerLink]="['../pelicula', pelicula.id ]">
                             <td>
                                 <div class="row-selector" (click)="$event.stopPropagation()">
-                                    <p-checkbox name="batchSelection" [value]="pelicula.id" [(ngModel)]="filters.batchSelection.selectedIds"></p-checkbox>
+                                    <p-checkbox name="batchSelection" [disabled]="isDeleting" [value]="pelicula.id" [(ngModel)]="filters.batchSelection.selectedIds"></p-checkbox>
                                 </div>
                             </td>
                             <td>{{pelicula.titulo}}</td>
-                            <td>{{pelicula.annoEstreno}}</td>
+                            <td>{{pelicula.annoEstreno | date: 'dd/MM/yyyy'}}</td>
                             <td>{{pelicula.idioma?pelicula.idioma.nombre:'Sin Idioma'}}</td>
                             <td>
                                 <div *ngFor="let categoria of pelicula.categorias">

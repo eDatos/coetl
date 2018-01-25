@@ -1,24 +1,24 @@
 // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router'
 import { DatePipe } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import {
-    ArteApplicationTemplateSharedLibsModule,
     ArteApplicationTemplateSharedCommonModule,
-    CSRFService,
+    ArteApplicationTemplateSharedLibsModule,
     AuthServerProvider,
-    UserService,
-    StateStorageService,
+    CalendarComponent,
+    CSRFService,
+    EntityListEmptyComponent,
+    GenericModalService,
+    HasAnyOperacionDirective,
     LoginService,
     Principal,
-    HasAnyOperacionDirective,
     RolService,
-    EntityListEmptyComponent,
+    SideMenuComponent,
     SplitButtonComponent,
-    CalendarComponent,
-    SideMenuComponent
+    StateStorageService,
+    UserService,
 } from './';
 
 @NgModule({
@@ -43,6 +43,7 @@ import {
         RolService,
         UserService,
         DatePipe,
+        GenericModalService,
     ],
     entryComponents: [],
     exports: [

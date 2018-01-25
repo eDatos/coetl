@@ -28,12 +28,17 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        ANNO_ESTRENO, IDIOMAS, CATEGORIAS, TITULO
+        ID, ANNO_ESTRENO, IDIOMAS, CATEGORIAS, TITULO
     }
 
     @Override
     public void registerProcessors() {
       //@formatter:off
+        registerRestrictionProcessor(
+                RestrictionProcessorBuilder.stringRestrictionProcessor()
+                .withQueryProperty(QueryProperty.ID)
+                .withCriterionConverter(new SqlCriterionConverter())
+                .build());
         registerRestrictionProcessor(
                 RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.TITULO)
@@ -63,17 +68,26 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
 
         @Override
         public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
+            if (QueryProperty.ID.name().equalsIgnoreCase(property.getLeftExpression())) {
+                return queryByIds(property);
+            }
             if (QueryProperty.TITULO.name().equalsIgnoreCase(property.getLeftExpression())) {
                 ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_TITULO));
                 return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
             }
             if (QueryProperty.CATEGORIAS.name().equalsIgnoreCase(property.getLeftExpression())) {
-                return peliculasConCategorias(property);
+                return queryByCategorias(property);
             }
             throw new CustomParameterizedException(String.format("Query param not supported: '%s", property));
         }
 
-        private Criterion peliculasConCategorias(QueryPropertyRestriction property) {
+        private Criterion queryByIds(QueryPropertyRestriction property) {
+            String consulta = "{alias}.id " + property.getOperationType() + "(%s)";
+            String sql = String.format(consulta, property.getRightExpressions().stream().collect(Collectors.joining(",")));
+            return Restrictions.sqlRestriction(sql);
+        }
+
+        private Criterion queryByCategorias(QueryPropertyRestriction property) {
             //@formatter:off
             String consulta = "{alias}.id in ("
                   + "SELECT PC.PELICULA_ID "

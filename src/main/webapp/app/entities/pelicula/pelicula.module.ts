@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { ArteApplicationTemplateSharedModule } from '../../shared';
 import {
+    PeliculaBatchDeleteDialogComponent,
     PeliculaComponent,
     PeliculaDeleteDialogComponent,
     PeliculaDeletePopupComponent,
@@ -31,6 +32,7 @@ const ENTITY_STATES = [
         PeliculaFormComponent,
         PeliculaDeleteDialogComponent,
         PeliculaDeletePopupComponent,
+        PeliculaBatchDeleteDialogComponent,
         PeliculaSearchComponent,
     ],
     entryComponents: [
@@ -38,6 +40,7 @@ const ENTITY_STATES = [
         PeliculaFormComponent,
         PeliculaDeleteDialogComponent,
         PeliculaDeletePopupComponent,
+        PeliculaBatchDeleteDialogComponent,
         PeliculaSearchComponent,
     ],
     providers: [

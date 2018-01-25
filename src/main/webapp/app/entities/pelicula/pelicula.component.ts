@@ -4,8 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JhiAlertService, JhiEventManager, JhiPaginationUtil, JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs/Rx';
 
+import { PeliculaBatchDeleteDialogComponent } from '.';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
+import { ITEMS_PER_PAGE, PAGINATION_OPTIONS, Principal, ResponseWrapper } from '../../shared';
+import { GenericModalService } from '../../shared/modal/generic-modal.service';
 import { CategoriaService } from '../categoria/categoria.service';
 import { IdiomaService } from '../idioma/idioma.service';
 import { PeliculaFilter } from './pelicula-search/pelicula-filter.model';
@@ -34,11 +36,14 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
     filters: PeliculaFilter;
+    isDeleting = false;
 
+    // TODO: Revisar el contenedor de tamaño de página
     constructor(
         private datePipe: DatePipe,
         private peliculaService: PeliculaService,
         private categoriaService: CategoriaService,
+        private genericModalService: GenericModalService,
         private idiomaService: IdiomaService,
         private parseLinks: JhiParseLinks,
         private alertService: JhiAlertService,
@@ -56,6 +61,10 @@ export class PeliculaComponent implements OnInit, OnDestroy {
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
         });
+        this.activatedRoute.queryParams
+            .map((params) => params.size)
+            .filter((size) => !!size)
+            .subscribe((size) => this.itemsPerPage = PAGINATION_OPTIONS.indexOf(Number(size)) > -1 ? size : this.itemsPerPage);
     }
 
     toggleVisibleSelection() {
@@ -70,7 +79,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     loadAll() {
         this.peliculaService.query({
             page: this.page - 1,
-            size: this.itemsPerPage,
+            size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
             sort: this.sort(),
             query: this.filters.toQuery()
         }).subscribe(
@@ -90,7 +99,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         this.router.navigate(['/pelicula'], {queryParams:
             {
                 page: this.page,
-                size: this.itemsPerPage,
+                size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         });
@@ -164,11 +173,19 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
-        // this.page = pagingParams.page;
         this.peliculas = data;
     }
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    public delete(): void {
+        this.genericModalService.open(<any>PeliculaBatchDeleteDialogComponent, { query: this.filters.toQueryForBatch() })
+            .result.subscribe((res) => {
+                if (res) {
+                    this.filters.batchSelection.selectedIds = [];
+                }
+            });
     }
 }

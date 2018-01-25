@@ -6,6 +6,7 @@ import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { Observable } from 'rxjs/Rx';
 import { setTimeout } from 'timers';
 
+import { GenericModalService } from '../../shared';
 import { ResponseWrapper } from '../../shared/model/response-wrapper.model';
 import { Actor } from '../actor/actor.model';
 import { ActorService } from '../actor/actor.service';
@@ -13,6 +14,7 @@ import { Categoria } from '../categoria/categoria.model';
 import { CategoriaService } from '../categoria/categoria.service';
 import { IdiomaService } from '../idioma';
 import { Idioma } from '../idioma/idioma.model';
+import { PeliculaDeleteDialogComponent } from './pelicula-delete-dialog.component';
 import { Pelicula } from './pelicula.model';
 import { PeliculaService } from './pelicula.service';
 
@@ -38,6 +40,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
         private peliculaService: PeliculaService,
         private actorService: ActorService,
         private categoriaService: CategoriaService,
+        private genericModalService: GenericModalService,
         private idiomaService: IdiomaService,
         private eventManager: JhiEventManager
     ) {
@@ -105,9 +108,10 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
         this.alertService.error(error.message, null, null);
     }
 
-    /* delete() {
-        this.modalService.open(<any>PeliculaDeleteDialogComponent, { pelicula: this.pelicula });
-    } */
+    delete() {
+        this.genericModalService.open(<any>PeliculaDeleteDialogComponent, { pelicula: this.pelicula })
+            .result.subscribe((res) => res ? this.router.navigate(['pelicula']) : null);
+    }
 
     isEditMode(): Boolean {
         const lastPath = this.activatedRoute.snapshot.url[this.activatedRoute.snapshot.url.length - 1].path;

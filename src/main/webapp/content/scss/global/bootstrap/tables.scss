@@ -37,6 +37,12 @@
             position: absolute;
             left: $page-padding / 3;
         }
+
+        th {
+            .row-selector {
+                bottom: $spacer-y;
+            }
+        }
         
         .flex-btn-group-container {
             visibility: hidden;

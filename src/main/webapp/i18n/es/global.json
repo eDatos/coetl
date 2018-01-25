@@ -51,7 +51,8 @@
                 }
             }
         },
-        "item-count": "Mostrando {{first}} - {{second}} de {{total}} artículos."
+        "item-count": "{{first}} - {{second}} de {{total}}",
+        "pageSizeSelector": "Tamaño de página"
     },
     "entity": {
         "action": {
@@ -66,7 +67,8 @@
             "filtersReset": "Reiniciar filtros",
             "deactivate": "Desactivar",
             "activate": "Activar",
-            "close": "Cerrar"
+            "close": "Cerrar",
+            "confirm": "Confirmar"
         },
         "delete": {
             "title": "Confirmar operación de borrado"
