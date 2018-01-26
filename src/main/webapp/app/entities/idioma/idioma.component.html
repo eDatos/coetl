@@ -1,0 +1,62 @@
+<div>
+    <h2>
+        <span jhiTranslate="arteApplicationTemplateApp.idioma.home.title">Idiomas</span>
+        <button class="btn btn-primary float-right jh-create-entity create-idioma" [routerLink]="['/', { outlets: { popup: ['idioma-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="arteApplicationTemplateApp.idioma.home.createLabel">
+            Create new Idioma
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="idiomas">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="arteApplicationTemplateApp.idioma.nombre">Nombre</span></th>
+            <th><span jhiTranslate="arteApplicationTemplateApp.idioma.pelicula">Pelicula</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let idioma of idiomas ;trackBy: trackId">
+                <td><a [routerLink]="['../idioma', idioma.id ]">{{idioma.id}}</a></td>
+                <td>{{idioma.nombre}}</td>
+                <td>
+                    <div *ngIf="idioma.peliculaId">
+                        <a [routerLink]="['../pelicula', idioma.peliculaId  ]" >{{idioma.peliculaId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../idioma', idioma.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'idioma/'+ idioma.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'idioma/'+ idioma.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

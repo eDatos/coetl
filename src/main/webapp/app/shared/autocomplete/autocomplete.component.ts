@@ -1,7 +1,6 @@
-import { Component, OnInit, AfterViewInit, forwardRef, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { AfterViewInit, Component, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-
 import { AutoComplete } from 'primeng/primeng';
 
 export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
@@ -110,7 +109,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     }
 
     ngAfterViewInit() {
-        this.autoComplete.onInputBlur = this.onInputBlur;
+        this.autoComplete.onInputBlur = this.onInputBlur.bind(this);
     }
 
     // Override of autoComplete.onInputBlur to patch trailing spaces issue (https://github.com/primefaces/primeng/issues/4332)

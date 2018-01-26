@@ -7,7 +7,14 @@
             "home": "Inicio",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
+                "categorias": "Categorías",
+                "idiomas": "Idioma",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+            },
+            "videoteca": {
+                "main": "Videoteca",
+                "peliculas": "Películas",
+                "actores": "Actores"
             },
             "account": {
                 "main": "Cuenta",
@@ -44,7 +51,8 @@
                 }
             }
         },
-        "item-count": "Mostrando {{first}} - {{second}} de {{total}} artículos."
+        "item-count": "{{first}} - {{second}} de {{total}}",
+        "pageSizeSelector": "Tamaño de página"
     },
     "entity": {
         "action": {
@@ -59,7 +67,8 @@
             "filtersReset": "Reiniciar filtros",
             "deactivate": "Desactivar",
             "activate": "Activar",
-            "close": "Cerrar"
+            "close": "Cerrar",
+            "confirm": "Confirmar"
         },
         "delete": {
             "title": "Confirmar operación de borrado"

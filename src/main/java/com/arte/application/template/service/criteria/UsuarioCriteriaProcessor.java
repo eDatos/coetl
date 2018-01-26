@@ -81,15 +81,11 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
 	        	String sql = String.format(
 	        			"{alias}.id in (" +
 	        			"SELECT" + 
-	        			"	U.ID " + 
+	        			"	UR.USUARIO_ID " + 
 	        			"FROM " + 
-	        			"	USUARIO U, " + 
 	        			"	USUARIO_ROL UR, " + 
-	        			"	ROL R " + 
 	        			"WHERE " + 
-	        			"	U.ID = UR.USUARIO_ID " + 
-	        			"	AND R.ID = UR.ROL_ID " + 
-	        			"	AND (R.ID " + property.getOperationType() + " (%s) )" +
+	        			"	AND (UR.ROL_ID " + property.getOperationType() + " (%s) )" +
 	        			")", 
 	        			property.getRightExpressions().stream().collect(Collectors.joining(",")));
 	            // @formatter:on

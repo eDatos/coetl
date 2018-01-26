@@ -1,18 +1,18 @@
 // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 import {
     ArteApplicationTemplateSharedLibsModule,
-    JhiLanguageHelper,
+    AutocompleteComponent,
+    HelpTooltipComponent,
     JhiAlertErrorComponent,
+    JhiLanguageHelper,
+    MakeFixedRoomDirective,
+    OrderListComponent,
+    PaginationComponent,
     StickyTableHeaderDirective,
     TriInputSwitchComponent,
-    MakeFixedRoomDirective,
-    AutocompleteComponent,
-    OrderListComponent,
-    HelpTooltipComponent
 } from './';
 
 @NgModule({
@@ -26,7 +26,8 @@ import {
         MakeFixedRoomDirective,
         AutocompleteComponent,
         OrderListComponent,
-        HelpTooltipComponent
+        HelpTooltipComponent,
+        PaginationComponent
     ],
     providers: [
         JhiLanguageHelper,
@@ -44,7 +45,8 @@ import {
         MakeFixedRoomDirective,
         AutocompleteComponent,
         OrderListComponent,
-        HelpTooltipComponent
+        HelpTooltipComponent,
+        PaginationComponent
     ]
 })
 export class ArteApplicationTemplateSharedCommonModule { }

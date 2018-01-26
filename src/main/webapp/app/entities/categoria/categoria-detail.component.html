@@ -1,0 +1,31 @@
+
+<div *ngIf="categoria">
+    <h2><span jhiTranslate="arteApplicationTemplateApp.categoria.detail.title">Categoria</span> {{categoria.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="arteApplicationTemplateApp.categoria.nombre">Nombre</span></dt>
+        <dd>
+            <span>{{categoria.nombre}}</span>
+        </dd>
+        <dt><span jhiTranslate="arteApplicationTemplateApp.categoria.peliculas">Peliculas</span></dt>
+        <dd>
+            <span *ngFor="let peliculas of categoria.peliculas; let last = last">
+                <a [routerLink]="['/pelicula', peliculas?.id ]">{{peliculas.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'categoria/'+ categoria.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

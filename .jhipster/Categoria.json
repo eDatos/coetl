@@ -1,0 +1,27 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "categorias",
+            "relationshipName": "peliculas",
+            "otherEntityName": "pelicula",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "nombre",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180122100857",
+    "entityTableName": "categoria",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

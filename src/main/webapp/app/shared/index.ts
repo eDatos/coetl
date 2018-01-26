@@ -17,6 +17,7 @@ export * from './user/user.service';
 export * from './model/response-wrapper.model';
 export * from './model/request-util';
 export * from './model/base-entity';
+export * from './model/base-entity-filter';
 export * from './model/entity-filter';
 export * from './model/batch-selection.model';
 export * from './model/has-batch-operations';
@@ -28,6 +29,8 @@ export * from './calendar'
 export * from './tri-input-switch';
 export * from './make-fixed-room';
 export * from './order-list';
+export * from './pagination';
+export * from './modal';
 export * from './help-tooltip';
 export * from './shared-libs.module';
 export * from './shared-common.module';
