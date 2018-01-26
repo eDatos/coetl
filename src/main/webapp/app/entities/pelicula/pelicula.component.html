@@ -40,8 +40,8 @@
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.titulo.label">Codigo Documento</span>
                                 <span class="fa fa-sort"></span>
                             </th>
-                            <th style="width: 10%" jhiSortBy="annoEstreno">
-                                <span jhiTranslate="arteApplicationTemplateApp.pelicula.annoEstreno.label">Tipo</span>
+                            <th style="width: 10%" jhiSortBy="fechaEstreno">
+                                <span jhiTranslate="arteApplicationTemplateApp.pelicula.fechaEstreno.label">Tipo</span>
                                 <span class="fa fa-sort"></span>
                             </th>
                             <th style="width: 10%" jhiSortBy="idioma">
@@ -61,7 +61,7 @@
                                 </div>
                             </td>
                             <td>{{pelicula.titulo}}</td>
-                            <td>{{pelicula.annoEstreno | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{pelicula.fechaEstreno | date: 'dd/MM/yyyy'}}</td>
                             <td>{{pelicula.idioma?pelicula.idioma.nombre:'Sin Idioma'}}</td>
                             <td>
                                 <div *ngFor="let categoria of pelicula.categorias">

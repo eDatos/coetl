@@ -33,7 +33,7 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="annoestreno" type="timestamp">
+            <column name="fecha_estreno" type="timestamp">
                 <constraints nullable="false" />
             </column>
             
@@ -59,7 +59,7 @@
 			</column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="pelicula" columnName="annoestreno" columnDataType="datetime"/>
+        <dropDefaultValue tableName="pelicula" columnName="fecha_estreno" columnDataType="datetime"/>
         
     </changeSet>
 </databaseChangeLog>

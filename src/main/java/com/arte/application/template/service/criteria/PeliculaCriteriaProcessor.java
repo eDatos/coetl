@@ -20,7 +20,7 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
 
     private static final String TABLE_FIELD_TITULO = "titulo";
 
-    private static final String ENTITY_FIELD_ANNO_ESTRENO = "annoEstreno";
+    private static final String ENTITY_FIELD_FECHA_ESTRENO = "fechaEstreno";
     private static final String ENTITY_FIELD_IDIOMA = "idioma.id";
 
     public PeliculaCriteriaProcessor() {
@@ -28,7 +28,7 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        ID, ANNO_ESTRENO, IDIOMAS, CATEGORIAS, TITULO
+        ID, FECHA_ESTRENO, IDIOMAS, CATEGORIAS, TITULO
     }
 
     @Override
@@ -46,8 +46,8 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
                 .build());
         registerRestrictionProcessor(
                 RestrictionProcessorBuilder.dateRestrictionProcessor()
-                .withQueryProperty(QueryProperty.ANNO_ESTRENO)
-                .withEntityProperty(ENTITY_FIELD_ANNO_ESTRENO)
+                .withQueryProperty(QueryProperty.FECHA_ESTRENO)
+                .withEntityProperty(ENTITY_FIELD_FECHA_ESTRENO)
                 .sortable()
                 .build());
         registerRestrictionProcessor(

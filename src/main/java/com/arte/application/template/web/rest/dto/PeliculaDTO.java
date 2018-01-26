@@ -24,7 +24,7 @@ public class PeliculaDTO extends AbstractVersionedAndAuditingEntityDTO implement
     private String descripcion;
 
     @NotNull
-    private ZonedDateTime annoEstreno;
+    private ZonedDateTime fechaEstreno;
 
     private IdiomaDTO idioma;
 
@@ -58,12 +58,12 @@ public class PeliculaDTO extends AbstractVersionedAndAuditingEntityDTO implement
         this.descripcion = descripcion;
     }
 
-    public ZonedDateTime getAnnoEstreno() {
-        return annoEstreno;
+    public ZonedDateTime getFechaEstreno() {
+        return fechaEstreno;
     }
 
-    public void setAnnoEstreno(ZonedDateTime annoEstreno) {
-        this.annoEstreno = annoEstreno;
+    public void setFechaEstreno(ZonedDateTime fechaEstreno) {
+        this.fechaEstreno = fechaEstreno;
     }
 
     public IdiomaDTO getIdioma() {
@@ -113,6 +113,6 @@ public class PeliculaDTO extends AbstractVersionedAndAuditingEntityDTO implement
 
     @Override
     public String toString() {
-        return "PeliculaDTO{" + "id=" + getId() + ", titulo='" + getTitulo() + "'" + ", descripcion='" + getDescripcion() + "'" + ", annoestreno='" + getAnnoEstreno() + "'" + "}";
+        return "PeliculaDTO{" + "id=" + getId() + ", titulo='" + getTitulo() + "'" + ", descripcion='" + getDescripcion() + "'" + ", fechaEstreno='" + getFechaEstreno() + "'" + "}";
     }
 }
