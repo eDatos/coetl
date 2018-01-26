@@ -44,8 +44,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.annoEstreno.label" for="field_annoEstreno"></label>
-                    <ac-calendar *ngIf="isEditMode()" class="form-control" name="annoEstreno" [(ngModel)]="pelicula.annoEstreno" [required]="true" ></ac-calendar>
-                    <ac-calendar *ngIf="!isEditMode()" class="form-control" name="annoEstreno" [(ngModel)]="pelicula.annoEstreno"></ac-calendar>
+                    <ac-calendar class="form-control" name="annoEstreno" [(ngModel)]="pelicula.annoEstreno" [required]="true" ></ac-calendar>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.descripcion.label" for="field_descripcion"></label>

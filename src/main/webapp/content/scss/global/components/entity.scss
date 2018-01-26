@@ -156,17 +156,13 @@ fieldset {
             dt {
                 @include make-col-ready();
                 @include make-col(4);  
-                padding-left: 0 !important; 
+                padding-left: 0 !important;
+                border-bottom: $border-width solid $grey-light;
             }
             dd {
                 @include make-col-ready();
                 @include make-col(8);  
-            }
-
-            &::after {
-                content: '';
-                border-bottom: $border-width solid $grey-light;  
-                width: 100%;
+                border-bottom: $border-width solid $grey-light;
             }
         }
         
@@ -218,8 +214,6 @@ fieldset {
     }
 }
 
-$entity-search-field-btn-width: 200px;
-
 .entity {
     &.has-menu {
         padding-left: $side-menu-width;        
@@ -240,10 +234,13 @@ $entity-search-field-btn-width: 200px;
 }
 .entity-search {
 
+    justify-content: flex-start;
+
     @include make-row();
-    .entity-search-field {        
+    .entity-search-field, 
+    .entity-search-field-btn {        
         @include make-col-ready();
-        @include make-col(3);
+        @include make-col(12/5);
         .form-group {
             display: flex;
             margin-bottom: 0;
@@ -254,14 +251,10 @@ $entity-search-field-btn-width: 200px;
         margin-bottom: $form-group-margin-bottom;
     }
     .entity-search-field-btn {
-        position: absolute;
-        right: 0;
-        bottom: $form-group-margin-bottom;
-        width: $entity-search-field-btn-width;
+        margin-left: auto;
         text-align: right;
-        margin-right: $page-padding;
+        align-self: flex-end;
     }
-    padding-right: $entity-search-field-btn-width;
 }
 
 
