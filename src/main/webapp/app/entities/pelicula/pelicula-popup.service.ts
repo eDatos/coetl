@@ -29,8 +29,8 @@ export class PeliculaPopupService {
 
             if (id) {
                 this.peliculaService.find(id).subscribe((pelicula) => {
-                    pelicula.annoEstreno = this.datePipe
-                        .transform(pelicula.annoEstreno, 'yyyy-MM-ddThh:mm');
+                    pelicula.fechaEstreno = this.datePipe
+                        .transform(pelicula.fechaEstreno, 'yyyy-MM-ddThh:mm');
                     this.ngbModalRef = this.peliculaModalRef(component, pelicula);
                     resolve(this.ngbModalRef);
                 });

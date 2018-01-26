@@ -24,7 +24,7 @@
                 "label": "Descripción",
                 "placeholder": "Descripción"
             },
-            "annoEstreno": {
+            "fechaEstreno": {
                 "label": "Fecha de estreno",
                 "placeholder": "Fecha de estreno"
             },

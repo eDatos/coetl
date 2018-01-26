@@ -61,7 +61,7 @@ export class PeliculaService {
     }
 
     private convertItemFromServer(entity: any) {
-        entity.annoEstreno = this.dateUtils
-            .convertDateTimeFromServer(entity.annoEstreno);
+        entity.fechaEstreno = this.dateUtils
+            .convertDateTimeFromServer(entity.fechaEstreno);
     }
 }

@@ -8,7 +8,7 @@ export class Pelicula implements BaseEntity {
         public id?: number,
         public titulo?: string,
         public descripcion?: string,
-        public annoEstreno?: any,
+        public fechaEstreno?: any,
         public idioma?: Idioma,
         public actores?: Actor[],
         public categorias?: Categoria[],

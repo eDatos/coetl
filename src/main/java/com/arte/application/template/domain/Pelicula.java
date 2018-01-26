@@ -50,8 +50,8 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     private String descripcion;
 
     @NotNull
-    @Column(name = "annoestreno", nullable = false)
-    private ZonedDateTime annoEstreno;
+    @Column(name = "fecha_estreno", nullable = false)
+    private ZonedDateTime fechaEstreno;
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "idioma_id", nullable = true)
@@ -93,12 +93,12 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
         this.descripcion = descripcion;
     }
 
-    public ZonedDateTime getAnnoEstreno() {
-        return annoEstreno;
+    public ZonedDateTime getFechaEstreno() {
+        return fechaEstreno;
     }
 
-    public void setAnnoEstreno(ZonedDateTime annoestreno) {
-        this.annoEstreno = annoestreno;
+    public void setFechaEstreno(ZonedDateTime fechaEstreno) {
+        this.fechaEstreno = fechaEstreno;
     }
 
     public Idioma getIdioma() {
@@ -169,6 +169,6 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
 
     @Override
     public String toString() {
-        return "Pelicula{" + "id=" + getId() + ", titulo='" + getTitulo() + "'" + ", descripcion='" + getDescripcion() + "'" + ", annoestreno='" + getAnnoEstreno() + "'" + "}";
+        return "Pelicula{" + "id=" + getId() + ", titulo='" + getTitulo() + "'" + ", descripcion='" + getDescripcion() + "'" + ", fechaEstreno='" + getFechaEstreno() + "'" + "}";
     }
 }

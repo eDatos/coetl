@@ -16,7 +16,7 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
     constructor(
         public datePipe: DatePipe,
         public titulo?: string,
-        public annoEstreno?: Date,
+        public fechaEstreno?: Date,
         public idioma?: any,
         public categorias?: any[],
     ) {
@@ -28,8 +28,8 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         if (params['titulo']) {
             this.titulo = params['titulo'];
         }
-        if (params['annoEstreno']) {
-            this.annoEstreno = params['annoEstreno'];
+        if (params['fechaEstreno']) {
+            this.fechaEstreno = params['fechaEstreno'];
         }
         if (params['idioma']) {
             this.idioma = this.allIdiomas.filter((idioma) => idioma.id === Number(params['idioma']))[0];
@@ -44,7 +44,7 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
 
     reset() {
         this.titulo = null;
-        this.annoEstreno = null;
+        this.fechaEstreno = null;
         this.idioma = null;
         this.categorias = null;
     }
@@ -60,7 +60,7 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
     toUrl(queryParams) {
         const obj = Object.assign({}, queryParams);
         this.updateQueryParam('titulo', obj);
-        this.updateQueryParam('annoEstreno', obj);
+        this.updateQueryParam('fechaEstreno', obj);
         this.updateQueryParam('idioma', obj);
         this.updateQueryParam('categorias', obj);
         return obj;
@@ -71,8 +71,8 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         if (this.titulo) {
             criterias.push(`TITULO ILIKE '%${this.titulo}%'`);
         }
-        if (this.annoEstreno) {
-            criterias.push(`ANNO_ESTRENO GE '${this.dateToString(this.annoEstreno)}'`);
+        if (this.fechaEstreno) {
+            criterias.push(`FECHA_ESTRENO GE '${this.dateToString(this.fechaEstreno)}'`);
         }
         if (this.idioma) {
             criterias.push(`IDIOMAS EQ '${this.idioma.id}'`);

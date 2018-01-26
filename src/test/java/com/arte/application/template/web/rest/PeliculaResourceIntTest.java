@@ -59,8 +59,8 @@ public class PeliculaResourceIntTest {
     private static final String DEFAULT_DESCRIPCION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPCION = "BBBBBBBBBB";
 
-    private static final ZonedDateTime DEFAULT_ANNOESTRENO = ZonedDateTime.now();
-    private static final ZonedDateTime UPDATED_ANNOESTRENO = ZonedDateTime.now().plusDays(1L);
+    private static final ZonedDateTime DEFAULT_FECHA_ESTRENO = ZonedDateTime.now();
+    private static final ZonedDateTime UPDATED_FECHA_ESTRENO = ZonedDateTime.now().plusDays(1L);
 
     @Autowired
     private PeliculaRepository peliculaRepository;
@@ -110,7 +110,7 @@ public class PeliculaResourceIntTest {
         Pelicula pelicula = new Pelicula();
         pelicula.setTitulo(DEFAULT_TITULO);
         pelicula.setDescripcion(DEFAULT_DESCRIPCION);
-        pelicula.setAnnoEstreno(DEFAULT_ANNOESTRENO);
+        pelicula.setFechaEstreno(DEFAULT_FECHA_ESTRENO);
         return pelicula;
     }
 
@@ -142,7 +142,7 @@ public class PeliculaResourceIntTest {
         Pelicula testPelicula = peliculaList.get(peliculaList.size() - 1);
         assertThat(testPelicula.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testPelicula.getDescripcion()).isEqualTo(DEFAULT_DESCRIPCION);
-        assertThat(testPelicula.getAnnoEstreno()).isEqualTo(DEFAULT_ANNOESTRENO);
+        assertThat(testPelicula.getFechaEstreno()).isEqualTo(DEFAULT_FECHA_ESTRENO);
     }
 
     @Test
@@ -199,7 +199,7 @@ public class PeliculaResourceIntTest {
     public void checkAnnoestrenoIsRequired() throws Exception {
         int databaseSizeBeforeTest = peliculaRepository.findAll().size();
         // set the field null
-        pelicula.setAnnoEstreno(null);
+        pelicula.setFechaEstreno(null);
 
         // Create the Pelicula, which fails.
         PeliculaDTO peliculaDTO = peliculaMapper.toDto(pelicula);
@@ -219,7 +219,7 @@ public class PeliculaResourceIntTest {
         // Get all the peliculaList
         restPeliculaMockMvc.perform(get(BASE_URL + "?sort=id,desc")).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(pelicula.getId().intValue()))).andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO.toString())))
-                .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION.toString()))).andExpect(jsonPath("$.[*].annoEstreno").value(hasItem(sameInstant(DEFAULT_ANNOESTRENO))));
+                .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION.toString()))).andExpect(jsonPath("$.[*].fechaEstreno").value(hasItem(sameInstant(DEFAULT_FECHA_ESTRENO))));
     }
 
     @Test
@@ -231,7 +231,7 @@ public class PeliculaResourceIntTest {
         // Get the pelicula
         restPeliculaMockMvc.perform(get(BASE_URL + "/{id}", pelicula.getId())).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.id").value(pelicula.getId().intValue())).andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO.toString()))
-                .andExpect(jsonPath("$.descripcion").value(DEFAULT_DESCRIPCION.toString())).andExpect(jsonPath("$.annoEstreno").value(sameInstant(DEFAULT_ANNOESTRENO)));
+                .andExpect(jsonPath("$.descripcion").value(DEFAULT_DESCRIPCION.toString())).andExpect(jsonPath("$.fechaEstreno").value(sameInstant(DEFAULT_FECHA_ESTRENO)));
     }
 
     @Test
@@ -254,7 +254,7 @@ public class PeliculaResourceIntTest {
         PeliculaDTO peliculaDTO = peliculaMapper.toDto(updatedPelicula);
         peliculaDTO.setTitulo(UPDATED_TITULO);
         peliculaDTO.setDescripcion(UPDATED_DESCRIPCION);
-        peliculaDTO.setAnnoEstreno(UPDATED_ANNOESTRENO);
+        peliculaDTO.setFechaEstreno(UPDATED_FECHA_ESTRENO);
 
         restPeliculaMockMvc.perform(put(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isOk());
 
@@ -264,7 +264,7 @@ public class PeliculaResourceIntTest {
         Pelicula testPelicula = peliculaList.get(peliculaList.size() - 1);
         assertThat(testPelicula.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testPelicula.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
-        assertThat(testPelicula.getAnnoEstreno()).isEqualTo(UPDATED_ANNOESTRENO);
+        assertThat(testPelicula.getFechaEstreno()).isEqualTo(UPDATED_FECHA_ESTRENO);
     }
 
     @Test
