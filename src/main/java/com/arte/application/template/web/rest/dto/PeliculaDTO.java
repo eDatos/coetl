@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 /**
  * A DTO for the Pelicula entity.
  */
-public class PeliculaDTO extends AbstractVersionedAndAuditingEntityDTO implements Serializable {
+public class PeliculaDTO extends AbstractVersionedAndAuditingDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

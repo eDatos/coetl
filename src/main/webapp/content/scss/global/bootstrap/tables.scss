@@ -63,3 +63,11 @@
         }
     }
 }
+
+.entity-fields .table {
+    th {
+        color: $grey-dark;
+        background: $grey-lightest;
+        font-weight: $font-weight-light;
+    }
+}
