@@ -2,10 +2,10 @@ package com.arte.application.template.domain;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -61,13 +61,13 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     @ManyToMany
     @JoinTable(name = "pelicula_actor", joinColumns = @JoinColumn(name = "pelicula_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"))
     @Valid
-    private List<Actor> actores = new ArrayList<>();
+    private Set<Actor> actores = new HashSet<>();
 
     @NotNull
     @ManyToMany
     @JoinTable(name = "pelicula_categoria", joinColumns = @JoinColumn(name = "pelicula_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id"))
     @Valid
-    private List<Categoria> categorias = new ArrayList<>();
+    private Set<Categoria> categorias = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -109,7 +109,7 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
         this.idioma = idioma;
     }
 
-    public void setAllActores(List<Actor> actores) {
+    public void setAllActores(Set<Actor> actores) {
         removeAllActores();
         for (Actor actor : actores) {
             AddActor(actor);
@@ -124,11 +124,11 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
         this.actores.clear();
     }
 
-    public List<Actor> getActores() {
-        return Collections.unmodifiableList(this.actores);
+    public Set<Actor> getActores() {
+        return Collections.unmodifiableSet(this.actores);
     }
 
-    public void setAllCategorias(List<Categoria> categorias) {
+    public void setAllCategorias(Set<Categoria> categorias) {
         removeAllActores();
         for (Categoria categoria : categorias) {
             AddCategoria(categoria);
@@ -143,8 +143,8 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
         this.categorias.clear();
     }
 
-    public List<Categoria> getCategorias() {
-        return Collections.unmodifiableList(this.categorias);
+    public Set<Categoria> getCategorias() {
+        return Collections.unmodifiableSet(this.categorias);
     }
 
     @Override

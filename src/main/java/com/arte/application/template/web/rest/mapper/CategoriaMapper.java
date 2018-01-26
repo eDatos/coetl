@@ -1,5 +1,7 @@
 package com.arte.application.template.web.rest.mapper;
 
+import java.util.Set;
+
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,6 +17,10 @@ public abstract class CategoriaMapper implements EntityMapper<CategoriaDTO, Cate
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    abstract Set<Categoria> toEntity(Set<CategoriaDTO> categoriasDTO);
+
+    abstract Set<CategoriaDTO> toDto(Set<Categoria> categorias);
 
     public Categoria fromId(Long id) {
         if (id == null) {
