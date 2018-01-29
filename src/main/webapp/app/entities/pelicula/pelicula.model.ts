@@ -1,5 +1,6 @@
 import { Actor } from '../actor/actor.model';
 import { Categoria } from '../categoria/categoria.model';
+import { Documento } from '../documento/documento.model';
 import { Idioma } from '../idioma/idioma.model';
 import { BaseEntity } from './../../shared';
 
@@ -12,6 +13,7 @@ export class Pelicula implements BaseEntity {
         public idioma?: Idioma,
         public actores?: Actor[],
         public categorias?: Categoria[],
+        public documento?: Documento,
     ) {
     }
 }

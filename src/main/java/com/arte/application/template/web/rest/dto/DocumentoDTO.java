@@ -3,7 +3,7 @@ package com.arte.application.template.web.rest.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class DocumentoDTO extends AbstractVersionedAndAuditingDTO implements Serializable {
+public class DocumentoDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

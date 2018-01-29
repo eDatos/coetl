@@ -52,6 +52,24 @@ export class PeliculaService {
         return this.http.delete(this.resourceUrl, options);
     }
 
+    asociarDocumento(peliculaId: number, documentoId: number): Observable<Pelicula> {
+        return this.http.put(`${this.resourceUrl}/${peliculaId}/documento/${documentoId ? documentoId : ''}`, null)
+            .map((res: Response) => {
+                const jsonResponse = res.json();
+                this.convertItemFromServer(jsonResponse);
+                return jsonResponse;
+            });
+    }
+
+    desasociarDocumento(peliculaId: number): Observable<Pelicula> {
+        return this.http.put(`${this.resourceUrl}/${peliculaId}/documento`, null)
+            .map((res: Response) => {
+                const jsonResponse = res.json();
+                this.convertItemFromServer(jsonResponse);
+                return jsonResponse;
+            });
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         for (let i = 0; i < jsonResponse.length; i++) {

@@ -14,5 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="idioma"/>
 
+        <addForeignKeyConstraint baseColumnNames="documento_id"
+                                 baseTableName="pelicula"
+                                 constraintName="fk_pelicula_documento_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="documento"/>
+
     </changeSet>
 </databaseChangeLog>

@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -68,6 +69,10 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     @JoinTable(name = "pelicula_categoria", joinColumns = @JoinColumn(name = "pelicula_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "id"))
     @Valid
     private Set<Categoria> categorias = new HashSet<>();
+
+    @OneToOne(optional = true)
+    @JoinColumn(name = "documento_id", nullable = true)
+    private Documento documento;
 
     public Long getId() {
         return id;
@@ -145,6 +150,14 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
 
     public Set<Categoria> getCategorias() {
         return Collections.unmodifiableSet(this.categorias);
+    }
+
+    public Documento getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(Documento documento) {
+        this.documento = documento;
     }
 
     @Override

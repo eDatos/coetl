@@ -5,7 +5,6 @@ import { Title } from '@angular/platform-browser';
 import {
     ArteApplicationTemplateSharedLibsModule,
     AutocompleteComponent,
-    FileUploadComponent,
     HelpTooltipComponent,
     JhiAlertErrorComponent,
     JhiLanguageHelper,
@@ -29,7 +28,6 @@ import {
         OrderListComponent,
         HelpTooltipComponent,
         PaginationComponent,
-        FileUploadComponent,
     ],
     providers: [
         JhiLanguageHelper,
@@ -49,7 +47,6 @@ import {
         OrderListComponent,
         HelpTooltipComponent,
         PaginationComponent,
-        FileUploadComponent,
     ]
 })
 export class ArteApplicationTemplateSharedCommonModule { }

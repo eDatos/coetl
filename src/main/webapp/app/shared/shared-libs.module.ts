@@ -9,7 +9,17 @@ import { Autosize } from 'ng-autosize';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { CookieModule } from 'ngx-cookie';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { AutoCompleteModule, ButtonModule, CalendarModule, CheckboxModule, InputTextareaModule, ListboxModule, OrderListModule, SelectButtonModule } from 'primeng/primeng';
+import {
+    AutoCompleteModule,
+    ButtonModule,
+    CalendarModule,
+    CheckboxModule,
+    FileUploadModule,
+    InputTextareaModule,
+    ListboxModule,
+    OrderListModule,
+    SelectButtonModule,
+} from 'primeng/primeng';
 
 import { DEFAULT_LANGUAGE } from './language/language.constants';
 
@@ -35,7 +45,8 @@ import { DEFAULT_LANGUAGE } from './language/language.constants';
         ListboxModule,
         OrderListModule,
         CheckboxModule,
-        InputTextareaModule
+        InputTextareaModule,
+        FileUploadModule
     ],
     exports: [
         FormsModule,
@@ -52,7 +63,8 @@ import { DEFAULT_LANGUAGE } from './language/language.constants';
         OrderListModule,
         CheckboxModule,
         InputTextareaModule,
-        Autosize
+        Autosize,
+        FileUploadModule
     ]
 })
 export class ArteApplicationTemplateSharedLibsModule { }

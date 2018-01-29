@@ -39,6 +39,10 @@
             "categorias": {
                 "label": "Categorías",
                 "placeholder": "Categorías"
+            },
+            "documento": {
+                "label": "Documento",
+                "placeholder": "Documento"
             }
         }
     }

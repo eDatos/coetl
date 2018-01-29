@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.arte.application.template.domain.Documento;
 import com.arte.application.template.domain.Pelicula;
 import com.arte.application.template.repository.PeliculaRepository;
 import com.arte.application.template.service.PeliculaService;
@@ -79,5 +80,19 @@ public class PeliculaServiceImpl implements PeliculaService {
     public void delete(Long id) {
         log.debug("Request to delete Pelicula : {}", id);
         peliculaRepository.delete(id);
+    }
+
+    /**
+     * Bind a documento to pelicula
+     * 
+     * @param pelicula the entity to update
+     * @param documento the documento to bind
+     * @return the persisted entity
+     */
+    @Override
+    public Pelicula bindDocumento(Pelicula pelicula, Documento documento) {
+        log.debug("request to bind a Documento to Pelicula : {}", pelicula);
+        pelicula.setDocumento(documento);
+        return peliculaRepository.save(pelicula);
     }
 }

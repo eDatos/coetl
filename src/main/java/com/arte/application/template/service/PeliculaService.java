@@ -3,6 +3,7 @@ package com.arte.application.template.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.arte.application.template.domain.Documento;
 import com.arte.application.template.domain.Pelicula;
 
 /**
@@ -41,4 +42,13 @@ public interface PeliculaService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Bind a documento to pelicula
+     * 
+     * @param pelicula the entity to update
+     * @param documento the documento to bind
+     * @return the persisted entity
+     */
+    Pelicula bindDocumento(Pelicula pelicula, Documento documento);
 }

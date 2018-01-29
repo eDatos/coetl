@@ -10,6 +10,7 @@ import {
     CalendarComponent,
     CSRFService,
     EntityListEmptyComponent,
+    FileUploadComponent,
     GenericModalService,
     HasAnyOperacionDirective,
     LoginService,
@@ -32,7 +33,8 @@ import {
         EntityListEmptyComponent,
         SplitButtonComponent,
         CalendarComponent,
-        SideMenuComponent
+        SideMenuComponent,
+        FileUploadComponent
     ],
     providers: [
         LoginService,
@@ -53,7 +55,8 @@ import {
         EntityListEmptyComponent,
         SplitButtonComponent,
         CalendarComponent,
-        SideMenuComponent
+        SideMenuComponent,
+        FileUploadComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

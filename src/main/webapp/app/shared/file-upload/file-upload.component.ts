@@ -72,7 +72,6 @@ export class FileUploadComponent implements OnInit, OnChanges {
     }
 
     onSelectMethod($event) {
-        console.log(this.fileUpload.msgs);
         if (this.fileUpload.msgs.length > 0) {
             this.fileUpload.msgs.forEach((message) => {
                 this.alertService.error(message.summary + ' ' + message.detail, null, null);
