@@ -2,7 +2,7 @@ package com.arte.application.template.web.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-public abstract class AbstractVersionedAndAuditingEntityDTO extends AbstractAuditingDTO {
+public abstract class AbstractVersionedDTO {
 
     @JsonView(Views.Minimal.class)
     private Long optLock;

@@ -2,16 +2,16 @@ package com.arte.application.template.web.rest.dto;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
 /**
  * A DTO for the Pelicula entity.
  */
-public class PeliculaDTO extends AbstractVersionedAndAuditingEntityDTO implements Serializable {
+public class PeliculaDTO extends AbstractVersionedAndAuditingDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,10 +29,10 @@ public class PeliculaDTO extends AbstractVersionedAndAuditingEntityDTO implement
     private IdiomaDTO idioma;
 
     @NotNull
-    private List<ActorDTO> actores = new ArrayList<>();
+    private Set<ActorDTO> actores = new HashSet<>();
 
     @NotNull
-    private List<CategoriaDTO> categorias = new ArrayList<>();
+    private Set<CategoriaDTO> categorias = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -74,19 +74,19 @@ public class PeliculaDTO extends AbstractVersionedAndAuditingEntityDTO implement
         this.idioma = idioma;
     }
 
-    public List<ActorDTO> getActores() {
+    public Set<ActorDTO> getActores() {
         return actores;
     }
 
-    public void setActores(List<ActorDTO> actores) {
+    public void setActores(Set<ActorDTO> actores) {
         this.actores = actores;
     }
 
-    public List<CategoriaDTO> getCategorias() {
+    public Set<CategoriaDTO> getCategorias() {
         return categorias;
     }
 
-    public void setCategorias(List<CategoriaDTO> categorias) {
+    public void setCategorias(Set<CategoriaDTO> categorias) {
         this.categorias = categorias;
     }
 

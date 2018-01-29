@@ -78,6 +78,7 @@ h3 {
     margin-top: 2 * $spacer-y;
     padding-bottom: 0;
     margin-bottom: $spacer-y;
+    display: inline-block;
 }
 
 fieldset {
@@ -273,5 +274,14 @@ fieldset {
     &:hover {
         border-bottom: none;
         margin-bottom: initial;
+    }
+}
+
+.section-buttons {
+    margin-top: 1.5 * $spacer-y;
+    float: right;
+
+    .btn {
+        @include link-button();
     }
 }

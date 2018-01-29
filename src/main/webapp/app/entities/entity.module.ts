@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { ArteApplicationTemplateActorModule } from './actor/actor.module';
 import { ArteApplicationTemplateCategoriaModule } from './categoria/categoria.module';
+import { ArteApplicationTemplateDocumentoModule } from './documento/documento.module';
 import { ArteApplicationTemplateIdiomaModule } from './idioma/idioma.module';
 import { ArteApplicationTemplateOperacionModule } from './operacion/operacion.module';
 import { ArteApplicationTemplatePeliculaModule } from './pelicula/pelicula.module';
@@ -16,6 +17,7 @@ import { ArteApplicationTemplatePeliculaModule } from './pelicula/pelicula.modul
         ArteApplicationTemplateActorModule,
         ArteApplicationTemplateCategoriaModule,
         ArteApplicationTemplateIdiomaModule,
+        ArteApplicationTemplateDocumentoModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

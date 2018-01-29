@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-public class RolDTO extends AbstractVersionedEntityDTO implements Serializable, Comparable<RolDTO> {
+public class RolDTO extends AbstractVersionedDTO implements Serializable, Comparable<RolDTO> {
 
     private static final long serialVersionUID = 3662329403989469628L;
 
