@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Component;
 
+import com.arte.application.template.service.criteria.ActorCriteriaProcessor;
 import com.arte.application.template.service.criteria.OperacionCriteriaProcessor;
 import com.arte.application.template.service.criteria.PeliculaCriteriaProcessor;
 import com.arte.application.template.service.criteria.RolCriteriaProcessor;
@@ -38,6 +39,10 @@ public class QueryUtil {
 
     public DetachedCriteria queryToPeliculaCriteria(String query) {
         return queryToCriteria(query, new PeliculaCriteriaProcessor());
+    }
+
+    public DetachedCriteria queryToActorCriteria(String query) {
+        return queryToCriteria(query, new ActorCriteriaProcessor());
     }
 
     public String queryIncludingDeleted(String query) {

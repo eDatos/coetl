@@ -1,13 +1,13 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Autosize } from 'ng-autosize';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 import { setTimeout } from 'timers';
 
 import { GenericModalService } from '../../shared';
+import { HasTitlesContainer } from '../../shared/layouts/side-menu/side-menu.component';
 import { ResponseWrapper } from '../../shared/model/response-wrapper.model';
 import { Actor } from '../actor/actor.model';
 import { ActorService } from '../actor/actor.service';
@@ -25,20 +25,27 @@ import { PeliculaService } from './pelicula.service';
     selector: 'jhi-pelicula-form',
     templateUrl: './pelicula-form.component.html'
 })
-export class PeliculaFormComponent implements OnInit, AfterViewInit {
+export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTitlesContainer {
+
+    readonly EVENT_NAME: String = 'peliculaListModification';
+
+    instance: PeliculaFormComponent;
 
     pelicula: Pelicula;
     isSaving: boolean;
     @ViewChild(Autosize)
     descripcionContainer: Autosize;
 
-    actores: Actor[] = []
+    actores: Actor[] = [];
     categorias: Categoria[] = [];
     idiomas: Idioma[] = [];
 
     updatesSubscription: Subscription;
 
     resourceUrl: string;
+
+    @ViewChild('titlesContainer')
+    titlesContaner: ElementRef;
 
     constructor(
         private alertService: JhiAlertService,
@@ -53,6 +60,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
         private eventManager: JhiEventManager
     ) {
         this.resourceUrl = documentoService.resourceUrl;
+        this.instance = this;
     }
 
     ngOnInit() {
@@ -67,6 +75,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
 
         this.searchCategorias();
         this.searchIdiomas();
+        this.searchActores();
 
         this.registerChangesOnPelicula();
     }
@@ -75,8 +84,12 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
         setTimeout(() => this.descripcionContainer.adjust(), null);
     }
 
+    ngOnDestroy() {
+        this.eventManager.destroy(this.updatesSubscription);
+    }
+
     private registerChangesOnPelicula() {
-        this.updatesSubscription = this.eventManager.subscribe('peliculaListModification', (result) => {
+        this.updatesSubscription = this.eventManager.subscribe(this.EVENT_NAME, (result) => {
             if (result.content !== 'saved') {
                 this.load(result.content);
             }
@@ -113,7 +126,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
 
     private onSaveSuccess(result: Pelicula) {
         this.isSaving = false;
-        this.eventManager.broadcast({ name: 'peliculaListModification', content: 'saved'});
+        this.eventManager.broadcast({ name: this.EVENT_NAME, content: 'saved'});
         this.router.navigate(['pelicula', result.id]);
     }
 
@@ -169,6 +182,30 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
         return `${idioma.nombre}`;
     }
 
+    public searchActores() {
+        this.actorService.query({
+            page: 0,
+            size: 20,
+            sort: 'asc'/* ,
+            query: [`PELICULA NE ${this.pelicula.id}`] */
+        }).subscribe(
+            (res: ResponseWrapper) => this.actores = res.json,
+            (res: ResponseWrapper) => this.onError(res.json));
+    }
+
+    public actorItemTemplate(actor): string {
+        return `${''.concat(actor.apellido2 ? actor.apellido2.concat(' ') : '').concat(actor.apellido1).concat(', ').concat(actor.nombre)}`;
+    }
+
+    private normalizedActorName(actor: Actor): string {
+        return ''.concat(actor.apellido2 ? actor.apellido2.concat(' ') : '').concat(actor.apellido1).concat(', ').concat(actor.nombre);
+    }
+
+    public onSelection(event) {
+        console.log(event);
+        console.log(this.pelicula.actores);
+    }
+
     public deleteDocumento(file: Documento): void {
         this.peliculaService
             .desasociarDocumento(this.pelicula.id).subscribe(
@@ -185,7 +222,10 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
     }
 
     private onDocumentoSuccess(result: Pelicula) {
-        this.eventManager.broadcast({ name: 'peliculaListModification', content: result});
+        this.eventManager.broadcast({ name: this.EVENT_NAME, content: result});
     }
 
+    public getTitlesContainer() {
+        return this.titlesContaner;
+    }
 }

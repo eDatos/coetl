@@ -70,7 +70,7 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     @Valid
     private Set<Categoria> categorias = new HashSet<>();
 
-    @OneToOne(optional = true)
+    @OneToOne(optional = true, orphanRemoval = true)
     @JoinColumn(name = "documento_id", nullable = true)
     private Documento documento;
 
@@ -134,7 +134,7 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     }
 
     public void setAllCategorias(Set<Categoria> categorias) {
-        removeAllActores();
+        removeAllCategorias();
         for (Categoria categoria : categorias) {
             AddCategoria(categoria);
         }

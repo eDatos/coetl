@@ -43,6 +43,14 @@
             "documento": {
                 "label": "Documento",
                 "placeholder": "Documento"
+            },
+            "reparto": {
+                "label": "Reparto",
+                "placeholder": "Reparto"
+            },
+            "info": {
+                "label": "Información",
+                "placeholder": "Información"
             }
         }
     }

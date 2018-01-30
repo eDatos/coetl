@@ -2,15 +2,15 @@
     "arteApplicationTemplateApp": {
         "actor" : {
             "home": {
-                "title": "Actors",
-                "createLabel": "Crear nuevo Actor",
+                "title": "Actores",
+                "createLabel": "Crear nuevo actor/actriz",
                 "createOrEditLabel": "Crear o editar Actor"
             },
             "created": "Un nuevo Actor ha sido creado con el identificador {{ param }}",
             "updated": "Un Actor ha sido actualizado con el identificador {{ param }}",
             "deleted": "Un Actor ha sido eliminado con el identificador {{ param }}",
             "delete": {
-                "question": "¿Seguro que quiere eliminar Actor {{ id }}?"
+                "question": "¿Seguro que quiere eliminar a {{ nombre }}?"
             },
             "detail": {
                 "title": "Actor"
@@ -18,7 +18,7 @@
             "nombre": "Nombre",
             "apellido1": "Apellido 1",
             "apellido2": "Apellido 2",
-            "peliculas": "Peliculas"
+            "peliculas": "Películas"
         }
     }
 }

@@ -1,5 +1,7 @@
+<ac-side-menu [parent]="instance"></ac-side-menu>
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-        <div>
+    <div class="entity has-menu" #titlesContainer>
+        <div class="entity-header">
             <h2>
                 <div>
                     <button *ngIf="!isEditMode()" [routerLink]="['../../pelicula']" type="button" class="btn btn-secondary btn-frameless back-arrow" [attr.aria-label]="'entity.action.back' | translate">
@@ -34,6 +36,9 @@
             </h2>
         </div>
         <fieldset [disabled]="!isEditMode()">
+            <h3>
+                <span jhiTranslate="arteApplicationTemplateApp.pelicula.info.label"></span>
+            </h3>
             <div class="entity-fields">
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.titulo.label" for="field_titulo"></label>
@@ -68,20 +73,36 @@
                 </div>
             </div>
         </fieldset>
-        <fieldset [disabled]="isEditMode()">
-            <div class="form-group full-width">
-                <ac-file-upload [title]="'arteApplicationTemplateApp.pelicula.documento.label' | translate" [url]="resourceUrl" (onUpload)="onDocumentoUpload($event)"
-                    accept="image/*" [files]="pelicula.documento">
-
-                    <ng-template let-file="file">
-                        <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.delete.title' | translate"
-                            (click)="deleteDocumento(file)" >
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </ng-template>
-
-                </ac-file-upload>
+        <fieldset [disabled]="!isEditMode()">
+            <h3>
+                <span jhiTranslate="arteApplicationTemplateApp.actor.home.title">Title</span>
+            </h3>                
+            <div class="entity-fields">
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.reparto.label" for="field_actores"></label>
+                    <ac-order-list class="form-control" name="actores" [suggestions]="actores" [required]="true" [(ngModel)]="pelicula.actores"
+                        [itemTemplate]="actorItemTemplate">
+                </ac-order-list>
+                </div>
             </div>
         </fieldset>
-    </form>
+        <fieldset [disabled]="isEditMode()">
+            <div class="entity-fields">
+                <div class="form-group full-width">
+                    <ac-file-upload [title]="'arteApplicationTemplateApp.pelicula.documento.label' | translate" [url]="resourceUrl" (onUpload)="onDocumentoUpload($event)"
+                        accept="image/*" [files]="pelicula.documento">
+
+                        <ng-template let-file="file">
+                            <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.delete.title' | translate"
+                                (click)="deleteDocumento(file)" >
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </ng-template>
+
+                    </ac-file-upload>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</form>
     

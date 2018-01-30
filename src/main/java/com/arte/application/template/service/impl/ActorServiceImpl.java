@@ -1,14 +1,16 @@
 package com.arte.application.template.service.impl;
 
-import java.util.List;
-
+import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.arte.application.template.domain.Actor;
 import com.arte.application.template.repository.ActorRepository;
 import com.arte.application.template.service.ActorService;
+import com.arte.application.template.web.rest.util.QueryUtil;
 
 /**
  * Service Implementation for managing Actor.
@@ -20,8 +22,11 @@ public class ActorServiceImpl implements ActorService {
 
     private final ActorRepository actorRepository;
 
-    public ActorServiceImpl(ActorRepository actorRepository) {
+    private final QueryUtil queryUtil;
+
+    public ActorServiceImpl(ActorRepository actorRepository, QueryUtil queryUtil) {
         this.actorRepository = actorRepository;
+        this.queryUtil = queryUtil;
     }
 
     /**
@@ -42,9 +47,10 @@ public class ActorServiceImpl implements ActorService {
      * @return the list of entities
      */
     @Override
-    public List<Actor> findAll() {
+    public Page<Actor> findAll(String query, Pageable pageable) {
         log.debug("Request to get all Actors");
-        return actorRepository.findAll();
+        DetachedCriteria criteria = queryUtil.queryToActorCriteria(query);
+        return actorRepository.findAll(criteria, pageable);
     }
 
     /**

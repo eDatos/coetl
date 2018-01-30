@@ -1,6 +1,7 @@
 package com.arte.application.template.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.arte.application.template.domain.Actor;
 
@@ -19,10 +20,12 @@ public interface ActorService {
 
     /**
      * Get all the actors.
-     *
-     * @return the list of entities
+     * 
+     * @param query the query filter
+     * @param pageable the pagination info
+     * @return a page of entities
      */
-    List<Actor> findAll();
+    Page<Actor> findAll(String quey, Pageable pageable);
 
     /**
      * Get the "id" actor.
