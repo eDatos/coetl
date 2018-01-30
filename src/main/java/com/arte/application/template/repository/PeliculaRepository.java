@@ -1,5 +1,7 @@
 package com.arte.application.template.repository;
 
+import java.util.Set;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,4 +17,6 @@ import com.arte.application.template.domain.Pelicula;
 public interface PeliculaRepository extends JpaRepository<Pelicula, Long> {
 
     public Page<Pelicula> findAll(DetachedCriteria criteria, Pageable pageable);
+
+    public Set<Pelicula> findByActoresId(Long id);
 }

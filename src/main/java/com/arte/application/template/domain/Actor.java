@@ -1,13 +1,17 @@
 package com.arte.application.template.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -38,9 +42,11 @@ public class Actor implements Serializable {
     @Column(name = "apellido_1", nullable = false)
     private String apellido1;
 
-    @NotNull
     @Column(name = "apellido_2", nullable = false)
     private String apellido2;
+
+    @ManyToMany(mappedBy = "actores", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Pelicula> peliculas = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -72,6 +78,29 @@ public class Actor implements Serializable {
 
     public void setApellido2(String apellido2) {
         this.apellido2 = apellido2;
+    }
+
+    public void addPelicula(Pelicula pelicula) {
+        peliculas.add(pelicula);
+        pelicula.AddActor(this);
+    }
+
+    public void removePelicula(Pelicula pelicula) {
+        peliculas.remove(pelicula);
+        Set<Actor> set = new HashSet<>(pelicula.getActores());
+        set.remove(this);
+        pelicula.setAllActores(set);
+    }
+
+    public void setPeliculas(Set<Pelicula> peliculas) {
+        this.peliculas.clear();
+        this.peliculas = new HashSet<>(peliculas);
+    }
+
+    public void removeAllPeliculas() {
+        for (Pelicula pelicula : new HashSet<>(peliculas)) {
+            removePelicula(pelicula);
+        }
     }
 
     @Override

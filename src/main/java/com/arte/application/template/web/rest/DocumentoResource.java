@@ -46,8 +46,6 @@ public class DocumentoResource extends AbstractResource {
     private static final String ENTITY_NAME = "documento";
     private static final String BASE_URL = "/api/documentos";
 
-    public static final String LOCALFILE_DOWNLOAD_ENDPOINT = "/{id}/download";
-
     private final DocumentoService documentoService;
 
     private DocumentoMapper documentoMapper;
@@ -95,7 +93,7 @@ public class DocumentoResource extends AbstractResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(documentoDTO));
     }
 
-    @GetMapping(value = LOCALFILE_DOWNLOAD_ENDPOINT, consumes = "*/*", produces = "*/*")
+    @GetMapping(value = "/{id}/download", consumes = "*/*", produces = "*/*")
     @Timed
     public void getDocumento(@PathVariable Long id, HttpServletResponse response) {
         log.debug("REST petición para obtener Documento : {}", id);

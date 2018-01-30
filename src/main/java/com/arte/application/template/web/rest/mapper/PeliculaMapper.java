@@ -2,7 +2,9 @@ package com.arte.application.template.web.rest.mapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,17 @@ public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicu
         entityList.stream().forEach(e -> list.add(toDto(e)));
 
         return list;
+    }
+
+    public Set<Pelicula> toEntity(Set<PeliculaDTO> dtoSet) {
+        if (dtoSet == null) {
+            return Collections.emptySet();
+        }
+
+        Set<Pelicula> set = new HashSet<>();
+        dtoSet.stream().forEach(e -> set.add(toEntity(e)));
+
+        return set;
     }
 
     public Pelicula toEntity(PeliculaDTO dto) {

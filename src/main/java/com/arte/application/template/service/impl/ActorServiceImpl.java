@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.arte.application.template.domain.Actor;
 import com.arte.application.template.repository.ActorRepository;
+import com.arte.application.template.repository.PeliculaRepository;
 import com.arte.application.template.service.ActorService;
 import com.arte.application.template.web.rest.util.QueryUtil;
 
@@ -22,11 +23,14 @@ public class ActorServiceImpl implements ActorService {
 
     private final ActorRepository actorRepository;
 
+    private final PeliculaRepository peliculaRepository;
+
     private final QueryUtil queryUtil;
 
-    public ActorServiceImpl(ActorRepository actorRepository, QueryUtil queryUtil) {
+    public ActorServiceImpl(ActorRepository actorRepository, QueryUtil queryUtil, PeliculaRepository peliculaRepository) {
         this.actorRepository = actorRepository;
         this.queryUtil = queryUtil;
+        this.peliculaRepository = peliculaRepository;
     }
 
     /**
@@ -72,7 +76,10 @@ public class ActorServiceImpl implements ActorService {
      */
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Actor : {}", id);
-        actorRepository.delete(id);
+        log.debug("Request to delete Actor");
+        Actor actor = actorRepository.findOne(id);
+        actor.setPeliculas(peliculaRepository.findByActoresId(actor.getId()));
+        actor.removeAllPeliculas();
+        actorRepository.delete(actor);
     }
 }

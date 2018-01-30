@@ -1,18 +1,19 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { ArteApplicationTemplateSharedModule } from '../../shared';
 import {
-    ActorService,
-    ActorPopupService,
     ActorComponent,
+    ActorDeleteDialogComponent,
+    ActorDeletePopupComponent,
     ActorDetailComponent,
     ActorDialogComponent,
     ActorPopupComponent,
-    ActorDeletePopupComponent,
-    ActorDeleteDialogComponent,
-    actorRoute,
     actorPopupRoute,
+    ActorPopupService,
+    ActorResolvePagingParams,
+    actorRoute,
+    ActorService,
 } from './';
 
 const ENTITY_STATES = [
@@ -43,6 +44,7 @@ const ENTITY_STATES = [
     providers: [
         ActorService,
         ActorPopupService,
+        ActorResolvePagingParams,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

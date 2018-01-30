@@ -14,11 +14,12 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
     public batchSelection: BatchSelection;
 
     constructor(
-        public datePipe: DatePipe,
+        public datePipe?: DatePipe,
         public titulo?: string,
         public fechaEstreno?: Date,
         public idioma?: any,
         public categorias?: any[],
+        public actores?: any[]
     ) {
         super(datePipe);
         this.batchSelection = new BatchSelection();
@@ -77,8 +78,11 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         if (this.idioma) {
             criterias.push(`IDIOMAS EQ '${this.idioma.id}'`);
         }
-        if (this.categorias && this.categorias.length) {
+        if (this.categorias && this.categorias.length > 0) {
             criterias.push(`CATEGORIAS IN (${this.categorias.map((categoria) => categoria.id).join(',')})`);
+        }
+        if (this.actores && this.actores.length > 0) {
+            criterias.push(`ACTORES IN (${this.actores.map((actor) => actor.id).join(',')})`);
         }
 
         return criterias;

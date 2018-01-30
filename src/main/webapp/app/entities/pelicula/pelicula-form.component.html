@@ -1,7 +1,7 @@
 <ac-side-menu [parent]="instance"></ac-side-menu>
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
     <div class="entity has-menu" #titlesContainer>
-        <div class="entity-header">
+        <div>
             <h2>
                 <div>
                     <button *ngIf="!isEditMode()" [routerLink]="['../../pelicula']" type="button" class="btn btn-secondary btn-frameless back-arrow" [attr.aria-label]="'entity.action.back' | translate">
