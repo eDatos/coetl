@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.arte.application.template.domain.Idioma;
 import com.arte.application.template.service.IdiomaService;
 import com.arte.application.template.web.rest.dto.IdiomaDTO;
+import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.IdiomaMapper;
 import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.codahale.metrics.annotation.Timed;
@@ -61,7 +62,7 @@ public class IdiomaResource extends AbstractResource {
     public ResponseEntity<IdiomaDTO> createIdioma(@Valid @RequestBody IdiomaDTO idiomaDTO) throws URISyntaxException {
         log.debug("REST request to save Idioma : {}", idiomaDTO);
         if (idiomaDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new idioma cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "A new idioma cannot already have an ID")).body(null);
         }
         Idioma idioma = idiomaMapper.toEntity(idiomaDTO);
         IdiomaDTO result = idiomaMapper.toDto(idiomaService.save(idioma));

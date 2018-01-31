@@ -194,16 +194,11 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
 
     public actorItemTemplate(actor): string {
-        return `${''.concat(actor.apellido2 ? actor.apellido2.concat(' ') : '').concat(actor.apellido1).concat(', ').concat(actor.nombre)}`;
+        return this.normalizedActorName(actor);
     }
 
-    private normalizedActorName(actor: Actor): string {
+    public normalizedActorName(actor: Actor): string {
         return ''.concat(actor.apellido2 ? actor.apellido2.concat(' ') : '').concat(actor.apellido1).concat(', ').concat(actor.nombre);
-    }
-
-    public onSelection(event) {
-        console.log(event);
-        console.log(this.pelicula.actores);
     }
 
     public deleteDocumento(file: Documento): void {

@@ -17,15 +17,15 @@
                 <table class="table table-hover" acStickyTableHeader>
                     <thead>
                     <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th jhiSortBy="nombre">
+                    <th jhiSortBy="nombre" style="width: 20%">
                         <span jhiTranslate="arteApplicationTemplateApp.actor.nombre"></span>
                         <span class="fa fa-sort"></span>
                     </th>
-                    <th jhiSortBy="apellido1">
+                    <th jhiSortBy="apellido1" style="width: 20%">
                         <span jhiTranslate="arteApplicationTemplateApp.actor.apellido1"></span>
                         <span class="fa fa-sort"></span>
                     </th>
-                    <th jhiSortBy="apellido2">
+                    <th jhiSortBy="apellido2" style="width: 20%">
                         <span jhiTranslate="arteApplicationTemplateApp.actor.apellido2"></span>
                         <span class="fa fa-sort"></span>
                     </th>

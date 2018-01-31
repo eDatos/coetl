@@ -42,13 +42,13 @@ public class ActorCriteriaProcessor extends AbstractCriteriaProcessor {
 
         @Override
         public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
-            if (QueryProperty.PELICULA.name().equalsIgnoreCase(property.getLeftExpression()) && property.getOperationType().name().equalsIgnoreCase("NE")) {
+            if (QueryProperty.PELICULA.name().equalsIgnoreCase(property.getLeftExpression()) && "NE".equalsIgnoreCase(property.getOperationType().name())) {
                 return queryByNotPelicula(property);
             }
-            if (QueryProperty.PELICULA.name().equalsIgnoreCase(property.getLeftExpression()) && property.getOperationType().name().equalsIgnoreCase("EQ")) {
+            if (QueryProperty.PELICULA.name().equalsIgnoreCase(property.getLeftExpression()) && "EQ".equalsIgnoreCase(property.getOperationType().name())) {
                 return queryByPelicula(property);
             }
-            if (QueryProperty.ACTOR.name().equalsIgnoreCase(property.getLeftExpression()) && property.getOperationType().name().equalsIgnoreCase("ILIKE")) {
+            if (QueryProperty.ACTOR.name().equalsIgnoreCase(property.getLeftExpression()) && "ILIKE".equalsIgnoreCase(property.getOperationType().name())) {
                 ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_NOMBRE, TABLE_FIELD_APELLIDO1, TABLE_FIELD_APELLIDO2));
                 return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
             }

@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -60,7 +59,7 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     private Idioma idioma;
 
     @NotNull
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(name = "pelicula_actor", joinColumns = @JoinColumn(name = "pelicula_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"))
     @Valid
     private Set<Actor> actores = new HashSet<>();
@@ -118,11 +117,11 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     public void setAllActores(Set<Actor> actores) {
         removeAllActores();
         for (Actor actor : actores) {
-            AddActor(actor);
+            addActor(actor);
         }
     }
 
-    public void AddActor(Actor actor) {
+    public void addActor(Actor actor) {
         this.actores.add(actor);
     }
 
@@ -137,11 +136,11 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     public void setAllCategorias(Set<Categoria> categorias) {
         removeAllCategorias();
         for (Categoria categoria : categorias) {
-            AddCategoria(categoria);
+            addCategoria(categoria);
         }
     }
 
-    public void AddCategoria(Categoria categoria) {
+    public void addCategoria(Categoria categoria) {
         this.categorias.add(categoria);
     }
 

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.arte.application.template.domain.Categoria;
 import com.arte.application.template.service.CategoriaService;
 import com.arte.application.template.web.rest.dto.CategoriaDTO;
+import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.CategoriaMapper;
 import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.codahale.metrics.annotation.Timed;
@@ -61,7 +62,7 @@ public class CategoriaResource extends AbstractResource {
     public ResponseEntity<CategoriaDTO> createCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO) throws URISyntaxException {
         log.debug("REST request to save Categoria : {}", categoriaDTO);
         if (categoriaDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new categoria cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "A new categoria cannot already have an ID")).body(null);
         }
         Categoria categoria = categoriaMapper.toEntity(categoriaDTO);
         CategoriaDTO result = categoriaMapper.toDto(categoriaService.save(categoria));

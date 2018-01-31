@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,7 +44,7 @@ public class Actor implements Serializable {
     @Column(name = "apellido_2", nullable = false)
     private String apellido2;
 
-    @ManyToMany(mappedBy = "actores", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "actores")
     private Set<Pelicula> peliculas = new HashSet<>();
 
     public Long getId() {
@@ -82,7 +81,7 @@ public class Actor implements Serializable {
 
     public void addPelicula(Pelicula pelicula) {
         peliculas.add(pelicula);
-        pelicula.AddActor(this);
+        pelicula.addActor(this);
     }
 
     public void removePelicula(Pelicula pelicula) {

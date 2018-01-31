@@ -127,8 +127,8 @@ public class PeliculaResourceIntTest {
         Actor actor = ActorResourceIntTest.createEntity(em);
         actorService.save(actor);
 
-        pelicula.AddCategoria(categoria);
-        pelicula.AddActor(actor);
+        pelicula.addCategoria(categoria);
+        pelicula.addActor(actor);
     }
 
     @Test

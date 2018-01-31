@@ -81,7 +81,7 @@
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.reparto.label" for="field_actores"></label>
                     <ac-order-list class="form-control" name="actores" [suggestions]="actores" [required]="true" [(ngModel)]="pelicula.actores"
-                        [itemTemplate]="actorItemTemplate">
+                        [itemTemplate]="actorItemTemplate.bind(this)">
                 </ac-order-list>
                 </div>
             </div>

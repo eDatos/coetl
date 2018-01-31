@@ -48,9 +48,11 @@ public class PeliculaResource extends AbstractResource {
     private final Logger log = LoggerFactory.getLogger(PeliculaResource.class);
 
     private static final String ENTITY_NAME = "pelicula";
+    private static final String ENTITY_NAME_DOCUMENTO = "documento";
     private static final String BASE_URL = "/api/peliculas";
 
     private static final String ID_MISSING_MESSAGE = "Se necesita un identificador";
+    private static final String ENTITY_NOT_FOUND_MESSAGE = "Entidad %s no encontrada";
 
     private final PeliculaService peliculaService;
 
@@ -185,12 +187,13 @@ public class PeliculaResource extends AbstractResource {
 
         Pelicula pelicula = peliculaService.findOne(peliculaId);
         if (pelicula == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, ID_MISSING_MESSAGE)).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
         }
 
         Documento documento = documentoService.findOne(documentoId);
         if (documento == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("documento", ErrorConstants.ENTIDAD_NO_ENCONTRADA, ID_MISSING_MESSAGE)).build();
+            return ResponseEntity.badRequest()
+                    .headers(HeaderUtil.createFailureAlert(ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME_DOCUMENTO))).build();
         }
 
         PeliculaDTO result = peliculaMapper.toDto(peliculaService.bindDocumento(pelicula, documento));
@@ -217,7 +220,7 @@ public class PeliculaResource extends AbstractResource {
 
         Pelicula pelicula = peliculaService.findOne(peliculaId);
         if (pelicula == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, ID_MISSING_MESSAGE)).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
         }
 
         Long documentoId = pelicula.getDocumento().getId();

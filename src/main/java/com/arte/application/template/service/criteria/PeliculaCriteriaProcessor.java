@@ -73,17 +73,17 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
 
         @Override
         public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
-            if (QueryProperty.ID.name().equalsIgnoreCase(property.getLeftExpression()) && property.getOperationType().name().equalsIgnoreCase("IN")) {
+            if (QueryProperty.ID.name().equalsIgnoreCase(property.getLeftExpression()) && "IN".equalsIgnoreCase(property.getOperationType().name())) {
                 return queryByIds(property);
             }
-            if (QueryProperty.TITULO.name().equalsIgnoreCase(property.getLeftExpression()) && property.getOperationType().name().equalsIgnoreCase("ILIKE")) {
+            if (QueryProperty.TITULO.name().equalsIgnoreCase(property.getLeftExpression()) && "ILIKE".equalsIgnoreCase(property.getOperationType().name())) {
                 ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_TITULO));
                 return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
             }
-            if (QueryProperty.CATEGORIAS.name().equalsIgnoreCase(property.getLeftExpression()) && property.getOperationType().name().equalsIgnoreCase("IN")) {
+            if (QueryProperty.CATEGORIAS.name().equalsIgnoreCase(property.getLeftExpression()) && "IN".equalsIgnoreCase(property.getOperationType().name())) {
                 return queryByCategorias(property);
             }
-            if (QueryProperty.ACTORES.name().equalsIgnoreCase(property.getLeftExpression()) && property.getOperationType().name().equalsIgnoreCase("IN")) {
+            if (QueryProperty.ACTORES.name().equalsIgnoreCase(property.getLeftExpression()) && "IN".equalsIgnoreCase(property.getOperationType().name())) {
                 return queryByActores(property);
             }
             throw new CustomParameterizedException(String.format("Query param not supported: '%s", property));

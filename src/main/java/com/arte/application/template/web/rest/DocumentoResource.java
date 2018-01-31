@@ -31,6 +31,7 @@ import com.arte.application.template.domain.Documento;
 import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.web.rest.dto.DocumentoDTO;
 import com.arte.application.template.web.rest.errors.CustomParameterizedException;
+import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.DocumentoMapper;
 import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.codahale.metrics.annotation.Timed;
@@ -60,7 +61,7 @@ public class DocumentoResource extends AbstractResource {
     public ResponseEntity<DocumentoDTO> createDocumento(@RequestParam("file") MultipartFile file) throws URISyntaxException {
         log.debug("REST petición para guardar Documento : {}", file);
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "file-empty", "Uploaded file is empty")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.FILE_EMPTY, "Uploaded file is empty")).body(null);
         }
         Documento result = documentoService.create(file);
         DocumentoDTO resultDTO = documentoMapper.toDto(result);
@@ -72,7 +73,7 @@ public class DocumentoResource extends AbstractResource {
     public ResponseEntity<DocumentoDTO> updateDocumento(@Valid @RequestBody DocumentoDTO documentoDTO) {
         log.debug("REST petición para editar Documento : {}", documentoDTO);
         if (documentoDTO.getId() == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "id-missing", "An id is required")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, "An id is required")).body(null);
         }
         Documento documento = documentoService.findOne(documentoDTO.getId());
         documento = documentoMapper.update(documento, documentoDTO);
@@ -87,7 +88,7 @@ public class DocumentoResource extends AbstractResource {
         log.debug("REST petición para obtener Documento : {}", id);
         Documento documento = documentoService.findOne(id);
         if (documento == null) {
-            return ResponseEntity.notFound().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "not-found", "Entity requested was not found")).build();
+            return ResponseEntity.notFound().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, "Entity requested was not found")).build();
         }
         DocumentoDTO documentoDTO = documentoMapper.toDto(documento);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(documentoDTO));

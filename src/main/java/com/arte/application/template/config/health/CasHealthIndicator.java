@@ -28,7 +28,7 @@ public class CasHealthIndicator extends AbstractHealthIndicator {
     protected void doHealthCheck(Health.Builder builder) throws Exception {
         final String casEndPoint = applicationProperties.getCas().getEndpoint();
         builder.withDetail("endpoint", casEndPoint);
-        if (checkUrlStatus(casEndPoint) == HttpStatus.ACCEPTED || checkUrlStatus(casEndPoint) == HttpStatus.OK) {
+        if (HttpStatus.ACCEPTED.equals(getUrlStatus(casEndPoint)) || HttpStatus.OK.equals(getUrlStatus(casEndPoint))) {
             builder.up();
         } else {
             logger.warn("Cas not available. " + "Impossible to reach");
@@ -36,7 +36,7 @@ public class CasHealthIndicator extends AbstractHealthIndicator {
         }
     }
 
-    public final HttpStatus checkUrlStatus(String url) {
+    public final HttpStatus getUrlStatus(String url) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
