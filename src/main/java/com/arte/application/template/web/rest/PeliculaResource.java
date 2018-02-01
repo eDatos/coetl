@@ -24,9 +24,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.arte.application.template.domain.Documento;
 import com.arte.application.template.domain.Pelicula;
+import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.service.PeliculaService;
 import com.arte.application.template.web.rest.dto.PeliculaDTO;
+import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.PeliculaMapper;
 import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.arte.application.template.web.rest.util.PaginationUtil;
@@ -45,15 +48,22 @@ public class PeliculaResource extends AbstractResource {
     private final Logger log = LoggerFactory.getLogger(PeliculaResource.class);
 
     private static final String ENTITY_NAME = "pelicula";
+    private static final String ENTITY_NAME_DOCUMENTO = "documento";
     private static final String BASE_URL = "/api/peliculas";
+
+    private static final String ID_MISSING_MESSAGE = "Se necesita un identificador";
+    private static final String ENTITY_NOT_FOUND_MESSAGE = "Entidad %s no encontrada";
 
     private final PeliculaService peliculaService;
 
     private final PeliculaMapper peliculaMapper;
 
-    public PeliculaResource(PeliculaService peliculaService, PeliculaMapper peliculaMapper) {
+    private final DocumentoService documentoService;
+
+    public PeliculaResource(PeliculaService peliculaService, PeliculaMapper peliculaMapper, DocumentoService documentoService) {
         this.peliculaService = peliculaService;
         this.peliculaMapper = peliculaMapper;
+        this.documentoService = documentoService;
     }
 
     /**
@@ -140,7 +150,7 @@ public class PeliculaResource extends AbstractResource {
     }
 
     /**
-     * DELETE :batchDelete : delete the "id" pelicula.
+     * DELETE : delete the "id" pelicula.
      *
      * @param id the id of the peliculaDTO to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -156,5 +166,70 @@ public class PeliculaResource extends AbstractResource {
 
     private List<Pelicula> getPeliculasToDelete(String query) {
         return peliculaService.findAll(query, null).getContent().stream().collect(Collectors.toList());
+    }
+
+    /**
+     * PUT /:peliculaId/documento/:documentoId : Bind a documento to pelicula
+     * 
+     * @param peliculaId the id of the peliculaDTO
+     * @param documentoId the id of the documento
+     * @return the ResponseEntity with status 200 (OK) and with body the updated peliculaDTO,
+     *         or with status 400 (Bad Request) if the peliculaDTO is not valid,
+     *         or with status 500 (Internal Server Error) if the peliculaDTO couldn't be updated
+     */
+    @PutMapping("/{peliculaId}/documento/{documentoId}")
+    @Timed
+    public ResponseEntity<PeliculaDTO> bindDocumento(@Valid @PathVariable Long peliculaId, @PathVariable Long documentoId) {
+        log.debug("REST request to bind a Documento to Pelicula : {}", peliculaId);
+        if (peliculaId == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, ID_MISSING_MESSAGE)).build();
+        }
+
+        Pelicula pelicula = peliculaService.findOne(peliculaId);
+        if (pelicula == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+        }
+
+        Documento documento = documentoService.findOne(documentoId);
+        if (documento == null) {
+            return ResponseEntity.badRequest()
+                    .headers(HeaderUtil.createFailureAlert(ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME_DOCUMENTO))).build();
+        }
+
+        PeliculaDTO result = peliculaMapper.toDto(peliculaService.bindDocumento(pelicula, documento));
+
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString())).body(result);
+    }
+
+    /**
+     * PUT /:peliculaId/documento : Unbind a documento to pelicula
+     * 
+     * @param peliculaId the id of the peliculaDTO
+     * @param documentoId the id of the documento
+     * @return the ResponseEntity with status 200 (OK) and with body the updated peliculaDTO,
+     *         or with status 400 (Bad Request) if the peliculaDTO is not valid,
+     *         or with status 500 (Internal Server Error) if the peliculaDTO couldn't be updated
+     */
+    @PutMapping("/{peliculaId}/documento")
+    @Timed
+    public ResponseEntity<PeliculaDTO> unbindDocumento(@Valid @PathVariable Long peliculaId) {
+        log.debug("REST request to unbind a Documento to Pelicula : {}", peliculaId);
+        if (peliculaId == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, ID_MISSING_MESSAGE)).build();
+        }
+
+        Pelicula pelicula = peliculaService.findOne(peliculaId);
+        if (pelicula == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+        }
+
+        Long documentoId = pelicula.getDocumento().getId();
+        pelicula.setDocumento(null);
+
+        PeliculaDTO result = peliculaMapper.toDto(peliculaService.save(pelicula));
+
+        documentoService.delete(documentoId);
+
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 }

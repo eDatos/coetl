@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
+import { createRequestOption, ResponseWrapper } from '../../shared';
 import { Actor } from './actor.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
 export class ActorService {
 
-    private resourceUrl = 'api/actors';
+    private resourceUrl = 'api/actores';
 
     constructor(private http: Http) { }
 

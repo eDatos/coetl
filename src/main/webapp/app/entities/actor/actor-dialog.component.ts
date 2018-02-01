@@ -1,16 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
-
+import { ActivatedRoute } from '@angular/router';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { Observable } from 'rxjs/Rx';
-import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import { Actor } from './actor.model';
-import { ActorPopupService } from './actor-popup.service';
-import { ActorService } from './actor.service';
-import { Pelicula, PeliculaService } from '../pelicula';
 import { ResponseWrapper } from '../../shared';
+import { Pelicula, PeliculaFilter, PeliculaService } from '../pelicula';
+import { ActorPopupService } from './actor-popup.service';
+import { Actor } from './actor.model';
+import { ActorService } from './actor.service';
 
 @Component({
     selector: 'jhi-actor-dialog',
@@ -20,8 +19,10 @@ export class ActorDialogComponent implements OnInit {
 
     actor: Actor;
     isSaving: boolean;
+    isDeleting: boolean;
 
     peliculas: Pelicula[];
+    peliculaFilter: PeliculaFilter;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -30,12 +31,17 @@ export class ActorDialogComponent implements OnInit {
         private peliculaService: PeliculaService,
         private eventManager: JhiEventManager
     ) {
+        this.peliculaFilter = new PeliculaFilter();
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.peliculaService.query()
-            .subscribe((res: ResponseWrapper) => { this.peliculas = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.isDeleting = false;
+        if (this.actor.id !== undefined) {
+            this.peliculaFilter.actores = Array.of<Actor>(this.actor);
+            this.peliculaService.query({ query: this.peliculaFilter.toQuery() })
+                .subscribe((res: ResponseWrapper) => { this.peliculas = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        }
     }
 
     clear() {
@@ -59,7 +65,7 @@ export class ActorDialogComponent implements OnInit {
     }
 
     private onSaveSuccess(result: Actor) {
-        this.eventManager.broadcast({ name: 'actorListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'actorListModification', content: 'Actor saved'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
@@ -91,6 +97,23 @@ export class ActorDialogComponent implements OnInit {
             }
         }
         return option;
+    }
+
+    public toggleIsDeleting() {
+        this.isDeleting = !this.isDeleting;
+    }
+
+    public confirmDelete(id: number) {
+        this.actorService.delete(id).subscribe((response) => {
+            this.eventManager.broadcast({name: 'actorListModification', content: 'Actor deleted'});
+            this.activeModal.dismiss(true);
+        },
+        (error) => this.onDeleteError(error));
+    }
+
+    private onDeleteError(error): void {
+        this.isDeleting = false;
+        this.onError(error);
     }
 }
 

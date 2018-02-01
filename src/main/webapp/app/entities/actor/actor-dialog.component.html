@@ -1,64 +1,83 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-
-    <div class="modal-header">
-        <h4 class="modal-title" id="myActorLabel" jhiTranslate="arteApplicationTemplateApp.actor.home.createOrEditLabel">Create or edit a Actor</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                (click)="clear()">&times;</button>
-    </div>
-    <div class="modal-body">
-        <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!actor.id">
-            <label for="id" jhiTranslate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                   [(ngModel)]="actor.id" readonly />
+    <div class="entity">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myActorLabel">
+                <span class="fa fa-tag"></span>
+                <span *ngIf="!actor.id" jhiTranslate="arteApplicationTemplateApp.actor.home.createLabel"></span>
+                <span *ngIf="actor.id">{{''.concat(actor.apellido2?actor.apellido2.concat(' '):'').concat(actor.apellido1).concat(', ').concat(actor.nombre)}}</span>
+            </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                    (click)="clear()">&times;</button>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.nombre" for="field_nombre">Nombre</label>
-            <input type="text" class="form-control" name="nombre" id="field_nombre"
-                [(ngModel)]="actor.nombre" required />
-            <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.nombre?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
+        <div class="modal-body">
+            <fieldset>
+                <jhi-alert-error></jhi-alert-error>
+                    <div class="entity-fields">
+                        <div class="form-group full-width">
+                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.nombre" for="field_nombre">Nombre</label>
+                            <input type="text" class="form-control" name="nombre" id="field_nombre"
+                                [(ngModel)]="actor.nombre" required />
+                            <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
+                                <small class="form-text text-danger"
+                                [hidden]="!editForm.controls.nombre?.errors?.required" jhiTranslate="entity.validation.required">
+                                This field is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.apellido1" for="field_apellido1">Apellido 1</label>
+                            <input type="text" class="form-control" name="apellido1" id="field_apellido1"
+                                [(ngModel)]="actor.apellido1" required />
+                            <div [hidden]="!(editForm.controls.apellido1?.dirty && editForm.controls.apellido1?.invalid)">
+                                <small class="form-text text-danger"
+                                    [hidden]="!editForm.controls.apellido1?.errors?.required" jhiTranslate="entity.validation.required">
+                                This field is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.apellido2" for="field_apellido2">Apellido 2</label>
+                            <input type="text" class="form-control" name="apellido2" id="field_apellido2"
+                                [(ngModel)]="actor.apellido2" />
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.apellido1" for="field_apellido1">Apellido 1</label>
-            <input type="text" class="form-control" name="apellido1" id="field_apellido1"
-                [(ngModel)]="actor.apellido1" required />
-            <div [hidden]="!(editForm.controls.apellido1?.dirty && editForm.controls.apellido1?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.apellido1?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
+        <div class="modal-footer">
+            <ng-container *ngIf="!isDeleting">
+                <div class="col-sm-6 text-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+                        <span class="fa fa-ban"></span>&nbsp;
+                        <span jhiTranslate="entity.action.cancel"></span>
+                    </button>
+                    <ng-container *ngIf="actor.id" >
+                        <button type="button" [disabled]="isSaving || !actor.id" class="btn btn-danger" (click)="toggleIsDeleting()">
+                            <span class="fa fa-times"></span>&nbsp;
+                            <span jhiTranslate="entity.action.delete"></span>
+                        </button>
+                    </ng-container>
+                    <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                        <span class="fa fa-save"></span>&nbsp;
+                        <span jhiTranslate="entity.action.save"></span>
+                    </button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="isDeleting">
+                <div class="col-sm-6 text-center">
+                    <span jhiTranslate="arteApplicationTemplateApp.actor.delete.question"></span>
+                </div>
+                <div class="col-sm-6 text-right"> 
+                    <button type="button" class="btn btn-success" (click)="confirmDelete(actor.id)">
+                        <span class="fa fa-check"></span>&nbsp;
+                        <span jhiTranslate="entity.action.confirm"></span>
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="toggleIsDeleting()">
+                        <span class="fa fa-ban"></span>&nbsp;
+                        <span jhiTranslate="entity.action.cancel"></span>
+                    </button>
+                </div>
+            </ng-container>
         </div>
-        <div class="form-group">
-            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.apellido2" for="field_apellido2">Apellido 2</label>
-            <input type="text" class="form-control" name="apellido2" id="field_apellido2"
-                [(ngModel)]="actor.apellido2" required />
-            <div [hidden]="!(editForm.controls.apellido2?.dirty && editForm.controls.apellido2?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.apellido2?.errors?.required" jhiTranslate="entity.validation.required">
-                   This field is required.
-                </small>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label jhiTranslate="arteApplicationTemplateApp.actor.peliculas" for="field_peliculas">Peliculas</label>
-            <select class="form-control" id="field_peliculas" multiple name="peliculas" [(ngModel)]="actor.peliculas">
-                <option [ngValue]="getSelected(actor.peliculas, peliculaOption)" *ngFor="let peliculaOption of peliculas; trackBy: trackPeliculaById">{{peliculaOption.id}}</option>
-            </select>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
-            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-        </button>
     </div>
 </form>

@@ -1,17 +1,20 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Autosize } from 'ng-autosize';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 import { setTimeout } from 'timers';
 
 import { GenericModalService } from '../../shared';
+import { HasTitlesContainer } from '../../shared/layouts/side-menu/side-menu.component';
 import { ResponseWrapper } from '../../shared/model/response-wrapper.model';
 import { Actor } from '../actor/actor.model';
 import { ActorService } from '../actor/actor.service';
 import { Categoria } from '../categoria/categoria.model';
 import { CategoriaService } from '../categoria/categoria.service';
+import { Documento } from '../documento/documento.model';
+import { DocumentoService } from '../documento/documento.service';
 import { IdiomaService } from '../idioma';
 import { Idioma } from '../idioma/idioma.model';
 import { PeliculaDeleteDialogComponent } from './pelicula-delete-dialog.component';
@@ -22,16 +25,27 @@ import { PeliculaService } from './pelicula.service';
     selector: 'jhi-pelicula-form',
     templateUrl: './pelicula-form.component.html'
 })
-export class PeliculaFormComponent implements OnInit, AfterViewInit {
+export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTitlesContainer {
+
+    readonly EVENT_NAME: String = 'peliculaListModification';
+
+    instance: PeliculaFormComponent;
 
     pelicula: Pelicula;
     isSaving: boolean;
     @ViewChild(Autosize)
     descripcionContainer: Autosize;
 
-    actores: Actor[] = []
+    actores: Actor[] = [];
     categorias: Categoria[] = [];
     idiomas: Idioma[] = [];
+
+    updatesSubscription: Subscription;
+
+    resourceUrl: string;
+
+    @ViewChild('titlesContainer')
+    titlesContaner: ElementRef;
 
     constructor(
         private alertService: JhiAlertService,
@@ -42,8 +56,11 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
         private categoriaService: CategoriaService,
         private genericModalService: GenericModalService,
         private idiomaService: IdiomaService,
+        private documentoService: DocumentoService,
         private eventManager: JhiEventManager
     ) {
+        this.resourceUrl = documentoService.resourceUrl;
+        this.instance = this;
     }
 
     ngOnInit() {
@@ -58,10 +75,29 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
 
         this.searchCategorias();
         this.searchIdiomas();
+        this.searchActores();
+
+        this.registerChangesOnPelicula();
     }
 
     ngAfterViewInit() {
         setTimeout(() => this.descripcionContainer.adjust(), null);
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.updatesSubscription);
+    }
+
+    private registerChangesOnPelicula() {
+        this.updatesSubscription = this.eventManager.subscribe(this.EVENT_NAME, (result) => {
+            if (result.content !== 'saved') {
+                this.load(result.content);
+            }
+        });
+    }
+
+    private load(res: Pelicula) {
+        this.pelicula = Object.assign({}, res);
     }
 
     clear() {
@@ -89,9 +125,9 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
     }
 
     private onSaveSuccess(result: Pelicula) {
-        this.eventManager.broadcast({ name: 'peliculaListModification', content: 'OK'});
         this.isSaving = false;
-        this.router.navigate(['/pelicula', result.id]);
+        this.eventManager.broadcast({ name: this.EVENT_NAME, content: 'saved'});
+        this.router.navigate(['pelicula', result.id]);
     }
 
     private onSaveError(error) {
@@ -144,5 +180,47 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit {
 
     public idiomaItemTemplate(idioma: any): string {
         return `${idioma.nombre}`;
+    }
+
+    public searchActores() {
+        this.actorService.query({
+            page: 0,
+            size: 20,
+            sort: 'asc'/* ,
+            query: [`PELICULA NE ${this.pelicula.id}`] */
+        }).subscribe(
+            (res: ResponseWrapper) => this.actores = res.json,
+            (res: ResponseWrapper) => this.onError(res.json));
+    }
+
+    public actorItemTemplate(actor): string {
+        return this.normalizedActorName(actor);
+    }
+
+    public normalizedActorName(actor: Actor): string {
+        return ''.concat(actor.apellido2 ? actor.apellido2.concat(' ') : '').concat(actor.apellido1).concat(', ').concat(actor.nombre);
+    }
+
+    public deleteDocumento(file: Documento): void {
+        this.peliculaService
+            .desasociarDocumento(this.pelicula.id).subscribe(
+            (res: Pelicula) => this.onDocumentoSuccess(res),
+            (res: Response) => this.onSaveError(res));
+    }
+
+    public onDocumentoUpload(event) {
+        const response = JSON.parse(event.xhr.response);
+        this.peliculaService
+            .asociarDocumento(this.pelicula.id, response.id).subscribe(
+            (res: Pelicula) => this.onDocumentoSuccess(res),
+            (res: Response) => this.onSaveError(res));
+    }
+
+    private onDocumentoSuccess(result: Pelicula) {
+        this.eventManager.broadcast({ name: this.EVENT_NAME, content: result});
+    }
+
+    public getTitlesContainer() {
+        return this.titlesContaner;
     }
 }

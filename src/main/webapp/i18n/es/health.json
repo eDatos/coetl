@@ -13,8 +13,9 @@
         "indicator": {
             "diskSpace": "Espacio en disco",
             "mail": "Email",
-            "db": "Database",
-            "ldap": "LDAP"
+            "db": "Base de datos",
+            "ldap": "LDAP",
+            "cas": "CAS"
         },
         "table": {
             "service": "Nombre del servicio",

@@ -14,7 +14,7 @@ import com.arte.application.template.web.rest.dto.PeliculaDTO;
 /**
  * Mapper for the entity Pelicula and its DTO PeliculaDTO.
  */
-@Mapper(componentModel = "spring", uses = {ActorMapper.class, CategoriaMapper.class, IdiomaMapper.class})
+@Mapper(componentModel = "spring", uses = {ActorMapper.class, CategoriaMapper.class, IdiomaMapper.class, DocumentoMapper.class})
 public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicula> {
 
     @Autowired
@@ -28,6 +28,9 @@ public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicu
 
     @Autowired
     private IdiomaMapper idiomaMapper;
+
+    @Autowired
+    private DocumentoMapper documentoMapper;
 
     public Pelicula fromId(Long id) {
         if (id == null) {
@@ -65,13 +68,17 @@ public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicu
 
         Pelicula entity = new Pelicula();
 
-        entity.setId(dto.getId());
+        if (dto.getId() != null) {
+            entity = fromId(dto.getId());
+        }
+
         entity.setTitulo(dto.getTitulo());
         entity.setDescripcion(dto.getDescripcion());
         entity.setFechaEstreno(dto.getFechaEstreno());
         entity.setIdioma(idiomaMapper.toEntity(dto.getIdioma()));
         entity.setAllActores(actorMapper.toEntity(dto.getActores()));
         entity.setAllCategorias(categoriaMapper.toEntity(dto.getCategorias()));
+        entity.setDocumento(documentoMapper.toEntity(dto.getDocumento()));
         entity.setCreatedBy(dto.getCreatedBy());
         entity.setCreatedDate(dto.getCreatedDate());
         entity.setLastModifiedBy(dto.getLastModifiedBy());
@@ -95,6 +102,7 @@ public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicu
         dto.setIdioma(idiomaMapper.toDto(entity.getIdioma()));
         dto.setActores(actorMapper.toDto(entity.getActores()));
         dto.setCategorias(categoriaMapper.toDto(entity.getCategorias()));
+        dto.setDocumento(documentoMapper.toDto(entity.getDocumento()));
         dto.setCreatedBy(entity.getCreatedBy());
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setLastModifiedBy(entity.getLastModifiedBy());

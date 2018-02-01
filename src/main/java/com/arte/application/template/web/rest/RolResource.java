@@ -108,7 +108,7 @@ public class RolResource extends AbstractResource {
         }
         Rol rol = rolService.findOne(rolDTO.getId());
         if (rol == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "no-encontrado", "El rol a actualizar no se ha encontrado")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, "El rol a actualizar no se ha encontrado")).body(null);
         }
         rolMapper.update(rol, rolDTO);
         rolService.save(rol);

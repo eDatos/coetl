@@ -17,12 +17,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import com.arte.application.template.optimistic.AbstractVersionedAndAuditingEntity;
-
 @Entity
 @Table(name = "documento")
 @Cache(usage = CacheConcurrencyStrategy.NONE)
-public class Documento extends AbstractVersionedAndAuditingEntity implements Serializable {
+public class Documento implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

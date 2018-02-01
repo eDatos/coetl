@@ -7,10 +7,10 @@
     </ng-content>
     <ng-container *ngIf="!disabled && canUpload()">
         <p-fileUpload [name]="name" [url]="url" (onUpload)="onUploadMethod($event)" (onSelect)="onSelectMethod($event)" [maxFileSize]="maxFileSize"
-            [disabled]="disabled" [mode]="mode" [accept]="accept" [chooseLabel]="'secretariaLibroApp.documento.choose' | translate"
-            [uploadLabel]="'secretariaLibroApp.documento.upload' | translate" [cancelLabel]="'secretariaLibroApp.documento.cancel' | translate"
-            [invalidFileSizeMessageSummary]="'secretariaLibroApp.documento.invalidFileSizeMessageSummary' | translate" [invalidFileSizeMessageDetail]="'secretariaLibroApp.documento.invalidFileSizeMessageDetail' | translate"
-            [invalidFileTypeMessageSummary]="'secretariaLibroApp.documento.invalidFileTypeMessageSummary' | translate" [invalidFileTypeMessageSummary]="'secretariaLibroApp.documento.invalidFileTypeMessageSummary' | translate"
+            [disabled]="disabled" [mode]="mode" [accept]="accept" [chooseLabel]="'arteApplicationTemplateApp.documento.choose' | translate"
+            [uploadLabel]="'arteApplicationTemplateApp.documento.upload' | translate" [cancelLabel]="'arteApplicationTemplateApp.documento.cancel' | translate"
+            [invalidFileSizeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileSizeMessageSummary' | translate" [invalidFileSizeMessageDetail]="'arteApplicationTemplateApp.documento.invalidFileSizeMessageDetail' | translate"
+            [invalidFileTypeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileTypeMessageSummary' | translate" [invalidFileTypeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileTypeMessageSummary' | translate"
             [auto]="auto" #fileUpload>
         </p-fileUpload>
     </ng-container>
@@ -19,7 +19,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th jhiTranslate="secretariaLibroApp.documento.filename">Nombre archivo</th>
+                <th jhiTranslate="arteApplicationTemplateApp.documento.filename">Nombre archivo</th>
                 <th></th>
             </tr>
         </thead>
@@ -27,7 +27,7 @@
             <tr *ngFor="let file of innerFiles">
                 <td>{{file.name}}</td>
                 <td class="table-actions">
-                    <button type="button" class="btn btn-sm" [title]="'secretariaLibroApp.documento.download' | translate" (click)="download(file)">
+                    <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.download' | translate" (click)="download(file)">
                         <i class="fa fa-download"></i>
                     </button>
                     <template [ngTemplateOutlet]="actionsTemplate" [ngOutletContext]="{file: file}"></template>
@@ -37,6 +37,6 @@
     </table>
 </ng-container>
 <ng-template #emptyFileList>
-    <div class="empty-file-list" jhiTranslate="secretariaLibroApp.documento.emptyFileList">
+    <div class="empty-file-list" jhiTranslate="arteApplicationTemplateApp.documento.emptyFileList">
     </div>
 </ng-template>

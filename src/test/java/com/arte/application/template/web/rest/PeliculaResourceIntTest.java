@@ -37,6 +37,7 @@ import com.arte.application.template.domain.Pelicula;
 import com.arte.application.template.repository.PeliculaRepository;
 import com.arte.application.template.service.ActorService;
 import com.arte.application.template.service.CategoriaService;
+import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.service.PeliculaService;
 import com.arte.application.template.web.rest.dto.PeliculaDTO;
 import com.arte.application.template.web.rest.errors.ExceptionTranslator;
@@ -72,6 +73,9 @@ public class PeliculaResourceIntTest {
     private PeliculaService peliculaService;
 
     @Autowired
+    private DocumentoService documentoService;
+
+    @Autowired
     private ActorService actorService;
 
     @Autowired
@@ -96,7 +100,7 @@ public class PeliculaResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        PeliculaResource peliculaResource = new PeliculaResource(peliculaService, peliculaMapper);
+        PeliculaResource peliculaResource = new PeliculaResource(peliculaService, peliculaMapper, documentoService);
         this.restPeliculaMockMvc = MockMvcBuilders.standaloneSetup(peliculaResource).setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
                 .setMessageConverters(jacksonMessageConverter).build();
     }
@@ -123,8 +127,8 @@ public class PeliculaResourceIntTest {
         Actor actor = ActorResourceIntTest.createEntity(em);
         actorService.save(actor);
 
-        pelicula.AddCategoria(categoria);
-        pelicula.AddActor(actor);
+        pelicula.addCategoria(categoria);
+        pelicula.addActor(actor);
     }
 
     @Test

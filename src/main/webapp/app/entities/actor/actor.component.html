@@ -1,66 +1,53 @@
-<div>
-    <h2>
-        <span jhiTranslate="arteApplicationTemplateApp.actor.home.title">Actors</span>
-        <button class="btn btn-primary float-right jh-create-entity create-actor" [routerLink]="['/', { outlets: { popup: ['actor-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span  jhiTranslate="arteApplicationTemplateApp.actor.home.createLabel">
-            Create new Actor
-            </span>
-        </button>
-    </h2>
-    <jhi-alert></jhi-alert>
-    <div class="row">
+<div class="entity" acMakeFixedRoom>
+    <div class="entity-header">
+        <h2>
+            <span jhiTranslate="arteApplicationTemplateApp.actor.home.title"></span>
+            <button class="btn btn-primary float-right jh-create-entity create-actor" [routerLink]="['/', { outlets: { popup: ['actor-new'] } }]">
+                <span class="fa fa-plus"></span>
+                <span  jhiTranslate="arteApplicationTemplateApp.actor.home.createLabel">
+                    Crear nuevo actor/actriz
+                </span>
+            </button>
+        </h2>
+        <jhi-alert></jhi-alert>
     </div>
-    <br/>
-    <div class="table-responsive" *ngIf="actors">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="arteApplicationTemplateApp.actor.nombre">Nombre</span></th>
-            <th><span jhiTranslate="arteApplicationTemplateApp.actor.apellido1">Apellido 1</span></th>
-            <th><span jhiTranslate="arteApplicationTemplateApp.actor.apellido2">Apellido 2</span></th>
-            <th><span jhiTranslate="arteApplicationTemplateApp.actor.peliculas">Peliculas</span></th>
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let actor of actors ;trackBy: trackId">
-                <td><a [routerLink]="['../actor', actor.id ]">{{actor.id}}</a></td>
-                <td>{{actor.nombre}}</td>
-                <td>{{actor.apellido1}}</td>
-                <td>{{actor.apellido2}}</td>
-                <td>
-                    <span *ngFor="let peliculas of actor.peliculas; let last = last">
-                            <a class="form-control-static" [routerLink]="['../pelicula', peliculas?.id ]">{{peliculas.id}}</a>{{last ? '' : ', '}}
-                        </span>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['../actor', actor.id ]"
-                                class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'actor/'+ actor.id + '/edit'} }]"
-                                replaceUrl="true"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'actor/'+ actor.id + '/delete'} }]"
-                                replaceUrl="true"
-                                class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <ng-container *ngIf="actores">
+        <ng-container *ngIf="actores.length > 0;else emptyList">
+            <div class="table-responsive">
+                <table class="table table-hover" acStickyTableHeader>
+                    <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                    <th jhiSortBy="nombre" style="width: 20%">
+                        <span jhiTranslate="arteApplicationTemplateApp.actor.nombre"></span>
+                        <span class="fa fa-sort"></span>
+                    </th>
+                    <th jhiSortBy="apellido1" style="width: 20%">
+                        <span jhiTranslate="arteApplicationTemplateApp.actor.apellido1"></span>
+                        <span class="fa fa-sort"></span>
+                    </th>
+                    <th jhiSortBy="apellido2" style="width: 20%">
+                        <span jhiTranslate="arteApplicationTemplateApp.actor.apellido2"></span>
+                        <span class="fa fa-sort"></span>
+                    </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let actor of actores ;trackBy: trackId" (click)="editActor(actor)">
+                        <td>{{actor.nombre}}</td>
+                        <td>{{actor.apellido1}}</td>
+                        <td>{{actor.apellido2}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-between">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+                <ac-pagination [itemsPerPage]="itemsPerPage" (change)="changeItemsPerPage($event)"></ac-pagination>
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)" [pageSize]="itemsPerPage"></ngb-pagination>
+            </div>
+        </ng-container>
+        <ng-template #emptyList>
+            <ac-entity-list-empty></ac-entity-list-empty>
+        </ng-template>
+    </ng-container>
 </div>

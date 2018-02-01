@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -69,6 +70,10 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     @Valid
     private Set<Categoria> categorias = new HashSet<>();
 
+    @OneToOne(optional = true, orphanRemoval = true)
+    @JoinColumn(name = "documento_id", nullable = true)
+    private Documento documento;
+
     public Long getId() {
         return id;
     }
@@ -112,11 +117,11 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     public void setAllActores(Set<Actor> actores) {
         removeAllActores();
         for (Actor actor : actores) {
-            AddActor(actor);
+            addActor(actor);
         }
     }
 
-    public void AddActor(Actor actor) {
+    public void addActor(Actor actor) {
         this.actores.add(actor);
     }
 
@@ -129,13 +134,13 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     }
 
     public void setAllCategorias(Set<Categoria> categorias) {
-        removeAllActores();
+        removeAllCategorias();
         for (Categoria categoria : categorias) {
-            AddCategoria(categoria);
+            addCategoria(categoria);
         }
     }
 
-    public void AddCategoria(Categoria categoria) {
+    public void addCategoria(Categoria categoria) {
         this.categorias.add(categoria);
     }
 
@@ -145,6 +150,14 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
 
     public Set<Categoria> getCategorias() {
         return Collections.unmodifiableSet(this.categorias);
+    }
+
+    public Documento getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(Documento documento) {
+        this.documento = documento;
     }
 
     @Override

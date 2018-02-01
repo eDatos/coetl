@@ -8,11 +8,15 @@ public final class ErrorConstants {
     public static final String ERR_METHOD_NOT_SUPPORTED = "error.methodNotSupported";
     public static final String ERR_INTERNAL_SERVER_ERROR = "error.internalServerError";
 
+    public static final String USER_LDAP_NOT_FOUND = "userManagement.usuario-ldap-no-encontrado";
+    public static final String FILE_EMPTY = "file-empty";
+
     public static final String ID_EXISTE = "id-existe";
     public static final String ID_FALTA = "id-falta";
     public static final String CODIGO_FALTA = "codigo-falta";
     public static final String ENTIDAD_EXISTE = "entidad-existe";
-
+    public static final String EMAIL_EXISTS = "email-existe";
+    public static final String USER_EXISTS = "usuario-existe";
     public static final String ENTIDAD_NO_ENCONTRADA = "entidad-no-encontrada";
 
     private ErrorConstants() {

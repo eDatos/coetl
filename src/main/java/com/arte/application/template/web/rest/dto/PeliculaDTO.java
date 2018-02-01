@@ -34,6 +34,8 @@ public class PeliculaDTO extends AbstractVersionedAndAuditingDTO implements Seri
     @NotNull
     private Set<CategoriaDTO> categorias = new HashSet<>();
 
+    private DocumentoDTO documento;
+
     public Long getId() {
         return id;
     }
@@ -88,6 +90,14 @@ public class PeliculaDTO extends AbstractVersionedAndAuditingDTO implements Seri
 
     public void setCategorias(Set<CategoriaDTO> categorias) {
         this.categorias = categorias;
+    }
+
+    public DocumentoDTO getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(DocumentoDTO documento) {
+        this.documento = documento;
     }
 
     @Override

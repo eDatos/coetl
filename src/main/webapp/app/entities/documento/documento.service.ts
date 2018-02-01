@@ -10,7 +10,7 @@ import { Documento } from './documento.model';
 @Injectable()
 export class DocumentoService {
 
-    public resourceUrl = 'api/documento';
+    public resourceUrl = 'api/documentos';
 
     constructor(
         private http: Http,
