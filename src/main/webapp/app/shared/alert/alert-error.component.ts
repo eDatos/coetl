@@ -1,12 +1,12 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { Subscription } from 'rxjs/Rx';
 
 @Component({
     selector: 'jhi-alert-error',
     template: `
-        <div *ngIf="alertService.isToast() && alerts.length > 0" class="alert-backdrop"></div>
+        <div *ngIf="alertService.isToast() && hasAlerts()" class="alert-backdrop"></div>
         <div class="alerts" role="alert" [ngClass]="{\'toast\':alertService.isToast()}">
             <div *ngFor="let alert of alerts" [class]="alert.position">
                 <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)" (click)="alert.close(alerts)">
@@ -15,15 +15,13 @@ import { Subscription } from 'rxjs/Rx';
             </div>
         </div>`
 })
-export class JhiAlertErrorComponent implements OnDestroy {
+export class JhiAlertErrorComponent implements OnInit, OnDestroy {
 
     alerts: any[];
     cleanHttpErrorListener: Subscription;
 
     // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
     constructor(public alertService: JhiAlertService, private eventManager: JhiEventManager, private translateService: TranslateService) {
-        this.alerts = [];
-
         this.cleanHttpErrorListener = eventManager.subscribe('arteApplicationTemplateApp.httpError', (response) => {
             let i;
             const httpResponse = response.content;
@@ -82,28 +80,34 @@ export class JhiAlertErrorComponent implements OnDestroy {
         });
     }
 
+    ngOnInit() {
+        this.alerts = this.alertService.get();
+    }
+
+    hasAlerts() {
+        return this.alerts.length > 0;
+    }
+
     ngOnDestroy() {
         if (this.cleanHttpErrorListener !== undefined && this.cleanHttpErrorListener !== null) {
             this.eventManager.destroy(this.cleanHttpErrorListener);
-            this.alerts = [];
         }
+        this.alerts = [];
     }
 
     addErrorAlert(message, key?, data?) {
-        key = (key && key !== null) ? key : message;
-        this.alerts.push(
-            this.alertService.addAlert(
-                {
-                    type: 'danger',
-                    msg: key,
-                    params: data,
-                    timeout: 0,
-                    toast: this.alertService.isToast(),
-                    scoped: true,
-                    position: 'top'
-                },
-                this.alerts
-            )
+        key = (key && key !== null) ? this.translateService.instant(key, data) : message;
+        this.alertService.addAlert(
+            {
+                type: 'danger',
+                msg: key,
+                params: data,
+                timeout: 0,
+                toast: this.alertService.isToast(),
+                scoped: false,
+                position: 'top'
+            },
+            null
         );
     }
 }

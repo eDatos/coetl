@@ -32,7 +32,7 @@ import { DEFAULT_LANGUAGE } from './language/language.constants';
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
             alertAsToast: true,
-            i18nEnabled: true,
+            i18nEnabled: false,
             defaultI18nLang: DEFAULT_LANGUAGE
         }),
         InfiniteScrollModule,
