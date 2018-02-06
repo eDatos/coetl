@@ -1,6 +1,10 @@
 package com.arte.application.template.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,5 +72,17 @@ public class CategoriaServiceImpl implements CategoriaService {
     public void delete(Long id) {
         log.debug("Request to delete Categoria : {}", id);
         categoriaRepository.delete(id);
+    }
+
+    /**
+     * Save a set of categorias.
+     *
+     * @param categorias the set of entities to save
+     * @return the set of persisted entities
+     */
+    public Set<Categoria> save(Set<Categoria> categorias) {
+        ArrayList<Categoria> categoriaList = new ArrayList<>();
+        categoriaList.addAll(categorias);
+        return Optional.ofNullable(categoriaRepository.save(categoriaList)).map(HashSet::new).orElse(null);
     }
 }

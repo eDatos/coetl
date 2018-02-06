@@ -1,29 +1,29 @@
 id;nombre
-1;Drama
-2;Comedia
-3;Acción
-4;Ciencia Ficción
-5;Fantasía
-6;Terror
-7;Thriller
-8;Suspense
-9;Policíaco
-10;Romance
-11;Melodrama
-12;Musical
-13;Animación
-14;Western
-15;Bélico
-16;Histórico
-17;Aventura
-18;Noir
-19;Serie B
-20;Indie
-21;Mudo
-22;Catástrofe
-23;Documental
-24;Biográfico
-25;Infantil
-26;Surrealista
-27;Basado en hechos reales
-28;Tragedia
+nextval('categoria_id_seq');Drama
+nextval('categoria_id_seq');Comedia
+nextval('categoria_id_seq');Acción
+nextval('categoria_id_seq');Ciencia Ficción
+nextval('categoria_id_seq');Fantasía
+nextval('categoria_id_seq');Terror
+nextval('categoria_id_seq');Thriller
+nextval('categoria_id_seq');Suspense
+nextval('categoria_id_seq');Policíaco
+nextval('categoria_id_seq');Romance
+nextval('categoria_id_seq');Melodrama
+nextval('categoria_id_seq');Musical
+nextval('categoria_id_seq');Animación
+nextval('categoria_id_seq');Western
+nextval('categoria_id_seq');Bélico
+nextval('categoria_id_seq');Histórico
+nextval('categoria_id_seq');Aventura
+nextval('categoria_id_seq');Noir
+nextval('categoria_id_seq');Serie B
+nextval('categoria_id_seq');Indie
+nextval('categoria_id_seq');Mudo
+nextval('categoria_id_seq');Catástrofe
+nextval('categoria_id_seq');Documental
+nextval('categoria_id_seq');Biográfico
+nextval('categoria_id_seq');Infantil
+nextval('categoria_id_seq');Surrealista
+nextval('categoria_id_seq');Basado en hechos reales
+nextval('categoria_id_seq');Tragedia

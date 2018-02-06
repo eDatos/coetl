@@ -16,6 +16,10 @@
     <!--
         Added the entity Idioma.
     -->
+    <changeSet id="20180122100858-0" author="jhipster">
+    	<createSequence sequenceName="idioma_id_seq"
+      		startValue="10" incrementBy="50" />
+  	</changeSet>
     <changeSet id="20180122100858-1" author="jhipster">
         <createTable tableName="idioma">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
@@ -29,6 +33,9 @@
         </createTable>
         
         <loadData encoding="UTF-8" file="config/liquibase/idiomas.csv"
-      		separator=";" tableName="idioma" />
+      		separator=";" tableName="idioma">
+      		<column name="id" type="NUMERIC" />
+      		<column name="nombre" type="STRING" />
+      	</loadData>
     </changeSet>
 </databaseChangeLog>

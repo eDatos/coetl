@@ -139,8 +139,9 @@ export class ActorComponent implements OnInit, OnDestroy {
     }
 
     private getPeliculasByActores(actores: Actor[]) {
+        const query = this.actores.length ? [`ACTORES IN (${actores.map((actor) => actor.id).join(',')})`] : '';
         this.peliculaService.query({
-            query: [`ACTORES IN (${actores.map((actor) => actor.id).join(',')})`]
+            query
         }).subscribe(
             (res: ResponseWrapper) => {
                 this.peliculas = res.json;
@@ -185,11 +186,6 @@ export class ActorComponent implements OnInit, OnDestroy {
 
     public navigate(event) {
         this.router.navigate(['/pelicula', event.data.peliculaId]);
-    }
-
-    public normalizeActorName(actor): string {
-        const copy = Object.assign(new Actor(), actor);
-        return copy.normalizeName();
     }
 }
 
