@@ -14,6 +14,7 @@ import {
     ButtonModule,
     CalendarModule,
     CheckboxModule,
+    DataTableModule,
     FileUploadModule,
     InputTextareaModule,
     ListboxModule,
@@ -46,7 +47,8 @@ import { DEFAULT_LANGUAGE } from './language/language.constants';
         OrderListModule,
         CheckboxModule,
         InputTextareaModule,
-        FileUploadModule
+        FileUploadModule,
+        DataTableModule
     ],
     exports: [
         FormsModule,
@@ -64,7 +66,8 @@ import { DEFAULT_LANGUAGE } from './language/language.constants';
         CheckboxModule,
         InputTextareaModule,
         Autosize,
-        FileUploadModule
+        FileUploadModule,
+        DataTableModule
     ]
 })
 export class ArteApplicationTemplateSharedLibsModule { }

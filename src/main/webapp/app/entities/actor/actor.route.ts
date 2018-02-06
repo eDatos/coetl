@@ -4,7 +4,6 @@ import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { UserRouteAccessService } from '../../shared';
 import { ActorDeletePopupComponent } from './actor-delete-dialog.component';
-import { ActorDetailComponent } from './actor-detail.component';
 import { ActorPopupComponent } from './actor-dialog.component';
 import { ActorComponent } from './actor.component';
 
@@ -31,14 +30,6 @@ export const actorRoute: Routes = [
         resolve: {
             'pagingParams': ActorResolvePagingParams,
         },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'arteApplicationTemplateApp.actor.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    }, {
-        path: 'actor/:id',
-        component: ActorDetailComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'arteApplicationTemplateApp.actor.home.title'

@@ -4,6 +4,8 @@ import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs/Rx';
 
 import { GenericModalService, ITEMS_PER_PAGE, PAGINATION_OPTIONS, Principal, ResponseWrapper } from '../../shared';
+import { Pelicula } from '../pelicula/pelicula.model';
+import { PeliculaService } from '../pelicula/pelicula.service';
 import { ActorDialogComponent } from './actor-dialog.component';
 import { Actor } from './actor.model';
 import { ActorService } from './actor.service';
@@ -14,7 +16,10 @@ import { ActorService } from './actor.service';
 })
 export class ActorComponent implements OnInit, OnDestroy {
 
+    pruebas: any[];
     actores: Actor[];
+    actoresUnionPeliculas: ActorUPelicula[];
+    peliculas: Pelicula[];
     currentAccount: any;
     eventSubscriber: Subscription;
     searchSubscriber: Subscription;
@@ -30,6 +35,7 @@ export class ActorComponent implements OnInit, OnDestroy {
 
     constructor(
         private actorService: ActorService,
+        private peliculaService: PeliculaService,
         private genericModalService: GenericModalService,
         private parseLinks: JhiParseLinks,
         private alertService: JhiAlertService,
@@ -38,6 +44,8 @@ export class ActorComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private router: Router
     ) {
+        this.pruebas = [{id: 1, nombre: 'probando1', valor: 5}, {id: 2, nombre: 'probando2', valor: 4},
+                      {id: 4, nombre: 'probando1', valor: 3}, {id: 3, nombre: 'probando2', valor: 5}];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
@@ -127,13 +135,69 @@ export class ActorComponent implements OnInit, OnDestroy {
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
         this.actores = data;
+        this.getPeliculasByActores(this.actores);
+    }
+
+    private getPeliculasByActores(actores: Actor[]) {
+        this.peliculaService.query({
+            query: [`ACTORES IN (${actores.map((actor) => actor.id).join(',')})`]
+        }).subscribe(
+            (res: ResponseWrapper) => {
+                this.peliculas = res.json;
+                this.setActoresUnionPeliculas();
+            },
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
+    }
+
+    private setActoresUnionPeliculas() {
+        this.actoresUnionPeliculas = [];
+        this.actores.forEach((actor) => {
+            let hasPelicula = false;
+            const copy = Object.assign(new Actor(), actor);
+            this.peliculas.filter((pelicula) => pelicula.actores.findIndex((predicate) => predicate.id === actor.id) > -1).forEach((pelicula) => {
+                hasPelicula = true;
+                const aux = Object.assign(new ActorUPelicula(), { actorId: copy.id, nombre: copy.normalizeName(), peliculaId: pelicula.id, titulo: pelicula.titulo });
+                this.actoresUnionPeliculas.push(aux);
+            });
+            if (!hasPelicula) {
+                const aux = Object.assign(new ActorUPelicula(), { actorId: copy.id, nombre: copy.normalizeName(), peliculaId: undefined, titulo: undefined });
+                this.actoresUnionPeliculas.push(aux);
+            }
+        });
+        console.log(this.actoresUnionPeliculas);
     }
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
 
-    public editActor(actor: Actor): void {
-        this.genericModalService.open(<any>ActorDialogComponent, { actor });
+    public editActor(actorId: number): void {
+        const actor = this.actores.find((predicate) => predicate.id === actorId);
+        this.genericModalService.open(<any>ActorDialogComponent, { actor: Object.assign(new Actor(), actor) });
     }
+
+    sortProperty(event) {
+        this.predicate = event.field;
+        this.reverse = (event.order > 0 ? true : false)
+        this.loadAll();
+    }
+
+    public navigate(event) {
+        this.router.navigate(['/pelicula', event.data.peliculaId]);
+    }
+
+    public normalizeActorName(actor): string {
+        const copy = Object.assign(new Actor(), actor);
+        return copy.normalizeName();
+    }
+}
+
+class ActorUPelicula {
+    constructor(
+        actorId?: number,
+        nombre?: string,
+        peliculaId?: number,
+        titulo?: string
+    ) {}
 }

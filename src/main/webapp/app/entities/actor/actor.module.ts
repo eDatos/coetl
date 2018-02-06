@@ -6,7 +6,6 @@ import {
     ActorComponent,
     ActorDeleteDialogComponent,
     ActorDeletePopupComponent,
-    ActorDetailComponent,
     ActorDialogComponent,
     ActorPopupComponent,
     actorPopupRoute,
@@ -28,7 +27,6 @@ const ENTITY_STATES = [
     ],
     declarations: [
         ActorComponent,
-        ActorDetailComponent,
         ActorDialogComponent,
         ActorDeleteDialogComponent,
         ActorPopupComponent,
