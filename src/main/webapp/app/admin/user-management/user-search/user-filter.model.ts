@@ -1,5 +1,4 @@
-import { OnInit, Input } from '@angular/core';
-import { EntityFilter, Rol } from '../../../shared/index';
+import { EntityFilter, Rol } from '../../../shared';
 
 export class UserFilter implements EntityFilter {
 
@@ -78,9 +77,11 @@ export class UserFilter implements EntityFilter {
     }
 
     private getCriterias() {
-        const criterias = [];
+        const criterias: string[] = [];
         if (this.name) {
-            criterias.push(`USUARIO ILIKE '%${this.name}%'`);
+            const subcriterias: string[] = []
+            this.name.split(' ').forEach((item) => subcriterias.push(`USUARIO ILIKE '%${item}%'`))
+            criterias.push('(' + subcriterias.join(' AND ') + ')');
         }
         if (this.roles && this.roles.length > 0) {
             criterias.push(`ROL IN (${this.rolesToParam()})`);

@@ -150,6 +150,7 @@ export class ActorComponent implements OnInit, OnDestroy {
         );
     }
 
+    // Se mockea la entidad `Pelicula` como una entidad débil, como ejemplo para la tabla anidada.
     private setActoresUnionPeliculas() {
         this.actoresUnionPeliculas = [];
         this.actores.forEach((actor) => {
@@ -165,7 +166,6 @@ export class ActorComponent implements OnInit, OnDestroy {
                 this.actoresUnionPeliculas.push(aux);
             }
         });
-        console.log(this.actoresUnionPeliculas);
     }
 
     private onError(error) {
@@ -179,7 +179,7 @@ export class ActorComponent implements OnInit, OnDestroy {
 
     sortProperty(event) {
         this.predicate = event.field;
-        this.reverse = (event.order > 0 ? true : false)
+        this.reverse = event.order > 0;
         this.loadAll();
     }
 
