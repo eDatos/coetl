@@ -28,7 +28,7 @@ export class ActorService {
 
     find(id: number): Observable<Actor> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            return res.json();
+            return this.convert(res.json());
         });
     }
 
@@ -48,7 +48,7 @@ export class ActorService {
     }
 
     private convert(actor: Actor): Actor {
-        const copy: Actor = Object.assign({}, actor);
+        const copy: Actor = Object.assign(new Actor(), actor);
         return copy;
     }
 }

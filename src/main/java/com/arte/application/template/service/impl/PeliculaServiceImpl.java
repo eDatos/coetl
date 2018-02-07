@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.arte.application.template.domain.Documento;
 import com.arte.application.template.domain.Pelicula;
 import com.arte.application.template.repository.PeliculaRepository;
+import com.arte.application.template.service.CategoriaService;
 import com.arte.application.template.service.PeliculaService;
 import com.arte.application.template.web.rest.util.QueryUtil;
 
@@ -24,10 +25,12 @@ public class PeliculaServiceImpl implements PeliculaService {
     private final Logger log = LoggerFactory.getLogger(PeliculaServiceImpl.class);
 
     private final PeliculaRepository peliculaRepository;
+    private final CategoriaService categoriaService;
     private final QueryUtil queryUtil;
 
-    public PeliculaServiceImpl(PeliculaRepository peliculaRepository, QueryUtil queryUtil) {
+    public PeliculaServiceImpl(PeliculaRepository peliculaRepository, CategoriaService categoriaService, QueryUtil queryUtil) {
         this.peliculaRepository = peliculaRepository;
+        this.categoriaService = categoriaService;
         this.queryUtil = queryUtil;
     }
 
@@ -40,6 +43,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Override
     public Pelicula save(Pelicula pelicula) {
         log.debug("Request to save Pelicula : {}", pelicula);
+        saveCategorias(pelicula);
         return peliculaRepository.save(pelicula);
     }
 
@@ -94,5 +98,11 @@ public class PeliculaServiceImpl implements PeliculaService {
         log.debug("request to bind a Documento to Pelicula : {}", pelicula);
         pelicula.setDocumento(documento);
         return peliculaRepository.save(pelicula);
+    }
+
+    private void saveCategorias(Pelicula pelicula) {
+        if (!pelicula.getCategorias().isEmpty()) {
+            pelicula.setAllCategorias(categoriaService.save(pelicula.getCategorias()));
+        }
     }
 }

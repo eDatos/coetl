@@ -17,8 +17,8 @@
                 "title": "Película"
             },
             "titulo": {
-                "label": "Titulo",
-                "placeholder": "Titulo"
+                "label": "Título",
+                "placeholder": "Título"
             },
             "descripcion": {
                 "label": "Descripción",

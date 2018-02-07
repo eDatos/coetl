@@ -4,14 +4,13 @@
             <h4 class="modal-title" id="myActorLabel">
                 <span class="fa fa-tag"></span>
                 <span *ngIf="!actor.id" jhiTranslate="arteApplicationTemplateApp.actor.home.createLabel"></span>
-                <span *ngIf="actor.id">{{''.concat(actor.apellido2?actor.apellido2.concat(' '):'').concat(actor.apellido1).concat(', ').concat(actor.nombre)}}</span>
+                <span *ngIf="actor.id">{{actor.normalizeName()}}</span>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                     (click)="clear()">&times;</button>
         </div>
         <div class="modal-body">
             <fieldset>
-                <jhi-alert-error></jhi-alert-error>
                     <div class="entity-fields">
                         <div class="form-group full-width">
                             <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.nombre" for="field_nombre">Nombre</label>

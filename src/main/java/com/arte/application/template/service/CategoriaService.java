@@ -1,6 +1,7 @@
 package com.arte.application.template.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.arte.application.template.domain.Categoria;
 
@@ -38,4 +39,12 @@ public interface CategoriaService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Save a set of categorias.
+     *
+     * @param categorias the set of entities to save
+     * @return the set of persisted entities
+     */
+    Set<Categoria> save(Set<Categoria> categorias);
 }

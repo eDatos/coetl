@@ -194,11 +194,8 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
     }
 
     public actorItemTemplate(actor): string {
-        return this.normalizedActorName(actor);
-    }
-
-    public normalizedActorName(actor: Actor): string {
-        return ''.concat(actor.apellido2 ? actor.apellido2.concat(' ') : '').concat(actor.apellido1).concat(', ').concat(actor.nombre);
+        const copy = Object.assign(new Actor(), actor);
+        return `${copy.normalizeName()}`;
     }
 
     public deleteDocumento(file: Documento): void {

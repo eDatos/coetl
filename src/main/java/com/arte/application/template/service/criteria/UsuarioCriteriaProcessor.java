@@ -25,6 +25,9 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
     private static final String TABLE_FIELD_APELLIDO2 = "apellido2";
 
     private static final String ENTITY_FIELD_LOGIN = "login";
+    private static final String ENTITY_FIELD_NOMBRE = "nombre";
+    private static final String ENTITY_FIELD_APELLIDO1 = "apellido1";
+    private static final String ENTITY_FIELD_APELLIDO2 = "apellido2";
     private static final String ENTITY_FIELD_EMAIL = "email";
 
     public UsuarioCriteriaProcessor() {
@@ -32,7 +35,7 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        LOGIN, ROL, EMAIL, USUARIO
+        LOGIN, NOMBRE, APELLIDO1, APELLIDO2, ROL, EMAIL, USUARIO
     }
 
     @Override
@@ -41,6 +44,18 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
     	registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.LOGIN).sortable()
                 .withEntityProperty(ENTITY_FIELD_LOGIN).build());
+        
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
+                .withQueryProperty(QueryProperty.NOMBRE).sortable()
+                .withEntityProperty(ENTITY_FIELD_NOMBRE).build());
+        
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
+                .withQueryProperty(QueryProperty.APELLIDO1).sortable()
+                .withEntityProperty(ENTITY_FIELD_APELLIDO1).build());
+        
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
+                .withQueryProperty(QueryProperty.APELLIDO2).sortable()
+                .withEntityProperty(ENTITY_FIELD_APELLIDO2).build());
     	
     	registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
     			.withQueryProperty(QueryProperty.USUARIO)

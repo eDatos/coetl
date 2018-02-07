@@ -1,6 +1,7 @@
 package com.arte.application.template.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,5 +69,15 @@ public class CategoriaServiceImpl implements CategoriaService {
     public void delete(Long id) {
         log.debug("Request to delete Categoria : {}", id);
         categoriaRepository.delete(id);
+    }
+
+    /**
+     * Save a set of categorias.
+     *
+     * @param categorias the set of entities to save
+     * @return the set of persisted entities
+     */
+    public Set<Categoria> save(Set<Categoria> categorias) {
+        return categoriaRepository.save(categorias);
     }
 }

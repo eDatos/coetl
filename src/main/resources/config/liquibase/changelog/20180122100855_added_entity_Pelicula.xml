@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="now" value="now()" dbms="h2"/>
+    <property name="now" value="now()" dbms="h2" />
 
-    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="now" value="current_timestamp" dbms="postgresql" />
 
-    <property name="floatType" value="float4" dbms="postgresql, h2"/>
-    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+    <property name="floatType" value="float4" dbms="postgresql, h2" />
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql" />
 
-    <!--
-        Added the entity Pelicula.
-    -->
+    <!-- Added the entity Pelicula. -->
     <changeSet id="20180122100855-0" author="jhipster">
-    	<createSequence sequenceName="pelicula_id_seq"
-      		startValue="10" incrementBy="50" />
-  	</changeSet>
+        <createSequence sequenceName="pelicula_id_seq" startValue="10" incrementBy="50" />
+    </changeSet>
     <changeSet id="20180122100855-1" author="jhipster">
         <createTable tableName="pelicula">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="titulo" type="varchar(255)">
                 <constraints nullable="false" />
@@ -36,34 +31,33 @@
             <column name="fecha_estreno" type="timestamp">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="idioma_id" type="bigint">
-				<constraints nullable="true" />
-			</column>
-			
-			<column name="documento_id" type="bigint">
-				<constraints nullable="true" />
-			</column>
-            
+                <constraints nullable="true" />
+            </column>
+
+            <column name="documento_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <column name="created_by" type="varchar(255)">
-        		<constraints nullable="false" />
-      		</column>
-      		
-      		<column name="created_date" type="timestamp"
-        		defaultValueDate="${now}">
-        		<constraints nullable="false" />
-      		</column>
-      		
-      		<column name="last_modified_by" type="varchar(255)" />
-      		
-      		<column name="last_modified_date" type="timestamp" />
-      		
-      		<column name="opt_lock" type="bigint">
-				<constraints nullable="true" />
-			</column>
-            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+                <constraints nullable="false" />
+            </column>
+
+            <column name="created_date" type="timestamp" defaultValueDate="${now}">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="last_modified_by" type="varchar(255)" />
+
+            <column name="last_modified_date" type="timestamp" />
+
+            <column name="opt_lock" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove -->
         </createTable>
-        <dropDefaultValue tableName="pelicula" columnName="fecha_estreno" columnDataType="datetime"/>
-        
+        <dropDefaultValue tableName="pelicula" columnName="fecha_estreno" columnDataType="datetime" />
+
     </changeSet>
 </databaseChangeLog>
