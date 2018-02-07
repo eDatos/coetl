@@ -1,9 +1,6 @@
 package com.arte.application.template.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -81,8 +78,6 @@ public class CategoriaServiceImpl implements CategoriaService {
      * @return the set of persisted entities
      */
     public Set<Categoria> save(Set<Categoria> categorias) {
-        ArrayList<Categoria> categoriaList = new ArrayList<>();
-        categoriaList.addAll(categorias);
-        return Optional.ofNullable(categoriaRepository.save(categoriaList)).map(HashSet::new).orElse(null);
+        return categoriaRepository.save(categorias);
     }
 }

@@ -12,7 +12,6 @@ import com.arte.application.template.domain.Documento;
 import com.arte.application.template.domain.Pelicula;
 import com.arte.application.template.repository.PeliculaRepository;
 import com.arte.application.template.service.CategoriaService;
-import com.arte.application.template.service.IdiomaService;
 import com.arte.application.template.service.PeliculaService;
 import com.arte.application.template.web.rest.util.QueryUtil;
 
@@ -26,13 +25,11 @@ public class PeliculaServiceImpl implements PeliculaService {
     private final Logger log = LoggerFactory.getLogger(PeliculaServiceImpl.class);
 
     private final PeliculaRepository peliculaRepository;
-    private final IdiomaService idiomaService;
     private final CategoriaService categoriaService;
     private final QueryUtil queryUtil;
 
-    public PeliculaServiceImpl(PeliculaRepository peliculaRepository, IdiomaService idiomaService, CategoriaService categoriaService, QueryUtil queryUtil) {
+    public PeliculaServiceImpl(PeliculaRepository peliculaRepository, CategoriaService categoriaService, QueryUtil queryUtil) {
         this.peliculaRepository = peliculaRepository;
-        this.idiomaService = idiomaService;
         this.categoriaService = categoriaService;
         this.queryUtil = queryUtil;
     }
@@ -47,7 +44,6 @@ public class PeliculaServiceImpl implements PeliculaService {
     public Pelicula save(Pelicula pelicula) {
         log.debug("Request to save Pelicula : {}", pelicula);
         saveCategorias(pelicula);
-        saveIdioma(pelicula);
         return peliculaRepository.save(pelicula);
     }
 
@@ -104,16 +100,9 @@ public class PeliculaServiceImpl implements PeliculaService {
         return peliculaRepository.save(pelicula);
     }
 
-    protected void saveCategorias(Pelicula pelicula) {
-        if (pelicula != null && pelicula.getCategorias() != null) {
+    private void saveCategorias(Pelicula pelicula) {
+        if (!pelicula.getCategorias().isEmpty()) {
             pelicula.setAllCategorias(categoriaService.save(pelicula.getCategorias()));
         }
     }
-
-    protected void saveIdioma(Pelicula pelicula) {
-        if (pelicula != null && pelicula.getIdioma() != null) {
-            pelicula.setIdioma(idiomaService.save(pelicula.getIdioma()));
-        }
-    }
-
 }
