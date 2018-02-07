@@ -1,9 +1,7 @@
 package com.arte.application.template.web.rest.dto;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
@@ -23,8 +21,6 @@ public class ActorDTO implements Serializable {
     private String apellido1;
 
     private String apellido2;
-
-    private Set<PeliculaDTO> peliculas = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -56,14 +52,6 @@ public class ActorDTO implements Serializable {
 
     public void setApellido2(String apellido2) {
         this.apellido2 = apellido2;
-    }
-
-    public Set<PeliculaDTO> getPeliculas() {
-        return peliculas;
-    }
-
-    public void setApellido2(Set<PeliculaDTO> peliculas) {
-        this.peliculas = peliculas;
     }
 
     @Override

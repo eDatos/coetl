@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<databaseChangeLog
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <!--
-        Added the constraints for entity Idioma.
-    -->
+    <!-- Added the constraints for entity Idioma. -->
     <changeSet id="20180122100855-2" author="jhipster">
-        
-        <addForeignKeyConstraint baseColumnNames="idioma_id"
-                                 baseTableName="pelicula"
-                                 constraintName="fk_pelicula_idioma_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="idioma"/>
 
-        <addForeignKeyConstraint baseColumnNames="documento_id"
-                                 baseTableName="pelicula"
-                                 constraintName="fk_pelicula_documento_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="documento"/>
+        <addForeignKeyConstraint baseColumnNames="idioma_id" baseTableName="pelicula" constraintName="fk_pelicula_idioma_id"
+            referencedColumnNames="id" referencedTableName="idioma" />
+
+        <addForeignKeyConstraint baseColumnNames="documento_id" baseTableName="pelicula" constraintName="fk_pelicula_documento_id"
+            referencedColumnNames="id" referencedTableName="documento" />
 
     </changeSet>
 </databaseChangeLog>

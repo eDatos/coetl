@@ -3,6 +3,7 @@ package com.arte.application.template.web.rest.mapper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,10 @@ public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicu
 
         return list;
     }
+
+    public abstract Set<Pelicula> toEntity(Set<PeliculaDTO> peliculaDTO);
+
+    public abstract Set<PeliculaDTO> toDto(Set<Pelicula> pelicula);
 
     public Pelicula toEntity(PeliculaDTO dto) {
         if (dto == null) {
