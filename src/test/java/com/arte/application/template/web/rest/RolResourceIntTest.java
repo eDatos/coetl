@@ -1,6 +1,7 @@
 package com.arte.application.template.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -15,7 +16,6 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,10 +37,10 @@ import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.domain.Operacion;
 import com.arte.application.template.domain.Rol;
 import com.arte.application.template.domain.enumeration.TipoAccionOperacion;
+import com.arte.application.template.repository.OperacionRepository;
 import com.arte.application.template.repository.RolRepository;
 import com.arte.application.template.service.OperacionService;
 import com.arte.application.template.service.RolService;
-import com.arte.application.template.web.rest.UsuarioResource;
 import com.arte.application.template.web.rest.dto.OperacionDTO;
 import com.arte.application.template.web.rest.dto.RolDTO;
 import com.arte.application.template.web.rest.mapper.RolMapper;
@@ -61,8 +61,6 @@ public class RolResourceIntTest {
     private static final String TEST_ROL = "TEST_ROL";
 
     private static final String ROLE_ADMIN = "ADMIN";
-
-    private static final String ROLE_USER = "USER";
 
     private static final String DEFAULT_LOGIN = "testLoginName";
 
@@ -86,15 +84,17 @@ public class RolResourceIntTest {
     @Autowired
     private RolRepository rolRepository;
 
-    private MockMvc restUserMockMvc;
+    @Autowired
+    private OperacionRepository operacionRepository;
+
+    private MockMvc restRolMockMvc;
 
     private Rol rol;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        rol = createEntity(em);
-        this.restUserMockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+        this.restRolMockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
 
     }
 
@@ -118,9 +118,19 @@ public class RolResourceIntTest {
     public static Rol createEntity(EntityManager em) {
         Rol rol = new Rol();
         rol.setCodigo(ROLE_ADMIN);
-        rol.setOperaciones(mockOperaciones(rol));
+        rol.setNombre(ROLE_ADMIN);
         return rol;
 
+    }
+
+    @Before
+    public void initTest() {
+        rol = createEntity(em);
+
+        Operacion operacion = OperacionResourceIntTest.createEntity(em);
+        operacionRepository.save(operacion);
+
+        rol.getOperaciones().add(operacion);
     }
 
     private RolDTO createRolDTO() {
@@ -175,9 +185,10 @@ public class RolResourceIntTest {
         Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name())).thenReturn(mockOperacion());
         Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
-        restUserMockMvc.perform(get("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)).andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[*].codigo", Matchers.containsInAnyOrder(ROLE_ADMIN, ROLE_USER)));
+        rolRepository.saveAndFlush(rol);
+
+        restRolMockMvc.perform(get("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)).andExpect(jsonPath("$.[*].codigo").value(hasItem(ROLE_ADMIN.toString())));
 
     }
 
@@ -187,7 +198,7 @@ public class RolResourceIntTest {
     public void getAllRolesWithoutPermission() throws Exception {
         Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name())).thenReturn(mockOperacion());
 
-        restUserMockMvc.perform(get("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isForbidden());
+        restRolMockMvc.perform(get("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isForbidden());
     }
 
     @Test
@@ -197,7 +208,9 @@ public class RolResourceIntTest {
         Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name())).thenReturn(mockOperacion());
         Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
-        restUserMockMvc.perform(get("/api/roles/" + ROLE_ADMIN).accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk())
+        rolRepository.saveAndFlush(rol);
+
+        restRolMockMvc.perform(get("/api/roles/" + rol.getCodigo()).accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)).andExpect(jsonPath("$.codigo").value(ROLE_ADMIN));
     }
 
@@ -207,7 +220,7 @@ public class RolResourceIntTest {
     public void getRolWithoutPermission() throws Exception {
         Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.LEER.name())).thenReturn(mockOperacion());
 
-        restUserMockMvc.perform(get("/api/roles/" + ROLE_ADMIN).accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isForbidden());
+        restRolMockMvc.perform(get("/api/roles/" + ROLE_ADMIN).accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isForbidden());
     }
 
     @Test
@@ -217,7 +230,7 @@ public class RolResourceIntTest {
         Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.CREAR.name())).thenReturn(mockOperacion());
         Mockito.when(rolService.findByUsuario(ADMIN_LOGIN)).thenReturn(mockRoles(mockRol(ROLE_ADMIN)));
 
-        restUserMockMvc.perform(post("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
+        restRolMockMvc.perform(post("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
                 .andExpect(status().isCreated());
 
         boolean created = rolService.findAll(null).stream().anyMatch(rol -> rol.getCodigo().equals(TEST_ROL.toString()));
@@ -228,7 +241,7 @@ public class RolResourceIntTest {
     @WithMockUser(roles = "", username = DEFAULT_LOGIN)
     @Transactional
     public void createRolWithoutPermission() throws Exception {
-        restUserMockMvc.perform(post("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
+        restRolMockMvc.perform(post("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
                 .andExpect(status().isForbidden());
     }
 
@@ -243,7 +256,7 @@ public class RolResourceIntTest {
         em.persist(rol);
         RolDTO rolDTO = rolMapper.toDto(rol);
         rolDTO.setNombre("UPDATED_NAME");
-        restUserMockMvc.perform(put("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(rolDTO)))
+        restRolMockMvc.perform(put("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(rolDTO)))
                 .andExpect(status().isOk());
 
         boolean updated = rolService.findAll(null).stream().anyMatch(r -> r.getNombre().equals("UPDATED_NAME"));
@@ -256,7 +269,7 @@ public class RolResourceIntTest {
     public void updateRolWithoutPermission() throws Exception {
         Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.EDITAR.name())).thenReturn(mockOperacion());
 
-        restUserMockMvc.perform(put("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
+        restRolMockMvc.perform(put("/api/roles").accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
                 .andExpect(status().isForbidden());
     }
 
@@ -274,7 +287,7 @@ public class RolResourceIntTest {
         int preDeleteRoles = rolService.findAll(null).size();
         assertThat(preDeleteRoles).isEqualTo(preCreateRoles + 1);
 
-        restUserMockMvc
+        restRolMockMvc
                 .perform(delete("/api/roles/" + TEST_ROL).accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
                 .andExpect(status().isOk());
 
@@ -289,7 +302,7 @@ public class RolResourceIntTest {
     public void deleteRolWithoutPermission() throws Exception {
         Mockito.when(operacionService.findBySujetoAndAccion(SUJETO_ROL, TipoAccionOperacion.ELIMINAR.name())).thenReturn(mockOperacion());
 
-        restUserMockMvc
+        restRolMockMvc
                 .perform(delete("/api/roles/" + TEST_ROL).accept(TestUtil.APPLICATION_JSON_UTF8).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(createRolDTO())))
                 .andExpect(status().isForbidden());
     }

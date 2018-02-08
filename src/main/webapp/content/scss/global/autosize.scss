@@ -1,0 +1,8 @@
+@import '~scss/variables';
+
+textarea[autosize] {
+    // Workaround for https://github.com/stevepapa/ng-autosize/issues/11
+    border-top: $border-width solid transparent;
+    // Workaround for miscalculation at the end
+    padding-bottom: $spacer-y * 2;
+}

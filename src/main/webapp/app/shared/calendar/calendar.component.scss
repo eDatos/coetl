@@ -1,14 +1,26 @@
 @import '~scss/variables';
 
 
-fieldset .entity-fields .form-group {
-    :host[required] {
-        border-left: $border-width*5 solid $accent-dark;
-        &.ng-valid {
-            border-left: $border-width*5 solid $brand-success;
-        } 
-        p-calendar {
-            border-left: none;
+fieldset {
+    .entity-fields .form-group {
+        :host[required] {
+            border-left: $border-width*5 solid $accent-dark;
+            &.ng-valid {
+                border-left: $border-width*5 solid $brand-success;
+            } 
+            p-calendar {
+                border-left: none;
+            }
+        }
+    }
+}
+
+fieldset[disabled] {
+    .entity-fields .form-group {
+        :host[required] {
+            &.ng-valid {
+                border-left: none;
+            }
         }
     }
 }

@@ -28,4 +28,20 @@ public abstract class CategoriaMapper implements EntityMapper<CategoriaDTO, Cate
         }
         return categoriaRepository.findOne(id);
     }
+
+    public Categoria toEntity(CategoriaDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Categoria categoria = new Categoria();
+
+        if (dto.getId() != null) {
+            categoria = fromId(dto.getId());
+        }
+
+        categoria.setNombre(dto.getNombre());
+
+        return categoria;
+    }
 }

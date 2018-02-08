@@ -280,11 +280,11 @@ public class PeliculaResourceIntTest {
         PeliculaDTO peliculaDTO = peliculaMapper.toDto(pelicula);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
-        restPeliculaMockMvc.perform(put(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isCreated());
+        restPeliculaMockMvc.perform(put(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isBadRequest());
 
         // Validate the Pelicula in the database
         List<Pelicula> peliculaList = peliculaRepository.findAll();
-        assertThat(peliculaList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(peliculaList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test

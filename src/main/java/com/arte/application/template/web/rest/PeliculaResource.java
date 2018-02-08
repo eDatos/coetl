@@ -78,7 +78,7 @@ public class PeliculaResource extends AbstractResource {
     public ResponseEntity<PeliculaDTO> createPelicula(@Valid @RequestBody PeliculaDTO peliculaDTO) throws URISyntaxException {
         log.debug("REST request to save Pelicula : {}", peliculaDTO);
         if (peliculaDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new pelicula cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "Una nueva película no debe de tener ID")).body(null);
         }
         Pelicula pelicula = peliculaMapper.toEntity(peliculaDTO);
         PeliculaDTO result = peliculaMapper.toDto(peliculaService.save(pelicula));
@@ -99,7 +99,7 @@ public class PeliculaResource extends AbstractResource {
     public ResponseEntity<PeliculaDTO> updatePelicula(@Valid @RequestBody PeliculaDTO peliculaDTO) throws URISyntaxException {
         log.debug("REST request to update Pelicula : {}", peliculaDTO);
         if (peliculaDTO.getId() == null) {
-            return createPelicula(peliculaDTO);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, ID_MISSING_MESSAGE)).body(null);
         }
         Pelicula pelicula = peliculaMapper.toEntity(peliculaDTO);
         PeliculaDTO result = peliculaMapper.toDto(peliculaService.save(pelicula));
