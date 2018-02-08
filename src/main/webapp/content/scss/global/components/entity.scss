@@ -115,7 +115,16 @@ fieldset {
                     border-bottom: 2 * $border-width solid $grey-medium;
                     margin-bottom: -2 * $border-width;
                 }
-            }            
+            }
+
+            // Workaround for https://github.com/stevepapa/ng-autosize/issues/11
+            textarea[autosize].form-control {
+                border-top: $border-width solid transparent;
+                &:hover {                    
+                    margin-bottom: 0;
+                }
+            }
+
             ac-autocomplete,
             p-listbox {
                 @include make-col(8);

@@ -176,22 +176,6 @@ public class ActorResourceIntTest {
 
     @Test
     @Transactional
-    public void checkApellido2IsRequired() throws Exception {
-        int databaseSizeBeforeTest = actorRepository.findAll().size();
-        // set the field null
-        actor.setApellido2(null);
-
-        // Create the Actor, which fails.
-        ActorDTO actorDTO = actorMapper.toDto(actor);
-
-        restActorMockMvc.perform(post(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(actorDTO))).andExpect(status().isBadRequest());
-
-        List<Actor> actorList = actorRepository.findAll();
-        assertThat(actorList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllActors() throws Exception {
         // Initialize the database
         actorRepository.saveAndFlush(actor);

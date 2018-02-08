@@ -149,7 +149,7 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     }
 
     public Set<Categoria> getCategorias() {
-        return Collections.unmodifiableSet(this.categorias);
+        return this.categorias;
     }
 
     public Documento getDocumento() {

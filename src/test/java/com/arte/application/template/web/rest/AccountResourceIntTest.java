@@ -31,15 +31,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.config.audit.AuditEventPublisher;
+import com.arte.application.template.domain.Operacion;
 import com.arte.application.template.domain.Rol;
 import com.arte.application.template.domain.Usuario;
 import com.arte.application.template.entry.UsuarioLdapEntry;
+import com.arte.application.template.repository.OperacionRepository;
 import com.arte.application.template.repository.RolRepository;
 import com.arte.application.template.repository.UsuarioRepository;
 import com.arte.application.template.service.LdapService;
 import com.arte.application.template.service.MailService;
 import com.arte.application.template.service.UsuarioService;
-import com.arte.application.template.web.rest.UsuarioResource;
 import com.arte.application.template.web.rest.dto.RolDTO;
 import com.arte.application.template.web.rest.dto.UsuarioDTO;
 import com.arte.application.template.web.rest.mapper.RolMapper;
@@ -78,6 +79,9 @@ public class AccountResourceIntTest {
     @Mock
     private UsuarioService mockUserService;
 
+    @Autowired
+    private OperacionRepository operacionRepository;
+
     @Mock
     private MailService mockMailService;
 
@@ -91,15 +95,10 @@ public class AccountResourceIntTest {
 
     private MockMvc restMvc;
 
-    private RolDTO mockRolDTO() {
-        RolDTO rolDTO = new RolDTO();
-        rolDTO.setCodigo(AccountResourceIntTest.ROL_ADMIN);
-        rolDTO.setNombre(AccountResourceIntTest.ROL_ADMIN);
-        return rolDTO;
-    }
+    private Rol rol = new Rol();
 
-    private HashSet<RolDTO> mockRolSet() {
-        return new HashSet<>(Collections.singletonList(mockRolDTO()));
+    private HashSet<RolDTO> mockRolSet(RolDTO rolDTO) {
+        return new HashSet<>(Collections.singletonList(rolDTO));
     }
 
     @Before
@@ -112,6 +111,18 @@ public class AccountResourceIntTest {
 
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource).setMessageConverters(httpMessageConverters).build();
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
+    }
+
+    @Before
+    public void initTest() {
+        Operacion operacion = new Operacion();
+        operacion.setAccion("LEER");
+        operacion.setSujeto("ROL");
+        operacionRepository.save(operacion);
+
+        rol.setCodigo(AccountResourceIntTest.ROL_ADMIN);
+        rol.setNombre(AccountResourceIntTest.ROL_ADMIN);
+        rol.getOperaciones().add(operacion);
     }
 
     @Test
@@ -130,6 +141,9 @@ public class AccountResourceIntTest {
     @Test
     @Transactional
     public void testGetExistingAccount() throws Exception {
+
+        rolRepository.saveAndFlush(rol);
+
         Set<Rol> authorities = new HashSet<>();
         Rol authority = rolRepository.findOneByCodigo(AccountResourceIntTest.ROL_ADMIN);
         authorities.add(authority);
@@ -160,13 +174,14 @@ public class AccountResourceIntTest {
     public void testSaveAccount() throws Exception {
         Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
+        rolRepository.save(rol);
+
+        HashSet<RolDTO> mockRolSet = mockRolSet(rolMapper.toDto(rol));
+
         Usuario user = new Usuario();
         user.setLogin("save-account");
         user.setEmail("save-account@example.com");
-
         userRepository.saveAndFlush(user);
-        HashSet<RolDTO> mockRolSet = mockRolSet();
-        rolRepository.save(mockRolSet.stream().findFirst().map(rolMapper::toEntity).get());
         //@formatter:off
 		UsuarioDTO userDTO = UsuarioDTO.builder()
 				.setId(user.getId())
@@ -215,7 +230,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(mockRolSet())
+				.setAuthorities(mockRolSet(rolMapper.toDto(rol)))
 				.build();
 		//@formatter:on
 
@@ -250,7 +265,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(mockRolSet())
+				.setAuthorities(mockRolSet(rolMapper.toDto(rol)))
 				.build();
 		//@formatter:on
 

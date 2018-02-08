@@ -2,6 +2,7 @@ package com.arte.application.template.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -10,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,12 +39,10 @@ import com.arte.application.template.config.audit.AuditEventPublisher;
 import com.arte.application.template.domain.Rol;
 import com.arte.application.template.domain.Usuario;
 import com.arte.application.template.entry.UsuarioLdapEntry;
-import com.arte.application.template.repository.RolRepository;
 import com.arte.application.template.repository.UsuarioRepository;
 import com.arte.application.template.service.LdapService;
 import com.arte.application.template.service.MailService;
 import com.arte.application.template.service.UsuarioService;
-import com.arte.application.template.web.rest.UsuarioResource;
 import com.arte.application.template.web.rest.dto.RolDTO;
 import com.arte.application.template.web.rest.dto.UsuarioDTO;
 import com.arte.application.template.web.rest.errors.ExceptionTranslator;
@@ -82,7 +80,7 @@ public class UserResourceIntTest {
     private UsuarioRepository userRepository;
 
     @Autowired
-    private RolRepository rolRepository;
+    UsuarioMapper usuarioMapper;
 
     @Autowired
     private MailService mailService;
@@ -113,7 +111,7 @@ public class UserResourceIntTest {
 
     private MockMvc restUserMockMvc;
 
-    private Usuario user;
+    private Usuario existingUser;
 
     @Autowired
     private AuditEventPublisher auditPublisher;
@@ -138,6 +136,7 @@ public class UserResourceIntTest {
         rolDTO.setNombre(UserResourceIntTest.ROL_ADMIN);
         if (save) {
             em.persist(rolMapper.toEntity(rolDTO));
+            em.flush();
         }
         authorities.add(rolDTO);
         return authorities;
@@ -159,7 +158,7 @@ public class UserResourceIntTest {
 
     @Before
     public void initTest() {
-        user = createEntity(em);
+        existingUser = createEntity(em);
     }
 
     @Test
@@ -169,22 +168,11 @@ public class UserResourceIntTest {
         Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
         Set<RolDTO> authorities = mockRolesDTO(true);
-        //@formatter:off
-		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UsuarioDTO source = UsuarioDTO.builder()
-				.setId(null)
-				.setLogin(DEFAULT_LOGIN)
-				.setFirstName(DEFAULT_FIRSTNAME)
-				.setLastName(DEFAULT_LASTNAME)
-				.setEmail(DEFAULT_EMAIL)
-				.setCreatedBy(null)
-				.setCreatedDate(null)
-				.setLastModifiedBy(null)
-				.setLastModifiedDate(null)
-				.setAuthorities(authorities)
-				.build();
-		managedUserVM.updateFrom(source);
-		//@formatter:on
+
+        ManagedUserVM managedUserVM = new ManagedUserVM();
+        UsuarioDTO source = usuarioMapper.userToUserDTO(existingUser);
+        source.setRoles(authorities);
+        managedUserVM.updateFrom(source);
 
         restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isCreated());
 
@@ -201,24 +189,16 @@ public class UserResourceIntTest {
     @Test
     @Transactional
     public void createUserWithExistingId() throws Exception {
+        userRepository.save(existingUser);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-        //@formatter:off
-		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UsuarioDTO source = UsuarioDTO.builder()
-				.setId(1L)
-				.setLogin(DEFAULT_LOGIN)
-				.setFirstName(DEFAULT_FIRSTNAME)
-				.setLastName(DEFAULT_LASTNAME)
-				.setEmail(DEFAULT_EMAIL)
-				.setCreatedBy(null)
-				.setCreatedDate(null)
-				.setLastModifiedBy(null)
-				.setLastModifiedDate(null)
-				.setAuthorities(mockRolesDTO())
-				.build();
-		managedUserVM.updateFrom(source);
-		//@formatter:on
+        Usuario userWithExistingId = userRepository.findOne(existingUser.getId());
+        userWithExistingId.setLogin("anotherlogin");
+        userWithExistingId.setEmail("anothermail@localhost");
+
+        ManagedUserVM managedUserVM = new ManagedUserVM();
+        UsuarioDTO source = usuarioMapper.userToUserDTO(userWithExistingId);
+        managedUserVM.updateFrom(source);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
@@ -232,27 +212,19 @@ public class UserResourceIntTest {
     @Transactional
     public void createUserWithExistingLogin() throws Exception {
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(existingUser);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-        Set<Long> authorities = new HashSet<>();
-        authorities.add(1L);
-        //@formatter:off
-		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UsuarioDTO source = UsuarioDTO.builder()
-				.setId(null)
-				.setLogin(DEFAULT_LOGIN)
-				.setFirstName(DEFAULT_FIRSTNAME)
-				.setLastName(DEFAULT_LASTNAME)
-				.setEmail("anothermail@localhost")
-				.setCreatedBy(null)
-				.setCreatedDate(null)
-				.setLastModifiedBy(null)
-				.setLastModifiedDate(null)
-				.setAuthorities(mockRolesDTO())
-				.build();
-		managedUserVM.updateFrom(source);
-		//@formatter:on
+        Usuario userWithExistingLogin = new Usuario();
+        userWithExistingLogin.setId(null);
+        userWithExistingLogin.setLogin(existingUser.getLogin());
+        userWithExistingLogin.setNombre("anothername");
+        userWithExistingLogin.setApellido1("anotherelastname");
+        userWithExistingLogin.setEmail("another@localhost");
+
+        ManagedUserVM managedUserVM = new ManagedUserVM();
+        UsuarioDTO source = usuarioMapper.userToUserDTO(userWithExistingLogin);
+        managedUserVM.updateFrom(source);
 
         // Create the User
         restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
@@ -266,28 +238,19 @@ public class UserResourceIntTest {
     @Transactional
     public void createUserWithExistingEmail() throws Exception {
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(existingUser);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-        Set<Long> authorities = new HashSet<>();
-        authorities.add(1L);
+        Usuario userWithExistingEmail = new Usuario();
+        userWithExistingEmail.setId(null);
+        userWithExistingEmail.setLogin("anotherlogin");
+        userWithExistingEmail.setNombre("anothername");
+        userWithExistingEmail.setApellido1("anotherelastname");
+        userWithExistingEmail.setEmail(existingUser.getEmail());
 
-        //@formatter:off
-		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UsuarioDTO source = UsuarioDTO.builder()
-				.setId(null)
-				.setLogin("anotherlogin")
-				.setFirstName(DEFAULT_FIRSTNAME)
-				.setLastName(DEFAULT_LASTNAME)
-				.setEmail(DEFAULT_EMAIL)
-				.setCreatedBy(null)
-				.setCreatedDate(null)
-				.setLastModifiedBy(null)
-				.setLastModifiedDate(null)
-				.setAuthorities(mockRolesDTO())
-				.build();
-		managedUserVM.updateFrom(source);
-		//@formatter:on
+        ManagedUserVM managedUserVM = new ManagedUserVM();
+        UsuarioDTO source = usuarioMapper.userToUserDTO(userWithExistingEmail);
+        managedUserVM.updateFrom(source);
 
         // Create the User
         restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
@@ -301,7 +264,7 @@ public class UserResourceIntTest {
     @Transactional
     public void getAllUsers() throws Exception {
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(existingUser);
 
         // Get all the users
         restUserMockMvc.perform(get("/api/usuarios?sort=id,desc").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -313,11 +276,11 @@ public class UserResourceIntTest {
     @Transactional
     public void getUser() throws Exception {
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(existingUser);
 
         // Get the user
-        restUserMockMvc.perform(get("/api/usuarios/{login}", user.getLogin())).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.login").value(user.getLogin())).andExpect(jsonPath("$.nombre").value(DEFAULT_FIRSTNAME)).andExpect(jsonPath("$.apellido1").value(DEFAULT_LASTNAME))
+        restUserMockMvc.perform(get("/api/usuarios/{login}", existingUser.getLogin())).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.login").value(existingUser.getLogin())).andExpect(jsonPath("$.nombre").value(DEFAULT_FIRSTNAME)).andExpect(jsonPath("$.apellido1").value(DEFAULT_LASTNAME))
                 .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL));
     }
 
@@ -333,29 +296,18 @@ public class UserResourceIntTest {
         Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(existingUser);
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
         // Update the user
-        Usuario updatedUser = userRepository.findOne(user.getId());
+        Usuario updatedUser = userRepository.findOne(existingUser.getId());
 
-        Set<Long> authorities = new HashSet<>();
-        authorities.add(1L);
         //@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UsuarioDTO source = UsuarioDTO.builder()
-				.setId(updatedUser.getId())
-				.setLogin(updatedUser.getLogin())
-				.setFirstName(UPDATED_FIRSTNAME)
-				.setLastName(UPDATED_LASTNAME)
-				.setEmail(UPDATED_EMAIL)
-				.setCreatedBy(updatedUser.getCreatedBy())
-				.setCreatedDate(updatedUser.getCreatedDate())
-				.setLastModifiedBy(updatedUser.getLastModifiedBy())
-				.setLastModifiedDate(updatedUser.getLastModifiedDate())
-				.setAuthorities(mockRolesDTO())
-				.setOptLock(updatedUser.getOptLock())
-				.build();
+		UsuarioDTO source = usuarioMapper.userToUserDTO(updatedUser);
+		source.setNombre(UPDATED_FIRSTNAME);
+		source.setApellido1(UPDATED_LASTNAME);
+		source.setEmail(UPDATED_EMAIL);
 		managedUserVM.updateFrom(source);
 		//@formatter:on
 
@@ -376,29 +328,19 @@ public class UserResourceIntTest {
         Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(existingUser);
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
         // Update the user
-        Usuario updatedUser = userRepository.findOne(user.getId());
+        Usuario updatedUser = userRepository.findOne(existingUser.getId());
 
-        Set<Long> authorities = new HashSet<>();
-        authorities.add(1L);
         //@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UsuarioDTO source = UsuarioDTO.builder()
-				.setId(updatedUser.getId())
-				.setLogin(UPDATED_LOGIN)
-				.setFirstName(UPDATED_FIRSTNAME)
-				.setLastName(UPDATED_LASTNAME)
-				.setEmail(UPDATED_EMAIL)
-				.setCreatedBy(updatedUser.getCreatedBy())
-				.setCreatedDate(updatedUser.getCreatedDate())
-				.setLastModifiedBy(updatedUser.getLastModifiedBy())
-				.setLastModifiedDate(updatedUser.getLastModifiedDate())
-				.setAuthorities(mockRolesDTO())
-				.setOptLock(updatedUser.getOptLock())
-				.build();
+		UsuarioDTO source = usuarioMapper.userToUserDTO(updatedUser);
+		source.setLogin(UPDATED_LOGIN);
+        source.setNombre(UPDATED_FIRSTNAME);
+        source.setApellido1(UPDATED_LASTNAME);
+        source.setEmail(UPDATED_EMAIL);
 		managedUserVM.updateFrom(source);
 		//@formatter:on
 
@@ -418,36 +360,24 @@ public class UserResourceIntTest {
     @Transactional
     public void updateUserExistingEmail() throws Exception {
         // Initialize the database with 2 users
-        userRepository.saveAndFlush(user);
+        userRepository.save(existingUser);
 
         Usuario anotherUser = new Usuario();
         anotherUser.setLogin("jhipster");
         anotherUser.setEmail("jhipster@localhost");
         anotherUser.setNombre("java");
         anotherUser.setApellido1("hipster");
-        userRepository.saveAndFlush(anotherUser);
+        userRepository.save(anotherUser);
 
         // Update the user
-        Usuario updatedUser = userRepository.findOne(user.getId());
+        Usuario updatedUser = userRepository.findOne(existingUser.getId());
 
-        Set<Long> authorities = new HashSet<>();
-        authorities.add(1L);
         //@formatter:off
-				ManagedUserVM managedUserVM = new ManagedUserVM();
-				UsuarioDTO source = UsuarioDTO.builder()
-						.setId(updatedUser.getId())
-						.setLogin( updatedUser.getLogin())
-						.setFirstName(updatedUser.getNombre())
-						.setLastName(updatedUser.getApellido1())
-						.setEmail("jhipster@localhost")
-						.setCreatedBy(updatedUser.getCreatedBy())
-						.setCreatedDate(updatedUser.getCreatedDate())
-						.setLastModifiedBy(updatedUser.getLastModifiedBy())
-						.setLastModifiedDate(updatedUser.getLastModifiedDate())
-						.setAuthorities(mockRolesDTO())
-						.build();
-				managedUserVM.updateFrom(source);
-				//@formatter:on
+		ManagedUserVM managedUserVM = new ManagedUserVM();
+		UsuarioDTO source = usuarioMapper.userToUserDTO(updatedUser);
+        source.setEmail(anotherUser.getEmail());
+		managedUserVM.updateFrom(source);
+		//@formatter:on
 
         restUserMockMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
     }
@@ -456,32 +386,22 @@ public class UserResourceIntTest {
     @Transactional
     public void updateUserExistingLogin() throws Exception {
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(existingUser);
 
         Usuario anotherUser = new Usuario();
         anotherUser.setLogin("jhipster");
         anotherUser.setEmail("jhipster@localhost");
         anotherUser.setNombre("java");
         anotherUser.setApellido1("hipster");
-        userRepository.saveAndFlush(anotherUser);
+        userRepository.save(anotherUser);
 
         // Update the user
-        Usuario updatedUser = userRepository.findOne(user.getId());
+        Usuario updatedUser = userRepository.findOne(existingUser.getId());
 
         //@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UsuarioDTO source = UsuarioDTO.builder()
-				.setId(updatedUser.getId())
-				.setLogin("")
-				.setFirstName(updatedUser.getNombre())
-				.setLastName(updatedUser.getApellido1())
-				.setEmail("jhipster@localhost")
-				.setCreatedBy(updatedUser.getCreatedBy())
-				.setCreatedDate(updatedUser.getCreatedDate())
-				.setLastModifiedBy(updatedUser.getLastModifiedBy())
-				.setLastModifiedDate(updatedUser.getLastModifiedDate())
-				.setAuthorities(mockRolesDTO())
-				.build();
+		UsuarioDTO source = usuarioMapper.userToUserDTO(updatedUser);
+        source.setLogin(anotherUser.getLogin());
 		managedUserVM.updateFrom(source);
 		//@formatter:on
         restUserMockMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
@@ -491,16 +411,16 @@ public class UserResourceIntTest {
     @Transactional
     public void deleteUser() throws Exception {
         // Initialize the database
-        userRepository.saveAndFlush(user);
+        userRepository.save(existingUser);
         int databaseSizeBeforeDelete = userRepository.findAll().size();
 
         // Delete the user
-        restUserMockMvc.perform(delete("/api/usuarios/{login}", user.getLogin()).accept(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk());
+        restUserMockMvc.perform(delete("/api/usuarios/{login}", existingUser.getLogin()).accept(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk());
 
         // Validate the database is empty
         List<Usuario> userList = userRepository.findAll();
         assertThat(userList).hasSize(databaseSizeBeforeDelete);
-        Usuario deleted = userRepository.findOne(user.getId());
+        Usuario deleted = userRepository.findOne(existingUser.getId());
         assertThat(deleted.getDeletionDate()).isNotNull();
     }
 
@@ -520,8 +440,10 @@ public class UserResourceIntTest {
     }
 
     @Test
+    @Transactional
     public void testUserFromId() {
-        assertThat(userMapper.userFromId(DEFAULT_ID).getId()).isEqualTo(DEFAULT_ID);
+        userRepository.save(existingUser);
+        assertThat(userMapper.userFromId(existingUser.getId()).getId()).isEqualTo(existingUser.getId());
         assertThat(userMapper.userFromId(null)).isNull();
     }
 
@@ -561,30 +483,18 @@ public class UserResourceIntTest {
     @Test
     @Transactional
     public void testUserToUserDTO() {
-        user.setId(DEFAULT_ID);
-        user.setCreatedBy(DEFAULT_LOGIN);
-        user.setCreatedDate(Instant.now());
-        user.setLastModifiedBy(DEFAULT_LOGIN);
-        user.setLastModifiedDate(Instant.now());
+        UsuarioDTO userDTO = userMapper.userToUserDTO(existingUser);
 
-        Set<Rol> authorities = new HashSet<>();
-        Rol authority = rolRepository.findOneByCodigo(UserResourceIntTest.ROL_USER);
-
-        authorities.add(authority);
-        user.setRoles(authorities);
-
-        UsuarioDTO userDTO = userMapper.userToUserDTO(user);
-
-        assertThat(userDTO.getId()).isEqualTo(DEFAULT_ID);
-        assertThat(userDTO.getLogin()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(userDTO.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
-        assertThat(userDTO.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
-        assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(userDTO.getCreatedBy()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(userDTO.getCreatedDate()).isEqualTo(user.getCreatedDate());
-        assertThat(userDTO.getLastModifiedBy()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(userDTO.getLastModifiedDate()).isEqualTo(user.getLastModifiedDate());
-        userDTO.getRoles().forEach((rol) -> assertThat(rol.getCodigo()).isEqualTo(authority.getCodigo()));
+        assertThat(userDTO.getId()).isEqualTo(existingUser.getId());
+        assertThat(userDTO.getLogin()).isEqualTo(existingUser.getLogin());
+        assertThat(userDTO.getNombre()).isEqualTo(existingUser.getNombre());
+        assertThat(userDTO.getApellido1()).isEqualTo(existingUser.getApellido1());
+        assertThat(userDTO.getEmail()).isEqualTo(existingUser.getEmail());
+        assertThat(userDTO.getCreatedBy()).isEqualTo(existingUser.getCreatedBy());
+        assertThat(userDTO.getCreatedDate()).isEqualTo(existingUser.getCreatedDate());
+        assertThat(userDTO.getLastModifiedBy()).isEqualTo(existingUser.getLastModifiedBy());
+        assertThat(userDTO.getLastModifiedDate()).isEqualTo(existingUser.getLastModifiedDate());
+        assertEquals(userDTO.getRoles(), existingUser.getRoles());
         assertThat(userDTO.toString()).isNotNull();
     }
 

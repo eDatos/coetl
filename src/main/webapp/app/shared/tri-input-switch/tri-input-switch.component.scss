@@ -8,34 +8,28 @@ $color-valid: $brand-danger;
     cursor: pointer;
 }
 
-:host {
+:host[required] {
     display: block;
     &.ng-invalid {
-        border-left: none;
-        p-selectButton {
-            border-left: none;
-            /deep/ .ui-button:first-child {
-                border-left: $border-width $color-invalid solid;
-            }
-        }
+        border-left: $border-width solid $accent-dark;
     }
-    
-    &.ng-valid[required] {
-        border-left: none;
-        p-selectButton {
-            border-left: none;
-            /deep/ .ui-button:first-child {
-                border-left: $border-width $color-valid solid;
-            }
-        }
+    &.ng-valid {
+        border-left: $border-width solid $brand-success;
+    } 
+    p-selectButton{
+        border-left: none;            
     }
 }
 
-$same-width-si-and-no: 38px;
-p-selectButton {
-    padding-left: $grid-gutter-width-base / 2;
-    padding-right: $grid-gutter-width-base / 2;
-    /deep/ .ui-button-text-only .ui-button-text {
-        min-width: $same-width-si-and-no;
+fieldset[disabled] {
+    :host[required] {
+        &.ng-valid {
+            border-left: none;
+        } 
     }
+}
+
+$same-with-si-and-no: 38px;
+p-selectButton /deep/ .ui-button-text-only .ui-button-text {
+    min-width: $same-with-si-and-no;
 }
