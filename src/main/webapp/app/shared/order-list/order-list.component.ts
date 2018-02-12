@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export const AC_ORDER_LIST_VALUE_ACCESSOR: any = {
@@ -6,6 +6,8 @@ export const AC_ORDER_LIST_VALUE_ACCESSOR: any = {
     useExisting: forwardRef(() => OrderListComponent),
     multi: true
 };
+
+type QueryEmitter = {query: string, originalEvent: Event};
 
 // IMPORTANTE : La lista a ordenar debe ser un List en el servidor y no un set, o no guardará el orden
 @Component({
@@ -26,6 +28,7 @@ export class OrderListComponent implements ControlValueAccessor {
 
     public dragAndDropScope: string;
 
+    @Input()
     public dragAndDrop = true;
 
     public hasControls = false;
@@ -35,6 +38,18 @@ export class OrderListComponent implements ControlValueAccessor {
 
     @Input()
     public required = true;
+
+    @Input()
+    public debouncedMode: boolean;
+
+    @Input()
+    public customIcon = 'fa-pencil-square-o';
+
+    @Output()
+    public onClick: EventEmitter<any> = new EventEmitter();
+
+    @Output()
+    public onComplete: EventEmitter<QueryEmitter> = new EventEmitter();
 
     @Input()
     public itemTemplate: Function = (item) => item;
@@ -74,6 +89,14 @@ export class OrderListComponent implements ControlValueAccessor {
         this.orderedList = this.orderedList.filter((existingItem) => {
             return !this.compareWith(selectedItem, existingItem);
         });
+    }
+
+    public onClickMethod($event): void {
+        this.onClick.emit($event);
+    }
+
+    public onCompleteMethod(queryEmitter: QueryEmitter): void {
+        this.onComplete.emit(queryEmitter);
     }
 
     /* ControlValueAccessor */

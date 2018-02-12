@@ -41,6 +41,7 @@
                 height: auto;
                 width: 100%;
                 border: none;
+                padding: 0;
                 
                 .ui-orderlist-item {
                     margin: 0;
@@ -51,9 +52,9 @@
                     padding: $input-padding-y $input-padding-x * 2 $input-padding-y $input-padding-x;
 
                     border: $border-width solid $grey-medium;
+                    border-radius: $border-radius;
                     background: $white;
                     color: $grey-darkest;
-                    border-radius: $border-radius;
 
                     &.ui-state-highlight {
                         border-color: $main-medium;
@@ -64,7 +65,7 @@
                     .ui-autocomplete-token-icon {
                         top: unset;
                         margin-top: unset;
-                        right: $input-padding-x * 2.5;
+                        right: $input-padding-x * 3;
                     }
                 }
                 .ui-orderlist-droppoint {
@@ -78,6 +79,10 @@
 
     fieldset:disabled &,
     fieldset[disabled] &{
+        .order-list.is-empty {
+            display: none;
+        }
+        
         p-orderList /deep/ {     
             @extend %order-list-disabled;
         }
