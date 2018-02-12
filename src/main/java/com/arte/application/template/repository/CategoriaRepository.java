@@ -11,5 +11,4 @@ import com.arte.application.template.domain.Categoria;
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
-    // Set<Categoria> save(Set<Categoria> categorias);
 }
