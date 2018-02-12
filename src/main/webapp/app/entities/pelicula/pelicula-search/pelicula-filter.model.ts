@@ -73,10 +73,10 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
             criterias.push(`TITULO ILIKE '%${this.titulo}%'`);
         }
         if (this.fechaEstreno) {
-            criterias.push(`FECHA_ESTRENO GE '${this.dateToString(this.fechaEstreno)}'`);
+            criterias.push(`FECHAESTRENO GE '${this.dateToString(this.fechaEstreno)}'`);
         }
         if (this.idioma) {
-            criterias.push(`IDIOMAS EQ '${this.idioma.id}'`);
+            criterias.push(`IDIOMA EQ '${this.idioma.id}'`);
         }
         if (this.categorias && this.categorias.length > 0) {
             criterias.push(`CATEGORIAS IN (${this.categorias.map((categoria) => categoria.id).join(',')})`);

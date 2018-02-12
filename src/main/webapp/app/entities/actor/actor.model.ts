@@ -13,6 +13,6 @@ export class Actor implements BaseEntity {
     }
 
     public normalizeName(): string {
-        return ''.concat(this.apellido2 ? this.apellido2.concat(' ') : '').concat(this.apellido1).concat(', ').concat(this.nombre);
+        return ''.concat(this.apellido1).concat(this.apellido2 ? ' ' + this.apellido2 : '').concat(', ').concat(this.nombre);
     }
 }

@@ -12,6 +12,7 @@ import com.arte.application.template.web.rest.errors.CustomParameterizedExceptio
 import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 import com.arte.libs.grammar.orm.jpa.criteria.CriteriaProcessorContext;
+import com.arte.libs.grammar.orm.jpa.criteria.OrderProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.RestrictionProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
@@ -21,12 +22,14 @@ public class ActorCriteriaProcessor extends AbstractCriteriaProcessor {
     private static final String TABLE_FIELD_APELLIDO1 = "apellido_1";
     private static final String TABLE_FIELD_APELLIDO2 = "apellido_2";
 
+    private static final String ENTITY_FIELD_APELLIDO1 = "apellido1";
+
     public ActorCriteriaProcessor() {
         super(Actor.class);
     }
 
     public enum QueryProperty {
-        PELICULA, ACTOR
+        PELICULA, ACTOR, APELLIDO1
     }
 
     public void registerProcessors() {
@@ -34,6 +37,15 @@ public class ActorCriteriaProcessor extends AbstractCriteriaProcessor {
         registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
                 .withQueryProperty(QueryProperty.PELICULA)
                 .withCriterionConverter(new SqlCriterionConverter())
+                .build());
+        registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
+                .withQueryProperty(QueryProperty.ACTOR)
+                .withCriterionConverter(new SqlCriterionConverter())
+                .build());
+        registerOrderProcessor(
+                OrderProcessorBuilder.orderProcessor()
+                .withQueryProperty(QueryProperty.APELLIDO1)
+                .withEntityProperty(ENTITY_FIELD_APELLIDO1)
                 .build());
         //@formatter:on
     }

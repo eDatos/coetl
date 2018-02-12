@@ -13,6 +13,7 @@ import com.arte.application.template.web.rest.errors.CustomParameterizedExceptio
 import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 import com.arte.libs.grammar.orm.jpa.criteria.CriteriaProcessorContext;
+import com.arte.libs.grammar.orm.jpa.criteria.OrderProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.RestrictionProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
@@ -28,7 +29,7 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        ID, FECHA_ESTRENO, IDIOMAS, CATEGORIAS, TITULO, ACTORES
+        ID, FECHAESTRENO, IDIOMA, CATEGORIAS, TITULO, ACTORES
     }
 
     @Override
@@ -46,15 +47,23 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
                 .build());
         registerRestrictionProcessor(
                 RestrictionProcessorBuilder.dateRestrictionProcessor()
-                .withQueryProperty(QueryProperty.FECHA_ESTRENO)
+                .withQueryProperty(QueryProperty.FECHAESTRENO)
                 .withEntityProperty(ENTITY_FIELD_FECHA_ESTRENO)
-                .sortable()
+                .build());
+        registerOrderProcessor(
+                OrderProcessorBuilder.orderProcessor()
+                .withQueryProperty(QueryProperty.FECHAESTRENO)
+                .withEntityProperty(ENTITY_FIELD_FECHA_ESTRENO)
                 .build());
         registerRestrictionProcessor(
                 RestrictionProcessorBuilder.longRestrictionProcessor()
-                .withQueryProperty(QueryProperty.IDIOMAS)
+                .withQueryProperty(QueryProperty.IDIOMA)
                 .withEntityProperty(ENTITY_FIELD_IDIOMA)
-                .sortable()
+                .build());
+        registerOrderProcessor(
+                OrderProcessorBuilder.orderProcessor()
+                .withQueryProperty(QueryProperty.IDIOMA)
+                .withEntityProperty(ENTITY_FIELD_IDIOMA)
                 .build());
         registerRestrictionProcessor(
                 RestrictionProcessorBuilder.restrictionProcessor()
