@@ -96,18 +96,20 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
     }
 
     addErrorAlert(message, key?, data?) {
-        key = (key && key !== null) ? this.translateService.instant(key, data) : message;
-        this.alertService.addAlert(
-            {
-                type: 'danger',
-                msg: key,
-                params: data,
-                timeout: 0,
-                toast: this.alertService.isToast(),
-                scoped: false,
-                position: 'top'
-            },
-            null
+        key = (key && key !== null) ? key : message;
+        this.alerts.push(
+            this.alertService.addAlert(
+                {
+                    type: 'danger',
+                    msg: key,
+                    params: data,
+                    timeout: 0,
+                    toast: this.alertService.isToast(),
+                    scoped: true,
+                    position: 'top'
+                },
+                this.alerts
+            )
         );
     }
 }

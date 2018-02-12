@@ -4,6 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import {
+    AcAlertService,
     ArteApplicationTemplateSharedCommonModule,
     ArteApplicationTemplateSharedLibsModule,
     AuthServerProvider,
@@ -46,6 +47,7 @@ import {
         UserService,
         DatePipe,
         GenericModalService,
+        AcAlertService,
     ],
     entryComponents: [],
     exports: [

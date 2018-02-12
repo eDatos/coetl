@@ -1,8 +1,8 @@
 import { Component, ContentChild, EventEmitter, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { JhiAlertService } from 'ng-jhipster';
 import { FileUpload } from 'primeng/primeng';
 
+import { AcAlertService } from '..';
 import { DocumentoService } from '../../entities/documento/documento.service';
 
 @Component({
@@ -56,7 +56,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     constructor(
         private translateService: TranslateService,
         private documentoService: DocumentoService,
-        private alertService: JhiAlertService
+        private alertService: AcAlertService
     ) { }
 
     ngOnInit() { }
@@ -74,7 +74,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     onSelectMethod($event) {
         if (this.fileUpload.msgs.length > 0) {
             this.fileUpload.msgs.forEach((message) => {
-                this.alertService.error(message.summary + ' ' + message.detail, null, null);
+                this.alertService.error(message.summary + ' ' + message.detail);
             });
         }
     }
