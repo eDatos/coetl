@@ -1,6 +1,3 @@
-<h3>
-    {{title}}
-</h3>
 <div class="section-buttons">
     <ng-content select="ac-file-header">
 
@@ -15,6 +12,9 @@
         </p-fileUpload>
     </ng-container>
 </div>
+<h3>
+    {{title}}
+</h3>
 <ng-container *ngIf="innerFiles?.length > 0;else emptyFileList">
     <table class="table">
         <thead>
@@ -30,7 +30,7 @@
                     <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.download' | translate" (click)="download(file)">
                         <i class="fa fa-download"></i>
                     </button>
-                    <template [ngTemplateOutlet]="actionsTemplate" [ngOutletContext]="{file: file}"></template>
+                    <ng-template [ngTemplateOutlet]="actionsTemplate" [ngOutletContext]="{file: file}"></ng-template>
                 </td>
             </tr>
         </tbody>

@@ -38,7 +38,7 @@ public class ActorCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.PELICULA)
                 .withCriterionConverter(new SqlCriterionConverter())
                 .build());
-        registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
+        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.ACTOR)
                 .withCriterionConverter(new SqlCriterionConverter())
                 .build());
