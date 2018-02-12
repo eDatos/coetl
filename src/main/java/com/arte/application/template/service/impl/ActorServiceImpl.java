@@ -53,7 +53,7 @@ public class ActorServiceImpl implements ActorService {
     @Override
     public Page<Actor> findAll(String query, Pageable pageable) {
         log.debug("Request to get all Actors");
-        DetachedCriteria criteria = queryUtil.queryToActorCriteria(query);
+        DetachedCriteria criteria = queryUtil.queryToActorCriteria(pageable, query);
         return actorRepository.findAll(criteria, pageable);
     }
 

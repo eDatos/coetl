@@ -31,7 +31,7 @@ public class OperacionServiceImpl implements OperacionService {
     @Transactional(readOnly = true)
     public List<Operacion> findAll(String query) {
         log.debug("Petición para obtener todas las Operaciones");
-        DetachedCriteria criteria = queryUtil.queryToOperacionCriteria(query);
+        DetachedCriteria criteria = queryUtil.queryToOperacionCriteria(null, query);
         return operacionRepository.findAll(criteria);
     }
 

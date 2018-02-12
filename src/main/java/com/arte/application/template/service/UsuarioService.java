@@ -107,9 +107,8 @@ public class UsuarioService {
     private DetachedCriteria buildUsuarioCriteria(Pageable pageable, Boolean includeDeleted, String query) {
         StringBuilder queryBuilder = new StringBuilder();
         initializeQueryBuilder(query, queryBuilder);
-        transalateSort(pageable, queryBuilder);
         String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
-        return queryUtil.queryToUserCriteria(finalQuery);
+        return queryUtil.queryToUserCriteria(pageable, finalQuery);
     }
 
     private void initializeQueryBuilder(String query, StringBuilder queryBuilder) {
@@ -125,12 +124,6 @@ public class UsuarioService {
             finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
         }
         return finalQuery;
-    }
-
-    private void transalateSort(Pageable pageable, StringBuilder queryBuilder) {
-        if (pageable != null) {
-            queryBuilder.append(queryUtil.pageableSortToQueryString(pageable));
-        }
     }
 
     @Transactional(readOnly = true)

@@ -2,6 +2,7 @@ package com.arte.application.template.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.config.Constants;
 import com.arte.application.template.domain.Usuario;
 import com.arte.application.template.repository.UsuarioRepository;
-import com.arte.application.template.service.UsuarioService;
 
 /**
  * Test class for the UserResource REST controller.
@@ -32,6 +32,18 @@ public class UserServiceIntTest {
 
     @Autowired
     private UsuarioService userService;
+
+    @Before
+    public void initTest() {
+        Usuario anonymousUser = new Usuario();
+
+        anonymousUser.setLogin("anonymoususer");
+        anonymousUser.setEmail("jhipster@localhost");
+        anonymousUser.setNombre("john");
+        anonymousUser.setApellido1("doe");
+
+        userRepository.saveAndFlush(anonymousUser);
+    }
 
     @Test
     public void assertThatAnonymousUserIsNotGet() {

@@ -48,7 +48,7 @@ public class RolServiceImpl implements RolService {
     @Override
     public List<Rol> findAll(String query) {
         log.debug("Petición para buscar roles con query {}", query);
-        DetachedCriteria criteria = queryUtil.queryToRolCriteria(query);
+        DetachedCriteria criteria = queryUtil.queryToRolCriteria(null, query);
         return rolRepository.findAll(criteria);
     }
 
