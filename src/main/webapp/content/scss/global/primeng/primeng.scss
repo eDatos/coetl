@@ -174,3 +174,25 @@ p-dataTable /deep/ {
         }
     }    
 }
+
+p-orderlist {
+    .ui-orderlist {
+        display: flex;
+
+        .ui-orderlist-controls {
+            order: 1;
+        }
+
+        .ui-orderlist-list-container {
+            flex: 1;
+
+            .ui-orderlist-list {
+                border: $border-width solid $grey-medium;
+                border-radius: $border-radius;
+                padding: $spacer-y / 2 $spacer-x / 4;
+    
+                display: block;
+            }
+        }
+    }
+}

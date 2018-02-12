@@ -1,5 +1,6 @@
 package com.arte.application.template.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -78,6 +79,8 @@ public class CategoriaServiceImpl implements CategoriaService {
      * @return the set of persisted entities
      */
     public Set<Categoria> save(Set<Categoria> categorias) {
-        return categoriaRepository.save(categorias);
+        Set<Categoria> set = new HashSet<>();
+        categorias.forEach(categoria -> set.add(categoriaRepository.save(categoria)));
+        return set;
     }
 }
