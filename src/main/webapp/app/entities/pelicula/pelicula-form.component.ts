@@ -158,7 +158,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.categoriaService.query({
             page: 0,
             size: 20,
-            sort: 'asc'
+            sort: ['asc']
         }).subscribe((res: ResponseWrapper) => {
             this.categorias = res.json;
         }, (res: ResponseWrapper) => this.onError(res.json()));
@@ -172,7 +172,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.idiomaService.query({
             page: 0,
             size: 20,
-            sort: 'asc'
+            sort: ['asc']
         }).subscribe((res: ResponseWrapper) => {
             this.idiomas = res.json;
         }, (res: ResponseWrapper) => this.onError(res.json()));
@@ -186,8 +186,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.actorService.query({
             page: 0,
             size: 20,
-            sort: 'asc'/* ,
-            query: [`PELICULA NE ${this.pelicula.id}`] */
+            sort: ['apellido1,asc']
         }).subscribe(
             (res: ResponseWrapper) => this.actores = res.json,
             (res: ResponseWrapper) => this.onError(res.json));

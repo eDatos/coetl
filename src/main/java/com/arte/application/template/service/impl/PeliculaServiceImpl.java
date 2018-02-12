@@ -58,7 +58,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Transactional(readOnly = true)
     public Page<Pelicula> findAll(String query, Pageable pageable) {
         log.debug("Request to get all Peliculas");
-        DetachedCriteria criteria = queryUtil.queryToPeliculaCriteria(query);
+        DetachedCriteria criteria = queryUtil.queryToPeliculaCriteria(pageable, query);
         return peliculaRepository.findAll(criteria, pageable);
     }
 

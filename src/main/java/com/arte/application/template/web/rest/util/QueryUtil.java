@@ -25,24 +25,24 @@ public class QueryUtil {
     private static final String INCLUDE_DELETED_HINT = "HINT INCLUDE_DELETED SET 'true'";
     private QueryExprCompiler queryExprCompiler = new QueryExprCompiler();
 
-    public DetachedCriteria queryToUserCriteria(String query) {
-        return queryToCriteria(query, new UsuarioCriteriaProcessor());
+    public DetachedCriteria queryToUserCriteria(Pageable pageable, String query) {
+        return queryToCriteria(pageable, query, new UsuarioCriteriaProcessor());
     }
 
-    public DetachedCriteria queryToOperacionCriteria(String query) {
-        return queryToCriteria(query, new OperacionCriteriaProcessor());
+    public DetachedCriteria queryToOperacionCriteria(Pageable pageable, String query) {
+        return queryToCriteria(pageable, query, new OperacionCriteriaProcessor());
     }
 
-    public DetachedCriteria queryToRolCriteria(String query) {
-        return queryToCriteria(query, new RolCriteriaProcessor());
+    public DetachedCriteria queryToRolCriteria(Pageable pageable, String query) {
+        return queryToCriteria(pageable, query, new RolCriteriaProcessor());
     }
 
-    public DetachedCriteria queryToPeliculaCriteria(String query) {
-        return queryToCriteria(query, new PeliculaCriteriaProcessor());
+    public DetachedCriteria queryToPeliculaCriteria(Pageable pageable, String query) {
+        return queryToCriteria(pageable, query, new PeliculaCriteriaProcessor());
     }
 
-    public DetachedCriteria queryToActorCriteria(String query) {
-        return queryToCriteria(query, new ActorCriteriaProcessor());
+    public DetachedCriteria queryToActorCriteria(Pageable pageable, String query) {
+        return queryToCriteria(pageable, query, new ActorCriteriaProcessor());
     }
 
     public String queryIncludingDeleted(String query) {
@@ -73,7 +73,13 @@ public class QueryUtil {
         return result.toString();
     }
 
-    private DetachedCriteria queryToCriteria(String query, AbstractCriteriaProcessor processor) {
+    private DetachedCriteria queryToCriteria(Pageable pageable, String query, AbstractCriteriaProcessor processor) {
+        if (query == null) {
+            query = StringUtils.EMPTY;
+        }
+
+        query += pageableSortToQueryString(pageable);
+
         QueryRequest queryRequest = null;
         logger.debug("Petición para mapear query: {}", query);
         if (StringUtils.isNotBlank(query)) {
