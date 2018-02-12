@@ -1,26 +1,24 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
     selector: 'ac-split-button',
     templateUrl: 'split-button.component.html',
     styleUrls: ['./split-button.component.scss']
 })
-export class SplitButtonComponent {
+export class SplitButtonComponent implements AfterContentInit {
 
     public menuVisible = false;
 
     @ViewChild('otherButtonsWrapper')
     otherButtons: ElementRef;
 
+    public hasOtherButtons = false;
+
     constructor(private element: ElementRef) { }
 
-    onDropdownButtonClick(event: Event) {
-        this.toggleMenu();
-    }
-
-    hasOtherButtons() {
+    ngAfterContentInit() {
         const acSplitButtonOthers = this.otherButtons.nativeElement.children[0];
-        return acSplitButtonOthers ? acSplitButtonOthers.children.length > 0 : false;
+        return this.hasOtherButtons = acSplitButtonOthers ? acSplitButtonOthers.children.length > 0 : false;
     }
 
     toggleMenu() {
@@ -33,5 +31,4 @@ export class SplitButtonComponent {
             setTimeout(() => this.menuVisible = false, 0);
         }
     }
-
 }

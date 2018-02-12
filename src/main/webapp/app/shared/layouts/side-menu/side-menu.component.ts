@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, Input, ElementRef } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 // <ac-side-menu [parent]="instance">
@@ -37,11 +37,15 @@ export class SideMenuComponent implements OnInit, AfterViewChecked {
     ngAfterViewChecked() {
         if (this.parent && this.parent.getTitlesContainer()) {
             const titlesContainerElement = this.parent.getTitlesContainer().nativeElement;
-            const titles = titlesContainerElement.querySelectorAll(this.TITLE_TAG);
-
             this.addClassHasMenu(titlesContainerElement);
-            this.buildMenu(titles);
-            this.scrollToFragment(titlesContainerElement, this.fragment);
+
+            // Workaround to play around h3 titles inside ngIf without complicating the component API
+            setTimeout(() => {
+                const titles = titlesContainerElement.querySelectorAll(this.TITLE_TAG);
+                this.buildMenu(titles);
+                this.scrollToFragment(titlesContainerElement, this.fragment);
+            }, 0);
+
         }
     }
 
