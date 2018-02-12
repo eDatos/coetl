@@ -11,7 +11,7 @@ $autocomplete-vertical-padding: 0.3rem;
         
         .ui-autocomplete-token {
             padding-right: $close-icon-width;
-        }
+        }        
         &.ui-inputtext {
             padding-top: $input-padding-y;
             padding-left: $input-padding-x;
@@ -36,7 +36,7 @@ $autocomplete-vertical-padding: 0.3rem;
     .ui-autocomplete-dropdown {
         position: absolute;
         right: 0;
-    }
+    }   
 }
 
 .ui-listbox {
@@ -113,6 +113,15 @@ fieldset[disabled] {
     }
 }
 
+.ui-chkbox-box {
+    &.ui-state-default {
+        background: $white;
+    }
+    &.ui-state-active {
+        background: $main-medium;
+    }
+}
+
 .ui-inputtext.ui-state-focus,
 .ui-inputtext:focus {
     -moz-box-shadow: none;
@@ -131,6 +140,7 @@ p-dataTable /deep/ {
 
         border-left: none;
         border-right: none;
+        border-top: none;        
 
         text-align: left;
 
@@ -161,6 +171,13 @@ p-dataTable /deep/ {
     }
 
     .ui-datatable {
+
+        // https://stackoverflow.com/questions/25591499/chrome-bug-with-colspan-and-border
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
         .fa-chevron-circle-right, .fa-chevron-circle-down {
             width: $dataTable-toggle-width;
         }
@@ -176,6 +193,23 @@ p-dataTable /deep/ {
 }
 
 p-orderlist {
+    
+    &:not(.show-controls) {
+        .ui-orderlist-controls {
+            visibility: hidden;
+            height: 0;
+        }
+    }
+    &.show-controls {
+        .ui-orderlist {
+            .ui-orderlist-list-container {    
+                .ui-orderlist-list {
+                    border: $border-width solid $grey-medium;
+                }
+            }            
+        }
+    }   
+
     .ui-orderlist {
         display: flex;
 
@@ -184,15 +218,16 @@ p-orderlist {
         }
 
         .ui-orderlist-list-container {
-            flex: 1;
+            flex: 1;            
 
             .ui-orderlist-list {
-                border: $border-width solid $grey-medium;
+                border: $border-width solid transparent;
                 border-radius: $border-radius;
                 padding: $spacer-y / 2 $spacer-x / 4;
-    
+        
                 display: block;
             }
         }
+
     }
 }
