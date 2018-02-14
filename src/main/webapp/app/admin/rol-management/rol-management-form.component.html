@@ -37,7 +37,7 @@
             <div class="form-group">
                 <label class="form-control-label" jhiTranslate="rolManagement.codigo">Codigo</label>
                 <input type="text" class="form-control" name="codigo" #codigoInput="ngModel" [(ngModel)]="rol.codigo" required minlength="1"
-                    maxlength="255" pattern="^[_A-Za-z0-9-]*$">
+                    maxlength="255" pattern="^[_A-Za-z0-9-]*$" acAutofocus >
 
                 <div *ngIf="codigoInput.dirty && codigoInput.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="codigoInput.errors.required" jhiTranslate="entity.validation.required">

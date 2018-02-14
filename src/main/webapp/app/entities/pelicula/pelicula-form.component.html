@@ -35,7 +35,7 @@
                 </div>
             </h2>
         </div>
-        <fieldset [disabled]="!isEditMode()">
+        <fieldset [disabled]="!isEditMode()" >
             <h3>
                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.info.label"></span>
             </h3>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.fechaEstreno.label" for="field_fechaEstreno"></label>
-                    <ac-calendar class="form-control" name="fechaEstreno" [(ngModel)]="pelicula.fechaEstreno" [required]="true" ></ac-calendar>
+                    <ac-calendar class="form-control" name="fechaEstreno" [(ngModel)]="pelicula.fechaEstreno" [required]="true"  ></ac-calendar>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.idioma.label" for="field_idioma"></label>
