@@ -166,8 +166,8 @@ p-dataTable /deep/ {
 
     .ui-datatable .ui-datatable-footer {
         border-bottom: none;
-        padding-left: $page-padding;
-        padding-right: $page-padding;
+        padding-left: $page-padding-left;
+        padding-right: $page-padding-right;
     }
 
     .ui-datatable {

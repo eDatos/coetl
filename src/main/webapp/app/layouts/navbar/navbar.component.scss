@@ -61,7 +61,7 @@ Navbar
         align-items: unset;
     }
     .nav-link {    
-        padding-right: $page-padding;
+        padding-right: $page-padding-right;
         padding-left: 1em;
         display: inline-block;
     }
@@ -72,7 +72,7 @@ Logo styles
 ========================================================================== */
 .navbar-brand {
     &.logo {
-        padding: $navbar-padding-y $page-padding;
+        padding: $navbar-padding-y $page-padding-right $navbar-padding-y $page-padding-left;
         .logo-img {
             height: $navbar-content-height;
             margin-right: $grid-gutter-width-base / 2;
