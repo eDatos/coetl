@@ -6,8 +6,8 @@
     .table-responsive {
         width: inherit;
         min-width: 100%;
-        margin-left: -$page-padding;
-        margin-right: -$page-padding;
+        margin-left: -$page-padding-left;
+        margin-right: -$page-padding-right;
         margin-bottom: $spacer-y;
         overflow-x: unset;
         
@@ -25,17 +25,17 @@
         tr {
             td:first-child, th:first-child {
                 position: relative;
-                padding-left: $page-padding;
+                padding-left: $page-padding-left;
             }
             td:last-child, th:last-child {
-                padding-right: $page-padding;
+                padding-right: $page-padding-right;
             }
             cursor: pointer;
         }
 
         .row-selector {
             position: absolute;
-            left: $page-padding / 3;
+            left: $page-padding-left / 3;
         }
 
         th {

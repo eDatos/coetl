@@ -16,7 +16,7 @@
         <div class="entity-fields">
             <div class="form-group">
                 <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.operacion.accion" for="field_accion">Accion</label>
-                <input type="text" class="form-control" name="accion" id="field_accion" [(ngModel)]="operacion.accion" required />
+                <input type="text" class="form-control" name="accion" id="field_accion" [(ngModel)]="operacion.accion" required acAutofocus />
                 <div [hidden]="!(editForm.controls.accion?.dirty && editForm.controls.accion?.invalid)">
                     <small class="form-text text-danger" [hidden]="!editForm.controls.accion?.errors?.required" jhiTranslate="entity.validation.required">
                     This field is required.

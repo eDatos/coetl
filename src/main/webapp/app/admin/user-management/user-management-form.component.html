@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label class="form-control-label" jhiTranslate="userManagement.login">Login</label>
                 <input type="text" [disabled]="user.id" class="form-control" name="login" #loginInput="ngModel" [(ngModel)]="user.login" required minlength="1"
-                    maxlength="255" pattern="^[_'.@A-Za-z0-9-]*$" (blur)="validarUsuario(loginInput.dirty)">
+                    maxlength="255" pattern="^[_'.@A-Za-z0-9-]*$" (blur)="validarUsuario(loginInput.dirty)" acAutofocus >
 
                 <div *ngIf="loginInput.touched || loginInput.dirty" class="entity-field-error">
                     <ng-container *ngIf="loginInput.invalid">
@@ -75,7 +75,7 @@
 
             <div class="form-group">
                 <label class="form-control-label" jhiTranslate="userManagement.nombre">First Name</label>
-                <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="user.nombre" maxlength="255">
+                <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="user.nombre" maxlength="255" >
 
                 <div *ngIf="nombreInput.dirty && nombreInput.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="nombreInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">

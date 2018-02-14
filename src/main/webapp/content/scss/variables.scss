@@ -1,5 +1,5 @@
-$white: white;
-$black: black;
+$white: #ffffff;
+$black: #000000;
 
 $grey-lightest: #f8f8f8;
 $grey-light: #e7e7e7;
@@ -13,6 +13,11 @@ $main-dark: #313949;
 $accent-medium: #F94758;
 $accent-dark: #b10616;
 $green-medium:  #5cb85c;
+
+$severidad-info: #2376B5;
+$severidad-menor: #85bb43;
+$severidad-mayor: #ff9900;
+$severidad-menor: #d4333f;
 
 $navbar-content-height: 30px;
 $navbar-padding-y: 5px;
@@ -69,6 +74,8 @@ $pagination-active-border: $pagination-active-bg;
 $pagination-disabled-color: $grey-medium;
 
 $enable-transitions: true;
+
+$font-size-base: 1rem;
 
 $font-size-h1: 2rem;
 $font-size-h2: 1.8rem;
@@ -128,6 +135,8 @@ $tooltip-bg:                  $white;
 $tooltip-arrow-color:         $grey-medium;
 // end bootstrap
 $page-padding: 36px;
+$page-padding-left: $page-padding * 2;
+$page-padding-right: $page-padding;
 
-$dataTable-toggle-width: $page-padding;
+$dataTable-toggle-width: $page-padding-left;
 $primeng-dropdown-button-width: 2em;

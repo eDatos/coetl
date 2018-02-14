@@ -42,7 +42,7 @@
             <div class="entity-fields">
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.titulo.label" for="field_titulo"></label>
-                    <input type="text" class="form-control" name="titulo" id="field_titulo" [(ngModel)]="pelicula.titulo" required />
+                    <input type="text" class="form-control" name="titulo" id="field_titulo" [(ngModel)]="pelicula.titulo" required acAutofocus />
                     <div [hidden]="!(editForm.controls.titulo?.dirty && editForm.controls.titulo?.invalid)">
                         <small class="form-text text-danger" [hidden]="!editForm.controls.titulo?.errors?.required" jhiTranslate="entity.validation.required">
                         </small>

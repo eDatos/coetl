@@ -19,6 +19,10 @@ $zindex-fixed-navs: $zindex-dropdown - 5; // Dont cover navbar dropdown
         padding-left: 0;
         padding-right: 0;
         margin-top: 0;
+
+        .back-arrow {
+            left: -$entity-header-height;
+        }
     }
 }
 .has-entity-header {
@@ -49,19 +53,16 @@ h2 {
     $arrow-padding: 8px;
     .back-arrow {
         position: absolute;
-        left: -$arrow-padding/3;
-        padding: $arrow-padding*2 $arrow-padding $arrow-padding $arrow-padding;
+        left: $page-padding-left/3;
+        padding: 0;
         margin: auto;
         height: $entity-header-height;
-        .fa {
-            height: $page-padding - $arrow-padding * 2;
-        }
     }
 
     // Buttons
     & > *:last-child {
         flex-shrink: 0;
-        margin-left: $page-padding;        
+        margin-left: $page-padding-right;        
     }
     // Title
     & > *:first-child {
@@ -107,6 +108,7 @@ fieldset {
                 @include make-col(4);  
                 padding-left: 0 !important; 
             }
+
             .form-control {
                 @include make-col-ready();
                 @include make-col(8);      
@@ -114,6 +116,19 @@ fieldset {
                 &:hover {
                     border-bottom: 2 * $border-width solid $grey-medium;
                     margin-bottom: -2 * $border-width;
+                }
+
+                .btn {
+                    margin-right: $spacer-x/4;
+                }
+            }
+            .input-group {
+                @include make-col-ready();
+                @include make-col(8);
+
+                .input-group-actions {
+                    @include make-col(4); 
+                    text-align: right;
                 }
             }
 
@@ -179,10 +194,12 @@ fieldset {
     }
 
     .form-group {
-        .form-control:required, .form-control[required] {
+        .form-control[required] {
             border-left: $border-width*5 solid $accent-dark;
         }
-        .form-control:required.ng-valid, .ng-valid[required], .ng-valid.required  {
+        .form-control:required.ng-valid,
+        .ng-valid[required],
+        .ng-valid.required  {
             border-left: $border-width*5 solid $brand-success;
         }        
         .ng-touched.ng-invalid:not(form),
@@ -209,23 +226,11 @@ fieldset {
             @extend %disabled-form-control;
         }
     }
-    
-    /* to set absolute position for :after content */
-    position: relative;
-
-    /* this will 'screen' all fieldset content from clicks */
-    &[disabled]:after {    
-        content: ' ';
-        position: absolute;
-        z-index: 1;
-        top: 0; right: 0; bottom: 0; left: 0;
-        /* i don't know... it was necessary to set background */
-        background: url( data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==);
-    }
 }
 
 .entity {
     &.has-menu {
+        position: relative;
         padding-left: $side-menu-width;        
         h2 {
             left: $side-menu-width;
@@ -236,6 +241,16 @@ fieldset {
                 left: 0;
             }   
         }
+    }
+    &.has-search {
+        padding-top: $entity-search-default-height;
+    }
+
+    .alert {
+        margin-top: $spacer-y;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 }
 
@@ -267,7 +282,6 @@ fieldset {
     }
 }
 
-
 .container-fluid {
     @include make-narrowed-container();
 }
@@ -277,13 +291,17 @@ fieldset {
     border: none;
     cursor: default;
     @include appearance(none);
-    &:required.ng-valid {
+    &[required],
+    &:requred {
         border-left: none;
     }
     &:hover {
         border-bottom: none;
         margin-bottom: initial;
     }
+}
+.ui-tree {
+    width: 100% !important;
 }
 
 .section-buttons {

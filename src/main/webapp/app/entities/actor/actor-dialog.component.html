@@ -15,7 +15,7 @@
                         <div class="form-group full-width">
                             <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.nombre" for="field_nombre">Nombre</label>
                             <input type="text" class="form-control" name="nombre" id="field_nombre"
-                                [(ngModel)]="actor.nombre" required />
+                                [(ngModel)]="actor.nombre" required acAutofocus />
                             <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
                                 <small class="form-text text-danger"
                                 [hidden]="!editForm.controls.nombre?.errors?.required" jhiTranslate="entity.validation.required">
