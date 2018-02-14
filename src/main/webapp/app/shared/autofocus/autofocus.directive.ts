@@ -33,9 +33,6 @@ export class AutofocusDirective implements AfterViewInit {
         });
 
         const elementToFocus = firstEnabledChild || htmlElement;
-
-        console.log('elementToFocus -> ', elementToFocus);
-
         this.renderer.selectRootElement(elementToFocus).focus();
     }
 
