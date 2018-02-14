@@ -192,16 +192,17 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
             .filter((suggestion) => {
                 if (this.propertiesToQuery.length > 0) {
                     return this.propertiesToQuery.findIndex((property) => {
-                        if (suggestion[property]) {
-                            return suggestion[property].toUpperCase().indexOf(query.toUpperCase()) !== -1;
-                        } else {
-                            return false;
-                        }
+                        return this.queryContainsValue(query, suggestion[property]);
                     }) !== -1;
                 } else {
-                    return suggestion.toUpperCase().indexOf(query.toUpperCase()) !== -1
+                    return this.queryContainsValue(query, suggestion);
                 }
             });
+    }
+
+    private queryContainsValue(query: string, value: string) {
+        if (!value) { return false; }
+        return value.toUpperCase().indexOf(query.toUpperCase()) !== -1;
     }
 
     excludeAlreadySelectedSuggestions(suggestions: any[]) {
@@ -229,6 +230,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
             this.filteredSuggestions = this.getFilteredSuggestions(queryValue);
 
             setTimeout(() => {
+                this.autoComplete.noResults = !this.filteredSuggestions.length;
                 if (this.focusMustOpenPanel) {
                     this.autoComplete.show();
                 } else {
