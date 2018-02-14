@@ -12,6 +12,11 @@ export class AutofocusDirective implements AfterViewInit {
 
     ngAfterViewInit() {
         this.el.nativeElement.focus();
+        let htmlElement = this.el.nativeElement.querySelector('input, textarea');
+        if (htmlElement == null) {
+            htmlElement = this.el.nativeElement;
+        }
+        htmlElement.focus();
     }
 
 }
