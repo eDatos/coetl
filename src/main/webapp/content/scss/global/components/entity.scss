@@ -19,6 +19,10 @@ $zindex-fixed-navs: $zindex-dropdown - 5; // Dont cover navbar dropdown
         padding-left: 0;
         padding-right: 0;
         margin-top: 0;
+
+        .back-arrow {
+            left: -$entity-header-height;
+        }
     }
 }
 .has-entity-header {
@@ -50,12 +54,9 @@ h2 {
     .back-arrow {
         position: absolute;
         left: $page-padding-left/3;
-        padding: 0; //$arrow-padding*2 $arrow-padding $arrow-padding $arrow-padding;
+        padding: 0;
         margin: auto;
         height: $entity-header-height;
-        .fa {
-            height: $page-padding-left - $arrow-padding * 2;
-        }
     }
 
     // Buttons
@@ -115,6 +116,10 @@ fieldset {
                 &:hover {
                     border-bottom: 2 * $border-width solid $grey-medium;
                     margin-bottom: -2 * $border-width;
+                }
+
+                .btn {
+                    margin-right: $spacer-x/4;
                 }
             }
             .input-group {
@@ -189,7 +194,6 @@ fieldset {
     }
 
     .form-group {
-        .form-control:required,
         .form-control[required] {
             border-left: $border-width*5 solid $accent-dark;
         }
@@ -222,23 +226,11 @@ fieldset {
             @extend %disabled-form-control;
         }
     }
-    
-    /* to set absolute position for :after content */
-    position: relative;
-
-    /* this will 'screen' all fieldset content from clicks */
-    &[disabled]:after {    
-        content: ' ';
-        position: absolute;
-        z-index: 1;
-        top: 0; right: 0; bottom: 0; left: 0;
-        /* i don't know... it was necessary to set background */
-        background: url( data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==);
-    }
 }
 
 .entity {
     &.has-menu {
+        position: relative;
         padding-left: $side-menu-width;        
         h2 {
             left: $side-menu-width;
@@ -299,7 +291,8 @@ fieldset {
     border: none;
     cursor: default;
     @include appearance(none);
-    &:required.ng-valid {
+    &[required],
+    &:requred {
         border-left: none;
     }
     &:hover {
