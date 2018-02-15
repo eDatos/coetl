@@ -192,25 +192,43 @@ p-dataTable /deep/ {
     }    
 }
 
-p-orderlist {
-    
-    &:not(.show-controls) {
-        .ui-orderlist-controls {
-            visibility: hidden;
-            height: 0;
+%disable-order-list {
+    .ui-orderlist-controls {
+        visibility: hidden;
+        height: 0;
+    }
+    .ui-orderlist {
+        .ui-orderlist-list-container {
+            .ui-orderlist-list {
+                border: $border-width solid transparent;
+                .ui-orderlist-item {
+                    padding: $table-cell-padding;
+                    border-top: $border-width solid $grey-light;
+                    &:not(.ui-state-highlight):hover {
+                        background: $grey-light;
+                        color: $black;
+                    }
+                }
+            }
         }
     }
-    &.show-controls {
-        .ui-orderlist {
-            .ui-orderlist-list-container {    
-                .ui-orderlist-list {
-                    border: $border-width solid $grey-medium;
-                }
-            }            
-        }
-    }   
+    .ui-orderlist-droppoint {
+        display: none;
+    }
+}
 
+fieldset[disabled] {
+    p-orderList {
+        @extend %disable-order-list;
+    }
+}
+ 
+p-orderList {
+    &.disabled {
+        @extend %disable-order-list;
+    }
     .ui-orderlist {
+        width: 100%;
         display: flex;
 
         .ui-orderlist-controls {
@@ -218,16 +236,41 @@ p-orderlist {
         }
 
         .ui-orderlist-list-container {
-            flex: 1;            
+            flex: 1;
+            max-width: 100%;
 
             .ui-orderlist-list {
-                border: $border-width solid transparent;
+                border: $border-width solid $grey-medium;
                 border-radius: $border-radius;
                 padding: $spacer-y / 2 $spacer-x / 4;
         
                 display: block;
+
+                width: 100%;
+                height: 100%;
             }
         }
 
+    }
+}
+
+fieldset[disabled] {
+    p-listbox {
+        .ui-widget-header {
+            display: none;
+        }
+    }
+}
+
+p-tree {
+    .ui-tree .ui-treenode-content {
+        &.ui-treenode-selectable .ui-treenode-label {
+            font-weight: $font-weight-bold;
+        }
+        .ui-treenode-label {
+            .fa {
+                margin-left: $spacer-x / 4;
+            }
+        }
     }
 }

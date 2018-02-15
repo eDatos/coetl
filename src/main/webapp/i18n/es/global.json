@@ -52,7 +52,8 @@
             }
         },
         "item-count": "{{first}} - {{second}} de {{total}}",
-        "pageSizeSelector": "Tamaño de página"
+        "pageSizeSelector": "Tamaño de página",
+        "loading": "Cargando"
     },
     "entity": {
         "action": {

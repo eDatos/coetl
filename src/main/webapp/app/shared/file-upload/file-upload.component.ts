@@ -62,7 +62,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     ngOnInit() { }
 
     ngOnChanges(changes) {
-        if (changes.files.currentValue !== changes.files.previousValue) {
+        if (changes.files && changes.files.currentValue !== changes.files.previousValue) {
             this.innerFiles = Array.isArray(this.files) ? this.files : this.files ? [this.files] : [];
         }
     }

@@ -12,6 +12,7 @@ import {
     MakeFixedRoomDirective,
     OrderListComponent,
     PaginationComponent,
+    SpinnerComponent,
     StickyTableHeaderDirective,
     TriInputSwitchComponent,
 } from './';
@@ -30,6 +31,7 @@ import {
         HelpTooltipComponent,
         PaginationComponent,
         AutofocusDirective,
+        SpinnerComponent,
     ],
     providers: [
         JhiLanguageHelper,
@@ -50,6 +52,7 @@ import {
         HelpTooltipComponent,
         PaginationComponent,
         AutofocusDirective,
+        SpinnerComponent,
     ]
 })
 export class ArteApplicationTemplateSharedCommonModule { }

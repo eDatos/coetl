@@ -24,6 +24,7 @@
         </h2>
         <ac-pelicula-search [filters]="filters"></ac-pelicula-search>
     </div>
+    <ac-spinner *ngIf="!peliculas"></ac-spinner>
     <ng-container *ngIf="peliculas" >
         <ng-container *ngIf="peliculas.length > 0;else emptyList">
             <div class="table-responsive">

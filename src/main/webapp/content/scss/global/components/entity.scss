@@ -291,8 +291,8 @@ fieldset {
     border: none;
     cursor: default;
     @include appearance(none);
-    &[required],
-    &:requred {
+    &:required,
+    &[required] {
         border-left: none;
     }
     &:hover {

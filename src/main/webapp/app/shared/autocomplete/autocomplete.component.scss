@@ -5,6 +5,15 @@
     border-radius: $border-radius;
     
     /deep/ .ui-autocomplete {
+
+        .ui-autocomplete-token {
+            &.ui-state-highlight {
+                border-color: $grey-light;
+                background: $grey-light;
+                color: $black;
+            }
+        }
+
         .create-new-item-label {
             color: $grey-medium;
             font-style: italic;
