@@ -71,12 +71,12 @@
                     }
 
                     .icon-action {
-                        margin-right: 20px !important;
-                        margin-top: 1px !important;
+                        margin-right: $spacer-x;
+                        margin-top: $spacer-y * 0.1;
                     }
                 }
                 .ui-orderlist-item.ui-state-highlight {
-                    border: 1px solid $grey-medium;
+                    border: $border-width solid $grey-medium;
                     background: $white;
                     color: $grey-darkest;
                 }
