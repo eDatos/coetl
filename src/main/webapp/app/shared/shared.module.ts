@@ -17,6 +17,7 @@ import {
     LoginService,
     Principal,
     RolService,
+    ScrollService,
     SideMenuComponent,
     SplitButtonComponent,
     StateStorageService,
@@ -48,6 +49,7 @@ import {
         DatePipe,
         GenericModalService,
         AcAlertService,
+        ScrollService
     ],
     entryComponents: [],
     exports: [

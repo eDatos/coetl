@@ -1,5 +1,7 @@
-import { AfterViewChecked, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { ScrollService } from '../../scroll';
 
 // <ac-side-menu [parent]="instance">
 //    <button class="side-menu-item btn btn-frameless">Un botón</button>
@@ -10,101 +12,60 @@ import { ActivatedRoute } from '@angular/router';
     templateUrl: 'side-menu.component.html',
     styleUrls: ['./side-menu.component.scss']
 })
-export class SideMenuComponent implements OnInit, AfterViewChecked {
-
-    private TITLE_TAG = 'h3';
-    private CLASS_HAS_MENU = 'has-menu';
+export class SideMenuComponent implements AfterViewInit {
 
     @Input()
     public parent: HasTitlesContainer;
 
-    private fragment: string = null;
-
     public menu: any[] = [];
 
-    private hasToScroll = false;
-
     constructor(
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private scrollService: ScrollService
     ) { }
-    ngOnInit() {
+
+    ngAfterViewInit() {
+        if (!this.parent || !this.parent.getTitlesContainer()) { return; }
+
+        const titlesContainerElement: HTMLElement = this.parent.getTitlesContainer().nativeElement;
+        titlesContainerElement.classList.add('has-menu');
+        this.buildMenu(titlesContainerElement);
+
         this.route.fragment.subscribe((fragment) => {
-            this.fragment = fragment;
-            this.hasToScroll = true;
+            this.scrollService.scrollToFragment(titlesContainerElement, fragment);
         });
+
     }
 
-    ngAfterViewChecked() {
-        if (this.parent && this.parent.getTitlesContainer()) {
-            const titlesContainerElement = this.parent.getTitlesContainer().nativeElement;
-            this.addClassHasMenu(titlesContainerElement);
-
-            // Workaround to play around h3 titles inside ngIf without complicating the component API
-            setTimeout(() => {
-                const titles = titlesContainerElement.querySelectorAll(this.TITLE_TAG);
-                this.buildMenu(titles);
-                this.scrollToFragment(titlesContainerElement, this.fragment);
-            }, 0);
-
-        }
-    }
-
-    addClassHasMenu(titlesContainerElement: HTMLElement) {
-        titlesContainerElement.classList.add(this.CLASS_HAS_MENU);
-    }
-
-    buildMenu(titles: HTMLElement[]) {
-        if (this.menu.length === 0) {
-            for (let i = 0; i < titles.length; i++) {
-                const element = titles[i];
-                if (element.textContent) {
-                    if (!element.id) {
-                        element.id = this.htmlIdGenerator(element.textContent);
-                    }
-                    this.menu.push({
+    buildMenu(titlesContainerElement: HTMLElement) {
+        if (this.menu.length > 0) { return; } // Already built
+        setTimeout(() => {
+            const titles = this.querySelectorAll(titlesContainerElement, 'h3');
+            this.menu = titles.filter((element) => !!element.textContent)
+                .map((element) => {
+                    element.id = element.id || this.htmlIdGenerator(element.textContent);
+                    return {
                         url: element.id,
                         title: element.textContent
-                    });
-                }
-            };
+                    };
+                })
+        }, 0);
+    }
+
+    querySelectorAll(htmlElement: HTMLElement, selector: string): any[] {
+        const result = [];
+        const elements = htmlElement.querySelectorAll(selector);
+        for (let i = 0; i < elements.length; i++) {
+            result.push(elements[i]);
+
         }
+        return result;
     }
 
     htmlIdGenerator(textContent: string) {
-        const PREFIX = 'side-menu-id-';
-        return PREFIX + textContent.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9]/gmi, '');
+        return 'side-menu-id-' + textContent.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9]/gmi, '');
     }
 
-    scrollToFragment(titlesContainerElement: HTMLElement, fragment: string) {
-        if (this.hasToScroll) {
-            const elementTitle: HTMLElement = <HTMLElement>titlesContainerElement.querySelector('#' + this.fragment);
-            if (elementTitle !== null) {
-                const offset: number = this.calculateFixedNavbarOffsetBeforeScrollIntoView(titlesContainerElement);
-                elementTitle.scrollIntoView();
-                if (this.needsOffsetScrolling(elementTitle)) {
-                    window.scrollBy(0, -offset);
-                }
-                this.hasToScroll = false;
-            }
-        }
-    }
-
-    // Ugly solution to take into account the fixed navbar after scrollIntoView
-    calculateFixedNavbarOffsetBeforeScrollIntoView(titlesContainerElement: HTMLElement): number {
-        // Lets move to the start of the page so getBoundingClientRect give us the correct value
-        window.scroll(0, 0);
-        // Lets see where is located the titles container
-        let offset = titlesContainerElement.getBoundingClientRect().top;
-        // Add the top padding
-        offset += Number(window.getComputedStyle(titlesContainerElement).getPropertyValue('padding-top').replace('px', ''));
-        // Hand adjusted
-        offset += 15;
-        return offset;
-    }
-
-    needsOffsetScrolling(elementTitle: HTMLElement) {
-        return window.pageYOffset > elementTitle.offsetTop;
-    }
 }
 
 export interface HasTitlesContainer {

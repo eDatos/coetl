@@ -14,6 +14,8 @@
 
     border-right: $border-width solid $grey-medium;
 
+    z-index: $zindex-dropdown;
+
     /deep/ .side-menu-item {
         width: 100%;
         display: block;
