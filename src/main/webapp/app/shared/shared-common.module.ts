@@ -13,6 +13,7 @@ import {
     OrderListComponent,
     PaginationComponent,
     SpinnerComponent,
+    StepsComponent,
     StickyTableHeaderDirective,
     TriInputSwitchComponent,
 } from './';
@@ -32,6 +33,7 @@ import {
         PaginationComponent,
         AutofocusDirective,
         SpinnerComponent,
+        StepsComponent,
     ],
     providers: [
         JhiLanguageHelper,
@@ -53,6 +55,7 @@ import {
         PaginationComponent,
         AutofocusDirective,
         SpinnerComponent,
+        StepsComponent,
     ]
 })
 export class ArteApplicationTemplateSharedCommonModule { }
