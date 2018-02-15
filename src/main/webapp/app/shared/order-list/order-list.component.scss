@@ -9,6 +9,8 @@
     }
 
     ac-autocomplete /deep/ {
+        border-left: none !important;
+
         .ui-autocomplete-token {
             display: none;
         }
@@ -67,6 +69,16 @@
                         margin-top: unset;
                         right: $input-padding-x * 3;
                     }
+
+                    .icon-action {
+                        margin-right: 20px !important;
+                        margin-top: 1px !important;
+                    }
+                }
+                .ui-orderlist-item.ui-state-highlight {
+                    border: 1px solid $grey-medium;
+                    background: $white;
+                    color: $grey-darkest;
                 }
                 .ui-orderlist-droppoint {
                     &.ui-state-highlight {
@@ -96,9 +108,9 @@
         }
     }
 
-    &:required, &[required] {
+    &:required,
+    &[required] {
         ac-autocomplete /deep/ {
-            border-left: none;
             .entity-field-error {
                 padding-right: $grid-gutter-width-base/2 !important;
             }
