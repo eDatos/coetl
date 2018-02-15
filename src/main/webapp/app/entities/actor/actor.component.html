@@ -10,6 +10,7 @@
             </button>
         </h2>
     </div>
+    <ac-spinner *ngIf="!actores"></ac-spinner>
     <ng-container *ngIf="actores">
         <ng-container *ngIf="actores.length > 0;else emptyList">
             <div class="table-responsive has-datatable">

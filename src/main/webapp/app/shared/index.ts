@@ -26,6 +26,7 @@ export * from './sticky-table-header/sticky-table-header.directive';
 export * from './layouts';
 export * from './split-button';
 export * from './autocomplete';
+export * from './spinner';
 export * from './calendar'
 export * from './tri-input-switch';
 export * from './make-fixed-room';
