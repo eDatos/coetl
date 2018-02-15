@@ -91,20 +91,16 @@
 
     fieldset:disabled &,
     fieldset[disabled] &{
-        .order-list.is-empty {
-            display: none;
-        }
-        
-        p-orderList /deep/ {     
-            @extend %order-list-disabled;
-        }
-        ac-autocomplete {
-            display: none;
-        }
+        @extend %ac-order-list-disabled;
     }
+    &:disabled,
+    &[disabled] {
+        @extend %ac-order-list-disabled;
+    }
+
     p-orderList /deep/ { 
         .ui-orderlist.disabled {
-            @extend %order-list-disabled;
+            @extend %p-order-list-disabled;
         }
     }
 
@@ -118,13 +114,29 @@
     }
 }
 
-%order-list-disabled {
+%p-order-list-disabled {
     pointer-events: none;
 
     .fa-arrows-v:before {
         display: none;
     }
     .ui-autocomplete-token-icon:before {
+        display: none;
+    }
+}
+
+%ac-order-list-disabled {
+    .order-list {
+        border: $border-width solid transparent;
+        &.is-empty {
+            display: none;
+        }
+    }
+    
+    p-orderList /deep/ {     
+        @extend %p-order-list-disabled;
+    }
+    ac-autocomplete {
         display: none;
     }
 }
