@@ -110,6 +110,12 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     ngAfterViewInit() {
         this.autoComplete.onInputBlur = this.onInputBlur.bind(this);
+        this.autoComplete.isDropdownClick = this.isDropdownClick;
+    }
+
+    // Se sobreescribe el método de la librería para evitar error al comprobar si un padre null tiene la clase
+    isDropdownClick(event) {
+        return false;
     }
 
     // Override of autoComplete.onInputBlur to patch trailing spaces issue (https://github.com/primefaces/primeng/issues/4332)
@@ -192,15 +198,15 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
             .filter((suggestion) => {
                 if (this.propertiesToQuery.length > 0) {
                     return this.propertiesToQuery.findIndex((property) => {
-                        return this.queryContainsValue(query, suggestion[property]);
+                        return this.queryContainsValue(query, suggestion[property])
                     }) !== -1;
                 } else {
-                    return this.queryContainsValue(query, suggestion);
+                    return this.queryContainsValue(query, suggestion)
                 }
             });
     }
 
-    private queryContainsValue(query: string, value: string) {
+    private queryContainsValue(query: string, value: string): boolean {
         if (!value) { return false; }
         return value.toUpperCase().indexOf(query.toUpperCase()) !== -1;
     }
@@ -230,7 +236,6 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
             this.filteredSuggestions = this.getFilteredSuggestions(queryValue);
 
             setTimeout(() => {
-                this.autoComplete.noResults = !this.filteredSuggestions.length;
                 if (this.focusMustOpenPanel) {
                     this.autoComplete.show();
                 } else {
@@ -252,6 +257,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     set suggestions(suggestions: any[]) {
         this._suggestions = suggestions;
         this.filteredSuggestions = this.getFilteredSuggestions(this.getQueryValue());
+        this.autoComplete.noResults = !this.filteredSuggestions.length;
     }
 
     get suggestions(): any[] {
