@@ -1,4 +1,5 @@
 @import '~scss/variables';
+@import '~scss/mixins';
 
 $side-margin: 6px;
 
@@ -23,14 +24,23 @@ $side-margin: 6px;
         width: initial;
         background: $white;
         z-index: $zindex-popover;
-        border-radius: 0 0 $border-radius $border-radius !important;   
         margin-top: -5px; // Magic number!
+
+        padding: $spacer-y/2 0;
+        hr {
+            margin: $spacer-y/2 0;
+        }
+
+        right: 0;
 
         /deep/ ac-split-button-others {
             button {
-                width: 100%;
-                margin-top: 2px;
-                display: block;
+                @include menu-item();
+                padding-left: $spacer-x;
+                padding-right: $spacer-x;
+                &:hover {
+                    background: $grey-light;
+                }
             }
         }
     }
