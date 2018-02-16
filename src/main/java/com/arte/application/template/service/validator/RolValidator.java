@@ -4,11 +4,10 @@ import org.springframework.stereotype.Component;
 
 import com.arte.application.template.domain.Rol;
 import com.arte.application.template.web.rest.errors.CustomParameterizedException;
+import com.arte.application.template.web.rest.errors.ErrorConstants;
 
 @Component
 public class RolValidator extends AbstractValidator<Rol> {
-
-    private static final String ERROR_CODE_ROL_NEED_OPERACIONES = "error.rol.validation.rol-necesita-operaciones";
 
     @Override
     public void validate(Rol rol) {
@@ -19,7 +18,7 @@ public class RolValidator extends AbstractValidator<Rol> {
 
     private void checkRolHasOperaciones(Rol rol) {
         if (rol.getOperaciones() == null || rol.getOperaciones().isEmpty()) {
-            throw new CustomParameterizedException(ERROR_CODE_ROL_NEED_OPERACIONES);
+            throw new CustomParameterizedException("Role need Operations", ErrorConstants.ROLE_NEED_OPERATIONS);
         }
     }
 

@@ -1,16 +1,19 @@
 package com.arte.application.template.web.rest.errors;
 
-import org.springframework.dao.ConcurrencyFailureException;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.web.bind.annotation.*;
-
-import com.arte.application.template.web.rest.errors.CustomParameterizedException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.springframework.dao.ConcurrencyFailureException;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ExceptionTranslatorTestController {
@@ -26,15 +29,18 @@ public class ExceptionTranslatorTestController {
 
     @GetMapping("/test/parameterized-error")
     public void parameterizedError() {
-        throw new CustomParameterizedException("test parameterized error", "param0_value", "param1_value");
+        throw new CustomParameterizedException("test parameterized error", "error", "param0_value", "param1_value");
     }
 
     @GetMapping("/test/parameterized-error2")
     public void parameterizedError2() {
-        Map<String, String> params = new HashMap<>();
-        params.put("foo", "foo_value");
-        params.put("bar", "bar_value");
-        throw new CustomParameterizedException("test parameterized error", params);
+        List<ParameterizedErrorItem> errorItems = new ArrayList<>();
+        errorItems.add(new ParameterizedErrorItem("message1", "code1"));
+        errorItems.add(new ParameterizedErrorItem("message2", "code2", "param_code2"));
+        errorItems.add(new ParameterizedErrorItem("message3", "code3", "param1_code3", "param2_code3"));
+        String message = "test parameterized error";
+        String code = "error.test";
+        throw new CustomParameterizedException(message, code, errorItems);
     }
 
     @GetMapping("/test/access-denied")

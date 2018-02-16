@@ -111,15 +111,16 @@
         "internalServerError": "Error interno del servidor",
         "server.not.reachable": "Servidor no accesible",
         "url.not.found": "No encontrado",
-        "NotNull": "¡El campo {{fieldName}} no puede estar vacío!",
-        "Size": "¡El campo {{fieldName}} no cumple con los requisitos de tamaño mínimo/máximo!",
+        "NotNull": "¡El campo {{0}} no puede estar vacío!",
+        "Size": "¡El campo {{0}} no cumple con los requisitos de tamaño mínimo/máximo!",
         "usuario-existe": "El nombre de usuario introducido ya está siendo usado",
         "email-existe": "El email introducido ya está siendo usado",
-        "id-existe": "Un nuevo {{entityName}} no puede tener previamente un ID",
-        "entidad-no-encontrada": "Resultado de {{entityname}} no encontrado",
+        "id-existe": "Un nuevo {{0}} no puede tener previamente un ID",
+        "entidad-no-encontrada": "Resultado de {{0}} no encontrado",
         "userManagement": {
             "usuario-ldap-no-encontrado": "No se ha encontrado el usuario especificado"
         },
+        "helloWorld": "Esto es un {{0}} a todo el {{1}}",
         "file-empty": "El fichero está vacío",
         "rol": {
             "users-has-role": "No se puede eliminar un rol que está asignado a algunos usuarios"

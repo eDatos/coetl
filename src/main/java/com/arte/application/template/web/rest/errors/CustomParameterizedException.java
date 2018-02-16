@@ -1,7 +1,7 @@
 package com.arte.application.template.web.rest.errors;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Custom, parameterized exception, which can be translated on the client side.
@@ -21,29 +21,63 @@ public class CustomParameterizedException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String PARAM = "param";
-
+    private final String code;
     private final String message;
+    private final List<String> paramList = new ArrayList<>();
 
-    private final Map<String, String> paramMap = new HashMap<>();
+    private final List<ParameterizedErrorItem> errorItems;
 
-    public CustomParameterizedException(String code, String... params) {
-        super(code);
-        this.message = code;
+    public CustomParameterizedException(String message, Throwable e, String code, String... params) {
+        super(String.format(message, (params != null && params.length > 0) ? params : null), e);
+        this.code = code;
+        this.message = message;
         if (params != null && params.length > 0) {
             for (int i = 0; i < params.length; i++) {
-                paramMap.put(PARAM + i, params[i]);
+                paramList.add(params[i]);
+
             }
         }
+        this.errorItems = null;
     }
 
-    public CustomParameterizedException(String code, Map<String, String> paramMap) {
-        super(code);
-        this.message = code;
-        this.paramMap.putAll(paramMap);
+    public CustomParameterizedException(String message, Throwable e, String code, List<ParameterizedErrorItem> errorItems, String... params) {
+        super(String.format(message, (params != null && params.length > 0) ? params : null), e);
+        this.code = code;
+        this.message = message;
+        if (params != null && params.length > 0) {
+            for (int i = 0; i < params.length; i++) {
+                paramList.add(params[i]);
+
+            }
+        }
+        this.errorItems = errorItems;
     }
 
-    public ParameterizedErrorVM getErrorVM() {
-        return new ParameterizedErrorVM(message, paramMap);
+    public CustomParameterizedException(String message, String code, String... params) {
+        super(String.format(message, (params != null && params.length > 0) ? params : null));
+        this.code = code;
+        this.message = message;
+        if (params != null && params.length > 0) {
+            for (int i = 0; i < params.length; i++) {
+                paramList.add(params[i]);
+            }
+        }
+        this.errorItems = null;
+    }
+
+    public CustomParameterizedException(String message, String code, List<ParameterizedErrorItem> errorItems, String... params) {
+        super(String.format(message, (params != null && params.length > 0) ? params : null));
+        this.code = code;
+        this.message = message;
+        if (params != null && params.length > 0) {
+            for (int i = 0; i < params.length; i++) {
+                paramList.add(params[i]);
+            }
+        }
+        this.errorItems = errorItems;
+    }
+
+    public ParameterizedErrorVM getParameterizedErrorVM() {
+        return new ParameterizedErrorVM(message, code, paramList, errorItems);
     }
 }

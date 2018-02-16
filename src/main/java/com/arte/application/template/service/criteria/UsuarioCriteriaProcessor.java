@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import com.arte.application.template.domain.Usuario;
 import com.arte.application.template.service.criteria.util.CriteriaUtil;
 import com.arte.application.template.web.rest.errors.CustomParameterizedException;
+import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 import com.arte.libs.grammar.orm.jpa.criteria.CriteriaProcessorContext;
@@ -88,7 +89,8 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
                 ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_LOGIN, TABLE_FIELD_NOMBRE, TABLE_FIELD_APELLIDO1, TABLE_FIELD_APELLIDO2));
                 return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
             }
-            throw new CustomParameterizedException(String.format("Query param not supported: '%s", property));
+            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NOT_SUPPORTED, property.getLeftExpression(),
+                    property.getOperationType().name());
         }
 
         private Criterion usuariosConRoles(QueryPropertyRestriction property) {

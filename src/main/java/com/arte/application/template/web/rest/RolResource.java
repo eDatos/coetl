@@ -84,11 +84,11 @@ public class RolResource extends AbstractResource {
         log.debug("REST request to create Rol {}", rolDTO);
         Rol rol;
         if (rolDTO.getCodigo() == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.CODIGO_FALTA, "Un nuevo rol necesita un codigo")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.CODE_MISSING, "Un nuevo rol necesita un codigo")).body(null);
         }
         rol = rolService.findOne(rolDTO.getCodigo());
         if (rol != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_EXISTE, "El rol ya exsitía")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTITY_EXISTS, "El rol ya exsitía")).body(null);
         }
         rol = rolService.save(rolMapper.toEntity(rolDTO));
         auditPublisher.publish(AuditConstants.ROL_CREACION, rolDTO.getCodigo());
@@ -101,14 +101,14 @@ public class RolResource extends AbstractResource {
     public ResponseEntity<RolDTO> updateRol(@RequestBody RolDTO rolDTO) {
         log.debug("REST petición para actualizar Rol {}", rolDTO);
         if (rolDTO.getCodigo() == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.CODIGO_FALTA, "Un rol necesita un codigo")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.CODE_MISSING, "Un rol necesita un codigo")).body(null);
         }
         if (rolDTO.getId() == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, "Se necesita un identificador")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_MISSING, "Se necesita un identificador")).body(null);
         }
         Rol rol = rolService.findOne(rolDTO.getId());
         if (rol == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, "El rol a actualizar no se ha encontrado")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTITY_NOT_FOUND, "El rol a actualizar no se ha encontrado")).body(null);
         }
         rolMapper.update(rol, rolDTO);
         rolService.save(rol);

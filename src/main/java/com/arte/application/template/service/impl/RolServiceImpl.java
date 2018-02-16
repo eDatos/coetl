@@ -72,7 +72,7 @@ public class RolServiceImpl implements RolService {
         }
         Rol rol = rolRepository.findOneByCodigo(codigo);
         if (rol == null) {
-            throw new CustomParameterizedException(ErrorConstants.ENTIDAD_NO_ENCONTRADA, codigo);
+            throw new CustomParameterizedException(String.format("Role '%s' not found", codigo), ErrorConstants.ENTITY_NOT_FOUND, codigo);
         }
         rolRepository.delete(rol.getId());
     }

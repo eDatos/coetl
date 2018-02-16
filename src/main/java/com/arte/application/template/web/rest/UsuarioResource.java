@@ -86,7 +86,7 @@ public class UsuarioResource extends AbstractResource {
         log.debug("REST Petición para guardar User : {}", managedUserVM);
 
         if (managedUserVM.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "Un usuario no puede tener ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTS, "Un usuario no puede tener ID")).body(null);
         } else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USER_EXISTS, "Login ya en uso")).body(null);
         } else if (userRepository.findOneByEmail(managedUserVM.getEmail()).isPresent()) {

@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import com.arte.application.template.domain.Pelicula;
 import com.arte.application.template.service.criteria.util.CriteriaUtil;
 import com.arte.application.template.web.rest.errors.CustomParameterizedException;
+import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 import com.arte.libs.grammar.orm.jpa.criteria.CriteriaProcessorContext;
@@ -95,7 +96,8 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
             if (QueryProperty.ACTORES.name().equalsIgnoreCase(property.getLeftExpression()) && "IN".equalsIgnoreCase(property.getOperationType().name())) {
                 return queryByActores(property);
             }
-            throw new CustomParameterizedException(String.format("Query param not supported: '%s", property));
+            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NOT_SUPPORTED, property.getLeftExpression(),
+                    property.getOperationType().name());
         }
 
         private Criterion queryByIds(QueryPropertyRestriction property) {
