@@ -35,8 +35,8 @@
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.titulo.label"></span>
                                 <span class="fa fa-sort"></span>
                                 <!-- **MANDATORY:** El <span class="row-selector"> ó <div class="row-selector"> que incluye al <p-checkbox> debe ser 
-                                    incluído en el primer <TH> y además debe ser el último elemento del <TH>^1.
-                                    :   1. *La directiva `jhiSort` confía en que los dos primeros elementos son los <span> para el nombre y los iconos "sort"* -->
+                                    incluído en el primer <TH> y además debe ser el último elemento del <TH>.
+                                    :   *La directiva `jhiSort` confía en que los dos primeros elementos son los <span> para el nombre y los iconos "sort"* -->
                                 <span class="row-selector" (click)="$event.stopPropagation()">
                                     <p-checkbox binary="true" [disabled]="isDeleting" (onChange)="toggleVisibleSelection()" [ngModel]="allVisibleIdsAreSelected()"></p-checkbox>
                                 </span>
