@@ -37,7 +37,7 @@ export class OrderListComponent implements ControlValueAccessor {
     public disabled = false;
 
     @Input()
-    public required = true;
+    public required = false;
 
     @Input()
     public debouncedMode: boolean;

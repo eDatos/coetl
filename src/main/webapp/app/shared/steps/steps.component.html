@@ -1,0 +1,12 @@
+<div class="wizard">
+    <div *ngFor="let step of steps; let i = index" class="step">
+        <div class="bubble-wrapper" [class.past-step]="isPastStep(step)" [class.current-step]="isCurrentStep(step)">
+            <button class="bubble btn" type="button" [disabled]="!isPastStep(step) && !isCurrentStep(step)" (click)="stepAction(step)">
+                {{i + 1}}
+            </button>
+        </div>
+        <div class="step-title">
+            <ng-container *ngTemplateOutlet="titleTemplate; context: {$implicit: step}"></ng-container>
+        </div>
+    </div>
+</div>

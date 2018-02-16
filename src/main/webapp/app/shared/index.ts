@@ -27,6 +27,8 @@ export * from './layouts';
 export * from './split-button';
 export * from './autocomplete';
 export * from './spinner';
+export * from './scroll';
+export * from './steps';
 export * from './calendar'
 export * from './tri-input-switch';
 export * from './make-fixed-room';

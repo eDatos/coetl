@@ -17,3 +17,8 @@ $fa-font-path: '~font-awesome/fonts';
         opacity: 1;
     }
 }
+
+// Fix wrong icon
+.fa.fa-pencil-square-o {
+    margin-top: 1px !important;
+}
