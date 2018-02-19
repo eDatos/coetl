@@ -62,7 +62,7 @@ public class IdiomaResource extends AbstractResource {
     public ResponseEntity<IdiomaDTO> createIdioma(@Valid @RequestBody IdiomaDTO idiomaDTO) throws URISyntaxException {
         log.debug("REST request to save Idioma : {}", idiomaDTO);
         if (idiomaDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTS, "A new idioma cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "A new idioma cannot already have an ID")).body(null);
         }
         Idioma idioma = idiomaMapper.toEntity(idiomaDTO);
         IdiomaDTO result = idiomaMapper.toDto(idiomaService.save(idioma));

@@ -125,7 +125,6 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
             return this.parseErrorListResponse(errorResponse);
         } else {
             return this.translateService.instant(errorResponse.code, errorResponse.paramList);
-            // return this.replace(this.translateService.instant(errorResponse.code), errorResponse.paramList);
         }
     }
 

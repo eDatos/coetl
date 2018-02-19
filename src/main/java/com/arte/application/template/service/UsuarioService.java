@@ -92,7 +92,7 @@ public class UsuarioService {
 
     public void restore(Usuario usuario) {
         if (usuario == null) {
-            throw new CustomParameterizedException("User not valid", ErrorConstants.USER_NOT_VALID);
+            throw new CustomParameterizedException("User not valid", ErrorConstants.USUARIO_NO_VALIDO);
         }
         usuario.setDeletionDate(null);
         usuarioRepository.save(usuario);

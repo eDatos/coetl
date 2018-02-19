@@ -65,7 +65,7 @@ public class ActorCriteriaProcessor extends AbstractCriteriaProcessor {
                 ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_NOMBRE, TABLE_FIELD_APELLIDO1, TABLE_FIELD_APELLIDO2));
                 return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
             }
-            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NOT_SUPPORTED, property.getLeftExpression(),
+            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(),
                     property.getOperationType().name());
         }
 

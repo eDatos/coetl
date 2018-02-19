@@ -62,7 +62,7 @@ public class CategoriaResource extends AbstractResource {
     public ResponseEntity<CategoriaDTO> createCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO) throws URISyntaxException {
         log.debug("REST request to save Categoria : {}", categoriaDTO);
         if (categoriaDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTS, "A new categoria cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "A new categoria cannot already have an ID")).body(null);
         }
         Categoria categoria = categoriaMapper.toEntity(categoriaDTO);
         CategoriaDTO result = categoriaMapper.toDto(categoriaService.save(categoria));

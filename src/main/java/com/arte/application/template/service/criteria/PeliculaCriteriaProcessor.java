@@ -96,7 +96,7 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
             if (QueryProperty.ACTORES.name().equalsIgnoreCase(property.getLeftExpression()) && "IN".equalsIgnoreCase(property.getOperationType().name())) {
                 return queryByActores(property);
             }
-            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NOT_SUPPORTED, property.getLeftExpression(),
+            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(),
                     property.getOperationType().name());
         }
 

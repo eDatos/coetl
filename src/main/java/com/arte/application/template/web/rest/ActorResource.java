@@ -68,7 +68,7 @@ public class ActorResource extends AbstractResource {
     public ResponseEntity<ActorDTO> createActor(@Valid @RequestBody ActorDTO actorDTO) throws URISyntaxException {
         log.debug("REST request to save Actor : {}", actorDTO);
         if (actorDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTS, "A new actor cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "A new actor cannot already have an ID")).body(null);
         }
         Actor actor = actorService.save(actorMapper.toEntity(actorDTO));
         ActorDTO result = actorMapper.toDto(actor);

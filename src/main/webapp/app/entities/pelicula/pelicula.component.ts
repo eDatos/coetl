@@ -125,17 +125,9 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         });
         this.categoriaService.query().subscribe((res) => {
             this.filters.allCategorias = res.json;
-            /* this.activatedRoute.queryParams.subscribe((params) => {
-                this.filters.fromQueryParams(params);
-                this.loadAll();
-            }); */
         });
         this.idiomaService.query().subscribe((res) => {
             this.filters.allIdiomas = res.json;
-            /* this.activatedRoute.queryParams.subscribe((params) => {
-                this.filters.fromQueryParams(params);
-                this.loadAll();
-            }); */
         });
 
         this.registerChangeInPeliculas();

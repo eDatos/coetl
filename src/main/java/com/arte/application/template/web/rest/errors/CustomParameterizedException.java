@@ -1,6 +1,7 @@
 package com.arte.application.template.web.rest.errors;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class CustomParameterizedException extends RuntimeException {
 
     private final String code;
     private final String message;
-    private final List<String> paramList = new ArrayList<>();
+    private final List<String> paramList;
 
     private final List<ParameterizedErrorItem> errorItems;
 
@@ -31,12 +32,7 @@ public class CustomParameterizedException extends RuntimeException {
         super(String.format(message, (params != null && params.length > 0) ? params : null), e);
         this.code = code;
         this.message = message;
-        if (params != null && params.length > 0) {
-            for (int i = 0; i < params.length; i++) {
-                paramList.add(params[i]);
-
-            }
-        }
+        this.paramList = (params == null) ? new LinkedList<>() : Arrays.asList(params);
         this.errorItems = null;
     }
 
@@ -44,12 +40,7 @@ public class CustomParameterizedException extends RuntimeException {
         super(String.format(message, (params != null && params.length > 0) ? params : null), e);
         this.code = code;
         this.message = message;
-        if (params != null && params.length > 0) {
-            for (int i = 0; i < params.length; i++) {
-                paramList.add(params[i]);
-
-            }
-        }
+        this.paramList = (params == null) ? new LinkedList<>() : Arrays.asList(params);
         this.errorItems = errorItems;
     }
 
@@ -57,11 +48,7 @@ public class CustomParameterizedException extends RuntimeException {
         super(String.format(message, (params != null && params.length > 0) ? params : null));
         this.code = code;
         this.message = message;
-        if (params != null && params.length > 0) {
-            for (int i = 0; i < params.length; i++) {
-                paramList.add(params[i]);
-            }
-        }
+        this.paramList = (params == null) ? new LinkedList<>() : Arrays.asList(params);
         this.errorItems = null;
     }
 
@@ -69,11 +56,7 @@ public class CustomParameterizedException extends RuntimeException {
         super(String.format(message, (params != null && params.length > 0) ? params : null));
         this.code = code;
         this.message = message;
-        if (params != null && params.length > 0) {
-            for (int i = 0; i < params.length; i++) {
-                paramList.add(params[i]);
-            }
-        }
+        this.paramList = (params == null) ? new LinkedList<>() : Arrays.asList(params);
         this.errorItems = errorItems;
     }
 

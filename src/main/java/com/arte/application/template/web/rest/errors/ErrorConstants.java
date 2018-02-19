@@ -8,23 +8,24 @@ public final class ErrorConstants {
     public static final String ERR_METHOD_NOT_SUPPORTED = "error.methodNotSupported";
     public static final String ERR_INTERNAL_SERVER_ERROR = "error.internalServerError";
 
-    public static final String USER_EXISTS = "error.usuario-existe";
-    public static final String USER_LDAP_NOT_FOUND = "error.userManagement.usuario-ldap-no-encontrado";
-    public static final String USER_NOT_VALID = "error.userManagement.usuario-no-valido";
+    public static final String USUARIO_EXISTE = "error.usuario-existe";
+    public static final String USUARIO_LDAP_NO_ENCONTRADO = "error.userManagement.usuario-ldap-no-encontrado";
+    public static final String USUARIO_NO_VALIDO = "error.userManagement.usuario-no-valido";
 
-    public static final String ROLE_NEED_OPERATIONS = "error.rol.validation.rol-necesita-operaciones";
+    public static final String ROL_NECESITA_OPERACIONES = "error.rol.validation.rol-necesita-operaciones";
+    public static final String ROL_NO_ENCONTRADO = "error.rol-no-encontrado";
 
-    public static final String FILE_EMPTY = "error.file-empty";
-    public static final String FILE_NOT_FOUND = "error.file-not-found";
+    public static final String FICHERO_VACIO = "error.file-empty";
+    public static final String FICHERO_NO_ENCONTRADO = "error.file-not-found";
 
-    public static final String ENTITY_EXISTS = "error.entidad-existe";
-    public static final String ENTITY_NOT_FOUND = "error.entidad-no-encontrada";
-    public static final String ID_EXISTS = "error.id-existe";
-    public static final String ID_MISSING = "error.id-falta";
-    public static final String CODE_MISSING = "error.codigo-falta";
-    public static final String EMAIL_EXISTS = "error.email-existe";
+    public static final String ENTIDAD_EXISTE = "error.entidad-existe";
+    public static final String ENTIDAD_NO_ENCONTRADA = "error.entidad-no-encontrada";
+    public static final String ID_EXISTE = "error.id-existe";
+    public static final String ID_FALTA = "error.id-falta";
+    public static final String CODIGO_FALTA = "error.codigo-falta";
+    public static final String EMAIL_EXISTE = "error.email-existe";
 
-    public static final String QUERY_NOT_SUPPORTED = "error.query-no-soportada";
+    public static final String QUERY_NO_SOPORTADA = "error.query-no-soportada";
 
     private ErrorConstants() {
     }

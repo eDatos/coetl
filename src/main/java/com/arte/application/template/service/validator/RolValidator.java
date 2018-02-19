@@ -18,7 +18,7 @@ public class RolValidator extends AbstractValidator<Rol> {
 
     private void checkRolHasOperaciones(Rol rol) {
         if (rol.getOperaciones() == null || rol.getOperaciones().isEmpty()) {
-            throw new CustomParameterizedException("Role need Operations", ErrorConstants.ROLE_NEED_OPERATIONS);
+            throw new CustomParameterizedException("Role need Operations", ErrorConstants.ROL_NECESITA_OPERACIONES);
         }
     }
 

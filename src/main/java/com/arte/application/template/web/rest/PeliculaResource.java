@@ -78,7 +78,7 @@ public class PeliculaResource extends AbstractResource {
     public ResponseEntity<PeliculaDTO> createPelicula(@Valid @RequestBody PeliculaDTO peliculaDTO) throws URISyntaxException {
         log.debug("REST request to save Pelicula : {}", peliculaDTO);
         if (peliculaDTO.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTS, "Una nueva película no debe de tener ID")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "Una nueva película no debe de tener ID")).body(null);
         }
         Pelicula pelicula = peliculaMapper.toEntity(peliculaDTO);
         PeliculaDTO result = peliculaMapper.toDto(peliculaService.save(pelicula));
@@ -99,7 +99,7 @@ public class PeliculaResource extends AbstractResource {
     public ResponseEntity<PeliculaDTO> updatePelicula(@Valid @RequestBody PeliculaDTO peliculaDTO) throws URISyntaxException {
         log.debug("REST request to update Pelicula : {}", peliculaDTO);
         if (peliculaDTO.getId() == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_MISSING, ID_MISSING_MESSAGE)).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, ID_MISSING_MESSAGE)).body(null);
         }
         Pelicula pelicula = peliculaMapper.toEntity(peliculaDTO);
         PeliculaDTO result = peliculaMapper.toDto(peliculaService.save(pelicula));
@@ -182,18 +182,18 @@ public class PeliculaResource extends AbstractResource {
     public ResponseEntity<PeliculaDTO> bindDocumento(@Valid @PathVariable Long peliculaId, @PathVariable Long documentoId) {
         log.debug("REST request to bind a Documento to Pelicula : {}", peliculaId);
         if (peliculaId == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_MISSING, ID_MISSING_MESSAGE)).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, ID_MISSING_MESSAGE)).build();
         }
 
         Pelicula pelicula = peliculaService.findOne(peliculaId);
         if (pelicula == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTITY_NOT_FOUND, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
         }
 
         Documento documento = documentoService.findOne(documentoId);
         if (documento == null) {
             return ResponseEntity.badRequest()
-                    .headers(HeaderUtil.createFailureAlert(ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTITY_NOT_FOUND, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME_DOCUMENTO))).build();
+                    .headers(HeaderUtil.createFailureAlert(ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME_DOCUMENTO))).build();
         }
 
         PeliculaDTO result = peliculaMapper.toDto(peliculaService.bindDocumento(pelicula, documento));
@@ -215,12 +215,12 @@ public class PeliculaResource extends AbstractResource {
     public ResponseEntity<PeliculaDTO> unbindDocumento(@Valid @PathVariable Long peliculaId) {
         log.debug("REST request to unbind a Documento to Pelicula : {}", peliculaId);
         if (peliculaId == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_MISSING, ID_MISSING_MESSAGE)).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, ID_MISSING_MESSAGE)).build();
         }
 
         Pelicula pelicula = peliculaService.findOne(peliculaId);
         if (pelicula == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTITY_NOT_FOUND, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
         }
 
         Long documentoId = pelicula.getDocumento().getId();
