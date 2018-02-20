@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
+import com.arte.application.template.domain.Actor.Genero;
+
 /**
  * A DTO for the Actor entity.
  */
@@ -21,6 +23,10 @@ public class ActorDTO implements Serializable {
     private String apellido1;
 
     private String apellido2;
+
+    private Genero genero;
+
+    private boolean oscarizado;
 
     public Long getId() {
         return id;
@@ -54,6 +60,22 @@ public class ActorDTO implements Serializable {
         this.apellido2 = apellido2;
     }
 
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    public boolean isOscarizado() {
+        return oscarizado;
+    }
+
+    public void setOscarizado(boolean oscarizado) {
+        this.oscarizado = oscarizado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -77,6 +99,12 @@ public class ActorDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ActorDTO{" + "id=" + getId() + ", nombre='" + getNombre() + "'" + ", apellido1='" + getApellido1() + "'" + ", apellido2='" + getApellido2() + "'" + "}";
+        //@formatter:off
+        return "ActorDTO{" + "id=" + getId() + 
+                ", nombre='" + getNombre() + "'" + 
+                ", apellido1='" + getApellido1() + "'" + 
+                ", apellido2='" + getApellido2() + "'" + 
+                ", genero='" + getGenero() + "'" + "}";
+        //@formatter:on
     }
 }

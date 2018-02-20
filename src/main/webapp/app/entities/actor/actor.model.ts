@@ -1,6 +1,11 @@
 import { Pelicula } from '../pelicula/pelicula.model';
 import { BaseEntity } from './../../shared';
 
+export enum Genero {
+    MASCULINO = 'MASCULINO',
+    FEMENINO = 'FEMENINO'
+}
+
 export class Actor implements BaseEntity {
 
     constructor(
@@ -8,6 +13,8 @@ export class Actor implements BaseEntity {
         public nombre?: string,
         public apellido1?: string,
         public apellido2?: string,
+        public genero?: Genero,
+        public oscarizado = false,
         public peliculas?: Pelicula[],
     ) {
     }

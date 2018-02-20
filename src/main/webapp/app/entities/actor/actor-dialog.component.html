@@ -12,7 +12,12 @@
         <div class="modal-body">
             <fieldset>
                     <div class="entity-fields">
-                        <div class="form-group full-width">
+                        <div class="form-group">
+                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.genero.label" for="field_genero">Genero</label>
+                            <ac-autocomplete [multiple]="false" name="genero" [(ngModel)]="selectedGenero" [suggestions]="generos" [itemTemplate]="generoItemTemplate"
+                                [minLength]="1" [placeholder]="'arteApplicationTemplateApp.actor.genero.placeholder' | translate" field="value" ></ac-autocomplete>
+                        </div>
+                        <div class="form-group">
                             <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.nombre" for="field_nombre">Nombre</label>
                             <input type="text" class="form-control" name="nombre" id="field_nombre"
                                 [(ngModel)]="actor.nombre" required acAutofocus />
@@ -39,9 +44,70 @@
                             <input type="text" class="form-control" name="apellido2" id="field_apellido2"
                                 [(ngModel)]="actor.apellido2" />
                         </div>
+                        <div class="form-group">
+                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.oscarizado" for="field_genero">Genero</label>
+                            <ac-tri-input-switch [(ngModel)]="actor.oscarizado" [required]="false" [ngModelOptions]="{ standalone: true }"
+                                [nullable]="true" ></ac-tri-input-switch>
+                        </div>
                     </div>
-                </div>
             </fieldset>
+            <div *ngIf="actor.id" class="section-buttons">
+                <fieldset>
+                        <ng-container *ngIf="!ordenandoPeliculas">
+                            <button class="btn btn-primary add-button"
+                                type="button" (click)="crearNuevaPelicula()">
+                                <i class="fa fa-plus"></i>
+                                <span jhiTranslate="arteApplicationTemplateApp.actor.peliculas.crear"></span>
+                            </button>
+                        </ng-container>   
+                        <!-- Botones de ordenación -->                     
+                        <ng-container *ngIf="!ordenandoPeliculas">
+                            <button class="btn btn-primary add-button"
+                                type="button" (click)="activarReordenarPeliculas()">
+                                <i class="fa fa-arrows-v"></i>
+                                <span jhiTranslate="arteApplicationTemplateApp.actor.peliculas.reordenar"></span>
+                            </button>
+                        </ng-container>
+                        <ng-container *ngIf="ordenandoPeliculas">
+                            <button class="btn btn-default add-button"
+                                type="button" (click)="cancelarReordenarPeliculas()">
+                                <i class="fa fa-times"></i>
+                                <span jhiTranslate="arteApplicationTemplateApp.actor.peliculas.cancelar"></span>
+                            </button>
+                            <button class="btn btn-primary add-button"
+                                type="button" (click)="guardarReordenarPeliculas()">
+                                <i class="fa fa-floppy-o"></i>
+                                <span jhiTranslate="arteApplicationTemplateApp.actor.peliculas.guardar"></span>
+                            </button>
+                        </ng-container>
+                </fieldset>
+            </div>
+        
+            <h3 *ngIf="actor.id">
+                <span jhiTranslate="arteApplicationTemplateApp.actor.peliculas.title">Peliculas</span>
+            </h3>
+        
+            <div *ngIf="actor.id" class="entity-fields">
+                <div class="form-group full-width">
+                    <fieldset>
+                        <p-orderList [class.disabled]="!ordenandoPeliculas" [value]="peliculas" dragdrop="false" metaKeySelection="true" dragdropScope="tablaPelicula">
+                            <ng-template let-item pTemplate="item">
+                                <div class="fila-pelicula">
+                                    <!-- Mockeo para la ordenación de películas -->
+                                    <!-- <span class="orden-pelicula">{{item.orden}}</span> --> 
+                                    <span class="titulo-pelicula">{{ item.titulo }}</span>
+                                    <span class="fecha-pelicula">{{ item.fechaEstreno | date: 'dd/MM/yyyy' }}</span>
+                                    <span class="categorias-pelicula">
+                                        <div *ngFor="let categoria of item.categorias" class="categoria-item">
+                                            <span class="badge badge-info">{{ categoria.nombre }}</span>
+                                        </div>
+                                    </span>
+                                </div>
+                            </ng-template>
+                        </p-orderList>
+                    </fieldset>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <ng-container *ngIf="!isDeleting">

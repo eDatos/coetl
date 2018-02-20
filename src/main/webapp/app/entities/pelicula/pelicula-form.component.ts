@@ -71,6 +71,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
             this.pelicula = new Pelicula();
             this.pelicula.actores = [];
             this.pelicula.categorias = [];
+            this.actorService.actorSource.subscribe((actor) => this.pelicula.actores.push(actor));
         }
 
         this.searchCategorias();

@@ -1,0 +1,40 @@
+@import '~scss/mixins';
+
+.fila-pelicula {
+    display: flex;
+    flex-wrap: wrap;
+
+    span {
+        @include make-col-ready();
+
+        overflow: hidden; 
+        white-space: nowrap; 
+        text-overflow: ellipsis;
+        // Mocked style para la ordenación
+        /* &.orden-pelicula {
+            @include make-col(1)
+        } */
+
+        &.titulo-pelicula {
+            @include make-col(5);
+        }
+
+        &.categorias-pelicula {
+            @include make-col(4);
+            white-space: normal;
+            
+            div.categoria-item {
+                display: inline-block;
+                margin-left: 0.5rem
+            }
+        }
+        
+        &.fecha-pelicula {
+            @include make-col(3);
+        }
+    }
+}
+
+.btn:disabled {
+    display: none;
+}

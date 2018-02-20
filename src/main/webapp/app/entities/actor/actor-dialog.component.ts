@@ -1,19 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { Observable } from 'rxjs/Rx';
 
 import { ResponseWrapper } from '../../shared';
 import { Pelicula, PeliculaFilter, PeliculaService } from '../pelicula';
 import { ActorPopupService } from './actor-popup.service';
-import { Actor } from './actor.model';
+import { Actor, Genero } from './actor.model';
 import { ActorService } from './actor.service';
 
 @Component({
     selector: 'jhi-actor-dialog',
-    templateUrl: './actor-dialog.component.html'
+    templateUrl: './actor-dialog.component.html',
+    styleUrls: ['./actor-dialog.component.scss']
 })
 export class ActorDialogComponent implements OnInit {
 
@@ -22,14 +24,21 @@ export class ActorDialogComponent implements OnInit {
     isDeleting: boolean;
 
     peliculas: Pelicula[];
+    copiaPeliculas: Pelicula[];
     peliculaFilter: PeliculaFilter;
+    generos: any[];
+    selectedGenero: any;
+    ordenandoPeliculas = false;
+    canAddPeliculas = true;
 
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private actorService: ActorService,
+        private transalteService: TranslateService,
         private peliculaService: PeliculaService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private router: Router
     ) {
         this.peliculaFilter = new PeliculaFilter();
     }
@@ -42,6 +51,10 @@ export class ActorDialogComponent implements OnInit {
             this.peliculaService.query({ query: this.peliculaFilter.toQuery() })
                 .subscribe((res: ResponseWrapper) => { this.peliculas = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         }
+        this.generos = Object.keys(Genero).map((key) => Object.assign({}, {
+            id: key, value: this.transalteService.instant('arteApplicationTemplateApp.actor.genero.' + key)
+        }));
+        this.selectedGenero = this.generos.find((g) => g.id === this.actor.genero);
     }
 
     clear() {
@@ -50,6 +63,7 @@ export class ActorDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.actor.genero = this.selectedGenero && this.selectedGenero.id ? this.selectedGenero.id : undefined;
         if (this.actor.id !== undefined) {
             this.subscribeToSaveResponse(
                 this.actorService.update(this.actor));
@@ -114,6 +128,30 @@ export class ActorDialogComponent implements OnInit {
     private onDeleteError(error): void {
         this.isDeleting = false;
         this.onError(error);
+    }
+
+    public generoItemTemplate(item: any) {
+        return item.value;
+    }
+
+    public crearNuevaPelicula() {
+        this.clear();
+        this.actorService.actorSource.next(this.actor);
+        this.router.navigate(['pelicula-new']);
+    }
+
+    public activarReordenarPeliculas() {
+        this.ordenandoPeliculas = true;
+        this.copiaPeliculas = this.peliculas.map((pelicula) => Object.assign({}, pelicula));
+    }
+
+    public cancelarReordenarPeliculas() {
+        this.peliculas = this.copiaPeliculas.map((pelicula) => Object.assign({}, pelicula));
+        this.ordenandoPeliculas = false;
+    }
+
+    public guardarReordenarPeliculas() {
+        console.log('This is a mock! It is needed to prepare backend!');
     }
 }
 

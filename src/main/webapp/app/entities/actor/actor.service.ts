@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable, ReplaySubject } from 'rxjs/Rx';
 
 import { createRequestOption, ResponseWrapper } from '../../shared';
 import { Actor } from './actor.model';
@@ -9,6 +9,8 @@ import { Actor } from './actor.model';
 export class ActorService {
 
     private resourceUrl = 'api/actores';
+
+    actorSource: ReplaySubject<Actor> = new ReplaySubject<Actor>();
 
     constructor(private http: Http) { }
 
