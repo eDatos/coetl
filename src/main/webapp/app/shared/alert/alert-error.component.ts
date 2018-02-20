@@ -3,6 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { Subscription } from 'rxjs/Rx';
 
+import { AcAlertService } from './alert.service';
+
 @Component({
     selector: 'jhi-alert-error',
     template: `
@@ -21,7 +23,11 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
     cleanHttpErrorListener: Subscription;
 
     // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-    constructor(public alertService: JhiAlertService, private eventManager: JhiEventManager, private translateService: TranslateService) {
+    constructor(
+        public alertService: JhiAlertService,
+        public acAlertService: AcAlertService,
+        private eventManager: JhiEventManager,
+        private translateService: TranslateService) {
         this.cleanHttpErrorListener = eventManager.subscribe('arteApplicationTemplateApp.httpError', (response) => {
             let i;
             const httpResponse = response.content;
@@ -62,7 +68,8 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
                                 'Error on field "' + fieldName + '"', 'error.' + fieldError.message, { fieldName });
                         }
                     } else if (httpResponse.text() !== '' && httpResponse.json() && httpResponse.json().message) {
-                        this.addErrorAlert(httpResponse.json().message, httpResponse.json().message, httpResponse.json().params);
+                        // CustomParameterizedException
+                        this.acAlertService.error(this.parseErrorResponse(httpResponse.json()));
                     } else if (httpResponse.text()) {
                         this.addErrorAlert(httpResponse.text());
                     } else {
@@ -111,5 +118,27 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
                 this.alerts
             )
         );
+    }
+
+    private parseErrorResponse(errorResponse: any): string {
+        if (errorResponse.errorItems) {
+            return this.parseErrorListResponse(errorResponse);
+        } else {
+            return this.translateService.instant(errorResponse.code, errorResponse.paramList);
+        }
+    }
+
+    private parseErrorListResponse(errorResponse: any): string {
+        let formattedText = '<div class="alerts-list">';
+        formattedText += `<h4>${this.translateService.instant(errorResponse.code, errorResponse.paramList)}</h4>`;
+
+        formattedText += `<ul>`;
+        errorResponse.errorItems.forEach((error) => {
+            const translatedMessage = this.translateService.instant(error.code, error.paramList);
+            formattedText += `<li>${translatedMessage}</li>`;
+        });
+        formattedText += `</ul>`;
+        formattedText += `</div>`;
+        return formattedText;
     }
 }

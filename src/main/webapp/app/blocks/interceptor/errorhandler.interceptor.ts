@@ -1,5 +1,5 @@
-import { JhiHttpInterceptor, JhiEventManager } from 'ng-jhipster';
 import { RequestOptionsArgs, Response } from '@angular/http';
+import { JhiEventManager, JhiHttpInterceptor } from 'ng-jhipster';
 import { Observable } from 'rxjs/Observable';
 
 export class ErrorHandlerInterceptor extends JhiHttpInterceptor {

@@ -82,10 +82,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
             size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
             sort: this.sort(),
             query: this.filters.toQuery()
-        }).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
-        );
+        }).subscribe((res: ResponseWrapper) => this.onSuccess(res.json, res.headers));
     }
 
     loadPage(page: number) {
@@ -128,17 +125,9 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         });
         this.categoriaService.query().subscribe((res) => {
             this.filters.allCategorias = res.json;
-            this.activatedRoute.queryParams.subscribe((params) => {
-                this.filters.fromQueryParams(params);
-                this.loadAll();
-            });
         });
         this.idiomaService.query().subscribe((res) => {
             this.filters.allIdiomas = res.json;
-            this.activatedRoute.queryParams.subscribe((params) => {
-                this.filters.fromQueryParams(params);
-                this.loadAll();
-            });
         });
 
         this.registerChangeInPeliculas();
@@ -174,10 +163,6 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
         this.peliculas = data;
-    }
-
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
     }
 
     public delete(): void {

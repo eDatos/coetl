@@ -61,7 +61,7 @@ public class DocumentoResource extends AbstractResource {
     public ResponseEntity<DocumentoDTO> createDocumento(@RequestParam("file") MultipartFile file) throws URISyntaxException {
         log.debug("REST petición para guardar Documento : {}", file);
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.FILE_EMPTY, "Uploaded file is empty")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.FICHERO_VACIO, "Uploaded file is empty")).body(null);
         }
         Documento result = documentoService.create(file);
         DocumentoDTO resultDTO = documentoMapper.toDto(result);
@@ -109,7 +109,7 @@ public class DocumentoResource extends AbstractResource {
                 StreamUtils.copy(is, os);
             } catch (IOException | SQLException e) {
                 log.error("Exception obtaining the file {}", id, e);
-                throw new CustomParameterizedException(String.format("Exception obtaining the file %s", id));
+                throw new CustomParameterizedException(String.format("Exception obtaining the file %s", id), ErrorConstants.FICHERO_NO_ENCONTRADO);
             }
         }
     }

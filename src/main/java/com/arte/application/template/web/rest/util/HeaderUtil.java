@@ -42,7 +42,7 @@ public final class HeaderUtil {
     public static HttpHeaders createFailureAlert(String entityName, String errorKey, String defaultMessage) {
         log.error("Entity processing failed, {}", defaultMessage);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-arteApplicationTemplate-error", "error." + errorKey);
+        headers.add("X-arteApplicationTemplate-error", errorKey);
         headers.add("X-arteApplicationTemplate-params", entityName);
         return headers;
     }

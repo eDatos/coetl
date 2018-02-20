@@ -88,9 +88,9 @@ public class UsuarioResource extends AbstractResource {
         if (managedUserVM.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "Un usuario no puede tener ID")).body(null);
         } else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USER_EXISTS, "Login ya en uso")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_EXISTE, "Login ya en uso")).body(null);
         } else if (userRepository.findOneByEmail(managedUserVM.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.EMAIL_EXISTS, "Email ya en uso")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.EMAIL_EXISTE, "Email ya en uso")).body(null);
         } else {
             Usuario newUser = usuarioService.createUsuario(usuarioMapper.userDTOToUser(managedUserVM));
             mailService.sendCreationEmail(newUser);
@@ -106,13 +106,13 @@ public class UsuarioResource extends AbstractResource {
         log.debug("REST petición para actualizar User : {}", managedUserVM);
         Optional<Usuario> existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.EMAIL_EXISTS, "Email ya en uso")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.EMAIL_EXISTE, "Email ya en uso")).body(null);
         }
         if (!existingUser.isPresent()) {
             existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
         }
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USER_EXISTS, "Login ya en uso")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_EXISTE, "Login ya en uso")).body(null);
         }
         if (!existingUser.isPresent()) {
             existingUser = Optional.ofNullable(userRepository.findOne(managedUserVM.getId()));
@@ -149,7 +149,7 @@ public class UsuarioResource extends AbstractResource {
         log.debug("REST petición para obtener  User from LDAP : {}", login);
         UsuarioLdapEntry usuarioLdap = ldapService.buscarUsuarioLdap(login);
         if (usuarioLdap == null) {
-            return ResponseEntity.notFound().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USER_LDAP_NOT_FOUND, "No se ha encontrado el usuario LDAP")).build();
+            return ResponseEntity.notFound().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_LDAP_NO_ENCONTRADO, "No se ha encontrado el usuario LDAP")).build();
         }
         UsuarioDTO usuarioDTO = usuarioMapper.usuarioLdapEntryToUsuarioDTO(usuarioLdap);
         return ResponseEntity.ok().body(usuarioDTO);

@@ -25,6 +25,7 @@ import com.arte.application.template.repository.RolRepository;
 import com.arte.application.template.repository.UsuarioRepository;
 import com.arte.application.template.security.SecurityUtils;
 import com.arte.application.template.web.rest.errors.CustomParameterizedException;
+import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.util.QueryUtil;
 
 @Service
@@ -91,7 +92,7 @@ public class UsuarioService {
 
     public void restore(Usuario usuario) {
         if (usuario == null) {
-            throw new CustomParameterizedException("error.userManagement.usuario-no-valido");
+            throw new CustomParameterizedException("User not valid", ErrorConstants.USUARIO_NO_VALIDO);
         }
         usuario.setDeletionDate(null);
         usuarioRepository.save(usuario);

@@ -52,7 +52,7 @@ public class ExceptionTranslator {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ParameterizedErrorVM processParameterizedValidationError(CustomParameterizedException ex) {
-        return ex.getErrorVM();
+        return ex.getParameterizedErrorVM();
     }
 
     @ExceptionHandler(AccessDeniedException.class)
