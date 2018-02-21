@@ -17,7 +17,7 @@
                 <p-dataTable ableStyleClass="table table-hover" [value]="actoresUnionPeliculas" expandableRowGroups="true" rowGroupMode="subheader" groupField="actorId"
                      (onRowClick)="navigate($event)">
                     <ng-template pTemplate="rowgroupheader" let-rowData >
-                        <div class="row-group-item" (click)="editActor(rowData.actorId)">{{rowData.nombre}}</div>
+                        <div class="row-group-item" (click)="editActor(rowData.actorId)">{{rowData.nombre}} <span *ngIf="rowData.oscarizado" class="fa fa-trophy"></span> </div>
                     </ng-template>
                     <p-column field="titulo" header="Películas" >
                     </p-column>

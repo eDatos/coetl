@@ -18,7 +18,20 @@
             "nombre": "Nombre",
             "apellido1": "Apellido 1",
             "apellido2": "Apellido 2",
-            "peliculas": "Películas"
+            "peliculas": {
+                "title": "Películas",
+                "crear": "Crear nueva película",
+                "reordenar": "Reordenar",
+                "cancelar": "Cancelar",
+                "guardar": "Aceptar"
+            },
+            "genero": {
+                "label": "Género",
+                "placeholder": "Género",
+                "MASCULINO": "Masculino",
+                "FEMENINO": "Femenino"
+            },
+            "oscarizado": "¿Oscarizado?"
         }
     }
 }

@@ -29,7 +29,7 @@ public class ExceptionTranslatorTestController {
 
     @GetMapping("/test/parameterized-error")
     public void parameterizedError() {
-        throw new CustomParameterizedException("test parameterized error", "error", "param0_value", "param1_value");
+        throw new CustomParameterizedException("test parameterized error", "error.test", "param0_value", "param1_value");
     }
 
     @GetMapping("/test/parameterized-error2")
@@ -40,7 +40,7 @@ public class ExceptionTranslatorTestController {
         errorItems.add(new ParameterizedErrorItem("message3", "code3", "param1_code3", "param2_code3"));
         String message = "test parameterized error";
         String code = "error.test";
-        throw new CustomParameterizedException(message, code, errorItems);
+        throw new CustomParameterizedException(message, code, errorItems, "param0_value", "param1_value");
     }
 
     @GetMapping("/test/access-denied")

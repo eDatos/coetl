@@ -7,6 +7,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,6 +30,10 @@ public class Actor implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public enum Genero {
+        MASCULINO, FEMENINO
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "actor_id_seq")
     @SequenceGenerator(name = "actor_id_seq", sequenceName = "actor_id_seq", allocationSize = 50, initialValue = 10)
@@ -41,8 +47,15 @@ public class Actor implements Serializable {
     @Column(name = "apellido_1", nullable = false)
     private String apellido1;
 
-    @Column(name = "apellido_2", nullable = false)
+    @Column(name = "apellido_2")
     private String apellido2;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "genero")
+    private Genero genero;
+
+    @Column(name = "oscarizado")
+    private boolean oscarizado;
 
     @ManyToMany(mappedBy = "actores")
     private Set<Pelicula> peliculas = new HashSet<>();
@@ -77,6 +90,22 @@ public class Actor implements Serializable {
 
     public void setApellido2(String apellido2) {
         this.apellido2 = apellido2;
+    }
+
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public boolean isOscarizado() {
+        return oscarizado;
+    }
+
+    public void setOscarizado(boolean oscarizado) {
+        this.oscarizado = oscarizado;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
     }
 
     public void addPelicula(Pelicula pelicula) {
@@ -124,6 +153,12 @@ public class Actor implements Serializable {
 
     @Override
     public String toString() {
-        return "Actor{" + "id=" + getId() + ", nombre='" + getNombre() + "'" + ", apellido1='" + getApellido1() + "'" + ", apellido2='" + getApellido2() + "'" + "}";
+        //@formatter:off
+        return "Actor{" + "id=" + getId() + 
+                ", nombre='" + getNombre() + "'" + 
+                ", apellido1='" + getApellido1() + "'" + 
+                ", apellido2='" + getApellido2() + "'" + 
+                ", genero='" + getGenero() + "'" + "}";
+      //@formatter:on
     }
 }

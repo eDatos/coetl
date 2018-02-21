@@ -159,11 +159,13 @@ export class ActorComponent implements OnInit, OnDestroy {
             const copy = Object.assign(new Actor(), actor);
             this.peliculas.filter((pelicula) => pelicula.actores.findIndex((predicate) => predicate.id === actor.id) > -1).forEach((pelicula) => {
                 hasPelicula = true;
-                const aux = Object.assign(new ActorUPelicula(), { actorId: copy.id, nombre: copy.normalizeName(), peliculaId: pelicula.id, titulo: pelicula.titulo });
+                const aux = Object.assign(new ActorUPelicula(), { actorId: copy.id, nombre: copy.normalizeName(), oscarizado: copy.oscarizado,
+                    peliculaId: pelicula.id, titulo: pelicula.titulo });
                 this.actoresUnionPeliculas.push(aux);
             });
             if (!hasPelicula) {
-                const aux = Object.assign(new ActorUPelicula(), { actorId: copy.id, nombre: copy.normalizeName(), peliculaId: undefined, titulo: undefined });
+                const aux = Object.assign(new ActorUPelicula(), { actorId: copy.id, nombre: copy.normalizeName(), oscarizado: copy.oscarizado,
+                    peliculaId: undefined, titulo: undefined });
                 this.actoresUnionPeliculas.push(aux);
             }
         });
@@ -193,6 +195,7 @@ class ActorUPelicula {
     constructor(
         actorId?: number,
         nombre?: string,
+        oscarizado?: boolean,
         peliculaId?: number,
         titulo?: string
     ) {}
