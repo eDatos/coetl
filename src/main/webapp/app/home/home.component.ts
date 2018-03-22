@@ -3,7 +3,16 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router, Data } from '@angular/router';
 import { UserRouteAccessService, Principal, Account } from '../shared';
-import { DEFAULT_ROUTE } from '../admin/user-management/user-management.route';
+import { OperacionService } from '../entities/operacion';
+
+/**
+ * FIXME
+ * La constante DEFAULT_PATH debe contener el path de primer nivel al que los usuarios acceden al entrar a la aplicación.
+ * La constante DEFAULT_OPERACIONES debe contener las operaciones que debe tener el usuario que quiere acceder a esta página por defecto
+ * Estas constantes deben ser luego usadas en el route en cuestión del componente al que corresponden
+ **/
+export const DEFAULT_PATH = 'user-management';
+export const DEFAULT_OPERACIONES = ['LEER:USUARIO'];
 
 @Component({
     selector: 'jhi-home',
@@ -16,6 +25,7 @@ export class HomeComponent implements OnInit {
     constructor(
         private principal: Principal,
         private userRouteAccessService: UserRouteAccessService,
+        private operacionService: OperacionService,
         private router: Router
     ) { }
 
@@ -30,9 +40,9 @@ export class HomeComponent implements OnInit {
             if (account.deletionDate) {
                 this.router.navigate(['blocked']);
             }
-            this.userRouteAccessService.checkLogin(this.userRouteAccessService.operacionesFromRoute(DEFAULT_ROUTE)).then((canActivate) => {
+            this.userRouteAccessService.checkLogin(this.operacionService.operacionFromString(DEFAULT_OPERACIONES)).then((canActivate) => {
                 if (canActivate) {
-                    this.router.navigate([DEFAULT_ROUTE.path]);
+                    this.router.navigate([DEFAULT_PATH]);
                 }
             });
         });

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, CanActivate, Route } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 
 import { JhiPaginationUtil } from 'ng-jhipster';
 
@@ -8,6 +8,7 @@ import { UserMgmtFormComponent } from './user-management-form.component';
 import { UserDeleteDialogComponent } from './user-management-delete-dialog.component';
 
 import { Principal, UserRouteAccessService } from '../../shared';
+import { DEFAULT_PATH, DEFAULT_OPERACIONES } from '../../home/home.component';
 
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
@@ -25,24 +26,19 @@ export class UserResolvePagingParams implements Resolve<any> {
     }
 }
 
-// FIXME La constante DEFAULT_ROUTE debe contener el path de primer nivel al que los usuarios acceden
-// al entrar a la aplicación. Se opta por esta aproximación porque hacen falta las operaciones luego
-// para comprobar si se puede acceder
-export const DEFAULT_ROUTE: Route = {
-    path: 'user-management',
-    canActivate: [UserRouteAccessService],
-    component: UserMgmtComponent,
-    resolve: {
-        'pagingParams': UserResolvePagingParams
-    },
-    data: {
-        pageTitle: 'userManagement.home.title',
-        operaciones: 'LEER:USUARIO'
-    }
-};
-
 export const userMgmtRoute: Routes = [
-    DEFAULT_ROUTE,
+    {
+        path: DEFAULT_PATH,
+        canActivate: [UserRouteAccessService],
+        component: UserMgmtComponent,
+        resolve: {
+            'pagingParams': UserResolvePagingParams
+        },
+        data: {
+            pageTitle: 'userManagement.home.title',
+            operaciones: DEFAULT_OPERACIONES
+        }
+    },
     {
         path: 'user-management/:login',
         canActivate: [UserRouteAccessService],
