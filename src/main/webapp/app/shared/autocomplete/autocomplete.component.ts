@@ -80,9 +80,14 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     @Input()
     public createNonFound = false;
 
+    @Input()
+    public deleteOnBackspace = true;
+
     private myNewLabel = '';
 
     public internalItemTemplate: Function;
+
+    private autoCompleteOnKeydown: Function;
 
     private onModelChange: Function = () => { };
 
@@ -111,6 +116,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     ngAfterViewInit() {
         this.autoComplete.onInputBlur = this.onInputBlur.bind(this);
         this.autoComplete.isDropdownClick = this.isDropdownClick;
+
+        this.autoCompleteOnKeydown = this.autoComplete.onKeydown.bind(this.autoComplete);
+        this.autoComplete.onKeydown = this.onKeydown.bind(this);
     }
 
     // Se sobreescribe el método de la librería para evitar error al comprobar si un padre null tiene la clase
@@ -148,6 +156,14 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
                 this.autoComplete.onModelChange(this.autoComplete.value);
             }
+        }
+    }
+
+    // Partial override of keydown method so we can avoid to delete on backspace
+    onKeydown(event) {
+        const BACKSPACE = 8;
+        if (this.deleteOnBackspace || event.which !== BACKSPACE) {
+            this.autoCompleteOnKeydown(event);
         }
     }
 
