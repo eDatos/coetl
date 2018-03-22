@@ -92,12 +92,12 @@
                     <fieldset>
                         <p-orderList [class.disabled]="!ordenandoPeliculas" [value]="peliculas" dragdrop="false" metaKeySelection="true" dragdropScope="tablaPelicula">
                             <ng-template let-item pTemplate="item">
-                                <div class="fila-pelicula">
+                                <div class="orderlist-row">
                                     <!-- Mockeo para la ordenación de películas -->
                                     <!-- <span class="orden-pelicula">{{item.orden}}</span> --> 
-                                    <span class="titulo-pelicula">{{ item.titulo }}</span>
-                                    <span class="fecha-pelicula">{{ item.fechaEstreno | date: 'dd/MM/yyyy' }}</span>
-                                    <span class="categorias-pelicula">
+                                    <span class="orderlist-cell titulo-pelicula">{{ item.titulo }}</span>
+                                    <span class="orderlist-cell fecha-pelicula">{{ item.fechaEstreno | date: 'dd/MM/yyyy' }}</span>
+                                    <span class="orderlist-cell categorias-pelicula">
                                         <div *ngFor="let categoria of item.categorias" class="categoria-item">
                                             <span class="badge badge-info">{{ categoria.nombre }}</span>
                                         </div>
