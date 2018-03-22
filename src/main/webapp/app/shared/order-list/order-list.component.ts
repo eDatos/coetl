@@ -51,6 +51,9 @@ export class OrderListComponent implements ControlValueAccessor {
     @Output()
     public onComplete: EventEmitter<QueryEmitter> = new EventEmitter();
 
+    @Output()
+    private onSelect: EventEmitter<any> = new EventEmitter();
+
     @Input()
     public itemTemplate: Function = (item) => item;
 
@@ -121,5 +124,9 @@ export class OrderListComponent implements ControlValueAccessor {
 
     registerOnTouched(fn: Function): void {
         this.onModelTouched = fn;
+    }
+
+    onSelectMethod($event) {
+        this.onSelect.emit($event);
     }
 }

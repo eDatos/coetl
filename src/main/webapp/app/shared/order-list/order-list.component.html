@@ -2,7 +2,7 @@
     <ng-container *ngIf="!disabled">
         <ac-autocomplete name="acOrderList" [(ngModel)]="orderedList" [suggestions]="suggestions" [itemTemplate]="itemTemplate" [propertiesToQuery]="propertiesToQuery"
         [required]="required" (onBlur)="onBlurMethod($event)" [debouncedMode]="debouncedMode" (completeMethod)="onCompleteMethod($event)"
-        [deleteOnBackspace]="false"></ac-autocomplete>
+        [deleteOnBackspace]="false" (onSelect)="onSelectMethod($event)"></ac-autocomplete>
     </ng-container>
     <p-orderList [styleClass]="disabled ? 'disabled': ''" [value]="orderedList" dragdrop="dragAndDrop" [dragdropScope]="dragAndDropScope"
         (onReorder)="onReorder()" [styleClass]="hasControls ? 'has-controls' : ''" [metaKeySelection]="false">
