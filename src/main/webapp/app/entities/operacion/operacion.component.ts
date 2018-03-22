@@ -58,9 +58,8 @@ export class OperacionComponent implements OnInit, OnDestroy {
             sort: this.sort(),
             query: filters ? filters.toQuery() : '',
         }).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
-            );
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers)
+        );
     }
     loadPage(page: number) {
         if (page !== this.previousPage) {
@@ -129,8 +128,5 @@ export class OperacionComponent implements OnInit, OnDestroy {
     private onSuccess(data, headers) {
         this.operaciones = data;
         this.setIsEmptyList();
-    }
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
     }
 }

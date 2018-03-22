@@ -11,7 +11,7 @@ import { AcAlertService } from './alert.service';
         <div *ngIf="alertService.isToast() && hasAlerts()" class="alert-backdrop"></div>
         <div class="alerts" role="alert" [ngClass]="{\'toast\':alertService.isToast()}">
             <div *ngFor="let alert of alerts" [class]="alert.position">
-                <ngb-alert *ngIf="alert && alert.type && alert.msg" [type]="alert.type" (close)="alert.close(alerts)" (click)="alert.close(alerts)">
+                <ngb-alert *ngIf="alert && alert.type" [type]="alert.type" (close)="alert.close(alerts)" (click)="alert.close(alerts)">
                     <pre [innerHTML]="alert.msg"></pre>
                 </ngb-alert>
             </div>

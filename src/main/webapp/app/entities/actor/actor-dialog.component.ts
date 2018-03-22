@@ -49,7 +49,7 @@ export class ActorDialogComponent implements OnInit {
         if (this.actor.id !== undefined) {
             this.peliculaFilter.actores = Array.of<Actor>(this.actor);
             this.peliculaService.query({ query: this.peliculaFilter.toQuery() })
-                .subscribe((res: ResponseWrapper) => { this.peliculas = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+                .subscribe((res: ResponseWrapper) => { this.peliculas = res.json; });
         }
         this.generos = Object.keys(Genero).map((key) => Object.assign({}, {
             id: key, value: this.transalteService.instant('arteApplicationTemplateApp.actor.genero.' + key)
@@ -75,7 +75,7 @@ export class ActorDialogComponent implements OnInit {
 
     private subscribeToSaveResponse(result: Observable<Actor>) {
         result.subscribe((res: Actor) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
     }
 
     private onSaveSuccess(result: Actor) {
@@ -84,18 +84,8 @@ export class ActorDialogComponent implements OnInit {
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError(error) {
-        try {
-            error.json();
-        } catch (exception) {
-            error.message = error.text();
-        }
+    private onSaveError() {
         this.isSaving = false;
-        this.onError(error);
-    }
-
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
     }
 
     trackPeliculaById(index: number, item: Pelicula) {
@@ -127,7 +117,6 @@ export class ActorDialogComponent implements OnInit {
 
     private onDeleteError(error): void {
         this.isDeleting = false;
-        this.onError(error);
     }
 
     public generoItemTemplate(item: any) {

@@ -69,9 +69,8 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
             size: this.itemsPerPage,
             sort: this.sort(),
         }).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
-            );
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers)
+        );
     }
 
     sort() {
@@ -101,9 +100,5 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
 
     private onSuccess(data, headers) {
         this.roles = data;
-    }
-
-    private onError(error) {
-        this.alertService.error(error.error, error.message, null);
     }
 }

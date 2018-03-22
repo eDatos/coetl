@@ -65,8 +65,7 @@ export class ActorComponent implements OnInit, OnDestroy {
             size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
             sort: this.sort(),
         }).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers)
         );
     }
 
@@ -146,8 +145,7 @@ export class ActorComponent implements OnInit, OnDestroy {
             (res: ResponseWrapper) => {
                 this.peliculas = res.json;
                 this.setActoresUnionPeliculas();
-            },
-            (res: ResponseWrapper) => this.onError(res.json)
+            }
         );
     }
 
@@ -169,10 +167,6 @@ export class ActorComponent implements OnInit, OnDestroy {
                 this.actoresUnionPeliculas.push(aux);
             }
         });
-    }
-
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
     }
 
     public editActor(actorId: number): void {

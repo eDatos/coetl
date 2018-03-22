@@ -65,8 +65,4 @@ export class OperacionDialogComponent implements OnInit {
     private back() {
         this.router.navigate(['operacion']);
     }
-
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
-    }
 }

@@ -122,7 +122,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
 
     private subscribeToSaveResponse(result: Observable<Pelicula>) {
         result.subscribe((res: Pelicula) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
     }
 
     private onSaveSuccess(result: Pelicula) {
@@ -131,18 +131,8 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.router.navigate(['pelicula', result.id]);
     }
 
-    private onSaveError(error) {
-        try {
-            error.json();
-        } catch (exception) {
-            error.message = error.text();
-        }
+    private onSaveError() {
         this.isSaving = false;
-        this.onError(error);
-    }
-
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
     }
 
     delete() {
@@ -162,7 +152,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
             sort: ['asc']
         }).subscribe((res: ResponseWrapper) => {
             this.categorias = res.json;
-        }, (res: ResponseWrapper) => this.onError(res.json()));
+        });
     }
 
     public categoriaItemTemplate(categoria: any): string {
@@ -176,7 +166,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
             sort: ['asc']
         }).subscribe((res: ResponseWrapper) => {
             this.idiomas = res.json;
-        }, (res: ResponseWrapper) => this.onError(res.json()));
+        });
     }
 
     public idiomaItemTemplate(idioma: any): string {
@@ -189,8 +179,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
             size: 20,
             sort: ['apellido1,asc']
         }).subscribe(
-            (res: ResponseWrapper) => this.actores = res.json,
-            (res: ResponseWrapper) => this.onError(res.json));
+            (res: ResponseWrapper) => this.actores = res.json);
     }
 
     public actorItemTemplate(actor): string {
@@ -202,7 +191,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.peliculaService
             .desasociarDocumento(this.pelicula.id).subscribe(
             (res: Pelicula) => this.onDocumentoSuccess(res),
-            (res: Response) => this.onSaveError(res));
+            (res: Response) => this.onSaveError());
     }
 
     public onDocumentoUpload(event) {
@@ -210,7 +199,7 @@ export class PeliculaFormComponent implements OnInit, AfterViewInit, OnDestroy, 
         this.peliculaService
             .asociarDocumento(this.pelicula.id, response.id).subscribe(
             (res: Pelicula) => this.onDocumentoSuccess(res),
-            (res: Response) => this.onSaveError(res));
+            (res: Response) => this.onSaveError());
     }
 
     private onDocumentoSuccess(result: Pelicula) {

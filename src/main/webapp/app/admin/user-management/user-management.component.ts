@@ -88,9 +88,8 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
             query: userFilter ? userFilter.toQuery() : '',
             includeDeleted: userFilter ? userFilter.includeDeleted : false,
         }).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
-            );
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers)
+        );
     }
 
     trackIdentity(index, item: User) {
@@ -125,9 +124,5 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
         this.users = data;
-    }
-
-    private onError(error) {
-        this.alertService.error(error.error, error.message, null);
     }
 }
