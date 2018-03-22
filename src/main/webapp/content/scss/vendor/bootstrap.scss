@@ -2,6 +2,9 @@
 @import '~scss/mixins';
 @import 'node_modules/bootstrap/scss/bootstrap';
 
+.form-control {
+    font-weight: $font-weight-normal;
+}
 // Overriding _normalize.scss
 button,
 input,

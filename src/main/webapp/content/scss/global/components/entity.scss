@@ -188,6 +188,7 @@ fieldset {
                 @include make-col-ready();
                 @include make-col(8);  
                 border-bottom: $border-width solid $grey-light;
+                font-weight: $font-weight-normal;
             }
         }
         
