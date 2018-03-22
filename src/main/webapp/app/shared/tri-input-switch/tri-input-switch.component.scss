@@ -29,7 +29,7 @@ fieldset[disabled] {
     }
 }
 
-$same-with-si-and-no: 38px;
+$same-width-si-and-no: 40px;
 p-selectButton /deep/ .ui-button-text-only .ui-button-text {
-    min-width: $same-with-si-and-no;
+    min-width: $same-width-si-and-no;
 }
