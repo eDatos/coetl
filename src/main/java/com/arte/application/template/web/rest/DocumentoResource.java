@@ -1,11 +1,7 @@
 package com.arte.application.template.web.rest;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.SQLException;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.arte.application.template.domain.Documento;
 import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.web.rest.dto.DocumentoDTO;
-import com.arte.application.template.web.rest.errors.CustomParameterizedException;
 import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.DocumentoMapper;
+import com.arte.application.template.web.rest.util.ControllerUtil;
 import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.codahale.metrics.annotation.Timed;
 
@@ -102,15 +97,7 @@ public class DocumentoResource extends AbstractResource {
         if (documento == null) {
             response.setStatus(HttpStatus.NOT_FOUND.value());
         } else {
-            response.setContentLength(documento.getLength().intValue());
-            response.setContentType(documento.getDataContentType());
-            response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", documento.getName()));
-            try (InputStream is = documento.getData().getBinaryStream(); OutputStream os = response.getOutputStream()) {
-                StreamUtils.copy(is, os);
-            } catch (IOException | SQLException e) {
-                log.error("Exception obtaining the file {}", id, e);
-                throw new CustomParameterizedException(String.format("Exception obtaining the file %s", id), ErrorConstants.FICHERO_NO_ENCONTRADO);
-            }
+            ControllerUtil.download(documento, response);
         }
     }
 
