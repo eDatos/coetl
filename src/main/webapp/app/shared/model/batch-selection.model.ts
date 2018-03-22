@@ -1,6 +1,6 @@
 export class BatchSelection {
     allSelected: Boolean = false;
-    selectedIds: number[] = [];
+    selectedIds: any[] = [];
 
     hasSelection(): boolean {
         return this.selectedIds.length > 0;
@@ -10,7 +10,7 @@ export class BatchSelection {
         return this.getCriterias().join(' AND ');
     }
 
-    toggleIds(visibleIds: number[]) {
+    toggleIds(visibleIds: any[]) {
         if (this.allVisibleIdsAreSelected(visibleIds)) {
             this.removeIds(visibleIds);
         } else {
@@ -18,12 +18,12 @@ export class BatchSelection {
         }
     }
 
-    removeIds(ids: number[]) {
+    removeIds(ids: any[]) {
         this.selectedIds = this.selectedIds.filter((id) => ids.indexOf(id) === -1);
     }
 
     // Add without duplicates
-    addIds(ids: number[]) {
+    addIds(ids: any[]) {
         const newSelectedIds = [];
         this.selectedIds.concat(ids).map((id) => {
             if (newSelectedIds.indexOf(id) === -1) {
@@ -33,7 +33,7 @@ export class BatchSelection {
         this.selectedIds = newSelectedIds;
     }
 
-    allVisibleIdsAreSelected(visibleIds: number[]): boolean {
+    allVisibleIdsAreSelected(visibleIds: any[]): boolean {
         // Comprueba si todos los elementos visibles estan seleccionados
         return visibleIds.every((id) => this.selectedIds.indexOf(id) > -1);
     }
