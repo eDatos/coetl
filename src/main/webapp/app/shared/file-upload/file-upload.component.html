@@ -3,7 +3,7 @@
 
     </ng-content>
     <ng-container *ngIf="!disabled && canUpload()">
-        <p-fileUpload [name]="name" [url]="url" (onUpload)="onUploadMethod($event)" (onSelect)="onSelectMethod($event)" [maxFileSize]="maxFileSize"
+        <p-fileUpload [name]="name" [url]="url" (onUpload)="onUploadMethod($event)" (onSelect)="onSelectMethod($event)" (onError)="onErrorMethod($event)" [maxFileSize]="maxFileSize"
             [disabled]="disabled" [mode]="mode" [accept]="accept" [chooseLabel]="'arteApplicationTemplateApp.documento.choose' | translate"
             [uploadLabel]="'arteApplicationTemplateApp.documento.upload' | translate" [cancelLabel]="'arteApplicationTemplateApp.documento.cancel' | translate"
             [invalidFileSizeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileSizeMessageSummary' | translate" [invalidFileSizeMessageDetail]="'arteApplicationTemplateApp.documento.invalidFileSizeMessageDetail' | translate"

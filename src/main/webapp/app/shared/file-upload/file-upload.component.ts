@@ -50,6 +50,9 @@ export class FileUploadComponent implements OnInit, OnChanges {
     @Output()
     private onUpload: EventEmitter<any> = new EventEmitter();
 
+    @Output()
+    private onError: EventEmitter<any> = new EventEmitter();
+
     @ViewChild(FileUpload)
     public fileUpload: FileUpload;
 
@@ -69,6 +72,10 @@ export class FileUploadComponent implements OnInit, OnChanges {
 
     onUploadMethod($event) {
         this.onUpload.emit($event);
+    }
+
+    onErrorMethod($event) {
+        this.onError.emit($event);
     }
 
     onSelectMethod($event) {
