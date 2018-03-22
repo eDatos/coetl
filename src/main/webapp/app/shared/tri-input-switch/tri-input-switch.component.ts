@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
@@ -27,6 +27,9 @@ export class TriInputSwitchComponent implements OnInit, ControlValueAccessor {
 
     @Input()
     disabled: boolean;
+
+    @Output()
+    private onChange: EventEmitter<any> = new EventEmitter();
 
     options: any[];
 
@@ -73,4 +76,8 @@ export class TriInputSwitchComponent implements OnInit, ControlValueAccessor {
     }
 
     registerOnTouched() { }
+
+    onChangeMethod($event) {
+        this.onChange.emit($event);
+    }
 }
