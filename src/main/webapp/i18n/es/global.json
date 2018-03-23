@@ -98,7 +98,8 @@
             "empty": {
                 "sorry": "Lo sentimos.",
                 "detail": "No se han obtenido resultados que cumplan los criterios de búsqueda.",
-                "create-new-item": "(Añadir nuevo)"
+                "createNewIitem": "(Añadir nuevo)",
+                "writeForSuggestions": "Empiece a escribir para sugerir resultados"
             }
         }
     },

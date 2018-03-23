@@ -2,6 +2,7 @@ package com.arte.application.template.service.impl;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.arte.application.template.domain.Idioma;
 import com.arte.application.template.repository.IdiomaRepository;
 import com.arte.application.template.service.IdiomaService;
+import com.arte.application.template.web.rest.util.QueryUtil;
 
 /**
  * Service Implementation for managing Idioma.
@@ -21,9 +23,12 @@ public class IdiomaServiceImpl implements IdiomaService {
     private final Logger log = LoggerFactory.getLogger(IdiomaServiceImpl.class);
 
     private final IdiomaRepository idiomaRepository;
+    
+    private QueryUtil queryUtil;
 
-    public IdiomaServiceImpl(IdiomaRepository idiomaRepository) {
+    public IdiomaServiceImpl(IdiomaRepository idiomaRepository, QueryUtil queryUtil) {
         this.idiomaRepository = idiomaRepository;
+        this.queryUtil = queryUtil;
     }
 
     /**
@@ -47,6 +52,13 @@ public class IdiomaServiceImpl implements IdiomaService {
     public List<Idioma> findAll() {
         log.debug("Request to get all Idiomas");
         return idiomaRepository.findAll();
+    }
+
+    @Override
+    public List<Idioma> findAll(String query) {
+        log.debug("Petición para buscar idiomas con query {}", query);
+        DetachedCriteria criteria = queryUtil.queryToIdiomaCriteria(null, query);
+        return idiomaRepository.findAll(criteria);
     }
 
     /**

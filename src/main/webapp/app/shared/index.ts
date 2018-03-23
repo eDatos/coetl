@@ -1,4 +1,5 @@
 export * from './constants/pagination.constants';
+export * from './value-accesor';
 export * from './alert';
 export * from './autofocus';
 export * from './auth/csrf.service';

@@ -100,9 +100,8 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
 	        			"SELECT" + 
 	        			"	UR.USUARIO_ID " + 
 	        			"FROM " + 
-	        			"	USUARIO_ROL UR, " + 
-	        			"WHERE " + 
-	        			"	AND (UR.ROL_ID " + property.getOperationType() + " (%s) )" +
+	        			"	USUARIO_ROL UR " + 
+	        			"WHERE (UR.ROL_ID " + property.getOperationType() + " (%s) )" +
 	        			")", 
 	        			property.getRightExpressions().stream().collect(Collectors.joining(",")));
 	            // @formatter:on

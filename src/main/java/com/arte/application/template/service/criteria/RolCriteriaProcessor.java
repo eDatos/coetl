@@ -3,6 +3,7 @@ package com.arte.application.template.service.criteria;
 import com.arte.application.template.domain.Rol;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 import com.arte.libs.grammar.orm.jpa.criteria.OrderProcessorBuilder;
+import com.arte.libs.grammar.orm.jpa.criteria.RestrictionProcessorBuilder;
 
 public class RolCriteriaProcessor extends AbstractCriteriaProcessor {
 
@@ -20,6 +21,12 @@ public class RolCriteriaProcessor extends AbstractCriteriaProcessor {
     @Override
     public void registerProcessors() {
         //@formatter:off
+        registerRestrictionProcessor(
+                RestrictionProcessorBuilder.stringRestrictionProcessor()
+                .withQueryProperty(QueryProperty.NOMBRE)
+                .withEntityProperty(ENTITY_FIELD_NOMBRE)
+                .build());
+        
 		registerOrderProcessor(
 	            OrderProcessorBuilder.orderProcessor()
 	                .withQueryProperty(QueryProperty.CODIGO)

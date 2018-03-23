@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Component;
 
 import com.arte.application.template.service.criteria.ActorCriteriaProcessor;
+import com.arte.application.template.service.criteria.IdiomaCriteriaProcessor;
 import com.arte.application.template.service.criteria.OperacionCriteriaProcessor;
 import com.arte.application.template.service.criteria.PeliculaCriteriaProcessor;
 import com.arte.application.template.service.criteria.RolCriteriaProcessor;
@@ -35,6 +36,10 @@ public class QueryUtil {
 
     public DetachedCriteria queryToRolCriteria(Pageable pageable, String query) {
         return queryToCriteria(pageable, query, new RolCriteriaProcessor());
+    }
+    
+    public DetachedCriteria queryToIdiomaCriteria(Pageable pageable, String query) {
+        return queryToCriteria(pageable, query, new IdiomaCriteriaProcessor());
     }
 
     public DetachedCriteria queryToPeliculaCriteria(Pageable pageable, String query) {

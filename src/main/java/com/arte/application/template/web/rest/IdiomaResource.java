@@ -28,6 +28,7 @@ import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.codahale.metrics.annotation.Timed;
 
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 
 /**
  * REST controller for managing Idioma.
@@ -97,9 +98,9 @@ public class IdiomaResource extends AbstractResource {
      */
     @GetMapping
     @Timed
-    public List<IdiomaDTO> getAllIdiomas() {
+    public List<IdiomaDTO> getIdiomas(@ApiParam(required = false) String query) {
         log.debug("REST request to get all Idiomas");
-        return idiomaMapper.toDto(idiomaService.findAll());
+        return idiomaMapper.toDto(idiomaService.findAll(query));
     }
 
     /**

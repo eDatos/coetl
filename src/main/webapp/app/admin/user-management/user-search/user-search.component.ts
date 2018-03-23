@@ -23,6 +23,7 @@ export class UserSearchComponent implements OnInit, OnDestroy, OnChanges {
 
     constructor(
         private eventManager: JhiEventManager,
+        private rolService: RolService
     ) {
         this.filters = new UserFilter();
     }
@@ -57,6 +58,11 @@ export class UserSearchComponent implements OnInit, OnDestroy, OnChanges {
 
     rolItemTemplate(item: Rol) {
         return item.nombre;
+    }
+
+    completeMethodRoles(event) {
+        this.rolService.query({ query: `NOMBRE ILIKE '%${event.query}%'` })
+            .subscribe((result) => this.roles = result.json);
     }
 
     private filtersToUrl() {

@@ -1,9 +1,12 @@
 package com.arte.application.template.repository;
 
-import com.arte.application.template.domain.Idioma;
+import java.util.List;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import org.springframework.data.jpa.repository.*;
+import com.arte.application.template.domain.Idioma;
 
 
 /**
@@ -12,5 +15,6 @@ import org.springframework.data.jpa.repository.*;
 @SuppressWarnings("unused")
 @Repository
 public interface IdiomaRepository extends JpaRepository<Idioma,Long> {
-    
+ 
+    List<Idioma> findAll(DetachedCriteria criteria);
 }

@@ -13,15 +13,15 @@ $zindex-fixed-navs: $zindex-dropdown - 5; // Dont cover navbar dropdown
     box-shadow: $nav-shadow;
     background: $grey-lightest;    
     
-    h2 {
+    h2:not(.fullcalendar-title) {
         position: relative;
         box-shadow: none;
         padding-left: 0;
         padding-right: 0;
         margin-top: 0;
-
+        
         .back-arrow {
-            left: -$entity-header-height;
+            left: -$entity-header-height
         }
     }
 }
@@ -31,7 +31,7 @@ $zindex-fixed-navs: $zindex-dropdown - 5; // Dont cover navbar dropdown
 
 $error-font-size: 0.8rem;
 // Jhipster always generates the same layout. We can trust h2 is where is needed
-h2 {
+h2:not(.fullcalendar-title) {
     display: flex;
     align-items: center;        
     justify-content: space-between;
@@ -50,7 +50,6 @@ h2 {
     }
     box-shadow: $nav-shadow;
 
-    $arrow-padding: 8px;
     .back-arrow {
         position: absolute;
         left: $page-padding-left/3;
@@ -93,8 +92,12 @@ fieldset {
                 label {                    
                     @include make-col(2);            
                 }
-                .form-control {
-                    @include make-col(10);  
+                .form-control,
+                ac-autocomplete,
+                ac-autocomplete-short-list,
+                ac-autocomplete-long-list,
+                p-listbox {
+                    @include make-col(10);
                 }
             }
             
@@ -108,7 +111,7 @@ fieldset {
                 @include make-col(4);  
                 padding-left: 0 !important; 
             }
-
+            
             .form-control {
                 @include make-col-ready();
                 @include make-col(8);      
@@ -121,7 +124,7 @@ fieldset {
                 .btn {
                     margin-right: $spacer-x/4;
                 }
-            }
+            }            
             .input-group {
                 @include make-col-ready();
                 @include make-col(8);
@@ -141,6 +144,8 @@ fieldset {
             }
 
             ac-autocomplete,
+            ac-autocomplete-short-list,
+            ac-autocomplete-long-list,
             p-listbox {
                 @include make-col(8);
             }        
@@ -181,7 +186,7 @@ fieldset {
             dt {
                 @include make-col-ready();
                 @include make-col(4);  
-                padding-left: 0 !important;
+                padding-left: 0 !important; 
                 border-bottom: $border-width solid $grey-light;
             }
             dd {
@@ -195,11 +200,12 @@ fieldset {
     }
 
     .form-group {
+        .form-control:required, 
         .form-control[required] {
             border-left: $border-width*5 solid $accent-dark;
         }
-        .form-control:required.ng-valid,
-        .ng-valid[required],
+        .form-control:required.ng-valid, 
+        .ng-valid[required], 
         .ng-valid.required  {
             border-left: $border-width*5 solid $brand-success;
         }        
@@ -265,10 +271,13 @@ fieldset {
     justify-content: flex-start;
 
     @include make-row();
-    .entity-search-field, 
+    .entity-search-field,
     .entity-search-field-btn {        
         @include make-col-ready();
         @include make-col(12/5);
+        &.small-search-field {
+            @include make-col(12/10);
+        }
         .form-group {
             display: flex;
             margin-bottom: 0;
@@ -279,7 +288,7 @@ fieldset {
         margin-bottom: $form-group-margin-bottom;
     }
     .entity-search-field-btn {
-        margin-left: auto;
+        margin-left: auto;    
         text-align: right;
         align-self: flex-end;
     }
@@ -294,8 +303,8 @@ fieldset {
     border: none;
     cursor: default;
     @include appearance(none);
-    &:required,
-    &[required] {
+    &[required],
+    &:required {
         border-left: none;
     }
     &:hover {
@@ -306,6 +315,7 @@ fieldset {
 .ui-tree {
     width: 100% !important;
 }
+
 
 .section-buttons {
     margin-top: 1.5 * $spacer-y;

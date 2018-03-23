@@ -23,6 +23,8 @@ public interface IdiomaService {
      * @return the list of entities
      */
     List<Idioma> findAll();
+    
+    List<Idioma> findAll(String query);
 
     /**
      * Get the "id" idioma.

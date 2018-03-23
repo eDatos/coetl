@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { JhiEventManager } from 'ng-jhipster';
 import { Subject, Subscription } from 'rxjs/Rx';
-
+import { IdiomaService } from '../../idioma/idioma.service';
 import { PeliculaFilter } from './pelicula-filter.model';
 
 @Component({
@@ -19,6 +19,7 @@ export class PeliculaSearchComponent implements OnInit, OnDestroy {
 
     constructor(
         private eventManager: JhiEventManager,
+        private idiomaService: IdiomaService
     ) {}
 
     ngOnInit() {
@@ -51,5 +52,10 @@ export class PeliculaSearchComponent implements OnInit, OnDestroy {
 
     idiomaItemTemplate(item: any) {
         return item.nombre;
+    }
+
+    completeMethodIdiomas(event) {
+        this.idiomaService.query({ query: `NOMBRE ILIKE '%${event.query}%'` })
+            .subscribe((result) => this.filters.allIdiomas = result.json);
     }
 }

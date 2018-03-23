@@ -6,9 +6,15 @@
             [(ngModel)]="filters.name" (keyup)="filter()" />
     </div>
     <div class="entity-search-field">
-        <label jhiTranslate="userManagement.filters.rol.label">Filtrar</label>
-        <ac-autocomplete (onSelect)="filter()" (onUnselect)="filter()" name="rol" [(ngModel)]="filters.roles" [suggestions]="roles"
-            [itemTemplate]="rolItemTemplate" [propertiesToQuery]="['nombre','codigo']" [minLength]="1" [placeholder]="'userManagement.filters.rol.placeholder' | translate"></ac-autocomplete>
+        <label jhiTranslate="userManagement.filters.rolShort.label">Filtrar</label>
+        <ac-autocomplete-short-list (onSelect)="filter()" (onUnselect)="filter()" name="rol" [(ngModel)]="filters.roles" [suggestions]="roles"
+            [itemTemplate]="rolItemTemplate" [propertiesToQuery]="['nombre','codigo']" [minLength]="1" [placeholder]="'userManagement.filters.rolShort.placeholder' | translate"></ac-autocomplete>
+    </div>
+
+    <div class="entity-search-field">
+        <label jhiTranslate="userManagement.filters.rolLong.label">Filtrar</label>
+        <ac-autocomplete-long-list (onSelect)="filter()" (onUnselect)="filter()" [(ngModel)]="filters.roles" [suggestions]="roles"
+            [itemTemplate]="rolItemTemplate" (completeMethod)="completeMethodRoles($event)" [placeholder]="'userManagement.filters.rolLong.placeholder' | translate"></ac-autocomplete>
     </div>
 
     <div class="entity-search-field">
@@ -18,8 +24,8 @@
 
     <div class="entity-search-field-btn">
         <button class="btn btn-default" (click)="resetFilters();">
-            <i class="fa fa-times"></i> 
-            <span  jhiTranslate="entity.action.filtersReset">Reset</span>
+            <i class="fa fa-times"></i>
+            <span jhiTranslate="entity.action.filtersReset">Reset</span>
         </button>
     </div>
 </div>

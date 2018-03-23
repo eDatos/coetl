@@ -28,9 +28,13 @@
                 "label": "Fecha de estreno",
                 "placeholder": "Fecha de estreno"
             },
-            "idioma": {
-                "label": "Idioma",
-                "placeholder": "Idioma"
+            "idiomaShort": {
+                "label": "Idioma (ac-autocomplete-short-list)",
+                "placeholder": "Idioma (ac-autocomplete-short-list)"
+            },
+            "idiomaLong": {
+                "label": "Idioma (ac-autocomplete-long-list)",
+                "placeholder": "Idioma (ac-autocomplete-long-list)"
             },
             "actores": {
                 "label": "Actores",

@@ -2,6 +2,7 @@ import { AfterViewInit, Component, EventEmitter, forwardRef, Input, OnInit, Outp
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { AutoComplete } from 'primeng/primeng';
+import { EcitUtils } from '../utils/EcitUtils';
 
 export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -25,13 +26,12 @@ export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 export class AutocompleteComponent implements ControlValueAccessor, OnInit, AfterViewInit {
 
     @Input()
-    private propertiesToQuery: string[];
+    protected propertiesToQuery: string[];
 
-    @Input()
     public debouncedMode = false;
 
     @Output()
-    private completeMethod: EventEmitter<any> = new EventEmitter();
+    protected completeMethod: EventEmitter<any> = new EventEmitter();
 
     @Output()
     private onSelect: EventEmitter<any> = new EventEmitter();
@@ -47,12 +47,12 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     private _selectedSuggestions: any;
 
-    private _suggestions: any[];
+    protected _suggestions: any[];
 
     public filteredSuggestions: any[];
 
     @ViewChild(AutoComplete)
-    private autoComplete: AutoComplete;
+    protected autoComplete: AutoComplete;
 
     private focusMustOpenPanel = true;
 
@@ -107,10 +107,12 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         }
     }
 
-    constructor(private translateService: TranslateService) { }
+    constructor(protected translateService: TranslateService) { }
 
     ngOnInit() {
         this.internalItemTemplate = this.itemTemplate;
+        this.debouncedMode = this.completeMethod.observers.length > 0;
+        this.placeholder = this.placeholder || (this.debouncedMode ? this.translateService.instant('entity.list.empty.writeForSuggestions') : null);
     }
 
     ngAfterViewInit() {
@@ -170,16 +172,10 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     onCompleteMethod($event) {
         this.completeMethod.emit($event);
         this.filteredSuggestions = this.getFilteredSuggestions($event.query);
-        if ($event.query && this.createNonFound && this.filteredSuggestions && !this.filteredSuggestions.some((s) => s[this.field] === $event.query)) {
-            this.myNewLabel = $event.query;
-            const newLabel = {};
-            newLabel[this.field] = $event.query;
-            this.filteredSuggestions.push(newLabel);
-        }
     }
 
-    itsNewLabel(item) {
-        return this.myNewLabel === item[this.field] ? this.translateService.instant('entity.list.empty.create-new-item') : '';
+    itsNewSuggestion(item) {
+        return this.myNewLabel === item[this.field] ? this.translateService.instant('entity.list.empty.createNewIitem') : '';
     }
 
     onSelectMethod($event) {
@@ -206,7 +202,25 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
             filteredSuggestions = this.filterByPropertiesToQuery(filteredSuggestions, query);
         }
 
+        if (this.createNonFound) {
+            filteredSuggestions = this.addNonFound(filteredSuggestions, query);
+        }
+
         return filteredSuggestions;
+    }
+
+    addNonFound(filteredSuggestions, query) {
+        if (query && filteredSuggestions && !filteredSuggestions.some((suggestion) => suggestion[this.field] === query)) {
+            this.myNewLabel = query;
+            filteredSuggestions.push(this.buildNewSuggestion(query));
+        }
+        return filteredSuggestions;
+    }
+
+    private buildNewSuggestion(fieldValue) {
+        const newSuggestion = {};
+        newSuggestion[this.field] = fieldValue;
+        return newSuggestion;
     }
 
     filterByPropertiesToQuery(suggestions: any[], query: string) {
@@ -224,7 +238,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     private queryContainsValue(query: string, value: string): boolean {
         if (!value) { return false; }
-        return value.toUpperCase().indexOf(query.toUpperCase()) !== -1;
+        return EcitUtils.removeDiacritics(value.toUpperCase()).indexOf(EcitUtils.removeDiacritics(query.toUpperCase())) !== -1;
     }
 
     excludeAlreadySelectedSuggestions(suggestions: any[]) {
