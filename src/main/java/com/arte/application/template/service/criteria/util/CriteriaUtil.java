@@ -43,6 +43,6 @@ public final class CriteriaUtil {
     }
 
     private static String makeSearchSentenceSql(QueryPropertyRestriction property, String field, String dbFunction) {
-        return "(" + dbFunction + "({alias}." + field + ") " + property.getOperationType() + " '%' || " + dbFunction + "('" + property.getRightValue() + "') || '%')";
+        return "(" + dbFunction + "({alias}." + field + ") " + property.getOperationType() + " " + dbFunction + "('" + property.getRightValue() + "'))";
     }
 }
