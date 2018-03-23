@@ -223,8 +223,10 @@ fieldset {
     
     &:disabled,
     &[disabled] {
-        .form-control {
-            @extend %disabled-form-control;
+        .entity-fields {
+            .form-control {
+                @extend %disabled-form-control;
+            }
         }
     }
 }

@@ -65,17 +65,11 @@
 fieldset[disabled] {
      .entity-fields .form-group {
         :host {
+            &[required] {
+                border-left: none;
+            }
             /deep/ .ui-autocomplete {
-                cursor: initial;
-                .fa-close {
-                    display: none;
-                }
-                .ui-autocomplete-token {
-                    padding-right: .5em;
-                }
-                .ui-autocomplete-dropdown {
-                    display: none;
-                }
+                @extend %disabled-autocomplete;
             }
         }
     }
@@ -84,3 +78,27 @@ fieldset[disabled] {
     }
 }
 
+:host[disabled] {
+    &[required] {
+        border-left: none;
+    }
+    /deep/ .ui-autocomplete {
+        @extend %disabled-autocomplete;
+    }
+}
+
+%disabled-autocomplete {
+    cursor: initial;
+    .fa-close {
+        display: none;
+    }
+    .ui-autocomplete-token {
+        padding-right: .5em;
+    }
+    .ui-autocomplete-dropdown {
+        display: none;
+    }
+    .ui-state-default:hover {
+        border-bottom: none;
+    }   
+}

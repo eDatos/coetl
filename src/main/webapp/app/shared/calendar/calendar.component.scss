@@ -18,6 +18,7 @@ fieldset {
 fieldset[disabled] {
     .entity-fields .form-group {
         :host[required] {
+            border-left: none;
             &.ng-valid {
                 border-left: none;
             }
@@ -26,7 +27,7 @@ fieldset[disabled] {
 }
 
 :host {
-    padding: 0;
+    padding: 0 !important; // Ignore form-control padding
 
     /deep/ p-calendar {    
         input {
