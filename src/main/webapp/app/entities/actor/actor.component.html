@@ -25,7 +25,7 @@
                         <div class="d-flex justify-content-between">
                             <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
                             <ac-pagination [itemsPerPage]="itemsPerPage" (change)="changeItemsPerPage($event)"></ac-pagination>
-                            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)" [pageSize]="itemsPerPage"></ngb-pagination>
+                            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="transition()" [pageSize]="itemsPerPage"></ngb-pagination>
                         </div>
                     </p-footer>
                 </p-dataTable>

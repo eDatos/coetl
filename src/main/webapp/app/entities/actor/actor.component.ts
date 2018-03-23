@@ -30,7 +30,6 @@ export class ActorComponent implements OnInit, OnDestroy {
     itemsPerPage: any;
     page: any;
     predicate: any;
-    previousPage: any;
     reverse: any;
 
     constructor(
@@ -49,7 +48,6 @@ export class ActorComponent implements OnInit, OnDestroy {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
-            this.previousPage = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
         });
@@ -69,16 +67,8 @@ export class ActorComponent implements OnInit, OnDestroy {
         );
     }
 
-    loadPage(page: number) {
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.transition();
-        }
-    }
-
     transition() {
-        this.router.navigate(['/actor'], {queryParams:
-            {
+        this.router.navigate(['/actor'], {queryParams: {
                 page: this.page,
                 size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')

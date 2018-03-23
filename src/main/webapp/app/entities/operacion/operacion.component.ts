@@ -7,7 +7,7 @@ import { Operacion } from './operacion.model';
 import { OperacionService } from './operacion.service';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 import { OperacionFilter } from './operacion-search/index';
-import { ITEMS_PER_PAGE, ResponseWrapper } from '../../shared';
+import { ResponseWrapper } from '../../shared';
 import { Principal } from '../../shared/auth/principal.service';
 
 @Component({
@@ -25,10 +25,7 @@ export class OperacionComponent implements OnInit, OnDestroy {
     links: any;
     totalItems: any;
     queryCount: any;
-    itemsPerPage: any;
-    page: any;
     predicate: any;
-    previousPage: any;
     reverse: any;
     searchSubscription: Subscription;
     filters: OperacionFilter;
@@ -45,7 +42,6 @@ export class OperacionComponent implements OnInit, OnDestroy {
         private paginationUtil: JhiPaginationUtil,
         private paginationConfig: PaginationConfig
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
@@ -61,18 +57,10 @@ export class OperacionComponent implements OnInit, OnDestroy {
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers)
         );
     }
-    loadPage(page: number) {
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.transition();
-        }
-    }
+
     transition() {
         this.router.navigate(['/operacion'], {
-            queryParams:
-            {
-                page: this.page,
-                size: this.itemsPerPage,
+            queryParams: {
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         });
@@ -80,9 +68,7 @@ export class OperacionComponent implements OnInit, OnDestroy {
     }
 
     clear() {
-        this.page = 0;
         this.router.navigate(['/operacion', {
-            page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
         this.loadAll();

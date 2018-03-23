@@ -33,7 +33,6 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     itemsPerPage: any;
     page: any;
     predicate: any;
-    previousPage: any;
     reverse: any;
     filters: PeliculaFilter;
     isDeleting = false;
@@ -57,7 +56,6 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
-            this.previousPage = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
         });
@@ -85,20 +83,14 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         }).subscribe((res: ResponseWrapper) => this.onSuccess(res.json, res.headers));
     }
 
-    loadPage(page: number) {
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.transition();
-        }
-    }
-
     transition() {
-        this.router.navigate(['/pelicula'], {queryParams:
-            {
-                page: this.page,
-                size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
+        this.router.navigate(['/pelicula'], {
+            queryParams:
+                {
+                    page: this.page,
+                    size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
+                    sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+                }
         });
         this.loadAll();
     }
@@ -146,7 +138,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         this.eventSubscriber = this.eventManager.subscribe('peliculaListModification', (response) => this.loadAll());
         this.searchSubsctiption = this.eventManager.subscribe('peliculaSearch', (response) => {
             const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams));
-            this.router.navigate(['pelicula'], {queryParams})
+            this.router.navigate(['pelicula'], { queryParams })
         });
     }
 

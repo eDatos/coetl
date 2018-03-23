@@ -24,7 +24,6 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     itemsPerPage: any;
     page: any;
     predicate: any;
-    previousPage: any;
     reverse: any;
     searchSubscription: Subscription;
     userListModification: Subscription;
@@ -46,7 +45,6 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
-            this.previousPage = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
         });
@@ -102,13 +100,6 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
             result.push('id');
         }
         return result;
-    }
-
-    loadPage(page: number) {
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.transition();
-        }
     }
 
     transition() {

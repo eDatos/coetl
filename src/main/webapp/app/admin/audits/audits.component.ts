@@ -48,11 +48,6 @@ export class AuditsComponent implements OnInit {
         });
     }
 
-    loadPage(page: number) {
-        this.page = page;
-        this.transition();
-    }
-
     ngOnInit() {
         this.getToday();
         this.previousMonth();

@@ -3,7 +3,7 @@ import { Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager, JhiPaginationUtil, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
-import { ITEMS_PER_PAGE, Principal, User, UserService, ResponseWrapper, RolService, Rol } from '../../shared';
+import { Principal, User, UserService, ResponseWrapper, RolService, Rol } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 import { Subscription } from 'rxjs/Rx';
 
@@ -21,10 +21,7 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
     links: any;
     totalItems: any;
     queryCount: any;
-    itemsPerPage: any;
-    page: any;
     predicate: any;
-    previousPage: any;
     reverse: any;
     rolListModificationSubscription: Subscription;
 
@@ -39,7 +36,6 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private router: Router
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
@@ -65,8 +61,6 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
 
     loadAll() {
         this.rolService.query({
-            page: this.page - 1,
-            size: this.itemsPerPage,
             sort: this.sort(),
         }).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers)
@@ -81,17 +75,9 @@ export class RolMgmtComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    loadPage(page: number) {
-        if (page !== this.previousPage) {
-            this.previousPage = page;
-            this.transition();
-        }
-    }
-
     transition() {
         this.router.navigate(['/rol-management'], {
             queryParams: {
-                page: this.page,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         });
