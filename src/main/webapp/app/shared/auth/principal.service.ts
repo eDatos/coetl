@@ -60,11 +60,7 @@ export class Principal {
         throw new Error('NOT IMPLEMENTED');
     }
 
-    identity(force?: boolean): Promise<any> {
-        if (force === true) {
-            this.userIdentity = undefined;
-        }
-
+    identity(): Promise<any> {
         // check and see if we have retrieved the userIdentity data from the server.
         // if we have, reuse it by immediately resolving
         if (this.userIdentity) {
