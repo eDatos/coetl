@@ -31,18 +31,17 @@ export class FileUploadComponent implements OnInit, OnChanges {
     public accept = false;
 
     @Input()
-    public mode = 'basic';
-
-    @Input()
     public auto = true;
-
-    @Input()
-    public files; // Puede ser un elemento o un array
 
     @Input()
     public limited = 1;
 
+    @Input()
+    public files; // Puede ser un elemento o un array
+
     public innerFiles;
+
+    public mode;
 
     @ContentChild(TemplateRef)
     actionsTemplate: TemplateRef<any>;
@@ -62,7 +61,13 @@ export class FileUploadComponent implements OnInit, OnChanges {
         private alertService: AcAlertService
     ) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        if (this.auto) {
+            this.mode = 'basic'
+        } else {
+            this.mode = 'advanced'
+        }
+    }
 
     ngOnChanges(changes) {
         if (changes.files && changes.files.currentValue !== changes.files.previousValue) {
@@ -92,5 +97,12 @@ export class FileUploadComponent implements OnInit, OnChanges {
 
     canUpload() {
         return !this.limited || this.limited > 0 && this.innerFiles && this.innerFiles.length < this.limited;
+    }
+
+    upload() {
+        if (this.auto) {
+            throw new Error('Manual upload is not supported because upload mode is auto');
+        }
+        this.fileUpload.upload();
     }
 }

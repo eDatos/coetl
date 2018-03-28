@@ -2,6 +2,7 @@ package com.arte.application.template.web.rest.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
@@ -27,6 +28,8 @@ public class ActorDTO implements Serializable {
     private Genero genero;
 
     private boolean oscarizado;
+    
+    private Set<DocumentoDTO> documentos;
 
     public Long getId() {
         return id;
@@ -74,6 +77,14 @@ public class ActorDTO implements Serializable {
 
     public void setOscarizado(boolean oscarizado) {
         this.oscarizado = oscarizado;
+    }
+
+    public Set<DocumentoDTO> getDocumentos() {
+        return documentos;
+    }
+
+    public void setDocumentos(Set<DocumentoDTO> documentos) {
+        this.documentos = documentos;
     }
 
     @Override

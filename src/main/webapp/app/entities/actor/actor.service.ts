@@ -44,6 +44,18 @@ export class ActorService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
+    asociarDocumento(actorId: number, documentoId: number): Observable<Actor> {
+        return this.http.put(`${this.resourceUrl}/${actorId}/documento/${documentoId}`, null).map((res: Response) => {
+            return this.convert(res.json())
+        });
+    }
+
+    desasociarDocumento(actorId: number, documentoId: number): Observable<Actor> {
+        return this.http.delete(`${this.resourceUrl}/${actorId}/documento/${documentoId}`).map((res: Response) => {
+            return this.convert(res.json());
+        });
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         return new ResponseWrapper(res.headers, jsonResponse, res.status);

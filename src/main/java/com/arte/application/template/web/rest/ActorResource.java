@@ -24,12 +24,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arte.application.template.domain.Actor;
+import com.arte.application.template.domain.Documento;
 import com.arte.application.template.service.ActorService;
+import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.web.rest.dto.ActorDTO;
 import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.ActorMapper;
 import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.arte.application.template.web.rest.util.PaginationUtil;
+import com.arte.application.template.web.rest.util.WebConstants;
 import com.codahale.metrics.annotation.Timed;
 
 import io.github.jhipster.web.util.ResponseUtil;
@@ -50,10 +53,13 @@ public class ActorResource extends AbstractResource {
     private final ActorService actorService;
 
     private final ActorMapper actorMapper;
+    
+    private final DocumentoService documentoService;
 
-    public ActorResource(ActorService actorService, ActorMapper actorMapper) {
+    public ActorResource(ActorService actorService, ActorMapper actorMapper, DocumentoService documentoService) {
         this.actorService = actorService;
         this.actorMapper = actorMapper;
+        this.documentoService = documentoService;
     }
 
     /**
@@ -136,5 +142,71 @@ public class ActorResource extends AbstractResource {
         log.debug("REST request to delete Actor : {}", id);
         actorService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * PUT /:actorId/documento/:documentoId : Bind a documento to actor
+     * 
+     * @param actorId the id of the actor
+     * @param documentoId the id of the documento
+     * @return the ResponseEntity with status 200 (OK) and with body the updated actor,
+     *         or with status 400 (Bad Request) if the actorId or documentoId is not valid,
+     *         or with status 500 (Internal Server Error) if the actor couldn't be updated
+     */
+    @PutMapping("/{actorId}/documento/{documentoId}")
+    @Timed
+    public ResponseEntity<ActorDTO> bindDocumento(@Valid @PathVariable Long actorId, @PathVariable Long documentoId) {
+        log.debug("REST request to bind a Documento to Actor : {}", actorId);
+        if (actorId == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, WebConstants.ID_MISSING_MESSAGE)).build();
+        }
+
+        Actor actor = actorService.findOne(actorId);
+        if (actor == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+        }
+
+        Documento documento = documentoService.findOne(documentoId);
+        if (documento == null) {
+            return ResponseEntity.badRequest()
+                    .headers(HeaderUtil.createFailureAlert(WebConstants.ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, WebConstants.ENTITY_NAME_DOCUMENTO))).build();
+        }
+
+        ActorDTO result = actorMapper.toDto(actorService.bindDocumento(actor, documento));
+
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString())).body(result);
+    }
+
+    /**
+     * DELETE /:actorId/documento/:documentoId : Unbind a documento to actor
+     * 
+     * @param actorId the id of the actor
+     * @param documentoId the id of the documento
+     * @return the ResponseEntity with status 200 (OK) and with body the updated actor,
+     *         or with status 400 (Bad Request) if the actorId or documentoId is not valid,
+     *         or with status 500 (Internal Server Error) if the actor couldn't be updated
+     */
+    @DeleteMapping("/{actorId}/documento/{documentoId}")
+    @Timed
+    public ResponseEntity<ActorDTO> unbindDocumento(@Valid @PathVariable Long actorId, @PathVariable Long documentoId) {
+        log.debug("REST request to unbind a Documento to Actor : {}", actorId);
+        if (actorId == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, WebConstants.ID_MISSING_MESSAGE)).build();
+        }
+
+        Actor actor = actorService.findOne(actorId);
+        if (actor == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+        }
+
+        Documento documento = documentoService.findOne(documentoId);
+        if (documento == null) {
+            return ResponseEntity.badRequest()
+                    .headers(HeaderUtil.createFailureAlert(WebConstants.ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, WebConstants.ENTITY_NAME_DOCUMENTO))).build();
+        }
+        
+        ActorDTO result = actorMapper.toDto(actorService.unbindDocumento(actor, documento));
+  
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 }

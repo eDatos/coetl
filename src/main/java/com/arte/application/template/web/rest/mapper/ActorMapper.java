@@ -12,7 +12,7 @@ import com.arte.application.template.web.rest.dto.ActorDTO;
 /**
  * Mapper for the entity Actor and its DTO ActorDTO.
  */
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {DocumentoMapper.class})
 public abstract class ActorMapper implements EntityMapper<ActorDTO, Actor> {
 
     @Autowired

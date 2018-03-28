@@ -2,25 +2,44 @@
     <ng-content select="ac-file-header">
 
     </ng-content>
-    <ng-container *ngIf="!disabled && canUpload()">
-        <p-fileUpload [name]="name" [url]="url" (onUpload)="onUploadMethod($event)" (onSelect)="onSelectMethod($event)" (onError)="onErrorMethod($event)" [maxFileSize]="maxFileSize"
-            [disabled]="disabled" [mode]="mode" [accept]="accept" [chooseLabel]="'arteApplicationTemplateApp.documento.choose' | translate"
-            [uploadLabel]="'arteApplicationTemplateApp.documento.upload' | translate" [cancelLabel]="'arteApplicationTemplateApp.documento.cancel' | translate"
-            [invalidFileSizeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileSizeMessageSummary' | translate" [invalidFileSizeMessageDetail]="'arteApplicationTemplateApp.documento.invalidFileSizeMessageDetail' | translate"
-            [invalidFileTypeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileTypeMessageSummary' | translate" [invalidFileTypeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileTypeMessageSummary' | translate"
-            [auto]="auto" #fileUpload>
-        </p-fileUpload>
-    </ng-container>
 </div>
 <h3>
     {{title}}
 </h3>
+<ng-container *ngIf="!disabled && canUpload()">
+    <p-fileUpload class="{{mode}}" [name]="name" [url]="url" (onUpload)="onUploadMethod($event)" (onSelect)="onSelectMethod($event)" (onError)="onErrorMethod($event)"
+        [maxFileSize]="maxFileSize" [disabled]="disabled" [mode]="mode" [accept]="accept" [chooseLabel]="'arteApplicationTemplateApp.documento.choose' | translate"
+        [uploadLabel]="'arteApplicationTemplateApp.documento.upload' | translate" [cancelLabel]="'arteApplicationTemplateApp.documento.cancel' | translate"
+        [invalidFileSizeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileSizeMessageSummary' | translate" [invalidFileSizeMessageDetail]="'arteApplicationTemplateApp.documento.invalidFileSizeMessageDetail' | translate"
+        [invalidFileTypeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileTypeMessageSummary' | translate" [invalidFileTypeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileTypeMessageSummary' | translate"
+        [auto]="auto" #fileUpload>
+        <ng-template pTemplate="toolbar">
+            <div *ngIf="fileUpload.files.length > 0" class="fileupload-header">
+                <span jhiTranslate="arteApplicationTemplateApp.documento.filesToUpload"></span>
+            </div>
+            <div *ngIf="fileUpload.files.length == 0" class="empty-file-list">
+                <span jhiTranslate="arteApplicationTemplateApp.documento.noUploadPending"></span>
+            </div>
+        </ng-template>
+        <ng-template let-file pTemplate="file">
+            <div class="ui-fileupload-row">
+                <div class="name-width">{{file.name}}</div>
+                <div class="actions-width table-actions">
+                    <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.delete.title' | translate" (click)="fileUpload.remove($event,i)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </ng-template>
+    </p-fileUpload>
+</ng-container>
+
 <ng-container *ngIf="innerFiles?.length > 0;else emptyFileList">
     <table class="table">
         <thead>
             <tr>
-                <th jhiTranslate="arteApplicationTemplateApp.documento.filename">Nombre archivo</th>
-                <th></th>
+                <th jhiTranslate="arteApplicationTemplateApp.documento.filename" class="name-width">Nombre archivo</th>
+                <th class="actions-width"></th>
             </tr>
         </thead>
         <tbody>

@@ -108,7 +108,26 @@
                     </fieldset>
                 </div>
             </div>
+
+            <div *ngIf="actor.id" class="entity-fields">
+                    <div class="form-group full-width">
+                        <fieldset>
+                            <ac-file-upload [title]="'arteApplicationTemplateApp.actor.documentos.label' | translate" [url]="resourceUrl" (onUpload)="onDocumentoUpload($event)"
+                                accept="image/*" [files]="actor.documentos" [auto]="false" [limited]="3">
+    
+                                <ng-template let-file="file">
+                                    <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.delete.title' | translate" (click)="deleteDocumento(file)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </ng-template>
+    
+                            </ac-file-upload>
+                        </fieldset>
+                    </div>       
+                </div>
+            </div>
         </div>
+
         <div class="modal-footer">
             <ng-container *ngIf="!isDeleting">
                 <div class="col-sm-6 text-right">

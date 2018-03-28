@@ -14,7 +14,9 @@
             "invalidFileTypeMessageDetail": "tipos de documento permitidos: {0}.",
             "download": "Descargar",
             "filename": "Nombre archivo",
-            "emptyFileList": "No hay archivos subidos"
+            "emptyFileList": "No hay archivos subidos",
+            "filesToUpload": "Archivos para subir",
+            "noUploadPending": "No hay archivos pendientes de subir"
         }
     }
 }
