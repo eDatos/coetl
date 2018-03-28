@@ -1,4 +1,5 @@
 import { Pelicula } from '../pelicula/pelicula.model';
+import { Documento } from '../documento/documento.model';
 import { BaseEntity } from './../../shared';
 
 export enum Genero {
@@ -16,6 +17,7 @@ export class Actor implements BaseEntity {
         public genero?: Genero,
         public oscarizado = false,
         public peliculas?: Pelicula[],
+        public documentos?: Documento[]
     ) {
     }
 

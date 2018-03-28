@@ -32,6 +32,7 @@ import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.domain.Actor;
 import com.arte.application.template.repository.ActorRepository;
 import com.arte.application.template.service.ActorService;
+import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.web.rest.dto.ActorDTO;
 import com.arte.application.template.web.rest.errors.ExceptionTranslator;
 import com.arte.application.template.web.rest.mapper.ActorMapper;
@@ -64,6 +65,9 @@ public class ActorResourceIntTest {
 
     @Autowired
     private ActorService actorService;
+    
+    @Autowired
+    private DocumentoService documentoService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -84,7 +88,7 @@ public class ActorResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        ActorResource actorResource = new ActorResource(actorService, actorMapper);
+        ActorResource actorResource = new ActorResource(actorService, actorMapper, documentoService);
         this.restActorMockMvc = MockMvcBuilders.standaloneSetup(actorResource).setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
                 .setMessageConverters(jacksonMessageConverter).build();
     }

@@ -11,6 +11,8 @@ import { Pelicula, PeliculaFilter, PeliculaService } from '../pelicula';
 import { ActorPopupService } from './actor-popup.service';
 import { Actor, Genero } from './actor.model';
 import { ActorService } from './actor.service';
+import { Documento } from '../documento/documento.model';
+import { DocumentoService } from '../documento/documento.service';
 
 @Component({
     selector: 'jhi-actor-dialog',
@@ -22,6 +24,7 @@ export class ActorDialogComponent implements OnInit {
     actor: Actor;
     isSaving: boolean;
     isDeleting: boolean;
+    resourceUrl: string;
 
     peliculas: Pelicula[];
     copiaPeliculas: Pelicula[];
@@ -37,9 +40,11 @@ export class ActorDialogComponent implements OnInit {
         private actorService: ActorService,
         private transalteService: TranslateService,
         private peliculaService: PeliculaService,
+        private documentoService: DocumentoService,
         private eventManager: JhiEventManager,
         private router: Router
     ) {
+        this.resourceUrl = documentoService.resourceUrl;
         this.peliculaFilter = new PeliculaFilter();
     }
 
@@ -141,6 +146,22 @@ export class ActorDialogComponent implements OnInit {
 
     public guardarReordenarPeliculas() {
         console.log('This is a mock! It is needed to prepare backend!');
+    }
+
+    public onDocumentoUpload(event) {
+        const nuevoDocumento = JSON.parse(event.xhr.response);
+        this.subscribeToDocumentModification(this.actorService.asociarDocumento(this.actor.id, nuevoDocumento.id));
+    }
+
+    public deleteDocumento(documento: Documento): void {
+        this.subscribeToDocumentModification(this.actorService.desasociarDocumento(this.actor.id, documento.id));
+    }
+
+    private subscribeToDocumentModification(result: Observable<Actor>) {
+        result.subscribe((res: Actor) => {
+            this.actor = res;
+            this.eventManager.broadcast({name: 'actorListModification', content: 'Actor deleted'});
+        })
     }
 }
 

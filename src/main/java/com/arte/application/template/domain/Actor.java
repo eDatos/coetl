@@ -12,7 +12,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -59,6 +62,10 @@ public class Actor implements Serializable {
 
     @ManyToMany(mappedBy = "actores")
     private Set<Pelicula> peliculas = new HashSet<>();
+    
+    @OneToMany
+    @JoinTable(name = "actor_documento", joinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "documento_id", referencedColumnName = "id"))
+    private Set<Documento> documentos = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -129,6 +136,22 @@ public class Actor implements Serializable {
         for (Pelicula pelicula : new HashSet<>(peliculas)) {
             removePelicula(pelicula);
         }
+    }
+    
+    public Set<Documento> getDocumentos() {
+        return documentos;
+    }
+
+    public void setDocumentos(Set<Documento> documentos) {
+        this.documentos = documentos;
+    }
+    
+    public void addDocumento(Documento documento) {
+        this.documentos.add(documento);
+    }
+    
+    public void removeDocumento(Documento documento) {
+        this.documentos.remove(documento);
     }
 
     @Override

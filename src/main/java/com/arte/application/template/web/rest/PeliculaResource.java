@@ -33,6 +33,7 @@ import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.PeliculaMapper;
 import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.arte.application.template.web.rest.util.PaginationUtil;
+import com.arte.application.template.web.rest.util.WebConstants;
 import com.codahale.metrics.annotation.Timed;
 
 import io.github.jhipster.web.util.ResponseUtil;
@@ -48,11 +49,7 @@ public class PeliculaResource extends AbstractResource {
     private final Logger log = LoggerFactory.getLogger(PeliculaResource.class);
 
     private static final String ENTITY_NAME = "pelicula";
-    private static final String ENTITY_NAME_DOCUMENTO = "documento";
     private static final String BASE_URL = "/api/peliculas";
-
-    private static final String ID_MISSING_MESSAGE = "Se necesita un identificador";
-    private static final String ENTITY_NOT_FOUND_MESSAGE = "Entidad %s no encontrada";
 
     private final PeliculaService peliculaService;
 
@@ -99,7 +96,7 @@ public class PeliculaResource extends AbstractResource {
     public ResponseEntity<PeliculaDTO> updatePelicula(@Valid @RequestBody PeliculaDTO peliculaDTO) throws URISyntaxException {
         log.debug("REST request to update Pelicula : {}", peliculaDTO);
         if (peliculaDTO.getId() == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, ID_MISSING_MESSAGE)).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, WebConstants.ID_MISSING_MESSAGE)).body(null);
         }
         Pelicula pelicula = peliculaMapper.toEntity(peliculaDTO);
         PeliculaDTO result = peliculaMapper.toDto(peliculaService.save(pelicula));
@@ -182,18 +179,18 @@ public class PeliculaResource extends AbstractResource {
     public ResponseEntity<PeliculaDTO> bindDocumento(@Valid @PathVariable Long peliculaId, @PathVariable Long documentoId) {
         log.debug("REST request to bind a Documento to Pelicula : {}", peliculaId);
         if (peliculaId == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, ID_MISSING_MESSAGE)).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, WebConstants.ID_MISSING_MESSAGE)).build();
         }
 
         Pelicula pelicula = peliculaService.findOne(peliculaId);
         if (pelicula == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
         }
 
         Documento documento = documentoService.findOne(documentoId);
         if (documento == null) {
             return ResponseEntity.badRequest()
-                    .headers(HeaderUtil.createFailureAlert(ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME_DOCUMENTO))).build();
+                    .headers(HeaderUtil.createFailureAlert(WebConstants.ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, WebConstants.ENTITY_NAME_DOCUMENTO))).build();
         }
 
         PeliculaDTO result = peliculaMapper.toDto(peliculaService.bindDocumento(pelicula, documento));
@@ -215,12 +212,12 @@ public class PeliculaResource extends AbstractResource {
     public ResponseEntity<PeliculaDTO> unbindDocumento(@Valid @PathVariable Long peliculaId) {
         log.debug("REST request to unbind a Documento to Pelicula : {}", peliculaId);
         if (peliculaId == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, ID_MISSING_MESSAGE)).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, WebConstants.ID_MISSING_MESSAGE)).build();
         }
 
         Pelicula pelicula = peliculaService.findOne(peliculaId);
         if (pelicula == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
         }
 
         Long documentoId = pelicula.getDocumento().getId();

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.arte.application.template.domain.Actor;
+import com.arte.application.template.domain.Documento;
 
 /**
  * Service Interface for managing Actor.
@@ -41,4 +42,22 @@ public interface ActorService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    /**
+     * Bind a documento to actor
+     * 
+     * @param actor the entity to update
+     * @param documento the documento to bind
+     * @return the persisted entity
+     */
+    Actor bindDocumento(Actor actor, Documento documento);
+    
+    /**
+     * Unbind a documento to actor
+     * 
+     * @param actor the entity to update
+     * @param documento the documento to unbind
+     * @return the persisted entity
+     */
+    Actor unbindDocumento(Actor actor, Documento documento);
 }

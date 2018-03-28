@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.arte.application.template.domain.Actor;
+import com.arte.application.template.domain.Documento;
 import com.arte.application.template.repository.ActorRepository;
 import com.arte.application.template.repository.PeliculaRepository;
 import com.arte.application.template.service.ActorService;
+import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.web.rest.util.QueryUtil;
 
 /**
@@ -26,11 +28,14 @@ public class ActorServiceImpl implements ActorService {
     private final PeliculaRepository peliculaRepository;
 
     private final QueryUtil queryUtil;
+    
+    private final DocumentoService documentoService;
 
-    public ActorServiceImpl(ActorRepository actorRepository, QueryUtil queryUtil, PeliculaRepository peliculaRepository) {
+    public ActorServiceImpl(ActorRepository actorRepository, QueryUtil queryUtil, PeliculaRepository peliculaRepository, DocumentoService documentoService) {
         this.actorRepository = actorRepository;
         this.queryUtil = queryUtil;
         this.peliculaRepository = peliculaRepository;
+        this.documentoService = documentoService;
     }
 
     /**
@@ -81,5 +86,32 @@ public class ActorServiceImpl implements ActorService {
         actor.setPeliculas(peliculaRepository.findByActoresId(actor.getId()));
         actor.removeAllPeliculas();
         actorRepository.delete(actor);
+    }
+
+    /**
+     * Bind a documento to actor
+     * 
+     * @param actor the entity to update
+     * @param documento the documento to bind
+     * @return the persisted entity
+     */
+    @Override
+    public Actor bindDocumento(Actor actor, Documento documento) {
+        actor.addDocumento(documento);
+        return save(actor);
+    }
+
+    /**
+     * Unbind a documento to actor
+     * 
+     * @param actor the entity to update
+     * @param documento the documento to unbind
+     * @return the persisted entity
+     */
+    @Override
+    public Actor unbindDocumento(Actor actor, Documento documento) {
+        actor.removeDocumento(documento);
+        documentoService.delete(documento.getId());
+        return save(actor);
     }
 }

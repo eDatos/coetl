@@ -31,7 +31,10 @@
                 "MASCULINO": "Masculino",
                 "FEMENINO": "Femenino"
             },
-            "oscarizado": "¿Oscarizado?"
+            "oscarizado": "¿Oscarizado?",
+            "documentos": {
+                "label": "Documentos"
+            }
         }
     }
 }
