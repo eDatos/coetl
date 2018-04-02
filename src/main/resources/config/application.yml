@@ -52,6 +52,12 @@ spring:
             hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: false
+# spring.jmx.default-domain y spring.hikari.pool-name evitan que al levantar dos aplicaciones con un spring boot similar al template
+# (con beans de jmx configurado) la primera registre sus beans impidiendo a las siguientes registrar los suyos
+    jmx:
+      default-domain: FILL_APP_NAME # Ejemplo: ebandeja
+    hikari:
+        pool-name: FILL_APP_NAME_WITH_POOL # ebandejapool
     mail:
         host: FILL_HOST
         port: FILL_PORT
