@@ -32,7 +32,7 @@ export class AutofocusDirective implements AfterViewInit {
         });
 
         let elementToFocus = firstEnabledChild || htmlElement;
-        // elementToFocus.disabled devuelve false aun dentro de un fieldset disabled, pero luego no nos deja hacer focus. Por tanto
+
         let focusableSibling = false;
         if (htmlElement.disabled) {
             focusableSibling = true;
@@ -40,6 +40,10 @@ export class AutofocusDirective implements AfterViewInit {
         }
 
         elementToFocus.focus();
+
+        if (focusableSibling) {
+            this.renderer.removeChild(this.renderer.parentNode(elementToFocus), elementToFocus);
+        }
     }
 
     private createFocusableSibling(node) {
