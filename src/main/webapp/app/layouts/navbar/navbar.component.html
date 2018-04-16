@@ -12,7 +12,7 @@
             <ul class="navbar-nav">
                 <ng-container *ngTemplateOutlet="menuVideoteca"></ng-container>
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-                <li *ngIf="correctlyLogged()"  ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <li *ngIf="correctlyLogged()"  ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
                     <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                         <span>
                             <i class="fa fa-user-plus" aria-hidden="true"></i>
@@ -39,7 +39,7 @@
                             </a>
                         </li>
                         <li *acHasAnyOperacion="['LEER:OPERACION']">
-                            <a class="dropdown-item" routerLink="operacion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <a class="dropdown-item" routerLink="operacion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }" (click)="collapseNavbar()">
                                 <i class="fa fa-fw fa-key" aria-hidden="true"></i>
                                 <span jhiTranslate="arteApplicationTemplateApp.operacion.menu.title">Operacion</span>
                             </a>
@@ -48,7 +48,7 @@
                     </ul>
                 </li>
                 <li *acHasAnyOperacion="['LEER:METRICA','LEER:SALUD','LEER:CONFIG','LEER:AUDITORIA','LEER:LOGS','LEER:API']" ngbDropdown
-                    class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
                     <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                         <span>
                             <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
@@ -104,7 +104,7 @@
             </a>
         </div>
 
-        <div class="navbar-nav navbar-toggleable" [ngSwitch]="isAuthenticated()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+        <div class="navbar-nav navbar-toggleable" [ngSwitch]="isAuthenticated()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"
             id="account-menu">
             <a *ngSwitchCase="true" class="nav-link" (click)="logout()" id="logout" [title]="'global.menu.account.logout' | translate">
                 <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
@@ -114,7 +114,7 @@
 </nav>
 
 <ng-template #menuVideoteca>
-    <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
         <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="videoteca-menu">
             <span>
                 <i class="fa fa-fw fa-film" aria-hidden="true"></i>
