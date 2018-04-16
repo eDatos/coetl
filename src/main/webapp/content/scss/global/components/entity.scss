@@ -56,6 +56,24 @@ h2:not(.fullcalendar-title) {
         padding: 0;
         margin: auto;
         height: $entity-header-height;
+
+        .fa-arrow-left:before {
+            content: '';
+        }
+        
+        .fa.fa-arrow-left {    
+            background-image: url("~images/arrow-back.svg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 2em;
+            height: 2em;
+            opacity: 0.5;
+        
+            &:hover {
+                opacity: 1;
+            }
+        }
     }
 
     // Buttons
