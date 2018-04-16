@@ -29,7 +29,6 @@
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <fileNamePattern>${LOGS_HOME}/arte-application-template-${servidor}.%d{yyyy-MM-dd}.log
       </fileNamePattern>
-      <maxHistory>90</maxHistory>
     </rollingPolicy>
     <encoder>
       <charset>utf-8</charset>
