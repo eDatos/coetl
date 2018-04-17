@@ -35,7 +35,9 @@ fieldset[disabled] {
             width: 100%;
             border: 0;
         }
-        
+        input:required {
+            box-shadow: none;
+        }
         .ui-calendar {
             width: 100%;
         }
