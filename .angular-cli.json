@@ -32,11 +32,6 @@
             "project": "../../../tsconfig-aot.json"
         }
     ],
-    "test": {
-        "karma": {
-            "config": "src/test/javascript/karma.conf.js"
-        }
-    },
     "defaults": {
         "styleExt": "scss",
         "prefixInterfaces": false,

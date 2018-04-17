@@ -199,18 +199,12 @@ Si modificamos algún fichero de la parte servidora de la aplicación (ficheros 
 Si modificamos algún fichero de la parte cliente de la aplicación (ficheros TS, CSS, HTML...), la aplicación se recargará de forma automática y podremos ver dichos cambios aplicados de forma inmediata en el navegador. 
 
 ### Ejecución de tests
-En la aplicación se han incluido una serie de tests que permiten probar todas las funcionalidades incluidas. Hay tests en la parte servidora y tests en la parte cliente de la aplicación. 
+En la aplicación se han incluido una serie de tests que permiten probar todas las funcionalidades incluidas.
 
-Los tests de la parte servidora son tests de [JUnit][] y están ubicados en [src/test/java/](src/test/java/). Pueden ejecutarse mendiante [Maven][]:
+Hay tests solo en la parte servidora. Son tests de [JUnit][] y están ubicados en [src/test/java/](src/test/java/). Pueden ejecutarse mendiante [Maven][]:
 
 ```bash
 mvn clean test
-```
-
-Los tests de la parte cliente son tests unitarios que se ejecutan con [Karma][] y están escritos con  [Jasmine][]. Estos tests se ubican en [src/test/javascript/](src/test/javascript/) y se pueden ejecutar con:
-
-```bash
-yarn test
 ```
 
 ### Más información
