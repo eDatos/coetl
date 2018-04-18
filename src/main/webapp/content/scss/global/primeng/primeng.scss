@@ -129,7 +129,7 @@ fieldset[disabled] {
     box-shadow: none;
 }
 
-p-dataTable /deep/ {
+p-dataTable {
     .ui-datatable .ui-sortable-column:not(.ui-state-active):hover {
         background: $white;
         color: $grey-darkest;
