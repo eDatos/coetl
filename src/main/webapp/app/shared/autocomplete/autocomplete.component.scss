@@ -23,9 +23,6 @@
                 color: $grey-medium;
             }
         }
-        input:required {
-            box-shadow: none;
-        }
         &.is-empty {
             .ui-autocomplete-input-token {
                 width: 100%;
