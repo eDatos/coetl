@@ -2,10 +2,8 @@ package com.arte.application.template.service.criteria;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 
 import com.arte.application.template.domain.Pelicula;
 import com.arte.application.template.service.criteria.util.CriteriaUtil;
@@ -20,10 +18,12 @@ import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
 public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
 
+    private static final String TABLE_FIELD_ID = "id";
     private static final String TABLE_FIELD_TITULO = "titulo";
-
     private static final String ENTITY_FIELD_FECHA_ESTRENO = "fechaEstreno";
     private static final String ENTITY_FIELD_IDIOMA = "idioma.id";
+    private static final String ENTITY_FIELD_CATEGORIAS = "categorias";
+    private static final String ENTITY_FIELD_ACTORES = "actores";
 
     public PeliculaCriteriaProcessor() {
         super(Pelicula.class);
@@ -37,9 +37,9 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
     public void registerProcessors() {
       //@formatter:off
         registerRestrictionProcessor(
-                RestrictionProcessorBuilder.stringRestrictionProcessor()
+                RestrictionProcessorBuilder.longRestrictionProcessor()
                 .withQueryProperty(QueryProperty.ID)
-                .withCriterionConverter(new SqlCriterionConverter())
+                .withEntityProperty(TABLE_FIELD_ID)
                 .build());
         registerRestrictionProcessor(
                 RestrictionProcessorBuilder.stringRestrictionProcessor()
@@ -66,15 +66,17 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.IDIOMA)
                 .withEntityProperty(ENTITY_FIELD_IDIOMA)
                 .build());
-        registerRestrictionProcessor(
-                RestrictionProcessorBuilder.restrictionProcessor()
+        
+        registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
                 .withQueryProperty(QueryProperty.CATEGORIAS)
-                .withCriterionConverter(new SqlCriterionConverter())
+                .withAlias(ENTITY_FIELD_CATEGORIAS, "c")
+                .withEntityProperty("c.id")
                 .build());
-        registerRestrictionProcessor(
-                RestrictionProcessorBuilder.restrictionProcessor()
+        
+        registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
                 .withQueryProperty(QueryProperty.ACTORES)
-                .withCriterionConverter(new SqlCriterionConverter())
+                .withAlias(ENTITY_FIELD_ACTORES, "a")
+                .withEntityProperty("a.id")
                 .build());
       //@formatter:on
     }
@@ -83,49 +85,11 @@ public class PeliculaCriteriaProcessor extends AbstractCriteriaProcessor {
 
         @Override
         public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
-            if (QueryProperty.ID.name().equalsIgnoreCase(property.getLeftExpression()) && "IN".equalsIgnoreCase(property.getOperationType().name())) {
-                return queryByIds(property);
-            }
             if (QueryProperty.TITULO.name().equalsIgnoreCase(property.getLeftExpression()) && "ILIKE".equalsIgnoreCase(property.getOperationType().name())) {
                 ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_TITULO));
                 return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
             }
-            if (QueryProperty.CATEGORIAS.name().equalsIgnoreCase(property.getLeftExpression()) && "IN".equalsIgnoreCase(property.getOperationType().name())) {
-                return queryByCategorias(property);
-            }
-            if (QueryProperty.ACTORES.name().equalsIgnoreCase(property.getLeftExpression()) && "IN".equalsIgnoreCase(property.getOperationType().name())) {
-                return queryByActores(property);
-            }
-            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(),
-                    property.getOperationType().name());
-        }
-
-        private Criterion queryByIds(QueryPropertyRestriction property) {
-            String consulta = "{alias}.id " + property.getOperationType() + "(%s)";
-            String sql = String.format(consulta, property.getRightExpressions().stream().collect(Collectors.joining(",")));
-            return Restrictions.sqlRestriction(sql);
-        }
-
-        private Criterion queryByCategorias(QueryPropertyRestriction property) {
-            //@formatter:off
-            String consulta = "{alias}.id in ("
-                  + "SELECT PC.PELICULA_ID "
-                  + "FROM PELICULA_CATEGORIA PC "
-                  + "WHERE (PC.CATEGORIA_ID " + property.getOperationType() + " (%s)))";
-            //@formatter:on
-            String sql = String.format(consulta, property.getRightExpressions().stream().collect(Collectors.joining(",")));
-            return Restrictions.sqlRestriction(sql);
-        }
-
-        private Criterion queryByActores(QueryPropertyRestriction property) {
-            //@formatter:off
-            String consulta = "{alias}.id in ("
-                  + "SELECT PA.PELICULA_ID "
-                  + "FROM PELICULA_ACTOR PA "
-                  + "WHERE (PA.ACTOR_ID " + property.getOperationType() + " (%s)))";
-            //@formatter:on
-            String sql = String.format(consulta, property.getRightExpressions().stream().collect(Collectors.joining(",")));
-            return Restrictions.sqlRestriction(sql);
+            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name());
         }
     }
 }
