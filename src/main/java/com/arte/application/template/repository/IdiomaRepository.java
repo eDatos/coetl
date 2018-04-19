@@ -12,7 +12,6 @@ import com.arte.application.template.domain.Idioma;
 /**
  * Spring Data JPA repository for the Idioma entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface IdiomaRepository extends JpaRepository<Idioma,Long> {
  

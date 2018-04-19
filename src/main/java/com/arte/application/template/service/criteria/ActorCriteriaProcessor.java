@@ -29,7 +29,7 @@ public class ActorCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        PELICULA, ACTOR, APELLIDO1
+        ACTOR, APELLIDO1
     }
 
     public void registerProcessors() {

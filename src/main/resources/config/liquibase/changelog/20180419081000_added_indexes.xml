@@ -1,0 +1,35 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+	<changeSet author="arte" id="20180419081000-1">
+
+		<!-- Actor -->
+		
+		<createIndex indexName="idx_pelicula_actor_actor_id" tableName="pelicula_actor">
+			<column name="actor_id" type="int8" />
+		</createIndex>
+		
+		
+		<!-- Operacion -->
+		
+		<createIndex indexName="idx_operacion_accion_sujeto" tableName="operacion">
+			<column name="accion" type="varchar(255)" />
+			<column name="sujeto" type="varchar(255)" />
+		</createIndex>
+		
+		
+		<!-- Rol -->
+		
+		<createIndex indexName="idx_roles_operaciones_rol_id" tableName="roles_operaciones">
+			<column name="rol_id" type="int8" />
+		</createIndex>
+		
+		<createIndex indexName="idx_usuario_rol_rol_id" tableName="usuario_rol">
+			<column name="rol_id" type="int8" />
+		</createIndex>
+		
+	</changeSet>
+
+</databaseChangeLog>

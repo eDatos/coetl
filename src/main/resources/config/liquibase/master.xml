@@ -21,4 +21,5 @@
     <include file="config/liquibase/changelog/20180122100900_added_entity_constraints_Pelicula_Categoria.xml" relativeToChangelogFile="false" />
     <include file="config/liquibase/changelog/20180326132319_added_entity_constraints_Actor_Documento.xml" relativeToChangelogFile="false" />
   <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+  <include file="config/liquibase/changelog/20180419081000_added_indexes.xml" relativeToChangelogFile="false" />
 </databaseChangeLog>
