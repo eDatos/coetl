@@ -114,6 +114,7 @@ fieldset {
                 ac-autocomplete,
                 ac-autocomplete-short-list,
                 ac-autocomplete-long-list,
+                ac-autocomplete-enum,
                 p-listbox {
                     @include make-col(10);
                 }
@@ -164,6 +165,7 @@ fieldset {
             ac-autocomplete,
             ac-autocomplete-short-list,
             ac-autocomplete-long-list,
+            ac-autocomplete-enum,
             p-listbox {
                 @include make-col(8);
             }        
