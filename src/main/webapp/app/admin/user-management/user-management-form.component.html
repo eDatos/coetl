@@ -134,8 +134,7 @@
         <div class="entity-fields">
             <div class="form-group">
                 <label jhiTranslate="userManagement.profiles">Profiles</label>
-                <ac-autocomplete name="rol" [(ngModel)]="user.roles" [suggestions]="authorities" [itemTemplate]="rolItemTemplate" [propertiesToQuery]="['nombre','codigo']"
-                    [required]="true" ></ac-autocomplete>
+                <ac-autocomplete-short-list name="rol" [(ngModel)]="user.roles" [suggestions]="authorities" [properties]="['nombre','codigo']" [itemTemplate]="rolItemTemplate" [multiple]="true" [required]="true"></ac-autocomplete>
             </div>
             <div class="form-group">
                 <label jhiTranslate="userManagement.activado">activado</label>

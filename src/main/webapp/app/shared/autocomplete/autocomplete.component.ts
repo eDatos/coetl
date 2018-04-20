@@ -25,13 +25,34 @@ export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 // [suggestions]="operaciones" [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
 export class AutocompleteComponent implements ControlValueAccessor, OnInit, AfterViewInit {
 
-    @Input()
-    protected propertiesToQuery: string[];
+    // Atributos internos
+    @ViewChild(AutoComplete)
+    protected autoComplete: AutoComplete;
 
-    public debouncedMode = false;
+    public debouncedMode;
+
+    protected _selectedSuggestions: any;
+
+    protected _suggestions: any[];
+
+    public filteredSuggestions: any[];
+
+    private focusMustOpenPanel = true;
+
+    public field: string = null;
+
+    private myNewLabel = '';
+
+    public internalItemTemplate: Function;
+
+    private autoCompleteOnKeydown: Function;
+
+    // Parametros opcionales
+    @Output()
+    private onClear: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    protected completeMethod: EventEmitter<any> = new EventEmitter();
+    private onBlur: EventEmitter<any> = new EventEmitter();
 
     @Output()
     private onSelect: EventEmitter<any> = new EventEmitter();
@@ -39,37 +60,20 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     @Output()
     private onUnselect: EventEmitter<any> = new EventEmitter();
 
-    @Output()
-    private onClear: EventEmitter<any> = new EventEmitter();
-
-    @Output()
-    private onBlur: EventEmitter<any> = new EventEmitter();
-
-    private _selectedSuggestions: any;
-
-    protected _suggestions: any[];
-
-    public filteredSuggestions: any[];
-
-    @ViewChild(AutoComplete)
-    protected autoComplete: AutoComplete;
-
-    private focusMustOpenPanel = true;
+    @Input()
+    public createNonFound = false;
 
     @Input()
-    public minLength = 3;
+    public deleteOnBackspace = true;
 
     @Input()
-    emptyMessage = this.translateService.instant('entity.list.empty.detail');
-
-    @Input()
-    public multiple = true;
-
-    @Input()
-    public field: string = null;
+    public emptyMessage = this.translateService.instant('entity.list.empty.detail');
 
     @Input()
     public placeholder: string = null;
+
+    @Input()
+    public minLength = 1;
 
     @Input()
     public required = false;
@@ -78,23 +82,41 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     public disabled = false;
 
     @Input()
-    public createNonFound = false;
+    public multiple = false;
 
     @Input()
-    public deleteOnBackspace = true;
+    public itemTemplate: Function;
 
-    private myNewLabel = '';
+    // Parametros obligatorios
+    @Input()
+    protected properties: string[];
 
-    public internalItemTemplate: Function;
+    @Output()
+    protected completeMethod: EventEmitter<any> = new EventEmitter();
 
-    private autoCompleteOnKeydown: Function;
+    constructor(protected translateService: TranslateService) { }
 
-    private onModelChange: Function = () => { };
+    ngOnInit() {
+        if (this.properties === undefined) {
+            throw new Error('properties is required');
+        }
+
+        if (this.properties.length === 1) {
+            this.field = this.properties[0];
+        }
+        if (this.itemTemplate === undefined) {
+            this.itemTemplate = (item) => {
+                return this.properties.map((property) => item[property]).join(' ');
+            }
+        }
+        this.internalItemTemplate = this.itemTemplate;
+        this.debouncedMode = this.completeMethod.observers.length > 0;
+        this.placeholder = this.placeholder || (this.debouncedMode ? this.translateService.instant('entity.list.empty.writeForSuggestions') : null);
+    }
+
+    protected onModelChange: Function = () => { };
 
     private onModelTouched: Function = () => { };
-
-    @Input()
-    public itemTemplate: Function = (item) => item;
 
     @Input()
     private compareWith: Function = (selectedSuggestion, existingSuggestion) => {
@@ -105,14 +127,6 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         } else {
             return selectedSuggestion === existingSuggestion;
         }
-    }
-
-    constructor(protected translateService: TranslateService) { }
-
-    ngOnInit() {
-        this.internalItemTemplate = this.itemTemplate;
-        this.debouncedMode = this.completeMethod.observers.length > 0;
-        this.placeholder = this.placeholder || (this.debouncedMode ? this.translateService.instant('entity.list.empty.writeForSuggestions') : null);
     }
 
     ngAfterViewInit() {
@@ -198,8 +212,8 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
             filteredSuggestions = this.excludeAlreadySelectedSuggestions(filteredSuggestions);
         }
 
-        if (this.propertiesToQuery) {
-            filteredSuggestions = this.filterByPropertiesToQuery(filteredSuggestions, query);
+        if (this.properties) {
+            filteredSuggestions = this.filterByProperties(filteredSuggestions, query);
         }
 
         if (this.createNonFound) {
@@ -223,11 +237,11 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         return newSuggestion;
     }
 
-    filterByPropertiesToQuery(suggestions: any[], query: string) {
+    filterByProperties(suggestions: any[], query: string) {
         return suggestions
             .filter((suggestion) => {
-                if (this.propertiesToQuery.length > 0) {
-                    return this.propertiesToQuery.findIndex((property) => {
+                if (this.properties.length > 0) {
+                    return this.properties.findIndex((property) => {
                         return this.queryContainsValue(query, suggestion[property])
                     }) !== -1;
                 } else {

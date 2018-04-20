@@ -7,14 +7,14 @@
     </div>
     <div class="entity-search-field">
         <label jhiTranslate="userManagement.filters.rolShort.label">Filtrar</label>
-        <ac-autocomplete-short-list (onSelect)="filter()" (onUnselect)="filter()" name="rol" [(ngModel)]="filters.roles" [suggestions]="roles"
-            [itemTemplate]="rolItemTemplate" [propertiesToQuery]="['nombre','codigo']" [minLength]="1" [placeholder]="'userManagement.filters.rolShort.placeholder' | translate"></ac-autocomplete>
+        <ac-autocomplete-short-list name="rol" [(ngModel)]="filters.roles" [suggestions]="roles" (onSelect)="filter()" (onUnselect)="filter()"
+        [placeholder]="'userManagement.filters.rolShort.placeholder' | translate" [properties]="['nombre','codigo']" [itemTemplate]="rolItemTemplate" [multiple]="true"></ac-autocomplete>
     </div>
 
     <div class="entity-search-field">
         <label jhiTranslate="userManagement.filters.rolLong.label">Filtrar</label>
-        <ac-autocomplete-long-list (onSelect)="filter()" (onUnselect)="filter()" [(ngModel)]="filters.roles" [suggestions]="roles"
-            [itemTemplate]="rolItemTemplate" (completeMethod)="completeMethodRoles($event)" [placeholder]="'userManagement.filters.rolLong.placeholder' | translate"></ac-autocomplete>
+        <ac-autocomplete-long-list name="rol" [(ngModel)]="filters.roles" [suggestions]="roles" (onSelect)="filter()" (onUnselect)="filter()" 
+        [placeholder]="'userManagement.filters.rolLong.placeholder' | translate" [properties]="['nombre','codigo']" (completeMethod)="completeMethodRoles($event)" [itemTemplate]="rolItemTemplate" [multiple]="true"></ac-autocomplete>
     </div>
 
     <div class="entity-search-field">

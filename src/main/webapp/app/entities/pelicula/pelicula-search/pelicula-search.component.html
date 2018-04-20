@@ -2,9 +2,8 @@
 
     <div class="entity-search-field">
         <label for="titulo" jhiTranslate="arteApplicationTemplateApp.pelicula.titulo.label">titulo</label>
-        <input class="form-control" [attr.aria-label]="'arteApplicationTemplateApp.pelicula.titulo.placeholder' | translate"
-            placeholder="{{'arteApplicationTemplateApp.pelicula.titulo.placeholder' | translate}}" [(ngModel)]="filters.titulo"
-            (keyup)="filter()" />
+        <input class="form-control" [attr.aria-label]="'arteApplicationTemplateApp.pelicula.titulo.placeholder' | translate" placeholder="{{'arteApplicationTemplateApp.pelicula.titulo.placeholder' | translate}}"
+            [(ngModel)]="filters.titulo" (keyup)="filter()" />
     </div>
 
 
@@ -17,26 +16,24 @@
 
     <div class="entity-search-field">
         <label for="idioma" jhiTranslate="arteApplicationTemplateApp.pelicula.idiomaShort.label">idioma</label>
-        <ac-autocomplete-short-list name="idioma" [multiple]="false" field="nombre" (onSelect)="filter()" (onUnselect)="filter()" [(ngModel)]="filters.idioma"
-            [suggestions]="filters.allIdiomas" [itemTemplate]="idiomaItemTemplate" [propertiesToQuery]="['nombre']"
-            [placeholder]="'arteApplicationTemplateApp.pelicula.idiomaShort.placeholder' | translate"></ac-autocomplete>
+        <ac-autocomplete-short-list name="idioma" [(ngModel)]="filters.idioma" [suggestions]="filters.allIdiomas" (onSelect)="filter()"
+            (onUnselect)="filter()" [placeholder]="'arteApplicationTemplateApp.pelicula.idiomaShort.placeholder' | translate"
+            [properties]="['nombre']"></ac-autocomplete>
     </div>
 
     <div class="entity-search-field">
-            <label for="idioma" jhiTranslate="arteApplicationTemplateApp.pelicula.idiomaLong.label">idioma</label>
-            <ac-autocomplete-long-list name="idioma" [multiple]="false" field="nombre" (onSelect)="filter()" (onUnselect)="filter()" [(ngModel)]="filters.idioma"
-                [suggestions]="filters.allIdiomas" [itemTemplate]="idiomaItemTemplate" (completeMethod)="completeMethodIdiomas($event)"
-                [placeholder]="'arteApplicationTemplateApp.pelicula.idiomaLong.placeholder' | translate"></ac-autocomplete>
-        </div>
-
+        <label for="idioma" jhiTranslate="arteApplicationTemplateApp.pelicula.idiomaLong.label">idioma</label>
+        <ac-autocomplete-long-list name="idioma" [(ngModel)]="filters.idioma" [suggestions]="filters.allIdiomas" (onSelect)="filter()"
+            (onUnselect)="filter()" [placeholder]="'arteApplicationTemplateApp.pelicula.idiomaLong.placeholder' | translate"
+            [properties]="['nombre']" (completeMethod)="completeMethodIdiomas($event)"></ac-autocomplete>
+    </div>
 
     <div class="entity-search-field">
         <label for="categorias" jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label">categorias</label>
-        <ac-autocomplete name="categorias" [multiple]="true" field="nombre" (onSelect)="filter()" (onUnselect)="filter()" [(ngModel)]="filters.categorias"
-            [suggestions]="filters.allCategorias" [itemTemplate]="categoriaItemTemplate" [propertiesToQuery]="['nombre']"
-            [placeholder]="'arteApplicationTemplateApp.pelicula.categorias.placeholder' | translate"></ac-autocomplete>
+        <ac-autocomplete-short-list name="categorias" [(ngModel)]="filters.categorias" [suggestions]="filters.allCategorias" (onSelect)="filter()"
+            (onUnselect)="filter()" [placeholder]="'arteApplicationTemplateApp.pelicula.categorias.placeholder' | translate"
+            [multiple]="true" [properties]="['nombre']"></ac-autocomplete>
     </div>
-
 
     <div class="entity-search-field-btn">
         <button class="btn btn-default" (click)="resetFilters();">

@@ -14,9 +14,8 @@ export class AutocompleteLongListComponent extends AutocompleteComponent impleme
         if (!(this.completeMethod.observers.length > 0)) {
             throw new Error('completeMethod is required on ac-autocomplete-long-list');
         }
-        if (typeof this.propertiesToQuery !== 'undefined') {
-            throw new Error('propertiesToQuery not supported on ac-autocomplete-long-list');
-        }
+
+        this.minLength = 3;
         super.ngOnInit();
     }
 }
