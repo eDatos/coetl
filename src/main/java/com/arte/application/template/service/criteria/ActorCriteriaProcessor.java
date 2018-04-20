@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 
 import com.arte.application.template.domain.Actor;
 import com.arte.application.template.service.criteria.util.CriteriaUtil;
@@ -30,15 +29,11 @@ public class ActorCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        PELICULA, ACTOR, APELLIDO1
+        ACTOR, APELLIDO1
     }
 
     public void registerProcessors() {
         //@formatter:off
-        registerRestrictionProcessor(RestrictionProcessorBuilder.longRestrictionProcessor()
-                .withQueryProperty(QueryProperty.PELICULA)
-                .withCriterionConverter(new SqlCriterionConverter())
-                .build());
         registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.ACTOR)
                 .withCriterionConverter(new SqlCriterionConverter())
@@ -55,30 +50,11 @@ public class ActorCriteriaProcessor extends AbstractCriteriaProcessor {
 
         @Override
         public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
-            if (QueryProperty.PELICULA.name().equalsIgnoreCase(property.getLeftExpression()) && "NE".equalsIgnoreCase(property.getOperationType().name())) {
-                return queryByNotPelicula(property);
-            }
-            if (QueryProperty.PELICULA.name().equalsIgnoreCase(property.getLeftExpression()) && "EQ".equalsIgnoreCase(property.getOperationType().name())) {
-                return queryByPelicula(property);
-            }
             if (QueryProperty.ACTOR.name().equalsIgnoreCase(property.getLeftExpression()) && "ILIKE".equalsIgnoreCase(property.getOperationType().name())) {
                 ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_NOMBRE, TABLE_FIELD_APELLIDO1, TABLE_FIELD_APELLIDO2));
                 return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
             }
-            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(),
-                    property.getOperationType().name());
-        }
-
-        private Criterion queryByNotPelicula(QueryPropertyRestriction property) {
-            String consulta = "{alias}.id not in (" + "SELECT PA.ACTOR_ID " + "FROM PELICULA_ACTOR PA " + "WHERE PA.PELICULA_ID = %s" + ")";
-            String sql = String.format(consulta, property.getRightExpression());
-            return Restrictions.sqlRestriction(sql);
-        }
-
-        private Criterion queryByPelicula(QueryPropertyRestriction property) {
-            String consulta = "{alias}.id in (" + "SELECT PA.ACTOR_ID " + "FROM PELICULA_ACTOR PA " + "WHERE PA.PELICULA_ID = %s" + ")";
-            String sql = String.format(consulta, property.getRightExpression());
-            return Restrictions.sqlRestriction(sql);
+            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name());
         }
     }
 }
