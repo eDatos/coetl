@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AutocompleteComponent } from '.';
 import { buildProvider } from '..';
 
+/*
+  Documentación en http://confluence.arte-consultores.com/display/INFRASTR/ac-autocomplete-long-list
+*/
 @Component({
     selector: 'ac-autocomplete-long-list',
     templateUrl: 'autocomplete.component.html',

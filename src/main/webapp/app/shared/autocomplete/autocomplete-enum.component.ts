@@ -3,6 +3,9 @@ import { AutocompleteComponent } from '.';
 import { buildProvider } from '..';
 import { Genero } from '../../entities/actor';
 
+/*
+  Documentación en http://confluence.arte-consultores.com/display/INFRASTR/ac-autocomplete-enum
+*/
 @Component({
     selector: 'ac-autocomplete-enum',
     templateUrl: 'autocomplete.component.html',
@@ -12,7 +15,7 @@ import { Genero } from '../../entities/actor';
 export class AutocompleteEnumComponent extends AutocompleteComponent implements OnInit {
 
     @Input()
-    public enumType;
+    public suggestionsEnum;
 
     @Input()
     public translationPath: string;
@@ -30,8 +33,8 @@ export class AutocompleteEnumComponent extends AutocompleteComponent implements 
             throw new Error('suggestions is not supported on ac-autocomplete-enum');
         }
 
-        if (this.enumType === undefined) {
-            throw new Error('enumType is required on ac-autocomplete-enum');
+        if (this.suggestionsEnum === undefined) {
+            throw new Error('suggestionsEnum is required on ac-autocomplete-enum');
         }
 
         if (this.translationPath === undefined) {
@@ -39,7 +42,7 @@ export class AutocompleteEnumComponent extends AutocompleteComponent implements 
         }
 
         this.properties = ['value'];
-        this.suggestions = Object.keys(this.enumType).map((key) => Object.assign({}, {
+        this.suggestions = Object.keys(this.suggestionsEnum).map((key) => Object.assign({}, {
             id: key, value: this.translateService.instant(this.translationPath + key)
         }));
 
@@ -47,7 +50,7 @@ export class AutocompleteEnumComponent extends AutocompleteComponent implements 
     }
 
     private findSuggestionByEnum(enumeration: any) {
-        return this.suggestions.filter((suggestion) => suggestion.id === enumeration)[0];
+        return this.suggestions.find((suggestion) => suggestion.id === enumeration);
     }
 
     writeValue(value: any): void {

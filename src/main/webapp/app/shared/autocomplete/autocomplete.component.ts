@@ -16,13 +16,6 @@ export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     styleUrls: ['autocomplete.component.scss'],
     providers: [AC_AUTOCOMPLETE_VALUE_ACCESSOR]
 })
-// Sample where the calls are made to the service
-// <ac-autocomplete name="operacion" (completeMethod)="filterOperaciones($event)" [debouncedMode]="true" [(ngModel)]="rol.operaciones" [suggestions]="operaciones"
-// [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
-//
-// Sample where array is static and is filtered via properties
-// <ac-autocomplete name="operacion" [propertiesToQuery]="['accion', 'sujeto']"  [(ngModel)]="rol.operaciones"
-// [suggestions]="operaciones" [itemTemplate]="operacionItemTemplate"></ac-autocomplete>
 export class AutocompleteComponent implements ControlValueAccessor, OnInit, AfterViewInit {
 
     // Atributos internos
@@ -73,7 +66,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     public placeholder: string = null;
 
     @Input()
-    public minLength = 1;
+    public minLength = 0;
 
     @Input()
     public required = false;
@@ -83,9 +76,6 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     @Input()
     public multiple = false;
-
-    @Input()
-    public itemTemplate: Function;
 
     // Parametros obligatorios
     @Input()
@@ -101,14 +91,14 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
             throw new Error('properties is required');
         }
 
+        if (this.createNonFound && this.properties.length > 1) {
+            throw new Error('is not possible to create new elements if several fields are showed');
+        }
+
         if (this.properties.length === 1) {
             this.field = this.properties[0];
         }
-        if (this.itemTemplate === undefined) {
-            this.itemTemplate = (item) => {
-                return this.properties.map((property) => item[property]).join(' ');
-            }
-        }
+
         this.internalItemTemplate = this.itemTemplate;
         this.debouncedMode = this.completeMethod.observers.length > 0;
         this.placeholder = this.placeholder || (this.debouncedMode ? this.translateService.instant('entity.list.empty.writeForSuggestions') : null);
@@ -117,6 +107,11 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     protected onModelChange: Function = () => { };
 
     private onModelTouched: Function = () => { };
+
+    @Input()
+    public itemTemplate: Function = (item) => {
+        return this.properties.map((property) => item[property]).join(' ');
+    }
 
     @Input()
     private compareWith: Function = (selectedSuggestion, existingSuggestion) => {
