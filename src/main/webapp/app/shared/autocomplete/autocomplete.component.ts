@@ -86,8 +86,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     constructor(protected translateService: TranslateService) { }
 
+    // FIXME Con multiple=false field es obligatorio.
     ngOnInit() {
-        if (this.properties === undefined) {
+        if (this.properties === undefined || this.properties.length === 0) {
             throw new Error('properties is required');
         }
 
@@ -149,7 +150,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
             if (this.autoComplete.suggestions) {
                 for (const suggestion of this.autoComplete.suggestions) {
-                    const itemValue = this.autoComplete.field ? this.autoComplete.objectUtils.resolveFieldData(suggestion, this.autoComplete.field) : suggestion;
+                    const itemValue = this.autoComplete.field ? this.autoComplete.objectUtils.resolveFieldData(suggestion, this.autoComplete.field) : this.itemTemplate(suggestion);
                     if (itemValue && inputValue === itemValue.toLowerCase()) {
                         valid = true;
                         break;
