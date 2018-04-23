@@ -14,8 +14,8 @@
                     <div class="entity-fields">
                         <div class="form-group">
                             <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.genero.label" for="field_genero">Genero</label>
-                            <ac-autocomplete [multiple]="false" name="genero" [(ngModel)]="selectedGenero" [suggestions]="generos" [itemTemplate]="generoItemTemplate"
-                                [minLength]="1" [placeholder]="'arteApplicationTemplateApp.actor.genero.placeholder' | translate" field="value" ></ac-autocomplete>
+                            <ac-autocomplete-enum name="genero" [(ngModel)]="actor.genero" [suggestionsEnum]="generoEnum" [translationPath]="'arteApplicationTemplateApp.actor.genero.'"
+                                [placeholder]="'arteApplicationTemplateApp.actor.genero.placeholder' | translate"></ac-autocomplete-enum>
                         </div>
                         <div class="form-group">
                             <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.nombre" for="field_nombre">Nombre</label>

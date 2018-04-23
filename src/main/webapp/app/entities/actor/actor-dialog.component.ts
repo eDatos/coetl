@@ -26,11 +26,11 @@ export class ActorDialogComponent implements OnInit {
     isDeleting: boolean;
     resourceUrl: string;
 
+    generoEnum = Genero;
+
     peliculas: Pelicula[];
     copiaPeliculas: Pelicula[];
     peliculaFilter: PeliculaFilter;
-    generos: any[];
-    selectedGenero: any;
     ordenandoPeliculas = false;
     canAddPeliculas = true;
 
@@ -56,10 +56,6 @@ export class ActorDialogComponent implements OnInit {
             this.peliculaService.query({ query: this.peliculaFilter.toQuery() })
                 .subscribe((res: ResponseWrapper) => { this.peliculas = res.json; });
         }
-        this.generos = Object.keys(Genero).map((key) => Object.assign({}, {
-            id: key, value: this.transalteService.instant('arteApplicationTemplateApp.actor.genero.' + key)
-        }));
-        this.selectedGenero = this.generos.find((g) => g.id === this.actor.genero);
     }
 
     clear() {
@@ -68,7 +64,6 @@ export class ActorDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.actor.genero = this.selectedGenero && this.selectedGenero.id ? this.selectedGenero.id : undefined;
         if (this.actor.id !== undefined) {
             this.subscribeToSaveResponse(
                 this.actorService.update(this.actor));
@@ -122,10 +117,6 @@ export class ActorDialogComponent implements OnInit {
 
     private onDeleteError(error): void {
         this.isDeleting = false;
-    }
-
-    public generoItemTemplate(item: any) {
-        return item.value;
     }
 
     public crearNuevaPelicula() {

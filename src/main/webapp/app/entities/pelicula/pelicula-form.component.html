@@ -54,17 +54,16 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.idioma.label" for="field_idioma"></label>
-                    <ac-autocomplete [multiple]="false" [suggestions]="idiomas" [(ngModel)]="pelicula.idioma" name="field_idioma"
-                        [itemTemplate]="idiomaItemTemplate" field="nombre" [required]="false" [propertiesToQuery]="['nombre']"
-                        (onSelect)="searchIdiomas()" (onUnselect)="searchIdiomas()" [placeholder]="'arteApplicationTemplateApp.pelicula.idioma.placeholder' | translate" >
-                    </ac-autocomplete>
+                    <ac-autocomplete-short-list name="field_idioma" [(ngModel)]="pelicula.idioma" [suggestions]="idiomas"
+                    [placeholder]="'arteApplicationTemplateApp.pelicula.idioma.placeholder' | translate" [required]="false" [properties]="['nombre']" [itemTemplate]="idiomaItemTemplate">
+                    </ac-autocomplete-short-list>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label" for="field_categorias"></label>
-                    <ac-autocomplete [multiple]="true" [suggestions]="categorias" [(ngModel)]="pelicula.categorias" name="field_categorias"
-                        [itemTemplate]="categoriaItemTemplate" [required]="true" field="nombre" [propertiesToQuery]="['nombre']" [createNonFound]="true"
-                        (onSelect)="searchCategorias()" (onUnselect)="searchCategorias()" [placeholder]="'arteApplicationTemplateApp.pelicula.categorias.placeholder' | translate">
-                    </ac-autocomplete>
+                    <ac-autocomplete-short-list name="categorias" [(ngModel)]="pelicula.categorias" [suggestions]="categorias"
+                    [placeholder]="'arteApplicationTemplateApp.pelicula.categorias.placeholder' | translate" [required]="true" [createNonFound]="true"
+                    [properties]="['nombre']" [itemTemplate]="categoriaItemTemplate" [multiple]="true">
+                    </ac-autocomplete-short-list>
                 </div>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.descripcion.label" for="field_descripcion"></label>
@@ -80,8 +79,8 @@
             <div class="entity-fields">
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.reparto.label" for="field_actores"></label>
-                    <ac-order-list class="form-control" name="actores" [suggestions]="actores" [required]="true" [(ngModel)]="pelicula.actores"
-                        [itemTemplate]="actorItemTemplate.bind(this)">
+                    <ac-order-list class="form-control" name="actores" [(ngModel)]="pelicula.actores" [suggestions]="actores" [required]="true" 
+                        [propertiesToQuery]="['nombre', 'apellido1', 'apellido2']" [itemTemplate]="actorItemTemplate">
                     </ac-order-list>
                 </div>
             </div>

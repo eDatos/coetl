@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AutocompleteComponent } from '.';
 import { buildProvider } from '..';
 
+/*
+  Documentación en http://confluence.arte-consultores.com/display/INFRASTR/ac-autocomplete-short-list
+*/
 @Component({
     selector: 'ac-autocomplete-short-list',
     templateUrl: 'autocomplete.component.html',
@@ -14,9 +17,7 @@ export class AutocompleteShortListComponent extends AutocompleteComponent implem
         if (this.completeMethod.observers.length > 0) {
             throw new Error('completeMethod is not supported on ac-autocomplete-short-list');
         }
-        if (typeof this.propertiesToQuery === 'undefined') {
-            throw new Error('propertiesToQuery is required on ac-autocomplete-short-list');
-        }
+
         super.ngOnInit();
     }
 }
