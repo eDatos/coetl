@@ -33,6 +33,10 @@ export class AutocompleteEnumComponent extends AutocompleteComponent implements 
             throw new Error('suggestions is not supported on ac-autocomplete-enum');
         }
 
+        if (this.createNonFound) {
+            throw new Error('createNonFound is not supported on ac-autocomplete-enum');
+        }
+
         if (this.suggestionsEnum === undefined) {
             throw new Error('suggestionsEnum is required on ac-autocomplete-enum');
         }

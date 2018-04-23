@@ -22,6 +22,8 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     @ViewChild(AutoComplete)
     protected autoComplete: AutoComplete;
 
+    private originalProperties = [];
+
     public debouncedMode;
 
     protected _selectedSuggestions: any;
@@ -99,6 +101,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         if (this.properties.length === 1) {
             this.field = this.properties[0];
         }
+        this.originalProperties = this.properties;
 
         this.internalItemTemplate = this.itemTemplate;
         this.debouncedMode = this.completeMethod.observers.length > 0;
@@ -111,7 +114,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     @Input()
     public itemTemplate: Function = (item) => {
-        return this.properties.map((property) => item[property]).join(' ');
+        return this.originalProperties.map((property) => item[property]).join(' ');
     }
 
     @Input()
@@ -295,7 +298,15 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     @Input()
     set suggestions(suggestions: any[]) {
-        this._suggestions = suggestions;
+        let processedSuggestions = suggestions;
+        if (this.originalProperties.length > 1 && !this.multiple) {
+            processedSuggestions = suggestions.map((suggestion) => {
+                return Object.assign({}, suggestion, { pleaseDoNotOverlapThisField: this.itemTemplate(suggestion) });
+            });
+            this.field = 'pleaseDoNotOverlapThisField';
+            this.properties = [this.field];
+        }
+        this._suggestions = processedSuggestions;
         this.filteredSuggestions = this.getFilteredSuggestions(this.getQueryValue());
         this.autoComplete.noResults = !this.filteredSuggestions.length;
     }
