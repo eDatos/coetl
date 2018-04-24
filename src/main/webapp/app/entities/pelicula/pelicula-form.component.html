@@ -55,14 +55,14 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.idioma.label" for="field_idioma"></label>
                     <ac-autocomplete-short-list name="field_idioma" [(ngModel)]="pelicula.idioma" [suggestions]="idiomas"
-                    [placeholder]="'arteApplicationTemplateApp.pelicula.idioma.placeholder' | translate" [required]="false" [properties]="['nombre']" [itemTemplate]="idiomaItemTemplate">
+                    [placeholder]="'arteApplicationTemplateApp.pelicula.idioma.placeholder' | translate" [required]="false" [properties]="['nombre']">
                     </ac-autocomplete-short-list>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label" for="field_categorias"></label>
                     <ac-autocomplete-short-list name="categorias" [(ngModel)]="pelicula.categorias" [suggestions]="categorias"
                     [placeholder]="'arteApplicationTemplateApp.pelicula.categorias.placeholder' | translate" [required]="true" [createNonFound]="true"
-                    [properties]="['nombre']" [itemTemplate]="categoriaItemTemplate" [multiple]="true">
+                    [properties]="['nombre']" [multiple]="true">
                     </ac-autocomplete-short-list>
                 </div>
                 <div class="form-group full-width">
@@ -80,7 +80,7 @@
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.reparto.label" for="field_actores"></label>
                     <ac-order-list class="form-control" name="actores" [(ngModel)]="pelicula.actores" [suggestions]="actores" [required]="true" 
-                        [propertiesToQuery]="['nombre', 'apellido1', 'apellido2']" [itemTemplate]="actorItemTemplate">
+                        [itemTemplate]="actorItemTemplate">
                     </ac-order-list>
                 </div>
             </div>

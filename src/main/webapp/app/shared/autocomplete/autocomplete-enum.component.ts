@@ -45,8 +45,10 @@ export class AutocompleteEnumComponent extends AutocompleteComponent implements 
             throw new Error('translationPath is required on ac-autocomplete-enum');
         }
 
-        this.properties = ['value'];
-        this.suggestions = Object.keys(this.suggestionsEnum).map((key) => Object.assign({}, {
+        if (this.itemTemplate === undefined) {
+            this.properties = ['value'];
+        }
+        this._suggestions = Object.keys(this.suggestionsEnum).map((key) => Object.assign({}, {
             id: key, value: this.translateService.instant(this.translationPath + key)
         }));
 
@@ -72,7 +74,9 @@ export class AutocompleteEnumComponent extends AutocompleteComponent implements 
 
     set selectedSuggestions(value) {
         this._selectedSuggestions = value;
-        if (value instanceof Array) {
+        if (this._selectedSuggestions === null || this._selectedSuggestions === undefined) {
+            this.onModelChange(this._selectedSuggestions);
+        } else if (value instanceof Array) {
             this.onModelChange(this._selectedSuggestions.map((suggestion) => suggestion.id));
         } else {
             this.onModelChange(this._selectedSuggestions.id);

@@ -10,6 +10,8 @@ export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     multi: true
 };
 
+const ITEM_TEMPLATE_FIELD = '_ITEM_TEMPLATE_FIELD_';
+
 @Component({
     selector: 'ac-autocomplete',
     templateUrl: 'autocomplete.component.html',
@@ -22,7 +24,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     @ViewChild(AutoComplete)
     protected autoComplete: AutoComplete;
 
-    private originalProperties = [];
+    private internalProperties = [];
 
     public debouncedMode;
 
@@ -79,6 +81,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     @Input()
     public multiple = false;
 
+    @Input()
+    public itemTemplate: Function;
+
     // Parametros obligatorios
     @Input()
     protected properties: string[];
@@ -88,33 +93,55 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     constructor(protected translateService: TranslateService) { }
 
-    // FIXME Con multiple=false field es obligatorio.
     ngOnInit() {
-        if (this.properties === undefined || this.properties.length === 0) {
+        if (this.itemTemplate === undefined && (this.properties === undefined || this.properties.length === 0)) {
             throw new Error('properties is required');
         }
 
-        if (this.createNonFound && this.properties.length > 1) {
+        if (this.itemTemplate !== undefined && this.properties !== undefined && this.properties.length > 0) {
+            throw new Error('itemTemplate override properties! You must delete properties');
+        }
+
+        if (this.createNonFound && this.properties !== undefined && this.properties.length > 1) {
             throw new Error('is not possible to create new elements if several fields are showed');
         }
 
-        if (this.properties.length === 1) {
-            this.field = this.properties[0];
+        if (this.createNonFound && this.itemTemplate !== undefined) {
+            throw new Error('is not possible to create new elements if there is a custom item template');
         }
-        this.originalProperties = this.properties;
 
-        this.internalItemTemplate = this.itemTemplate;
+        this.initFieldAndPropertiesAndItemTemplate();
         this.debouncedMode = this.completeMethod.observers.length > 0;
         this.placeholder = this.placeholder || (this.debouncedMode ? this.translateService.instant('entity.list.empty.writeForSuggestions') : null);
+    }
+
+    private initFieldAndPropertiesAndItemTemplate() {
+        if (this.itemTemplate !== undefined) {
+            this.internalItemTemplate = this.itemTemplate;
+        } else {
+            this.internalItemTemplate = this.defaultItemTemplate;
+        }
+
+        if (this.properties !== undefined) {
+            this.internalProperties = this.properties;
+
+            if (this.properties.length === 1) {
+                this.field = this.properties[0];
+            }
+        }
+
+        if (this.isWrapCase()) {
+            this.field = ITEM_TEMPLATE_FIELD;
+            this.internalProperties = [this.field];
+        }
     }
 
     protected onModelChange: Function = () => { };
 
     private onModelTouched: Function = () => { };
 
-    @Input()
-    public itemTemplate: Function = (item) => {
-        return this.originalProperties.map((property) => item[property]).join(' ');
+    private defaultItemTemplate: Function = (item) => {
+        return this.properties.map((property) => item[property]).join(' ');
     }
 
     @Input()
@@ -153,7 +180,8 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
             if (this.autoComplete.suggestions) {
                 for (const suggestion of this.autoComplete.suggestions) {
-                    const itemValue = this.autoComplete.field ? this.autoComplete.objectUtils.resolveFieldData(suggestion, this.autoComplete.field) : this.itemTemplate(suggestion);
+                    const itemValue = this.autoComplete.field ? this.autoComplete.objectUtils.resolveFieldData(suggestion, this.autoComplete.field)
+                        : this.internalItemTemplate(suggestion);
                     if (itemValue && inputValue === itemValue.toLowerCase()) {
                         valid = true;
                         break;
@@ -204,14 +232,22 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         this.onClear.emit($event);
     }
 
+    private isWrapCase(): boolean {
+        return !this.multiple && ((this.properties !== undefined && this.properties.length > 1) || (this.itemTemplate !== undefined));
+    }
+
     getFilteredSuggestions(query) {
         let filteredSuggestions = this.suggestions ? this.suggestions.slice() : [];
+
+        if (this.isWrapCase()) {
+            filteredSuggestions = this.wrapItemList(filteredSuggestions);
+        }
 
         if (this._selectedSuggestions instanceof Array) {
             filteredSuggestions = this.excludeAlreadySelectedSuggestions(filteredSuggestions);
         }
 
-        if (this.properties) {
+        if (this.internalProperties !== undefined && this.internalProperties.length > 0) {
             filteredSuggestions = this.filterByProperties(filteredSuggestions, query);
         }
 
@@ -220,6 +256,16 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         }
 
         return filteredSuggestions;
+    }
+
+    private wrapItemList(suggestions: any[]) {
+        return suggestions.map((suggestion) => {
+            return this.wrapItem(suggestion);
+        });
+    }
+
+    private wrapItem(item) {
+        return Object.assign({}, item, { _ITEM_TEMPLATE_FIELD_: this.internalItemTemplate(item) });
     }
 
     addNonFound(filteredSuggestions, query) {
@@ -239,8 +285,8 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     filterByProperties(suggestions: any[], query: string) {
         return suggestions
             .filter((suggestion) => {
-                if (this.properties.length > 0) {
-                    return this.properties.findIndex((property) => {
+                if (this.internalProperties.length > 0) {
+                    return this.internalProperties.findIndex((property) => {
                         return this.queryContainsValue(query, suggestion[property])
                     }) !== -1;
                 } else {
@@ -298,15 +344,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     @Input()
     set suggestions(suggestions: any[]) {
-        let processedSuggestions = suggestions;
-        if (this.originalProperties.length > 1 && !this.multiple) {
-            processedSuggestions = suggestions.map((suggestion) => {
-                return Object.assign({}, suggestion, { pleaseDoNotOverlapThisField: this.itemTemplate(suggestion) });
-            });
-            this.field = 'pleaseDoNotOverlapThisField';
-            this.properties = [this.field];
-        }
-        this._suggestions = processedSuggestions;
+        this._suggestions = suggestions;
         this.filteredSuggestions = this.getFilteredSuggestions(this.getQueryValue());
         this.autoComplete.noResults = !this.filteredSuggestions.length;
     }
@@ -318,7 +356,11 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     /* ControlValueAccessor */
 
     writeValue(value: any): void {
-        this._selectedSuggestions = value;
+        if (this.isWrapCase()) {
+            this._selectedSuggestions = this.wrapItem(value);
+        } else {
+            this._selectedSuggestions = value;
+        }
     }
 
     @Input()

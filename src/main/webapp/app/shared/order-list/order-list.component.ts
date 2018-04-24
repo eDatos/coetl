@@ -24,7 +24,7 @@ export class OrderListComponent implements ControlValueAccessor {
     public suggestions: any[];
 
     @Input()
-    public propertiesToQuery: any[];
+    public propertiesToQuery;
 
     public dragAndDropScope: string;
 
@@ -55,7 +55,7 @@ export class OrderListComponent implements ControlValueAccessor {
     private onSelect: EventEmitter<any> = new EventEmitter();
 
     @Input()
-    public itemTemplate: Function = (item) => item;
+    public itemTemplate: Function;
 
     private onModelChange: Function = () => { };
 

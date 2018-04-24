@@ -8,13 +8,13 @@
     <div class="entity-search-field">
         <label jhiTranslate="userManagement.filters.rolShort.label">Filtrar</label>
         <ac-autocomplete-short-list name="rol" [(ngModel)]="filters.roles" [suggestions]="roles" (onSelect)="filter()" (onUnselect)="filter()"
-        [placeholder]="'userManagement.filters.rolShort.placeholder' | translate" [properties]="['nombre','codigo']" [itemTemplate]="rolItemTemplate" [multiple]="true"></ac-autocomplete-short-list>
+        [placeholder]="'userManagement.filters.rolShort.placeholder' | translate" [properties]="['nombre']" [multiple]="true"></ac-autocomplete-short-list>
     </div>
 
     <div class="entity-search-field">
         <label jhiTranslate="userManagement.filters.rolLong.label">Filtrar</label>
         <ac-autocomplete-long-list name="rol" [(ngModel)]="filters.roles" [suggestions]="roles" (onSelect)="filter()" (onUnselect)="filter()" 
-        [placeholder]="'userManagement.filters.rolLong.placeholder' | translate" [properties]="['nombre','codigo']" (completeMethod)="completeMethodRoles($event)" [itemTemplate]="rolItemTemplate" [multiple]="true"></ac-autocomplete-long-list>
+        [placeholder]="'userManagement.filters.rolLong.placeholder' | translate" [properties]="['nombre']" (completeMethod)="completeMethodRoles($event)" [multiple]="true"></ac-autocomplete-long-list>
     </div>
 
     <div class="entity-search-field">
