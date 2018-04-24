@@ -12,6 +12,7 @@ export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 
 const ITEM_TEMPLATE_FIELD = '_ITEM_TEMPLATE_FIELD_';
 
+// TODO: INFRASTR-113 - Revisar la implementación del componente order-list
 @Component({
     selector: 'ac-autocomplete',
     templateUrl: 'autocomplete.component.html',
@@ -247,6 +248,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
             filteredSuggestions = this.excludeAlreadySelectedSuggestions(filteredSuggestions);
         }
 
+        // TODO: INFRASTR-113 - Revisar la implementación del componente order-list
         if (this.internalProperties !== undefined && this.internalProperties.length > 0) {
             filteredSuggestions = this.filterByProperties(filteredSuggestions, query);
         }
@@ -285,6 +287,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     filterByProperties(suggestions: any[], query: string) {
         return suggestions
             .filter((suggestion) => {
+                // TODO: INFRASTR-113 - Revisar la implementación del componente order-list
                 if (this.internalProperties.length > 0) {
                     return this.internalProperties.findIndex((property) => {
                         return this.queryContainsValue(query, suggestion[property])

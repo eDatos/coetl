@@ -23,6 +23,7 @@ export class OrderListComponent implements ControlValueAccessor {
     @Input()
     public suggestions: any[];
 
+    // TODO: INFRASTR-113 - Revisar la implementación del componente order-list
     @Input()
     public propertiesToQuery;
 
@@ -54,6 +55,7 @@ export class OrderListComponent implements ControlValueAccessor {
     @Output()
     private onSelect: EventEmitter<any> = new EventEmitter();
 
+    // TODO: INFRASTR-113 - Revisar la implementación del componente order-list
     @Input()
     public itemTemplate: Function;
 
