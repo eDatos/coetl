@@ -241,7 +241,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     }
 
     updateFilteredSuggestions(query?: string) {
-        query = query || this.getQueryValue();
+        query = (query !== undefined && query !== null) ? query : this.getQueryValue();
 
         let updatedFilteredSuggestions = this.suggestions ? this.suggestions.slice() : [];
 
