@@ -79,17 +79,18 @@ public class QueryUtil {
     }
 
     private DetachedCriteria queryToCriteria(Pageable pageable, String query, AbstractCriteriaProcessor processor) {
-        if (query == null) {
-            query = StringUtils.EMPTY;
+        String finalQuery = query;
+        if (finalQuery == null) {
+            finalQuery = StringUtils.EMPTY;
         }
 
-        query += pageableSortToQueryString(pageable);
+        finalQuery += pageableSortToQueryString(pageable);
 
         QueryRequest queryRequest = null;
-        logger.debug("Petición para mapear query: {}", query);
-        if (StringUtils.isNotBlank(query)) {
+        logger.debug("Petición para mapear query: {}", finalQuery);
+        if (StringUtils.isNotBlank(finalQuery)) {
             DefaultQueryExprVisitor visitor = new DefaultQueryExprVisitor();
-            queryExprCompiler.parse(query, visitor);
+            queryExprCompiler.parse(finalQuery, visitor);
             queryRequest = visitor.getQueryRequest();
         }
         return processor.process(queryRequest);
