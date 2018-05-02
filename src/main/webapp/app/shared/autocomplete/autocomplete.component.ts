@@ -112,6 +112,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         }
 
         this.initFieldAndPropertiesAndItemTemplate();
+        this.updateFilteredSuggestions();
         this.debouncedMode = this.completeMethod.observers.length > 0;
         this.placeholder = this.placeholder || (this.debouncedMode ? this.translateService.instant('entity.list.empty.writeForSuggestions') : null);
     }
@@ -213,7 +214,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     onCompleteMethod($event) {
         this.completeMethod.emit($event);
-        this.filteredSuggestions = this.getFilteredSuggestions($event.query);
+        // Aquí pasamos la query explicitamente para evitar interacción con el
+        // dropdownMode (véase https://github.com/primefaces/primeng/blob/4.3.0/src/app/components/autocomplete/autocomplete.ts#L393)
+        this.updateFilteredSuggestions($event.query);
     }
 
     itsNewSuggestion(item) {
@@ -237,37 +240,48 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         return !this.multiple && ((this.properties !== undefined && this.properties.length > 1) || (this.itemTemplate !== undefined));
     }
 
-    getFilteredSuggestions(query) {
-        let filteredSuggestions = this.suggestions ? this.suggestions.slice() : [];
+    updateFilteredSuggestions(query?: string) {
+        query = (query !== undefined && query !== null) ? query : this.getQueryValue();
+
+        let updatedFilteredSuggestions = this.suggestions ? this.suggestions.slice() : [];
 
         if (this.isWrapCase()) {
-            filteredSuggestions = this.wrapItemList(filteredSuggestions);
+            updatedFilteredSuggestions = this.wrapItemList(updatedFilteredSuggestions);
         }
 
         if (this._selectedSuggestions instanceof Array) {
-            filteredSuggestions = this.excludeAlreadySelectedSuggestions(filteredSuggestions);
+            updatedFilteredSuggestions = this.excludeAlreadySelectedSuggestions(updatedFilteredSuggestions);
         }
 
         // TODO: INFRASTR-113 - Revisar la implementación del componente order-list
         if (this.internalProperties !== undefined && this.internalProperties.length > 0) {
-            filteredSuggestions = this.filterByProperties(filteredSuggestions, query);
+            updatedFilteredSuggestions = this.filterByProperties(updatedFilteredSuggestions, query);
         }
 
         if (this.createNonFound) {
-            filteredSuggestions = this.addNonFound(filteredSuggestions, query);
+            updatedFilteredSuggestions = this.addNonFound(updatedFilteredSuggestions, query);
         }
 
-        return filteredSuggestions;
+        this.filteredSuggestions = updatedFilteredSuggestions;
+        this.autoComplete.noResults = !this.filteredSuggestions.length;
     }
 
     private wrapItemList(suggestions: any[]) {
-        return suggestions.map((suggestion) => {
-            return this.wrapItem(suggestion);
-        });
+        if (this.internalItemTemplate !== undefined) {
+            return suggestions.map((suggestion) => {
+                return this.wrapItem(suggestion);
+            });
+        } else {
+            return suggestions;
+        }
     }
 
     private wrapItem(item) {
-        return Object.assign({}, item, { _ITEM_TEMPLATE_FIELD_: this.internalItemTemplate(item) });
+        if (item) {
+            return Object.assign({}, item, { _ITEM_TEMPLATE_FIELD_: this.internalItemTemplate(item) });
+        } else {
+            return item;
+        }
     }
 
     addNonFound(filteredSuggestions, query) {
@@ -325,7 +339,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     handleOnFocusSuggestions($event) {
         const queryValue = this.getQueryValue();
         if (!this.debouncedMode || queryValue.length >= this.minLength) {
-            this.filteredSuggestions = this.getFilteredSuggestions(queryValue);
+            this.updateFilteredSuggestions();
 
             setTimeout(() => {
                 if (this.focusMustOpenPanel) {
@@ -348,8 +362,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     @Input()
     set suggestions(suggestions: any[]) {
         this._suggestions = suggestions;
-        this.filteredSuggestions = this.getFilteredSuggestions(this.getQueryValue());
-        this.autoComplete.noResults = !this.filteredSuggestions.length;
+        this.updateFilteredSuggestions();
     }
 
     get suggestions(): any[] {
