@@ -93,7 +93,7 @@ public class PeliculaResource extends AbstractResource {
      */
     @PutMapping
     @Timed
-    public ResponseEntity<PeliculaDTO> updatePelicula(@Valid @RequestBody PeliculaDTO peliculaDTO) throws URISyntaxException {
+    public ResponseEntity<PeliculaDTO> updatePelicula(@Valid @RequestBody PeliculaDTO peliculaDTO) {
         log.debug("REST request to update Pelicula : {}", peliculaDTO);
         if (peliculaDTO.getId() == null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, WebConstants.ID_MISSING_MESSAGE)).body(null);

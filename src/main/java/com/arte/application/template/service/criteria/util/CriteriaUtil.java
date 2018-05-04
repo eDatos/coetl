@@ -10,11 +10,14 @@ import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 
 public final class CriteriaUtil {
 
+    private static final String POSTGRE_DB_FUNCTION = "lower_unaccent";
+    
+    private static final String OR_DELIMETER = " or ";
+
     private CriteriaUtil() {
 
     }
 
-    private static final String POSTGRE_DB_FUNCTION = "lower_unaccent";
 
     /**
      * Apply Accent and Case Insensitive search conditions in WHERE clause with default database function
@@ -36,7 +39,6 @@ public final class CriteriaUtil {
      * @return the criterion restrictions of the search conditions
      */
     public static Criterion buildAccentAndCaseInsensitiveCriterion(QueryPropertyRestriction property, List<String> fields, String dbFunction) {
-        final String OR_DELIMETER = " or ";
         String sentence = fields.stream().map(field -> makeSearchSentenceSql(property, field, dbFunction)).collect(Collectors.joining(OR_DELIMETER));
         String sql = "(" + sentence + ")";
         return Restrictions.sqlRestriction(sql);

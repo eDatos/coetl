@@ -93,8 +93,6 @@
                         <p-orderList [class.disabled]="!ordenandoPeliculas" [value]="peliculas" dragdrop="false" metaKeySelection="true" dragdropScope="tablaPelicula">
                             <ng-template let-item pTemplate="item">
                                 <div class="orderlist-row">
-                                    <!-- Mockeo para la ordenación de películas -->
-                                    <!-- <span class="orden-pelicula">{{item.orden}}</span> --> 
                                     <span class="orderlist-cell titulo-pelicula">{{ item.titulo }}</span>
                                     <span class="orderlist-cell fecha-pelicula">{{ item.fechaEstreno | date: 'dd/MM/yyyy' }}</span>
                                     <span class="orderlist-cell categorias-pelicula">
