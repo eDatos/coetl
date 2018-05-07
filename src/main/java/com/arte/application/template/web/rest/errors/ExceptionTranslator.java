@@ -71,11 +71,7 @@ public class ExceptionTranslator {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorVM> processException(Exception ex) {
-        if (log.isDebugEnabled()) {
-            log.debug("Error inesperado: {}", ex.getMessage(), ex);
-        } else {
-            log.error("Error inesperado: {}", ex.getMessage());
-        }
+        log.debug("Error inesperado: {}", ex.getMessage(), ex);
         BodyBuilder builder;
         ErrorVM errorVM;
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class);
