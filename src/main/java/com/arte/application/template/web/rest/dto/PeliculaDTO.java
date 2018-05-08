@@ -27,6 +27,8 @@ public class PeliculaDTO extends AbstractVersionedAndAuditingDTO implements Seri
     private ZonedDateTime fechaEstreno;
 
     private IdiomaDTO idioma;
+    
+    private Double presupuesto;
 
     @NotNull
     private Set<ActorDTO> actores = new HashSet<>();
@@ -74,6 +76,14 @@ public class PeliculaDTO extends AbstractVersionedAndAuditingDTO implements Seri
 
     public void setIdioma(IdiomaDTO idioma) {
         this.idioma = idioma;
+    }
+    
+    public Double getPresupuesto() {
+        return presupuesto;
+    }
+
+    public void setPresupuesto(Double presupuesto) {
+        this.presupuesto = presupuesto;
     }
 
     public Set<ActorDTO> getActores() {

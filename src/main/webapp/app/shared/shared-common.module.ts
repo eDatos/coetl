@@ -19,6 +19,7 @@ import {
     StepsComponent,
     StickyTableHeaderDirective,
     TriInputSwitchComponent,
+    CurrencyComponent
 } from './';
 
 @NgModule({
@@ -38,6 +39,7 @@ import {
         HelpTooltipComponent,
         PaginationComponent,
         AutofocusDirective,
+        CurrencyComponent,
         SpinnerComponent,
         StepsComponent,
     ],
@@ -63,6 +65,7 @@ import {
         HelpTooltipComponent,
         PaginationComponent,
         AutofocusDirective,
+        CurrencyComponent,
         SpinnerComponent,
         StepsComponent,
     ]

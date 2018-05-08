@@ -14,6 +14,7 @@ export class Pelicula implements BaseEntity {
         public actores?: Actor[],
         public categorias?: Categoria[],
         public documento?: Documento,
+        public presupuesto?: number
     ) {
     }
 }
