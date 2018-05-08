@@ -81,6 +81,7 @@ public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicu
         entity.setDescripcion(dto.getDescripcion());
         entity.setFechaEstreno(dto.getFechaEstreno());
         entity.setIdioma(idiomaMapper.toEntity(dto.getIdioma()));
+        entity.setPresupuesto(dto.getPresupuesto());
         entity.setAllActores(actorMapper.toEntity(dto.getActores()));
         entity.setAllCategorias(categoriaMapper.toEntity(dto.getCategorias()));
         entity.setDocumento(documentoMapper.toEntity(dto.getDocumento()));
@@ -105,6 +106,7 @@ public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicu
         dto.setDescripcion(entity.getDescripcion());
         dto.setFechaEstreno(entity.getFechaEstreno());
         dto.setIdioma(idiomaMapper.toDto(entity.getIdioma()));
+        dto.setPresupuesto(entity.getPresupuesto());
         dto.setActores(actorMapper.toDto(entity.getActores()));
         dto.setCategorias(categoriaMapper.toDto(entity.getCategorias()));
         dto.setDocumento(documentoMapper.toDto(entity.getDocumento()));

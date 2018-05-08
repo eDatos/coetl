@@ -58,6 +58,9 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     @JoinColumn(name = "idioma_id", nullable = true)
     private Idioma idioma;
 
+    @Column(name = "presupuesto")
+    private Double presupuesto;
+    
     @NotNull
     @ManyToMany
     @JoinTable(name = "pelicula_actor", joinColumns = @JoinColumn(name = "pelicula_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"))
@@ -112,6 +115,14 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
 
     public void setIdioma(Idioma idioma) {
         this.idioma = idioma;
+    }
+
+    public Double getPresupuesto() {
+        return presupuesto;
+    }
+
+    public void setPresupuesto(Double presupuesto) {
+        this.presupuesto = presupuesto;
     }
 
     public void setAllActores(Set<Actor> actores) {
