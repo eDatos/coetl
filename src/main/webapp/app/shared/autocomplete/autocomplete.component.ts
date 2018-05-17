@@ -340,11 +340,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         const queryValue = this.getQueryValue();
         if (!this.debouncedMode || queryValue.length >= this.minLength) {
 
-            if (this.filterByProperties(this.suggestions, queryValue).length === 1) {
-                this.updateFilteredSuggestions('');
-            } else {
-                this.updateFilteredSuggestions();
-            }
+            this.updateFilteredSuggestions('');
 
             setTimeout(() => {
                 if (this.focusMustOpenPanel) {
