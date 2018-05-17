@@ -339,7 +339,8 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     handleOnFocusSuggestions($event) {
         const queryValue = this.getQueryValue();
         if (!this.debouncedMode || queryValue.length >= this.minLength) {
-            this.updateFilteredSuggestions();
+
+            this.updateFilteredSuggestions('');
 
             setTimeout(() => {
                 if (this.focusMustOpenPanel) {
