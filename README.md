@@ -131,6 +131,8 @@ Una vez generado este usuario administrador (con todos los permisos), este tendr
    - Contraseña del usuario LDAP. 
 - `application.ldap.base`
    - Ruta relativa dónde se realizarán las operaciones. Ejemplo ou=usuarios,dc=miorganizacion,dc=com
+- `application.ldap.searchUsersProperty`
+   - Propiedad de LDAP por la que se buscará el usuario mediante su _username_.
 
 
 ## Anexo. Perfiles de compilación
