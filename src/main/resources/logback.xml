@@ -17,6 +17,12 @@
 
   <property name="LOGS_HOME" value="/data/artesl/arte-application-template/serverlogs" />
 
+  <turboFilter class="com.arte.application.template.util.ExpiringDuplicateMessageFilter">
+	<allowedRepetitions>4</allowedRepetitions>
+	<cacheSize>200</cacheSize>
+	<expireAfterWriteSeconds>1800</expireAfterWriteSeconds>
+  </turboFilter>
+  
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level

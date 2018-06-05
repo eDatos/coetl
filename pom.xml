@@ -117,7 +117,8 @@
         <validation-api.version>1.1.0.Final</validation-api.version>
         <yarn.version>v0.27.5</yarn.version>
         <java.cas.client.version>3.4.1</java.cas.client.version>
-
+		<caffeine.version>2.6.2</caffeine.version>
+		
     </properties>
 
 
@@ -411,6 +412,11 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-acl</artifactId>
         </dependency>
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+			<version>${caffeine.version}</version>
+		</dependency>
     </dependencies>
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
