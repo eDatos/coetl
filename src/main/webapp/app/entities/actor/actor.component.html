@@ -26,7 +26,7 @@
             
             <div class="d-flex justify-content-between">
                 <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-                <ac-pagination [itemsPerPage]="itemsPerPage" (change)="changeItemsPerPage($event)"></ac-pagination>
+                <ac-pagination [(itemsPerPage)]="itemsPerPage" (itemsPerPageChange)="transition()"></ac-pagination>
                 <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="transition()" [pageSize]="itemsPerPage"></ngb-pagination>
             </div>
         </ng-container>

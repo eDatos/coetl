@@ -19,17 +19,20 @@ export const AC_PAGINATION_VALUE_ACCESSOR: any = {
 export class PaginationComponent {
 
     @Input()
-    itemsPerPage = ITEMS_PER_PAGE;
-
-    @Input()
     options = PAGINATION_OPTIONS;
 
-    @Output()
-    change: EventEmitter<number> = new EventEmitter<number>();
+    _itemsPerPage = ITEMS_PER_PAGE;
 
-    onChange($event) {
-        $event.stopPropagation();
-        this.change.emit(this.itemsPerPage);
+    @Output()
+    itemsPerPageChange: EventEmitter<number> = new EventEmitter<number>();
+
+    @Input()
+    get itemsPerPage() {
+        return this._itemsPerPage;
     }
 
+    set itemsPerPage(itemsPerPage: number) {
+        this._itemsPerPage = itemsPerPage;
+        this.itemsPerPageChange.emit(this._itemsPerPage);
+    }
 }
