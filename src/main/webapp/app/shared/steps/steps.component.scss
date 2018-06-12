@@ -27,7 +27,7 @@ $bubble-size: $step-background-height * 3;
                 .bubble {
                     background: $green-medium;
                     color: $white;     
-                    &:hover {
+                    &.btn:hover {
                         background: $main-light;
                     }               
                 }
@@ -39,7 +39,7 @@ $bubble-size: $step-background-height * 3;
                 .bubble {
                     background: $main-medium;
                     color: $white;
-                    &:hover {
+                    &.btn:hover {
                         background: $main-light;
                     }
                 }
@@ -64,12 +64,14 @@ $bubble-size: $step-background-height * 3;
 
                 background: $grey-light;
                 color: $grey-dark;    
-                
-                cursor: pointer;
 
-                &:disabled {
-                    opacity: 1;
-                    cursor: not-allowed;
+                &.btn {
+                    cursor: pointer;
+
+                    &:disabled {
+                        opacity: 1;
+                        cursor: not-allowed;
+                    }
                 }
             }        
         }    

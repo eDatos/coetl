@@ -23,4 +23,8 @@ export class StepsComponent {
     public titleTemplate: TemplateRef<any>;
 
     constructor() { }
+
+    public hasStepAction(): boolean {
+        return !!this.stepAction;
+    }
 }
