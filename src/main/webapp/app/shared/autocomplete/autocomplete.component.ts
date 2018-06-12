@@ -285,7 +285,8 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     }
 
     addNonFound(filteredSuggestions, query) {
-        if (query && filteredSuggestions && !filteredSuggestions.some((suggestion) => suggestion[this.field] === query)) {
+        this.myNewLabel = null;
+        if (query && filteredSuggestions && !filteredSuggestions.some((suggestion) => suggestion[this.field].toLowerCase() === query.toLowerCase())) {
             this.myNewLabel = query;
             filteredSuggestions.push(this.buildNewSuggestion(query));
         }
