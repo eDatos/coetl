@@ -38,10 +38,9 @@
             left: $page-padding-left / 3;
         }
 
-        thead {
+        th {
             .row-selector {
-                top: $spacer-y/2;
-                z-index: $zindex-dropdown;
+                bottom: $spacer-y;
             }
         }
         

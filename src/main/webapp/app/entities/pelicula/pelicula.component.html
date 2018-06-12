@@ -28,21 +28,21 @@
             <div class="table-responsive">
                 <table class="table table-hover" acStickyTableHeader>
                     <thead>
-                        <span class="row-selector" (click)="$event.stopPropagation()">
-                            <p-checkbox binary="true" [disabled]="isDeleting" (onChange)="toggleVisibleSelection()" [ngModel]="allVisibleIdsAreSelected()"></p-checkbox>
-                        </span>
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                             <th style="width: 20%" jhiSortBy="titulo">
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.titulo.label"></span>
-                                <span class="fa fa-sort"></span>
+                                <span class="fa fa-sort order-by-class"></span>
+                                <span class="row-selector" (click)="$event.stopPropagation()">
+                                    <p-checkbox binary="true" [disabled]="isDeleting" (onChange)="toggleVisibleSelection()" [ngModel]="allVisibleIdsAreSelected()"></p-checkbox>
+                                </span>
                             </th>
                             <th style="width: 10%" jhiSortBy="fechaEstreno">
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.fechaEstreno.label"></span>
-                                <span class="fa fa-sort"></span>
+                                <span class="fa fa-sort order-by-class"></span>
                             </th>
                             <th style="width: 10%" jhiSortBy="idioma">
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.idioma.label"></span>
-                                <span class="fa fa-sort"></span>
+                                <span class="fa fa-sort order-by-class"></span>
                             </th>
                             <th style="width: 10%">
                                 <span jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label"></span>
