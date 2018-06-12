@@ -1,5 +1,5 @@
 @import '~scss/variables';
-
+@import '~scss/mixins';
 
 fieldset {
     .entity-fields .form-group {
@@ -34,6 +34,9 @@ fieldset[disabled] {
             padding: $input-padding-y $input-padding-x;
             width: 100%;
             border: 0;
+            @include placeholder {
+                color: $grey-medium;
+            }
         }
         
         .ui-calendar {
