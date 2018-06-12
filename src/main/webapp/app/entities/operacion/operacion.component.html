@@ -11,8 +11,8 @@
             <table class="table table-hover" acStickyTableHeader>
                 <thead>
                     <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                        <th style="width: 30%" jhiSortBy="accion"><span jhiTranslate="arteApplicationTemplateApp.operacion.accion">Accion</span> <span class="fa fa-sort"></span></th>
-                        <th style="width: 30%" jhiSortBy="sujeto"><span jhiTranslate="arteApplicationTemplateApp.operacion.sujeto">Sujeto</span> <span class="fa fa-sort"></span></th>
+                        <th style="width: 30%" jhiSortBy="accion"><span jhiTranslate="arteApplicationTemplateApp.operacion.accion">Accion</span> <span class="fa fa-sort order-by-class"></span></th>
+                        <th style="width: 30%" jhiSortBy="sujeto"><span jhiTranslate="arteApplicationTemplateApp.operacion.sujeto">Sujeto</span> <span class="fa fa-sort order-by-class"></span></th>
                         <th style="width: 40%"><span jhiTranslate="arteApplicationTemplateApp.operacion.roles.roles">Roles</span></th>
                     </tr>
                 </thead>

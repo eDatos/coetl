@@ -34,7 +34,8 @@ import { DEFAULT_LANGUAGE } from './language/language.constants';
             // set below to true to make alerts look like toast
             alertAsToast: true,
             i18nEnabled: true,
-            defaultI18nLang: DEFAULT_LANGUAGE
+            defaultI18nLang: DEFAULT_LANGUAGE,
+            sortIconSelector: 'span.order-by-class'
         }),
         InfiniteScrollModule,
         CookieModule.forRoot(),

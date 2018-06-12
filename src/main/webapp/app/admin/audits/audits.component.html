@@ -20,10 +20,10 @@
         <table class="table table-condensed table-hover" acStickyTableHeader>
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th style="width: 20%" jhiSortBy="auditEventDate"><span jhiTranslate="audits.table.header.date">Date</span><span class="fa fa-sort"></span></th>
-                    <th style="width: 20%" jhiSortBy="principal"><span jhiTranslate="audits.table.header.principal">User</span><span class="fa fa-sort"></span></th>
-                    <th style="width: 20%" jhiSortBy="auditEventType"><span jhiTranslate="audits.table.header.status">State</span><span class="fa fa-sort"></span></th>
-                    <th style="width: 40%" jhiSortBy="data"><span jhiTranslate="audits.table.header.data">Extra data</span><span class="fa fa-sort"></span></th>
+                    <th style="width: 20%" jhiSortBy="auditEventDate"><span jhiTranslate="audits.table.header.date">Date</span><span class="fa fa-sort order-by-class"></span></th>
+                    <th style="width: 20%" jhiSortBy="principal"><span jhiTranslate="audits.table.header.principal">User</span><span class="fa fa-sort order-by-class"></span></th>
+                    <th style="width: 20%" jhiSortBy="auditEventType"><span jhiTranslate="audits.table.header.status">State</span><span class="fa fa-sort order-by-class"></span></th>
+                    <th style="width: 40%" jhiSortBy="data"><span jhiTranslate="audits.table.header.data">Extra data</span><span class="fa fa-sort order-by-class"></span></th>
                 </tr>
             </thead>
             <tr *ngFor="let audit of audits">
