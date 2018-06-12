@@ -69,6 +69,9 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     @Input()
     showTime: boolean;
 
+    @Input()
+    disabled = false;
+
     @Output()
     private onSelect: EventEmitter<any> = new EventEmitter();
 
