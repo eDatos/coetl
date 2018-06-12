@@ -77,11 +77,6 @@ export class ActorComponent implements OnInit, OnDestroy {
         this.loadAll();
     }
 
-    changeItemsPerPage(itemsPerPage: number) {
-        this.itemsPerPage = itemsPerPage;
-        this.transition();
-    }
-
     clear() {
         this.page = 0;
         this.router.navigate(['/actor', {
