@@ -242,6 +242,7 @@ fieldset {
     .form-group {
         .form-control:disabled, 
         .form-control[disabled], 
+        .form-control.disabled,
         .form-control[readonly] {
             @extend %disabled-form-control;
         }    
