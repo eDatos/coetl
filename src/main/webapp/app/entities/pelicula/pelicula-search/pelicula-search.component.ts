@@ -3,6 +3,7 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Subject, Subscription } from 'rxjs/Rx';
 import { IdiomaService } from '../../idioma/idioma.service';
 import { PeliculaFilter } from './pelicula-filter.model';
+import { ActorService, Actor } from '../../actor';
 
 @Component({
     selector: 'ac-pelicula-search',
@@ -19,7 +20,8 @@ export class PeliculaSearchComponent implements OnInit, OnDestroy {
 
     constructor(
         private eventManager: JhiEventManager,
-        private idiomaService: IdiomaService
+        private idiomaService: IdiomaService,
+        private actorService: ActorService
     ) {}
 
     ngOnInit() {
@@ -54,8 +56,18 @@ export class PeliculaSearchComponent implements OnInit, OnDestroy {
         return item.nombre;
     }
 
+    actorItemTemplate(item: any) {
+        const copy = Object.assign(new Actor(), item);
+        return `${copy.normalizeName()}`;
+    }
+
     completeMethodIdiomas(event) {
         this.idiomaService.query({ query: `NOMBRE ILIKE '%${event.query}%'` })
             .subscribe((result) => this.filters.allIdiomas = result.json);
+    }
+
+    completeMethodActores(event) {
+        this.actorService.query({ query: `ACTOR ILIKE '%${event.query}%'` })
+        .subscribe((result) => this.filters.allActores = result.json);
     }
 }

@@ -32,7 +32,9 @@ export class PaginationComponent {
     }
 
     set itemsPerPage(itemsPerPage: number) {
-        this._itemsPerPage = itemsPerPage;
-        this.itemsPerPageChange.emit(this._itemsPerPage);
+        if (this._itemsPerPage !== itemsPerPage) {
+            this._itemsPerPage = itemsPerPage;
+            this.itemsPerPageChange.emit(this._itemsPerPage);
+        }
     }
 }

@@ -4,6 +4,9 @@ import { BaseEntityFilter, BatchSelection, EntityFilter, HasBatchOperations } fr
 import { Actor } from '../../actor/actor.model';
 import { Categoria } from '../../categoria/categoria.model';
 import { Idioma } from '../../idioma/idioma.model';
+import { ActorService } from '../../actor';
+import { IdiomaService } from '../../idioma';
+import { CategoriaService } from '../../categoria';
 
 export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, HasBatchOperations {
 
@@ -11,35 +14,54 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
     public allActores: Actor[] = [];
     public allCategorias: Categoria[] = [];
 
-    public batchSelection: BatchSelection;
+    public titulo?: string;
+    public fechaEstreno?: Date;
+    public idioma?: any;
+    public categorias?: any[];
+    public actores?: Actor[] = [];
+
+    public batchSelection = new BatchSelection();
 
     constructor(
         public datePipe?: DatePipe,
-        public titulo?: string,
-        public fechaEstreno?: Date,
-        public idioma?: any,
-        public categorias?: any[],
-        public actores?: any[]
+        private actorService?: ActorService,
+        private categoriaService?: CategoriaService,
+        private idiomaService?: IdiomaService
     ) {
         super(datePipe);
-        this.batchSelection = new BatchSelection();
     }
 
     fromQueryParams(params: any) {
         if (params['titulo']) {
             this.titulo = params['titulo'];
         }
+
         if (params['fechaEstreno']) {
             this.fechaEstreno = params['fechaEstreno'];
         }
-        if (params['idioma']) {
-            this.idioma = this.allIdiomas.filter((idioma) => idioma.id === Number(params['idioma']))[0];
-        }
-        if (params['categorias']) {
-            this.categorias = params['categorias'].split(',')
-                .map((searchId) => Number(searchId))
-                .map((searchId) => this.allCategorias.find((categoria) => categoria.id === searchId))
-                .filter((categoria) => !!categoria);
+
+        this.categoriaService.query().subscribe((res) => {
+            this.allCategorias = res.json;
+            if (params['categorias']) {
+                this.categorias = params['categorias'].split(',')
+                    .map((searchId) => Number(searchId))
+                    .map((searchId) => this.allCategorias.find((categoria) => categoria.id === searchId))
+                    .filter((categoria) => !!categoria);
+            }
+        });
+
+        this.idiomaService.query().subscribe((res) => {
+            this.allIdiomas = res.json;
+            if (params['idioma']) {
+                this.idioma = this.allIdiomas.find((idioma) => idioma.id === Number(params['idioma']));
+            }
+        });
+
+        if (params['actores']) {
+            this.actorService.query({ query: `ID IN (${params['actores']})` })
+            .do((res) => this.allActores.push(res.json))
+            .do((res) => this.actores = res.json)
+            .subscribe();
         }
     }
 
@@ -64,6 +86,7 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         this.updateQueryParam('fechaEstreno', obj);
         this.updateQueryParam('idioma', obj);
         this.updateQueryParam('categorias', obj);
+        this.updateQueryParam('actores', obj);
         return obj;
     }
 

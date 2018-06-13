@@ -29,6 +29,13 @@
     </div>
 
     <div class="entity-search-field">
+        <label for="actores" jhiTranslate="arteApplicationTemplateApp.pelicula.actores.label">Actores</label>
+        <ac-autocomplete-long-list name="actores" [(ngModel)]="filters.actores" [suggestions]="filters.allActores"
+            (onSelect)="filter()" (onUnselect)="filter()" [multiple]="true" [itemTemplate]="actorItemTemplate"
+            (completeMethod)="completeMethodActores($event)" [placeholder]="'arteApplicationTemplateApp.pelicula.actores.placeholder' | translate"></ac-autocomplete-long-list>
+    </div>
+
+    <div class="entity-search-field">
         <label for="categorias" jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label">categorias</label>
         <ac-autocomplete-short-list name="categorias" [(ngModel)]="filters.categorias" [suggestions]="filters.allCategorias" (onSelect)="filter()"
             (onUnselect)="filter()" [placeholder]="'arteApplicationTemplateApp.pelicula.categorias.placeholder' | translate"
