@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, forwardRef, Input, ViewChild, Output, EventEmitter, HostBinding } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -68,6 +68,10 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
 
     @Input()
     showTime: boolean;
+
+    @Input()
+    @HostBinding('class.disabled')
+    disabled = false;
 
     @Output()
     private onSelect: EventEmitter<any> = new EventEmitter();
