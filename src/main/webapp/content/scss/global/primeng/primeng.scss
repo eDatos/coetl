@@ -213,8 +213,6 @@ p-tree {
     }
 }
 
-ac-calendar {
-    &[ng-reflect-is-disabled=true] {
-        border: none !important;
-    }
+ac-calendar.disabled {
+    border: none !important;
 }
