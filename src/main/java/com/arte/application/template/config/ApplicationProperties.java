@@ -87,6 +87,7 @@ public class ApplicationProperties {
         private String username;
         private String password;
         private String base;
+        private String searchUsersProperty;
 
         public String getUrl() {
             return url;
@@ -118,6 +119,14 @@ public class ApplicationProperties {
 
         public void setBase(String base) {
             this.base = base;
+        }
+        
+        public String getSearchUsersProperty() {
+            return searchUsersProperty;
+        }
+
+        public void setSearchUsersProperty(String searchUsersProperty) {
+            this.searchUsersProperty = searchUsersProperty;
         }
     }
 

@@ -51,6 +51,7 @@ application:
         username: FILL_USERNAME # Ejemplo: cn=username,dc=miorganizacion,dc=com
         password: FILL_PASSWORD # Ejemplo: mipassword
         base: FILL_BASE # Ejemplo ou=usuarios,dc=miorganizacion,dc=com
+        searchUsersProperty: FILL_SEARCH_USERS_PROPERTY # Ejemplo: uid
         
 # ===================================================================        
 # Application debug properties

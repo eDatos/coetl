@@ -6,6 +6,9 @@ import org.springframework.ldap.odm.annotations.Attribute;
 import org.springframework.ldap.odm.annotations.Entry;
 import org.springframework.ldap.odm.annotations.Id;
 
+import com.arte.application.template.config.ApplicationProperties;
+import com.arte.application.template.optimistic.ApplicationContextProvider;
+
 @Entry(objectClasses = {"person"})
 public final class UsuarioLdapEntry {
 
@@ -13,7 +16,13 @@ public final class UsuarioLdapEntry {
     private Name dn;
 
     @Attribute(name = "uid")
-    private String nombreUsuario;
+    private String nombreUsuarioUid;
+
+    @Attribute(name = "sAMAccountName")
+    private String nombreUsuarioSAMAccountName;
+
+    @Attribute(name = "cn")
+    private String nombreUsuarioCN;
 
     @Attribute(name = "givenName")
     private String nombre;
@@ -40,13 +49,29 @@ public final class UsuarioLdapEntry {
     public void setDn(Name dn) {
         this.dn = dn;
     }
-
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    
+    public void setNombreUsuarioCN(String nombreUsuarioCN) {
+        this.nombreUsuarioCN = nombreUsuarioCN;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    public void setNombreUsuarioSAMAccountName(String nombreUsuarioSAMAccountName) {
+        this.nombreUsuarioSAMAccountName = nombreUsuarioSAMAccountName;
+    }
+
+    public void setNombreUsuarioUid(String nombreUsuarioUid) {
+        this.nombreUsuarioUid = nombreUsuarioUid;
+    }
+
+    public String getNombreUsuario() {
+        final String searchUsersProperty = ApplicationContextProvider.AppContext.getApplicationContext().getBean(ApplicationProperties.class).getLdap().getSearchUsersProperty();
+        if ("sAMAccountName".equals(searchUsersProperty)) {
+            return nombreUsuarioSAMAccountName;
+        } else if ("cn".equals(searchUsersProperty)) {
+            return nombreUsuarioCN;
+        } else if ("uid".equals(searchUsersProperty)) {
+            return nombreUsuarioUid;
+        }
+        return null;
     }
 
     public String getNombre() {
