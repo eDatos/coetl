@@ -14,11 +14,11 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
     public allActores: Actor[] = [];
     public allCategorias: Categoria[] = [];
 
-    public titulo?: string;
-    public fechaEstreno?: Date;
-    public idioma?: any;
-    public categorias?: any[];
-    public actores?: Actor[] = [];
+    public titulo: string;
+    public fechaEstreno: Date;
+    public idioma: any;
+    public categorias: any[];
+    public actores: Actor[] = [];
 
     public batchSelection = new BatchSelection();
 
