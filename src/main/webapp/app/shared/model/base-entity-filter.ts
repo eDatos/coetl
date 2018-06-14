@@ -1,11 +1,17 @@
+import { Observable } from 'rxjs/Rx';
 import { DatePipe } from '@angular/common';
+import { FilterHelper } from './filter-helper';
+import { ParamLoader } from './param-loader';
 
 export abstract class BaseEntityFilter {
 
+    private loaders: ParamLoader[] = [];
+
     constructor(
-        public datePipe?: DatePipe,
+        public datePipe?: DatePipe
     ) {
-     }
+        this.registerAsyncParameters();
+    }
 
     protected updateQueryParam(id: string, params: any[], field?: string) {
         if (this[id] && (this[id].length === undefined || this[id].length > 0)) {
@@ -35,6 +41,25 @@ export abstract class BaseEntityFilter {
     }
 
     abstract fromQueryParams(params: any);
+
+    fromAsyncQueryParams(params: any): Observable<void> {
+        this.fromQueryParams(params);
+        return Observable.create((observer) => {
+            if (this.loaders.length > 0) {
+                const helper = new FilterHelper(observer, this.loaders);
+                this.loaders.forEach((loader) => loader(params, helper.notifyDone.bind(helper)));
+            } else {
+                observer.next();
+                observer.complete();
+            }
+        });
+    }
+
+    protected registerAsyncParameters(): void { };
+
+    protected registerAsyncParam(carga: ParamLoader): void {
+        this.loaders.push(carga);
+    }
 
     toUrl(queryParams) {
         const obj = Object.assign({}, queryParams);

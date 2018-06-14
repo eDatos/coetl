@@ -73,9 +73,8 @@ export class PeliculaComponent implements OnInit, OnDestroy {
             this.currentAccount = account;
         });
 
-        this.filters.fromQueryParams(this.activatedRoute.snapshot.queryParams);
         this.activatedRoute.queryParams.subscribe((params) => {
-            this.loadAll();
+            this.filters.fromAsyncQueryParams(params).subscribe(() => this.loadAll());
         });
         this.registerChangeInPeliculas();
     }
