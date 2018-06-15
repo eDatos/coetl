@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -73,7 +74,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
             this.currentAccount = account;
         });
 
-        this.filters.init(this.createShortAutocompleteLoaders()).subscribe(() => {
+        this.loadAutocompleteShortList().subscribe(() => {
             this.activatedRoute.queryParams.subscribe((params) => {
                 this.filters.fromQueryParams(params).subscribe(() => this.loadAll());
             });
@@ -82,21 +83,15 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         this.registerChangeInPeliculas();
     }
 
-    private createShortAutocompleteLoaders(): Executable[] {
-        return [
-            (notifyDone) => {
-                this.categoriaService.query().subscribe((res) => {
-                    this.filters.allCategorias = res.json;
-                    notifyDone();
-                });
-            },
-            (notifyDone) => {
-                this.idiomaService.query().subscribe((res) => {
-                    this.filters.allIdiomas = res.json;
-                    notifyDone();
-                })
+    private loadAutocompleteShortList(): Observable<void> {
+        return Observable.zip(
+            this.categoriaService.query(),
+            this.idiomaService.query(),
+            (responseCategorias, responseIdiomas) => {
+                this.filters.allCategorias = responseCategorias.json;
+                this.filters.allIdiomas = responseIdiomas.json;
             }
-        ];
+        );
     }
 
     toggleVisibleSelection() {

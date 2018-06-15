@@ -41,10 +41,6 @@ export abstract class BaseEntityFilter {
         return this.getCriterias().join(' OR ');
     }
 
-    init(shortLoaders: Executable[]): Observable<void> {
-        return execute(shortLoaders);
-    }
-
     fromQueryParams(params: any): Observable<void> {
         this.getSyncParams(params);
         return Observable.create((observer) => {
