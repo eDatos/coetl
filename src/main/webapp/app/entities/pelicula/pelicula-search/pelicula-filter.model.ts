@@ -38,14 +38,14 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         if (params['fechaEstreno']) {
             this.fechaEstreno = params['fechaEstreno'];
         }
+        if (params['idioma']) {
+            this.idioma = this.allIdiomas.find((idioma) => idioma.id === Number(params['idioma']));
+        }
         if (params['categorias']) {
             this.categorias = params['categorias'].split(',')
                 .map((searchId) => Number(searchId))
                 .map((searchId) => this.allCategorias.find((categoria) => categoria.id === searchId))
                 .filter((categoria) => !!categoria);
-        }
-        if (params['idioma']) {
-            this.idioma = this.allIdiomas.find((idioma) => idioma.id === Number(params['idioma']));
         }
     }
 
