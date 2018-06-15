@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Rx';
 
 import { PeliculaBatchDeleteDialogComponent } from '.';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
-import { ITEMS_PER_PAGE, PAGINATION_OPTIONS, Principal, ResponseWrapper } from '../../shared';
+import { ITEMS_PER_PAGE, PAGINATION_OPTIONS, Principal, ResponseWrapper, Executable } from '../../shared';
 import { GenericModalService } from '../../shared/modal/generic-modal.service';
 import { CategoriaService } from '../categoria/categoria.service';
 import { IdiomaService } from '../idioma/idioma.service';
@@ -73,10 +73,30 @@ export class PeliculaComponent implements OnInit, OnDestroy {
             this.currentAccount = account;
         });
 
-        this.activatedRoute.queryParams.subscribe((params) => {
-            this.filters.fromAsyncQueryParams(params).subscribe(() => this.loadAll());
+        this.filters.init(this.createShortAutocompleteLoaders()).subscribe(() => {
+            this.activatedRoute.queryParams.subscribe((params) => {
+                this.filters.fromAsyncQueryParams(params).subscribe(() => this.loadAll());
+            });
         });
+
         this.registerChangeInPeliculas();
+    }
+
+    private createShortAutocompleteLoaders(): Executable[] {
+        return [
+            (notifyDone) => {
+                this.categoriaService.query().subscribe((res) => {
+                    this.filters.allCategorias = res.json;
+                    notifyDone();
+                });
+            },
+            (notifyDone) => {
+                this.idiomaService.query().subscribe((res) => {
+                    this.filters.allIdiomas = res.json;
+                    notifyDone();
+                })
+            }
+        ];
     }
 
     toggleVisibleSelection() {

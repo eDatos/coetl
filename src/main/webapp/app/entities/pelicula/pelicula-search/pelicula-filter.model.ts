@@ -38,51 +38,29 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         if (params['fechaEstreno']) {
             this.fechaEstreno = params['fechaEstreno'];
         }
+        if (params['categorias']) {
+            this.categorias = params['categorias'].split(',')
+                .map((searchId) => Number(searchId))
+                .map((searchId) => this.allCategorias.find((categoria) => categoria.id === searchId))
+                .filter((categoria) => !!categoria);
+        }
+        if (params['idioma']) {
+            this.idioma = this.allIdiomas.find((idioma) => idioma.id === Number(params['idioma']));
+        }
     }
 
     protected registerAsyncParameters() {
-        this.createCategoriaLoader();
-        this.createIdiomaLoader();
-        this.createActorLoader();
-    }
-
-    private createCategoriaLoader() {
-        this.registerAsyncParam((params, notifyDone) => {
-            this.categoriaService.query().subscribe((res) => {
-                this.allCategorias = res.json;
-                if (params['categorias']) {
-                    this.categorias = params['categorias'].split(',')
-                        .map((searchId) => Number(searchId))
-                        .map((searchId) => this.allCategorias.find((categoria) => categoria.id === searchId))
-                        .filter((categoria) => !!categoria);
-                }
-                notifyDone();
-            });
-        });
-    }
-
-    private createIdiomaLoader() {
-        this.registerAsyncParam((params, notifyDone) => {
-            this.idiomaService.query().subscribe((res) => {
-                this.allIdiomas = res.json;
-                if (params['idioma']) {
-                    this.idioma = this.allIdiomas.find((idioma) => idioma.id === Number(params['idioma']));
-                }
-                notifyDone();
-            });
-        });
-    }
-
-    private createActorLoader() {
-        this.registerAsyncParam((params, notifyDone) => {
-            if (params['actores']) {
-                this.actorService.query({ query: `ID IN (${params['actores']})` }).subscribe((res) => {
-                    this.allActores.push(res.json);
+        this.registerAsyncParam({
+            paramName: 'actores',
+            entityProperty: 'id',
+            collectionName: 'allActores',
+            parseFromString: (item: string) => Number(item),
+            load: (actorIdList, notifyDone) => {
+                this.actorService.query({ query: `ID IN (${actorIdList.join(',')})` }).subscribe((res) => {
+                    this.allActores = res.json;
                     this.actores = res.json;
                     notifyDone();
                 });
-            } else {
-                notifyDone();
             }
         });
     }

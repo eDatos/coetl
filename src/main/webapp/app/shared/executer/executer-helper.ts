@@ -1,17 +1,15 @@
-import { ParamLoader } from './param-loader';
-
-export class FilterHelper {
+export class ExecuterHelper {
 
     private count = 0;
 
     constructor(
         private observer: any,
-        private loaders: ParamLoader[]
+        private executersCount: number
     ) { }
 
     notifyDone() {
         this.count++;
-        if (this.loaders.length === this.count) {
+        if (this.executersCount === this.count) {
             this.observer.next();
             this.observer.complete();
         }

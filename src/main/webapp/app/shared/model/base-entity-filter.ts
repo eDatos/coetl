@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs/Rx';
 import { DatePipe } from '@angular/common';
-import { FilterHelper } from './filter-helper';
 import { ParamLoader } from './param-loader';
+import { Executable, execute } from '..';
+import { ExecuterHelper } from '../executer/executer-helper';
 
 export abstract class BaseEntityFilter {
 
@@ -42,23 +43,45 @@ export abstract class BaseEntityFilter {
 
     abstract fromQueryParams(params: any);
 
+    init(shortLoaders: Executable[]): Observable<void> {
+        return execute(shortLoaders);
+    }
+
     fromAsyncQueryParams(params: any): Observable<void> {
         this.fromQueryParams(params);
         return Observable.create((observer) => {
-            if (this.loaders.length > 0) {
-                const helper = new FilterHelper(observer, this.loaders);
-                this.loaders.forEach((loader) => loader(params, helper.notifyDone.bind(helper)));
-            } else {
+            if (this.loaders.length === 0) {
                 observer.next();
                 observer.complete();
+                return;
             }
+
+            const helper = new ExecuterHelper(observer, this.loaders.length);
+            this.loaders.forEach((loader) => {
+                if (!params[loader.paramName]) {
+                    helper.notifyDone();
+                    return;
+                }
+
+                const paramList = params[loader.paramName].split(',')
+                const containAll = paramList.every((paramElement) => {
+                    return this[loader.collectionName].find((suggestion) => suggestion[loader.entityProperty] === loader.parseFromString(paramElement)) !== undefined;
+                }, this);
+
+                if (containAll) {
+                    helper.notifyDone();
+                    return;
+                }
+
+                loader.load(paramList, helper.notifyDone.bind(helper));
+            });
         });
     }
 
     protected registerAsyncParameters(): void { };
 
-    protected registerAsyncParam(carga: ParamLoader): void {
-        this.loaders.push(carga);
+    protected registerAsyncParam(loader: ParamLoader): void {
+        this.loaders.push(loader);
     }
 
     toUrl(queryParams) {
