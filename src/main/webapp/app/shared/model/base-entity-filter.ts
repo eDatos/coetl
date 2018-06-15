@@ -41,14 +41,12 @@ export abstract class BaseEntityFilter {
         return this.getCriterias().join(' OR ');
     }
 
-    abstract fromQueryParams(params: any);
-
     init(shortLoaders: Executable[]): Observable<void> {
         return execute(shortLoaders);
     }
 
-    fromAsyncQueryParams(params: any): Observable<void> {
-        this.fromQueryParams(params);
+    fromQueryParams(params: any): Observable<void> {
+        this.getSyncParams(params);
         return Observable.create((observer) => {
             if (this.loaders.length === 0) {
                 observer.next();
@@ -77,6 +75,8 @@ export abstract class BaseEntityFilter {
             });
         });
     }
+
+    protected getSyncParams(params: any): void { };
 
     protected registerAsyncParameters(): void { };
 

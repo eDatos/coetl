@@ -65,7 +65,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
             .map((params) => params.size)
             .filter((size) => !!size)
             .subscribe((size) => this.itemsPerPage = PAGINATION_OPTIONS.indexOf(Number(size)) > -1 ? size : this.itemsPerPage);
-        this.filters = new PeliculaFilter(this.datePipe, this.actorService, this.categoriaService, this.idiomaService);
+        this.filters = new PeliculaFilter(this.datePipe, this.actorService);
     }
 
     ngOnInit() {
@@ -75,7 +75,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
 
         this.filters.init(this.createShortAutocompleteLoaders()).subscribe(() => {
             this.activatedRoute.queryParams.subscribe((params) => {
-                this.filters.fromAsyncQueryParams(params).subscribe(() => this.loadAll());
+                this.filters.fromQueryParams(params).subscribe(() => this.loadAll());
             });
         });
 

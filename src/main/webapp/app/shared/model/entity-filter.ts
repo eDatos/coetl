@@ -1,5 +1,5 @@
 export interface EntityFilter {
-    fromQueryParams(params: any): void;
+    fromQueryParams(params: any): any;
     reset(): void;
     toQuery(): string;
 }

@@ -5,8 +5,6 @@ import { Actor } from '../../actor/actor.model';
 import { Categoria } from '../../categoria/categoria.model';
 import { Idioma } from '../../idioma/idioma.model';
 import { ActorService } from '../../actor';
-import { IdiomaService } from '../../idioma';
-import { CategoriaService } from '../../categoria';
 
 export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, HasBatchOperations {
 
@@ -25,13 +23,11 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
     constructor(
         public datePipe?: DatePipe,
         private actorService?: ActorService,
-        private categoriaService?: CategoriaService,
-        private idiomaService?: IdiomaService
     ) {
         super(datePipe);
     }
 
-    fromQueryParams(params: any) {
+    protected getSyncParams(params: any) {
         if (params['titulo']) {
             this.titulo = params['titulo'];
         }
