@@ -70,6 +70,7 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         this.fechaEstreno = null;
         this.idioma = null;
         this.categorias = null;
+        this.actores = null;
     }
 
     toQueryForBatch(query?: string) {
