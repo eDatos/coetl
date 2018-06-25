@@ -1,8 +1,6 @@
 import { Observable } from 'rxjs/Rx';
 import { DatePipe } from '@angular/common';
 import { ParamLoader } from './param-loader';
-import { Executable, execute } from '..';
-import { ExecuterHelper } from '../executer/executer-helper';
 
 export abstract class BaseEntityFilter {
 
@@ -11,7 +9,7 @@ export abstract class BaseEntityFilter {
     constructor(
         public datePipe?: DatePipe
     ) {
-        this.registerAsyncParameters();
+        this.registerParameters();
     }
 
     protected updateQueryParam(id: string, params: any[], field?: string) {
@@ -41,42 +39,41 @@ export abstract class BaseEntityFilter {
         return this.getCriterias().join(' OR ');
     }
 
-    fromQueryParams(params: any): Observable<void> {
-        this.getSyncParams(params);
-        return Observable.create((observer) => {
-            if (this.loaders.length === 0) {
-                observer.next();
-                observer.complete();
-                return;
+    fromQueryParams(params: any): Observable<any> {
+        const filtersToRefresh = this.loaders.filter((loader) => {
+            const paramValue = params[loader.paramName];
+            if (!paramValue) {
+                loader.clear();
+                return false;
             }
 
-            const helper = new ExecuterHelper(observer, this.loaders.length);
-            this.loaders.forEach((loader) => {
-                if (!params[loader.paramName]) {
-                    helper.notifyDone();
-                    return;
-                }
+            if (!loader.selectedIdsAreInSuggestions || loader.selectedIdsAreInSuggestions(paramValue)) {
+                loader.updateModel(paramValue);
+                return false;
+            }
 
-                const paramList = params[loader.paramName].split(',')
-                const containAll = paramList.every((paramElement) => {
-                    return this[loader.collectionName].find((suggestion) => suggestion[loader.entityProperty] === loader.parseFromString(paramElement)) !== undefined;
-                }, this);
+            return true;
+        }).filter((loader) => !!loader.createSubscription);
 
-                if (containAll) {
-                    helper.notifyDone();
-                    return;
-                }
+        if (filtersToRefresh.length === 0) {
+            return Observable.create((observer) => {
+                observer.next();
+                observer.complete();
+            });
+        }
 
-                loader.load(paramList, helper.notifyDone.bind(helper));
+        const observableList = filtersToRefresh.map((loader) => loader.createSubscription(params[loader.paramName]));
+        const callbackList = filtersToRefresh.map((loader) => loader.callback);
+        return Observable.zip(...observableList, (...responsesArray: Array<any>): void => {
+            responsesArray.forEach((response, index) => {
+                callbackList[index](response);
             });
         });
     }
 
-    protected getSyncParams(params: any): void { };
+    protected abstract registerParameters(): void;
 
-    protected registerAsyncParameters(): void { };
-
-    protected registerAsyncParam(loader: ParamLoader): void {
+    protected registerParam(loader: ParamLoader): void {
         this.loaders.push(loader);
     }
 

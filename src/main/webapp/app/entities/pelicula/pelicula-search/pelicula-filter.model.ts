@@ -27,36 +27,54 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         super(datePipe);
     }
 
-    protected getSyncParams(params: any) {
-        if (params['titulo']) {
-            this.titulo = params['titulo'];
-        }
-        if (params['fechaEstreno']) {
-            this.fechaEstreno = params['fechaEstreno'];
-        }
-        if (params['idioma']) {
-            this.idioma = this.allIdiomas.find((idioma) => idioma.id === Number(params['idioma']));
-        }
-        if (params['categorias']) {
-            this.categorias = params['categorias'].split(',')
-                .map((searchId) => Number(searchId))
-                .map((searchId) => this.allCategorias.find((categoria) => categoria.id === searchId))
-                .filter((categoria) => !!categoria);
-        }
-    }
+    protected registerParameters() {
+        this.registerParam({
+            paramName: 'titulo',
+            updateModel: (param) => this.titulo = param,
+            clear: () => this.titulo = null
+        });
 
-    protected registerAsyncParameters() {
-        this.registerAsyncParam({
+        this.registerParam({
+            paramName: 'fechaEstreno',
+            updateModel: (param) => this.fechaEstreno = param,
+            clear: () => this.fechaEstreno = null
+        });
+
+        this.registerParam({
+            paramName: 'idioma',
+            updateModel: (param) => this.idioma = this.allIdiomas.find((idioma) => idioma.id === Number(param)),
+            clear: () => this.idioma = null
+        });
+
+        this.registerParam({
+            paramName: 'categorias',
+            updateModel: (param) => {
+                this.categorias = param.split(',')
+                    .map((searchId) => Number(searchId))
+                    .map((searchId) => this.allCategorias.find((categoria) => categoria.id === searchId))
+                    .filter((categoria) => !!categoria)
+            },
+            clear: () => this.categorias = null
+        });
+
+        this.registerParam({
             paramName: 'actores',
-            entityProperty: 'id',
-            collectionName: 'allActores',
-            parseFromString: (item: string) => Number(item),
-            load: (actorIdList, notifyDone) => {
-                this.actorService.query({ query: `ID IN (${actorIdList.join(',')})` }).subscribe((res) => {
-                    this.allActores = res.json;
-                    this.actores = res.json;
-                    notifyDone();
-                });
+            updateModel: (param) => {
+                this.actores = param.split(',')
+                    .map((searchId) => Number(searchId))
+                    .map((searchId) => this.allActores.find((actor) => actor.id === searchId))
+                    .filter((actor) => !!actor);
+            },
+            clear: () => this.actores = null,
+            createSubscription: (param) => this.actorService.query({ query: `ID IN (${param})` }),
+            callback: (response) => {
+                this.allActores = response.json;
+                this.actores = response.json;
+            },
+            selectedIdsAreInSuggestions: (param) => {
+                return param.split(',').every((paramElement) => {
+                    return this.allActores.find((suggestion) => suggestion['id'] === Number(paramElement)) !== undefined;
+                }, this);
             }
         });
     }

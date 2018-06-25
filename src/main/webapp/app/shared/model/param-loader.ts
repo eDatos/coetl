@@ -1,7 +1,9 @@
+import { Observable } from 'rxjs/Rx';
 export interface ParamLoader {
     paramName: string;
-    entityProperty: string;
-    collectionName: string;
-    parseFromString: (item: string) => any;
-    load: (params: any[], notifyDone: () => void) => void;
+    updateModel: (param: any) => void;
+    clear: () => void;
+    createSubscription?: (param: any) => Observable<any>;
+    callback?: (response) => void;
+    selectedIdsAreInSuggestions?: (param: string) => boolean;
 }
