@@ -88,17 +88,6 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         ].filter((value) => !!value).join(' AND ');
     }
 
-    // FIXME moverlo a base-entity-filter, consistira en recorrer los loaders
-    toUrl(queryParams) {
-        const obj = Object.assign({}, queryParams);
-        this.updateQueryParam('titulo', obj);
-        this.updateQueryParam('fechaEstreno', obj);
-        this.updateQueryParam('idioma', obj);
-        this.updateQueryParam('categorias', obj);
-        this.updateQueryParam('actores', obj);
-        return obj;
-    }
-
     getCriterias() {
         const criterias = [];
         if (this.titulo) {

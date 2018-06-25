@@ -83,8 +83,8 @@ export abstract class BaseEntityFilter {
 
     toUrl(queryParams) {
         const obj = Object.assign({}, queryParams);
-        Object.keys(this).map((id) => {
-            this.updateQueryParam(id, obj)
+        this.loaders.forEach((loader) => {
+            this.updateQueryParam(loader.paramName, obj);
         });
         return obj;
     }
