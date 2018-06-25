@@ -53,7 +53,7 @@ export abstract class BaseEntityFilter {
             }
 
             return true;
-        }).filter((loader) => !!loader.createSubscription);
+        });
 
         if (filtersToRefresh.length === 0) {
             return Observable.create((observer) => {
