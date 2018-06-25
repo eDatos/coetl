@@ -18,6 +18,7 @@ import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
 public class ActorCriteriaProcessor extends AbstractCriteriaProcessor {
 
+    private static final String TABLE_FIELD_ID = "id";
     private static final String TABLE_FIELD_NOMBRE = "nombre";
     private static final String TABLE_FIELD_APELLIDO1 = "apellido_1";
     private static final String TABLE_FIELD_APELLIDO2 = "apellido_2";
@@ -29,11 +30,16 @@ public class ActorCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        ACTOR, APELLIDO1
+        ID, ACTOR, APELLIDO1
     }
 
     public void registerProcessors() {
         //@formatter:off
+        registerRestrictionProcessor(
+                RestrictionProcessorBuilder.longRestrictionProcessor()
+                .withQueryProperty(QueryProperty.ID)
+                .withEntityProperty(TABLE_FIELD_ID)
+                .build());
         registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.ACTOR)
                 .withCriterionConverter(new SqlCriterionConverter())

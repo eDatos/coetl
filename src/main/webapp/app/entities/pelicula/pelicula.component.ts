@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +14,7 @@ import { IdiomaService } from '../idioma/idioma.service';
 import { PeliculaFilter } from './pelicula-search/pelicula-filter.model';
 import { Pelicula } from './pelicula.model';
 import { PeliculaService } from './pelicula.service';
+import { ActorService } from '../actor';
 
 @Component({
     selector: 'jhi-pelicula',
@@ -51,7 +53,8 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         private router: Router,
         private eventManager: JhiEventManager,
         private paginationUtil: JhiPaginationUtil,
-        private paginationConfig: PaginationConfig
+        private paginationConfig: PaginationConfig,
+        private actorService: ActorService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
@@ -63,6 +66,32 @@ export class PeliculaComponent implements OnInit, OnDestroy {
             .map((params) => params.size)
             .filter((size) => !!size)
             .subscribe((size) => this.itemsPerPage = PAGINATION_OPTIONS.indexOf(Number(size)) > -1 ? size : this.itemsPerPage);
+        this.filters = new PeliculaFilter(this.datePipe, this.actorService);
+    }
+
+    ngOnInit() {
+        this.principal.identity().then((account) => {
+            this.currentAccount = account;
+        });
+
+        this.loadAutocompleteShortList().subscribe(() => {
+            this.activatedRoute.queryParams.subscribe((params) => {
+                this.filters.fromQueryParams(params).subscribe(() => this.loadAll());
+            });
+        });
+
+        this.registerChangeInPeliculas();
+    }
+
+    private loadAutocompleteShortList(): Observable<void> {
+        return Observable.zip(
+            this.categoriaService.query(),
+            this.idiomaService.query(),
+            (responseCategorias, responseIdiomas) => {
+                this.filters.allCategorias = responseCategorias.json;
+                this.filters.allIdiomas = responseIdiomas.json;
+            }
+        );
     }
 
     toggleVisibleSelection() {
@@ -85,14 +114,14 @@ export class PeliculaComponent implements OnInit, OnDestroy {
 
     transition() {
         this.router.navigate(['/pelicula'], {
-            queryParams:
+            queryParams: Object.assign({}, this.activatedRoute.snapshot.queryParams,
                 {
                     page: this.page,
                     size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
                     sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
                 }
+            )
         });
-        this.loadAll();
     }
 
     clear() {
@@ -101,23 +130,6 @@ export class PeliculaComponent implements OnInit, OnDestroy {
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
-        this.loadAll();
-    }
-
-    ngOnInit() {
-        this.filters = new PeliculaFilter(this.datePipe);
-        this.loadAll();
-        this.principal.identity().then((account) => {
-            this.currentAccount = account;
-        });
-        this.categoriaService.query().subscribe((res) => {
-            this.filters.allCategorias = res.json;
-        });
-        this.idiomaService.query().subscribe((res) => {
-            this.filters.allIdiomas = res.json;
-        });
-
-        this.registerChangeInPeliculas();
     }
 
     ngOnDestroy() {
@@ -134,7 +146,6 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         this.searchSubsctiption = this.eventManager.subscribe('peliculaSearch', (response) => {
             const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams));
             this.router.navigate(['pelicula'], { queryParams });
-            this.loadAll();
         });
     }
 
