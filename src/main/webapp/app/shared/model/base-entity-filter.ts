@@ -77,6 +77,10 @@ export abstract class BaseEntityFilter {
         this.loaders.push(loader);
     }
 
+    reset() {
+        this.loaders.forEach((loader) => loader.clear());
+    }
+
     toUrl(queryParams) {
         const obj = Object.assign({}, queryParams);
         Object.keys(this).map((id) => {

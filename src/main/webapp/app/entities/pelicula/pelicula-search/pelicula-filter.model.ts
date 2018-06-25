@@ -79,14 +79,6 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         });
     }
 
-    reset() {
-        this.titulo = null;
-        this.fechaEstreno = null;
-        this.idioma = null;
-        this.categorias = null;
-        this.actores = null;
-    }
-
     toQueryForBatch(query?: string) {
         if (!query) { query = this.toQuery(); }
         return [
