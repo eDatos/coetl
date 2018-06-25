@@ -30,48 +30,49 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
     protected registerParameters() {
         this.registerParam({
             paramName: 'titulo',
-            updateModel: (param) => this.titulo = param,
-            clear: () => this.titulo = null
+            updateFilterFromParam: (param) => this.titulo = param,
+            clearFilter: () => this.titulo = null
         });
 
         this.registerParam({
             paramName: 'fechaEstreno',
-            updateModel: (param) => this.fechaEstreno = param,
-            clear: () => this.fechaEstreno = null
+            updateFilterFromParam: (param) => this.fechaEstreno = param,
+            clearFilter: () => this.fechaEstreno = null
         });
 
         this.registerParam({
             paramName: 'idioma',
-            updateModel: (param) => this.idioma = this.allIdiomas.find((idioma) => idioma.id === Number(param)),
-            clear: () => this.idioma = null
+            updateFilterFromParam: (param) => this.idioma = this.allIdiomas.find((idioma) => idioma.id === Number(param)),
+            clearFilter: () => this.idioma = null
         });
 
         this.registerParam({
             paramName: 'categorias',
-            updateModel: (param) => {
+            updateFilterFromParam: (param) => {
                 this.categorias = param.split(',')
                     .map((searchId) => Number(searchId))
                     .map((searchId) => this.allCategorias.find((categoria) => categoria.id === searchId))
                     .filter((categoria) => !!categoria)
             },
-            clear: () => this.categorias = null
+            clearFilter: () => this.categorias = null
         });
 
         this.registerParam({
             paramName: 'actores',
-            updateModel: (param) => {
+            updateFilterFromParam: (param) => {
                 this.actores = param.split(',')
                     .map((searchId) => Number(searchId))
                     .map((searchId) => this.allActores.find((actor) => actor.id === searchId))
                     .filter((actor) => !!actor);
             },
-            clear: () => this.actores = null,
-            createSubscription: (param) => this.actorService.query({ query: `ID IN (${param})` }),
-            callback: (response) => {
+            clearFilter: () => this.actores = null,
+
+            recoverFilterFromServer: (param) => this.actorService.query({ query: `ID IN (${param})` }),
+            updateFilterAndSuggestionsFromServer: (response) => {
                 this.allActores = response.json;
                 this.actores = response.json;
             },
-            selectedIdsAreInSuggestions: (param) => {
+            needsToRecoverFilterFromServer: (param) => {
                 return param.split(',').every((paramElement) => {
                     return this.allActores.find((suggestion) => suggestion['id'] === Number(paramElement)) !== undefined;
                 }, this);
@@ -87,6 +88,7 @@ export class PeliculaFilter extends BaseEntityFilter implements EntityFilter, Ha
         ].filter((value) => !!value).join(' AND ');
     }
 
+    // FIXME moverlo a base-entity-filter, consistira en recorrer los loaders
     toUrl(queryParams) {
         const obj = Object.assign({}, queryParams);
         this.updateQueryParam('titulo', obj);

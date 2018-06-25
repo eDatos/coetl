@@ -43,12 +43,12 @@ export abstract class BaseEntityFilter {
         const filtersToRefresh = this.loaders.filter((loader) => {
             const paramValue = params[loader.paramName];
             if (!paramValue) {
-                loader.clear();
+                loader.clearFilter();
                 return false;
             }
 
-            if (!loader.selectedIdsAreInSuggestions || loader.selectedIdsAreInSuggestions(paramValue)) {
-                loader.updateModel(paramValue);
+            if (!loader.needsToRecoverFilterFromServer || loader.needsToRecoverFilterFromServer(paramValue)) {
+                loader.updateFilterFromParam(paramValue);
                 return false;
             }
 
@@ -62,8 +62,8 @@ export abstract class BaseEntityFilter {
             });
         }
 
-        const observableList = filtersToRefresh.map((loader) => loader.createSubscription(params[loader.paramName]));
-        const callbackList = filtersToRefresh.map((loader) => loader.callback);
+        const observableList = filtersToRefresh.map((loader) => loader.recoverFilterFromServer(params[loader.paramName]));
+        const callbackList = filtersToRefresh.map((loader) => loader.updateFilterAndSuggestionsFromServer);
         return Observable.zip(...observableList, (...responsesArray: Array<any>): void => {
             responsesArray.forEach((response, index) => {
                 callbackList[index](response);
@@ -78,7 +78,7 @@ export abstract class BaseEntityFilter {
     }
 
     reset() {
-        this.loaders.forEach((loader) => loader.clear());
+        this.loaders.forEach((loader) => loader.clearFilter());
     }
 
     toUrl(queryParams) {

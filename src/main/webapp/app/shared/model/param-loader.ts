@@ -1,9 +1,11 @@
 import { Observable } from 'rxjs/Rx';
 export interface ParamLoader {
     paramName: string;
-    updateModel: (param: any) => void;
-    clear: () => void;
-    createSubscription?: (param: any) => Observable<any>;
-    callback?: (response) => void;
-    selectedIdsAreInSuggestions?: (param: string) => boolean;
+    updateFilterFromParam: (param: any) => void;
+    clearFilter: () => void;
+    
+    // Async loaders
+    recoverFilterFromServer?: (param: any) => Observable<any>;
+    updateFilterAndSuggestionsFromServer?: (response) => void;
+    needsToRecoverFilterFromServer?: (param: string) => boolean;
 }
