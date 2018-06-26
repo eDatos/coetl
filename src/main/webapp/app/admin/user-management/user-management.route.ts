@@ -7,8 +7,8 @@ import { UserMgmtComponent } from './user-management.component';
 import { UserMgmtFormComponent } from './user-management-form.component';
 import { UserDeleteDialogComponent } from './user-management-delete-dialog.component';
 
-import { Principal, UserRouteAccessService } from '../../shared';
-import { DEFAULT_PATH, DEFAULT_OPERACIONES } from '../../home/home.component';
+import { UserRouteAccessService } from '../../shared';
+import { DEFAULT_PATH } from '../../home/home.component';
 
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
@@ -36,7 +36,7 @@ export const userMgmtRoute: Routes = [
         },
         data: {
             pageTitle: 'userManagement.home.title',
-            operaciones: DEFAULT_OPERACIONES
+            roles: 'ADMIN'
         }
     },
     {
@@ -45,7 +45,7 @@ export const userMgmtRoute: Routes = [
         component: UserMgmtFormComponent,
         data: {
             pageTitle: 'userManagement.home.title',
-            operaciones: 'LEER:USUARIO'
+            roles: 'ADMIN'
         },
     },
     {
@@ -54,7 +54,7 @@ export const userMgmtRoute: Routes = [
         component: UserMgmtFormComponent,
         data: {
             pageTitle: 'userManagement.home.title',
-            operaciones: 'CREAR:USUARIO'
+            roles: 'ADMIN'
         }
     },
     {
@@ -62,7 +62,7 @@ export const userMgmtRoute: Routes = [
         canActivate: [UserRouteAccessService],
         component: UserMgmtFormComponent,
         data: {
-            operaciones: 'EDITAR:USUARIO',
+            roles: 'ADMIN',
             pageTitle: 'userManagement.home.title'
         }
     }
@@ -75,7 +75,7 @@ export const userDialogRoute: Routes = [
         component: UserDeleteDialogComponent,
         outlet: 'popup',
         data: {
-            operaciones: 'DESACTIVAR:USUARIO',
+            roles: 'ADMIN'
         }
     },
     {
@@ -84,7 +84,7 @@ export const userDialogRoute: Routes = [
         component: UserDeleteDialogComponent,
         outlet: 'popup',
         data: {
-            operaciones: 'EDITAR:USUARIO',
+            roles: 'ADMIN'
         }
     }
 ];

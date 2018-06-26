@@ -34,11 +34,6 @@ public class CacheConfiguration {
         return cm -> {
             cm.createCache(com.arte.application.template.domain.Usuario.class.getName(), jcacheConfiguration);
             cm.createCache(com.arte.application.template.domain.Usuario.class.getName() + ".roles", jcacheConfiguration);
-            cm.createCache(com.arte.application.template.domain.Rol.class.getName(), jcacheConfiguration);
-            cm.createCache(com.arte.application.template.domain.Rol.class.getName() + ".operaciones", jcacheConfiguration);
-            cm.createCache(com.arte.application.template.domain.Rol.class.getName() + ".usuarios", jcacheConfiguration);
-            cm.createCache(com.arte.application.template.domain.Operacion.class.getName(), jcacheConfiguration);
-            cm.createCache(com.arte.application.template.domain.Operacion.class.getName() + ".roles", jcacheConfiguration);
             cm.createCache(com.arte.application.template.domain.Pelicula.class.getName(), jcacheConfiguration);
             cm.createCache(com.arte.application.template.domain.Pelicula.class.getName() + ".idiomas", jcacheConfiguration);
             cm.createCache(com.arte.application.template.domain.Pelicula.class.getName() + ".actores", jcacheConfiguration);

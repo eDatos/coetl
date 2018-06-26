@@ -8,7 +8,7 @@ export const metricsRoute: Route = {
     component: JhiMetricsMonitoringComponent,
     data: {
         pageTitle: 'metrics.title',
-        operaciones: 'LEER:METRICA'
+        roles: 'ADMIN'
     },
     canActivate: [UserRouteAccessService]
 };

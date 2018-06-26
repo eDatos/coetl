@@ -25,7 +25,7 @@ public class LogsResource extends AbstractResource {
 
     @GetMapping("/logs")
     @Timed
-    @PreAuthorize("hasPermission('LOGS', 'LEER')")
+    @PreAuthorize("@secChecker.checkLogsPermission(authentication)")
     public List<LoggerVM> getList() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         return context.getLoggerList().stream().map(LoggerVM::new).collect(Collectors.toList());
@@ -34,7 +34,7 @@ public class LogsResource extends AbstractResource {
     @PutMapping("/logs")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Timed
-    @PreAuthorize("hasPermission('LOGS', 'LEER')")
+    @PreAuthorize("@secChecker.checkLogsPermission(authentication)")
     public void changeLevel(@RequestBody LoggerVM jsonLogger) {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));

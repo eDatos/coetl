@@ -7,13 +7,15 @@ import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -21,12 +23,12 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 
 import com.arte.application.template.config.Constants;
+import com.arte.application.template.domain.enumeration.Rol;
 import com.arte.application.template.optimistic.AbstractVersionedAndAuditingEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -66,10 +68,10 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
     private String email;
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "usuario_rol", joinColumns = {@JoinColumn(name = "usuario_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "rol_id", referencedColumnName = "id")})
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @BatchSize(size = 20)
+    @ElementCollection(targetClass = Rol.class)
+    @JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"))
+    @Column(name = "rol", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Set<Rol> roles = new HashSet<>();
 
     @Column(name = "deletion_date")

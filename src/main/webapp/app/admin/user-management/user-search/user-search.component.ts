@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Subject, Subscription } from 'rxjs';
-import { User, Rol, RolService } from '../../../shared/index';
 import { UserFilter } from './index';
 
 @Component({
@@ -10,20 +9,16 @@ import { UserFilter } from './index';
     templateUrl: 'user-search.component.html'
 })
 
-export class UserSearchComponent implements OnInit, OnDestroy, OnChanges {
+export class UserSearchComponent implements OnInit, OnDestroy {
 
     private filterChangesSubject: Subject<any> = new Subject<any>();
     subscription: Subscription;
 
     @Input()
-    roles: Rol[];
-
-    @Input()
     filters: UserFilter;
 
     constructor(
-        private eventManager: JhiEventManager,
-        private rolService: RolService
+        private eventManager: JhiEventManager
     ) {
         this.filters = new UserFilter();
     }
@@ -39,10 +34,6 @@ export class UserSearchComponent implements OnInit, OnDestroy, OnChanges {
             );
     }
 
-    ngOnChanges() {
-        this.filters.setAllRoles(this.roles);
-    }
-
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }
@@ -54,15 +45,6 @@ export class UserSearchComponent implements OnInit, OnDestroy, OnChanges {
     resetFilters() {
         this.filters.reset();
         this.filter();
-    }
-
-    rolItemTemplate(item: Rol) {
-        return item.nombre;
-    }
-
-    completeMethodRoles(event) {
-        this.rolService.query({ query: `NOMBRE ILIKE '%${event.query}%'` })
-            .subscribe((result) => this.roles = result.json);
     }
 
     private filtersToUrl() {

@@ -1,7 +1,6 @@
 import { Route } from '@angular/router';
 
 import { JhiHealthCheckComponent } from './health.component';
-import { TipoAccionOperacion, TipoSujetoOperacion } from '../../entities/operacion/index';
 import { UserRouteAccessService } from '../../shared/index';
 
 export const healthRoute: Route = {
@@ -9,7 +8,7 @@ export const healthRoute: Route = {
     component: JhiHealthCheckComponent,
     data: {
         pageTitle: 'health.title',
-        operaciones: 'LEER:SALUD'
+        roles: 'ADMIN'
     },
     canActivate: [UserRouteAccessService]
 };

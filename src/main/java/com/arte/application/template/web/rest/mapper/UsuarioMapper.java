@@ -19,9 +19,6 @@ public class UsuarioMapper {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    @Autowired
-    RolMapper rolMapper;
-
     public UsuarioDTO userToUserDTO(Usuario user) {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setId(user.getId());
@@ -34,7 +31,7 @@ public class UsuarioMapper {
         usuarioDTO.setCreatedDate(user.getCreatedDate());
         usuarioDTO.setLastModifiedBy(user.getLastModifiedBy());
         usuarioDTO.setLastModifiedDate(user.getLastModifiedDate());
-        usuarioDTO.setRoles(rolMapper.toDto(user.getRoles()));
+        usuarioDTO.setRoles(user.getRoles());
         usuarioDTO.setDeletionDate(user.getDeletionDate());
         usuarioDTO.setOptLock(user.getOptLock());
         return usuarioDTO;
@@ -57,7 +54,7 @@ public class UsuarioMapper {
             user.setEmail(userDTO.getEmail());
             user.setDeletionDate(userDTO.getDeletionDate());
             user.setOptLock(userDTO.getOptLock());
-            user.setRoles(rolMapper.toEntity(userDTO.getRoles()));
+            user.setRoles(userDTO.getRoles());
             return user;
         }
     }
@@ -83,7 +80,7 @@ public class UsuarioMapper {
         user.setApellido2(userVM.getApellido2());
         user.setEmail(userVM.getEmail());
         user.setOptLock(userVM.getOptLock());
-        user.setRoles(rolMapper.toEntity(userVM.getRoles()));
+        user.setRoles(userVM.getRoles());
         return user;
     }
 

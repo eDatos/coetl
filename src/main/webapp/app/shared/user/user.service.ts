@@ -6,7 +6,6 @@ import { User } from './user.model';
 import { ResponseWrapper } from '../model/response-wrapper.model';
 import { createRequestOption } from '../model/request-util';
 import { Account } from '../../shared/user/account.model';
-import { Rol } from '../index';
 
 @Injectable()
 export class UserService {
@@ -51,11 +50,7 @@ export class UserService {
 
     getLogueado(): Observable<any> {
         return this.http.get('api/usuario')
-            .map((res: Response) => res.json())
-            .map((account: Account) => {
-                account.roles = account.roles.map((rol) => new Rol(rol.id, rol.codigo, rol.nombre, rol.operaciones))
-                return account;
-            });
+            .map((res: Response) => res.json());
     }
 
     private convertResponse(res: Response): ResponseWrapper {

@@ -10,56 +10,16 @@ import { orderParamsToQuery } from '../index';
 @Injectable()
 export class RolService {
 
-    private resourceUrl = 'api/roles';
+    constructor() { }
 
-    constructor(private http: Http) { }
-
-    query(req?: any): Observable<ResponseWrapper> {
-        const options = this.createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
-            .map((res: Response) => this.convertResponse(res));
-    }
-
-    find(codigo: string): Observable<Rol> {
-        return this.http.get(`${this.resourceUrl}/${codigo}`).map((res: Response) => {
-            return res.json();
-        });
-    }
-
-    create(rol: Rol): Observable<ResponseWrapper> {
-        return this.http.post(this.resourceUrl, rol)
-            .map((res: Response) => this.convertResponse(res));
-    }
-
-    update(rol: Rol): Observable<ResponseWrapper> {
-        return this.http.put(this.resourceUrl, rol)
-            .map((res: Response) => this.convertResponse(res));
-    }
-
-    delete(rol: Rol): Observable<ResponseWrapper> {
-        return this.http.delete(`${this.resourceUrl}/${rol.codigo}`);
-    }
-
-    private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        return new ResponseWrapper(res.headers, jsonResponse, res.status);
-    }
-
-    private createRequestOption = (req?: any): BaseRequestOptions => {
-        const options: BaseRequestOptions = new BaseRequestOptions();
-        if (req) {
-            const params: URLSearchParams = new URLSearchParams();
-            let query = req.query || '';
-            if (req['operacionId']) {
-                params.set('operacionId', req['operacionId']);
-            }
-            if (req.sort) {
-                query += ' ORDER BY ' + orderParamsToQuery(req.sort);
-            }
-            params.set('query', query);
-            options.params = params;
+    public rolFromString(roles: any[]): Rol[] {
+        if (typeof roles === 'string') {
+            roles = [roles];
         }
-        return options;
-    };
-
+        if (roles && roles.length > 0) {
+            roles = roles.map((stringRol) => Object.keys(Rol).find((objectRol) => objectRol.toUpperCase() === stringRol.toUpperCase()))
+                .filter((rol) => !!rol);
+        }
+        return roles;
+    }
 }

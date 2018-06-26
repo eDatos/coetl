@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Router, Data } from '@angular/router';
 import { UserRouteAccessService, Principal, Account } from '../shared';
-import { OperacionService } from '../entities/operacion';
 
 /**
  * FIXME
@@ -12,7 +11,6 @@ import { OperacionService } from '../entities/operacion';
  * Estas constantes deben ser luego usadas en el route en cuestión del componente al que corresponden
  **/
 export const DEFAULT_PATH = 'user-management';
-export const DEFAULT_OPERACIONES = ['LEER:USUARIO'];
 
 @Component({
     selector: 'jhi-home',
@@ -25,7 +23,6 @@ export class HomeComponent implements OnInit {
     constructor(
         private principal: Principal,
         private userRouteAccessService: UserRouteAccessService,
-        private operacionService: OperacionService,
         private router: Router
     ) { }
 
@@ -33,18 +30,13 @@ export class HomeComponent implements OnInit {
         this.principal.identity().then((account) => {
             this.account = account;
 
-            if (!account.id && account.roles.length === 0) {
-                this.router.navigate(['non-existent-user']);
-            }
-
             if (account.deletionDate) {
                 this.router.navigate(['blocked']);
             }
-            this.userRouteAccessService.checkLogin(this.operacionService.operacionFromString(DEFAULT_OPERACIONES)).then((canActivate) => {
-                if (canActivate) {
-                    this.router.navigate([DEFAULT_PATH]);
-                }
-            });
+
+            if (!account.id && account.roles.length === 0) {
+                this.userRouteAccessService.redirectToCas();
+            }
         });
     }
 

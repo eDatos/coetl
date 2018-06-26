@@ -10,9 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.arte.application.template.service.criteria.ActorCriteriaProcessor;
 import com.arte.application.template.service.criteria.IdiomaCriteriaProcessor;
-import com.arte.application.template.service.criteria.OperacionCriteriaProcessor;
 import com.arte.application.template.service.criteria.PeliculaCriteriaProcessor;
-import com.arte.application.template.service.criteria.RolCriteriaProcessor;
 import com.arte.application.template.service.criteria.UsuarioCriteriaProcessor;
 import com.arte.libs.grammar.antlr.DefaultQueryExprVisitor;
 import com.arte.libs.grammar.antlr.QueryExprCompiler;
@@ -30,14 +28,6 @@ public class QueryUtil {
         return queryToCriteria(pageable, query, new UsuarioCriteriaProcessor());
     }
 
-    public DetachedCriteria queryToOperacionCriteria(Pageable pageable, String query) {
-        return queryToCriteria(pageable, query, new OperacionCriteriaProcessor());
-    }
-
-    public DetachedCriteria queryToRolCriteria(Pageable pageable, String query) {
-        return queryToCriteria(pageable, query, new RolCriteriaProcessor());
-    }
-    
     public DetachedCriteria queryToIdiomaCriteria(Pageable pageable, String query) {
         return queryToCriteria(pageable, query, new IdiomaCriteriaProcessor());
     }

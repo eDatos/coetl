@@ -3,22 +3,21 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, Data,
 
 import { StateStorageService } from './state-storage.service';
 import { ConfigService } from '../../config/index';
-import { Operacion } from '../../entities/operacion/index';
 import { Principal } from './principal.service';
-import { OperacionService } from '../../entities/operacion/operacion.service';
+import { Rol } from '../rol/rol.model';
+import { RolService } from '../rol/rol.service';
 
 @Injectable()
 export class UserRouteAccessService implements CanActivate {
 
     public static AUTH_REDIRECT = 'authRedirect';
-    private static OPERACIONES = 'operaciones';
+    private static ROLES = 'roles';
 
     constructor(
         private router: Router,
         private principal: Principal,
-        private stateStorageService: StateStorageService,
         private configService: ConfigService,
-        private operacionService: OperacionService,
+        private rolService: RolService
     ) {
     }
 
@@ -34,19 +33,20 @@ export class UserRouteAccessService implements CanActivate {
         }));
     }
 
-    checkLogin(operaciones: Operacion[]): Promise<boolean> {
+    checkLogin(roles: Rol[]): Promise<boolean> {
         const principal = this.principal;
         return Promise.resolve(principal.identity().then((account) => {
             if (!!account) { // User is logged in
-                return this.noPermissionRequired(operaciones) || principal.canDoAnyOperacion(operaciones);
+                // FIXME INFRASTR-61 poner roles aquí.
+                return this.noPermissionRequired(roles) || principal.hasRoles(roles);
             } else { // User is not logged in, redirect to CAS
                 this.redirectToCas();
             }
         }));
     }
 
-    private noPermissionRequired(operaciones: Operacion[]) {
-        return (!operaciones || operaciones.length === 0)
+    private noPermissionRequired(roles: Rol[]) {
+        return (!roles || roles.length === 0)
     }
 
     private redirect(data: Data) {
@@ -57,19 +57,19 @@ export class UserRouteAccessService implements CanActivate {
         }
     }
 
-    private operacionesFromRouteSnapshot(route: ActivatedRouteSnapshot): Operacion[] {
-        if (route.firstChild && route.firstChild.data && route.firstChild.data[UserRouteAccessService.OPERACIONES]) {
+    private operacionesFromRouteSnapshot(route: ActivatedRouteSnapshot): Rol[] {
+        if (route.firstChild && route.firstChild.data && route.firstChild.data[UserRouteAccessService.ROLES]) {
             return this.operacionesFromRoute(route.firstChild);
         } else {
             return this.operacionesFromRoute(route);
         }
     }
 
-    public operacionesFromRoute(route): Operacion[] {
-        return this.operacionService.operacionFromString(route.data[UserRouteAccessService.OPERACIONES]);
+    public operacionesFromRoute(route): Rol[] {
+        return this.rolService.rolFromString(route.data[UserRouteAccessService.ROLES]);
     }
 
-    private redirectToCas() {
+    public redirectToCas() {
         const config = this.configService.getConfig();
         window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
         return false;

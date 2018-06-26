@@ -29,7 +29,7 @@ export const auditsRoute: Route = {
     },
     data: {
         pageTitle: 'audits.title',
-        operaciones: 'LEER:AUDITORIA'
+        roles: 'ADMIN'
     },
     canActivate: [UserRouteAccessService]
 };

@@ -8,7 +8,7 @@ export const docsRoute: Route = {
     component: JhiDocsComponent,
     data: {
         pageTitle: 'global.menu.admin.apidocs',
-        operaciones: ['LEER:API'],
+        roles: 'ADMIN'
     },
     canActivate: [UserRouteAccessService]
 };

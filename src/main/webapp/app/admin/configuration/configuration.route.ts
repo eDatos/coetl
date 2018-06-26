@@ -8,7 +8,7 @@ export const configurationRoute: Route = {
     component: JhiConfigurationComponent,
     data: {
         pageTitle: 'configuration.title',
-        operaciones: 'LEER:CONFIG'
+        roles: 'ADMIN'
     },
     canActivate: [UserRouteAccessService]
 };

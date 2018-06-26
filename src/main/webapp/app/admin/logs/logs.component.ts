@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Log } from './log.model';
 import { LogsService } from './logs.service';
+import { Rol } from '../../shared';
 
 @Component({
     selector: 'jhi-logs',
@@ -30,7 +31,7 @@ export class LogsComponent implements OnInit {
     }
 
     changeLevel(name: string, level: string) {
-        this.principal.canDoAnyOperacion(['LEER:LOGS']).then((result) => {
+        this.principal.hasRoles([Rol.ADMIN]).then((result) => {
             if (result) {
                 const log = new Log(name, level);
                 this.logsService.changeLevel(log).subscribe(() => {

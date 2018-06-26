@@ -1,9 +1,7 @@
 package com.arte.application.template.service;
 
 import java.time.ZonedDateTime;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
@@ -18,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.config.Constants;
-import com.arte.application.template.domain.Operacion;
-import com.arte.application.template.domain.Rol;
 import com.arte.application.template.domain.Usuario;
-import com.arte.application.template.repository.RolRepository;
 import com.arte.application.template.repository.UsuarioRepository;
 import com.arte.application.template.security.SecurityUtils;
 import com.arte.application.template.web.rest.errors.CustomParameterizedException;
@@ -35,15 +30,12 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    private final RolRepository authorityRepository;
-
     private LdapService ldapService;
 
     private QueryUtil queryUtil;
 
-    public UsuarioService(UsuarioRepository userRepository, RolRepository authorityRepository, LdapService ldapService, QueryUtil queryUtil) {
+    public UsuarioService(UsuarioRepository userRepository, LdapService ldapService, QueryUtil queryUtil) {
         this.usuarioRepository = userRepository;
-        this.authorityRepository = authorityRepository;
         this.ldapService = ldapService;
         this.queryUtil = queryUtil;
     }
@@ -56,11 +48,7 @@ public class UsuarioService {
         newUser.setApellido1(user.getApellido1());
         newUser.setApellido2(user.getApellido2());
         newUser.setEmail(user.getEmail());
-        if (user.getRoles() != null) {
-            Set<Rol> authorities = new HashSet<>();
-            user.getRoles().forEach(authority -> authorities.add(authorityRepository.findOneByCodigo(authority.getCodigo())));
-            newUser.setRoles(authorities);
-        }
+        newUser.setRoles(user.getRoles());
         usuarioRepository.save(newUser);
         log.debug("Creada informaicón para el usuario: {}", newUser);
         return newUser;
@@ -145,7 +133,7 @@ public class UsuarioService {
     public Usuario getUsuarioWithAuthorities() {
         Usuario returnValue = usuarioRepository.findOneWithRolesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(new Usuario());
         if (returnValue.getDeletionDate() != null) {
-            returnValue.setRoles(generarRolesVacios());
+            returnValue.setRoles(null);
         }
 
         return returnValue;
@@ -155,20 +143,5 @@ public class UsuarioService {
         if (ldapService.buscarUsuarioLdap(user.getLogin()) == null) {
             throw new CustomParameterizedException("error.userManagement.usuario-ldap-no-encontrado", user.getLogin());
         }
-    }
-
-    private Set<Rol> generarRolesVacios() {
-        Set<Rol> returnValue = new HashSet<>();
-        Set<Operacion> operacionesList = new HashSet<>();
-
-        Rol loginRol = new Rol();
-        Operacion loginOperacion = new Operacion();
-
-        // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-        loginOperacion.setAccion("LOGIN");
-        loginOperacion.setSujeto("ARTE_APPLICATION_TEMPLATE");
-
-        loginRol.setOperaciones(operacionesList);
-        return returnValue;
     }
 }

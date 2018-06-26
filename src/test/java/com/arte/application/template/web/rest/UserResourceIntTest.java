@@ -11,10 +11,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 
@@ -36,17 +36,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.config.audit.AuditEventPublisher;
-import com.arte.application.template.domain.Rol;
 import com.arte.application.template.domain.Usuario;
+import com.arte.application.template.domain.enumeration.Rol;
 import com.arte.application.template.entry.UsuarioLdapEntry;
 import com.arte.application.template.repository.UsuarioRepository;
 import com.arte.application.template.service.LdapService;
 import com.arte.application.template.service.MailService;
 import com.arte.application.template.service.UsuarioService;
-import com.arte.application.template.web.rest.dto.RolDTO;
 import com.arte.application.template.web.rest.dto.UsuarioDTO;
 import com.arte.application.template.web.rest.errors.ExceptionTranslator;
-import com.arte.application.template.web.rest.mapper.RolMapper;
 import com.arte.application.template.web.rest.mapper.UsuarioMapper;
 import com.arte.application.template.web.rest.vm.ManagedUserVM;
 
@@ -74,7 +72,6 @@ public class UserResourceIntTest {
     private static final String UPDATED_LASTNAME = "jhipsterLastName";
 
     private static final String ROL_ADMIN = "ADMIN";
-    private static final String ROL_USER = "USER";
 
     @Autowired
     private UsuarioRepository userRepository;
@@ -90,9 +87,6 @@ public class UserResourceIntTest {
 
     @Autowired
     private UsuarioMapper userMapper;
-
-    @Autowired
-    private RolMapper rolMapper;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -124,22 +118,8 @@ public class UserResourceIntTest {
                 .setMessageConverters(jacksonMessageConverter).build();
     }
 
-    private Set<RolDTO> mockRolesDTO() {
-        return mockRolesDTO(false);
-    }
-
-    private Set<RolDTO> mockRolesDTO(boolean save) {
-        // Create the User
-        Set<RolDTO> authorities = new HashSet<>();
-        RolDTO rolDTO = new RolDTO();
-        rolDTO.setCodigo(UserResourceIntTest.ROL_ADMIN);
-        rolDTO.setNombre(UserResourceIntTest.ROL_ADMIN);
-        if (save) {
-            em.persist(rolMapper.toEntity(rolDTO));
-            em.flush();
-        }
-        authorities.add(rolDTO);
-        return authorities;
+    private Set<Rol> mockRolesDTO() {
+        return Stream.of(Rol.ADMIN).collect(Collectors.toSet());
     }
 
     /**
@@ -167,7 +147,7 @@ public class UserResourceIntTest {
         int databaseSizeBeforeCreate = userRepository.findAll().size();
         Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
-        Set<RolDTO> authorities = mockRolesDTO(true);
+        Set<Rol> authorities = mockRolesDTO();
 
         ManagedUserVM managedUserVM = new ManagedUserVM();
         UsuarioDTO source = usuarioMapper.userToUserDTO(existingUser);
@@ -497,28 +477,4 @@ public class UserResourceIntTest {
         assertEquals(userDTO.getRoles(), existingUser.getRoles());
         assertThat(userDTO.toString()).isNotNull();
     }
-
-    @Test
-    public void testAuthorityEquals() throws Exception {
-        Rol authorityA = new Rol();
-        assertThat(authorityA).isEqualTo(authorityA);
-        assertThat(authorityA).isNotEqualTo(null);
-        assertThat(authorityA).isNotEqualTo(new Object());
-        assertThat(authorityA.hashCode()).isEqualTo(0);
-        assertThat(authorityA.toString()).isNotNull();
-
-        Rol authorityB = new Rol();
-        assertThat(authorityA).isEqualTo(authorityB);
-
-        authorityB.setNombre(UserResourceIntTest.ROL_ADMIN);
-        assertThat(authorityA).isNotEqualTo(authorityB);
-
-        authorityA.setNombre(UserResourceIntTest.ROL_USER);
-        assertThat(authorityA).isNotEqualTo(authorityB);
-
-        authorityB.setNombre(UserResourceIntTest.ROL_USER);
-        assertThat(authorityA).isEqualTo(authorityB);
-        assertThat(authorityA.hashCode()).isEqualTo(authorityB.hashCode());
-    }
-
 }

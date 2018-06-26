@@ -8,7 +8,7 @@ export const logsRoute: Route = {
     component: LogsComponent,
     data: {
         pageTitle: 'logs.title',
-        operaciones: 'LEER:LOGS'
+        roles: 'ADMIN'
     },
     canActivate: [UserRouteAccessService]
 };
