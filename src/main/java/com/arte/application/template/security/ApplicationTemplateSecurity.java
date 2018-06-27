@@ -1,11 +1,9 @@
 package com.arte.application.template.security;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-@Component
-@Qualifier("secChecker")
+@Component("secChecker")
 public class ApplicationTemplateSecurity {
 
     public boolean checkAuditoriaPermission(Authentication auth) {

@@ -32,18 +32,6 @@
                                 <span jhiTranslate="global.menu.admin.userManagement">User management</span>
                             </a>
                         </li>
-                        <li *acHasAnyOperacion="['LEER:ROL']">
-                            <a class="dropdown-item" routerLink="rol-management" routerLinkActive="active" (click)="collapseNavbar()">
-                                <i class="fa fa-fw fa-users" aria-hidden="true"></i>
-                                <span jhiTranslate="global.menu.admin.rolManagement">Rol management</span>
-                            </a>
-                        </li>
-                        <li *acHasAnyOperacion="['LEER:OPERACION']">
-                            <a class="dropdown-item" routerLink="operacion" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }" (click)="collapseNavbar()">
-                                <i class="fa fa-fw fa-key" aria-hidden="true"></i>
-                                <span jhiTranslate="arteApplicationTemplateApp.operacion.menu.title">Operacion</span>
-                            </a>
-                        </li>
                         <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                     </ul>
                 </li>

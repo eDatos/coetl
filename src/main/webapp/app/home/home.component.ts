@@ -2,7 +2,7 @@ import { errorRoute } from '../layouts/error/error.route';
 import { Component, OnInit } from '@angular/core';
 
 import { Router, Data } from '@angular/router';
-import { UserRouteAccessService, Principal, Account } from '../shared';
+import { UserRouteAccessService, Principal, Account, Rol } from '../shared';
 
 /**
  * FIXME
@@ -30,13 +30,18 @@ export class HomeComponent implements OnInit {
         this.principal.identity().then((account) => {
             this.account = account;
 
+            if (!account.id && account.roles.length === 0) {
+                this.router.navigate(['non-existent-user']);
+            }
+
             if (account.deletionDate) {
                 this.router.navigate(['blocked']);
             }
-
-            if (!account.id && account.roles.length === 0) {
-                this.userRouteAccessService.redirectToCas();
-            }
+            this.userRouteAccessService.checkLogin([Rol.ADMIN]).then((canActivate) => {
+                if (canActivate) {
+                    this.router.navigate([DEFAULT_PATH]);
+                }
+            });
         });
     }
 
