@@ -53,12 +53,11 @@
         </createIndex>
 
         <!-- FIXME INFRASTR-61 -->
-        <sql>CREATE TYPE rol_enum AS ENUM ('ADMIN')</sql>
         <createTable tableName="usuario_rol">
             <column name="usuario_id" type="bigint">
                 <constraints nullable="false" />
             </column>
-            <column name="rol" type="rol_enum">
+            <column name="rol" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
         </createTable>

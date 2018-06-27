@@ -1,24 +1,60 @@
 package com.arte.application.template.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.arte.application.template.ArteApplicationTemplateApp;
+import com.arte.application.template.config.audit.AuditEventPublisher;
+import com.arte.application.template.domain.Usuario;
+import com.arte.application.template.domain.enumeration.Rol;
+import com.arte.application.template.entry.UsuarioLdapEntry;
+import com.arte.application.template.repository.UsuarioRepository;
+import com.arte.application.template.service.LdapService;
+import com.arte.application.template.service.MailService;
+import com.arte.application.template.service.UsuarioService;
+import com.arte.application.template.web.rest.dto.UsuarioDTO;
+import com.arte.application.template.web.rest.mapper.UsuarioMapper;
+
+
 /**
  * Test class for the AccountResource REST controller.
  *
  * @see AccountResource
  */
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(classes = ArteApplicationTemplateApp.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ArteApplicationTemplateApp.class)
 public class AccountResourceIntTest {
-/*
+
     private static final String ROL_ADMIN = "ADMIN";
 
     @Autowired
     private UsuarioRepository userRepository;
-
-    @Autowired
-    private RolRepository rolRepository;
-
-    @Autowired
-    private RolMapper rolMapper;
 
     @Autowired
     private UsuarioService userService;
@@ -46,8 +82,8 @@ public class AccountResourceIntTest {
 
     private MockMvc restMvc;
 
-    private HashSet<RolDTO> mockRolSet(RolDTO rolDTO) {
-        return new HashSet<>(Collections.singletonList(rolDTO));
+    private HashSet<Rol> mockRolSet(Rol rol) {
+        return new HashSet<>(Collections.singletonList(rol));
     }
 
     @Before
@@ -60,18 +96,6 @@ public class AccountResourceIntTest {
 
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource).setMessageConverters(httpMessageConverters).build();
         this.restUserMockMvc = MockMvcBuilders.standaloneSetup(accountUserMockResource).build();
-    }
-
-    @Before
-    public void initTest() {
-        Operacion operacion = new Operacion();
-        operacion.setAccion("LEER");
-        operacion.setSujeto("ROL");
-        operacionRepository.save(operacion);
-
-        rol.setCodigo(AccountResourceIntTest.ROL_ADMIN);
-        rol.setNombre(AccountResourceIntTest.ROL_ADMIN);
-        rol.getOperaciones().add(operacion);
     }
 
     @Test
@@ -90,12 +114,8 @@ public class AccountResourceIntTest {
     @Test
     @Transactional
     public void testGetExistingAccount() throws Exception {
-
-        rolRepository.saveAndFlush(rol);
-
         Set<Rol> authorities = new HashSet<>();
-        Rol authority = rolRepository.findOneByCodigo(AccountResourceIntTest.ROL_ADMIN);
-        authorities.add(authority);
+        authorities.add(Rol.ADMIN);
 
         Usuario user = new Usuario();
         user.setLogin("test");
@@ -107,7 +127,7 @@ public class AccountResourceIntTest {
 
         restUserMockMvc.perform(get("/api/usuario").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.login").value("test")).andExpect(jsonPath("$.nombre").value("john")).andExpect(jsonPath("$.apellido1").value("doe"))
-                .andExpect(jsonPath("$.email").value("john.doe@jhipster.com")).andExpect(jsonPath("$.roles[*].codigo").value(AccountResourceIntTest.ROL_ADMIN));
+                .andExpect(jsonPath("$.email").value("john.doe@jhipster.com")).andExpect(jsonPath("$.roles[*]").value(AccountResourceIntTest.ROL_ADMIN));
     }
 
     @Test
@@ -122,10 +142,6 @@ public class AccountResourceIntTest {
     @WithMockUser("save-account")
     public void testSaveAccount() throws Exception {
         Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
-
-        rolRepository.save(rol);
-
-        HashSet<RolDTO> mockRolSet = mockRolSet(rolMapper.toDto(rol));
 
         Usuario user = new Usuario();
         user.setLogin("save-account");
@@ -143,7 +159,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(mockRolSet)
+				.setAuthorities(mockRolSet(Rol.ADMIN))
 				.build();
 		//@formatter:on
 
@@ -154,8 +170,6 @@ public class AccountResourceIntTest {
         assertThat(updatedUser.getApellido1()).isEqualTo(userDTO.getApellido1());
         assertThat(updatedUser.getEmail()).isEqualTo(userDTO.getEmail());
         assertThat(updatedUser.getRoles()).size().isEqualTo(1);
-        assertThat(((Rol) updatedUser.getRoles().toArray()[0]).getCodigo()).isEqualTo(((RolDTO) mockRolSet.toArray()[0]).getCodigo());
-
     }
 
     @Test
@@ -179,7 +193,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(mockRolSet(rolMapper.toDto(rol)))
+				.setAuthorities(mockRolSet(Rol.ADMIN))
 				.build();
 		//@formatter:on
 
@@ -214,7 +228,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(mockRolSet(rolMapper.toDto(rol)))
+				.setAuthorities(mockRolSet(Rol.ADMIN))
 				.build();
 		//@formatter:on
 
@@ -256,5 +270,4 @@ public class AccountResourceIntTest {
         Usuario updatedUser = userRepository.findOneByLogin("save-existing-email-and-login").orElse(null);
         assertThat(updatedUser.getEmail()).isEqualTo("save-existing-email-and-login@example.com");
     }
-*/
 }

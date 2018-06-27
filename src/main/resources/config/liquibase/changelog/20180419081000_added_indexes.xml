@@ -17,7 +17,7 @@
         <!-- Rol -->
 
         <createIndex indexName="idx_usuario_rol_rol" tableName="usuario_rol">
-            <column name="rol" type="rol_enum" />
+            <column name="rol" type="varchar(255)" />
         </createIndex>
 
     </changeSet>

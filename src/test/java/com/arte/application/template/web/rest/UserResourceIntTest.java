@@ -457,7 +457,7 @@ public class UserResourceIntTest {
         assertThat(user.getCreatedDate()).isNotNull();
         assertThat(user.getLastModifiedBy()).isNull();
         assertThat(user.getLastModifiedDate()).isNotNull();
-        assertThat(user.getRoles()).extracting("codigo").containsExactly(UserResourceIntTest.ROL_ADMIN);
+        assertThat(user.getRoles()).containsExactly(Rol.ADMIN);
     }
 
     @Test
