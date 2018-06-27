@@ -1,6 +1,7 @@
 package com.arte.application.template.service;
 
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
@@ -133,7 +134,7 @@ public class UsuarioService {
     public Usuario getUsuarioWithAuthorities() {
         Usuario returnValue = usuarioRepository.findOneWithRolesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(new Usuario());
         if (returnValue.getDeletionDate() != null) {
-            returnValue.setRoles(null);
+            returnValue.setRoles(new HashSet<>());
         }
 
         return returnValue;

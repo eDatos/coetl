@@ -1,7 +1,6 @@
 package com.arte.application.template.security;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -42,7 +41,7 @@ public class DomainUserDetailsService implements UserDetailsService {
         String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
         Optional<Usuario> userFromDatabase = userRepository.findOneWithRolesByLoginAndDeletionDateIsNull(lowercaseLogin);
         if (!userFromDatabase.isPresent()) {
-            return new User(lowercaseLogin, "", permisoUnico());
+            return new User(lowercaseLogin, "", new ArrayList<>());
         }
 
         return userFromDatabase.map(user -> {
@@ -52,17 +51,5 @@ public class DomainUserDetailsService implements UserDetailsService {
             List<GrantedAuthority> permisos = user.getRoles().stream().map((rol) -> new SimpleGrantedAuthority(rol.name())).collect(Collectors.toList());
             return new User(lowercaseLogin, "", permisos);
         }).orElseThrow(() -> new UsernameNotFoundException("Usuario " + lowercaseLogin + " no encontrado en la " + "database"));
-    }
-
-    /**
-     * Este método devuelve un permiso con el que no se podrá hacer nada.
-     * Esto se usa ya que es necesario tener al menos un permiso para entrar en la aplicación.
-     * 
-     * @return
-     */
-    private Collection<? extends GrantedAuthority> permisoUnico() {
-        List<GrantedAuthority> permisoLogin = new ArrayList<>();
-        permisoLogin.add(new SimpleGrantedAuthority("LOGIN"));
-        return permisoLogin;
     }
 }
