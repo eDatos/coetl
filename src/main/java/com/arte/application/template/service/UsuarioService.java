@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.config.Constants;
-import com.arte.application.template.domain.Operacion;
 import com.arte.application.template.domain.Rol;
 import com.arte.application.template.domain.Usuario;
 import com.arte.application.template.repository.RolRepository;
@@ -145,7 +144,7 @@ public class UsuarioService {
     public Usuario getUsuarioWithAuthorities() {
         Usuario returnValue = usuarioRepository.findOneWithRolesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(new Usuario());
         if (returnValue.getDeletionDate() != null) {
-            returnValue.setRoles(generarRolesVacios());
+            returnValue.setRoles(new HashSet<>());
         }
 
         return returnValue;
@@ -155,20 +154,5 @@ public class UsuarioService {
         if (ldapService.buscarUsuarioLdap(user.getLogin()) == null) {
             throw new CustomParameterizedException("error.userManagement.usuario-ldap-no-encontrado", user.getLogin());
         }
-    }
-
-    private Set<Rol> generarRolesVacios() {
-        Set<Rol> returnValue = new HashSet<>();
-        Set<Operacion> operacionesList = new HashSet<>();
-
-        Rol loginRol = new Rol();
-        Operacion loginOperacion = new Operacion();
-
-        // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-        loginOperacion.setAccion("LOGIN");
-        loginOperacion.setSujeto("ARTE_APPLICATION_TEMPLATE");
-
-        loginRol.setOperaciones(operacionesList);
-        return returnValue;
     }
 }

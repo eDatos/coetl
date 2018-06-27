@@ -43,7 +43,7 @@ public class DomainUserDetailsService implements UserDetailsService {
         String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
         Optional<Usuario> userFromDatabase = userRepository.findOneWithRolesByLoginAndDeletionDateIsNull(lowercaseLogin);
         if (!userFromDatabase.isPresent()) {
-            return new User(lowercaseLogin, "", permisoUnico());
+            return new User(lowercaseLogin, "", new ArrayList<>());
         }
 
         return userFromDatabase.map(user -> {
@@ -58,18 +58,6 @@ public class DomainUserDetailsService implements UserDetailsService {
             }
             return new User(lowercaseLogin, "", permisos);
         }).orElseThrow(() -> new UsernameNotFoundException("Usuario " + lowercaseLogin + " no encontrado en la " + "database"));
-    }
-
-    /**
-     * Este método devuelve un permiso con el que no se podrá hacer nada.
-     * Esto se usa ya que es necesario tener al menos un permiso para entrar en la aplicación.
-     * 
-     * @return
-     */
-    private Collection<? extends GrantedAuthority> permisoUnico() {
-        List<GrantedAuthority> permisoLogin = new ArrayList<>();
-        permisoLogin.add(new SimpleGrantedAuthority("LOGIN"));
-        return permisoLogin;
     }
 
     private void sumarPermisos(List<GrantedAuthority> permisos, Rol rolAux) {
