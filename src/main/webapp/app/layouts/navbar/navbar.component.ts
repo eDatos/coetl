@@ -7,7 +7,7 @@ import { Principal, LoginService } from '../../shared';
 
 import { VERSION } from '../../app.constants';
 import { ConfigService } from '../../config/index';
-import { AdminPermissionService } from '../../admin/admin-permission.service';
+import { PermissionService } from '../../shared/auth/permission.service';
 import { ActorPermissionService } from '../../entities/actor';
 import { PeliculaPermissionService } from '../../entities/pelicula';
 
@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
 
     constructor(
         private loginService: LoginService,
-        public adminPermissionService: AdminPermissionService,
+        public permissionService: PermissionService,
         public actorPermissionService: ActorPermissionService,
         public peliculaPermissionService: PeliculaPermissionService,
         private principal: Principal,

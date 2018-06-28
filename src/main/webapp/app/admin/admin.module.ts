@@ -30,7 +30,6 @@ import {
     AuditsResolvePagingParams
 } from './';
 import { UserSearchComponent } from './user-management/user-search/index';
-import { AdminPermissionService } from './admin-permission.service';
 
 @NgModule({
     imports: [
@@ -64,7 +63,6 @@ import { AdminPermissionService } from './admin-permission.service';
         JhiConfigurationService,
         JhiHealthService,
         JhiMetricsService,
-        AdminPermissionService,
         LogsService,
         AuditsResolvePagingParams,
         UserResolvePagingParams,

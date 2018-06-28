@@ -26,7 +26,7 @@
                                 <span jhiTranslate="global.menu.account.myAccount">My account</span>
                             </a>
                         </li>
-                        <li *ngIf="adminPermissionService.puedeNavegarUserManagement()">
+                        <li *ngIf="permissionService.puedeNavegarUserManagement()">
                             <a class="dropdown-item" routerLink="user-management" routerLinkActive="active" (click)="collapseNavbar()">
                                 <i class="fa fa-fw fa-user" aria-hidden="true"></i>
                                 <span jhiTranslate="global.menu.admin.userManagement">User management</span>
@@ -35,7 +35,7 @@
                         <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                     </ul>
                 </li>
-                <li *ngIf="adminPermissionService.puedeNavegarHerramientas()" ngbDropdown
+                <li *ngIf="permissionService.puedeNavegarHerramientas()" ngbDropdown
                     class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
                     <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                         <span>

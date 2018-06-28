@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 
 import { JhiHealthCheckComponent } from './health.component';
 import { UserRouteAccessService } from '../../shared/index';
-import { HERRAMIENTAS_ROLES } from '../admin-permission.service';
+import { HERRAMIENTAS_ROLES } from '../../shared/auth/permission.service';
 
 export const healthRoute: Route = {
     path: 'jhi-health',

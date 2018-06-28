@@ -21,6 +21,7 @@ import {
     StateStorageService,
     UserService,
 } from './';
+import { PermissionService } from './auth/permission.service';
 
 @NgModule({
     imports: [
@@ -45,7 +46,8 @@ import {
         DatePipe,
         GenericModalService,
         AcAlertService,
-        ScrollService
+        ScrollService,
+        PermissionService
     ],
     entryComponents: [],
     exports: [

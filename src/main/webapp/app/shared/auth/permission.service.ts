@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Principal, Rol } from '../shared';
+import { Principal } from './principal.service';
+import { Rol } from '../rol/rol.model';
 
 export const USER_MNGMT_ROLES = [Rol.ADMIN];
 export const HERRAMIENTAS_ROLES = [Rol.ADMIN];
 
 @Injectable()
-export class AdminPermissionService {
+export class PermissionService {
 
     constructor(
         private principal: Principal
