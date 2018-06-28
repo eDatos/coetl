@@ -4,6 +4,8 @@ import { Rol } from '../rol/rol.model';
 
 export const USER_MNGMT_ROLES = [Rol.ADMIN];
 export const HERRAMIENTAS_ROLES = [Rol.ADMIN];
+export const ACTOR_ROLES = [Rol.USER];
+export const PELICULA_ROLES = [Rol.USER];
 
 @Injectable()
 export class PermissionService {
@@ -18,5 +20,13 @@ export class PermissionService {
 
     puedeNavegarHerramientas(): boolean {
         return this.principal.rolesRutaMatchesRolesUsuario(HERRAMIENTAS_ROLES);
+    }
+
+    puedeNavegarActor(): boolean {
+        return this.principal.rolesRutaMatchesRolesUsuario(ACTOR_ROLES);
+    }
+
+    puedeNavegarPelicula(): boolean {
+        return this.principal.rolesRutaMatchesRolesUsuario(PELICULA_ROLES);
     }
 }

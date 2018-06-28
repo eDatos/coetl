@@ -6,7 +6,7 @@ import { UserRouteAccessService } from '../../shared';
 import { ActorDeletePopupComponent } from './actor-delete-dialog.component';
 import { ActorPopupComponent } from './actor-dialog.component';
 import { ActorComponent } from './actor.component';
-import { ACTOR_ROLES } from './actor-permission.service';
+import { ACTOR_ROLES } from '../../shared/auth/permission.service';
 
 @Injectable()
 export class ActorResolvePagingParams implements Resolve<any> {

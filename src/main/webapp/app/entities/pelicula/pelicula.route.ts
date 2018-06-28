@@ -7,7 +7,7 @@ import { PeliculaDeletePopupComponent } from './pelicula-delete-dialog.component
 import { PeliculaFormComponent } from './pelicula-form.component';
 import { PeliculaComponent } from './pelicula.component';
 import { PeliculaResolve } from './pelicula.resolve';
-import { PELICULA_ROLES } from './pelicula-permission.service';
+import { PELICULA_ROLES } from '../../shared/auth/permission.service';
 
 @Injectable()
 export class PeliculaResolvePagingParams implements Resolve<any> {

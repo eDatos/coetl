@@ -8,8 +8,6 @@ import { Principal, LoginService } from '../../shared';
 import { VERSION } from '../../app.constants';
 import { ConfigService } from '../../config/index';
 import { PermissionService } from '../../shared/auth/permission.service';
-import { ActorPermissionService } from '../../entities/actor';
-import { PeliculaPermissionService } from '../../entities/pelicula';
 
 @Component({
     selector: 'jhi-navbar',
@@ -29,8 +27,6 @@ export class NavbarComponent implements OnInit {
     constructor(
         private loginService: LoginService,
         public permissionService: PermissionService,
-        public actorPermissionService: ActorPermissionService,
-        public peliculaPermissionService: PeliculaPermissionService,
         private principal: Principal,
         private profileService: ProfileService,
         private configService: ConfigService,
@@ -71,6 +67,6 @@ export class NavbarComponent implements OnInit {
     }
 
     isVideotecaVisible(): boolean {
-        return this.peliculaPermissionService.puedeNavegarPelicula() || this.actorPermissionService.puedeNavegarActor();
+        return this.permissionService.puedeNavegarPelicula() || this.permissionService.puedeNavegarActor();
     }
 }
