@@ -26,7 +26,7 @@ export class Principal {
         return Promise.resolve(this.rolesRutaMatchesRolesUsuario(rolesRuta));
     }
 
-    private rolesRutaMatchesRolesUsuario(rolesRuta: Rol[]) {
+    rolesRutaMatchesRolesUsuario(rolesRuta: Rol[]) {
         rolesRuta = rolesRuta || [];
         if (rolesRuta.length === 0) {
             return true;

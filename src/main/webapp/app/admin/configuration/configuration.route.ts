@@ -1,14 +1,15 @@
 import { Route } from '@angular/router';
 
 import { JhiConfigurationComponent } from './configuration.component';
-import { UserRouteAccessService, Rol } from '../../shared/index';
+import { UserRouteAccessService } from '../../shared/index';
+import { HERRAMIENTAS_ROLES } from '../admin-permission.service';
 
 export const configurationRoute: Route = {
     path: 'jhi-configuration',
     component: JhiConfigurationComponent,
     data: {
         pageTitle: 'configuration.title',
-        roles: [Rol.ADMIN]
+        roles: HERRAMIENTAS_ROLES
     },
     canActivate: [UserRouteAccessService]
 };

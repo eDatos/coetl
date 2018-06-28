@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Rx';
 
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper, User, UserService } from '../../shared';
 import { UserFilter } from './user-search/index';
+import { AdminPermissionService } from '../admin-permission.service';
 
 @Component({
     selector: 'jhi-user-mgmt',
@@ -30,6 +31,7 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
 
     constructor(
         private userService: UserService,
+        public adminPermissionService: AdminPermissionService,
         private parseLinks: JhiParseLinks,
         private principal: Principal,
         private eventManager: JhiEventManager,

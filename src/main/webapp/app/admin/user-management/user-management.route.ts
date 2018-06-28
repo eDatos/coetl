@@ -9,6 +9,7 @@ import { UserDeleteDialogComponent } from './user-management-delete-dialog.compo
 
 import { UserRouteAccessService, Rol } from '../../shared';
 import { DEFAULT_PATH, DEFAULT_ROLES } from '../../home/home.component';
+import { USER_MNGMT_ROLES } from '../admin-permission.service';
 
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
@@ -45,7 +46,7 @@ export const userMgmtRoute: Routes = [
         component: UserMgmtFormComponent,
         data: {
             pageTitle: 'userManagement.home.title',
-            roles: [Rol.ADMIN]
+            roles: USER_MNGMT_ROLES
         },
     },
     {
@@ -54,7 +55,7 @@ export const userMgmtRoute: Routes = [
         component: UserMgmtFormComponent,
         data: {
             pageTitle: 'userManagement.home.title',
-            roles: [Rol.ADMIN]
+            roles: USER_MNGMT_ROLES
         }
     },
     {
@@ -62,7 +63,7 @@ export const userMgmtRoute: Routes = [
         canActivate: [UserRouteAccessService],
         component: UserMgmtFormComponent,
         data: {
-            roles: [Rol.ADMIN],
+            roles: USER_MNGMT_ROLES,
             pageTitle: 'userManagement.home.title'
         }
     }
@@ -75,7 +76,7 @@ export const userDialogRoute: Routes = [
         component: UserDeleteDialogComponent,
         outlet: 'popup',
         data: {
-            roles: [Rol.ADMIN]
+            roles: USER_MNGMT_ROLES
         }
     },
     {
@@ -84,7 +85,7 @@ export const userDialogRoute: Routes = [
         component: UserDeleteDialogComponent,
         outlet: 'popup',
         data: {
-            roles: [Rol.ADMIN]
+            roles: USER_MNGMT_ROLES
         }
     }
 ];

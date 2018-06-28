@@ -1,14 +1,15 @@
 import { Route } from '@angular/router';
 
 import { JhiMetricsMonitoringComponent } from './metrics.component';
-import { UserRouteAccessService, Rol } from '../../shared/index';
+import { UserRouteAccessService } from '../../shared/index';
+import { HERRAMIENTAS_ROLES } from '../admin-permission.service';
 
 export const metricsRoute: Route = {
     path: 'jhi-metrics',
     component: JhiMetricsMonitoringComponent,
     data: {
         pageTitle: 'metrics.title',
-        roles: [Rol.ADMIN]
+        roles: HERRAMIENTAS_ROLES
     },
     canActivate: [UserRouteAccessService]
 };

@@ -1,14 +1,15 @@
 import { Route } from '@angular/router';
 
 import { JhiDocsComponent } from './docs.component';
-import { UserRouteAccessService, Rol } from '../../shared/index';
+import { UserRouteAccessService } from '../../shared/index';
+import { HERRAMIENTAS_ROLES } from '../admin-permission.service';
 
 export const docsRoute: Route = {
     path: 'docs',
     component: JhiDocsComponent,
     data: {
         pageTitle: 'global.menu.admin.apidocs',
-        roles: [Rol.ADMIN]
+        roles: HERRAMIENTAS_ROLES
     },
     canActivate: [UserRouteAccessService]
 };

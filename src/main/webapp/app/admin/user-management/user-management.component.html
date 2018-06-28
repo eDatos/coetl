@@ -2,7 +2,7 @@
     <div class="entity-header">
         <h2>
             <span jhiTranslate="userManagement.home.title">Users</span>
-            <button *acHasAnyOperacion="['CREAR:USUARIO']" class="btn btn-secondary float-right jh-create-entity" [routerLink]="['../user-management-new']">
+            <button *ngIf="adminPermissionService.puedeNavegarUserManagement()" class="btn btn-secondary float-right jh-create-entity" [routerLink]="['../user-management-new']">
                 <span class="fa fa-plus"></span>
                 <span jhiTranslate="userManagement.home.createLabel">Create a new User</span>
             </button>

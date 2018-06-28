@@ -1,9 +1,10 @@
 import { Route, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { AuditsComponent } from './audits.component';
-import { UserRouteAccessService, Rol } from '../../shared/index';
+import { UserRouteAccessService } from '../../shared/index';
 import { Injectable } from '@angular/core';
 import { JhiPaginationUtil } from 'ng-jhipster';
+import { HERRAMIENTAS_ROLES } from '../admin-permission.service';
 
 @Injectable()
 export class AuditsResolvePagingParams implements Resolve<any> {
@@ -29,7 +30,7 @@ export const auditsRoute: Route = {
     },
     data: {
         pageTitle: 'audits.title',
-        roles: [Rol.ADMIN]
+        roles: HERRAMIENTAS_ROLES
     },
     canActivate: [UserRouteAccessService]
 };

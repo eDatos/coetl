@@ -9,7 +9,7 @@ import { UserRouteAccessService, Principal, Account, Rol } from '../shared';
  * Estas constantes deben ser luego usadas en el route en cuestión del componente al que corresponden
  **/
 export const DEFAULT_PATH = 'user-management';
-export const DEFAULT_ROLES = [Rol.USER, Rol.ADMIN];
+export const DEFAULT_ROLES = [Rol.ADMIN];
 
 @Component({
     selector: 'jhi-home',

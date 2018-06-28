@@ -12,14 +12,14 @@
             <span *ngIf="user.id">{{user.login}}</span>
         </div>
         <div>
-            <ng-container *acHasAnyOperacion="['EDITAR:USUARIO']">
+            <ng-container *ngIf="adminPermissionService.puedeNavegarUserManagement()">
                 <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']"
                     type="button">
                     <span class="fa fa-pencil"></span>&nbsp;
                     <span jhiTranslate="entity.action.edit">Edit</span>
                 </button>
             </ng-container>
-            <ng-container *acHasAnyOperacion="['CREAR:USUARIO']">
+            <ng-container *ngIf="adminPermissionService.puedeNavegarUserManagement()">
                 <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <span class="fa fa-floppy-o"></span>&nbsp;
                     <span jhiTranslate="entity.action.save">Save</span>
@@ -31,13 +31,13 @@
                     <span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
             </ng-container>
-            <ng-container *acHasAnyOperacion="['ACTIVAR:USUARIO']">
+            <ng-container *ngIf="adminPermissionService.puedeNavegarUserManagement()">
                 <button *ngIf="!isEditMode() && user.deletionDate" type="button" class="btn btn-warning" (click)="restore(user.login)">
                     <span class="fa fa-repeat"></span>&nbsp;
                     <span jhiTranslate="entity.action.activate"></span>
                 </button>
             </ng-container>
-            <ng-container *acHasAnyOperacion="['DESACTIVAR:USUARIO']">
+            <ng-container *ngIf="adminPermissionService.puedeNavegarUserManagement()">
                 <button *ngIf="!isEditMode() && !user.deletionDate" type="button" class="btn btn-danger" [routerLink]="['/', { outlets: { popup: 'user-management/'+ user.login + '/delete'} }]">
                     <span class="fa fa-remove"></span>&nbsp;
                     <span jhiTranslate="entity.action.deactivate"></span>

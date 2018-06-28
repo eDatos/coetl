@@ -6,6 +6,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { User, UserService } from '../../shared';
 import { Subscription } from 'rxjs/Rx';
+import { AdminPermissionService } from '../admin-permission.service';
 
 @Component({
     selector: 'jhi-user-mgmt-form',
@@ -22,6 +23,7 @@ export class UserMgmtFormComponent implements OnInit, OnDestroy {
 
     constructor(
         private userService: UserService,
+        public adminPermissionService: AdminPermissionService,
         private eventManager: JhiEventManager,
         private route: ActivatedRoute,
         private router: Router
