@@ -62,16 +62,9 @@ Pueden modificarse los ficheros relacionados con la configuración de logging en
 ### Paso 4. Arrancar la aplicación.
 
 ### Paso 5. Crear usuario administador
-Para poder acceder a la aplicación __*es necesario dar de alta un rol*__ al que se le debe asignar todas las operaciones disponibles __*y al menos un usuario con dicho rol*__ creado (ver [Gestión de roles y permisos](#Gesti%C3%B3n-de-roles-y-permisos), para conocer más detalles).  A continuación, se enumerarán y  explicarán los procesos a realizar para llevar a cabo esta tarea:
+Para poder acceder a la aplicación __*es necesario dar de alta un usuario*__.  A continuación, se enumerarán y  explicarán los procesos a realizar para llevar a cabo esta tarea:
 
-1. Crear un rol al que se le asignarán todas las operaciones, para ello es necesario ejecutar la siguiente instrucción SQL:
-
-   ```sql
-   -- Crea el rol y se le asigna todos las operaciones
-   SELECT add_rol_with_all_operaciones('RELLENAR_CODIGO_ROL', 'RELLENAR_NOMBRE_ROL');
-   ```
-
-2. Crear un usuario al que asignarle un rol creado, para ello es necesario ejecutar la siguiente instrucción SQL:
+1. Crear un usuario y asignarle un rol, para ello es necesario ejecutar la siguiente instrucción SQL:
 
    ```sql
    -- Crea un usuario y se le asigna un rol existente

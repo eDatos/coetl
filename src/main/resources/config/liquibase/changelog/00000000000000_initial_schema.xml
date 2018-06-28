@@ -52,7 +52,6 @@
             <column name="email" type="varchar(255)" />
         </createIndex>
 
-        <!-- FIXME INFRASTR-61 -->
         <createTable tableName="usuario_rol">
             <column name="usuario_id" type="bigint">
                 <constraints nullable="false" />
