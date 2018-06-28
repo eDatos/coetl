@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, Data, Route } from '@angular/router';
 
-import { StateStorageService } from './state-storage.service';
 import { ConfigService } from '../../config/index';
 import { Principal } from './principal.service';
 import { Rol } from '../rol/rol.model';
-import { RolService } from '../rol/rol.service';
 
 @Injectable()
 export class UserRouteAccessService implements CanActivate {
@@ -16,16 +14,13 @@ export class UserRouteAccessService implements CanActivate {
     constructor(
         private router: Router,
         private principal: Principal,
-        private configService: ConfigService,
-        private rolService: RolService
-    ) {
-    }
+        private configService: ConfigService
+    ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
+        const roles = this.rolesFromRouteSnapshot(route);
 
-        const operaciones = this.operacionesFromRouteSnapshot(route);
-
-        return Promise.resolve(this.checkLogin(operaciones).then((canActivate) => {
+        return Promise.resolve(this.checkLogin(roles).then((canActivate) => {
             if (!canActivate) {
                 this.redirect(route.data);
             }
@@ -37,7 +32,6 @@ export class UserRouteAccessService implements CanActivate {
         const principal = this.principal;
         return Promise.resolve(principal.identity().then((account) => {
             if (!!account) { // User is logged in
-                // FIXME INFRASTR-61 poner roles aquí.
                 return this.noPermissionRequired(roles) || principal.hasRoles(roles);
             } else { // User is not logged in, redirect to CAS
                 this.redirectToCas();
@@ -57,19 +51,19 @@ export class UserRouteAccessService implements CanActivate {
         }
     }
 
-    private operacionesFromRouteSnapshot(route: ActivatedRouteSnapshot): Rol[] {
+    private rolesFromRouteSnapshot(route: ActivatedRouteSnapshot): Rol[] {
         if (route.firstChild && route.firstChild.data && route.firstChild.data[UserRouteAccessService.ROLES]) {
-            return this.operacionesFromRoute(route.firstChild);
+            return this.rolesFromRoute(route.firstChild);
         } else {
-            return this.operacionesFromRoute(route);
+            return this.rolesFromRoute(route);
         }
     }
 
-    public operacionesFromRoute(route): Rol[] {
-        return this.rolService.rolFromString(route.data[UserRouteAccessService.ROLES]);
+    private rolesFromRoute(route): Rol[] {
+        return route.data[UserRouteAccessService.ROLES];
     }
 
-    public redirectToCas() {
+    private redirectToCas() {
         const config = this.configService.getConfig();
         window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
         return false;

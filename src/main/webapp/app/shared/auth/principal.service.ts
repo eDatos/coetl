@@ -26,7 +26,6 @@ export class Principal {
         return Promise.resolve(this.rolesRutaMatchesRolesUsuario(rolesRuta));
     }
 
-    // FIXME INFRASTR-61 poner roles aquí.
     private rolesRutaMatchesRolesUsuario(rolesRuta: Rol[]) {
         rolesRuta = rolesRuta || [];
         if (rolesRuta.length === 0) {
@@ -77,7 +76,6 @@ export class Principal {
         return this.authenticationState.asObservable();
     }
 
-    // FIXME INFRASTR-61 poner roles aquí.
     public correctlyLogged(): boolean {
         return Boolean(this.userIdentity.roles.length !== 0);
     }

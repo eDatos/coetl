@@ -1,7 +1,6 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Principal } from './principal.service';
 import { Rol } from '../rol/rol.model';
-import { RolService } from '../rol/rol.service';
 
 /**
  * @whatItDoes Conditionally includes an HTML element if current user has any
@@ -23,7 +22,6 @@ export class HasAnyOperacionDirective {
 
     constructor(
         private principal: Principal,
-        private rolService: RolService,
         private templateRef: TemplateRef<any>,
         private viewContainerRef: ViewContainerRef
     ) { }
@@ -37,11 +35,22 @@ export class HasAnyOperacionDirective {
     }
 
     private updateView(): void {
-        this.principal.hasRoles(this.rolService.rolFromString(this.roles)).then((result) => {
+        this.principal.hasRoles(this.rolFromString(this.roles)).then((result) => {
             this.viewContainerRef.clear();
             if (result) {
                 this.viewContainerRef.createEmbeddedView(this.templateRef);
             }
         });
+    }
+
+    private rolFromString(roles: any[]): Rol[] {
+        if (typeof roles === 'string') {
+            roles = [roles];
+        }
+        if (roles && roles.length > 0) {
+            roles = roles.map((stringRol) => Object.keys(Rol).find((objectRol) => objectRol.toUpperCase() === stringRol.toUpperCase()))
+                .filter((rol) => !!rol);
+        }
+        return roles;
     }
 }
