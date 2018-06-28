@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +54,7 @@ public class DocumentoResource extends AbstractResource {
 
     @PostMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeCrearDocumento(authentication)")
     public ResponseEntity<DocumentoDTO> createDocumento(@RequestParam("file") MultipartFile file) throws URISyntaxException {
         log.debug("REST petición para guardar Documento : {}", file);
         if (file.isEmpty()) {
@@ -65,6 +67,7 @@ public class DocumentoResource extends AbstractResource {
 
     @PutMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeModificarDocumento(authentication)")
     public ResponseEntity<DocumentoDTO> updateDocumento(@Valid @RequestBody DocumentoDTO documentoDTO) {
         log.debug("REST petición para editar Documento : {}", documentoDTO);
         if (documentoDTO.getId() == null) {
@@ -79,6 +82,7 @@ public class DocumentoResource extends AbstractResource {
 
     @GetMapping("/{id}")
     @Timed
+    @PreAuthorize("@secChecker.puedeConsultarDocumento(authentication)")
     public ResponseEntity<DocumentoDTO> getDocumento(@PathVariable Long id) {
         log.debug("REST petición para obtener Documento : {}", id);
         Documento documento = documentoService.findOne(id);
@@ -91,6 +95,7 @@ public class DocumentoResource extends AbstractResource {
 
     @GetMapping(value = "/{id}/download", consumes = "*/*", produces = "*/*")
     @Timed
+    @PreAuthorize("@secChecker.puedeConsultarDocumento(authentication)")
     public void getDocumento(@PathVariable Long id, HttpServletResponse response) {
         log.debug("REST petición para obtener Documento : {}", id);
         Documento documento = documentoService.findOne(id);
@@ -103,6 +108,7 @@ public class DocumentoResource extends AbstractResource {
 
     @DeleteMapping("/{id}")
     @Timed
+    @PreAuthorize("@secChecker.puedeBorrarDocumento(authentication)")
     public ResponseEntity<Void> deleteDocumento(@PathVariable Long id) {
         log.debug("REST petición para eliminar Documento : {}", id);
         documentoService.delete(id);

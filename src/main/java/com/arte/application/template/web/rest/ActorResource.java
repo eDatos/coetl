@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,6 +72,7 @@ public class ActorResource extends AbstractResource {
      */
     @PostMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeCrearActor(authentication)")
     public ResponseEntity<ActorDTO> createActor(@Valid @RequestBody ActorDTO actorDTO) throws URISyntaxException {
         log.debug("REST request to save Actor : {}", actorDTO);
         if (actorDTO.getId() != null) {
@@ -92,6 +94,7 @@ public class ActorResource extends AbstractResource {
      */
     @PutMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeModificarActor(authentication)")
     public ResponseEntity<ActorDTO> updateActor(@Valid @RequestBody ActorDTO actorDTO) throws URISyntaxException {
         log.debug("REST request to update Actor : {}", actorDTO);
         if (actorDTO.getId() == null) {
@@ -109,6 +112,7 @@ public class ActorResource extends AbstractResource {
      */
     @GetMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeConsultarActor(authentication)")
     public ResponseEntity<List<ActorDTO>> getAllActores(@ApiParam(required = false) String query, @ApiParam Pageable pageable) {
         log.debug("REST request to get all Actors");
         Page<ActorDTO> result = actorService.findAll(query, pageable).map(actorMapper::toDto);
@@ -124,6 +128,7 @@ public class ActorResource extends AbstractResource {
      */
     @GetMapping("/{id}")
     @Timed
+    @PreAuthorize("@secChecker.puedeConsultarActor(authentication)")
     public ResponseEntity<ActorDTO> getActor(@PathVariable Long id) {
         log.debug("REST request to get Actor : {}", id);
         ActorDTO actorDTO = actorMapper.toDto(actorService.findOne(id));
@@ -138,6 +143,7 @@ public class ActorResource extends AbstractResource {
      */
     @DeleteMapping("/{id}")
     @Timed
+    @PreAuthorize("@secChecker.puedeBorrarActor(authentication)")
     public ResponseEntity<Void> deleteActor(@PathVariable Long id) {
         log.debug("REST request to delete Actor : {}", id);
         actorService.delete(id);
@@ -155,6 +161,7 @@ public class ActorResource extends AbstractResource {
      */
     @PutMapping("/{actorId}/documento/{documentoId}")
     @Timed
+    @PreAuthorize("@secChecker.puedeModificarActor(authentication)")
     public ResponseEntity<ActorDTO> bindDocumento(@Valid @PathVariable Long actorId, @PathVariable Long documentoId) {
         log.debug("REST request to bind a Documento to Actor : {}", actorId);
         if (actorId == null) {
@@ -188,6 +195,7 @@ public class ActorResource extends AbstractResource {
      */
     @DeleteMapping("/{actorId}/documento/{documentoId}")
     @Timed
+    @PreAuthorize("@secChecker.puedeModificarActor(authentication)")
     public ResponseEntity<ActorDTO> unbindDocumento(@Valid @PathVariable Long actorId, @PathVariable Long documentoId) {
         log.debug("REST request to unbind a Documento to Actor : {}", actorId);
         if (actorId == null) {

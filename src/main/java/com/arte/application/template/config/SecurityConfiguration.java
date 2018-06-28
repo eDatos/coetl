@@ -219,15 +219,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/profile-info").permitAll()
-            .antMatchers("/management/metrics").access("hasAuthority('LEER_METRICA')")
-            .antMatchers("/management/health").access("hasAuthority('LEER_SALUD')")
-            .antMatchers("/management/configprops").access("hasAuthority('LEER_CONFIG')")
-            .antMatchers("/management/audits").access("hasAuthority('LEER_AUDITORIA')")
-            .antMatchers("/management/logs").access("hasAuthority('LEER_LOGS')")
-            .antMatchers("/management/**").permitAll()
+            .antMatchers("/management/metrics").access("@secChecker.puedeConsultarMetrica(authentication)")
+            .antMatchers("/management/health").access("@secChecker.puedeConsultarSalud(authentication)")
+            .antMatchers("/management/configprops").access("@secChecker.puedeConsultarConfig(authentication)")
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
-            .antMatchers("/swagger-ui/index.html").access("hasAuthority('LEER_API')")
+            .antMatchers("/swagger-ui/index.html").access("@secChecker.puedeConsultarApi(authentication)")
             .antMatchers("/**").authenticated();
         //@formatter:on
     }

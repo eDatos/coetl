@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,6 +60,7 @@ public class CategoriaResource extends AbstractResource {
      */
     @PostMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeCrearCategoria(authentication)")
     public ResponseEntity<CategoriaDTO> createCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO) throws URISyntaxException {
         log.debug("REST request to save Categoria : {}", categoriaDTO);
         if (categoriaDTO.getId() != null) {
@@ -80,6 +82,7 @@ public class CategoriaResource extends AbstractResource {
      */
     @PutMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeModificarCategoria(authentication)")
     public ResponseEntity<CategoriaDTO> updateCategoria(@Valid @RequestBody CategoriaDTO categoriaDTO) throws URISyntaxException {
         log.debug("REST request to update Categoria : {}", categoriaDTO);
         if (categoriaDTO.getId() == null) {
@@ -97,6 +100,7 @@ public class CategoriaResource extends AbstractResource {
      */
     @GetMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeConsultarCategoria(authentication)")
     public List<CategoriaDTO> getAllCategorias() {
         log.debug("REST request to get all Categorias");
         return categoriaMapper.toDto(categoriaService.findAll());
@@ -110,6 +114,7 @@ public class CategoriaResource extends AbstractResource {
      */
     @GetMapping("/{id}")
     @Timed
+    @PreAuthorize("@secChecker.puedeConsultarCategoria(authentication)")
     public ResponseEntity<CategoriaDTO> getCategoria(@PathVariable Long id) {
         log.debug("REST request to get Categoria : {}", id);
         CategoriaDTO categoriaDTO = categoriaMapper.toDto(categoriaService.findOne(id));
@@ -124,6 +129,7 @@ public class CategoriaResource extends AbstractResource {
      */
     @DeleteMapping("/{id}")
     @Timed
+    @PreAuthorize("@secChecker.puedeBorrarCategoria(authentication)")
     public ResponseEntity<Void> deleteCategoria(@PathVariable Long id) {
         log.debug("REST request to delete Categoria : {}", id);
         categoriaService.delete(id);
