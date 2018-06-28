@@ -7,8 +7,8 @@ import { UserMgmtComponent } from './user-management.component';
 import { UserMgmtFormComponent } from './user-management-form.component';
 import { UserDeleteDialogComponent } from './user-management-delete-dialog.component';
 
-import { UserRouteAccessService } from '../../shared';
-import { DEFAULT_PATH } from '../../home/home.component';
+import { UserRouteAccessService, Rol } from '../../shared';
+import { DEFAULT_PATH, DEFAULT_ROLES } from '../../home/home.component';
 
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
@@ -36,7 +36,7 @@ export const userMgmtRoute: Routes = [
         },
         data: {
             pageTitle: 'userManagement.home.title',
-            roles: 'ADMIN'
+            roles: DEFAULT_ROLES
         }
     },
     {
@@ -45,7 +45,7 @@ export const userMgmtRoute: Routes = [
         component: UserMgmtFormComponent,
         data: {
             pageTitle: 'userManagement.home.title',
-            roles: 'ADMIN'
+            roles: [Rol.ADMIN]
         },
     },
     {
@@ -54,7 +54,7 @@ export const userMgmtRoute: Routes = [
         component: UserMgmtFormComponent,
         data: {
             pageTitle: 'userManagement.home.title',
-            roles: 'ADMIN'
+            roles: [Rol.ADMIN]
         }
     },
     {
@@ -62,7 +62,7 @@ export const userMgmtRoute: Routes = [
         canActivate: [UserRouteAccessService],
         component: UserMgmtFormComponent,
         data: {
-            roles: 'ADMIN',
+            roles: [Rol.ADMIN],
             pageTitle: 'userManagement.home.title'
         }
     }
@@ -75,7 +75,7 @@ export const userDialogRoute: Routes = [
         component: UserDeleteDialogComponent,
         outlet: 'popup',
         data: {
-            roles: 'ADMIN'
+            roles: [Rol.ADMIN]
         }
     },
     {
@@ -84,7 +84,7 @@ export const userDialogRoute: Routes = [
         component: UserDeleteDialogComponent,
         outlet: 'popup',
         data: {
-            roles: 'ADMIN'
+            roles: [Rol.ADMIN]
         }
     }
 ];

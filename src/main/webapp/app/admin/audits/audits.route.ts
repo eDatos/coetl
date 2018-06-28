@@ -1,7 +1,7 @@
 import { Route, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { AuditsComponent } from './audits.component';
-import { UserRouteAccessService } from '../../shared/index';
+import { UserRouteAccessService, Rol } from '../../shared/index';
 import { Injectable } from '@angular/core';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
@@ -29,7 +29,7 @@ export const auditsRoute: Route = {
     },
     data: {
         pageTitle: 'audits.title',
-        roles: 'ADMIN'
+        roles: [Rol.ADMIN]
     },
     canActivate: [UserRouteAccessService]
 };
