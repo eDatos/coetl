@@ -8,7 +8,6 @@ export * from './auth/state-storage.service';
 export * from './auth/auth-jwt.service';
 export * from './rol/rol.model';
 export * from './auth/principal.service';
-export * from './auth/has-any-operacion.directive';
 export * from './auth/user-route-access-service';
 export * from './language/language.constants';
 export * from './language/language.helper';

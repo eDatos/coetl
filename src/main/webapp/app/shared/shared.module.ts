@@ -13,7 +13,6 @@ import {
     EntityListEmptyComponent,
     FileUploadComponent,
     GenericModalService,
-    HasAnyOperacionDirective,
     LoginService,
     Principal,
     ScrollService,
@@ -30,7 +29,6 @@ import {
         RouterModule
     ],
     declarations: [
-        HasAnyOperacionDirective,
         EntityListEmptyComponent,
         SplitButtonComponent,
         CalendarComponent,
@@ -52,7 +50,6 @@ import {
     entryComponents: [],
     exports: [
         ArteApplicationTemplateSharedCommonModule,
-        HasAnyOperacionDirective,
         DatePipe,
         EntityListEmptyComponent,
         SplitButtonComponent,
