@@ -101,7 +101,7 @@ public class UsuarioResource extends AbstractResource {
 
     @PutMapping("/usuarios")
     @Timed
-    @PreAuthorize("this.isCurrentUser(#managedUserVM) or @secChecker.puedeModificarUsuario(authentication)")
+    @PreAuthorize("@secChecker.puedeModificarUsuario(authentication, #managedUserVM?.login)")
     public ResponseEntity<UsuarioDTO> updateUser(@Valid @RequestBody ManagedUserVM managedUserVM) {
         log.debug("REST petición para actualizar User : {}", managedUserVM);
         Optional<Usuario> existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());
@@ -167,7 +167,7 @@ public class UsuarioResource extends AbstractResource {
 
     @PutMapping("/usuarios/{login}/restore")
     @Timed
-    @PreAuthorize("@secChecker.puedeModificarUsuario(authentication)")
+    @PreAuthorize("@secChecker.puedeModificarUsuario(authentication, #login)")
     public ResponseEntity<UsuarioDTO> updateUser(@Valid @PathVariable String login) {
         log.debug("REST request to restore User : {}", login);
 
@@ -199,14 +199,5 @@ public class UsuarioResource extends AbstractResource {
         } else {
             return new ResponseEntity<>(usuarioMapper.userToUserDTO(databaseUser), HttpStatus.OK);
         }
-    }
-
-    public boolean isCurrentUser(UsuarioDTO usuarioDTO) {
-        final String userLogin = SecurityUtils.getCurrentUserLogin();
-        // @formatter:off
-		return (StringUtils.isNotBlank(userLogin) && usuarioDTO != null && StringUtils.isNotBlank(usuarioDTO.getLogin())
-				&& userLogin.equals(usuarioDTO.getLogin()));
-		// @formatter:on
-
     }
 }

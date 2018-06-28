@@ -1,5 +1,6 @@
 package com.arte.application.template.security;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -32,8 +33,9 @@ public class ApplicationTemplateSecurity {
         return this.esAdmin(authentication);
     }
 
-    public boolean puedeModificarUsuario(Authentication authentication) {
-        return this.esAdmin(authentication);
+    public boolean puedeModificarUsuario(Authentication authentication, String login) {
+        String userLogin = SecurityUtils.getCurrentUserLogin();
+        return this.esAdmin(authentication) || (StringUtils.isNotBlank(userLogin) && StringUtils.isNotBlank(login) && userLogin.equals(login));
     }
 
     public boolean puedeBorrarUsuario(Authentication authentication) {
