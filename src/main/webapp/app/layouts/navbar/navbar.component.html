@@ -102,7 +102,7 @@
 </nav>
 
 <ng-template #menuVideoteca>
-    <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+    <li *ngIf="isVideotecaVisible()" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
         <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="videoteca-menu">
             <span>
                 <i class="fa fa-fw fa-film" aria-hidden="true"></i>
@@ -110,13 +110,13 @@
             </span>
         </a>
         <ul class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
-            <li>
+            <li *ngIf="peliculaPermissionService.puedeNavegarPelicula()">
                 <a class="dropdown-item" routerLink="pelicula" routerLinkActive="active" (click)="collapseNavbar()">
                     <i class="fa fa-fw fa-video-camera" aria-hidden="true"></i>
                     <span jhiTranslate="global.menu.videoteca.peliculas"></span>
                 </a>
             </li>
-            <li>
+            <li *ngIf="actorPermissionService.puedeNavegarActor()">
                 <a class="dropdown-item" routerLink="actor" routerLinkActive="active" (click)="collapseNavbar()">
                     <i class="fa fa-fw fa-tag" aria-hidden="true"></i>
                     <span jhiTranslate="global.menu.videoteca.actores"></span>

@@ -1,6 +1,7 @@
 export * from './pelicula.model';
 export * from './pelicula-popup.service';
 export * from './pelicula.service';
+export * from './pelicula-permission.service';
 export * from './pelicula-form.component';
 export * from './pelicula-delete-dialog.component';
 export * from './pelicula-batch-delete-dialog.component';

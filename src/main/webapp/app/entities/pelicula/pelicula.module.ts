@@ -14,6 +14,7 @@ import {
     PeliculaResolvePagingParams,
     peliculaRoute,
     PeliculaService,
+    PeliculaPermissionService
 } from './';
 import { PeliculaSearchComponent } from './pelicula-search';
 
@@ -48,6 +49,7 @@ const ENTITY_STATES = [
         PeliculaPopupService,
         PeliculaResolvePagingParams,
         PeliculaResolve,
+        PeliculaPermissionService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

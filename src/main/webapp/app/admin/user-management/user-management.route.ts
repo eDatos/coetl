@@ -7,8 +7,8 @@ import { UserMgmtComponent } from './user-management.component';
 import { UserMgmtFormComponent } from './user-management-form.component';
 import { UserDeleteDialogComponent } from './user-management-delete-dialog.component';
 
-import { UserRouteAccessService, Rol } from '../../shared';
-import { DEFAULT_PATH, DEFAULT_ROLES } from '../../home/home.component';
+import { UserRouteAccessService } from '../../shared';
+import { DEFAULT_PATH } from '../../home/home.component';
 import { USER_MNGMT_ROLES } from '../admin-permission.service';
 
 @Injectable()
@@ -37,7 +37,7 @@ export const userMgmtRoute: Routes = [
         },
         data: {
             pageTitle: 'userManagement.home.title',
-            roles: DEFAULT_ROLES
+            roles: USER_MNGMT_ROLES
         }
     },
     {
