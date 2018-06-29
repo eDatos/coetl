@@ -67,8 +67,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     @Input()
     public emptyMessage = this.translateService.instant('entity.list.empty.detail');
 
-    @Input()
-    public placeholder: string = null;
+    protected placeholder = this.translateService.instant('entity.list.empty.selectOption');
 
     @Input()
     public minLength = 0;
@@ -114,7 +113,6 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         this.initFieldAndPropertiesAndItemTemplate();
         this.updateFilteredSuggestions();
         this.debouncedMode = this.completeMethod.observers.length > 0;
-        this.placeholder = this.placeholder || (this.debouncedMode ? this.translateService.instant('entity.list.empty.writeForSuggestions') : null);
     }
 
     private initFieldAndPropertiesAndItemTemplate() {

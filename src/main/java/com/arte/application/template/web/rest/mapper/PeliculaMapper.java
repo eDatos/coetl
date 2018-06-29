@@ -2,6 +2,7 @@ package com.arte.application.template.web.rest.mapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -90,6 +91,7 @@ public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicu
         entity.setLastModifiedBy(dto.getLastModifiedBy());
         entity.setLastModifiedDate(dto.getLastModifiedDate());
         entity.setOptLock(dto.getOptLock());
+        entity.setPremios(new HashSet<String>(dto.getPremios()));
 
         return entity;
     }
@@ -115,7 +117,8 @@ public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicu
         dto.setLastModifiedBy(entity.getLastModifiedBy());
         dto.setLastModifiedDate(entity.getLastModifiedDate());
         dto.setOptLock(entity.getOptLock());
-
+        dto.setPremios(new HashSet<String>(entity.getPremios()));
+        
         return dto;
     }
 }

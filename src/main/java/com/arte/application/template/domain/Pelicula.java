@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -76,6 +77,11 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     @OneToOne(optional = true, orphanRemoval = true)
     @JoinColumn(name = "documento_id", nullable = true)
     private Documento documento;
+    
+    @ElementCollection
+    @JoinTable(name = "pelicula_premio", joinColumns = @JoinColumn(name = "pelicula_id", referencedColumnName = "id"))
+    @Column(name = "premio", nullable = false)
+    private Set<String> premios = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -169,6 +175,14 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
 
     public void setDocumento(Documento documento) {
         this.documento = documento;
+    }
+
+    public Set<String> getPremios() {
+        return premios;
+    }
+
+    public void setPremios(Set<String> premios) {
+        this.premios = premios;
     }
 
     @Override

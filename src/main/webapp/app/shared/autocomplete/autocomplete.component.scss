@@ -100,5 +100,8 @@ fieldset[disabled] {
     }
     .ui-state-default:hover {
         border-bottom: none;
-    }   
+    }
+    input:disabled::placeholder {
+        opacity: 0;
+    }
 }

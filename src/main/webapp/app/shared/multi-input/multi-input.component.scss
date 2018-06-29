@@ -1,0 +1,34 @@
+@import '~scss/variables';
+
+fieldset {
+    :host {
+        /deep/ .ui-state-default {
+            &:hover {
+                border-bottom-color: transparent !important;
+            }    
+            li {
+                width: 100%;
+                input {
+                    width: 100%;
+                }
+                margin-bottom: $spacer-y / 2;
+            }
+        }
+    }
+        
+    &:disabled,
+    &[disabled] {
+        /deep/ input::placeholder {
+            @extend %disabled-multi-input;
+        }
+    }
+    
+    /deep/ input:disabled::placeholder,
+    /deep/ input[disabled]::placeholder {
+        @extend %disabled-multi-input;
+    }
+}
+
+%disabled-multi-input {
+    display: none;
+}
