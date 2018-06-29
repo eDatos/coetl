@@ -16,6 +16,10 @@
             "detail": {
                 "title": "Película"
             },
+            "presupuesto": {
+                "label": "Presupuesto",
+                "placeholder": "Presupuesto"
+            },
             "titulo": {
                 "label": "Título",
                 "placeholder": "Título"
