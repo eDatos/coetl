@@ -17,7 +17,7 @@ export const AC_MULTI_INPUT_VALUE_ACCESSOR: any = {
 export class MultiInputComponent implements ControlValueAccessor {
     private _values: string[];
 
-    placeholder = this.translateService.instant('entity.list.empty.multiInput');
+    private placeholder = this.translateService.instant('entity.list.empty.multiInput');
 
     @Input()
     field: string;

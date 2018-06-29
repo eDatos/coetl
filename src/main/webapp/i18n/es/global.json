@@ -103,6 +103,9 @@
                 "selectOption": "Seleccione una de las opciones disponibles",
                 "multiInput": "Escriba el valor y pulse enter para añadirlo"
             }
+        },
+        "calendar": {
+            "placeholder": "Seleccione en el calendario la fecha deseada"
         }
     },
     "home": {
