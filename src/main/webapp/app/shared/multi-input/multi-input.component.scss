@@ -1,0 +1,15 @@
+fieldset {
+    :host {
+        /deep/ .ui-state-default {
+            &:hover {
+                border-bottom-color: transparent !important;
+            }    
+            li {
+                width: 100%;
+                input {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

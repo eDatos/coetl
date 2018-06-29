@@ -1,0 +1,58 @@
+import { ChipsModule } from 'primeng/primeng';
+import { Component, forwardRef, Input } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+
+export const AC_MULTI_INPUT_VALUE_ACCESSOR: any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => MultiInputComponent),
+    multi: true
+};
+
+@Component({
+    selector: 'ac-multi-input',
+    templateUrl: 'multi-input.component.html',
+    styleUrls: ['./multi-input.component.scss'],
+    providers: [AC_MULTI_INPUT_VALUE_ACCESSOR]
+})
+export class MultiInputComponent implements ControlValueAccessor {
+    private _values: string[];
+
+    @Input()
+    field: string;
+
+    @Input()
+    disabled: boolean;
+
+    @Input()
+    placeholder: string;
+
+    @Input()
+    allowDuplicate = false;
+
+    private onModelChange: Function = () => { };
+    private onModelTouched: Function = () => { };
+
+    /* ControlValueAccessor */
+
+    writeValue(value: any): void {
+        this.values = value;
+    }
+
+    @Input()
+    get values(): any {
+        return this._values;
+    }
+
+    set values(value) {
+        this._values = value;
+        this.onModelChange(this._values);
+    }
+
+    registerOnChange(fn: Function): void {
+        this.onModelChange = fn;
+    }
+
+    registerOnTouched(fn: Function): void {
+        this.onModelTouched = fn;
+    }
+}
