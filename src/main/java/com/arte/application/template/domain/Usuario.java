@@ -62,7 +62,7 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
     @Email
     @Size(min = 3, max = 255)
-    @Column(length = 255, unique = true)
+    @Column(length = 255)
     private String email;
 
     @JsonIgnore
