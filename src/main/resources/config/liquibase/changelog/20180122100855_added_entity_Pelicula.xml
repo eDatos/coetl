@@ -59,5 +59,21 @@
         </createTable>
         <dropDefaultValue tableName="pelicula" columnName="fecha_estreno" columnDataType="datetime" />
 
+        <createTable tableName="pelicula_premio">
+              <column name="pelicula_id" type="bigint">
+                <constraints nullable="false" />
+              </column>
+              <column name="premio" type="varchar(255)">
+                <constraints nullable="false" />
+              </column>
+        </createTable>
+        
+        <addPrimaryKey columnNames="pelicula_id, premio" tableName="pelicula_premio"/>
+        
+        <addForeignKeyConstraint constraintName="fk_pelicula_premio_pelicula_id"
+                                 baseTableName="pelicula_premio"
+                                 baseColumnNames="pelicula_id"
+                                 referencedTableName="pelicula"
+                                 referencedColumnNames="id" />
     </changeSet>
 </databaseChangeLog>
