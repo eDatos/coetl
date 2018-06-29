@@ -20,6 +20,10 @@
                 "label": "Presupuesto",
                 "placeholder": "Presupuesto"
             },
+            "premios": {
+                "label": "Premios",
+                "placeholder": "Premios"
+            },
             "titulo": {
                 "label": "Título",
                 "placeholder": "Título"
@@ -31,6 +35,10 @@
             "fechaEstreno": {
                 "label": "Fecha de estreno",
                 "placeholder": "Fecha de estreno"
+            },
+            "idioma": {
+                "label": "Idioma",
+                "placeholder": "Idioma"
             },
             "idiomaShort": {
                 "label": "Idioma (ac-autocomplete-short-list)",

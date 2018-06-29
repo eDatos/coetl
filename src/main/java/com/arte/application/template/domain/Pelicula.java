@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -79,9 +78,9 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     @JoinColumn(name = "documento_id", nullable = true)
     private Documento documento;
     
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
     @JoinTable(name = "pelicula_premio", joinColumns = @JoinColumn(name = "pelicula_id", referencedColumnName = "id"))
-    @Column(name = "premio")
+    @Column(name = "premio", nullable = false)
     private Set<String> premios = new HashSet<>();
 
     public Long getId() {
