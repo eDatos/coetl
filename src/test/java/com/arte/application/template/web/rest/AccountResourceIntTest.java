@@ -243,6 +243,8 @@ public class AccountResourceIntTest {
     @Transactional
     @WithMockUser("save-existing-email")
     public void testSaveExistingEmail() throws Exception {
+        Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
+
         Usuario user = new Usuario();
         user.setLogin("save-existing-email");
         user.setEmail("save-existing-email@example.com");
@@ -257,22 +259,18 @@ public class AccountResourceIntTest {
         //@formatter:off
 		UsuarioDTO userDTO = UsuarioDTO.builder()
 				.setId(user.getId())
+				.setOptLock(user.getOptLock())
 				.setLogin(user.getLogin())
 				.setFirstName("firstname")
 				.setLastName("lastname")
 				.setEmail("save-existing-email2@example.com")
-				.setCreatedBy(null)
-				.setCreatedDate(null)
-				.setLastModifiedBy(null)
-				.setLastModifiedDate(null)
-				.setAuthorities(mockRolSet(rolMapper.toDto(rol)))
 				.build();
 		//@formatter:on
 
-        restMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isBadRequest());
+        restMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(userDTO))).andExpect(status().isOk());
 
         Usuario updatedUser = userRepository.findOneByLogin("save-existing-email").orElse(null);
-        assertThat(updatedUser.getEmail()).isEqualTo("save-existing-email@example.com");
+        assertThat(updatedUser.getEmail()).isEqualTo("save-existing-email2@example.com");
     }
 
     @Test
