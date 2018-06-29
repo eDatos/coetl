@@ -1,6 +1,6 @@
-import { ChipsModule } from 'primeng/primeng';
 import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 export const AC_MULTI_INPUT_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -17,6 +17,8 @@ export const AC_MULTI_INPUT_VALUE_ACCESSOR: any = {
 export class MultiInputComponent implements ControlValueAccessor {
     private _values: string[];
 
+    placeholder = this.translateService.instant('entity.list.empty.multiInput');
+
     @Input()
     field: string;
 
@@ -24,13 +26,18 @@ export class MultiInputComponent implements ControlValueAccessor {
     disabled: boolean;
 
     @Input()
-    placeholder: string;
+    allowDuplicate = false;
 
     @Input()
-    allowDuplicate = false;
+    addOnBlur = true;
+
+    @Input()
+    addOnTab = true;
 
     private onModelChange: Function = () => { };
     private onModelTouched: Function = () => { };
+
+    constructor(protected translateService: TranslateService) { }
 
     /* ControlValueAccessor */
 

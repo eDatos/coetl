@@ -100,7 +100,8 @@
                 "detail": "No se han obtenido resultados que cumplan los criterios de búsqueda.",
                 "createNewIitem": "(Añadir nuevo)",
                 "writeForSuggestions": "Empiece a escribir para sugerir resultados",
-                "selectOption": "Seleccione una de las opciones disponibles"
+                "selectOption": "Seleccione una de las opciones disponibles",
+                "multiInput": "Escriba el valor y pulse enter para añadirlo"
             }
         }
     },

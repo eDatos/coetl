@@ -13,3 +13,7 @@ fieldset {
         }
     }
 }
+
+/deep/ input:disabled::placeholder {
+    opacity: 0;
+}
