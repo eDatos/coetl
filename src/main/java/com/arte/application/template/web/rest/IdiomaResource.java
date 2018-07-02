@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +61,7 @@ public class IdiomaResource extends AbstractResource {
      */
     @PostMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeCrearIdioma(authentication)")
     public ResponseEntity<IdiomaDTO> createIdioma(@Valid @RequestBody IdiomaDTO idiomaDTO) throws URISyntaxException {
         log.debug("REST request to save Idioma : {}", idiomaDTO);
         if (idiomaDTO.getId() != null) {
@@ -81,6 +83,7 @@ public class IdiomaResource extends AbstractResource {
      */
     @PutMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeModificarIdioma(authentication)")
     public ResponseEntity<IdiomaDTO> updateIdioma(@Valid @RequestBody IdiomaDTO idiomaDTO) throws URISyntaxException {
         log.debug("REST request to update Idioma : {}", idiomaDTO);
         if (idiomaDTO.getId() == null) {
@@ -98,6 +101,7 @@ public class IdiomaResource extends AbstractResource {
      */
     @GetMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeConsultarIdioma(authentication)")
     public List<IdiomaDTO> getIdiomas(@ApiParam(required = false) String query) {
         log.debug("REST request to get all Idiomas");
         return idiomaMapper.toDto(idiomaService.findAll(query));
@@ -111,6 +115,7 @@ public class IdiomaResource extends AbstractResource {
      */
     @GetMapping("/{id}")
     @Timed
+    @PreAuthorize("@secChecker.puedeConsultarIdioma(authentication)")
     public ResponseEntity<IdiomaDTO> getIdioma(@PathVariable Long id) {
         log.debug("REST request to get Idioma : {}", id);
         IdiomaDTO idiomaDTO = idiomaMapper.toDto(idiomaService.findOne(id));
@@ -125,6 +130,7 @@ public class IdiomaResource extends AbstractResource {
      */
     @DeleteMapping("/{id}")
     @Timed
+    @PreAuthorize("@secChecker.puedeBorrarIdioma(authentication)")
     public ResponseEntity<Void> deleteIdioma(@PathVariable Long id) {
         log.debug("REST request to delete Idioma : {}", id);
         idiomaService.delete(id);

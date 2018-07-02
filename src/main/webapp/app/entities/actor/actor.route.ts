@@ -6,6 +6,7 @@ import { UserRouteAccessService } from '../../shared';
 import { ActorDeletePopupComponent } from './actor-delete-dialog.component';
 import { ActorPopupComponent } from './actor-dialog.component';
 import { ActorComponent } from './actor.component';
+import { ACTOR_ROLES } from '../../shared/auth/permission.service';
 
 @Injectable()
 export class ActorResolvePagingParams implements Resolve<any> {
@@ -31,7 +32,7 @@ export const actorRoute: Routes = [
             'pagingParams': ActorResolvePagingParams,
         },
         data: {
-            authorities: ['ROLE_USER'],
+            roles: ACTOR_ROLES,
             pageTitle: 'arteApplicationTemplateApp.actor.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -43,7 +44,7 @@ export const actorPopupRoute: Routes = [
         path: 'actor-new',
         component: ActorPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            roles: ACTOR_ROLES,
             pageTitle: 'arteApplicationTemplateApp.actor.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -53,7 +54,7 @@ export const actorPopupRoute: Routes = [
         path: 'actor/:id/edit',
         component: ActorPopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            roles: ACTOR_ROLES,
             pageTitle: 'arteApplicationTemplateApp.actor.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -63,7 +64,7 @@ export const actorPopupRoute: Routes = [
         path: 'actor/:id/delete',
         component: ActorDeletePopupComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            roles: ACTOR_ROLES,
             pageTitle: 'arteApplicationTemplateApp.actor.home.title'
         },
         canActivate: [UserRouteAccessService],

@@ -5,17 +5,6 @@
         <input class="form-control" [attr.aria-label]="'userManagement.filters.name.placeholder' | translate" placeholder="{{'userManagement.filters.name.placeholder' | translate}}"
             [(ngModel)]="filters.name" (keyup)="filter()" />
     </div>
-    <div class="entity-search-field">
-        <label jhiTranslate="userManagement.filters.rolShort.label">Filtrar</label>
-        <ac-autocomplete-short-list name="rol" [(ngModel)]="filters.roles" [suggestions]="roles" (onSelect)="filter()" (onUnselect)="filter()"
-        [placeholder]="'userManagement.filters.rolShort.placeholder' | translate" [properties]="['nombre']" [multiple]="true"></ac-autocomplete-short-list>
-    </div>
-
-    <div class="entity-search-field">
-        <label jhiTranslate="userManagement.filters.rolLong.label">Filtrar</label>
-        <ac-autocomplete-long-list name="rol" [(ngModel)]="filters.roles" [suggestions]="roles" (onSelect)="filter()" (onUnselect)="filter()" 
-        [placeholder]="'userManagement.filters.rolLong.placeholder' | translate" [properties]="['nombre']" (completeMethod)="completeMethodRoles($event)" [multiple]="true"></ac-autocomplete-long-list>
-    </div>
 
     <div class="entity-search-field">
         <label jhiTranslate="userManagement.home.includeDeleted">Include deleted</label>

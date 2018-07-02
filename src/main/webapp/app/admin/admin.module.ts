@@ -9,7 +9,6 @@ import { ArteApplicationTemplateSharedModule } from '../shared';
 import {
     adminState,
     AuditsComponent,
-    RolMgmtComponent,
     UserMgmtComponent,
     UserDeleteDialogComponent,
     UserMgmtFormComponent,
@@ -26,14 +25,10 @@ import {
     JhiHealthService,
     JhiMetricsService,
     LogsService,
-    RolResolvePagingParams,
-    RolModalService,
     UserResolvePagingParams,
     UserModalService,
     AuditsResolvePagingParams
 } from './';
-import { RolMgmtFormComponent } from './rol-management/rol-management-form.component';
-import { RolMgmtDeleteDialogComponent, RolDeleteDialogComponent } from './rol-management/rol-management-delete-dialog.component';
 import { UserSearchComponent } from './user-management/user-search/index';
 
 @NgModule({
@@ -44,10 +39,6 @@ import { UserSearchComponent } from './user-management/user-search/index';
     ],
     declarations: [
         AuditsComponent,
-        RolMgmtComponent,
-        RolMgmtFormComponent,
-        RolDeleteDialogComponent,
-        RolMgmtDeleteDialogComponent,
         UserSearchComponent,
         UserMgmtComponent,
         UserDeleteDialogComponent,
@@ -62,8 +53,6 @@ import { UserSearchComponent } from './user-management/user-search/index';
         JhiMetricsMonitoringModalComponent
     ],
     entryComponents: [
-        RolMgmtFormComponent,
-        RolMgmtDeleteDialogComponent,
         UserMgmtFormComponent,
         UserMgmtDeleteDialogComponent,
         JhiHealthModalComponent,
@@ -76,8 +65,6 @@ import { UserSearchComponent } from './user-management/user-search/index';
         JhiMetricsService,
         LogsService,
         AuditsResolvePagingParams,
-        RolResolvePagingParams,
-        RolModalService,
         UserResolvePagingParams,
         UserModalService,
     ],

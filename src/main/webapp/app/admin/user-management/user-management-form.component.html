@@ -12,14 +12,14 @@
             <span *ngIf="user.id">{{user.login}}</span>
         </div>
         <div>
-            <ng-container *acHasAnyOperacion="['EDITAR:USUARIO']">
+            <ng-container *ngIf="permissionService.puedeNavegarUserManagement()">
                 <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']"
                     type="button">
                     <span class="fa fa-pencil"></span>&nbsp;
                     <span jhiTranslate="entity.action.edit">Edit</span>
                 </button>
             </ng-container>
-            <ng-container *acHasAnyOperacion="['CREAR:USUARIO']">
+            <ng-container *ngIf="permissionService.puedeNavegarUserManagement()">
                 <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <span class="fa fa-floppy-o"></span>&nbsp;
                     <span jhiTranslate="entity.action.save">Save</span>
@@ -31,13 +31,13 @@
                     <span jhiTranslate="entity.action.cancel">Cancel</span>
                 </button>
             </ng-container>
-            <ng-container *acHasAnyOperacion="['ACTIVAR:USUARIO']">
+            <ng-container *ngIf="permissionService.puedeNavegarUserManagement()">
                 <button *ngIf="!isEditMode() && user.deletionDate" type="button" class="btn btn-warning" (click)="restore(user.login)">
                     <span class="fa fa-repeat"></span>&nbsp;
                     <span jhiTranslate="entity.action.activate"></span>
                 </button>
             </ng-container>
-            <ng-container *acHasAnyOperacion="['DESACTIVAR:USUARIO']">
+            <ng-container *ngIf="permissionService.puedeNavegarUserManagement()">
                 <button *ngIf="!isEditMode() && !user.deletionDate" type="button" class="btn btn-danger" [routerLink]="['/', { outlets: { popup: 'user-management/'+ user.login + '/delete'} }]">
                     <span class="fa fa-remove"></span>&nbsp;
                     <span jhiTranslate="entity.action.deactivate"></span>
@@ -132,10 +132,6 @@
         </div>
         <h3 jhiTranslate="userManagement.permissions">Permisos</h3>
         <div class="entity-fields">
-            <div class="form-group">
-                <label jhiTranslate="userManagement.profiles">Profiles</label>
-                <ac-autocomplete-short-list name="rol" [(ngModel)]="user.roles" [suggestions]="authorities" [properties]="['nombre']" [multiple]="true" [required]="true"></ac-autocomplete-short-list>
-            </div>
             <div class="form-group">
                 <label jhiTranslate="userManagement.activado">activado</label>
                 <ac-tri-input-switch [disabled]="true" name="activado" [ngModel]="!user.deletionDate"></ac-tri-input-switch>

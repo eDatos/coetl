@@ -1,10 +1,10 @@
 package com.arte.application.template.security;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.arte.application.template.domain.Operacion;
-import com.arte.application.template.domain.Rol;
 import com.arte.application.template.domain.Usuario;
 import com.arte.application.template.repository.UsuarioRepository;
 
@@ -50,21 +48,8 @@ public class DomainUserDetailsService implements UserDetailsService {
             if (user.getDeletionDate() != null) {
                 throw new UserNotActivatedException("Usuario " + lowercaseLogin + " no estaba activado");
             }
-            List<GrantedAuthority> permisos = new ArrayList<>();
-            if (user.getRoles() != null) {
-                for (Rol rolAux : user.getRoles()) {
-                    sumarPermisos(permisos, rolAux);
-                }
-            }
+            List<GrantedAuthority> permisos = user.getRoles().stream().map((rol) -> new SimpleGrantedAuthority(rol.name())).collect(Collectors.toList());
             return new User(lowercaseLogin, "", permisos);
         }).orElseThrow(() -> new UsernameNotFoundException("Usuario " + lowercaseLogin + " no encontrado en la " + "database"));
-    }
-
-    private void sumarPermisos(List<GrantedAuthority> permisos, Rol rolAux) {
-        if (rolAux.getOperaciones() != null) {
-            for (Operacion operacionAux : rolAux.getOperaciones()) {
-                permisos.add(new SimpleGrantedAuthority(operacionAux.getAccion() + "_" + operacionAux.getSujeto()));
-            }
-        }
     }
 }

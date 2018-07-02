@@ -12,7 +12,7 @@ import {
     ActorPopupService,
     ActorResolvePagingParams,
     actorRoute,
-    ActorService,
+    ActorService
 } from './';
 
 const ENTITY_STATES = [

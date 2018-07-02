@@ -2,12 +2,12 @@
     <div class="entity-header">
         <h2>
             <span jhiTranslate="userManagement.home.title">Users</span>
-            <button *acHasAnyOperacion="['CREAR:USUARIO']" class="btn btn-secondary float-right jh-create-entity" [routerLink]="['../user-management-new']">
+            <button *ngIf="permissionService.puedeNavegarUserManagement()" class="btn btn-secondary float-right jh-create-entity" [routerLink]="['../user-management-new']">
                 <span class="fa fa-plus"></span>
                 <span jhiTranslate="userManagement.home.createLabel">Create a new User</span>
             </button>
         </h2>
-        <ac-user-search [filters]="userFilter" [roles]="roles"></ac-user-search>
+        <ac-user-search [filters]="userFilter"></ac-user-search>
     </div>
     <ng-container *ngIf="users">
         <ng-container *ngIf="users.length > 0;else emptyList">
@@ -15,7 +15,7 @@
                 <table class="table table-hover" acStickyTableHeader>
                     <thead>
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                            <th style="width: 15%" jhiSortBy="login">
+                            <th style="width: 20%" jhiSortBy="login">
                                 <span jhiTranslate="userManagement.login">Login</span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
@@ -23,11 +23,11 @@
                                 <span jhiTranslate="userManagement.nombre">Nombre</span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 15%" jhiSortBy="apellido1">
+                            <th style="width: 20%" jhiSortBy="apellido1">
                                 <span jhiTranslate="userManagement.apellido1">Primer apellido</span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 15%" jhiSortBy="apellido2">
+                            <th style="width: 20%" jhiSortBy="apellido2">
                                 <span jhiTranslate="userManagement.apellido2">Segundo apellido</span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
@@ -35,10 +35,6 @@
                                 <span jhiTranslate="userManagement.email">Email</span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 15%">
-                                <span jhiTranslate="userManagement.profiles">Profiles</span>
-                            </th>
-
                         </tr>
                     </thead>
                     <tbody *ngIf="users">
@@ -49,11 +45,6 @@
                                 <td>{{user.apellido1}}</td>
                                 <td>{{user.apellido2}}</td>
                                 <td>{{user.email}}</td>
-                                <td>
-                                    <div *ngFor="let rol of user.roles">
-                                        <span class="badge badge-info">{{ rol.nombre }}</span>
-                                    </div>
-                                </td>
                             </tr>
                         </ng-container>
                     </tbody>

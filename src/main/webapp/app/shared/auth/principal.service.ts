@@ -2,10 +2,8 @@ import { UserService } from '../../shared/user/user.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Rol } from '../index';
-import { Operacion } from '../../entities/operacion/index';
 import { Account } from '../../shared/user/account.model';
-import { OperacionService } from '../../entities/operacion/operacion.service';
+import { Rol } from '../rol/rol.model';
 
 @Injectable()
 export class Principal {
@@ -15,8 +13,7 @@ export class Principal {
     private authenticationState = new Subject<any>();
 
     constructor(
-        private operacionService: OperacionService,
-        private userService: UserService,
+        private userService: UserService
     ) { }
 
     authenticate(identity) {
@@ -25,39 +22,20 @@ export class Principal {
         this.authenticationState.next(this.userIdentity);
     }
 
-    canDoAnyOperacion(operacionesRuta: Operacion[] | string[]): Promise<boolean> {
-        return Promise.resolve(this.operacionesRutaMatchesOperacionesUsuario(operacionesRuta));
+    hasRoles(rolesRuta: Rol[]): Promise<boolean> {
+        return Promise.resolve(this.rolesRutaMatchesRolesUsuario(rolesRuta));
     }
 
-    private operacionesRutaMatchesOperacionesUsuario(operacionesRuta: Operacion[] | string[]) {
-        let operacionesUsuario: Operacion[] = [];
-        operacionesRuta = operacionesRuta || [];
-        if (operacionesRuta.length === 0) {
+    rolesRutaMatchesRolesUsuario(rolesRuta: Rol[]) {
+        rolesRuta = rolesRuta || [];
+        if (rolesRuta.length === 0) {
             return true;
         }
         if (!this.userIdentity || !this.userIdentity.roles) {
             return false;
         }
-        operacionesUsuario = [].concat.apply([], this.userIdentity.roles.map((r) => r.operaciones))
-        return this.operacionService.operacionFromString(operacionesRuta)
-            .filter((ou) =>
-                operacionesUsuario
-                    .filter((or) => this.sameOperacion(or, ou)).length >= 1)
-            .length >= 1;
+        return rolesRuta.filter((rolRuta) => this.userIdentity.roles.filter((rolUsuario) => rolRuta === rolUsuario).length >= 1).length >= 1;
 
-    }
-
-    private sameOperacion(o1: Operacion, o2: Operacion) {
-        const result = o1 && o2
-            && o1.accion !== undefined && o1.sujeto !== undefined
-            && o2.accion !== undefined && o2.sujeto !== undefined
-            && o1.accion === o2.accion
-            && o1.sujeto === o2.sujeto
-        return result;
-    }
-
-    hasAnyRol(roles: String[]): Promise<boolean> {
-        throw new Error('NOT IMPLEMENTED');
     }
 
     identity(): Promise<any> {

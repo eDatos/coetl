@@ -20,21 +20,21 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 
 @RestController
-@RequestMapping("/management")
+@RequestMapping("/management/logs")
 public class LogsResource extends AbstractResource {
 
-    @GetMapping("/logs")
+    @GetMapping
     @Timed
-    @PreAuthorize("hasPermission('LOGS', 'LEER')")
+    @PreAuthorize("@secChecker.puedeConsultarLogs(authentication)")
     public List<LoggerVM> getList() {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         return context.getLoggerList().stream().map(LoggerVM::new).collect(Collectors.toList());
     }
 
-    @PutMapping("/logs")
+    @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Timed
-    @PreAuthorize("hasPermission('LOGS', 'LEER')")
+    @PreAuthorize("@secChecker.puedeModificarLogs(authentication)")
     public void changeLevel(@RequestBody LoggerVM jsonLogger) {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));

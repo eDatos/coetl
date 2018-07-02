@@ -7,6 +7,7 @@ import { PeliculaDeletePopupComponent } from './pelicula-delete-dialog.component
 import { PeliculaFormComponent } from './pelicula-form.component';
 import { PeliculaComponent } from './pelicula.component';
 import { PeliculaResolve } from './pelicula.resolve';
+import { PELICULA_ROLES } from '../../shared/auth/permission.service';
 
 @Injectable()
 export class PeliculaResolvePagingParams implements Resolve<any> {
@@ -32,7 +33,7 @@ export const peliculaRoute: Routes = [
             'pagingParams': PeliculaResolvePagingParams,
         },
         data: {
-            authorities: ['ROLE_USER'],
+            roles: PELICULA_ROLES,
             pageTitle: 'arteApplicationTemplateApp.pelicula.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -43,6 +44,7 @@ export const peliculaRoute: Routes = [
             pelicula: PeliculaResolve
         },
         data: {
+            roles: PELICULA_ROLES,
             pageTitle: 'arteApplicationTemplateApp.pelicula.home.title'
         },
         canActivate: [UserRouteAccessService]
@@ -51,6 +53,7 @@ export const peliculaRoute: Routes = [
         path: 'pelicula-new',
         component: PeliculaFormComponent,
         data: {
+            roles: PELICULA_ROLES,
             pageTitle: 'arteApplicationTemplateApp.pelicula.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -62,6 +65,7 @@ export const peliculaRoute: Routes = [
             pelicula: PeliculaResolve
         },
         data: {
+            roles: PELICULA_ROLES,
             pageTitle: 'arteApplicationTemplateApp.pelicula.home.title'
         },
         canActivate: [UserRouteAccessService],
@@ -73,6 +77,7 @@ export const peliculaPopupRoute: Routes = [
         path: 'pelicula/:id/delete',
         component: PeliculaDeletePopupComponent,
         data: {
+            roles: PELICULA_ROLES,
             pageTitle: 'arteApplicationTemplateApp.pelicula.home.title'
         },
         canActivate: [UserRouteAccessService],

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,6 +73,7 @@ public class PeliculaResource extends AbstractResource {
      */
     @PostMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeCrearPelicula(authentication)")
     public ResponseEntity<PeliculaDTO> createPelicula(@Valid @RequestBody PeliculaDTO peliculaDTO) throws URISyntaxException {
         log.debug("REST request to save Pelicula : {}", peliculaDTO);
         if (peliculaDTO.getId() != null) {
@@ -93,6 +95,7 @@ public class PeliculaResource extends AbstractResource {
      */
     @PutMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeModificarPelicula(authentication)")
     public ResponseEntity<PeliculaDTO> updatePelicula(@Valid @RequestBody PeliculaDTO peliculaDTO) {
         log.debug("REST request to update Pelicula : {}", peliculaDTO);
         if (peliculaDTO.getId() == null) {
@@ -111,6 +114,7 @@ public class PeliculaResource extends AbstractResource {
      */
     @GetMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeConsultarPelicula(authentication)")
     public ResponseEntity<List<PeliculaDTO>> getAllPeliculas(@ApiParam(required = false) String query, @ApiParam Pageable pageable) {
         log.debug("REST request to get a page of Peliculas");
         Page<PeliculaDTO> result = peliculaService.findAll(query, pageable).map(peliculaMapper::toDto);
@@ -126,6 +130,7 @@ public class PeliculaResource extends AbstractResource {
      */
     @GetMapping("/{id}")
     @Timed
+    @PreAuthorize("@secChecker.puedeConsultarPelicula(authentication)")
     public ResponseEntity<PeliculaDTO> getPelicula(@PathVariable Long id) {
         log.debug("REST request to get Pelicula : {}", id);
         PeliculaDTO peliculaDTO = peliculaMapper.toDto(peliculaService.findOne(id));
@@ -140,6 +145,7 @@ public class PeliculaResource extends AbstractResource {
      */
     @DeleteMapping("/{id}")
     @Timed
+    @PreAuthorize("@secChecker.puedeBorrarPelicula(authentication)")
     public ResponseEntity<Void> deletePelicula(@PathVariable Long id) {
         log.debug("REST request to delete Pelicula : {}", id);
         peliculaService.delete(id);
@@ -154,6 +160,7 @@ public class PeliculaResource extends AbstractResource {
      */
     @DeleteMapping
     @Timed
+    @PreAuthorize("@secChecker.puedeBorrarPelicula(authentication)")
     public ResponseEntity<Void> batchDeletePeliculas(@ApiParam(required = false) String query) {
         log.debug("REST request to delete selected Peliculas");
         List<Pelicula> peliculasToDelete = getPeliculasToDelete(query);
@@ -176,6 +183,7 @@ public class PeliculaResource extends AbstractResource {
      */
     @PutMapping("/{peliculaId}/documento/{documentoId}")
     @Timed
+    @PreAuthorize("@secChecker.puedeModificarPelicula(authentication)")
     public ResponseEntity<PeliculaDTO> bindDocumento(@Valid @PathVariable Long peliculaId, @PathVariable Long documentoId) {
         log.debug("REST request to bind a Documento to Pelicula : {}", peliculaId);
         if (peliculaId == null) {
@@ -209,6 +217,7 @@ public class PeliculaResource extends AbstractResource {
      */
     @PutMapping("/{peliculaId}/documento")
     @Timed
+    @PreAuthorize("@secChecker.puedeModificarPelicula(authentication)")
     public ResponseEntity<PeliculaDTO> unbindDocumento(@Valid @PathVariable Long peliculaId) {
         log.debug("REST request to unbind a Documento to Pelicula : {}", peliculaId);
         if (peliculaId == null) {

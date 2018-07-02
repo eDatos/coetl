@@ -4,6 +4,7 @@ import { AuditsComponent } from './audits.component';
 import { UserRouteAccessService } from '../../shared/index';
 import { Injectable } from '@angular/core';
 import { JhiPaginationUtil } from 'ng-jhipster';
+import { HERRAMIENTAS_ROLES } from '../../shared/auth/permission.service';
 
 @Injectable()
 export class AuditsResolvePagingParams implements Resolve<any> {
@@ -29,7 +30,7 @@ export const auditsRoute: Route = {
     },
     data: {
         pageTitle: 'audits.title',
-        operaciones: 'LEER:AUDITORIA'
+        roles: HERRAMIENTAS_ROLES
     },
     canActivate: [UserRouteAccessService]
 };

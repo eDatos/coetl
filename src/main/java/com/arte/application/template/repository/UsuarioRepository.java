@@ -1,6 +1,5 @@
 package com.arte.application.template.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -31,6 +30,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findOneByLoginAndDeletionDateIsNull(String login);
 
     Page<Usuario> findAll(DetachedCriteria criteria, Pageable pageable);
-
-    List<Usuario> findAllByRolesCodigo(String nombre);
 }

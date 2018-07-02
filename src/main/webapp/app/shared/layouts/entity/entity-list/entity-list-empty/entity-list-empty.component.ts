@@ -14,7 +14,7 @@ export class EntityListEmptyComponent {
     buttonLabel: string;
 
     @Input()
-    operacionButton: string[] = [];
+    hasPermission = false;
 
     constructor(
         private router: Router

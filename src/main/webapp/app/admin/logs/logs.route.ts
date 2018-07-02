@@ -2,13 +2,14 @@ import { Route } from '@angular/router';
 
 import { LogsComponent } from './logs.component';
 import { UserRouteAccessService } from '../../shared/index';
+import { HERRAMIENTAS_ROLES } from '../../shared/auth/permission.service';
 
 export const logsRoute: Route = {
     path: 'logs',
     component: LogsComponent,
     data: {
         pageTitle: 'logs.title',
-        operaciones: 'LEER:LOGS'
+        roles: HERRAMIENTAS_ROLES
     },
     canActivate: [UserRouteAccessService]
 };

@@ -4,9 +4,9 @@ import { Response } from '@angular/http';
 
 import { JhiEventManager } from 'ng-jhipster';
 
-import { UserModalService } from './user-modal.service';
-import { User, UserService, RolService, Rol } from '../../shared';
+import { User, UserService } from '../../shared';
 import { Subscription } from 'rxjs/Rx';
+import { PermissionService } from '../../shared/auth/permission.service';
 
 @Component({
     selector: 'jhi-user-mgmt-form',
@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs/Rx';
 export class UserMgmtFormComponent implements OnInit, OnDestroy {
 
     user: User;
-    authorities: any[];
     isSaving: Boolean;
     usuarioValido = false;
     private subscription: Subscription;
@@ -24,18 +23,14 @@ export class UserMgmtFormComponent implements OnInit, OnDestroy {
 
     constructor(
         private userService: UserService,
+        public permissionService: PermissionService,
         private eventManager: JhiEventManager,
-        private rolService: RolService,
         private route: ActivatedRoute,
         private router: Router
     ) { }
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = [];
-        this.rolService.query().subscribe((roles) => {
-            this.authorities = roles.json.map((rol: any) => rol);
-        });
 
         this.subscription = this.route.params.subscribe((params) => {
             this.paramLogin = params['login'];
@@ -46,10 +41,6 @@ export class UserMgmtFormComponent implements OnInit, OnDestroy {
                 this.load(response.content)
             }
         });
-    }
-
-    rolItemTemplate(item: Rol) {
-        return item.nombre;
     }
 
     isEditMode(): Boolean {

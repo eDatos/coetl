@@ -12,13 +12,9 @@ import org.ehcache.core.Ehcache;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
 import org.springframework.beans.factory.BeanInitializationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
@@ -27,7 +23,6 @@ import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -79,21 +74,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.corsFilter = corsFilter;
         this.jHipsterProperties = jHipsterProperties;
         this.applicationProperties = applicationProperties;
-    }
-
-    @Configuration
-    @EnableGlobalMethodSecurity(prePostEnabled = true)
-    static class MethodSecurityConfiguration extends GlobalMethodSecurityConfiguration {
-
-        @Autowired
-        private PermissionEvaluator permissionEvaluator;
-
-        @Override
-        protected MethodSecurityExpressionHandler createExpressionHandler() {
-            DefaultMethodSecurityExpressionHandler handler = new DefaultMethodSecurityExpressionHandler();
-            handler.setPermissionEvaluator(permissionEvaluator);
-            return handler;
-        }
     }
 
     @PostConstruct
@@ -239,15 +219,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/profile-info").permitAll()
-            .antMatchers("/management/metrics").access("hasAuthority('LEER_METRICA')")
-            .antMatchers("/management/health").access("hasAuthority('LEER_SALUD')")
-            .antMatchers("/management/configprops").access("hasAuthority('LEER_CONFIG')")
-            .antMatchers("/management/audits").access("hasAuthority('LEER_AUDITORIA')")
-            .antMatchers("/management/logs").access("hasAuthority('LEER_LOGS')")
-            .antMatchers("/management/**").permitAll()
+            .antMatchers("/management/metrics").access("@secChecker.puedeConsultarMetrica(authentication)")
+            .antMatchers("/management/health").access("@secChecker.puedeConsultarSalud(authentication)")
+            .antMatchers("/management/configprops").access("@secChecker.puedeConsultarConfig(authentication)")
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
-            .antMatchers("/swagger-ui/index.html").access("hasAuthority('LEER_API')")
+            .antMatchers("/swagger-ui/index.html").access("@secChecker.puedeConsultarApi(authentication)")
             .antMatchers("/**").authenticated();
         //@formatter:on
     }

@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.arte.application.template.config.Constants;
+import com.arte.application.template.domain.enumeration.Rol;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -48,7 +49,7 @@ public class UsuarioDTO {
 
     private Instant lastModifiedDate;
 
-    private SortedSet<RolDTO> roles;
+    private SortedSet<Rol> roles;
 
     private ZonedDateTime deletionDate;
 
@@ -135,11 +136,11 @@ public class UsuarioDTO {
         return lastModifiedDate;
     }
 
-    public Set<RolDTO> getRoles() {
+    public Set<Rol> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<RolDTO> set) {
+    public void setRoles(Set<Rol> set) {
         if (set == null) {
             this.roles = new TreeSet<>();
         } else {
@@ -214,7 +215,7 @@ public class UsuarioDTO {
         private Instant createdDate;
         private String lastModifiedBy;
         private Instant lastModifiedDate;
-        private Set<RolDTO> authorities;
+        private Set<Rol> authorities;
         private Long optLock;
 
         public UsuarioDTO build() {
@@ -289,7 +290,7 @@ public class UsuarioDTO {
             return this;
         }
 
-        public Builder setAuthorities(Set<RolDTO> authorities) {
+        public Builder setAuthorities(Set<Rol> authorities) {
             this.authorities = authorities;
             return this;
         }

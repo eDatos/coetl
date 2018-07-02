@@ -81,7 +81,7 @@ public class UsuarioResource extends AbstractResource {
     @SuppressWarnings("rawtypes")
     @PostMapping("/usuarios")
     @Timed
-    @PreAuthorize("hasPermission('USUARIO', 'CREAR')")
+    @PreAuthorize("@secChecker.puedeCrearUsuario(authentication)")
     public ResponseEntity createUser(@Valid @RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
         log.debug("REST Petición para guardar User : {}", managedUserVM);
 
@@ -99,7 +99,7 @@ public class UsuarioResource extends AbstractResource {
 
     @PutMapping("/usuarios")
     @Timed
-    @PreAuthorize("this.isCurrentUser(#managedUserVM) or hasPermission('USUARIO', 'EDITAR')")
+    @PreAuthorize("@secChecker.puedeModificarUsuario(authentication, #managedUserVM?.login)")
     public ResponseEntity<UsuarioDTO> updateUser(@Valid @RequestBody ManagedUserVM managedUserVM) {
         log.debug("REST petición para actualizar User : {}", managedUserVM);
         Optional<Usuario> existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
@@ -119,7 +119,7 @@ public class UsuarioResource extends AbstractResource {
 
     @GetMapping("/usuarios")
     @Timed
-    @PreAuthorize("hasPermission('USUARIO', 'LEER')")
+    @PreAuthorize("@secChecker.puedeConsultarUsuario(authentication)")
     public ResponseEntity<List<UsuarioDTO>> getAllUsers(@ApiParam Pageable pageable, @ApiParam(defaultValue = "false") Boolean includeDeleted, @ApiParam(required = false) String query) {
         final Page<UsuarioDTO> page = usuarioService.getAllUsuarios(pageable, includeDeleted, query).map(usuarioMapper::userToUserDTO);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/usuarios");
@@ -128,7 +128,7 @@ public class UsuarioResource extends AbstractResource {
 
     @GetMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
     @Timed
-    @PreAuthorize("hasPermission('USUARIO', 'LEER')")
+    @PreAuthorize("@secChecker.puedeConsultarUsuario(authentication)")
     public ResponseEntity<UsuarioDTO> getUser(@PathVariable String login, @ApiParam(required = false, defaultValue = "false") Boolean includeDeleted) {
         log.debug("REST petición para obtener  User : {}", login);
         return ResponseUtil.wrapOrNotFound(usuarioService.getUsuarioWithAuthoritiesByLogin(login, includeDeleted).map(usuarioMapper::userToUserDTO));
@@ -136,7 +136,7 @@ public class UsuarioResource extends AbstractResource {
 
     @GetMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}/ldap")
     @Timed
-    @PreAuthorize("hasPermission('USUARIO', 'LEER')")
+    @PreAuthorize("@secChecker.puedeConsultarUsuarioLdap(authentication)")
     public ResponseEntity<UsuarioDTO> getUserFromLdap(@PathVariable String login) {
         log.debug("REST petición para obtener  User from LDAP : {}", login);
         UsuarioLdapEntry usuarioLdap = ldapService.buscarUsuarioLdap(login);
@@ -149,7 +149,7 @@ public class UsuarioResource extends AbstractResource {
 
     @DeleteMapping("/usuarios/{login:" + Constants.LOGIN_REGEX + "}")
     @Timed
-    @PreAuthorize("hasPermission('USUARIO', 'DESACTIVAR')")
+    @PreAuthorize("@secChecker.puedeBorrarUsuario(authentication)")
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         usuarioService.deleteUsuario(login);
@@ -159,7 +159,7 @@ public class UsuarioResource extends AbstractResource {
 
     @PutMapping("/usuarios/{login}/restore")
     @Timed
-    @PreAuthorize("hasPermission('USUARIO', 'ACTIVAR')")
+    @PreAuthorize("@secChecker.puedeModificarUsuario(authentication, #login)")
     public ResponseEntity<UsuarioDTO> updateUser(@Valid @PathVariable String login) {
         log.debug("REST request to restore User : {}", login);
 
@@ -191,14 +191,5 @@ public class UsuarioResource extends AbstractResource {
         } else {
             return new ResponseEntity<>(usuarioMapper.userToUserDTO(databaseUser), HttpStatus.OK);
         }
-    }
-
-    public boolean isCurrentUser(UsuarioDTO usuarioDTO) {
-        final String userLogin = SecurityUtils.getCurrentUserLogin();
-        // @formatter:off
-		return (StringUtils.isNotBlank(userLogin) && usuarioDTO != null && StringUtils.isNotBlank(usuarioDTO.getLogin())
-				&& userLogin.equals(usuarioDTO.getLogin()));
-		// @formatter:on
-
     }
 }

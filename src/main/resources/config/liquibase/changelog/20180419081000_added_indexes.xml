@@ -14,22 +14,10 @@
         </createIndex>
 
 
-        <!-- Operacion -->
-
-        <createIndex indexName="idx_operacion_accion_sujeto" tableName="operacion">
-            <column name="accion" type="varchar(255)" />
-            <column name="sujeto" type="varchar(255)" />
-        </createIndex>
-
-
         <!-- Rol -->
 
-        <createIndex indexName="idx_roles_operaciones_rol_id" tableName="roles_operaciones">
-            <column name="rol_id" type="int8" />
-        </createIndex>
-
-        <createIndex indexName="idx_usuario_rol_rol_id" tableName="usuario_rol">
-            <column name="rol_id" type="int8" />
+        <createIndex indexName="idx_usuario_rol_rol" tableName="usuario_rol">
+            <column name="rol" type="varchar(255)" />
         </createIndex>
 
     </changeSet>

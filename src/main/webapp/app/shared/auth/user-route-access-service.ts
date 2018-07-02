@@ -1,32 +1,26 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, Data, Route } from '@angular/router';
 
-import { StateStorageService } from './state-storage.service';
 import { ConfigService } from '../../config/index';
-import { Operacion } from '../../entities/operacion/index';
 import { Principal } from './principal.service';
-import { OperacionService } from '../../entities/operacion/operacion.service';
+import { Rol } from '../rol/rol.model';
 
 @Injectable()
 export class UserRouteAccessService implements CanActivate {
 
     public static AUTH_REDIRECT = 'authRedirect';
-    private static OPERACIONES = 'operaciones';
+    private static ROLES = 'roles';
 
     constructor(
         private router: Router,
         private principal: Principal,
-        private stateStorageService: StateStorageService,
-        private configService: ConfigService,
-        private operacionService: OperacionService,
-    ) {
-    }
+        private configService: ConfigService
+    ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Promise<boolean> {
+        const roles = this.rolesFromRouteSnapshot(route);
 
-        const operaciones = this.operacionesFromRouteSnapshot(route);
-
-        return Promise.resolve(this.checkLogin(operaciones).then((canActivate) => {
+        return Promise.resolve(this.checkLogin(roles).then((canActivate) => {
             if (!canActivate) {
                 this.redirect(route.data);
             }
@@ -34,19 +28,19 @@ export class UserRouteAccessService implements CanActivate {
         }));
     }
 
-    checkLogin(operaciones: Operacion[]): Promise<boolean> {
+    checkLogin(roles: Rol[]): Promise<boolean> {
         const principal = this.principal;
         return Promise.resolve(principal.identity().then((account) => {
             if (!!account) { // User is logged in
-                return this.noPermissionRequired(operaciones) || principal.canDoAnyOperacion(operaciones);
+                return this.noPermissionRequired(roles) || principal.hasRoles(roles);
             } else { // User is not logged in, redirect to CAS
                 this.redirectToCas();
             }
         }));
     }
 
-    private noPermissionRequired(operaciones: Operacion[]) {
-        return (!operaciones || operaciones.length === 0)
+    private noPermissionRequired(roles: Rol[]) {
+        return (!roles || roles.length === 0)
     }
 
     private redirect(data: Data) {
@@ -57,16 +51,16 @@ export class UserRouteAccessService implements CanActivate {
         }
     }
 
-    private operacionesFromRouteSnapshot(route: ActivatedRouteSnapshot): Operacion[] {
-        if (route.firstChild && route.firstChild.data && route.firstChild.data[UserRouteAccessService.OPERACIONES]) {
-            return this.operacionesFromRoute(route.firstChild);
+    private rolesFromRouteSnapshot(route: ActivatedRouteSnapshot): Rol[] {
+        if (route.firstChild && route.firstChild.data && route.firstChild.data[UserRouteAccessService.ROLES]) {
+            return this.rolesFromRoute(route.firstChild);
         } else {
-            return this.operacionesFromRoute(route);
+            return this.rolesFromRoute(route);
         }
     }
 
-    public operacionesFromRoute(route): Operacion[] {
-        return this.operacionService.operacionFromString(route.data[UserRouteAccessService.OPERACIONES]);
+    private rolesFromRoute(route): Rol[] {
+        return route.data[UserRouteAccessService.ROLES];
     }
 
     private redirectToCas() {

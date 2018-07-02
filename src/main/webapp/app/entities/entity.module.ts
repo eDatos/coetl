@@ -5,14 +5,12 @@ import { ArteApplicationTemplateActorModule } from './actor/actor.module';
 import { ArteApplicationTemplateCategoriaModule } from './categoria/categoria.module';
 import { ArteApplicationTemplateDocumentoModule } from './documento/documento.module';
 import { ArteApplicationTemplateIdiomaModule } from './idioma/idioma.module';
-import { ArteApplicationTemplateOperacionModule } from './operacion/operacion.module';
 import { ArteApplicationTemplatePeliculaModule } from './pelicula/pelicula.module';
 
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
     imports: [
-        ArteApplicationTemplateOperacionModule,
         ArteApplicationTemplatePeliculaModule,
         ArteApplicationTemplateActorModule,
         ArteApplicationTemplateCategoriaModule,

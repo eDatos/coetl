@@ -13,16 +13,15 @@ import {
     EntityListEmptyComponent,
     FileUploadComponent,
     GenericModalService,
-    HasAnyOperacionDirective,
     LoginService,
     Principal,
-    RolService,
     ScrollService,
     SideMenuComponent,
     SplitButtonComponent,
     StateStorageService,
     UserService,
 } from './';
+import { PermissionService } from './auth/permission.service';
 
 @NgModule({
     imports: [
@@ -31,7 +30,6 @@ import {
         RouterModule
     ],
     declarations: [
-        HasAnyOperacionDirective,
         EntityListEmptyComponent,
         SplitButtonComponent,
         CalendarComponent,
@@ -44,17 +42,16 @@ import {
         Principal,
         CSRFService,
         AuthServerProvider,
-        RolService,
         UserService,
         DatePipe,
         GenericModalService,
         AcAlertService,
-        ScrollService
+        ScrollService,
+        PermissionService
     ],
     entryComponents: [],
     exports: [
         ArteApplicationTemplateSharedCommonModule,
-        HasAnyOperacionDirective,
         DatePipe,
         EntityListEmptyComponent,
         SplitButtonComponent,

@@ -5,8 +5,9 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileService } from '../profiles/profile.service';
 import { Principal, LoginService } from '../../shared';
 
-import { VERSION, DEBUG_INFO_ENABLED } from '../../app.constants';
+import { VERSION } from '../../app.constants';
 import { ConfigService } from '../../config/index';
+import { PermissionService } from '../../shared/auth/permission.service';
 
 @Component({
     selector: 'jhi-navbar',
@@ -25,9 +26,9 @@ export class NavbarComponent implements OnInit {
 
     constructor(
         private loginService: LoginService,
+        public permissionService: PermissionService,
         private principal: Principal,
         private profileService: ProfileService,
-        private router: Router,
         private configService: ConfigService,
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
@@ -65,4 +66,7 @@ export class NavbarComponent implements OnInit {
         return Boolean(this.principal.correctlyLogged());
     }
 
+    isVideotecaVisible(): boolean {
+        return this.permissionService.puedeNavegarPelicula() || this.permissionService.puedeNavegarActor();
+    }
 }
