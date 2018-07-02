@@ -9,7 +9,7 @@ import { UserDeleteDialogComponent } from './user-management-delete-dialog.compo
 
 import { UserRouteAccessService } from '../../shared';
 import { DEFAULT_PATH } from '../../home/home.component';
-import { USER_MNGMT_ROLES } from '../../shared/auth/permission.service';
+import { USER_MANAGEMENT_ROLES } from '../../shared/auth/permission.service';
 
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
@@ -37,7 +37,7 @@ export const userMgmtRoute: Routes = [
         },
         data: {
             pageTitle: 'userManagement.home.title',
-            roles: USER_MNGMT_ROLES
+            roles: USER_MANAGEMENT_ROLES
         }
     },
     {
@@ -46,7 +46,7 @@ export const userMgmtRoute: Routes = [
         component: UserMgmtFormComponent,
         data: {
             pageTitle: 'userManagement.home.title',
-            roles: USER_MNGMT_ROLES
+            roles: USER_MANAGEMENT_ROLES
         },
     },
     {
@@ -55,7 +55,7 @@ export const userMgmtRoute: Routes = [
         component: UserMgmtFormComponent,
         data: {
             pageTitle: 'userManagement.home.title',
-            roles: USER_MNGMT_ROLES
+            roles: USER_MANAGEMENT_ROLES
         }
     },
     {
@@ -63,7 +63,7 @@ export const userMgmtRoute: Routes = [
         canActivate: [UserRouteAccessService],
         component: UserMgmtFormComponent,
         data: {
-            roles: USER_MNGMT_ROLES,
+            roles: USER_MANAGEMENT_ROLES,
             pageTitle: 'userManagement.home.title'
         }
     }
@@ -76,7 +76,7 @@ export const userDialogRoute: Routes = [
         component: UserDeleteDialogComponent,
         outlet: 'popup',
         data: {
-            roles: USER_MNGMT_ROLES
+            roles: USER_MANAGEMENT_ROLES
         }
     },
     {
@@ -85,7 +85,7 @@ export const userDialogRoute: Routes = [
         component: UserDeleteDialogComponent,
         outlet: 'popup',
         data: {
-            roles: USER_MNGMT_ROLES
+            roles: USER_MANAGEMENT_ROLES
         }
     }
 ];

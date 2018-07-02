@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserRouteAccessService, Principal, Account } from '../shared';
-import { USER_MNGMT_ROLES } from '../shared/auth/permission.service';
+import { USER_MANAGEMENT_ROLES } from '../shared/auth/permission.service';
 
 /**
  * FIXME
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
             if (account.deletionDate) {
                 this.router.navigate(['blocked']);
             }
-            this.userRouteAccessService.checkLogin(USER_MNGMT_ROLES).then((canActivate) => {
+            this.userRouteAccessService.checkLogin(USER_MANAGEMENT_ROLES).then((canActivate) => {
                 if (canActivate) {
                     this.router.navigate([DEFAULT_PATH]);
                 }

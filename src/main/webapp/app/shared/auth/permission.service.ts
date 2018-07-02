@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Principal } from './principal.service';
 import { Rol } from '../rol/rol.model';
 
-export const USER_MNGMT_ROLES = [Rol.ADMIN];
+export const USER_MANAGEMENT_ROLES = [Rol.ADMIN];
 export const HERRAMIENTAS_ROLES = [Rol.ADMIN];
 export const ACTOR_ROLES = [Rol.USER];
 export const PELICULA_ROLES = [Rol.USER];
@@ -15,7 +15,7 @@ export class PermissionService {
     ) { }
 
     puedeNavegarUserManagement(): boolean {
-        return this.principal.rolesRutaMatchesRolesUsuario(USER_MNGMT_ROLES);
+        return this.principal.rolesRutaMatchesRolesUsuario(USER_MANAGEMENT_ROLES);
     }
 
     puedeNavegarHerramientas(): boolean {
