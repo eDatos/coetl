@@ -48,11 +48,10 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
 
     locale = LocaleEs.getLocale();
 
-    @Input()
-    name = 'calendar';
+    private placeholder = this.translateService.instant('entity.calendar.placeholder');
 
     @Input()
-    placeholder = 'Fecha'
+    name = 'calendar';
 
     @Input()
     required = false;

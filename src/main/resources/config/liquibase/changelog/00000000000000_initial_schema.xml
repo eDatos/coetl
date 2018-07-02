@@ -28,9 +28,7 @@
             <column name="nombre" type="varchar(255)" />
             <column name="apellido1" type="varchar(255)" />
             <column name="apellido2" type="varchar(255)" />
-            <column name="email" type="varchar(255)">
-                <constraints unique="true" nullable="true" />
-            </column>
+            <column name="email" type="varchar(255)"/>
             <column name="deletion_date" type="timestamp">
                 <constraints nullable="true" />
             </column>
@@ -48,7 +46,7 @@
             <column name="login" type="varchar(255)" />
         </createIndex>
 
-        <createIndex indexName="idx_user_email" tableName="usuario" unique="true">
+        <createIndex indexName="idx_user_email" tableName="usuario">
             <column name="email" type="varchar(255)" />
         </createIndex>
 

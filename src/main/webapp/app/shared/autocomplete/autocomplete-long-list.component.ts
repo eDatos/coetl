@@ -23,7 +23,7 @@ export class AutocompleteLongListComponent extends AutocompleteComponent impleme
         if (!(this.completeMethod.observers.length > 0)) {
             throw new Error('completeMethod is required on ac-autocomplete-long-list');
         }
-
+        this.placeholder = this.translateService.instant('entity.list.empty.writeForSuggestions');
         super.ngOnInit();
     }
 }

@@ -21,6 +21,7 @@ import {
     TriInputSwitchComponent,
     CurrencyComponent
 } from './';
+import { MultiInputComponent } from './multi-input/multi-input.component';
 
 @NgModule({
     imports: [
@@ -42,6 +43,7 @@ import {
         CurrencyComponent,
         SpinnerComponent,
         StepsComponent,
+        MultiInputComponent
     ],
     providers: [
         JhiLanguageHelper,
@@ -68,6 +70,7 @@ import {
         CurrencyComponent,
         SpinnerComponent,
         StepsComponent,
+        MultiInputComponent
     ]
 })
 export class ArteApplicationTemplateSharedCommonModule { }

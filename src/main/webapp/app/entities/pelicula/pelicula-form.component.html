@@ -69,6 +69,10 @@
                     [properties]="['nombre']" [multiple]="true">
                     </ac-autocomplete-short-list>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" [jhiTranslate]="'arteApplicationTemplateApp.pelicula.premios.label'" for="field_premios">Premios</label>
+                    <ac-multi-input class="form-control" name="premios" [(ngModel)]="pelicula.premios"></ac-multi-input>
+                </div>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.descripcion.label" for="field_descripcion"></label>
                     <textarea [disabled]="!isEditMode()" class="form-control" name="descripcion" id="descripcion" [(ngModel)]="pelicula.descripcion"

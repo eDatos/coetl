@@ -89,8 +89,6 @@ public class UsuarioResource extends AbstractResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "Un usuario no puede tener ID")).body(null);
         } else if (userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase()).isPresent()) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_EXISTE, "Login ya en uso")).body(null);
-        } else if (userRepository.findOneByEmail(managedUserVM.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.EMAIL_EXISTE, "Email ya en uso")).body(null);
         } else {
             Usuario newUser = usuarioService.createUsuario(usuarioMapper.userDTOToUser(managedUserVM));
             mailService.sendCreationEmail(newUser);
@@ -104,13 +102,7 @@ public class UsuarioResource extends AbstractResource {
     @PreAuthorize("@secChecker.puedeModificarUsuario(authentication, #managedUserVM?.login)")
     public ResponseEntity<UsuarioDTO> updateUser(@Valid @RequestBody ManagedUserVM managedUserVM) {
         log.debug("REST petición para actualizar User : {}", managedUserVM);
-        Optional<Usuario> existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.EMAIL_EXISTE, "Email ya en uso")).body(null);
-        }
-        if (!existingUser.isPresent()) {
-            existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
-        }
+        Optional<Usuario> existingUser = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.USUARIO_EXISTE, "Login ya en uso")).body(null);
         }
