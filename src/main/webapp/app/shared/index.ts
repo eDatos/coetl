@@ -1,4 +1,4 @@
-export * from './constants/pagination.constants';
+export * from './pagination/pagination.constants';
 export * from './value-accesor';
 export * from './alert';
 export * from './autofocus';
