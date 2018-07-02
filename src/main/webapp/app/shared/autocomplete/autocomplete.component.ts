@@ -67,7 +67,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     @Input()
     public emptyMessage = this.translateService.instant('entity.list.empty.detail');
 
-    protected placeholder = this.translateService.instant('entity.list.empty.selectOption');
+    public placeholder = this.translateService.instant('entity.list.empty.selectOption');
 
     @Input()
     public minLength = 0;
