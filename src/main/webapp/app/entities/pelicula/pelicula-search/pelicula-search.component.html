@@ -9,37 +9,33 @@
 
     <div class="entity-search-field">
         <label for="fechaEstreno" jhiTranslate="arteApplicationTemplateApp.pelicula.fechaEstreno.label">fechaEstreno</label>
-        <ac-calendar class="form-control" [(ngModel)]="filters.fechaEstreno" name="fechaEstreno" [placeholder]="'arteApplicationTemplateApp.pelicula.fechaEstreno.placeholder' | translate"
-            (onSelect)="filter()" (keyup)="filter()"></ac-calendar>
+        <ac-calendar class="form-control" [(ngModel)]="filters.fechaEstreno" name="fechaEstreno" (onSelect)="filter()" (keyup)="filter()"></ac-calendar>
     </div>
 
 
     <div class="entity-search-field">
         <label for="idioma" jhiTranslate="arteApplicationTemplateApp.pelicula.idiomaShort.label">idioma</label>
         <ac-autocomplete-short-list name="idioma" [(ngModel)]="filters.idioma" [suggestions]="filters.allIdiomas" (onSelect)="filter()"
-            (onUnselect)="filter()" [placeholder]="'arteApplicationTemplateApp.pelicula.idiomaShort.placeholder' | translate"
-            [properties]="['nombre']"></ac-autocomplete-short-list>
+            (onUnselect)="filter()" [properties]="['nombre']"></ac-autocomplete-short-list>
     </div>
 
     <div class="entity-search-field">
         <label for="idioma" jhiTranslate="arteApplicationTemplateApp.pelicula.idiomaLong.label">idioma</label>
         <ac-autocomplete-long-list name="idioma" [(ngModel)]="filters.idioma" [suggestions]="filters.allIdiomas" (onSelect)="filter()"
-            (onUnselect)="filter()" [placeholder]="'arteApplicationTemplateApp.pelicula.idiomaLong.placeholder' | translate"
-            [properties]="['nombre']" (completeMethod)="completeMethodIdiomas($event)"></ac-autocomplete-long-list>
+            (onUnselect)="filter()" [properties]="['nombre']" (completeMethod)="completeMethodIdiomas($event)"></ac-autocomplete-long-list>
     </div>
 
     <div class="entity-search-field">
         <label for="actores" jhiTranslate="arteApplicationTemplateApp.pelicula.actores.label">Actores</label>
         <ac-autocomplete-long-list name="actores" [(ngModel)]="filters.actores" [suggestions]="filters.allActores"
             (onSelect)="filter()" (onUnselect)="filter()" [multiple]="true" [itemTemplate]="actorItemTemplate"
-            (completeMethod)="completeMethodActores($event)" [placeholder]="'arteApplicationTemplateApp.pelicula.actores.placeholder' | translate"></ac-autocomplete-long-list>
+            (completeMethod)="completeMethodActores($event)"></ac-autocomplete-long-list>
     </div>
 
     <div class="entity-search-field">
         <label for="categorias" jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label">categorias</label>
         <ac-autocomplete-short-list name="categorias" [(ngModel)]="filters.categorias" [suggestions]="filters.allCategorias" (onSelect)="filter()"
-            (onUnselect)="filter()" [placeholder]="'arteApplicationTemplateApp.pelicula.categorias.placeholder' | translate"
-            [multiple]="true" [properties]="['nombre']"></ac-autocomplete-short-list>
+            (onUnselect)="filter()" [multiple]="true" [properties]="['nombre']"></ac-autocomplete-short-list>
     </div>
 
     <div class="entity-search-field-btn">

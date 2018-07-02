@@ -7,10 +7,9 @@
                 <label jhiTranslate="audits.filter.title">Filter by date</label>
                 <div class="form-group">
                     <span jhiTranslate="audits.filter.from" class="input-group-addon">from</span>
-                    <ac-calendar class="form-control" [(ngModel)]="fromDate" name="start" placeholder="fecha inicio" (onSelect)="onChangeDate($event)"></ac-calendar>
+                    <ac-calendar class="form-control" [(ngModel)]="fromDate" name="start" (onSelect)="onChangeDate($event)"></ac-calendar>
                     <span jhiTranslate="audits.filter.to" class="input-group-addon">to</span>
-                    <ac-calendar class="form-control" [(ngModel)]="toDate" name="end" placeholder="fecha fin" (onSelect)="onChangeDate($event)"
-                        [maxDate]="today"></ac-calendar>
+                    <ac-calendar class="form-control" [(ngModel)]="toDate" name="end" (onSelect)="onChangeDate($event)" [maxDate]="today"></ac-calendar>
                 </div>
             </div>
         </div>

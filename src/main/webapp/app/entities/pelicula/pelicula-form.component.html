@@ -54,19 +54,16 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.fechaEstreno.label" for="field_fechaEstreno"></label>
-                    <ac-calendar class="form-control" name="fechaEstreno" [(ngModel)]="pelicula.fechaEstreno" [required]="true"  ></ac-calendar>
+                    <ac-calendar class="form-control" name="fechaEstreno" [(ngModel)]="pelicula.fechaEstreno" [required]="true"></ac-calendar>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.idioma.label" for="field_idioma"></label>
-                    <ac-autocomplete-short-list name="field_idioma" [(ngModel)]="pelicula.idioma" [suggestions]="idiomas"
-                    [placeholder]="'arteApplicationTemplateApp.pelicula.idioma.placeholder' | translate" [required]="false" [properties]="['nombre']">
-                    </ac-autocomplete-short-list>
+                    <ac-autocomplete-short-list name="field_idioma" [(ngModel)]="pelicula.idioma" [suggestions]="idiomas" [required]="false" [properties]="['nombre']"></ac-autocomplete-short-list>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label" for="field_categorias"></label>
                     <ac-autocomplete-short-list name="categorias" [(ngModel)]="pelicula.categorias" [suggestions]="categorias"
-                    [placeholder]="'arteApplicationTemplateApp.pelicula.categorias.placeholder' | translate" [required]="true" [createNonFound]="true"
-                    [properties]="['nombre']" [multiple]="true">
+                    [required]="true" [createNonFound]="true" [properties]="['nombre']" [multiple]="true">
                     </ac-autocomplete-short-list>
                 </div>
                 <div class="form-group">
