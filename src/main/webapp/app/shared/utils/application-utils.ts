@@ -2,7 +2,7 @@
  * Esta clase servirá de ayuda de forma general en la aplicación.
  * El objetivo principal es la mejora en la calidad de código y la disminución de éste.
  */
-export class EcitUtils {
+export class ApplicationUtils {
 
     /**
      * Este método devuelve un boolean que representa el estado del parámetro recibido.

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, forwardRef, Input, OnInit, Outp
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { AutoComplete } from 'primeng/primeng';
-import { EcitUtils } from '../../utils/EcitUtils';
+import { ApplicationUtils } from '../../utils/application-utils';
 
 export const AC_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -313,7 +313,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     private queryContainsValue(query: string, value: string): boolean {
         if (!value) { return false; }
-        return EcitUtils.removeDiacritics(value.toUpperCase()).indexOf(EcitUtils.removeDiacritics(query.toUpperCase())) !== -1;
+        return ApplicationUtils.removeDiacritics(value.toUpperCase()).indexOf(ApplicationUtils.removeDiacritics(query.toUpperCase())) !== -1;
     }
 
     excludeAlreadySelectedSuggestions(suggestions: any[]) {

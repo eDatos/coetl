@@ -1,2 +1,2 @@
 export * from './build-provider.function';
-export * from './EcitUtils';
+export * from './application-utils';
