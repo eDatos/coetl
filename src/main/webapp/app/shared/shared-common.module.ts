@@ -21,7 +21,7 @@ import {
     TriInputSwitchComponent,
     CurrencyComponent
 } from './';
-import { MultiInputComponent } from './multi-input/multi-input.component';
+import { MultiInputComponent } from './component/multi-input/multi-input.component';
 
 @NgModule({
     imports: [

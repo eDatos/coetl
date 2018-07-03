@@ -20,8 +20,8 @@ import {
     SplitButtonComponent,
     StateStorageService,
     UserService,
+    PermissionService
 } from './';
-import { PermissionService } from './auth/permission.service';
 
 @NgModule({
     imports: [

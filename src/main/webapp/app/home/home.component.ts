@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserRouteAccessService, Principal, Account } from '../shared';
-import { USER_MANAGEMENT_ROLES } from '../shared/auth/permission.service';
+import { USER_MANAGEMENT_ROLES } from '../shared';
 
 /**
  * FIXME

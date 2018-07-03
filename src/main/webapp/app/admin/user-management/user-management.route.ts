@@ -9,7 +9,7 @@ import { UserDeleteDialogComponent } from './user-management-delete-dialog.compo
 
 import { UserRouteAccessService } from '../../shared';
 import { DEFAULT_PATH } from '../../home/home.component';
-import { USER_MANAGEMENT_ROLES } from '../../shared/auth/permission.service';
+import { USER_MANAGEMENT_ROLES } from '../../shared';
 
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {

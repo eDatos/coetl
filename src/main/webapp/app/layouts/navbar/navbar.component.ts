@@ -3,11 +3,10 @@ import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProfileService } from '../profiles/profile.service';
-import { Principal, LoginService } from '../../shared';
+import { Principal, LoginService, PermissionService } from '../../shared';
 
 import { VERSION } from '../../app.constants';
 import { ConfigService } from '../../config/index';
-import { PermissionService } from '../../shared/auth/permission.service';
 
 @Component({
     selector: 'jhi-navbar',

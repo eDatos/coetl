@@ -23,7 +23,7 @@ import {
     SelectButtonModule,
 } from 'primeng/primeng';
 
-import { DEFAULT_LANGUAGE } from './language/language.constants';
+import { DEFAULT_LANGUAGE } from './service/language/language.constants';
 
 @NgModule({
     declarations: [

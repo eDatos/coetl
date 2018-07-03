@@ -6,8 +6,7 @@ import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { setTimeout } from 'timers';
 
-import { GenericModalService } from '../../shared';
-import { HasTitlesContainer } from '../../shared/layouts/side-menu/side-menu.component';
+import { GenericModalService, HasTitlesContainer } from '../../shared';
 import { ResponseWrapper } from '../../shared/model/response-wrapper.model';
 import { Actor } from '../actor/actor.model';
 import { ActorService } from '../actor/actor.service';

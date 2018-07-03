@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Rx';
 
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper, User, UserService } from '../../shared';
 import { UserFilter } from './user-search/index';
-import { PermissionService } from '../../shared/auth/permission.service';
+import { PermissionService } from '../../shared';
 
 @Component({
     selector: 'jhi-user-mgmt',
