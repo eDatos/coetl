@@ -6,7 +6,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { User, UserService } from '../../shared';
 import { Subscription } from 'rxjs/Rx';
-import { PermissionService } from '../../shared/auth/permission.service';
+import { PermissionService } from '../../shared';
 
 @Component({
     selector: 'jhi-user-mgmt-form',

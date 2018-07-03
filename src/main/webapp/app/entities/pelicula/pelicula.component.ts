@@ -7,8 +7,7 @@ import { Subscription } from 'rxjs/Rx';
 
 import { PeliculaBatchDeleteDialogComponent } from '.';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
-import { ITEMS_PER_PAGE, PAGINATION_OPTIONS, Principal, ResponseWrapper } from '../../shared';
-import { GenericModalService } from '../../shared/modal/generic-modal.service';
+import { ITEMS_PER_PAGE, PAGINATION_OPTIONS, Principal, ResponseWrapper, GenericModalService } from '../../shared';
 import { CategoriaService } from '../categoria/categoria.service';
 import { IdiomaService } from '../idioma/idioma.service';
 import { PeliculaFilter } from './pelicula-search/pelicula-filter.model';

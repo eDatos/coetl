@@ -19,9 +19,9 @@ import {
     StepsComponent,
     StickyTableHeaderDirective,
     TriInputSwitchComponent,
-    CurrencyComponent
+    CurrencyComponent,
+    MultiInputComponent
 } from './';
-import { MultiInputComponent } from './multi-input/multi-input.component';
 
 @NgModule({
     imports: [
