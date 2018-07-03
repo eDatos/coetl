@@ -1,8 +1,7 @@
 import { Component, ContentChild, EventEmitter, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FileUpload } from 'primeng/primeng';
-
-import { AcAlertService } from '..';
+import { AcAlertService } from '../alert/alert.service';
 import { DocumentoService } from '../../../entities/documento/documento.service';
 
 @Component({

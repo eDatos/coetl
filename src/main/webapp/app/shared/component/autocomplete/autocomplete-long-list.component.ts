@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AutocompleteComponent } from '.';
-import { buildProvider } from '../../utils/build-provider.function';
 import { TranslateService } from '@ngx-translate/core';
+import { AutocompleteComponent } from './autocomplete.component';
+import { buildProvider } from '../../utils/build-provider.function';
 
 /*
   Documentación en http://confluence.arte-consultores.com/display/INFRASTR/ac-autocomplete-long-list

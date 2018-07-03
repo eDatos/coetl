@@ -1,7 +1,6 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-
-import { ITEMS_PER_PAGE, PAGINATION_OPTIONS } from '..';
+import { ITEMS_PER_PAGE, PAGINATION_OPTIONS } from './pagination.constants';
 
 export const AC_PAGINATION_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,

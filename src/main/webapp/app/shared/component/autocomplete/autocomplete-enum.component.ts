@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AutocompleteComponent } from '.';
+import { AutocompleteComponent } from './autocomplete.component';
 import { buildProvider } from '../../utils/build-provider.function';
 
 /*

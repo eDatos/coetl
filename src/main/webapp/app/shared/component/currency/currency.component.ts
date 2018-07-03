@@ -1,5 +1,4 @@
-import { Component, ElementRef, Input, forwardRef, Optional, Inject } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { Component, Input, forwardRef, Optional, Inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CURRENCY_CONFIG, CurrencyConfig } from './currency.config';
 

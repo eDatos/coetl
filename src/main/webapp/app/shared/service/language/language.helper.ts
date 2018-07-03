@@ -2,7 +2,6 @@ import { Injectable, RendererFactory2, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot } from '@angular/router';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-
 import { LANGUAGES } from './language.constants';
 
 @Injectable()

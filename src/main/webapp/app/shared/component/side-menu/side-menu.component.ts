@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import { ScrollService } from '../../service/scroll';
 
 // <ac-side-menu [parent]="instance">

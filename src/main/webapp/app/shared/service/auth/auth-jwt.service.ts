@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { CookieService } from 'ngx-cookie';
@@ -7,7 +6,6 @@ import { CookieService } from 'ngx-cookie';
 @Injectable()
 export class AuthServerProvider {
     constructor(
-        private http: Http,
         private $localStorage: LocalStorageService,
         private $sessionStorage: SessionStorageService,
         private cookieService: CookieService,
