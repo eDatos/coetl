@@ -20,6 +20,7 @@ import {
     SplitButtonComponent,
     StateStorageService,
     UserService,
+    ProfileService,
     PermissionService
 } from './';
 
@@ -43,6 +44,7 @@ import {
         CSRFService,
         AuthServerProvider,
         UserService,
+        ProfileService,
         DatePipe,
         GenericModalService,
         AcAlertService,

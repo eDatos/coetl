@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
-import { ProfileService } from '../profiles/profile.service';
-import { Principal, LoginService, PermissionService } from '../../shared';
-
+import { ProfileService, Principal, LoginService, PermissionService } from '../../shared';
 import { VERSION } from '../../app.constants';
-import { ConfigService } from '../../config/index';
+import { ConfigService } from '../../config';
 
 @Component({
     selector: 'jhi-navbar',

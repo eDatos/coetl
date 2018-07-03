@@ -24,7 +24,6 @@ import {
     JhiMainComponent,
     LayoutRoutingModule,
     NavbarComponent,
-    ProfileService,
     ErrorComponent,
     notFoundRoute
 } from './layouts';
@@ -73,7 +72,6 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
             'deps': [ConfigService, AuthServerProvider],
             'multi': true
         },
-        ProfileService,
         customHttpProvider(),
         PaginationConfig,
         UserRouteAccessService,
