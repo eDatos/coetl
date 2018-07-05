@@ -1,9 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Response } from '@angular/http';
-
 import { JhiEventManager } from 'ng-jhipster';
-
 import { User, UserService } from '../../shared';
 import { Subscription } from 'rxjs/Rx';
 import { PermissionService } from '../../shared';

@@ -24,7 +24,7 @@ export class UserService {
 
     find(login: string, includeDeleted = true): Observable<User> {
         const options = createRequestOption({ includeDeleted });
-        return this.http.get(`${this.resourceUrl}/${login}`, options).map((res: Response) => res.json());
+        return this.http.get(`${this.resourceUrl}/${login}`, options).map((res: Response) => this.convert(res.json()));
     }
 
     query(req?: any): Observable<ResponseWrapper> {
@@ -44,7 +44,7 @@ export class UserService {
 
     buscarUsuarioEnLdap(login: string): Observable<User> {
         return this.http.get(`${this.resourceUrl}/${login}/ldap`)
-            .map((res: Response) => res.json());
+            .map((res: Response) => this.convert(res.json()));
     }
 
     getLogueado(): Observable<any> {
@@ -55,5 +55,9 @@ export class UserService {
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         return new ResponseWrapper(res.headers, jsonResponse, res.status);
+    }
+
+    private convert(data: any): User {
+        return Object.assign(new User(), data);
     }
 }
