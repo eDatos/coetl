@@ -14,7 +14,7 @@ export class StickyTableHeaderDirective implements AfterViewInit, DoCheck {
     constructor(private el: ElementRef) {
         Observable
             .fromEvent(window, 'resize')
-            .debounceTime(150)
+            .debounceTime(1500)
             .subscribe(() => {
                 this.updateStickyTableHeader();
             });
