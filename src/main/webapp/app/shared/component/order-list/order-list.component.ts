@@ -30,7 +30,7 @@ export class OrderListComponent implements ControlValueAccessor {
     public dragAndDropScope: string;
 
     @Input()
-    public dragAndDrop = true;
+    public canReorder = true;
 
     public hasControls = false;
 
