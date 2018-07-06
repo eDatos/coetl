@@ -46,7 +46,7 @@
             <tr *ngFor="let file of innerFiles">
                 <td>{{file.name}}</td>
                 <td class="table-actions">
-                    <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.download' | translate" (click)="download(file)">
+                    <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.download' | translate" (click)="funcionDescargar(file)">
                         <i class="fa fa-download"></i>
                     </button>
                     <ng-template [ngTemplateOutlet]="actionsTemplate" [ngOutletContext]="{file: file}"></ng-template>

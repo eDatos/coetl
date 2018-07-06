@@ -38,6 +38,9 @@ export class FileUploadComponent implements OnInit, OnChanges {
     @Input()
     public files; // Puede ser un elemento o un array
 
+    @Input()
+    public funcionDescargar;
+
     public innerFiles;
 
     public mode;
@@ -66,6 +69,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
         } else {
             this.mode = 'advanced'
         }
+        this.funcionDescargar = this.funcionDescargar || this.download;
     }
 
     ngOnChanges(changes) {
