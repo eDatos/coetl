@@ -1,6 +1,7 @@
 {
     "configuration": {
         "title": "Configuración",
+        "spring": "Spring configuration",
         "filter": "Filtro (por prefijo)",
         "table": {
             "prefix": "Prefijo",

@@ -1,11 +1,10 @@
 <div *ngIf="loggers" class="entity" acMakeFixedRoom>
     <div class="entity-header">
-        <h2 jhiTranslate="logs.title">Logs</h2>
-        <p jhiTranslate="logs.nbloggers" translateValues="{total: '{{ loggers.length }}'}">There are {{ loggers.length }} loggers. Elements marked with <i class="fa fa-asterisk"></i> don't inherit its value
-            from its parent. </p>
+        <h2 jhiTranslate="logs.title"></h2>
+        <p jhiTranslate="logs.nbloggers" translateValues="{total: '{{ loggers.length }}'}"></p>
         <div class="entity-search">
             <div class="entity-search-field">
-                <label jhiTranslate="logs.filter">Filter</label>
+                <label jhiTranslate="logs.filter"></label>
                 <input type="text" [(ngModel)]="filter" class="form-control">
             </div>
         </div>
@@ -15,8 +14,8 @@
         <table class="table table-condensed table-hover">
             <thead>
                 <tr title="click to order">
-                    <th style="width: 40%" (click)="orderProp = 'name'; reverse=!reverse"><span jhiTranslate="logs.table.name">Name</span></th>
-                    <th style="width: 60%" (click)="orderProp = 'level'; reverse=!reverse"><span jhiTranslate="logs.table.level">Level</span></th>
+                    <th style="width: 40%" (click)="orderProp = 'name'; reverse=!reverse"><span jhiTranslate="logs.table.name"></span></th>
+                    <th style="width: 60%" (click)="orderProp = 'level'; reverse=!reverse"><span jhiTranslate="logs.table.level"></span></th>
                 </tr>
             </thead>
 

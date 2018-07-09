@@ -2,6 +2,8 @@
     "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
     "global": {
         "title": "Arte - Plantilla de aplicaciones web de gestión",
+        "yes": "Sí",
+        "no": "No",
         "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor, <a href=\"http://browsehappy.com/?locale=en\">actualice su navegador</a> para mejorar su experiencia.",
         "menu": {
             "home": "Inicio",

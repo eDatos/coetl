@@ -4,8 +4,6 @@ import { RouterModule } from '@angular/router';
 import { ArteApplicationTemplateSharedModule } from '../../shared';
 import {
     ActorComponent,
-    ActorDeleteDialogComponent,
-    ActorDeletePopupComponent,
     ActorDialogComponent,
     ActorPopupComponent,
     actorPopupRoute,
@@ -28,16 +26,12 @@ const ENTITY_STATES = [
     declarations: [
         ActorComponent,
         ActorDialogComponent,
-        ActorDeleteDialogComponent,
-        ActorPopupComponent,
-        ActorDeletePopupComponent,
+        ActorPopupComponent
     ],
     entryComponents: [
         ActorComponent,
         ActorDialogComponent,
-        ActorPopupComponent,
-        ActorDeleteDialogComponent,
-        ActorDeletePopupComponent,
+        ActorPopupComponent
     ],
     providers: [
         ActorService,

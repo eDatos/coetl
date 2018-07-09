@@ -7,13 +7,13 @@
 </div>
 <div class="modal-body">
     <div *ngIf="currentHealth.details">
-        <h5 jhiTranslate="health.details.properties">Properties</h5>
+        <h5 jhiTranslate="health.details.properties"></h5>
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th style="width: 40%" class="text-left" jhiTranslate="health.details.name">Name</th>
-                        <th style="width: 60%" class="text-left" jhiTranslate="health.details.value">Value</th>
+                        <th style="width: 40%" class="text-left" jhiTranslate="health.details.name"></th>
+                        <th style="width: 60%" class="text-left" jhiTranslate="health.details.value"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,12 +26,12 @@
         </div>
     </div>
     <div *ngIf="currentHealth.error">
-        <h4 jhiTranslate="health.details.error">Error</h4>
+        <h4 jhiTranslate="health.details.error"></h4>
         <pre>{{currentHealth.error}}</pre>
     </div>
 </div>
 <div class="modal-footer">
     <button data-dismiss="modal" class="btn btn-secondary float-left" type="button" (click)="activeModal.dismiss('closed')">
-        <span jhiTranslate="entity.action.close">Done</span>
+        <span jhiTranslate="entity.action.close"></span>
     </button>
 </div>
