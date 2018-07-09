@@ -19,7 +19,6 @@ import com.arte.application.template.web.rest.util.QueryUtil;
  * Service Implementation for managing Pelicula.
  */
 @Service
-@Transactional
 public class PeliculaServiceImpl implements PeliculaService {
 
     private final Logger log = LoggerFactory.getLogger(PeliculaServiceImpl.class);
