@@ -161,6 +161,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
     @Override
     public String toString() {
-        return "Usuario{" + "login='" + login + '\'' + ", nombre='" + nombre + '\'' + ", apellido1='" + apellido1 + '\'' + ", email='" + email + '\'' + "}";
+        return "Usuario (id = " + getId() +  ")";
     }
 }

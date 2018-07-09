@@ -56,6 +56,6 @@ public class CategoriaDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "CategoriaDTO{" + "id=" + getId() + ", nombre='" + getNombre() + "'" + "}";
+        return "CategoriaDTO (id = " + getId() +  ")";
     }
 }
