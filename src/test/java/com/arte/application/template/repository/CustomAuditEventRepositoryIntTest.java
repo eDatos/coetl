@@ -199,16 +199,6 @@ public class CustomAuditEventRepositoryIntTest {
     }
 
     @Test
-    public void addAuditEventWithAnonymousUser() {
-        Map<String, Object> data = new HashMap<>();
-        data.put("test-key", "test-value");
-        AuditEvent event = new AuditEvent(Constants.ANONYMOUS_USER, "test-type", data);
-        customAuditEventRepository.add(event);
-        List<PersistentAuditEvent> persistentAuditEvents = persistenceAuditEventRepository.findAll();
-        assertThat(persistentAuditEvents).hasSize(0);
-    }
-
-    @Test
     public void addAuditEventWithAuthorizationFailureType() {
         Map<String, Object> data = new HashMap<>();
         data.put("test-key", "test-value");

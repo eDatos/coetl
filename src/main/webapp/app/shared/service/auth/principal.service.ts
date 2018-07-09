@@ -77,6 +77,6 @@ export class Principal {
     }
 
     public correctlyLogged(): boolean {
-        return Boolean(this.userIdentity.roles.length !== 0);
+        return Boolean(this.userIdentity && this.userIdentity.roles.length !== 0);
     }
 }
