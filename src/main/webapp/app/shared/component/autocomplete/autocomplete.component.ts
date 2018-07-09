@@ -23,7 +23,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     // Atributos internos
     @ViewChild(AutoComplete)
-    protected autoComplete: AutoComplete;
+    private autoComplete: AutoComplete;
 
     private internalProperties = [];
 
@@ -86,10 +86,10 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     // Parametros obligatorios
     @Input()
-    protected properties: string[];
+    public properties: string[];
 
     @Output()
-    protected completeMethod: EventEmitter<any> = new EventEmitter();
+    public completeMethod: EventEmitter<any> = new EventEmitter();
 
     constructor(protected translateService: TranslateService) { }
 
