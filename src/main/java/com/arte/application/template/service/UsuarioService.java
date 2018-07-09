@@ -50,7 +50,7 @@ public class UsuarioService {
         newUser.setApellido2(user.getApellido2());
         newUser.setEmail(user.getEmail());
         newUser.setRoles(user.getRoles());
-        usuarioRepository.save(newUser);
+        usuarioRepository.saveAndFlush(newUser);
         log.debug("Creada informaicón para el usuario: {}", newUser);
         return newUser;
     }
@@ -68,13 +68,13 @@ public class UsuarioService {
 
     public Usuario updateUsuario(Usuario user) {
         validarUsuarioLdap(user);
-        return usuarioRepository.save(user);
+        return usuarioRepository.saveAndFlush(user);
     }
 
     public void deleteUsuario(String login) {
         usuarioRepository.findOneByLoginAndDeletionDateIsNull(login).ifPresent(user -> {
             user.setDeletionDate(ZonedDateTime.now());
-            usuarioRepository.save(user);
+            usuarioRepository.saveAndFlush(user);
             log.debug("Eliminado Usuario: {}", user);
         });
     }
@@ -84,7 +84,7 @@ public class UsuarioService {
             throw new CustomParameterizedException("User not valid", ErrorConstants.USUARIO_NO_VALIDO);
         }
         usuario.setDeletionDate(null);
-        usuarioRepository.save(usuario);
+        usuarioRepository.saveAndFlush(usuario);
         log.debug("Restaurado usuario: {}", usuario);
     }
 

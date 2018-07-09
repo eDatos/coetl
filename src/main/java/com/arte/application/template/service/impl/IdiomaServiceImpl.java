@@ -38,7 +38,7 @@ public class IdiomaServiceImpl implements IdiomaService {
     @Override
     public Idioma save(Idioma idioma) {
         log.debug("Request to save Idioma : {}", idioma);
-        return idiomaRepository.save(idioma);
+        return idiomaRepository.saveAndFlush(idioma);
     }
 
     /**

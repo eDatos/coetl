@@ -63,7 +63,7 @@ public class CustomAuditEventRepository implements AuditEventRepository {
             persistentAuditEvent.setAuditEventType(event.getType());
             persistentAuditEvent.setAuditEventDate(event.getTimestamp().toInstant());
             persistentAuditEvent.setData(auditEventConverter.convertDataToStrings(event.getData()));
-            persistenceAuditEventRepository.save(persistentAuditEvent);
+            persistenceAuditEventRepository.saveAndFlush(persistentAuditEvent);
         }
     }
 }

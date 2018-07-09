@@ -35,7 +35,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public Categoria save(Categoria categoria) {
         log.debug("Request to save Categoria : {}", categoria);
-        return categoriaRepository.save(categoria);
+        return categoriaRepository.saveAndFlush(categoria);
     }
 
     /**
@@ -80,7 +80,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      */
     public Set<Categoria> save(Set<Categoria> categorias) {
         Set<Categoria> set = new HashSet<>();
-        categorias.forEach(categoria -> set.add(categoriaRepository.save(categoria)));
+        categorias.forEach(categoria -> set.add(categoriaRepository.saveAndFlush(categoria)));
         return set;
     }
 }

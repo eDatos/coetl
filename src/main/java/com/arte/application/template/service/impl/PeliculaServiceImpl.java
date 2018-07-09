@@ -43,7 +43,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     public Pelicula save(Pelicula pelicula) {
         log.debug("Request to save Pelicula : {}", pelicula);
         saveCategorias(pelicula);
-        return peliculaRepository.save(pelicula);
+        return peliculaRepository.saveAndFlush(pelicula);
     }
 
     /**
@@ -96,7 +96,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     public Pelicula bindDocumento(Pelicula pelicula, Documento documento) {
         log.debug("request to bind a Documento to Pelicula : {}", pelicula);
         pelicula.setDocumento(documento);
-        return peliculaRepository.save(pelicula);
+        return peliculaRepository.saveAndFlush(pelicula);
     }
 
     private void saveCategorias(Pelicula pelicula) {
