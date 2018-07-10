@@ -2,9 +2,10 @@ import { Actor } from '../actor/actor.model';
 import { Categoria } from '../categoria/categoria.model';
 import { Documento } from '../documento/documento.model';
 import { Idioma } from '../idioma/idioma.model';
-import { BaseEntity } from './../../shared';
+import { BaseAuditingEntity } from './../../shared';
 
-export class Pelicula implements BaseEntity {
+export class Pelicula extends BaseAuditingEntity {
+
     constructor(
         public id?: number,
         public titulo?: string,
@@ -17,5 +18,6 @@ export class Pelicula implements BaseEntity {
         public presupuesto?: number,
         public premios?: string[]
     ) {
+        super();
     }
 }

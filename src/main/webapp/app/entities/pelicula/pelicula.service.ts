@@ -14,27 +14,15 @@ export class PeliculaService {
     constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 
     create(pelicula: Pelicula): Observable<Pelicula> {
-        return this.http.post(this.resourceUrl, pelicula).map((res: Response) => {
-            const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
-        });
+        return this.http.post(this.resourceUrl, pelicula).map((res: Response) => this.convertItemFromServer(res.json()));
     }
 
     update(pelicula: Pelicula): Observable<Pelicula> {
-        return this.http.put(this.resourceUrl, pelicula).map((res: Response) => {
-            const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
-        });
+        return this.http.put(this.resourceUrl, pelicula).map((res: Response) => this.convertItemFromServer(res.json()));
     }
 
     find(id: number): Observable<Pelicula> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
-            const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
-        });
+        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => this.convertItemFromServer(res.json()));
     }
 
     query(req?: any): Observable<ResponseWrapper> {
@@ -54,32 +42,22 @@ export class PeliculaService {
 
     asociarDocumento(peliculaId: number, documentoId: number): Observable<Pelicula> {
         return this.http.put(`${this.resourceUrl}/${peliculaId}/documento/${documentoId ? documentoId : ''}`, null)
-            .map((res: Response) => {
-                const jsonResponse = res.json();
-                this.convertItemFromServer(jsonResponse);
-                return jsonResponse;
-            });
+            .map((res: Response) => this.convertItemFromServer(res.json()));
     }
 
     desasociarDocumento(peliculaId: number): Observable<Pelicula> {
         return this.http.put(`${this.resourceUrl}/${peliculaId}/documento`, null)
-            .map((res: Response) => {
-                const jsonResponse = res.json();
-                this.convertItemFromServer(jsonResponse);
-                return jsonResponse;
-            });
+            .map((res: Response) => this.convertItemFromServer(res.json()));
     }
 
     private convertResponse(res: Response): ResponseWrapper {
-        const jsonResponse = res.json();
-        for (let i = 0; i < jsonResponse.length; i++) {
-            this.convertItemFromServer(jsonResponse[i]);
-        }
+        const jsonResponse = res.json().map((element: any) => this.convertItemFromServer(element));
         return new ResponseWrapper(res.headers, jsonResponse, res.status);
     }
 
-    private convertItemFromServer(entity: any) {
-        entity.fechaEstreno = this.dateUtils
-            .convertDateTimeFromServer(entity.fechaEstreno);
+    private convertItemFromServer(entity: any): Pelicula {
+        const pelicula = Object.assign(new Pelicula(), entity);
+        pelicula.fechaEstreno = this.dateUtils.convertDateTimeFromServer(entity.fechaEstreno);
+        return pelicula;
     }
 }

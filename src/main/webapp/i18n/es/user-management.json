@@ -2,7 +2,6 @@
     "userManagement": {
         "personalData": "Datos personales",
         "permissions": "Permisos",
-        "audits": "Auditorías",
         "home": {
             "title": "Usuarios",
             "createLabel": "Crear un nuevo usuario",
@@ -32,11 +31,6 @@
         "activado": "Activado",
         "desactivado": "Desactivado",
         "profiles": "Roles",
-        "createdBy": "Creado por",
-        "createdDate": "Fecha de creación",
-        "lastModifiedBy": "Modificado por",
-        "lastModifiedDate": "Fecha de modificación",
-        "deletionDate": "Fecha de desactivación",
         "roles": "Roles",
         "filters": {
             "name": {
