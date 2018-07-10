@@ -41,6 +41,9 @@ export class OrderListComponent implements ControlValueAccessor {
     public required = false;
 
     @Input()
+    public minLength = 3;
+
+    @Input()
     public debouncedMode: boolean;
 
     @Input()
