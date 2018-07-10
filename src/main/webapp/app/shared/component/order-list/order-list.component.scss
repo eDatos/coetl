@@ -91,10 +91,16 @@
     fieldset:disabled &,
     fieldset[disabled] &{
         @extend %ac-order-list-disabled;
+        p-orderList /deep/ {     
+            @extend %p-order-list-disabled;
+        }
     }
     &:disabled,
     &[disabled] {
         @extend %ac-order-list-disabled;
+        p-orderList /deep/ {     
+            @extend %p-order-list-disabled;
+        }
     }
 
     p-orderList /deep/ { 
@@ -132,9 +138,6 @@
         }
     }
     
-    p-orderList /deep/ {     
-        @extend %p-order-list-disabled;
-    }
     ac-autocomplete {
         display: none;
     }
