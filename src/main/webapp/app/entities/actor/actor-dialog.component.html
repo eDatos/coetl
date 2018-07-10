@@ -93,7 +93,7 @@
                             <ng-template let-item pTemplate="item">
                                 <div class="orderlist-row">
                                     <span class="orderlist-cell titulo-pelicula">{{ item.titulo }}</span>
-                                    <span class="orderlist-cell fecha-pelicula">{{ item.fechaEstreno | date: 'dd/MM/yyyy' }}</span>
+                                    <span class="orderlist-cell fecha-pelicula">{{ item.fechaEstreno | acDate:'DD/MM/YYYY' }}</span>
                                     <span class="orderlist-cell categorias-pelicula">
                                         <div *ngFor="let categoria of item.categorias" class="categoria-item">
                                             <span class="badge badge-info">{{ categoria.nombre }}</span>

@@ -57,7 +57,7 @@
                                 </span>
                                 {{pelicula.titulo}}
                             </td>
-                            <td>{{pelicula.fechaEstreno | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{pelicula.fechaEstreno | acDate:'DD/MM/YYYY'}}</td>
                             <td>{{pelicula.idioma?pelicula.idioma.nombre:'Sin Idioma'}}</td>
                             <td>
                                 <div *ngFor="let categoria of pelicula.categorias">
