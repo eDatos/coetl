@@ -8,18 +8,18 @@ import { BaseAuditingEntity } from '../../model/base-auditing-entity';
 export class AuditInfoComponent implements OnInit {
 
     @Input()
-    entity: any;
+    entity: BaseAuditingEntity;
 
     constructor() { }
 
     ngOnInit() {
         if (!this.isAuditable()) {
-            console.warn('The entity is not an auditable instance!', this.entity);
-        };
+            throw new Error('The entity is not an auditable instance!');
+        }
     }
 
     public hasAudit(): Boolean {
-        return this.entity && this.entity.id && this.isAuditable();
+        return this.entity && this.isAuditable() && this.entity.id;
     }
 
     private isAuditable(): Boolean {
