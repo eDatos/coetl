@@ -4,13 +4,13 @@
         [required]="required" (onBlur)="onBlurMethod($event)" (completeMethod)="onCompleteMethod($event)" [deleteOnBackspace]="false"
         (onSelect)="onSelectMethod($event)" [multiple]="true" [minLength]="minLength"></ac-autocomplete>
     </ng-container>
-    <p-orderList [styleClass]="disabled ? 'disabled': ''" [value]="orderedList" dragdrop="dragAndDrop" [dragdropScope]="dragAndDropScope"
+    <p-orderList [styleClass]="disabled ? 'disabled': ''" [value]="orderedList" [dragdrop]="canReorder" [dragdropScope]="dragAndDropScope"
         (onReorder)="onReorder()" [styleClass]="hasControls ? 'has-controls' : ''" [metaKeySelection]="false">
         <ng-template let-item pTemplate="item">
-            <span *ngIf="dragAndDrop" class="fa fa-fw fa-arrows-v"></span> {{itemTemplate(item)}}
+            <span *ngIf="canReorder && !disabled" class="fa fa-fw fa-arrows-v"></span> {{itemTemplate(item)}}
             <span class="ui-autocomplete-token-icon icon-action fa" *ngIf="onClick.observers.length > 0" [ngClass]="customIcon"
                 (click)="onClickMethod(item)"></span>
-            <span class="ui-autocomplete-token-icon fa fa-fw fa-close" (click)="removeItem(item)"></span>
+            <span *ngIf="!disabled" class="ui-autocomplete-token-icon fa fa-fw fa-close" (click)="removeItem(item)"></span>
         </ng-template>
     </p-orderList>
 </div>

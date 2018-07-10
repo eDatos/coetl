@@ -73,6 +73,10 @@ export class ActorDialogComponent implements OnInit {
         }
     }
 
+    public peliculaItemTemplate(pelicula): string {
+        return pelicula.titulo;
+    }
+
     private subscribeToSaveResponse(result: Observable<Actor>) {
         result.subscribe((res: Actor) =>
             this.onSaveSuccess(res), (res: Response) => this.onSaveError());
