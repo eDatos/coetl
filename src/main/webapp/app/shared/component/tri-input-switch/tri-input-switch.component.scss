@@ -21,7 +21,10 @@ $color-valid: $brand-danger;
     }
 }
 
-fieldset[disabled] {
+fieldset[disabled], fieldset:disabled {
+    :host i {
+        display: none;
+    }
     :host[required] {
         &.ng-valid {
             border-left: none;
