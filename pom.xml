@@ -566,7 +566,7 @@
 					<changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
 					<diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
 					<driver>org.postgresql.Driver</driver>
-					<url>jdbc:postgresql://localhost:5432/arte_application_template</url>
+					<url>jdbc:postgresql://docker-machine:5432/dev</url>
 					<defaultSchemaName />
 					<username>arte_application_template</username>
 					<password>arte_application_template</password>
