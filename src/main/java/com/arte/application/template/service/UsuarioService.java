@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.domain.Usuario;
 import com.arte.application.template.repository.UsuarioRepository;
@@ -87,7 +86,6 @@ public class UsuarioService {
         log.debug("Restaurado usuario: {}", usuario);
     }
 
-    @Transactional(readOnly = true)
     public Page<Usuario> getAllUsuarios(Pageable pageable, Boolean includeDeleted, String query) {
         DetachedCriteria criteria = buildUsuarioCriteria(pageable, includeDeleted, query);
         return usuarioRepository.findAll(criteria, pageable);
@@ -110,7 +108,6 @@ public class UsuarioService {
         return finalQuery;
     }
 
-    @Transactional(readOnly = true)
     public Optional<Usuario> getUsuarioWithAuthoritiesByLogin(String login, Boolean includeDeleted) {
         if (BooleanUtils.isTrue(includeDeleted)) {
             return usuarioRepository.findOneByLogin(login);
@@ -119,12 +116,10 @@ public class UsuarioService {
         }
     }
 
-    @Transactional(readOnly = true)
     public Usuario getUsuarioWithAuthorities(Long id) {
         return usuarioRepository.findOneWithRolesByIdAndDeletionDateIsNull(id);
     }
 
-    @Transactional(readOnly = true)
     public Usuario getUsuarioWithAuthorities() {
         Usuario returnValue = usuarioRepository.findOneWithRolesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(new Usuario());
         if (returnValue.getDeletionDate() != null) {

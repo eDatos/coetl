@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.domain.Documento;
 import com.arte.application.template.domain.Pelicula;
@@ -54,7 +53,6 @@ public class PeliculaServiceImpl implements PeliculaService {
      * @return the list of entities
      */
     @Override
-    @Transactional(readOnly = true)
     public Page<Pelicula> findAll(String query, Pageable pageable) {
         log.debug("Request to get all Peliculas");
         DetachedCriteria criteria = queryUtil.queryToPeliculaCriteria(pageable, query);
@@ -68,7 +66,6 @@ public class PeliculaServiceImpl implements PeliculaService {
      * @return the entity
      */
     @Override
-    @Transactional(readOnly = true)
     public Pelicula findOne(Long id) {
         log.debug("Request to get Pelicula : {}", id);
         return peliculaRepository.findOne(id);
