@@ -1,5 +1,15 @@
 package com.arte.application.template.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.Instant;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,20 +23,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.ArteApplicationTemplateApp;
-import com.arte.application.template.config.Constants;
 import com.arte.application.template.config.audit.AuditEventConverter;
 import com.arte.application.template.domain.PersistentAuditEvent;
-import com.arte.application.template.repository.CustomAuditEventRepository;
-import com.arte.application.template.repository.PersistenceAuditEventRepository;
-
-import javax.servlet.http.HttpSession;
-import java.time.Instant;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test class for the CustomAuditEventRepository customAuditEventRepository class.

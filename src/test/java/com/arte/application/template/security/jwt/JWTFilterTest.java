@@ -11,10 +11,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.arte.application.template.security.jwt.JWTConfigurer;
-import com.arte.application.template.security.jwt.JWTFilter;
-import com.arte.application.template.security.jwt.TokenProvider;
-
 import io.github.jhipster.config.JHipsterProperties;
 
 public class JWTFilterTest {

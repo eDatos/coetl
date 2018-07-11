@@ -1,3 +1,4 @@
+
 # Arte Application Template
 
 En este tutorial se explica el proceso a seguir para llevar a cabo el proceso de instalación de la aplicación. Se recomienda llevar a cabo una lectura rápida de todo el tutorial antes de comenzar con el proceso de instalación.
@@ -106,8 +107,8 @@ Una vez generado este usuario administrador (con todos los permisos), este tendr
    - URL de acceso a la aplicación. Esta URL se usará para enviarla por correo a los nuevos usuarios que sean dados de alta en la aplicación.
 - `application.cas.endpoint`
    - Endpoint donde se localiza el CAS.
-- `application.cas.applicationHome`
-   - Endpoint de la aplicación, a donde volverá del CAS para terminar la autenticación.
+- `application.cas.service`
+   - URL absoluta del endpoint de la aplicación donde se va a validar el usuario tras la autenticación en el CAS ('login/cas'). Si la URL de la aplicación es http://miaplicacion.com, esta propiedad debe tomar el valor http://miaplicacion.com/login/cas.
 - `application.cas.login`
    - URL a la que se debe acceder para realizar la acción de login. Sólo debe cumplimentarse en el caso se que su valor sea distinto a `application.cas.endopoint`+ '/login'.
 - `application.cas.logout`

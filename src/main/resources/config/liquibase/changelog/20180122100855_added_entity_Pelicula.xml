@@ -1,79 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="now" value="now()" dbms="h2" />
+	<property name="now" value="now()" dbms="h2" />
 
-    <property name="now" value="current_timestamp" dbms="postgresql" />
+	<property name="now" value="current_timestamp" dbms="postgresql" />
 
-    <property name="floatType" value="float4" dbms="postgresql, h2" />
-    <property name="floatType" value="float" dbms="mysql, oracle, mssql" />
+	<property name="floatType" value="float4" dbms="postgresql, h2" />
+	<property name="floatType" value="float" dbms="mysql, oracle, mssql" />
 
-    <!-- Added the entity Pelicula. -->
-    <changeSet id="20180122100855-0" author="jhipster">
-        <createSequence sequenceName="pelicula_id_seq" startValue="10" incrementBy="50" />
-    </changeSet>
-    <changeSet id="20180122100855-1" author="jhipster">
-        <createTable tableName="pelicula">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
-                <constraints primaryKey="true" nullable="false" />
-            </column>
-            <column name="titulo" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
+	<!-- Added the entity Pelicula. -->
+	<changeSet id="20180122100855-0" author="jhipster">
+		<createSequence sequenceName="pelicula_id_seq" startValue="10" incrementBy="50" />
+	</changeSet>
+	<changeSet id="20180122100855-1" author="jhipster">
+		<createTable tableName="pelicula">
+			<column name="id" type="bigint" autoIncrement="${autoIncrement}">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="titulo" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
 
-            <column name="descripcion" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
+			<column name="descripcion" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
 
-            <column name="fecha_estreno" type="timestamp">
-                <constraints nullable="false" />
-            </column>
+			<column name="fecha_estreno" type="timestamp">
+				<constraints nullable="false" />
+			</column>
 
-            <column name="idioma_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
+			<column name="presupuesto" type="double" />
 
-            <column name="documento_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
+			<column name="idioma_id" type="bigint">
+				<constraints nullable="true" />
+			</column>
 
-            <column name="created_by" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
+			<column name="documento_id" type="bigint">
+				<constraints nullable="true" />
+			</column>
 
-            <column name="created_date" type="timestamp" defaultValueDate="${now}">
-                <constraints nullable="false" />
-            </column>
+			<column name="created_by" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
 
-            <column name="last_modified_by" type="varchar(255)" />
+			<column name="created_date" type="timestamp" defaultValueDate="${now}">
+				<constraints nullable="false" />
+			</column>
 
-            <column name="last_modified_date" type="timestamp" />
+			<column name="last_modified_by" type="varchar(255)" />
 
-            <column name="opt_lock" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove -->
-        </createTable>
-        <dropDefaultValue tableName="pelicula" columnName="fecha_estreno" columnDataType="datetime" />
+			<column name="last_modified_date" type="timestamp" />
 
-        <createTable tableName="pelicula_premio">
-              <column name="pelicula_id" type="bigint">
-                <constraints nullable="false" />
-              </column>
-              <column name="premio" type="varchar(255)">
-                <constraints nullable="false" />
-              </column>
-        </createTable>
-        
-        <addPrimaryKey columnNames="pelicula_id, premio" tableName="pelicula_premio"/>
-        
-        <addForeignKeyConstraint constraintName="fk_pelicula_premio_pelicula_id"
-                                 baseTableName="pelicula_premio"
-                                 baseColumnNames="pelicula_id"
-                                 referencedTableName="pelicula"
-                                 referencedColumnNames="id" />
-    </changeSet>
+			<column name="opt_lock" type="bigint">
+				<constraints nullable="true" />
+			</column>
+			<!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove -->
+		</createTable>
+		<dropDefaultValue tableName="pelicula" columnName="fecha_estreno" columnDataType="datetime" />
+
+		<createTable tableName="pelicula_premio">
+			<column name="pelicula_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="premio" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addPrimaryKey columnNames="pelicula_id, premio" tableName="pelicula_premio" />
+
+		<addForeignKeyConstraint constraintName="fk_pelicula_premio_pelicula_id" baseTableName="pelicula_premio" baseColumnNames="pelicula_id"
+			referencedTableName="pelicula" referencedColumnNames="id" />
+	</changeSet>
 </databaseChangeLog>

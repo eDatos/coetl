@@ -127,7 +127,7 @@ jhipster:
 application:
     cas:
         endpoint: FILL_CAS_ENDPOINT # Required: Cas Endpoint
-        applicationHome: FILL_APPLICATION_HOME_URL # Required: Aplication Home
+        service: FILL_SERVICE_URL # Required: Aplication service
         login:  # Optional: Only change if needed (Leave empty for cas.enpoint + '/login')
         logout: # Optional: Only change if needed(Leave empty for cas.enpoint + '/logout')
         validate: # Optional: Only change if needed (Leave empty for 2.0 Cas Protocol). For CAS 3.0 protocol change for 'p3'

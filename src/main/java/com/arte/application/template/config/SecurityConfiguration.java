@@ -90,7 +90,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public ServiceProperties serviceProperties() {
         ServiceProperties serviceProperties = new ServiceProperties();
-        serviceProperties.setService(StringUtils.removeEnd(applicationProperties.getCas().getApplicationHome(), "/") + "/login/cas");
+        serviceProperties.setService(StringUtils.removeEnd(applicationProperties.getCas().getService(), "/"));
         serviceProperties.setSendRenew(false);
         return serviceProperties;
     }
