@@ -14,7 +14,7 @@ import {
     PeliculaResolvePagingParams,
     peliculaRoute,
     PeliculaService
-} from './';
+} from '.';
 import { PeliculaSearchComponent } from './pelicula-search';
 
 const ENTITY_STATES = [

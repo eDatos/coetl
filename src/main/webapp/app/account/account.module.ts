@@ -9,7 +9,7 @@ import {
 
     SettingsComponent,
     accountState
-} from './';
+} from '.';
 
 @NgModule({
     imports: [

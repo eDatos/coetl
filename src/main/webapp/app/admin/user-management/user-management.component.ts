@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper, User, UserService } from '../../shared';
-import { UserFilter } from './user-search/index';
+import { UserFilter } from './user-search';
 import { PermissionService } from '../../shared';
 
 @Component({

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { ResponseWrapper } from '../../shared';
 import { Pelicula, PeliculaFilter, PeliculaService } from '../pelicula';

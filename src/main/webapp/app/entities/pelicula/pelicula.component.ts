@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiAlertService, JhiEventManager, JhiPaginationUtil, JhiParseLinks } from 'ng-jhipster';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 
 import { PeliculaBatchDeleteDialogComponent } from '.';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';

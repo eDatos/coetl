@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { NavbarComponent } from './navbar.component';
-import { UserRouteAccessService } from '../../shared/index';
+import { UserRouteAccessService } from '../../shared';
 
 export const navbarRoute: Route = {
     path: '',

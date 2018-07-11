@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 
 import { GenericModalService, ITEMS_PER_PAGE, PAGINATION_OPTIONS, Principal, ResponseWrapper } from '../../shared';
 import { Pelicula } from '../pelicula/pelicula.model';

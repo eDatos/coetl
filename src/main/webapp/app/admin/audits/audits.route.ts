@@ -1,7 +1,7 @@
 import { Route, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { AuditsComponent } from './audits.component';
-import { UserRouteAccessService } from '../../shared/index';
+import { UserRouteAccessService } from '../../shared';
 import { Injectable } from '@angular/core';
 import { JhiPaginationUtil } from 'ng-jhipster';
 import { HERRAMIENTAS_ROLES } from '../../shared';

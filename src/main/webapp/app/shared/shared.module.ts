@@ -23,7 +23,7 @@ import {
     UserService,
     ProfileService,
     PermissionService
-} from './';
+} from '.';
 
 @NgModule({
     imports: [
