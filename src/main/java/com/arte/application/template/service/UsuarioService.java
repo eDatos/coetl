@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.arte.application.template.config.Constants;
 import com.arte.application.template.domain.Usuario;
 import com.arte.application.template.repository.UsuarioRepository;
 import com.arte.application.template.security.SecurityUtils;
@@ -96,16 +95,11 @@ public class UsuarioService {
 
     private DetachedCriteria buildUsuarioCriteria(Pageable pageable, Boolean includeDeleted, String query) {
         StringBuilder queryBuilder = new StringBuilder();
-        initializeQueryBuilder(query, queryBuilder);
-        String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
-        return queryUtil.queryToUserCriteria(pageable, finalQuery);
-    }
-
-    private void initializeQueryBuilder(String query, StringBuilder queryBuilder) {
         if (StringUtils.isNotBlank(query)) {
             queryBuilder.append("(" + query + ") AND ");
         }
-        queryBuilder.append(" LOGIN NE '").append(Constants.ANONYMOUS_USER).append("'");
+        String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
+        return queryUtil.queryToUserCriteria(pageable, finalQuery);
     }
 
     private String getFinalQuery(Boolean includeDeleted, StringBuilder queryBuilder) {

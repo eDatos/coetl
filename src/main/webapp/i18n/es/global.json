@@ -106,6 +106,15 @@
                 "multiInput": "Escriba el valor y pulse enter para añadirlo"
             }
         },
+        "audits": {
+            "title": "Auditorías",
+            "createdBy": "Creado por",
+            "createdDate": "Fecha de creación",
+            "lastModifiedBy": "Modificado por",
+            "lastModifiedDate": "Fecha de modificación",
+            "deletedBy": "Eliminado por",
+            "deletionDate": "Fecha de eliminación"
+        },
         "calendar": {
             "placeholder": "Seleccione en el calendario la fecha deseada"
         }
