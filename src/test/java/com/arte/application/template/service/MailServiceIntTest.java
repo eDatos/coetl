@@ -30,7 +30,6 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.domain.Usuario;
-import com.arte.application.template.service.MailService;
 
 import io.github.jhipster.config.JHipsterProperties;
 

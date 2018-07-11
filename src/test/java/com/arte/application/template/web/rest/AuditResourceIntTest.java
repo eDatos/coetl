@@ -29,7 +29,6 @@ import com.arte.application.template.config.audit.AuditEventConverter;
 import com.arte.application.template.domain.PersistentAuditEvent;
 import com.arte.application.template.repository.PersistenceAuditEventRepository;
 import com.arte.application.template.service.AuditEventService;
-import com.arte.application.template.web.rest.AuditResource;
 
 /**
  * Test class for the AuditResource REST controller.
