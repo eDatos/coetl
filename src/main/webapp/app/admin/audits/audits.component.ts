@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';
-import { ITEMS_PER_PAGE } from '../../shared';
+import { ITEMS_PER_PAGE, PAGINATION_OPTIONS } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 import { Validators, FormControl, FormGroup } from '@angular/forms';
@@ -16,17 +16,20 @@ import { Validators, FormControl, FormGroup } from '@angular/forms';
     styleUrls: ['audits.component.scss']
 })
 export class AuditsComponent implements OnInit {
+
+    // Atributos para la paginación
+    page: number;
+    totalItems: number;
+    itemsPerPage: number;
+
     audits: Audit[];
     fromDate: Date;
-    itemsPerPage: any;
     routeData: any;
     links: any;
-    page: number;
     orderProp: string;
     reverse: boolean;
     predicate: any;
     toDate: Date;
-    totalItems: number;
     today: Date;
 
     constructor(
@@ -92,10 +95,11 @@ export class AuditsComponent implements OnInit {
         this.today = date;
     }
 
-    transition() {
+    transition = () => {
         this.router.navigate(['/audits'], {
             queryParams: {
                 page: this.page,
+                size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         });

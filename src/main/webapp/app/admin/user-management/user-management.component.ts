@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper, User, UserService } from '../../shared';
+import { ITEMS_PER_PAGE, Principal, ResponseWrapper, User, UserService, PAGINATION_OPTIONS } from '../../shared';
 import { UserFilter } from './user-search';
 import { PermissionService } from '../../shared';
 
@@ -13,16 +13,17 @@ import { PermissionService } from '../../shared';
 })
 export class UserMgmtComponent implements OnInit, OnDestroy {
 
+    // Atributos para la paginación
+    page: number;
+    totalItems: number;
+    itemsPerPage: number;
+
     currentAccount: any;
     users: User[];
     error: any;
     success: any;
     routeData: any;
     links: any;
-    totalItems: any;
-    queryCount: any;
-    itemsPerPage: any;
-    page: any;
     predicate: any;
     reverse: any;
     searchSubscription: Subscription;
@@ -97,18 +98,17 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    transition() {
+    transition = () => {
         const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
         queryParams['page'] = this.page
         queryParams['predicate'] = this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+        queryParams['size'] = PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
         this.router.navigate(['/user-management'], { queryParams });
-        this.loadAll(this.userFilter);
     }
 
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
-        this.queryCount = this.totalItems;
         this.users = data;
     }
 }

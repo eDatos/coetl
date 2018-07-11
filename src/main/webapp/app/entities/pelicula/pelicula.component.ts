@@ -21,6 +21,11 @@ import { ActorService } from '../actor';
 })
 export class PeliculaComponent implements OnInit, OnDestroy {
 
+    // Atributos para la paginación
+    page: number;
+    totalItems: number;
+    itemsPerPage: number;
+
     currentAccount: any;
     peliculas: Pelicula[];
     error: any;
@@ -29,10 +34,6 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     searchSubsctiption: Subscription;
     routeData: any;
     links: any;
-    totalItems: any;
-    queryCount: any;
-    itemsPerPage: any;
-    page: any;
     predicate: any;
     reverse: any;
     filters: PeliculaFilter;
@@ -111,7 +112,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         }).subscribe((res: ResponseWrapper) => this.onSuccess(res.json, res.headers));
     }
 
-    transition() {
+    transition = () => {
         this.router.navigate(['/pelicula'], {
             queryParams: Object.assign({}, this.activatedRoute.snapshot.queryParams,
                 {
@@ -159,7 +160,6 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
-        this.queryCount = this.totalItems;
         this.peliculas = data;
     }
 

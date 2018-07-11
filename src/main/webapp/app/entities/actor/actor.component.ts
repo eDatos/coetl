@@ -16,7 +16,11 @@ import { ActorService } from './actor.service';
 })
 export class ActorComponent implements OnInit, OnDestroy {
 
-    pruebas: any[];
+    // Atributos para la paginación
+    page: number;
+    totalItems: number;
+    itemsPerPage: number;
+
     actores: Actor[];
     actoresUnionPeliculas: ActorUPelicula[];
     peliculas: Pelicula[];
@@ -25,10 +29,6 @@ export class ActorComponent implements OnInit, OnDestroy {
     searchSubscriber: Subscription;
     routeData: any;
     links: any;
-    totalItems: any;
-    queryCount: any;
-    itemsPerPage: any;
-    page: any;
     predicate: any;
     reverse: any;
 
@@ -43,8 +43,6 @@ export class ActorComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private router: Router
     ) {
-        this.pruebas = [{id: 1, nombre: 'probando1', valor: 5}, {id: 2, nombre: 'probando2', valor: 4},
-                      {id: 4, nombre: 'probando1', valor: 3}, {id: 3, nombre: 'probando2', valor: 5}];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
@@ -67,7 +65,7 @@ export class ActorComponent implements OnInit, OnDestroy {
         );
     }
 
-    transition() {
+    transition = () => {
         this.router.navigate(['/actor'], {queryParams: {
                 page: this.page,
                 size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
@@ -117,7 +115,6 @@ export class ActorComponent implements OnInit, OnDestroy {
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
-        this.queryCount = this.totalItems;
         this.actores = data;
         this.getPeliculasByActores(this.actores);
     }
