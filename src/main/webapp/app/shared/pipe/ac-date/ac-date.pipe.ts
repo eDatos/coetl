@@ -1,6 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
 
+const FORMATS_HASH = {
+    'date': 'DD/MM/YYYY',
+    'datetime': 'DD/MM/YYYY HH:mm'
+}
 /**
  * Date pipe compatible con navegadores IE11 y Edge.
  * @description Solución realizada con Moment.js para evitar la incompatibilidad de navegadores Microsoft.
@@ -14,8 +18,8 @@ import * as moment from 'moment';
     name: 'acDate'
 })
 export class AcDatePipe implements PipeTransform {
-    transform(value: any, format = ''): string {
+    transform(value: any, format = 'date'): string {
         const momentDate = moment(value);
-        return momentDate.isValid() ? momentDate.format(format) : value;
+        return momentDate.isValid() ? momentDate.format(FORMATS_HASH[format]) : value;
     }
 }

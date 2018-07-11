@@ -141,7 +141,7 @@
                     <dt>
                         <label jhiTranslate="userManagement.deletionDate">Deletion date </label>
                     </dt>
-                    <dd>{{user.deletionDate | acDate:'DD/MM/YYYY HH:mm' }}</dd>
+                    <dd>{{user.deletionDate | acDate:'datetime' }}</dd>
                 </dl>
             </ng-container>
         </div>
@@ -163,13 +163,13 @@
                 <dt>
                     <label jhiTranslate="userManagement.createdDate">Created Date</label>
                 </dt>
-                <dd>{{user.createdDate | acDate:'DD/MM/YYYY HH:mm' }}</dd>
+                <dd>{{user.createdDate | acDate:'datetime' }}</dd>
             </dl>
             <dl class="jh-entity-details">
                 <dt>
                     <label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label>
                 </dt>
-                <dd>{{user.lastModifiedDate | acDate:'DD/MM/YYYY HH:mm'}}</dd>
+                <dd>{{user.lastModifiedDate | acDate:'datetime'}}</dd>
             </dl>
         </div>
     </fieldset>
