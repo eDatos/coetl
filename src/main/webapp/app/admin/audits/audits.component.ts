@@ -95,7 +95,7 @@ export class AuditsComponent implements OnInit {
         this.today = date;
     }
 
-    transition = () => {
+    transition() {
         this.router.navigate(['/audits'], {
             queryParams: {
                 page: this.page,

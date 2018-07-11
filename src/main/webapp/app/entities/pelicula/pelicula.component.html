@@ -68,7 +68,7 @@
                     </tbody>
                 </table>
             </div>
-            <ac-pagination [(page)]="page" [(totalItems)]="totalItems" [(itemsPerPage)]="itemsPerPage" [transition]="transition"></ac-pagination>
+            <ac-pagination [(page)]="page" [(totalItems)]="totalItems" [(itemsPerPage)]="itemsPerPage" (onTransition)="transition()"></ac-pagination>
         </ng-container>
         <ng-template #emptyList>
             <ac-entity-list-empty></ac-entity-list-empty>

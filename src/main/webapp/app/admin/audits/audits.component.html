@@ -38,6 +38,6 @@
         </table>
     </div>
     <div *ngIf="audits">
-        <ac-pagination [(page)]="page" [(totalItems)]="totalItems" [(itemsPerPage)]="itemsPerPage" [transition]="transition"></ac-pagination>
+        <ac-pagination [(page)]="page" [(totalItems)]="totalItems" [(itemsPerPage)]="itemsPerPage" (onTransition)="transition()"></ac-pagination>
     </div>
 </div>

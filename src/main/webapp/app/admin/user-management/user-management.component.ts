@@ -98,7 +98,7 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         return result;
     }
 
-    transition = () => {
+    transition() {
         const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
         queryParams['page'] = this.page
         queryParams['predicate'] = this.predicate + ',' + (this.reverse ? 'asc' : 'desc')

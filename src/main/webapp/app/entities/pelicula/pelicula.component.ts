@@ -112,7 +112,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         }).subscribe((res: ResponseWrapper) => this.onSuccess(res.json, res.headers));
     }
 
-    transition = () => {
+    transition() {
         this.router.navigate(['/pelicula'], {
             queryParams: Object.assign({}, this.activatedRoute.snapshot.queryParams,
                 {

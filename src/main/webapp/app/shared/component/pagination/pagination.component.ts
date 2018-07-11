@@ -9,20 +9,20 @@ export class PaginationComponent {
     public _page: number;
 
     @Output()
-    pageChange: EventEmitter<number> = new EventEmitter<number>();
+    public pageChange: EventEmitter<number> = new EventEmitter<number>();
 
     public _totalItems: number;
 
     @Output()
-    totalItemsChange: EventEmitter<number> = new EventEmitter<number>();
+    public totalItemsChange: EventEmitter<number> = new EventEmitter<number>();
 
     public _itemsPerPage: number;
 
     @Output()
-    itemsPerPageChange: EventEmitter<number> = new EventEmitter<number>();
+    public itemsPerPageChange: EventEmitter<number> = new EventEmitter<number>();
 
-    @Input()
-    public transition: () => {};
+    @Output()
+    public onTransition: EventEmitter<any> = new EventEmitter();
 
     @Input()
     get page() {
@@ -58,5 +58,9 @@ export class PaginationComponent {
             this._itemsPerPage = itemsPerPage;
             this.itemsPerPageChange.emit(this._itemsPerPage);
         }
+    }
+
+    onTransitionMethod($event) {
+        this.onTransition.emit($event);
     }
 }

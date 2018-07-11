@@ -65,7 +65,7 @@ export class ActorComponent implements OnInit, OnDestroy {
         );
     }
 
-    transition = () => {
+    transition() {
         this.router.navigate(['/actor'], {queryParams: {
                 page: this.page,
                 size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
