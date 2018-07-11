@@ -9,6 +9,7 @@ export * from './help-tooltip';
 export * from './items-per-page';
 export * from './multi-input';
 export * from './order-list';
+export * from './pagination';
 export * from './side-menu';
 export * from './spinner';
 export * from './split-button';
