@@ -8,8 +8,8 @@ const FORMATS_HASH = {
 /**
  * Date pipe compatible con navegadores IE11 y Edge.
  * @description Solución realizada con Moment.js para evitar la incompatibilidad de navegadores Microsoft.
- * Los formatos válidos son los que acepte el método format de Moment.js
- * @example template: {{exampleDate | acDate:'DD/MM/YYYY HH:mm'}}
+ * Los formatos válidos son 'date' y 'datetime'.
+ * @example template: {{exampleDate | acDate: 'datetime'}}
  * @see issues: https://github.com/angular/angular/issues/9524
  * @link solution: https://stackoverflow.com/questions/39728481/angular2-date-pipe-does-not-work-in-ie-11-and-edge-13-14
  * @link Moment.js formats options: https://momentjs.com/docs/#/displaying/format/
@@ -18,8 +18,12 @@ const FORMATS_HASH = {
     name: 'acDate'
 })
 export class AcDatePipe implements PipeTransform {
-    transform(value: any, format = 'date'): string {
+    transform(value: any, formatName: string): string {
+        const format = FORMATS_HASH[formatName];
+        if (!format) {
+            throw new Error('Unknown format name');
+        }
         const momentDate = moment(value);
-        return momentDate.isValid() ? momentDate.format(FORMATS_HASH[format]) : value;
+        return momentDate.isValid() ? momentDate.format(format) : value;
     }
 }
