@@ -1,6 +1,7 @@
 export * from './component';
 export * from './directive';
 export * from './model';
+export * from './pipe';
 export * from './service';
 export * from './utils';
 export * from './shared-libs.module';

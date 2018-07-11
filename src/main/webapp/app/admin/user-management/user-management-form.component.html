@@ -141,7 +141,7 @@
                     <dt>
                         <label jhiTranslate="userManagement.deletionDate">Deletion date </label>
                     </dt>
-                    <dd>{{user.deletionDate | date:'dd/MM/yy HH:mm' }}</dd>
+                    <dd>{{user.deletionDate | acDate: 'datetime' }}</dd>
                 </dl>
             </ng-container>
         </div>
