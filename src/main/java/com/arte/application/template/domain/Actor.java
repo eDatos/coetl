@@ -176,6 +176,6 @@ public class Actor implements Serializable {
 
     @Override
     public String toString() {
-        return "Actor (id = " + getId() +  ")";
+        return "Actor (id = " + getId() + ", Nombre = " + getNombre() + ", Apellido1 = " + getApellido1() + ", Apellido2 = " + getApellido2() + ")";
     }
 }

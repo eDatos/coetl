@@ -143,6 +143,6 @@ public class PeliculaDTO extends AbstractVersionedAndAuditingDTO implements Seri
 
     @Override
     public String toString() {
-        return "PeliculaDTO (id = " + getId() +  ")";
+        return "PeliculaDTO (id = " + getId() + ", Titulo = " + getTitulo() + ")";
     }
 }

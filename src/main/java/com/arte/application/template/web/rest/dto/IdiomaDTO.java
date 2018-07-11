@@ -56,6 +56,6 @@ public class IdiomaDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "IdiomaDTO (id = " + getId() +  ")";
+        return "IdiomaDTO (id = " + getId() + ", Nombre = " + getNombre() + ")";
     }
 }

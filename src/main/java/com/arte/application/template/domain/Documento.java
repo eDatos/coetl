@@ -106,6 +106,6 @@ public class Documento implements Serializable {
 
     @Override
     public String toString() {
-        return "Documento (id = " + getId() +  ")";
+        return "Documento (id = " + getId() + ", Nombre = " + getName() + ")";
     }
 }

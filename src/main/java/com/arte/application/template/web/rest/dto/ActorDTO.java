@@ -110,6 +110,6 @@ public class ActorDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ActorDTO (id = " + getId() +  ")";
+        return "ActorDTO (id = " + getId() + ", Nombre = " + getNombre() + ", Apellido1 = " + getApellido1() + ", Apellido2 = " + getApellido2() + ")";
     }
 }
