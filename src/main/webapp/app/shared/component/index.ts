@@ -1,4 +1,5 @@
 export * from './alert';
+export * from './audit-info';
 export * from './autocomplete';
 export * from './calendar';
 export * from './currency';

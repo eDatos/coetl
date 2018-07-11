@@ -50,60 +50,12 @@
                         </div>
                     </div>
             </fieldset>
-            <div *ngIf="actor.id" class="section-buttons">
-                <fieldset>
-                        <ng-container *ngIf="!ordenandoPeliculas">
-                            <button class="btn btn-primary add-button"
-                                type="button" (click)="crearNuevaPelicula()">
-                                <i class="fa fa-plus"></i>
-                                <span jhiTranslate="arteApplicationTemplateApp.actor.peliculas.crear"></span>
-                            </button>
-                        </ng-container>   
-                        <!-- Botones de ordenación -->                     
-                        <ng-container *ngIf="!ordenandoPeliculas">
-                            <button class="btn btn-primary add-button"
-                                type="button" (click)="activarReordenarPeliculas()">
-                                <i class="fa fa-arrows-v"></i>
-                                <span jhiTranslate="arteApplicationTemplateApp.actor.peliculas.reordenar"></span>
-                            </button>
-                        </ng-container>
-                        <ng-container *ngIf="ordenandoPeliculas">
-                            <button class="btn btn-default add-button"
-                                type="button" (click)="cancelarReordenarPeliculas()">
-                                <i class="fa fa-times"></i>
-                                <span jhiTranslate="arteApplicationTemplateApp.actor.peliculas.cancelar"></span>
-                            </button>
-                            <button class="btn btn-primary add-button"
-                                type="button" (click)="guardarReordenarPeliculas()">
-                                <i class="fa fa-floppy-o"></i>
-                                <span jhiTranslate="arteApplicationTemplateApp.actor.peliculas.guardar"></span>
-                            </button>
-                        </ng-container>
-                </fieldset>
-            </div>
-        
-            <h3 *ngIf="actor.id">
-                <span jhiTranslate="arteApplicationTemplateApp.actor.peliculas.title">Peliculas</span>
-            </h3>
-        
-            <div *ngIf="actor.id" class="entity-fields">
-                <div class="form-group full-width">
-                    <fieldset>
-                        <p-orderList [class.disabled]="!ordenandoPeliculas" [value]="peliculas" dragdrop="false" metaKeySelection="true" dragdropScope="tablaPelicula">
-                            <ng-template let-item pTemplate="item">
-                                <div class="orderlist-row">
-                                    <span class="orderlist-cell titulo-pelicula">{{ item.titulo }}</span>
-                                    <span class="orderlist-cell fecha-pelicula">{{ item.fechaEstreno | acDate }}</span>
-                                    <span class="orderlist-cell categorias-pelicula">
-                                        <div *ngFor="let categoria of item.categorias" class="categoria-item">
-                                            <span class="badge badge-info">{{ categoria.nombre }}</span>
-                                        </div>
-                                    </span>
-                                </div>
-                            </ng-template>
-                        </p-orderList>
-                    </fieldset>
-                </div>
+
+            <div *ngIf="peliculas" class="entity-fields">
+                <h3 jhiTranslate="arteApplicationTemplateApp.actor.peliculas.title">Peliculas</h3>
+                <ac-order-list name="peliculas" [(ngModel)]="peliculas" [suggestions]="peliculas"
+                    [itemTemplate]="peliculaItemTemplate" [disabled]="true" [canReorder]="false">
+                </ac-order-list>
             </div>
 
             <div *ngIf="actor.id" class="entity-fields">

@@ -13,6 +13,7 @@ import {
     EntityListEmptyComponent,
     FileUploadComponent,
     GenericModalService,
+    AuditInfoComponent,
     LoginService,
     Principal,
     ScrollService,
@@ -32,6 +33,7 @@ import {
     ],
     declarations: [
         EntityListEmptyComponent,
+        AuditInfoComponent,
         SplitButtonComponent,
         CalendarComponent,
         SideMenuComponent,
@@ -56,6 +58,7 @@ import {
         ArteApplicationTemplateSharedCommonModule,
         DatePipe,
         EntityListEmptyComponent,
+        AuditInfoComponent,
         SplitButtonComponent,
         CalendarComponent,
         SideMenuComponent,

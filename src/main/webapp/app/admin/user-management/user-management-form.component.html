@@ -145,32 +145,6 @@
                 </dl>
             </ng-container>
         </div>
-        <h3 jhiTranslate="userManagement.audits">Auditoría</h3>
-        <div class="entity-fields">
-            <dl class="jh-entity-details">
-                <dt>
-                    <label jhiTranslate="userManagement.createdBy">Created By</label>
-                </dt>
-                <dd>{{user.createdBy}}</dd>
-            </dl>
-            <dl class="jh-entity-details">
-                <dt>
-                    <label jhiTranslate="userManagement.lastModifiedBy">Last Modified By</label>
-                </dt>
-                <dd>{{user.lastModifiedBy}}</dd>
-            </dl>
-            <dl class="jh-entity-details">
-                <dt>
-                    <label jhiTranslate="userManagement.createdDate">Created Date</label>
-                </dt>
-                <dd>{{user.createdDate | acDate:'datetime' }}</dd>
-            </dl>
-            <dl class="jh-entity-details">
-                <dt>
-                    <label jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</label>
-                </dt>
-                <dd>{{user.lastModifiedDate | acDate:'datetime'}}</dd>
-            </dl>
-        </div>
     </fieldset>
+    <ac-audit-info [entity]="user"></ac-audit-info>
 </form>

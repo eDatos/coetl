@@ -1,0 +1,41 @@
+<fieldset *ngIf="hasAudit()">
+    <h3 jhiTranslate="entity.audits.title">Auditoría</h3>
+    <div class="entity-fields">
+        <dl class="jh-entity-details">
+            <dt>
+                <label jhiTranslate="entity.audits.createdBy">Created By</label>
+            </dt>
+            <dd>{{ entity.createdBy }}</dd>
+        </dl>
+        <dl class="jh-entity-details">
+            <dt>
+                <label jhiTranslate="entity.audits.lastModifiedBy">Last Modified By</label>
+            </dt>
+            <dd>{{ entity.lastModifiedBy }}</dd>
+        </dl>
+        <dl *ngIf="entity.deletedBy" class="jh-entity-details">
+            <dt>
+                <label jhiTranslate="entity.audits.deletedBy">Deleted By</label>
+            </dt>
+            <dd>{{ entity.deletedBy }}</dd>
+        </dl>
+        <dl class="jh-entity-details">
+            <dt>
+                <label jhiTranslate="entity.audits.createdDate">Created Date</label>
+            </dt>
+            <dd>{{ entity.createdDate | date:'dd/MM/yyyy HH:mm' }}</dd>
+        </dl>
+        <dl class="jh-entity-details">
+            <dt>
+                <label jhiTranslate="entity.audits.lastModifiedDate">Last Modified Date</label>
+            </dt>
+            <dd>{{ entity.lastModifiedDate | date:'dd/MM/yyyy HH:mm' }}</dd>
+        </dl>
+        <dl *ngIf="entity.deletionDate" class="jh-entity-details">
+            <dt>
+                <label jhiTranslate="entity.audits.deletionDate">Deletion Date</label>
+            </dt>
+            <dd>{{ entity.deletionDate | date:'dd/MM/yyyy HH:mm' }}</dd>
+        </dl>
+    </div>
+</fieldset>

@@ -1,4 +1,6 @@
-export class User {
+import { BaseAuditingEntity } from '../../model/base-auditing-entity';
+
+export class User extends BaseAuditingEntity {
     public id?: any;
     public login?: string;
     public nombre?: string;
@@ -6,11 +8,6 @@ export class User {
     public apellido2?: string;
     public email?: string;
     public roles?: any[];
-    public createdBy?: string;
-    public createdDate?: Date;
-    public lastModifiedBy?: string;
-    public lastModifiedDate?: Date;
-    public deletionDate?: Date;
 
     constructor(
         id?: any,
@@ -19,13 +16,9 @@ export class User {
         apellido1?: string,
         apellido2?: string,
         email?: string,
-        roles?: any[],
-        createdBy?: string,
-        createdDate?: Date,
-        lastModifiedBy?: string,
-        lastModifiedDate?: Date,
-        deletionDate?: Date,
+        roles?: any[]
     ) {
+        super();
         this.id = id ? id : null;
         this.login = login ? login : null;
         this.nombre = nombre ? nombre : null;
@@ -33,10 +26,5 @@ export class User {
         this.apellido2 = apellido2 ? apellido2 : null;
         this.email = email ? email : null;
         this.roles = roles ? roles : null;
-        this.createdBy = createdBy ? createdBy : null;
-        this.createdDate = createdDate ? createdDate : null;
-        this.lastModifiedBy = lastModifiedBy ? lastModifiedBy : null;
-        this.lastModifiedDate = lastModifiedDate ? lastModifiedDate : null;
-        this.deletionDate = deletionDate ? deletionDate : null;
     }
 }
