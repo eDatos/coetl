@@ -20,7 +20,7 @@ public class ApplicationProperties {
 
         // Required
         private String endpoint;
-        private String applicationHome;
+        private String service;
 
         // Optional
         private String login;
@@ -33,6 +33,14 @@ public class ApplicationProperties {
 
         public void setEndpoint(String endpoint) {
             this.endpoint = endpoint;
+        }
+
+        public String getService() {
+            return service;
+        }
+
+        public void setService(String service) {
+            this.service = service;
         }
 
         public String getLogin() {
@@ -68,13 +76,6 @@ public class ApplicationProperties {
             this.validate = validate;
         }
 
-        public String getApplicationHome() {
-            return applicationHome;
-        }
-
-        public void setApplicationHome(String applicationHome) {
-            this.applicationHome = applicationHome;
-        }
     }
 
     public Ldap getLdap() {
@@ -120,7 +121,7 @@ public class ApplicationProperties {
         public void setBase(String base) {
             this.base = base;
         }
-        
+
         public String getSearchUsersProperty() {
             return searchUsersProperty;
         }

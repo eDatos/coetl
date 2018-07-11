@@ -23,19 +23,19 @@
             <dt>
                 <label jhiTranslate="entity.audits.createdDate"></label>
             </dt>
-            <dd>{{ entity.createdDate | date:'dd/MM/yyyy HH:mm' }}</dd>
+            <dd>{{ entity.createdDate | acDate: 'datetime' }}</dd>
         </dl>
         <dl class="jh-entity-details">
             <dt>
                 <label jhiTranslate="entity.audits.lastModifiedDate"></label>
             </dt>
-            <dd>{{ entity.lastModifiedDate | date:'dd/MM/yyyy HH:mm' }}</dd>
+            <dd>{{ entity.lastModifiedDate | acDate: 'datetime' }}</dd>
         </dl>
         <dl *ngIf="entity.deletionDate" class="jh-entity-details">
             <dt>
                 <label jhiTranslate="entity.audits.deletionDate"></label>
             </dt>
-            <dd>{{ entity.deletionDate | date:'dd/MM/yyyy HH:mm' }}</dd>
+            <dd>{{ entity.deletionDate | acDate: 'datetime' }}</dd>
         </dl>
     </div>
 </fieldset>

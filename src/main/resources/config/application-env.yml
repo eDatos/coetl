@@ -23,7 +23,6 @@ spring:
         username: FILL_USER
         password: FILL_PASS
 
-
 # ===================================================================
 # JHipster specific properties
 #
@@ -34,7 +33,7 @@ jhipster:
     mail: 
         from: FILL_EMAIL
         base-url: http://FILL_APPLICATION_URL 
-  
+
 # ===================================================================
 # Application specific properties
 # Add your own application properties here.
@@ -43,7 +42,7 @@ jhipster:
 application:
     cas:
         endpoint: FILL_CAS_ENDPOINT # Required: Cas Endpoint
-        applicationHome: FILL_APPLICATION_HOME_URL # Required: Aplication Home
+        service: FILL_SERVICE_URL # Required: Aplication service
         login:  # Optional: Only change if needed (Leave empty for cas.enpoint + '/login')
         logout: # Optional: Only change if needed(Leave empty for cas.enpoint + '/logout')
     ldap:
@@ -52,7 +51,7 @@ application:
         password: FILL_PASSWORD # Ejemplo: mipassword
         base: FILL_BASE # Ejemplo ou=usuarios,dc=miorganizacion,dc=com
         searchUsersProperty: FILL_SEARCH_USERS_PROPERTY # Ejemplo: uid
-        
+
 # ===================================================================        
 # Application debug properties
 #

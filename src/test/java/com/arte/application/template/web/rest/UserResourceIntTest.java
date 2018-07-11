@@ -71,8 +71,6 @@ public class UserResourceIntTest {
     private static final String DEFAULT_LASTNAME = "doe";
     private static final String UPDATED_LASTNAME = "jhipsterLastName";
 
-    private static final String ROL_ADMIN = "ADMIN";
-
     @Autowired
     private UsuarioRepository userRepository;
 

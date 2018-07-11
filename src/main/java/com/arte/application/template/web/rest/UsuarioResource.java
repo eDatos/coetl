@@ -8,7 +8,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -32,7 +31,6 @@ import com.arte.application.template.config.audit.AuditEventPublisher;
 import com.arte.application.template.domain.Usuario;
 import com.arte.application.template.entry.UsuarioLdapEntry;
 import com.arte.application.template.repository.UsuarioRepository;
-import com.arte.application.template.security.SecurityUtils;
 import com.arte.application.template.service.LdapService;
 import com.arte.application.template.service.MailService;
 import com.arte.application.template.service.UsuarioService;

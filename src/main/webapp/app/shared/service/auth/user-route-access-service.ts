@@ -64,7 +64,7 @@ export class UserRouteAccessService implements CanActivate {
 
     private redirectToCas() {
         const config = this.configService.getConfig();
-        window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
+        window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.service);
         return false;
     }
 }

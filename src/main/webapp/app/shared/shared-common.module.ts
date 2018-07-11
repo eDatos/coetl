@@ -20,7 +20,8 @@ import {
     StickyTableHeaderDirective,
     TriInputSwitchComponent,
     CurrencyComponent,
-    MultiInputComponent
+    MultiInputComponent,
+    AcDatePipe
 } from './';
 
 @NgModule({
@@ -43,7 +44,8 @@ import {
         CurrencyComponent,
         SpinnerComponent,
         StepsComponent,
-        MultiInputComponent
+        MultiInputComponent,
+        AcDatePipe
     ],
     providers: [
         JhiLanguageHelper,
@@ -70,7 +72,8 @@ import {
         CurrencyComponent,
         SpinnerComponent,
         StepsComponent,
-        MultiInputComponent
+        MultiInputComponent,
+        AcDatePipe
     ]
 })
 export class ArteApplicationTemplateSharedCommonModule { }

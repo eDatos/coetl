@@ -7,8 +7,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.arte.application.template.security.SecurityUtils;
-
 /**
  * Test class for the SecurityUtils utility class.
  *
