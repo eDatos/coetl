@@ -111,7 +111,7 @@ jhipster:
 application:
     cas:
         endpoint: https://docker-machine:9443/cas # Required: Cas Endpoint
-        applicationHome: http://localhost:9000 # Required: Aplication Home
+        service: http://localhost:9000/login/cas # Required: Aplication service
         login:  # Optional: Only change if needed (Leave empty for cas.enpoint + '/login')
         logout: # Optional: Only change if needed(Leave empty for cas.enpoint + '/logout')
         validate: # Optional: Only change if needed (Leave empty for 2.0 Cas Protocol). For CAS 3.0 protocol change for 'p3'

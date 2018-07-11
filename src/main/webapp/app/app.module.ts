@@ -39,7 +39,7 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
                 resolve(true);
             } else {
                 const config = configService.getConfig();
-                window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.applicationHome);
+                window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.service);
             }
         });
         return promise;
