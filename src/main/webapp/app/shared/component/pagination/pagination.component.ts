@@ -11,20 +11,15 @@ export class PaginationComponent {
     @Output()
     pageChange: EventEmitter<number> = new EventEmitter<number>();
 
-    public _queryCount: number;
+    public _totalItems: number;
 
     @Output()
-    queryCountChange: EventEmitter<number> = new EventEmitter<number>();
+    totalItemsChange: EventEmitter<number> = new EventEmitter<number>();
 
     public _itemsPerPage: number;
 
     @Output()
     itemsPerPageChange: EventEmitter<number> = new EventEmitter<number>();
-
-    public _totalItems: number;
-
-    @Output()
-    totalItemsChange: EventEmitter<number> = new EventEmitter<number>();
 
     @Input()
     public transition: () => {};
@@ -42,14 +37,14 @@ export class PaginationComponent {
     }
 
     @Input()
-    get queryCount() {
-        return this._queryCount;
+    get totalItems() {
+        return this._totalItems;
     }
 
-    set queryCount(queryCount: number) {
-        if (this._queryCount !== queryCount) {
-            this._queryCount = queryCount;
-            this.queryCountChange.emit(this._queryCount);
+    set totalItems(totalItems: number) {
+        if (this._totalItems !== totalItems) {
+            this._totalItems = totalItems;
+            this.totalItemsChange.emit(this._totalItems);
         }
     }
 
@@ -62,18 +57,6 @@ export class PaginationComponent {
         if (this._itemsPerPage !== itemsPerPage) {
             this._itemsPerPage = itemsPerPage;
             this.itemsPerPageChange.emit(this._itemsPerPage);
-        }
-    }
-
-    @Input()
-    get totalItems() {
-        return this._totalItems;
-    }
-
-    set totalItems(totalItems: number) {
-        if (this._totalItems !== totalItems) {
-            this._totalItems = totalItems;
-            this.totalItemsChange.emit(this._totalItems);
         }
     }
 }
