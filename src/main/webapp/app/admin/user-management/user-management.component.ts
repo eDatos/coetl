@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
-
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper, User, UserService, PAGINATION_OPTIONS } from '../../shared';
+import { Principal, ResponseWrapper, User, UserService } from '../../shared';
 import { UserFilter } from './user-search';
 import { PermissionService } from '../../shared';
 
@@ -39,11 +38,11 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private router: Router
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
+            this.itemsPerPage = data['pagingParams'].itemsPerPage;
         });
     }
 
@@ -100,9 +99,9 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
 
     transition() {
         const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-        queryParams['page'] = this.page
-        queryParams['predicate'] = this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-        queryParams['size'] = PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
+        queryParams['page'] = this.page;
+        queryParams['predicate'] = this.predicate + ',' + (this.reverse ? 'asc' : 'desc');
+        queryParams['size'] = this.itemsPerPage;
         this.router.navigate(['/user-management'], { queryParams });
     }
 

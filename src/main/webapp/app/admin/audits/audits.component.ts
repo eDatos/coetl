@@ -2,13 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { JhiParseLinks } from 'ng-jhipster';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';
-import { ITEMS_PER_PAGE, PAGINATION_OPTIONS } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
-
-import { Validators, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'jhi-audit',
@@ -40,36 +36,28 @@ export class AuditsComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private datePipe: DatePipe
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
-        this.page = 1;
-        this.reverse = false;
-        this.predicate = 'auditEventDate';
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
+            this.itemsPerPage = data['pagingParams'].itemsPerPage;
         });
     }
 
     ngOnInit() {
         this.getToday();
         this.previousMonth();
-        this.onChangeDate();
+        this.activatedRoute.queryParams.subscribe(() => this.loadAll());
     }
 
-    onChangeDate() {
-        this.auditsService.query({
-            page: this.page - 1,
-            size: this.itemsPerPage,
-            sort: this.sort(),
-            fromDate: this.dateToString(this.fromDate),
-            toDate: this.dateToString(this.toDate)
-        }).subscribe((res) => {
-
-            this.audits = res.json();
-            this.links = this.parseLinks.parse(res.headers.get('link'));
-            this.totalItems = + res.headers.get('X-Total-Count');
-        });
+    getToday() {
+        const dateFormat = 'yyyy-MM-dd';
+        // Today + 1 day - needed if the current day must be included
+        const today: Date = new Date();
+        today.setDate(today.getDate() + 1);
+        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        this.toDate = date;
+        this.today = date;
     }
 
     previousMonth() {
@@ -85,37 +73,27 @@ export class AuditsComponent implements OnInit {
         this.fromDate = fromDate;
     }
 
-    getToday() {
-        const dateFormat = 'yyyy-MM-dd';
-        // Today + 1 day - needed if the current day must be included
-        const today: Date = new Date();
-        today.setDate(today.getDate() + 1);
-        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        this.toDate = date;
-        this.today = date;
+    loadAll() {
+        this.auditsService.query({
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort(),
+            fromDate: this.dateToString(this.fromDate),
+            toDate: this.dateToString(this.toDate)
+        }).subscribe((res) => {
+            this.audits = res.json();
+            this.links = this.parseLinks.parse(res.headers.get('link'));
+            this.totalItems = + res.headers.get('X-Total-Count');
+        });
     }
 
     transition() {
         this.router.navigate(['/audits'], {
             queryParams: {
                 page: this.page,
-                size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
+                size: this.itemsPerPage,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
-        });
-        this.loadAll();
-    }
-
-    loadAll() {
-        this.auditsService.query({
-            page: this.page - 1,
-            size: this.itemsPerPage,
-            sort: this.sort(),
-            fromDate: this.dateToString(this.fromDate), toDate: this.dateToString(this.toDate)
-        }).subscribe((res) => {
-            this.audits = res.json();
-            this.links = this.parseLinks.parse(res.headers.get('link'));
-            this.totalItems = + res.headers.get('X-Total-Count');
         });
     }
 

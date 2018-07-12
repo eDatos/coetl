@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiAlertService, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
-
-import { GenericModalService, ITEMS_PER_PAGE, PAGINATION_OPTIONS, Principal, ResponseWrapper } from '../../shared';
+import { GenericModalService, Principal, ResponseWrapper } from '../../shared';
 import { Pelicula } from '../pelicula/pelicula.model';
 import { PeliculaService } from '../pelicula/pelicula.service';
 import { ActorDialogComponent } from './actor-dialog.component';
@@ -43,22 +42,26 @@ export class ActorComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private router: Router
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
+            this.itemsPerPage = data['pagingParams'].itemsPerPage;
         });
-        this.activatedRoute.queryParams
-            .map((params) => params.size)
-            .filter((size) => !!size)
-            .subscribe((size) => this.itemsPerPage = PAGINATION_OPTIONS.indexOf(Number(size)) > -1 ? size : this.itemsPerPage);
+    }
+
+    ngOnInit() {
+        this.principal.identity().then((account) => {
+            this.currentAccount = account;
+        });
+        this.activatedRoute.queryParams.subscribe(() => this.loadAll());
+        this.registerChangeInActors();
     }
 
     loadAll() {
         this.actorService.query({
             page: this.page - 1,
-            size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
+            size: this.itemsPerPage,
             sort: this.sort(),
         }).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers)
@@ -68,11 +71,10 @@ export class ActorComponent implements OnInit, OnDestroy {
     transition() {
         this.router.navigate(['/actor'], {queryParams: {
                 page: this.page,
-                size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
+                size: this.itemsPerPage,
                 sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
             }
         });
-        this.loadAll();
     }
 
     clear() {
@@ -81,15 +83,6 @@ export class ActorComponent implements OnInit, OnDestroy {
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
-        this.loadAll();
-    }
-
-    ngOnInit() {
-        this.loadAll();
-        this.principal.identity().then((account) => {
-            this.currentAccount = account;
-        });
-        this.registerChangeInActors();
     }
 
     ngOnDestroy() {

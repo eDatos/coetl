@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { PAGINATION_OPTIONS, ITEMS_PER_PAGE } from '../items-per-page';
 
 @Component({
     selector: 'ac-pagination',
@@ -54,8 +55,9 @@ export class PaginationComponent {
     }
 
     set itemsPerPage(itemsPerPage: number) {
-        if (this._itemsPerPage !== itemsPerPage) {
-            this._itemsPerPage = itemsPerPage;
+        const validItemsPerPage = PAGINATION_OPTIONS.indexOf(Number(itemsPerPage)) > -1 ? itemsPerPage : ITEMS_PER_PAGE
+        if (this._itemsPerPage !== validItemsPerPage) {
+            this._itemsPerPage = validItemsPerPage;
             this.itemsPerPageChange.emit(this._itemsPerPage);
         }
     }
