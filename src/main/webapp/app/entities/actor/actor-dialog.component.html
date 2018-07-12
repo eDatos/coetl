@@ -13,38 +13,36 @@
             <fieldset>
                     <div class="entity-fields">
                         <div class="form-group">
-                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.genero.label" for="field_genero">Genero</label>
+                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.genero.label" for="field_genero"></label>
                             <ac-autocomplete-enum name="genero" [(ngModel)]="actor.genero" [suggestionsEnum]="generoEnum" [translationPath]="'arteApplicationTemplateApp.actor.genero.'"></ac-autocomplete-enum>
                         </div>
                         <div class="form-group">
-                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.nombre" for="field_nombre">Nombre</label>
+                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.nombre" for="field_nombre"></label>
                             <input type="text" class="form-control" name="nombre" id="field_nombre"
                                 [(ngModel)]="actor.nombre" required acAutofocus />
                             <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
                                 <small class="form-text text-danger"
                                 [hidden]="!editForm.controls.nombre?.errors?.required" jhiTranslate="entity.validation.required">
-                                This field is required.
                                 </small>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.apellido1" for="field_apellido1">Apellido 1</label>
+                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.apellido1" for="field_apellido1"></label>
                             <input type="text" class="form-control" name="apellido1" id="field_apellido1"
                                 [(ngModel)]="actor.apellido1" required />
                             <div [hidden]="!(editForm.controls.apellido1?.dirty && editForm.controls.apellido1?.invalid)">
                                 <small class="form-text text-danger"
                                     [hidden]="!editForm.controls.apellido1?.errors?.required" jhiTranslate="entity.validation.required">
-                                This field is required.
                                 </small>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.apellido2" for="field_apellido2">Apellido 2</label>
+                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.apellido2" for="field_apellido2"></label>
                             <input type="text" class="form-control" name="apellido2" id="field_apellido2"
                                 [(ngModel)]="actor.apellido2" />
                         </div>
                         <div class="form-group">
-                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.oscarizado" for="field_genero">Genero</label>
+                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.oscarizado" for="field_genero"></label>
                             <ac-tri-input-switch [(ngModel)]="actor.oscarizado" [required]="false" [ngModelOptions]="{ standalone: true }"
                                 [nullable]="true" ></ac-tri-input-switch>
                         </div>
@@ -98,7 +96,7 @@
             </ng-container>
             <ng-container *ngIf="isDeleting">
                 <div class="col-sm-6 text-center">
-                    <span jhiTranslate="arteApplicationTemplateApp.actor.delete.question"></span>
+                    <span jhiTranslate="arteApplicationTemplateApp.actor.delete.question" translateValues="{nombre: '{{actor.normalizeName()}}'}"></span>
                 </div>
                 <div class="col-sm-6 text-right"> 
                     <button type="button" class="btn btn-success" (click)="confirmDelete(actor.id)">

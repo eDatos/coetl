@@ -37,7 +37,7 @@ export class MultiInputComponent implements ControlValueAccessor {
     private onModelChange: Function = () => { };
     private onModelTouched: Function = () => { };
 
-    constructor(protected translateService: TranslateService) { }
+    constructor(private translateService: TranslateService) { }
 
     /* ControlValueAccessor */
 

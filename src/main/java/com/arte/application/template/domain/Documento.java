@@ -106,6 +106,6 @@ public class Documento implements Serializable {
 
     @Override
     public String toString() {
-        return "LocalFile{" + "id=" + id + ", data='" + data + "'" + ", dataContentType='" + dataContentType + "'" + ", name='" + name + "'" + ", length='" + length + "'" + '}';
+        return "Documento (id = " + getId() + ", Nombre = " + getName() + ")";
     }
 }

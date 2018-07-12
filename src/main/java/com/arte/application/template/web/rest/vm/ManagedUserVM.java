@@ -19,6 +19,6 @@ public class ManagedUserVM extends UsuarioDTO {
 
     @Override
     public String toString() {
-        return "ManagedUserVM{" + "} " + super.toString();
+        return "ManagedUserVM (id = " + getId() + ", Nombre = " + getNombre() + ", Apellido1 = " + getApellido1() + ", Apellido2 = " + getApellido2() + ")";
     }
 }

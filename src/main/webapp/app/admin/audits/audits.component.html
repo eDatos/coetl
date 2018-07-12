@@ -1,14 +1,14 @@
 <div *ngIf="audits" class="entity" acMakeFixedRoom>
 
     <div class="entity-header">
-        <h2 jhiTranslate="audits.title">Audits</h2>
+        <h2 jhiTranslate="audits.title"></h2>
         <div class="entity-search audits-search">
             <div class="entity-search-field audit-date-search-field">
-                <label jhiTranslate="audits.filter.title">Filter by date</label>
+                <label jhiTranslate="audits.filter.title"></label>
                 <div class="form-group">
-                    <span jhiTranslate="audits.filter.from" class="input-group-addon">from</span>
+                    <span jhiTranslate="audits.filter.from" class="input-group-addon"></span>
                     <ac-calendar class="form-control" [(ngModel)]="fromDate" name="start" (onSelect)="onDatesChange()"></ac-calendar>
-                    <span jhiTranslate="audits.filter.to" class="input-group-addon">to</span>
+                    <span jhiTranslate="audits.filter.to" class="input-group-addon"></span>
                     <ac-calendar class="form-control" [(ngModel)]="toDate" name="end" (onSelect)="onDatesChange()" [maxDate]="today"></ac-calendar>
                 </div>
             </div>
@@ -19,10 +19,10 @@
         <table class="table table-condensed table-hover" acStickyTableHeader>
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                    <th style="width: 20%" jhiSortBy="auditEventDate"><span jhiTranslate="audits.table.header.date">Date</span><span class="fa fa-sort order-by-class"></span></th>
-                    <th style="width: 20%" jhiSortBy="principal"><span jhiTranslate="audits.table.header.principal">User</span><span class="fa fa-sort order-by-class"></span></th>
-                    <th style="width: 20%" jhiSortBy="auditEventType"><span jhiTranslate="audits.table.header.status">State</span><span class="fa fa-sort order-by-class"></span></th>
-                    <th style="width: 40%" jhiSortBy="data"><span jhiTranslate="audits.table.header.data">Extra data</span><span class="fa fa-sort order-by-class"></span></th>
+                    <th style="width: 20%" jhiSortBy="auditEventDate"><span jhiTranslate="audits.table.header.date"></span><span class="fa fa-sort order-by-class"></span></th>
+                    <th style="width: 20%" jhiSortBy="principal"><span jhiTranslate="audits.table.header.principal"></span><span class="fa fa-sort order-by-class"></span></th>
+                    <th style="width: 20%" jhiSortBy="auditEventType"><span jhiTranslate="audits.table.header.status"></span><span class="fa fa-sort order-by-class"></span></th>
+                    <th style="width: 40%" jhiSortBy="data"><span jhiTranslate="audits.table.header.data"></span><span class="fa fa-sort order-by-class"></span></th>
                 </tr>
             </thead>
             <tr *ngFor="let audit of audits">
@@ -31,7 +31,7 @@
                 <td>{{audit.type}}</td>
                 <td>
                     <span *ngIf="audit.data.message" ng-show="audit.data.message">{{audit.data.message}}</span>
-                    <span *ngIf="audit.data.remoteAddress" ng-show="audit.data.remoteAddress"><strong><span jhiTranslate="audits.table.data.remoteAddress">Remote Address</span></strong>&nbsp;{{audit.data.remoteAddress}}</span>
+                    <span *ngIf="audit.data.remoteAddress" ng-show="audit.data.remoteAddress"><strong><span jhiTranslate="audits.table.data.remoteAddress"></span></strong>&nbsp;{{audit.data.remoteAddress}}</span>
                     <span *ngIf="audit.data.code" ng-show="audit.data.code"><strong><span jhiTranslate="audits.table.data.code">Code</span></strong>&nbsp;{{audit.data.code}}</span>
                 </td>
             </tr>

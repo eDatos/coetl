@@ -68,6 +68,6 @@ public class DocumentoDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "LocalFileDTO{" + "id=" + id + "'" + ", name='" + name + "'" + ", length='" + length + "'" + '}';
+        return "DocumentoDTO (id = " + getId() + ", Nombre = " + getName() + ")";
     }
 }

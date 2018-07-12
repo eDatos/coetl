@@ -1,7 +1,5 @@
 package com.arte.application.template.service.impl;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.query.LdapQuery;
 import org.springframework.ldap.query.LdapQueryBuilder;
@@ -13,7 +11,6 @@ import com.arte.application.template.repository.UsuarioLdapRepository;
 import com.arte.application.template.service.LdapService;
 
 @Service
-@Transactional
 public class LdapServiceImpl implements LdapService {
 
     private String searchProperty;

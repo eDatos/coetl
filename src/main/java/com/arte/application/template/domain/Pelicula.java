@@ -207,6 +207,6 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
 
     @Override
     public String toString() {
-        return "Pelicula{" + "id=" + getId() + ", titulo='" + getTitulo() + "'" + ", descripcion='" + getDescripcion() + "'" + ", fechaEstreno='" + getFechaEstreno() + "'" + "}";
+        return "Pelicula (id = " + getId() + ", Titulo = " + getTitulo() + ")";
     }
 }

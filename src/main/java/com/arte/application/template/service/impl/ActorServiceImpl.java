@@ -47,7 +47,7 @@ public class ActorServiceImpl implements ActorService {
     @Override
     public Actor save(Actor actor) {
         log.debug("Request to save Actor : {}", actor);
-        return actorRepository.save(actor);
+        return actorRepository.saveAndFlush(actor);
     }
 
     /**

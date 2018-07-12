@@ -36,7 +36,7 @@ public class DocumentoServiceImpl implements DocumentoService {
     @Override
     public Documento save(Documento documento) {
         log.debug("Request to save Documento : {}", documento);
-        return documentoRepository.save(documento);
+        return documentoRepository.saveAndFlush(documento);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class DocumentoServiceImpl implements DocumentoService {
         documento.setData(data);
         documento.setLength(file.getSize());
         documento.setDataContentType(file.getContentType());
-        return documentoRepository.save(documento);
+        return documentoRepository.saveAndFlush(documento);
     }
 
 }

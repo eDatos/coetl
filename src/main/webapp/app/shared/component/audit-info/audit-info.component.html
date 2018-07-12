@@ -1,39 +1,39 @@
 <fieldset *ngIf="hasAudit()">
-    <h3 jhiTranslate="entity.audits.title">Auditoría</h3>
+    <h3 jhiTranslate="entity.audits.title"></h3>
     <div class="entity-fields">
         <dl class="jh-entity-details">
             <dt>
-                <label jhiTranslate="entity.audits.createdBy">Created By</label>
+                <label jhiTranslate="entity.audits.createdBy"></label>
             </dt>
             <dd>{{ entity.createdBy }}</dd>
         </dl>
         <dl class="jh-entity-details">
             <dt>
-                <label jhiTranslate="entity.audits.lastModifiedBy">Last Modified By</label>
+                <label jhiTranslate="entity.audits.lastModifiedBy"></label>
             </dt>
             <dd>{{ entity.lastModifiedBy }}</dd>
         </dl>
         <dl *ngIf="entity.deletedBy" class="jh-entity-details">
             <dt>
-                <label jhiTranslate="entity.audits.deletedBy">Deleted By</label>
+                <label jhiTranslate="entity.audits.deletedBy"></label>
             </dt>
             <dd>{{ entity.deletedBy }}</dd>
         </dl>
         <dl class="jh-entity-details">
             <dt>
-                <label jhiTranslate="entity.audits.createdDate">Created Date</label>
+                <label jhiTranslate="entity.audits.createdDate"></label>
             </dt>
             <dd>{{ entity.createdDate | acDate: 'datetime' }}</dd>
         </dl>
         <dl class="jh-entity-details">
             <dt>
-                <label jhiTranslate="entity.audits.lastModifiedDate">Last Modified Date</label>
+                <label jhiTranslate="entity.audits.lastModifiedDate"></label>
             </dt>
             <dd>{{ entity.lastModifiedDate | acDate: 'datetime' }}</dd>
         </dl>
         <dl *ngIf="entity.deletionDate" class="jh-entity-details">
             <dt>
-                <label jhiTranslate="entity.audits.deletionDate">Deletion Date</label>
+                <label jhiTranslate="entity.audits.deletionDate"></label>
             </dt>
             <dd>{{ entity.deletionDate | acDate: 'datetime' }}</dd>
         </dl>

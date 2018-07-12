@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@a
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { UserRouteAccessService, ITEMS_PER_PAGE } from '../../shared';
-import { ActorDeletePopupComponent } from './actor-delete-dialog.component';
 import { ActorPopupComponent } from './actor-dialog.component';
 import { ActorComponent } from './actor.component';
 import { ACTOR_ROLES } from '../../shared';
@@ -55,16 +54,6 @@ export const actorPopupRoute: Routes = [
     {
         path: 'actor/:id/edit',
         component: ActorPopupComponent,
-        data: {
-            roles: ACTOR_ROLES,
-            pageTitle: 'arteApplicationTemplateApp.actor.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
-    },
-    {
-        path: 'actor/:id/delete',
-        component: ActorDeletePopupComponent,
         data: {
             roles: ACTOR_ROLES,
             pageTitle: 'arteApplicationTemplateApp.actor.home.title'

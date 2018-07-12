@@ -77,6 +77,6 @@ public class Idioma implements Serializable {
 
     @Override
     public String toString() {
-        return "Idioma{" + "id=" + getId() + ", nombre='" + getNombre() + "'" + "}";
+        return "Idioma (id = " + getId() + ", Nombre = " + getNombre() + ")";
     }
 }
