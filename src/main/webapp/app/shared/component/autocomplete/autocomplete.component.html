@@ -1,5 +1,5 @@
 <p-autoComplete [multiple]="multiple" [(ngModel)]="selectedSuggestions" [suggestions]="filteredSuggestions" (completeMethod)="onCompleteMethod($event)"
-    [dropdown]="!debouncedMode" (onDropdownClick)="handleDropdownSuggestions($event)" (onFocus)="handleOnFocusSuggestions($event)"
+    [dropdown]="!debouncedMode" (onDropdownClick)="handleDropdownSuggestions($event)"
     (onBlur)="handleOnFocusOutSuggestions($event)" [minLength]="minLength" [emptyMessage]="emptyMessage" [forceSelection]="!multiple"
     [field]="field" [placeholder]="placeholder" (onSelect)="onSelectMethod($event)" (onUnselect)="onUnselectMethod($event)" (onClear)="onClearMethod($event)"
     [required]="required" [disabled]="disabled" #autocompleteInput="ngModel" [styleClass]="selectedSuggestions && selectedSuggestions.length > 0 ? '' : 'is-empty'">

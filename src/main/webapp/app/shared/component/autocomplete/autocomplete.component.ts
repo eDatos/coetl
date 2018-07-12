@@ -324,18 +324,15 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
             });
     }
 
-    // https://github.com/primefaces/primeng/issues/745
-    handleDropdownSuggestions($event) {
-        this.focusMustOpenPanel = !this.autoComplete.panelVisible;
-    }
-
     handleOnFocusOutSuggestions($event) {
         this.focusMustOpenPanel = true;
         this.onModelTouched();
         this.onBlur.emit($event);
     }
 
-    handleOnFocusSuggestions($event) {
+    // https://github.com/primefaces/primeng/issues/745
+    handleDropdownSuggestions($event) {
+        this.focusMustOpenPanel = !this.autoComplete.panelVisible;
         const queryValue = this.getQueryValue();
         if (!this.debouncedMode || queryValue.length >= this.minLength) {
 
