@@ -9,8 +9,8 @@ import { HasTitlesContainer } from '../../shared';
     styleUrls: ['./configuration.component.scss']
 })
 export class JhiConfigurationComponent implements OnInit, HasTitlesContainer {
-    allConfiguration: any = null;
-    configuration: any = null;
+    allConfiguration: any = [];
+    configuration: any = [];
     configKeys: any[];
     filter: string;
     orderProp: string;

@@ -2,6 +2,7 @@
     "metrics": {
         "title": "Métricas de aplicación",
         "refresh.button": "Refrescar",
+        "filter": "Filtro",
         "updating": "Actualizando...",
         "jvm": {
             "title": "Métricas de JVM",
@@ -46,7 +47,9 @@
                     "code": "Código",
                     "count": "Recuento",
                     "mean": "Media",
-                    "average": "Promedio"
+                    "average1": "Promedio (1 min)",
+                    "average5": "Promedio (5 min)",
+                    "average15": "Promedio (15 min)"
                 },
                 "code": {
                     "ok": "Ok",

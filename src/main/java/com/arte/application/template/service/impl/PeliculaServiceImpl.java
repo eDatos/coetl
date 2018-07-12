@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.domain.Documento;
 import com.arte.application.template.domain.Pelicula;
@@ -19,7 +18,6 @@ import com.arte.application.template.web.rest.util.QueryUtil;
  * Service Implementation for managing Pelicula.
  */
 @Service
-@Transactional
 public class PeliculaServiceImpl implements PeliculaService {
 
     private final Logger log = LoggerFactory.getLogger(PeliculaServiceImpl.class);
@@ -44,7 +42,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     public Pelicula save(Pelicula pelicula) {
         log.debug("Request to save Pelicula : {}", pelicula);
         saveCategorias(pelicula);
-        return peliculaRepository.save(pelicula);
+        return peliculaRepository.saveAndFlush(pelicula);
     }
 
     /**
@@ -55,7 +53,6 @@ public class PeliculaServiceImpl implements PeliculaService {
      * @return the list of entities
      */
     @Override
-    @Transactional(readOnly = true)
     public Page<Pelicula> findAll(String query, Pageable pageable) {
         log.debug("Request to get all Peliculas");
         DetachedCriteria criteria = queryUtil.queryToPeliculaCriteria(pageable, query);
@@ -69,7 +66,6 @@ public class PeliculaServiceImpl implements PeliculaService {
      * @return the entity
      */
     @Override
-    @Transactional(readOnly = true)
     public Pelicula findOne(Long id) {
         log.debug("Request to get Pelicula : {}", id);
         return peliculaRepository.findOne(id);
@@ -97,7 +93,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     public Pelicula bindDocumento(Pelicula pelicula, Documento documento) {
         log.debug("request to bind a Documento to Pelicula : {}", pelicula);
         pelicula.setDocumento(documento);
-        return peliculaRepository.save(pelicula);
+        return peliculaRepository.saveAndFlush(pelicula);
     }
 
     private void saveCategorias(Pelicula pelicula) {

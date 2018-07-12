@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'ac-tri-input-switch',
@@ -33,15 +34,15 @@ export class TriInputSwitchComponent implements OnInit, ControlValueAccessor {
 
     options: any[];
 
-    constructor() { }
+    constructor(protected translateService: TranslateService) { }
 
     ngOnInit() {
         this.options = [
             {
-                label: 'Sí', value: true
+                label: this.translateService.instant('global.yes'), value: true
             },
             {
-                label: 'No', value: false
+                label: this.translateService.instant('global.no'), value: false
             }
         ];
     }

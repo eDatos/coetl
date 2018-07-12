@@ -3,9 +3,7 @@
         (onFocus)="onModelTouched()" (onClose)="onModelTouched()" (onClearClick)="onModelTouched()" (onInput)="onInputMethod($event)" [disabled]="disabled"></p-calendar>
 <div *ngIf="(calendarInput.dirty || calendarInput.touched) && calendarInput.invalid" class="entity-field-error">
     <small class="form-text text-danger" *ngIf="calendarInput.errors?.required" jhiTranslate="entity.validation.required">
-        This field is required.
     </small>
     <small class="form-text text-danger" *ngIf="calendarInput.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
-        This field should be a date and time.
     </small>
 </div>

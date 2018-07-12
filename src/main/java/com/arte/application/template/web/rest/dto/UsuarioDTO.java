@@ -199,8 +199,7 @@ public class UsuarioDTO {
 
     @Override
     public String toString() {
-        return "UserDTO{" + "login='" + login + '\'' + ", firstName='" + nombre + '\'' + ", lastName='" + apellido1 + '\'' + ", email='" + email + '\'' + ", createdBy=" + createdBy + ", createdDate="
-                + createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate + ", authorities=" + roles + "}";
+        return "UsuarioDTO (id = " + getId() + ", Nombre = " + getNombre() + ", Apellido1 = " + getApellido1() + ", Apellido2 = " + getApellido2() + ")";
     }
 
     public static class Builder {

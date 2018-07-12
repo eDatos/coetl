@@ -6,7 +6,6 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.domain.Idioma;
 import com.arte.application.template.repository.IdiomaRepository;
@@ -17,7 +16,6 @@ import com.arte.application.template.web.rest.util.QueryUtil;
  * Service Implementation for managing Idioma.
  */
 @Service
-@Transactional
 public class IdiomaServiceImpl implements IdiomaService {
 
     private final Logger log = LoggerFactory.getLogger(IdiomaServiceImpl.class);
@@ -40,7 +38,7 @@ public class IdiomaServiceImpl implements IdiomaService {
     @Override
     public Idioma save(Idioma idioma) {
         log.debug("Request to save Idioma : {}", idioma);
-        return idiomaRepository.save(idioma);
+        return idiomaRepository.saveAndFlush(idioma);
     }
 
     /**

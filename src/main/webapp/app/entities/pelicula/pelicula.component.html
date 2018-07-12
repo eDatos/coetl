@@ -6,16 +6,13 @@
                 <button [disabled]="!filters.batchSelection.hasSelection()" class="btn btn-danger" (click)="delete()">
                     <span class="fa fa-times"></span>
                     <span *ngIf="allVisibleIdsAreSelected()" jhiTranslate="arteApplicationTemplateApp.pelicula.delete.all">
-                        Eliminar todos
                     </span>
                     <span *ngIf="!allVisibleIdsAreSelected()" jhiTranslate="arteApplicationTemplateApp.pelicula.delete.selection" [translateValues]="{ n : filters.batchSelection.selectedIds.length  }">
-                        Eliminar selección
                     </span>
                 </button>
                 <button class="btn btn-primary jh-create-entity create-acto-administrativo" [routerLink]="['../pelicula-new']">
                     <span class="fa fa-plus"></span>
                     <span jhiTranslate="arteApplicationTemplateApp.pelicula.home.createLabel">
-                        Crear nueva película
                     </span>
                 </button>
             </div>

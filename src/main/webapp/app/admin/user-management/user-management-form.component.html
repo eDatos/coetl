@@ -8,7 +8,7 @@
                 <span class="fa fa-arrow-left"></span>
             </button>
             <i class="fa fa-fw fa-user" aria-hidden="true"></i>
-            <span *ngIf="!user.id" jhiTranslate="userManagement.home.createLabel">Create a User</span>
+            <span *ngIf="!user.id" jhiTranslate="userManagement.home.createLabel"></span>
             <span *ngIf="user.id">{{user.login}}</span>
         </div>
         <div>
@@ -16,19 +16,19 @@
                 <button *ngIf="!isEditMode()" class="btn btn-secondary jh-create-entity" [routerLink]="['/user-management', user.login, 'edit']"
                     type="button">
                     <span class="fa fa-pencil"></span>&nbsp;
-                    <span jhiTranslate="entity.action.edit">Edit</span>
+                    <span jhiTranslate="entity.action.edit"></span>
                 </button>
             </ng-container>
             <ng-container *ngIf="permissionService.puedeNavegarUserManagement()">
                 <button *ngIf="isEditMode()" type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
                     <span class="fa fa-floppy-o"></span>&nbsp;
-                    <span jhiTranslate="entity.action.save">Save</span>
+                    <span jhiTranslate="entity.action.save"></span>
                 </button>
             </ng-container>
             <ng-container>
                 <button *ngIf="isEditMode()" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
                     <span class="fa fa-ban"></span>&nbsp;
-                    <span jhiTranslate="entity.action.cancel">Cancel</span>
+                    <span jhiTranslate="entity.action.cancel"></span>
                 </button>
             </ng-container>
             <ng-container *ngIf="permissionService.puedeNavegarUserManagement()">
@@ -47,25 +47,22 @@
     </h2>
 
     <fieldset [disabled]="!isEditMode()" acAutofocus >
-        <h3 jhiTranslate="userManagement.personalData">Datos personales</h3>
+        <h3 jhiTranslate="userManagement.personalData"></h3>
         <div class="entity-fields">
             <div class="form-group">
-                <label class="form-control-label" jhiTranslate="userManagement.login">Login</label>
+                <label class="form-control-label" jhiTranslate="userManagement.login"></label>
                 <input type="text" [disabled]="user.id" class="form-control" name="login" #loginInput="ngModel" [(ngModel)]="user.login" required minlength="1"
                     maxlength="255" pattern="^[_'.@A-Za-z0-9-]*$" (blur)="validarUsuario(loginInput.dirty)" >
 
                 <div *ngIf="loginInput.touched || loginInput.dirty" class="entity-field-error">
                     <ng-container *ngIf="loginInput.invalid">
                         <small class="form-text text-danger" *ngIf="loginInput.errors.required" jhiTranslate="entity.validation.required">
-                            This field is required.
                         </small>
                         <small class="form-text text-danger" *ngIf="loginInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
-                            This field cannot be longer than 255 characters.
                         </small>
                     </ng-container>
                     <ng-container>
                         <small class="form-text text-danger" *ngIf="!usuarioValido" jhiTranslate="error.userManagement.usuario-ldap-no-encontrado">
-                            Usuario ldap no encontrado
                         </small>
                     </ng-container>
                 </div>
@@ -74,72 +71,65 @@
 
 
             <div class="form-group">
-                <label class="form-control-label" jhiTranslate="userManagement.nombre">First Name</label>
+                <label class="form-control-label" jhiTranslate="userManagement.nombre"></label>
                 <input type="text" class="form-control" name="nombre" #nombreInput="ngModel" [(ngModel)]="user.nombre" maxlength="255" >
 
                 <div *ngIf="nombreInput.dirty && nombreInput.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="nombreInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
-                        This field cannot be longer than 255 characters.
                     </small>
                 </div>
             </div>
 
             <div class="form-group">
-                <label jhiTranslate="userManagement.apellido1">Last Name</label>
+                <label jhiTranslate="userManagement.apellido1"></label>
                 <input type="text" class="form-control" name="apellido1" #apellido1Input="ngModel" [(ngModel)]="user.apellido1" maxlength="255">
 
                 <div *ngIf="apellido1Input.dirty && apellido1Input.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="apellido1Input.errors.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
-                        This field cannot be longer than 255 characters.
                     </small>
                 </div>
             </div>
 
             <div class="form-group">
-                <label jhiTranslate="userManagement.apellido2">Last Name</label>
+                <label jhiTranslate="userManagement.apellido2"></label>
                 <input type="text" class="form-control" name="apellido2" #apellido2Input="ngModel" [(ngModel)]="user.apellido2" maxlength="255">
 
                 <div *ngIf="apellido2Input.dirty && apellido2Input.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="apellido2Input.errors.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
-                        This field cannot be longer than 255 characters.
                     </small>
                 </div>
             </div>
             <div class="form-group">
-                <label class="form-control-label" jhiTranslate="userManagement.email">Email</label>
+                <label class="form-control-label" jhiTranslate="userManagement.email"></label>
                 <input type="email" class="form-control" name="email" #emailInput="ngModel" [(ngModel)]="user.email" minlength="3" required
                     maxlength="255" email>
                 <div *ngIf="(emailInput.touched || emailInput.dirty) && emailInput.invalid" class="entity-field-error">
                     <small class="form-text text-danger" *ngIf="emailInput.errors.required" jhiTranslate="entity.validation.required">
-                        This field is required.
                     </small>
                     <ng-container *ngIf="emailInput.dirty">
                         <small class="form-text text-danger" *ngIf="emailInput.errors.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
-                            This field cannot be longer than 255 characters.
                         </small>
 
                         <small class="form-text text-danger" *ngIf="emailInput.errors.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 3}">
-                            This field is required to be at least 3 characters.
                         </small>
 
                         <small class="form-text text-danger" *ngIf="emailInput.errors.email" jhiTranslate="global.messages.validate.email.invalid">
-                            Your email is invalid.
                         </small>
                     </ng-container>
                 </div>
             </div>
 
         </div>
-        <h3 jhiTranslate="userManagement.permissions">Permisos</h3>
+        <h3 jhiTranslate="userManagement.permissions"></h3>
         <div class="entity-fields">
             <div class="form-group">
-                <label jhiTranslate="userManagement.activado">activado</label>
+                <label jhiTranslate="userManagement.activado"></label>
                 <ac-tri-input-switch [disabled]="true" name="activado" [ngModel]="!user.deletionDate"></ac-tri-input-switch>
             </div>
             <ng-container *ngIf="user && user.deletionDate">
                 <dl class="jh-entity-details">
                     <dt>
-                        <label jhiTranslate="userManagement.deletionDate">Deletion date </label>
+                        <label jhiTranslate="userManagement.deletionDate"></label>
                     </dt>
                     <dd>{{user.deletionDate | acDate: 'datetime' }}</dd>
                 </dl>
