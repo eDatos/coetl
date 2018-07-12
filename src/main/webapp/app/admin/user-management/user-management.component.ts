@@ -68,8 +68,9 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     registerChangeInUsers() {
         this.userListModification = this.eventManager.subscribe('userListModification', (response) => this.loadAll());
         this.searchSubscription = this.eventManager.subscribe('userSearch', (response) => {
-            const queryParams = this.activatedRoute.snapshot.queryParams;
-            this.router.navigate([this.activatedRoute.snapshot.url], { queryParams: Object.assign({}, queryParams, response.content) })
+            this.page = 1;
+            const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams, response.content, { page: this.page });
+            this.router.navigate([this.activatedRoute.snapshot.url], { queryParams })
         });
     }
 

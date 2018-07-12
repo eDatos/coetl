@@ -97,6 +97,11 @@ export class AuditsComponent implements OnInit {
         });
     }
 
+    onDatesChange() {
+        this.page = 1;
+        this.transition();
+    }
+
     sort() {
         const sort = this.predicate + ',' + (this.reverse ? 'asc' : 'desc');
         return sort;

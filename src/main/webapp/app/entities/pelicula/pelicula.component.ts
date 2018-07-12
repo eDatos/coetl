@@ -140,7 +140,8 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     registerChangeInPeliculas() {
         this.eventSubscriber = this.eventManager.subscribe('peliculaListModification', (response) => this.loadAll());
         this.searchSubsctiption = this.eventManager.subscribe('peliculaSearch', (response) => {
-            const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams));
+            this.page = 1;
+            const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams), { page: this.page });
             this.router.navigate(['pelicula'], { queryParams });
         });
     }
