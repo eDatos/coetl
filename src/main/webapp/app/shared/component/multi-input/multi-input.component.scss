@@ -29,21 +29,20 @@ fieldset {
                 margin-bottom: $spacer-y / 2;
             }
         }
+        
+        &.disabled /deep/ input::placeholder {
+            @extend %disabled-multi-input;
+        }
     }
         
     &:disabled,
     &[disabled] {
-        /deep/ input::placeholder {
+        :host /deep/ input::placeholder {
             @extend %disabled-multi-input;
         }
-    }
-    
-    /deep/ input:disabled::placeholder,
-    /deep/ input[disabled]::placeholder {
-        @extend %disabled-multi-input;
     }
 }
 
 %disabled-multi-input {
-    display: none;
+    opacity: 0;
 }

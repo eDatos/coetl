@@ -61,3 +61,9 @@
         }
     }
 }
+
+:host.disabled, fieldset[disabled] :host, fieldset:disabled :host{
+    /deep/ p-calendar input::placeholder {
+        opacity: 0;
+    }
+}

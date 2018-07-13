@@ -52,7 +52,7 @@
      }
 }
 
-fieldset[disabled] {
+fieldset[disabled], fieldset:disabled {
      .entity-fields .form-group {
         :host {
             /deep/ .ui-autocomplete {
@@ -62,7 +62,7 @@ fieldset[disabled] {
     }
 }
 
-:host[disabled] {
+:host.disabled {
     /deep/ .ui-autocomplete {
         @extend %disabled-autocomplete;
     }
@@ -82,7 +82,7 @@ fieldset[disabled] {
     .ui-state-default:hover {
         border-bottom: none;
     }
-    input:disabled::placeholder {
+    input::placeholder {
         opacity: 0;
     }
 }
