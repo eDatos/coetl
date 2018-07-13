@@ -7,6 +7,7 @@ import { UserDeleteDialogComponent } from './user-management-delete-dialog.compo
 import { UserRouteAccessService, ITEMS_PER_PAGE } from '../../shared';
 import { DEFAULT_PATH } from '../../home/home.component';
 import { USER_MANAGEMENT_ROLES } from '../../shared';
+import { BASE_DECIMAL } from '../../app.constants';
 
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
@@ -21,7 +22,7 @@ export class UserResolvePagingParams implements Resolve<any> {
             page: this.paginationUtil.parsePage(page),
             predicate: this.paginationUtil.parsePredicate(sort),
             ascending: this.paginationUtil.parseAscending(sort),
-            itemsPerPage: parseInt(itemsPerPage, 10)
+            itemsPerPage: parseInt(itemsPerPage, BASE_DECIMAL)
         };
     }
 }

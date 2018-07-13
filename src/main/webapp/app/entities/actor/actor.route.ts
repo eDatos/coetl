@@ -6,6 +6,7 @@ import { UserRouteAccessService, ITEMS_PER_PAGE } from '../../shared';
 import { ActorPopupComponent } from './actor-dialog.component';
 import { ActorComponent } from './actor.component';
 import { ACTOR_ROLES } from '../../shared';
+import { BASE_DECIMAL } from '../../app.constants';
 
 @Injectable()
 export class ActorResolvePagingParams implements Resolve<any> {
@@ -20,7 +21,7 @@ export class ActorResolvePagingParams implements Resolve<any> {
             page: this.paginationUtil.parsePage(page),
             predicate: this.paginationUtil.parsePredicate(sort),
             ascending: this.paginationUtil.parseAscending(sort),
-            itemsPerPage: parseInt(itemsPerPage, 10)
+            itemsPerPage: parseInt(itemsPerPage, BASE_DECIMAL)
       };
     }
 }

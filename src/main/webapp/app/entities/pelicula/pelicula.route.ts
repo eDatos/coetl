@@ -7,6 +7,7 @@ import { PeliculaFormComponent } from './pelicula-form.component';
 import { PeliculaComponent } from './pelicula.component';
 import { PeliculaResolve } from './pelicula.resolve';
 import { PELICULA_ROLES } from '../../shared';
+import { BASE_DECIMAL } from '../../app.constants';
 
 @Injectable()
 export class PeliculaResolvePagingParams implements Resolve<any> {
@@ -21,7 +22,7 @@ export class PeliculaResolvePagingParams implements Resolve<any> {
             page: this.paginationUtil.parsePage(page),
             predicate: this.paginationUtil.parsePredicate(sort),
             ascending: this.paginationUtil.parseAscending(sort),
-            itemsPerPage: parseInt(itemsPerPage, 10)
+            itemsPerPage: parseInt(itemsPerPage, BASE_DECIMAL)
       };
     }
 }

@@ -4,6 +4,7 @@ import { UserRouteAccessService, ITEMS_PER_PAGE } from '../../shared';
 import { Injectable } from '@angular/core';
 import { JhiPaginationUtil } from 'ng-jhipster';
 import { HERRAMIENTAS_ROLES } from '../../shared';
+import { BASE_DECIMAL } from '../../app.constants';
 
 @Injectable()
 export class AuditsResolvePagingParams implements Resolve<any> {
@@ -18,7 +19,7 @@ export class AuditsResolvePagingParams implements Resolve<any> {
             page: this.paginationUtil.parsePage(page),
             predicate: this.paginationUtil.parsePredicate(sort),
             ascending: this.paginationUtil.parseAscending(sort),
-            itemsPerPage: parseInt(itemsPerPage, 10)
+            itemsPerPage: parseInt(itemsPerPage, BASE_DECIMAL)
         };
     }
 }
