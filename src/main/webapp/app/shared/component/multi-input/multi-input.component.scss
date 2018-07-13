@@ -2,6 +2,12 @@
 
 fieldset {
     :host {
+        /deep/ p-chips ul.ui-inputtext {
+            li {
+                @extend %no-padding-nor-margin;
+            }
+            @extend %no-padding-nor-margin;
+        }
         /deep/ .ui-state-default {
             &:hover {
                 border-bottom-color: transparent !important;
@@ -31,4 +37,9 @@ fieldset {
 
 %disabled-multi-input {
     display: none;
+}
+
+%no-padding-nor-margin {
+    padding: 0;
+    margin: 0;
 }
