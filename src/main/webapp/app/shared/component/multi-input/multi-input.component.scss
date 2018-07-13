@@ -1,12 +1,21 @@
 @import '~scss/variables';
+@import '~scss/mixins';
 
 fieldset {
     :host {
-        /deep/ p-chips ul.ui-inputtext {
-            li {
+        /deep/ p-chips {
+            ul.ui-inputtext {
+                li {
+                    @extend %no-padding-nor-margin;
+                }
                 @extend %no-padding-nor-margin;
             }
-            @extend %no-padding-nor-margin;
+
+            input {
+                @include placeholder {
+                    color: $grey-medium;
+                }
+            }    
         }
         /deep/ .ui-state-default {
             &:hover {
