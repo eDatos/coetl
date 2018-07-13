@@ -250,36 +250,19 @@ fieldset {
     }
 }
 
-$border-width-required: $border-width*5; // variables.less
-$border-required-none: $border-width-required solid transparent;
-$border-required-error: $border-width-required solid $accent-dark;
-$border-required-valid: $border-width-required solid $brand-success;
-
-fieldset {
-    .form-group {
-        ac-autocomplete-short-list,
-        ac-autocomplete-long-list,
-        ac-autocomplete-enum,
-        .form-control {
-            border-left: $border-required-none;
-        }
-    }
+fieldset .form-group .form-control {
+    border-left: $border-required-none;
 }
 
-fieldset:enabled {
-    .form-group {
-        ac-autocomplete-short-list:not(.disabled),
-        ac-autocomplete-long-list:not(.disabled),
-        ac-autocomplete-enum:not(.disabled),
-        .form-control:not(.disabled),
-        .form-control:enabled, 
-        .form-control[enabled] {
-            &[required],
-            &:required {
-                border-left: $border-required-error;
-                &.ng-valid {
-                    border-left: $border-required-valid;                    
-                }
+fieldset:enabled .form-group {
+    .form-control:not(.disabled),
+    .form-control:enabled, 
+    .form-control[enabled] {
+        &[required],
+        &:required {
+            border-left: $border-required-error;
+            &.ng-valid {
+                border-left: $border-required-valid;                    
             }
         }
     }

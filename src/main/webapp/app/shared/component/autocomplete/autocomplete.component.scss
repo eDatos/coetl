@@ -52,6 +52,20 @@
      }
 }
 
+fieldset .form-group :host {
+    border-left: $border-required-none;
+}
+
+fieldset:enabled .form-group :host:not(.disabled) {
+    &[required],
+    &:required {
+        border-left: $border-required-error;
+        &.ng-valid {
+            border-left: $border-required-valid;                    
+        }
+    }
+}
+
 fieldset[disabled], fieldset:disabled {
      .entity-fields .form-group {
         :host {
