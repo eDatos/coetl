@@ -39,16 +39,6 @@
     }
 }
 
-:host[required] {
-    border-left: $border-width*5 solid $accent-dark;
-    &.ng-valid {
-        border-left: $border-width*5 solid $brand-success;
-    } 
-    p-autoComplete {
-        border-left: none;
-    }
-}
-
 /deep/ {
     .ui-autocomplete-dd input.ui-corner-all ,
     .ui-autocomplete-dd .ui-autocomplete-multiple-container.ui-corner-all,
@@ -65,23 +55,14 @@
 fieldset[disabled] {
      .entity-fields .form-group {
         :host {
-            &[required] {
-                border-left: none;
-            }
             /deep/ .ui-autocomplete {
                 @extend %disabled-autocomplete;
             }
         }
     }
-    :host[required] {
-        border-left: none;
-    }
 }
 
 :host[disabled] {
-    &[required] {
-        border-left: none;
-    }
     /deep/ .ui-autocomplete {
         @extend %disabled-autocomplete;
     }

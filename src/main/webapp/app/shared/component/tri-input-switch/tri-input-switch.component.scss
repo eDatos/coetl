@@ -10,12 +10,6 @@ $color-valid: $brand-danger;
 
 :host[required] {
     display: block;
-    &.ng-invalid {
-        border-left: $border-width solid $accent-dark;
-    }
-    &.ng-valid {
-        border-left: $border-width solid $brand-success;
-    } 
     p-selectButton{
         border-left: none;            
     }
@@ -24,11 +18,6 @@ $color-valid: $brand-danger;
 fieldset[disabled], fieldset:disabled {
     :host i {
         display: none;
-    }
-    :host[required] {
-        &.ng-valid {
-            border-left: none;
-        } 
     }
 }
 

@@ -134,7 +134,9 @@ fieldset {
             .form-control {
                 @include make-col-ready();
                 @include make-col(8);      
-                border: none;
+                border-top: none;
+                border-right: none;
+                border-bottom: none;
                 &:hover {
                     border-bottom: 2 * $border-width solid $grey-medium;
                     margin-bottom: -2 * $border-width;
@@ -220,15 +222,6 @@ fieldset {
     }
 
     .form-group {
-        .form-control:required, 
-        .form-control[required] {
-            border-left: $border-width*5 solid $accent-dark;
-        }
-        .form-control:required.ng-valid, 
-        .ng-valid[required], 
-        .ng-valid.required  {
-            border-left: $border-width*5 solid $brand-success;
-        }        
         .ng-touched.ng-invalid:not(form),
         .ng-dirty.ng-invalid:not(form) {
             border-bottom: $border-width solid $accent-medium;
@@ -253,6 +246,68 @@ fieldset {
         .entity-fields {
             .form-control {
                 @extend %disabled-form-control;
+            }
+        }
+    }
+}
+
+$border-width-required: $border-width*5; // variables.less
+$border-required-none: $border-width-required solid transparent;
+$border-required-error: $border-width-required solid $accent-dark;
+$border-required-valid: $border-width-required solid $brand-success;
+
+/* caso ideal */
+/* Para pdoer optar a este caso ideal
+* 1) todos los campos de formulario llevan un form-control (incluidos componentes propios como autocomplete) (est apuede y debe atacarse a la vez que los col-ready)
+* 2) si fieldset esta disabled, los form control deben estar :disabled o .disabled (esta es mas peluda) // https://stackoverflow.com/questions/40163367/angular-2-custom-form-control-disable
+* 3) los componente spropios deben cumplir ng-valid (se cumple dice javi villa, esperanzado)
+fieldset {
+    .form-group { // Quiza hace falta por una cuestion de especifidad
+        .form-control {
+            border-left: $border-required-none;
+            &:enabled:required,
+            &:not(.disabled):required { // :enabled debe ser correcto, tanto para los componentes propios, como cuando es un componente dentro de un fieldse
+                border-left: $border-required-error;
+                &.ng-valid {
+                    border-left: $border-required-valid;                    
+                }
+            }
+        }
+    }
+}
+*/
+
+fieldset {
+    .form-group {
+        ac-autocomplete-short-list,
+        ac-autocomplete-long-list,
+        ac-autocomplete-enum,
+        ac-calendar,
+        ac-order-list,
+        ac-tri-input-switch,
+        .form-control {
+            border-left: $border-required-none;
+        }
+    }
+}
+
+fieldset:enabled {
+    .form-group {
+        ac-autocomplet:not(.disabled),
+        ac-autocomplete-short-list:not(.disabled),
+        ac-autocomplete-long-list:not(.disabled),
+        ac-autocomplete-enum:not(.disabled),
+        ac-calendar:not(.disabled),
+        ac-order-list:not(.disabled),
+        ac-tri-input-switch:not(.disabled),
+        .form-control:enabled, 
+        .form-control[enabled] {
+            &[required],
+            &:required {
+                border-left: $border-required-error;
+                &.ng-valid {
+                    border-left: $border-required-valid;                    
+                }
             }
         }
     }
@@ -321,13 +376,8 @@ fieldset {
 
 %disabled-form-control {
     background-color: transparent;
-    border: none;
     cursor: default;
     @include appearance(none);
-    &[required],
-    &:required {
-        border-left: none;
-    }
     &:hover {
         border-bottom: none;
         margin-bottom: initial;
