@@ -29,6 +29,7 @@ import com.arte.application.template.config.audit.AuditEventConverter;
 import com.arte.application.template.domain.PersistentAuditEvent;
 import com.arte.application.template.repository.PersistenceAuditEventRepository;
 import com.arte.application.template.service.AuditEventService;
+import com.arte.application.template.service.impl.AuditEventServiceImpl;
 
 /**
  * Test class for the AuditResource REST controller.
@@ -67,7 +68,7 @@ public class AuditResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        AuditEventService auditEventService = new AuditEventService(auditEventRepository, auditEventConverter);
+        AuditEventService auditEventService = new AuditEventServiceImpl(auditEventRepository, auditEventConverter);
         AuditResource auditResource = new AuditResource(auditEventService);
         this.restAuditMockMvc = MockMvcBuilders.standaloneSetup(auditResource).setCustomArgumentResolvers(pageableArgumentResolver).setConversionService(formattingConversionService)
                 .setMessageConverters(jacksonMessageConverter).build();

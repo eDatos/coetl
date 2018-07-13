@@ -6,39 +6,12 @@ import java.util.Optional;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import com.arte.application.template.config.audit.AuditEventConverter;
-import com.arte.application.template.repository.PersistenceAuditEventRepository;
+public interface AuditEventService {
 
-/**
- * Service for managing audit events.
- * <p>
- * This is the default implementation to support SpringBoot Actuator
- * AuditEventRepository
- */
-@Service
-public class AuditEventService {
+    Page<AuditEvent> findAll(Pageable pageable);
 
-    private final PersistenceAuditEventRepository persistenceAuditEventRepository;
+    Page<AuditEvent> findByDates(Instant fromDate, Instant toDate, Pageable pageable);
 
-    private final AuditEventConverter auditEventConverter;
-
-    public AuditEventService(PersistenceAuditEventRepository persistenceAuditEventRepository, AuditEventConverter auditEventConverter) {
-
-        this.persistenceAuditEventRepository = persistenceAuditEventRepository;
-        this.auditEventConverter = auditEventConverter;
-    }
-
-    public Page<AuditEvent> findAll(Pageable pageable) {
-        return persistenceAuditEventRepository.findAll(pageable).map(auditEventConverter::convertToAuditEvent);
-    }
-
-    public Page<AuditEvent> findByDates(Instant fromDate, Instant toDate, Pageable pageable) {
-        return persistenceAuditEventRepository.findAllByAuditEventDateBetween(fromDate, toDate, pageable).map(auditEventConverter::convertToAuditEvent);
-    }
-
-    public Optional<AuditEvent> find(Long id) {
-        return Optional.ofNullable(persistenceAuditEventRepository.findOne(id)).map(auditEventConverter::convertToAuditEvent);
-    }
+    Optional<AuditEvent> find(Long id);
 }
