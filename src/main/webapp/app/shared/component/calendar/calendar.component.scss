@@ -2,13 +2,12 @@
 @import '~scss/mixins';
 
 :host {
-    padding: 0 !important; // Ignore form-control padding
-
-    /deep/ p-calendar {    
+    /deep/ p-calendar {
+        border: none !important;
         input {
-            padding: $input-padding-y $input-padding-x;
+            padding: 0;
             width: 100%;
-            border: 0;
+            border: none  !important;
             @include placeholder {
                 color: $grey-medium;
             }

@@ -255,35 +255,11 @@ $border-required-none: $border-width-required solid transparent;
 $border-required-error: $border-width-required solid $accent-dark;
 $border-required-valid: $border-width-required solid $brand-success;
 
-/* caso ideal */
-/* Para pdoer optar a este caso ideal
-* 1) todos los campos de formulario llevan un form-control (incluidos componentes propios como autocomplete) (est apuede y debe atacarse a la vez que los col-ready)
-* 2) si fieldset esta disabled, los form control deben estar :disabled o .disabled (esta es mas peluda) // https://stackoverflow.com/questions/40163367/angular-2-custom-form-control-disable
-* 3) los componente spropios deben cumplir ng-valid (se cumple dice javi villa, esperanzado)
-fieldset {
-    .form-group { // Quiza hace falta por una cuestion de especifidad
-        .form-control {
-            border-left: $border-required-none;
-            &:enabled:required,
-            &:not(.disabled):required { // :enabled debe ser correcto, tanto para los componentes propios, como cuando es un componente dentro de un fieldse
-                border-left: $border-required-error;
-                &.ng-valid {
-                    border-left: $border-required-valid;                    
-                }
-            }
-        }
-    }
-}
-*/
-
 fieldset {
     .form-group {
         ac-autocomplete-short-list,
         ac-autocomplete-long-list,
         ac-autocomplete-enum,
-        ac-calendar,
-        ac-order-list,
-        ac-tri-input-switch,
         .form-control {
             border-left: $border-required-none;
         }
@@ -292,13 +268,10 @@ fieldset {
 
 fieldset:enabled {
     .form-group {
-        ac-autocomplet:not(.disabled),
         ac-autocomplete-short-list:not(.disabled),
         ac-autocomplete-long-list:not(.disabled),
         ac-autocomplete-enum:not(.disabled),
-        ac-calendar:not(.disabled),
-        ac-order-list:not(.disabled),
-        ac-tri-input-switch:not(.disabled),
+        .form-control:not(.disabled),
         .form-control:enabled, 
         .form-control[enabled] {
             &[required],
