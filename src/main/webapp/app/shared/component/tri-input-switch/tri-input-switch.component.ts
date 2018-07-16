@@ -18,17 +18,14 @@ import { TranslateService } from '@ngx-translate/core';
 export class TriInputSwitchComponent implements ControlValueAccessor {
 
     @Input()
-    nullable: boolean;
+    _selectedValue: any;
 
     @Input()
-    _selectedValue: boolean;
-
-    @Input()
-    required: boolean;
+    required = false;
 
     @Input()
     @HostBinding('class.disabled')
-    disabled: boolean;
+    disabled = false;
 
     @Output()
     private onChange: EventEmitter<any> = new EventEmitter();

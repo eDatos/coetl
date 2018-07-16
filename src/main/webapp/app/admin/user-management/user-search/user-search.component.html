@@ -8,7 +8,7 @@
 
     <div class="entity-search-field">
         <label jhiTranslate="userManagement.home.includeDeleted"></label>
-        <ac-tri-input-switch [(ngModel)]="filters.includeDeleted" (onChange)="filter()"></ac-tri-input-switch>
+        <ac-tri-input-switch [(ngModel)]="filters.includeDeleted" (onChange)="filter()" [required]="true"></ac-tri-input-switch>
     </div>
 
     <div class="entity-search-field-btn">
