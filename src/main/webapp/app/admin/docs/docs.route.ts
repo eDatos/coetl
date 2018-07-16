@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 
 import { JhiDocsComponent } from './docs.component';
-import { UserRouteAccessService } from '../../shared/index';
+import { UserRouteAccessService } from '../../shared';
 import { HERRAMIENTAS_ROLES } from '../../shared';
 
 export const docsRoute: Route = {

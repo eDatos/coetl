@@ -28,8 +28,8 @@ import {
     UserResolvePagingParams,
     UserModalService,
     AuditsResolvePagingParams
-} from './';
-import { UserSearchComponent } from './user-management/user-search/index';
+} from '.';
+import { UserSearchComponent } from './user-management/user-search';
 
 @NgModule({
     imports: [

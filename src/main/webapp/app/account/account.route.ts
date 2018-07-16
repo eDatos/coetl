@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import {
     settingsRoute
-} from './';
+} from '.';
 
 const ACCOUNT_ROUTES = [
     ...settingsRoute

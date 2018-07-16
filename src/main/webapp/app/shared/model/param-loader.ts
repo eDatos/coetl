@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 export interface ParamLoader {
     paramName: string;
     updateFilterFromParam: (param: any) => void;

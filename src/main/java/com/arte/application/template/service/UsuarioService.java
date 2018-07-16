@@ -94,7 +94,7 @@ public class UsuarioService {
     private DetachedCriteria buildUsuarioCriteria(Pageable pageable, Boolean includeDeleted, String query) {
         StringBuilder queryBuilder = new StringBuilder();
         if (StringUtils.isNotBlank(query)) {
-            queryBuilder.append("(" + query + ") AND ");
+            queryBuilder.append(query);
         }
         String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
         return queryUtil.queryToUserCriteria(pageable, finalQuery);

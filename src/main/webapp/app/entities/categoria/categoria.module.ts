@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { ArteApplicationTemplateSharedModule } from '../../shared';
-import { CategoriaService } from './';
+import { CategoriaService } from '.';
 
 @NgModule({
     imports: [

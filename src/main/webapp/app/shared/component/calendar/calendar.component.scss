@@ -1,39 +1,13 @@
 @import '~scss/variables';
 @import '~scss/mixins';
 
-fieldset {
-    .entity-fields .form-group {
-        :host[required] {
-            border-left: $border-width*5 solid $accent-dark;
-            &.ng-valid {
-                border-left: $border-width*5 solid $brand-success;
-            } 
-            p-calendar {
-                border-left: none;
-            }
-        }
-    }
-}
-
-fieldset[disabled] {
-    .entity-fields .form-group {
-        :host[required] {
-            border-left: none;
-            &.ng-valid {
-                border-left: none;
-            }
-        }
-    }
-}
-
 :host {
-    padding: 0 !important; // Ignore form-control padding
-
-    /deep/ p-calendar {    
+    /deep/ p-calendar {
+        border: none !important;
         input {
-            padding: $input-padding-y $input-padding-x;
+            padding: 0;
             width: 100%;
-            border: 0;
+            border: none  !important;
             @include placeholder {
                 color: $grey-medium;
             }
@@ -84,5 +58,11 @@ fieldset[disabled] {
                 color: $grey-medium;
             }
         }
+    }
+}
+
+:host.disabled, fieldset[disabled] :host, fieldset:disabled :host{
+    /deep/ p-calendar input::placeholder {
+        opacity: 0;
     }
 }

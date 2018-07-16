@@ -14,6 +14,7 @@ import {
     JhiLanguageHelper,
     MakeFixedRoomDirective,
     OrderListComponent,
+    ItemsPerPageComponent,
     PaginationComponent,
     SpinnerComponent,
     StepsComponent,
@@ -22,7 +23,7 @@ import {
     CurrencyComponent,
     MultiInputComponent,
     AcDatePipe
-} from './';
+} from '.';
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import {
         AutocompleteEnumComponent,
         OrderListComponent,
         HelpTooltipComponent,
+        ItemsPerPageComponent,
         PaginationComponent,
         AutofocusDirective,
         CurrencyComponent,
@@ -67,6 +69,7 @@ import {
         AutocompleteEnumComponent,
         OrderListComponent,
         HelpTooltipComponent,
+        ItemsPerPageComponent,
         PaginationComponent,
         AutofocusDirective,
         CurrencyComponent,

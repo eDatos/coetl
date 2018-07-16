@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Response } from '@angular/http';
 import { JhiEventManager } from 'ng-jhipster';
 import { User, UserService } from '../../shared';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 import { PermissionService } from '../../shared';
 
 @Component({

@@ -9,7 +9,7 @@ import {
     metricsRoute,
     userMgmtRoute,
     userDialogRoute,
-} from './';
+} from '.';
 
 import { UserRouteAccessService } from '../shared';
 

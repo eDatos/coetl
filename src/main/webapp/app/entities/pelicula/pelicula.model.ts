@@ -2,7 +2,7 @@ import { Actor } from '../actor/actor.model';
 import { Categoria } from '../categoria/categoria.model';
 import { Documento } from '../documento/documento.model';
 import { Idioma } from '../idioma/idioma.model';
-import { BaseAuditingEntity } from './../../shared';
+import { BaseAuditingEntity } from '../../shared';
 
 export class Pelicula extends BaseAuditingEntity {
 

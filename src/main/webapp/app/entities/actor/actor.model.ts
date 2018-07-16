@@ -1,6 +1,6 @@
 import { Pelicula } from '../pelicula/pelicula.model';
 import { Documento } from '../documento/documento.model';
-import { BaseEntity } from './../../shared';
+import { BaseEntity } from '../../shared';
 
 export enum Genero {
     MASCULINO = 'MASCULINO',
