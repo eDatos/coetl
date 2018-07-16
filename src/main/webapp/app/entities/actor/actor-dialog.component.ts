@@ -2,10 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
-import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
-import { Observable } from 'rxjs';
-
+import { JhiEventManager } from 'ng-jhipster';
+import { Observable } from 'rxjs/Rx';
 import { ResponseWrapper } from '../../shared';
 import { Pelicula, PeliculaFilter, PeliculaService } from '../pelicula';
 import { ActorPopupService } from './actor-popup.service';
@@ -36,9 +34,7 @@ export class ActorDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
         private actorService: ActorService,
-        private transalteService: TranslateService,
         private peliculaService: PeliculaService,
         private documentoService: DocumentoService,
         private eventManager: JhiEventManager,
