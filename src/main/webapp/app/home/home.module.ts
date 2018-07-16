@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { ArteApplicationTemplateSharedModule } from '../shared';
 
-import { HOME_ROUTE, HomeComponent } from './';
+import { HOME_ROUTE, HomeComponent } from '.';
 
 @NgModule({
     imports: [

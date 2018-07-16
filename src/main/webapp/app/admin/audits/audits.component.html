@@ -7,9 +7,9 @@
                 <label jhiTranslate="audits.filter.title"></label>
                 <div class="form-group">
                     <span jhiTranslate="audits.filter.from" class="input-group-addon"></span>
-                    <ac-calendar class="form-control" [(ngModel)]="fromDate" name="start" (onSelect)="onChangeDate($event)"></ac-calendar>
+                    <ac-calendar class="form-control" [(ngModel)]="fromDate" name="start" (onSelect)="onDatesChange()"></ac-calendar>
                     <span jhiTranslate="audits.filter.to" class="input-group-addon"></span>
-                    <ac-calendar class="form-control" [(ngModel)]="toDate" name="end" (onSelect)="onChangeDate($event)" [maxDate]="today"></ac-calendar>
+                    <ac-calendar class="form-control" [(ngModel)]="toDate" name="end" (onSelect)="onDatesChange()" [maxDate]="today"></ac-calendar>
                 </div>
             </div>
         </div>
@@ -38,9 +38,6 @@
         </table>
     </div>
     <div *ngIf="audits">
-        <div class="d-flex justify-content-between">
-            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="transition()"></ngb-pagination>
-        </div>
+        <ac-pagination [(page)]="page" [(totalItems)]="totalItems" [(itemsPerPage)]="itemsPerPage" (onTransition)="transition()"></ac-pagination>
     </div>
 </div>

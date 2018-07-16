@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { ParamLoader } from './param-loader';
 
