@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class TriInputSwitchComponent implements ControlValueAccessor {
 
     @Input()
-    _selectedValue: boolean;
+    _selectedValue: any;
 
     @Input()
     required = false;
