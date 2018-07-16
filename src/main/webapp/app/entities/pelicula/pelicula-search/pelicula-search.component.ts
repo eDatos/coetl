@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { JhiEventManager } from 'ng-jhipster';
-import { Subject, Subscription } from 'rxjs/Rx';
+import { Subject, Subscription } from 'rxjs';
 import { IdiomaService } from '../../idioma/idioma.service';
 import { PeliculaFilter } from './pelicula-filter.model';
 import { ActorService, Actor } from '../../actor';

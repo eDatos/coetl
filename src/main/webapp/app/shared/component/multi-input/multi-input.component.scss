@@ -1,7 +1,22 @@
 @import '~scss/variables';
+@import '~scss/mixins';
 
 fieldset {
     :host {
+        /deep/ p-chips {
+            ul.ui-inputtext {
+                li {
+                    margin-left: 0;
+                }
+                padding: 0;
+            }
+
+            input {
+                @include placeholder {
+                    color: $grey-medium;
+                }
+            }    
+        }
         /deep/ .ui-state-default {
             &:hover {
                 border-bottom-color: transparent !important;
@@ -14,21 +29,20 @@ fieldset {
                 margin-bottom: $spacer-y / 2;
             }
         }
+        
+        &.disabled /deep/ input::placeholder {
+            @extend %disabled-multi-input;
+        }
     }
         
     &:disabled,
     &[disabled] {
-        /deep/ input::placeholder {
+        :host /deep/ input::placeholder {
             @extend %disabled-multi-input;
         }
-    }
-    
-    /deep/ input:disabled::placeholder,
-    /deep/ input[disabled]::placeholder {
-        @extend %disabled-multi-input;
     }
 }
 
 %disabled-multi-input {
-    display: none;
+    opacity: 0;
 }

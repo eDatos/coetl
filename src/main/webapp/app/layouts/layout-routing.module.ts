@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { errorRoute, navbarRoute } from './';
+import { errorRoute, navbarRoute } from '.';
 
 const LAYOUT_ROUTES = [
     navbarRoute,

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export const AC_ORDER_LIST_VALUE_ACCESSOR: any = {
@@ -35,6 +35,7 @@ export class OrderListComponent implements ControlValueAccessor {
     public hasControls = false;
 
     @Input()
+    @HostBinding('class.disabled')
     public disabled = false;
 
     @Input()

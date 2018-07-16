@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { Categoria } from './categoria.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';

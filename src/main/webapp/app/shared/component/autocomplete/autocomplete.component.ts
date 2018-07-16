@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { AutoComplete } from 'primeng/primeng';
@@ -74,6 +74,7 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     public required = false;
 
     @Input()
+    @HostBinding('class.disabled')
     public disabled = false;
 
     @Input()

@@ -1,9 +1,5 @@
-<div class="form-inline">
-    <div class="form-group pageSizeSelector">
-        <label class="form-control-label" jhiTranslate="global.pageSizeSelector"></label>
-        <select class="form-control form-control-sm" [(ngModel)]="itemsPerPage">
-            <option *ngFor="let option of options" value="{{option}}">{{ option }}</option>
-        </select>
-    </div>
+<div class="d-flex justify-content-between">
+    <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+    <ac-items-per-page [(itemsPerPage)]="itemsPerPage" (itemsPerPageChange)="onTransitionMethod()"></ac-items-per-page>
+    <ngb-pagination [(page)]="page" [collectionSize]="totalItems" [pageSize]="itemsPerPage" (pageChange)="onTransitionMethod()"></ngb-pagination>
 </div>
-    

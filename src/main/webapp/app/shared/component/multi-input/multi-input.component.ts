@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, Input, HostBinding } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -23,6 +23,7 @@ export class MultiInputComponent implements ControlValueAccessor {
     field: string;
 
     @Input()
+    @HostBinding('class.disabled')
     disabled: boolean;
 
     @Input()

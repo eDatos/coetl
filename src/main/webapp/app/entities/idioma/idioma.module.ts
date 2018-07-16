@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { ArteApplicationTemplateSharedModule } from '../../shared';
-import { IdiomaService } from './';
+import { IdiomaService } from '.';
 
 @NgModule({
     imports: [

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { JhiDateUtils } from 'ng-jhipster';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { createRequestOption, ResponseWrapper } from '../../shared';
 import { Pelicula } from './pelicula.model';
