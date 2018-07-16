@@ -30,6 +30,7 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.domain.Usuario;
+import com.arte.application.template.service.impl.MailServiceImpl;
 
 import io.github.jhipster.config.JHipsterProperties;
 
@@ -59,7 +60,7 @@ public class MailServiceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         doNothing().when(javaMailSender).send(any(MimeMessage.class));
-        mailService = new MailService(jHipsterProperties, javaMailSender, messageSource, templateEngine);
+        mailService = new MailServiceImpl(jHipsterProperties, javaMailSender, messageSource, templateEngine);
     }
 
     @Test

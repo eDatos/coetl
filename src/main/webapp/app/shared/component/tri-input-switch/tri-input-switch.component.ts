@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, Input, forwardRef, Output, EventEmitter, HostBinding } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
     ]
 })
 
-export class TriInputSwitchComponent implements OnInit, ControlValueAccessor {
+export class TriInputSwitchComponent implements ControlValueAccessor {
 
     @Input()
     _selectedValue: boolean;
@@ -30,20 +30,17 @@ export class TriInputSwitchComponent implements OnInit, ControlValueAccessor {
     @Output()
     private onChange: EventEmitter<any> = new EventEmitter();
 
-    options: any[];
+    @Input()
+    options = [
+        {
+            label: this.translateService.instant('global.yes'), value: true
+        },
+        {
+            label: this.translateService.instant('global.no'), value: false
+        }
+    ];
 
     constructor(protected translateService: TranslateService) { }
-
-    ngOnInit() {
-        this.options = [
-            {
-                label: this.translateService.instant('global.yes'), value: true
-            },
-            {
-                label: this.translateService.instant('global.no'), value: false
-            }
-        ];
-    }
 
     get selectedValue() {
         return this._selectedValue;
