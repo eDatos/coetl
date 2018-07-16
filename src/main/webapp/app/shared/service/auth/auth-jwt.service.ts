@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { CookieService } from 'ngx-cookie';
 

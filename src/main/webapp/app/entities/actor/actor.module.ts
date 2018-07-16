@@ -11,7 +11,7 @@ import {
     ActorResolvePagingParams,
     actorRoute,
     ActorService
-} from './';
+} from '.';
 
 const ENTITY_STATES = [
     ...actorRoute,

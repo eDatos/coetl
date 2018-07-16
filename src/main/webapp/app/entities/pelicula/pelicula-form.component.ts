@@ -3,7 +3,7 @@ import { Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Autosize } from 'ng-autosize';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
-import { Observable, Subscription } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs';
 import { setTimeout } from 'timers';
 
 import { GenericModalService, HasTitlesContainer } from '../../shared';

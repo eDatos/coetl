@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiAlertService, JhiEventManager, JhiPaginationUtil, JhiParseLinks } from 'ng-jhipster';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 
 import { PeliculaBatchDeleteDialogComponent } from '.';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
@@ -21,6 +21,11 @@ import { ActorService } from '../actor';
 })
 export class PeliculaComponent implements OnInit, OnDestroy {
 
+    // Atributos para la paginación
+    page: number;
+    totalItems: number;
+    itemsPerPage: number;
+
     currentAccount: any;
     peliculas: Pelicula[];
     error: any;
@@ -29,10 +34,6 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     searchSubsctiption: Subscription;
     routeData: any;
     links: any;
-    totalItems: any;
-    queryCount: any;
-    itemsPerPage: any;
-    page: any;
     predicate: any;
     reverse: any;
     filters: PeliculaFilter;
@@ -55,16 +56,12 @@ export class PeliculaComponent implements OnInit, OnDestroy {
         private paginationConfig: PaginationConfig,
         private actorService: ActorService
     ) {
-        this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
             this.reverse = data['pagingParams'].ascending;
             this.predicate = data['pagingParams'].predicate;
+            this.itemsPerPage = data['pagingParams'].itemsPerPage;
         });
-        this.activatedRoute.queryParams
-            .map((params) => params.size)
-            .filter((size) => !!size)
-            .subscribe((size) => this.itemsPerPage = PAGINATION_OPTIONS.indexOf(Number(size)) > -1 ? size : this.itemsPerPage);
         this.filters = new PeliculaFilter(this.datePipe, this.actorService);
     }
 
@@ -105,7 +102,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     loadAll() {
         this.peliculaService.query({
             page: this.page - 1,
-            size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
+            size: this.itemsPerPage,
             sort: this.sort(),
             query: this.filters.toQuery()
         }).subscribe((res: ResponseWrapper) => this.onSuccess(res.json, res.headers));
@@ -116,7 +113,7 @@ export class PeliculaComponent implements OnInit, OnDestroy {
             queryParams: Object.assign({}, this.activatedRoute.snapshot.queryParams,
                 {
                     page: this.page,
-                    size: PAGINATION_OPTIONS.indexOf(Number(this.itemsPerPage)) > -1 ? this.itemsPerPage : ITEMS_PER_PAGE,
+                    size: this.itemsPerPage,
                     sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
                 }
             )
@@ -143,7 +140,8 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     registerChangeInPeliculas() {
         this.eventSubscriber = this.eventManager.subscribe('peliculaListModification', (response) => this.loadAll());
         this.searchSubsctiption = this.eventManager.subscribe('peliculaSearch', (response) => {
-            const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams));
+            this.page = 1;
+            const queryParams = Object.assign({}, this.filters.toUrl(this.activatedRoute.snapshot.queryParams), { page: this.page });
             this.router.navigate(['pelicula'], { queryParams });
         });
     }
@@ -159,7 +157,6 @@ export class PeliculaComponent implements OnInit, OnDestroy {
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
-        this.queryCount = this.totalItems;
         this.peliculas = data;
     }
 

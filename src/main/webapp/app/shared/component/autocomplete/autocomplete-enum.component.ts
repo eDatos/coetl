@@ -13,8 +13,7 @@ import { buildProvider } from '../../utils/build-provider.function';
 })
 export class AutocompleteEnumComponent extends AutocompleteComponent implements OnInit {
 
-    @Input()
-    public suggestionsEnum;
+    public _suggestionsEnum;
 
     @Input()
     public translationPath: string;
@@ -36,7 +35,7 @@ export class AutocompleteEnumComponent extends AutocompleteComponent implements 
             throw new Error('createNonFound is not supported on ac-autocomplete-enum');
         }
 
-        if (this.suggestionsEnum === undefined) {
+        if (this._suggestionsEnum === undefined) {
             throw new Error('suggestionsEnum is required on ac-autocomplete-enum');
         }
 
@@ -47,15 +46,27 @@ export class AutocompleteEnumComponent extends AutocompleteComponent implements 
         if (this.itemTemplate === undefined) {
             this.properties = ['value'];
         }
-        this._suggestions = Object.keys(this.suggestionsEnum).map((key) => Object.assign({}, {
-            id: key, value: this.translateService.instant(this.translationPath + key)
-        }));
 
+        this.mapSuggestions();
         super.ngOnInit();
     }
 
-    private findSuggestionByEnum(enumeration: any) {
-        return this.suggestions.find((suggestion) => suggestion.id === enumeration);
+    @Input()
+    get suggestionsEnum() {
+        return this._suggestionsEnum;
+    }
+
+    set suggestionsEnum(suggestionsEnum: any) {
+        this._suggestionsEnum = suggestionsEnum;
+        if (this._suggestions) {
+            this.mapSuggestions();
+        }
+    }
+
+    private mapSuggestions() {
+        this._suggestions = Object.keys(this._suggestionsEnum).map((key) => Object.assign({}, {
+            id: key, value: this.translateService.instant(this.translationPath + key)
+        }));
     }
 
     writeValue(value: any): void {
@@ -64,6 +75,10 @@ export class AutocompleteEnumComponent extends AutocompleteComponent implements 
         } else {
             this._selectedSuggestions = this.findSuggestionByEnum(value);
         }
+    }
+
+    private findSuggestionByEnum(enumeration: any) {
+        return this.suggestions.find((suggestion) => suggestion.id === enumeration);
     }
 
     @Input()

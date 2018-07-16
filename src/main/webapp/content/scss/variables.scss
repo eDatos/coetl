@@ -140,3 +140,8 @@ $page-padding-right: $page-padding;
 
 $dataTable-toggle-width: $page-padding-left;
 $primeng-dropdown-button-width: 2em;
+
+$border-width-required: $border-width*5;
+$border-required-none: $border-width-required solid transparent;
+$border-required-error: $border-width-required solid $accent-dark;
+$border-required-valid: $border-width-required solid $brand-success;

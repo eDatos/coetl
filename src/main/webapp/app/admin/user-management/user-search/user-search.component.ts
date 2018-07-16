@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Subject, Subscription } from 'rxjs';
-import { UserFilter } from './index';
+import { UserFilter } from '.';
 
 @Component({
     selector: 'ac-user-search',

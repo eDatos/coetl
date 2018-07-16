@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { TOKEN_AUTH_NAME } from '../../app.constants';
 import { ResponseWrapper } from '../../shared';

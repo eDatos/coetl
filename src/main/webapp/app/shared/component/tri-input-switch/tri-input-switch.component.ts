@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, Output, EventEmitter } from '@angular/core';
+import { Component, Input, forwardRef, Output, EventEmitter, HostBinding } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -27,6 +27,7 @@ export class TriInputSwitchComponent implements ControlValueAccessor {
     required: boolean;
 
     @Input()
+    @HostBinding('class.disabled')
     disabled: boolean;
 
     @Output()

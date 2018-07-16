@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { JhiPaginationUtil } from 'ng-jhipster';
 
-import { UserRouteAccessService } from '../../shared';
+import { UserRouteAccessService, ITEMS_PER_PAGE } from '../../shared';
 import { ActorPopupComponent } from './actor-dialog.component';
 import { ActorComponent } from './actor.component';
 import { ACTOR_ROLES } from '../../shared';
+import { BASE_DECIMAL } from '../../app.constants';
 
 @Injectable()
 export class ActorResolvePagingParams implements Resolve<any> {
@@ -15,10 +16,12 @@ export class ActorResolvePagingParams implements Resolve<any> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
         const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
+        const itemsPerPage = route.queryParams['size'] ? route.queryParams['size'] : ITEMS_PER_PAGE;
         return {
             page: this.paginationUtil.parsePage(page),
             predicate: this.paginationUtil.parsePredicate(sort),
-            ascending: this.paginationUtil.parseAscending(sort)
+            ascending: this.paginationUtil.parseAscending(sort),
+            itemsPerPage: parseInt(itemsPerPage, BASE_DECIMAL)
       };
     }
 }

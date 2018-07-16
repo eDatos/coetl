@@ -132,9 +132,10 @@ fieldset {
             }
             
             .form-control {
-                @include make-col-ready();
                 @include make-col(8);      
-                border: none;
+                border-top: none;
+                border-right: none;
+                border-bottom: none;
                 &:hover {
                     border-bottom: 2 * $border-width solid $grey-medium;
                     margin-bottom: -2 * $border-width;
@@ -220,15 +221,6 @@ fieldset {
     }
 
     .form-group {
-        .form-control:required, 
-        .form-control[required] {
-            border-left: $border-width*5 solid $accent-dark;
-        }
-        .form-control:required.ng-valid, 
-        .ng-valid[required], 
-        .ng-valid.required  {
-            border-left: $border-width*5 solid $brand-success;
-        }        
         .ng-touched.ng-invalid:not(form),
         .ng-dirty.ng-invalid:not(form) {
             border-bottom: $border-width solid $accent-medium;
@@ -253,6 +245,24 @@ fieldset {
         .entity-fields {
             .form-control {
                 @extend %disabled-form-control;
+            }
+        }
+    }
+}
+
+fieldset .form-group .form-control {
+    border-left: $border-required-none;
+}
+
+fieldset:enabled .form-group {
+    .form-control:not(.disabled),
+    .form-control:enabled, 
+    .form-control[enabled] {
+        &[required],
+        &:required {
+            border-left: $border-required-error;
+            &.ng-valid {
+                border-left: $border-required-valid;                    
             }
         }
     }
@@ -321,13 +331,8 @@ fieldset {
 
 %disabled-form-control {
     background-color: transparent;
-    border: none;
     cursor: default;
     @include appearance(none);
-    &[required],
-    &:required {
-        border-left: none;
-    }
     &:hover {
         border-bottom: none;
         margin-bottom: initial;

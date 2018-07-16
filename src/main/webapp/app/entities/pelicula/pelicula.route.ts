@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Routes } from '@angular/router';
 import { JhiPaginationUtil } from 'ng-jhipster';
-
-import { UserRouteAccessService } from '../../shared';
+import { UserRouteAccessService, ITEMS_PER_PAGE } from '../../shared';
 import { PeliculaDeletePopupComponent } from './pelicula-delete-dialog.component';
 import { PeliculaFormComponent } from './pelicula-form.component';
 import { PeliculaComponent } from './pelicula.component';
 import { PeliculaResolve } from './pelicula.resolve';
 import { PELICULA_ROLES } from '../../shared';
+import { BASE_DECIMAL } from '../../app.constants';
 
 @Injectable()
 export class PeliculaResolvePagingParams implements Resolve<any> {
@@ -17,10 +17,12 @@ export class PeliculaResolvePagingParams implements Resolve<any> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
         const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
+        const itemsPerPage = route.queryParams['size'] ? route.queryParams['size'] : ITEMS_PER_PAGE;
         return {
             page: this.paginationUtil.parsePage(page),
             predicate: this.paginationUtil.parsePredicate(sort),
-            ascending: this.paginationUtil.parseAscending(sort)
+            ascending: this.paginationUtil.parseAscending(sort),
+            itemsPerPage: parseInt(itemsPerPage, BASE_DECIMAL)
       };
     }
 }
