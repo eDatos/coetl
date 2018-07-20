@@ -30,7 +30,6 @@ import org.hibernate.validator.constraints.Email;
 import com.arte.application.template.config.Constants;
 import com.arte.application.template.domain.enumeration.Rol;
 import com.arte.application.template.optimistic.AbstractVersionedAndAuditingEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "usuario")
@@ -67,7 +66,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
     @Column(length = 255)
     private String email;
 
-    @JsonIgnore
     @ElementCollection(targetClass = Rol.class)
     @JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"))
     @Column(name = "rol", nullable = false)
