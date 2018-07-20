@@ -41,7 +41,6 @@ import com.arte.application.template.service.UsuarioService;
 import com.arte.application.template.web.rest.dto.UsuarioDTO;
 import com.arte.application.template.web.rest.mapper.UsuarioMapper;
 
-
 /**
  * Test class for the AccountResource REST controller.
  *

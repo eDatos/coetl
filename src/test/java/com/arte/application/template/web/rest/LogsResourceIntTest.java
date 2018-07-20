@@ -32,6 +32,8 @@ import ch.qos.logback.classic.LoggerContext;
 @SpringBootTest(classes = ArteApplicationTemplateApp.class)
 public class LogsResourceIntTest {
 
+    private static final String ENDPOINT_URL = "/management/logs";
+
     private MockMvc restLogsMockMvc;
 
     @Before
@@ -44,7 +46,7 @@ public class LogsResourceIntTest {
 
     @Test
     public void getAllLogs() throws Exception {
-        restLogsMockMvc.perform(get("/management/logs")).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        restLogsMockMvc.perform(get(ENDPOINT_URL)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 
     @Test
@@ -53,7 +55,7 @@ public class LogsResourceIntTest {
         logger.setLevel("INFO");
         logger.setName("ROOT");
 
-        restLogsMockMvc.perform(put("/management/logs").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(logger))).andExpect(status().isNoContent());
+        restLogsMockMvc.perform(put(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(logger))).andExpect(status().isNoContent());
     }
 
     @Test

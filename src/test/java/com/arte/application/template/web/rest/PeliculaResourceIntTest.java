@@ -52,16 +52,11 @@ import com.arte.application.template.web.rest.mapper.PeliculaMapper;
 @SpringBootTest(classes = ArteApplicationTemplateApp.class)
 public class PeliculaResourceIntTest {
 
-    private static final String BASE_URL = "/api/peliculas";
+    private static final String ENDPOINT_URL = "/api/peliculas";
 
-    private static final String DEFAULT_TITULO = "AAAAAAAAAA";
-    private static final String UPDATED_TITULO = "BBBBBBBBBB";
-
-    private static final String DEFAULT_DESCRIPCION = "AAAAAAAAAA";
-    private static final String UPDATED_DESCRIPCION = "BBBBBBBBBB";
-
+    private static final String DEFAULT_TITULO = "Los puentes de Madison";
+    private static final String DEFAULT_DESCRIPCION = "Descripción de la película";
     private static final ZonedDateTime DEFAULT_FECHA_ESTRENO = ZonedDateTime.now();
-    private static final ZonedDateTime UPDATED_FECHA_ESTRENO = ZonedDateTime.now().plusDays(1L);
 
     @Autowired
     private PeliculaRepository peliculaRepository;
@@ -95,7 +90,9 @@ public class PeliculaResourceIntTest {
 
     private MockMvc restPeliculaMockMvc;
 
-    private Pelicula pelicula;
+    private Pelicula newPelicula;
+
+    private Pelicula existingPelicula;
 
     @Before
     public void setup() {
@@ -110,7 +107,7 @@ public class PeliculaResourceIntTest {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Pelicula createEntity(EntityManager em) {
+    public static Pelicula createEntity() {
         Pelicula pelicula = new Pelicula();
         pelicula.setTitulo(DEFAULT_TITULO);
         pelicula.setDescripcion(DEFAULT_DESCRIPCION);
@@ -120,15 +117,18 @@ public class PeliculaResourceIntTest {
 
     @Before
     public void initTest() {
-        pelicula = createEntity(em);
-        Categoria categoria = CategoriaResourceIntTest.createEntity(em);
+        newPelicula = createEntity();
+        existingPelicula = createEntity();
+        em.persist(existingPelicula);
+
+        Categoria categoria = CategoriaResourceIntTest.createEntity();
         categoriaService.save(categoria);
 
-        Actor actor = ActorResourceIntTest.createEntity(em);
+        Actor actor = ActorResourceIntTest.createEntity();
         actorService.save(actor);
 
-        pelicula.addCategoria(categoria);
-        pelicula.addActor(actor);
+        newPelicula.addCategoria(categoria);
+        newPelicula.addActor(actor);
     }
 
     @Test
@@ -137,8 +137,8 @@ public class PeliculaResourceIntTest {
         int databaseSizeBeforeCreate = peliculaRepository.findAll().size();
 
         // Create the Pelicula
-        PeliculaDTO peliculaDTO = peliculaMapper.toDto(pelicula);
-        restPeliculaMockMvc.perform(post(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isCreated());
+        PeliculaDTO peliculaDTO = peliculaMapper.toDto(newPelicula);
+        restPeliculaMockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isCreated());
 
         // Validate the Pelicula in the database
         List<Pelicula> peliculaList = peliculaRepository.findAll();
@@ -155,11 +155,11 @@ public class PeliculaResourceIntTest {
         int databaseSizeBeforeCreate = peliculaRepository.findAll().size();
 
         // Create the Pelicula with an existing ID
-        pelicula.setId(1L);
-        PeliculaDTO peliculaDTO = peliculaMapper.toDto(pelicula);
+        newPelicula.setId(1L);
+        PeliculaDTO peliculaDTO = peliculaMapper.toDto(newPelicula);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restPeliculaMockMvc.perform(post(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isBadRequest());
+        restPeliculaMockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isBadRequest());
 
         // Validate the Alice in the database
         List<Pelicula> peliculaList = peliculaRepository.findAll();
@@ -171,12 +171,12 @@ public class PeliculaResourceIntTest {
     public void checkTituloIsRequired() throws Exception {
         int databaseSizeBeforeTest = peliculaRepository.findAll().size();
         // set the field null
-        pelicula.setTitulo(null);
+        newPelicula.setTitulo(null);
 
         // Create the Pelicula, which fails.
-        PeliculaDTO peliculaDTO = peliculaMapper.toDto(pelicula);
+        PeliculaDTO peliculaDTO = peliculaMapper.toDto(newPelicula);
 
-        restPeliculaMockMvc.perform(post(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isBadRequest());
+        restPeliculaMockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isBadRequest());
 
         List<Pelicula> peliculaList = peliculaRepository.findAll();
         assertThat(peliculaList).hasSize(databaseSizeBeforeTest);
@@ -187,12 +187,12 @@ public class PeliculaResourceIntTest {
     public void checkDescripcionIsRequired() throws Exception {
         int databaseSizeBeforeTest = peliculaRepository.findAll().size();
         // set the field null
-        pelicula.setDescripcion(null);
+        newPelicula.setDescripcion(null);
 
         // Create the Pelicula, which fails.
-        PeliculaDTO peliculaDTO = peliculaMapper.toDto(pelicula);
+        PeliculaDTO peliculaDTO = peliculaMapper.toDto(newPelicula);
 
-        restPeliculaMockMvc.perform(post(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isBadRequest());
+        restPeliculaMockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isBadRequest());
 
         List<Pelicula> peliculaList = peliculaRepository.findAll();
         assertThat(peliculaList).hasSize(databaseSizeBeforeTest);
@@ -203,12 +203,12 @@ public class PeliculaResourceIntTest {
     public void checkAnnoestrenoIsRequired() throws Exception {
         int databaseSizeBeforeTest = peliculaRepository.findAll().size();
         // set the field null
-        pelicula.setFechaEstreno(null);
+        newPelicula.setFechaEstreno(null);
 
         // Create the Pelicula, which fails.
-        PeliculaDTO peliculaDTO = peliculaMapper.toDto(pelicula);
+        PeliculaDTO peliculaDTO = peliculaMapper.toDto(newPelicula);
 
-        restPeliculaMockMvc.perform(post(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isBadRequest());
+        restPeliculaMockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isBadRequest());
 
         List<Pelicula> peliculaList = peliculaRepository.findAll();
         assertThat(peliculaList).hasSize(databaseSizeBeforeTest);
@@ -217,119 +217,62 @@ public class PeliculaResourceIntTest {
     @Test
     @Transactional
     public void getAllPeliculas() throws Exception {
-        // Initialize the database
-        peliculaRepository.saveAndFlush(pelicula);
 
         // Get all the peliculaList
-        restPeliculaMockMvc.perform(get(BASE_URL + "?sort=id,desc")).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(pelicula.getId().intValue()))).andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO.toString())))
+        restPeliculaMockMvc.perform(get(ENDPOINT_URL + "?sort=id,desc")).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(existingPelicula.getId().intValue()))).andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO.toString())))
                 .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION.toString()))).andExpect(jsonPath("$.[*].fechaEstreno").value(hasItem(sameInstant(DEFAULT_FECHA_ESTRENO))));
     }
 
     @Test
     @Transactional
     public void getPelicula() throws Exception {
-        // Initialize the database
-        peliculaRepository.saveAndFlush(pelicula);
-
         // Get the pelicula
-        restPeliculaMockMvc.perform(get(BASE_URL + "/{id}", pelicula.getId())).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.id").value(pelicula.getId().intValue())).andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO.toString()))
+        restPeliculaMockMvc.perform(get(ENDPOINT_URL + "/{id}", existingPelicula.getId())).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(existingPelicula.getId().intValue())).andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO.toString()))
                 .andExpect(jsonPath("$.descripcion").value(DEFAULT_DESCRIPCION.toString())).andExpect(jsonPath("$.fechaEstreno").value(sameInstant(DEFAULT_FECHA_ESTRENO)));
     }
 
     @Test
     @Transactional
     public void getNonExistingPelicula() throws Exception {
-        // Get the pelicula
-        restPeliculaMockMvc.perform(get(BASE_URL + "/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
+        restPeliculaMockMvc.perform(get(ENDPOINT_URL + "/{id}", Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
     @Test
     @Transactional
     public void updatePelicula() throws Exception {
-        // Initialize the database
-        peliculaRepository.saveAndFlush(pelicula);
         int databaseSizeBeforeUpdate = peliculaRepository.findAll().size();
 
         // Update the pelicula
-        Pelicula updatedPelicula = peliculaRepository.findOne(pelicula.getId());
+        Pelicula updatedPelicula = peliculaRepository.findOne(existingPelicula.getId());
 
         PeliculaDTO peliculaDTO = peliculaMapper.toDto(updatedPelicula);
-        peliculaDTO.setTitulo(UPDATED_TITULO);
-        peliculaDTO.setDescripcion(UPDATED_DESCRIPCION);
-        peliculaDTO.setFechaEstreno(UPDATED_FECHA_ESTRENO);
+        peliculaDTO.setTitulo("La guerra de las galaxias");
+        peliculaDTO.setDescripcion("...");
+        peliculaDTO.setFechaEstreno(ZonedDateTime.now().plusDays(540));
 
-        restPeliculaMockMvc.perform(put(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isOk());
+        restPeliculaMockMvc.perform(put(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isOk());
 
         // Validate the Pelicula in the database
         List<Pelicula> peliculaList = peliculaRepository.findAll();
         assertThat(peliculaList).hasSize(databaseSizeBeforeUpdate);
         Pelicula testPelicula = peliculaList.get(peliculaList.size() - 1);
-        assertThat(testPelicula.getTitulo()).isEqualTo(UPDATED_TITULO);
-        assertThat(testPelicula.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
-        assertThat(testPelicula.getFechaEstreno()).isEqualTo(UPDATED_FECHA_ESTRENO);
-    }
-
-    @Test
-    @Transactional
-    public void updateNonExistingPelicula() throws Exception {
-        int databaseSizeBeforeUpdate = peliculaRepository.findAll().size();
-
-        // Create the Pelicula
-        PeliculaDTO peliculaDTO = peliculaMapper.toDto(pelicula);
-
-        // If the entity doesn't have an ID, it will be created instead of just being updated
-        restPeliculaMockMvc.perform(put(BASE_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(peliculaDTO))).andExpect(status().isBadRequest());
-
-        // Validate the Pelicula in the database
-        List<Pelicula> peliculaList = peliculaRepository.findAll();
-        assertThat(peliculaList).hasSize(databaseSizeBeforeUpdate);
+        assertThat(testPelicula.getTitulo()).isEqualTo(peliculaDTO.getTitulo());
+        assertThat(testPelicula.getDescripcion()).isEqualTo(peliculaDTO.getDescripcion());
+        assertThat(testPelicula.getFechaEstreno()).isEqualTo(peliculaDTO.getFechaEstreno());
     }
 
     @Test
     @Transactional
     public void deletePelicula() throws Exception {
-        // Initialize the database
-        peliculaRepository.saveAndFlush(pelicula);
         int databaseSizeBeforeDelete = peliculaRepository.findAll().size();
 
         // Get the pelicula
-        restPeliculaMockMvc.perform(delete(BASE_URL + "/{id}", pelicula.getId()).accept(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk());
+        restPeliculaMockMvc.perform(delete(ENDPOINT_URL + "/{id}", existingPelicula.getId()).accept(TestUtil.APPLICATION_JSON_UTF8)).andExpect(status().isOk());
 
         // Validate the database is empty
         List<Pelicula> peliculaList = peliculaRepository.findAll();
         assertThat(peliculaList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Pelicula.class);
-        Pelicula pelicula1 = new Pelicula();
-        pelicula1.setId(1L);
-        Pelicula pelicula2 = new Pelicula();
-        pelicula2.setId(pelicula1.getId());
-        assertThat(pelicula1).isEqualTo(pelicula2);
-        pelicula2.setId(2L);
-        assertThat(pelicula1).isNotEqualTo(pelicula2);
-        pelicula1.setId(null);
-        assertThat(pelicula1).isNotEqualTo(pelicula2);
-    }
-
-    @Test
-    @Transactional
-    public void dtoEqualsVerifier() throws Exception {
-        TestUtil.equalsVerifier(PeliculaDTO.class);
-        PeliculaDTO peliculaDTO1 = new PeliculaDTO();
-        peliculaDTO1.setId(1L);
-        PeliculaDTO peliculaDTO2 = new PeliculaDTO();
-        assertThat(peliculaDTO1).isNotEqualTo(peliculaDTO2);
-        peliculaDTO2.setId(peliculaDTO1.getId());
-        assertThat(peliculaDTO1).isEqualTo(peliculaDTO2);
-        peliculaDTO2.setId(2L);
-        assertThat(peliculaDTO1).isNotEqualTo(peliculaDTO2);
-        peliculaDTO1.setId(null);
-        assertThat(peliculaDTO1).isNotEqualTo(peliculaDTO2);
     }
 }

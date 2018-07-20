@@ -55,21 +55,15 @@ import com.arte.application.template.web.rest.vm.ManagedUserVM;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ArteApplicationTemplateApp.class)
-public class UserResourceIntTest {
+public class UsuarioResourceIntTest {
 
-    private static final Long DEFAULT_ID = 1L;
+    private static final String ENDPOINT_URL = "/api/usuarios";
 
-    private static final String DEFAULT_LOGIN = "johndoe";
-    private static final String UPDATED_LOGIN = "jhipster";
-
+    private static final String DEFAULT_LOGIN_NEW_USER = "johndoe";
+    private static final String DEFAULT_LOGIN_EXISTING_USER = "alice";
     private static final String DEFAULT_EMAIL = "johndoe@localhost";
-    private static final String UPDATED_EMAIL = "jhipster@localhost";
-
-    private static final String DEFAULT_FIRSTNAME = "john";
-    private static final String UPDATED_FIRSTNAME = "jhipsterFirstName";
-
-    private static final String DEFAULT_LASTNAME = "doe";
-    private static final String UPDATED_LASTNAME = "jhipsterLastName";
+    private static final String DEFAULT_NOMBRE = "john";
+    private static final String DEFAULT_PRIMER_APELLIDO = "doe";
 
     @Autowired
     private UsuarioRepository userRepository;
@@ -103,6 +97,7 @@ public class UserResourceIntTest {
 
     private MockMvc restUserMockMvc;
 
+    private Usuario newUser;
     private Usuario existingUser;
 
     @Autowired
@@ -125,18 +120,20 @@ public class UserResourceIntTest {
      * This is a static method, as tests for other entities might also need it, if
      * they test an entity which has a required relationship to the User entity.
      */
-    public static Usuario createEntity(EntityManager em) {
+    public static Usuario createEntity(String login) {
         Usuario user = new Usuario();
-        user.setLogin(DEFAULT_LOGIN);
+        user.setLogin(login);
         user.setEmail(DEFAULT_EMAIL);
-        user.setNombre(DEFAULT_FIRSTNAME);
-        user.setApellido1(DEFAULT_LASTNAME);
+        user.setNombre(DEFAULT_NOMBRE);
+        user.setApellido1(DEFAULT_PRIMER_APELLIDO);
         return user;
     }
 
     @Before
     public void initTest() {
-        existingUser = createEntity(em);
+        newUser = createEntity(DEFAULT_LOGIN_NEW_USER);
+        existingUser = createEntity(DEFAULT_LOGIN_EXISTING_USER);
+        em.persist(existingUser);
     }
 
     @Test
@@ -148,29 +145,29 @@ public class UserResourceIntTest {
         Set<Rol> authorities = mockRolesDTO();
 
         ManagedUserVM managedUserVM = new ManagedUserVM();
-        UsuarioDTO source = usuarioMapper.userToUserDTO(existingUser);
+        UsuarioDTO source = usuarioMapper.userToUserDTO(newUser);
         source.setRoles(authorities);
         managedUserVM.updateFrom(source);
 
-        restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isCreated());
+        restUserMockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isCreated());
 
         // Validate the User in the database
         List<Usuario> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId())).collect(Collectors.toList());
         assertThat(userList).hasSize(databaseSizeBeforeCreate + 1);
         Usuario testUser = userList.get(0);
-        assertThat(testUser.getLogin()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(testUser.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
-        assertThat(testUser.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
+        assertThat(testUser.getLogin()).isEqualTo(DEFAULT_LOGIN_NEW_USER);
+        assertThat(testUser.getNombre()).isEqualTo(DEFAULT_NOMBRE);
+        assertThat(testUser.getApellido1()).isEqualTo(DEFAULT_PRIMER_APELLIDO);
         assertThat(testUser.getEmail()).isEqualTo(DEFAULT_EMAIL);
     }
 
     @Test
     @Transactional
     public void createUserWithExistingId() throws Exception {
-        userRepository.save(existingUser);
+        userRepository.save(newUser);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
-        Usuario userWithExistingId = userRepository.findOne(existingUser.getId());
+        Usuario userWithExistingId = userRepository.findOne(newUser.getId());
         userWithExistingId.setLogin("anotherlogin");
         userWithExistingId.setEmail("anothermail@localhost");
 
@@ -179,7 +176,7 @@ public class UserResourceIntTest {
         managedUserVM.updateFrom(source);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
+        restUserMockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 
         // Validate the User in the database
         List<Usuario> userList = userRepository.findAll();
@@ -190,12 +187,12 @@ public class UserResourceIntTest {
     @Transactional
     public void createUserWithExistingLogin() throws Exception {
         // Initialize the database
-        userRepository.save(existingUser);
+        userRepository.save(newUser);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
         Usuario userWithExistingLogin = new Usuario();
         userWithExistingLogin.setId(null);
-        userWithExistingLogin.setLogin(existingUser.getLogin());
+        userWithExistingLogin.setLogin(newUser.getLogin());
         userWithExistingLogin.setNombre("anothername");
         userWithExistingLogin.setApellido1("anotherelastname");
         userWithExistingLogin.setEmail("another@localhost");
@@ -205,7 +202,7 @@ public class UserResourceIntTest {
         managedUserVM.updateFrom(source);
 
         // Create the User
-        restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
+        restUserMockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 
         // Validate the User in the database
         List<Usuario> userList = userRepository.findAll();
@@ -216,7 +213,7 @@ public class UserResourceIntTest {
     @Transactional
     public void createUserWithExistingEmail() throws Exception {
         // Initialize the database
-        userRepository.save(existingUser);
+        userRepository.save(newUser);
         int databaseSizeBeforeCreate = userRepository.findAll().size();
 
         Usuario userWithExistingEmail = new Usuario();
@@ -224,14 +221,14 @@ public class UserResourceIntTest {
         userWithExistingEmail.setLogin("anotherlogin");
         userWithExistingEmail.setNombre("anothername");
         userWithExistingEmail.setApellido1("anotherelastname");
-        userWithExistingEmail.setEmail(existingUser.getEmail());
+        userWithExistingEmail.setEmail(newUser.getEmail());
 
         ManagedUserVM managedUserVM = new ManagedUserVM();
         UsuarioDTO source = usuarioMapper.userToUserDTO(userWithExistingEmail);
         managedUserVM.updateFrom(source);
 
         // Create the User
-        restUserMockMvc.perform(post("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
+        restUserMockMvc.perform(post(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
 
         // Validate the User in the database
         List<Usuario> userList = userRepository.findAll();
@@ -242,23 +239,23 @@ public class UserResourceIntTest {
     @Transactional
     public void getAllUsers() throws Exception {
         // Initialize the database
-        userRepository.save(existingUser);
+        userRepository.save(newUser);
 
         // Get all the users
         restUserMockMvc.perform(get("/api/usuarios?sort=id,desc").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].login").value(hasItem(DEFAULT_LOGIN))).andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_FIRSTNAME)))
-                .andExpect(jsonPath("$.[*].apellido1").value(hasItem(DEFAULT_LASTNAME))).andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)));
+                .andExpect(jsonPath("$.[*].login").value(hasItem(DEFAULT_LOGIN_NEW_USER))).andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
+                .andExpect(jsonPath("$.[*].apellido1").value(hasItem(DEFAULT_PRIMER_APELLIDO))).andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)));
     }
 
     @Test
     @Transactional
     public void getUser() throws Exception {
         // Initialize the database
-        userRepository.save(existingUser);
+        userRepository.save(newUser);
 
         // Get the user
-        restUserMockMvc.perform(get("/api/usuarios/{login}", existingUser.getLogin())).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.login").value(existingUser.getLogin())).andExpect(jsonPath("$.nombre").value(DEFAULT_FIRSTNAME)).andExpect(jsonPath("$.apellido1").value(DEFAULT_LASTNAME))
+        restUserMockMvc.perform(get("/api/usuarios/{login}", newUser.getLogin())).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.login").value(newUser.getLogin())).andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE)).andExpect(jsonPath("$.apellido1").value(DEFAULT_PRIMER_APELLIDO))
                 .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL));
     }
 
@@ -273,72 +270,34 @@ public class UserResourceIntTest {
     public void updateUser() throws Exception {
         Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
 
-        // Initialize the database
-        userRepository.save(existingUser);
         int databaseSizeBeforeUpdate = userRepository.findAll().size();
 
-        // Update the user
         Usuario updatedUser = userRepository.findOne(existingUser.getId());
 
-        //@formatter:off
-		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UsuarioDTO source = usuarioMapper.userToUserDTO(updatedUser);
-		source.setNombre(UPDATED_FIRSTNAME);
-		source.setApellido1(UPDATED_LASTNAME);
-		source.setEmail(UPDATED_EMAIL);
-		managedUserVM.updateFrom(source);
-		//@formatter:on
+        ManagedUserVM managedUserVM = new ManagedUserVM();
+        UsuarioDTO source = usuarioMapper.userToUserDTO(updatedUser);
+        source.setLogin("daniel");
+        source.setNombre("Daniel");
+        source.setApellido1("Smith");
+        source.setApellido2("Down");
+        source.setEmail("email@email.com");
+        managedUserVM.updateFrom(source);
 
-        restUserMockMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isOk());
+        restUserMockMvc.perform(put(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isOk());
 
-        // Validate the User in the database
         List<Usuario> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId())).collect(Collectors.toList());
         assertThat(userList).hasSize(databaseSizeBeforeUpdate);
         Usuario testUser = userList.get(0);
-        assertThat(testUser.getNombre()).isEqualTo(UPDATED_FIRSTNAME);
-        assertThat(testUser.getApellido1()).isEqualTo(UPDATED_LASTNAME);
-        assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    public void updateUserLogin() throws Exception {
-        Mockito.when(ldapService.buscarUsuarioLdap(Mockito.anyString())).thenReturn(new UsuarioLdapEntry());
-
-        // Initialize the database
-        userRepository.save(existingUser);
-        int databaseSizeBeforeUpdate = userRepository.findAll().size();
-
-        // Update the user
-        Usuario updatedUser = userRepository.findOne(existingUser.getId());
-
-        //@formatter:off
-		ManagedUserVM managedUserVM = new ManagedUserVM();
-		UsuarioDTO source = usuarioMapper.userToUserDTO(updatedUser);
-		source.setLogin(UPDATED_LOGIN);
-        source.setNombre(UPDATED_FIRSTNAME);
-        source.setApellido1(UPDATED_LASTNAME);
-        source.setEmail(UPDATED_EMAIL);
-		managedUserVM.updateFrom(source);
-		//@formatter:on
-
-        restUserMockMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isOk());
-
-        // Validate the User in the database
-        List<Usuario> userList = userRepository.findAll().stream().sorted((u1, u2) -> u2.getId().compareTo(u1.getId())).collect(Collectors.toList());
-        assertThat(userList).hasSize(databaseSizeBeforeUpdate);
-        Usuario testUser = userList.get(0);
-        assertThat(testUser.getLogin()).isEqualTo(UPDATED_LOGIN);
-        assertThat(testUser.getNombre()).isEqualTo(UPDATED_FIRSTNAME);
-        assertThat(testUser.getApellido1()).isEqualTo(UPDATED_LASTNAME);
-        assertThat(testUser.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testUser.getLogin()).isEqualTo(source.getLogin());
+        assertThat(testUser.getNombre()).isEqualTo(source.getNombre());
+        assertThat(testUser.getApellido1()).isEqualTo(source.getApellido1());
+        assertThat(testUser.getApellido2()).isEqualTo(source.getApellido2());
+        assertThat(testUser.getEmail()).isEqualTo(source.getEmail());
     }
 
     @Test
     @Transactional
     public void updateUserExistingEmail() throws Exception {
-        // Initialize the database with 2 users
-        userRepository.save(existingUser);
 
         Usuario anotherUser = new Usuario();
         anotherUser.setLogin("jhipster");
@@ -357,14 +316,12 @@ public class UserResourceIntTest {
 		managedUserVM.updateFrom(source);
 		//@formatter:on
 
-        restUserMockMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
+        restUserMockMvc.perform(put(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
     }
 
     @Test
     @Transactional
     public void updateUserExistingLogin() throws Exception {
-        // Initialize the database
-        userRepository.save(existingUser);
 
         Usuario anotherUser = new Usuario();
         anotherUser.setLogin("jhipster");
@@ -382,14 +339,12 @@ public class UserResourceIntTest {
         source.setLogin(anotherUser.getLogin());
 		managedUserVM.updateFrom(source);
 		//@formatter:on
-        restUserMockMvc.perform(put("/api/usuarios").contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
+        restUserMockMvc.perform(put(ENDPOINT_URL).contentType(TestUtil.APPLICATION_JSON_UTF8).content(TestUtil.convertObjectToJsonBytes(managedUserVM))).andExpect(status().isBadRequest());
     }
 
     @Test
     @Transactional
     public void deleteUser() throws Exception {
-        // Initialize the database
-        userRepository.save(existingUser);
         int databaseSizeBeforeDelete = userRepository.findAll().size();
 
         // Delete the user
@@ -404,23 +359,7 @@ public class UserResourceIntTest {
 
     @Test
     @Transactional
-    public void testUserEquals() throws Exception {
-        TestUtil.equalsVerifier(Usuario.class);
-        Usuario user1 = new Usuario();
-        user1.setId(1L);
-        Usuario user2 = new Usuario();
-        user2.setId(user1.getId());
-        assertThat(user1).isEqualTo(user2);
-        user2.setId(2L);
-        assertThat(user1).isNotEqualTo(user2);
-        user1.setId(null);
-        assertThat(user1).isNotEqualTo(user2);
-    }
-
-    @Test
-    @Transactional
     public void testUserFromId() {
-        userRepository.save(existingUser);
         assertThat(userMapper.userFromId(existingUser.getId()).getId()).isEqualTo(existingUser.getId());
         assertThat(userMapper.userFromId(null)).isNull();
     }
@@ -428,29 +367,28 @@ public class UserResourceIntTest {
     @Test
     @Transactional
     public void testUserDTOtoUser() {
-
         //@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
 		UsuarioDTO source = UsuarioDTO.builder()
-				.setId(DEFAULT_ID)
-				.setLogin(DEFAULT_LOGIN)
-				.setFirstName(DEFAULT_FIRSTNAME)
-				.setLastName(DEFAULT_LASTNAME)
+				.setId(1l)
+				.setLogin(DEFAULT_LOGIN_NEW_USER)
+				.setFirstName(DEFAULT_NOMBRE)
+				.setLastName(DEFAULT_PRIMER_APELLIDO)
 				.setEmail(DEFAULT_EMAIL)
-				.setCreatedBy(DEFAULT_LOGIN)
+				.setCreatedBy(DEFAULT_LOGIN_NEW_USER)
 				.setCreatedDate(null)
-				.setLastModifiedBy(DEFAULT_LOGIN)
+				.setLastModifiedBy(DEFAULT_LOGIN_NEW_USER)
 				.setLastModifiedDate(null)
 				.setAuthorities(mockRolesDTO())
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on
         Usuario user = userMapper.userDTOToUser(source);
-        assertThat(user.getId()).isEqualTo(DEFAULT_ID);
-        assertThat(user.getLogin()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(user.getNombre()).isEqualTo(DEFAULT_FIRSTNAME);
-        assertThat(user.getApellido1()).isEqualTo(DEFAULT_LASTNAME);
-        assertThat(user.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(user.getId()).isEqualTo(source.getId());
+        assertThat(user.getLogin()).isEqualTo(source.getLogin());
+        assertThat(user.getNombre()).isEqualTo(source.getNombre());
+        assertThat(user.getApellido1()).isEqualTo(source.getApellido1());
+        assertThat(user.getEmail()).isEqualTo(source.getEmail());
         assertThat(user.getCreatedBy()).isNull();
         assertThat(user.getCreatedDate()).isNotNull();
         assertThat(user.getLastModifiedBy()).isNull();
@@ -461,18 +399,17 @@ public class UserResourceIntTest {
     @Test
     @Transactional
     public void testUserToUserDTO() {
-        UsuarioDTO userDTO = userMapper.userToUserDTO(existingUser);
-
-        assertThat(userDTO.getId()).isEqualTo(existingUser.getId());
-        assertThat(userDTO.getLogin()).isEqualTo(existingUser.getLogin());
-        assertThat(userDTO.getNombre()).isEqualTo(existingUser.getNombre());
-        assertThat(userDTO.getApellido1()).isEqualTo(existingUser.getApellido1());
-        assertThat(userDTO.getEmail()).isEqualTo(existingUser.getEmail());
-        assertThat(userDTO.getCreatedBy()).isEqualTo(existingUser.getCreatedBy());
-        assertThat(userDTO.getCreatedDate()).isEqualTo(existingUser.getCreatedDate());
-        assertThat(userDTO.getLastModifiedBy()).isEqualTo(existingUser.getLastModifiedBy());
-        assertThat(userDTO.getLastModifiedDate()).isEqualTo(existingUser.getLastModifiedDate());
-        assertEquals(userDTO.getRoles(), existingUser.getRoles());
+        UsuarioDTO userDTO = userMapper.userToUserDTO(newUser);
+        assertThat(userDTO.getId()).isEqualTo(newUser.getId());
+        assertThat(userDTO.getLogin()).isEqualTo(newUser.getLogin());
+        assertThat(userDTO.getNombre()).isEqualTo(newUser.getNombre());
+        assertThat(userDTO.getApellido1()).isEqualTo(newUser.getApellido1());
+        assertThat(userDTO.getEmail()).isEqualTo(newUser.getEmail());
+        assertThat(userDTO.getCreatedBy()).isEqualTo(newUser.getCreatedBy());
+        assertThat(userDTO.getCreatedDate()).isEqualTo(newUser.getCreatedDate());
+        assertThat(userDTO.getLastModifiedBy()).isEqualTo(newUser.getLastModifiedBy());
+        assertThat(userDTO.getLastModifiedDate()).isEqualTo(newUser.getLastModifiedDate());
+        assertEquals(userDTO.getRoles(), newUser.getRoles());
         assertThat(userDTO.toString()).isNotNull();
     }
 }

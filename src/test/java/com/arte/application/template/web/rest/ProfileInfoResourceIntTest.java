@@ -30,6 +30,8 @@ import io.github.jhipster.config.JHipsterProperties;
 @SpringBootTest(classes = ArteApplicationTemplateApp.class)
 public class ProfileInfoResourceIntTest {
 
+    private static final String ENDPOINT_URL = "/api/profile-info";
+
     @Mock
     private Environment environment;
 
@@ -56,7 +58,7 @@ public class ProfileInfoResourceIntTest {
 
     @Test
     public void getProfileInfoWithRibbon() throws Exception {
-        restProfileMockMvc.perform(get("/api/profile-info")).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        restProfileMockMvc.perform(get(ENDPOINT_URL)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 
     @Test
@@ -65,7 +67,7 @@ public class ProfileInfoResourceIntTest {
         ribbon.setDisplayOnActiveProfiles(null);
         when(jHipsterProperties.getRibbon()).thenReturn(ribbon);
 
-        restProfileMockMvc.perform(get("/api/profile-info")).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        restProfileMockMvc.perform(get(ENDPOINT_URL)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 
     @Test
@@ -74,6 +76,6 @@ public class ProfileInfoResourceIntTest {
         when(environment.getDefaultProfiles()).thenReturn(emptyProfile);
         when(environment.getActiveProfiles()).thenReturn(emptyProfile);
 
-        restProfileMockMvc.perform(get("/api/profile-info")).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        restProfileMockMvc.perform(get(ENDPOINT_URL)).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 }
