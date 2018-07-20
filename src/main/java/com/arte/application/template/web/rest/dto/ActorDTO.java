@@ -28,7 +28,7 @@ public class ActorDTO implements Serializable {
     private Genero genero;
 
     private boolean oscarizado;
-    
+
     private Set<DocumentoDTO> documentos;
 
     public Long getId() {

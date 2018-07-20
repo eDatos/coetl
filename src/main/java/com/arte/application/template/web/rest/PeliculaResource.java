@@ -192,13 +192,14 @@ public class PeliculaResource extends AbstractResource {
 
         Pelicula pelicula = peliculaService.findOne(peliculaId);
         if (pelicula == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+            return ResponseEntity.badRequest()
+                    .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
         }
 
         Documento documento = documentoService.findOne(documentoId);
         if (documento == null) {
-            return ResponseEntity.badRequest()
-                    .headers(HeaderUtil.createFailureAlert(WebConstants.ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, WebConstants.ENTITY_NAME_DOCUMENTO))).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(WebConstants.ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA,
+                    String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, WebConstants.ENTITY_NAME_DOCUMENTO))).build();
         }
 
         PeliculaDTO result = peliculaMapper.toDto(peliculaService.bindDocumento(pelicula, documento));
@@ -226,7 +227,8 @@ public class PeliculaResource extends AbstractResource {
 
         Pelicula pelicula = peliculaService.findOne(peliculaId);
         if (pelicula == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+            return ResponseEntity.badRequest()
+                    .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
         }
 
         Long documentoId = pelicula.getDocumento().getId();

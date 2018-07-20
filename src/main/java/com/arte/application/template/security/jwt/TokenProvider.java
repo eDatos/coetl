@@ -70,7 +70,8 @@ public class TokenProvider {
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 
-        Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(",")).filter(authority -> !StringUtils.isEmpty(authority)).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(",")).filter(authority -> !StringUtils.isEmpty(authority))
+                .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 
         User principal = new User(claims.getSubject(), "", authorities);
 

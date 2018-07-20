@@ -62,7 +62,7 @@ public class Actor implements Serializable {
 
     @ManyToMany(mappedBy = "actores")
     private Set<Pelicula> peliculas = new HashSet<>();
-    
+
     @OneToMany
     @JoinTable(name = "actor_documento", joinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "documento_id", referencedColumnName = "id"))
     private Set<Documento> documentos = new HashSet<>();
@@ -137,7 +137,7 @@ public class Actor implements Serializable {
             removePelicula(pelicula);
         }
     }
-    
+
     public Set<Documento> getDocumentos() {
         return documentos;
     }
@@ -145,11 +145,11 @@ public class Actor implements Serializable {
     public void setDocumentos(Set<Documento> documentos) {
         this.documentos = documentos;
     }
-    
+
     public void addDocumento(Documento documento) {
         this.documentos.add(documento);
     }
-    
+
     public void removeDocumento(Documento documento) {
         this.documentos.remove(documento);
     }

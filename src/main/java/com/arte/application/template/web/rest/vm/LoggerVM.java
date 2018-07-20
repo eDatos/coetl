@@ -46,6 +46,6 @@ public class LoggerVM {
 
     @Override
     public String toString() {
-        return "LoggerVM (id = " + getName() +  ")";
+        return "LoggerVM (id = " + getName() + ")";
     }
 }

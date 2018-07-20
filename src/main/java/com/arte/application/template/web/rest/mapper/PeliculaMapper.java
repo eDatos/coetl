@@ -118,7 +118,7 @@ public abstract class PeliculaMapper implements EntityMapper<PeliculaDTO, Pelicu
         dto.setLastModifiedDate(entity.getLastModifiedDate());
         dto.setOptLock(entity.getOptLock());
         dto.setPremios(new HashSet<String>(entity.getPremios()));
-        
+
         return dto;
     }
 }

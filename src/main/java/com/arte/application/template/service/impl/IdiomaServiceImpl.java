@@ -21,7 +21,7 @@ public class IdiomaServiceImpl implements IdiomaService {
     private final Logger log = LoggerFactory.getLogger(IdiomaServiceImpl.class);
 
     private final IdiomaRepository idiomaRepository;
-    
+
     private QueryUtil queryUtil;
 
     public IdiomaServiceImpl(IdiomaRepository idiomaRepository, QueryUtil queryUtil) {

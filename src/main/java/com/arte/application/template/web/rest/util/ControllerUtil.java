@@ -18,11 +18,11 @@ import com.arte.application.template.web.rest.errors.ErrorConstants;
 public final class ControllerUtil {
 
     private static final Logger log = LoggerFactory.getLogger(ControllerUtil.class);
-    
+
     private ControllerUtil() {
         super();
     }
-    
+
     public static void download(Documento documento, HttpServletResponse response) {
         try (InputStream is = documento.getData().getBinaryStream()) {
             copyContentToResponse(is, documento.getName(), documento.getDataContentType(), documento.getLength(), response);
@@ -32,7 +32,6 @@ public final class ControllerUtil {
         }
     }
 
-    
     private static void copyContentToResponse(InputStream inputStream, String name, String contentType, Long length, HttpServletResponse response) throws IOException {
         if (length != null) {
             response.setContentLength(length.intValue());

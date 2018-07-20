@@ -49,7 +49,7 @@ public final class UsuarioLdapEntry {
     public void setDn(Name dn) {
         this.dn = dn;
     }
-    
+
     public void setNombreUsuarioCN(String nombreUsuarioCN) {
         this.nombreUsuarioCN = nombreUsuarioCN;
     }

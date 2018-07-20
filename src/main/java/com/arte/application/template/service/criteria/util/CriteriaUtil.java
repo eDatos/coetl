@@ -11,13 +11,12 @@ import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 public final class CriteriaUtil {
 
     private static final String POSTGRE_DB_FUNCTION = "lower_unaccent";
-    
+
     private static final String OR_DELIMETER = " or ";
 
     private CriteriaUtil() {
 
     }
-
 
     /**
      * Apply Accent and Case Insensitive search conditions in WHERE clause with default database function

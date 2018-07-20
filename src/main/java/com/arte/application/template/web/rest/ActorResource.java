@@ -54,7 +54,7 @@ public class ActorResource extends AbstractResource {
     private final ActorService actorService;
 
     private final ActorMapper actorMapper;
-    
+
     private final DocumentoService documentoService;
 
     public ActorResource(ActorService actorService, ActorMapper actorMapper, DocumentoService documentoService) {
@@ -170,13 +170,14 @@ public class ActorResource extends AbstractResource {
 
         Actor actor = actorService.findOne(actorId);
         if (actor == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+            return ResponseEntity.badRequest()
+                    .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
         }
 
         Documento documento = documentoService.findOne(documentoId);
         if (documento == null) {
-            return ResponseEntity.badRequest()
-                    .headers(HeaderUtil.createFailureAlert(WebConstants.ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, WebConstants.ENTITY_NAME_DOCUMENTO))).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(WebConstants.ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA,
+                    String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, WebConstants.ENTITY_NAME_DOCUMENTO))).build();
         }
 
         ActorDTO result = actorMapper.toDto(actorService.bindDocumento(actor, documento));
@@ -204,17 +205,18 @@ public class ActorResource extends AbstractResource {
 
         Actor actor = actorService.findOne(actorId);
         if (actor == null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
+            return ResponseEntity.badRequest()
+                    .headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, ENTITY_NAME))).build();
         }
 
         Documento documento = documentoService.findOne(documentoId);
         if (documento == null) {
-            return ResponseEntity.badRequest()
-                    .headers(HeaderUtil.createFailureAlert(WebConstants.ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA, String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, WebConstants.ENTITY_NAME_DOCUMENTO))).build();
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(WebConstants.ENTITY_NAME_DOCUMENTO, ErrorConstants.ENTIDAD_NO_ENCONTRADA,
+                    String.format(WebConstants.ENTITY_NOT_FOUND_MESSAGE, WebConstants.ENTITY_NAME_DOCUMENTO))).build();
         }
-        
+
         ActorDTO result = actorMapper.toDto(actorService.unbindDocumento(actor, documento));
-  
+
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 }

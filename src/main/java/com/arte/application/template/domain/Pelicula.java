@@ -61,7 +61,7 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
 
     @Column(name = "presupuesto")
     private Double presupuesto;
-    
+
     @NotNull
     @ManyToMany
     @JoinTable(name = "pelicula_actor", joinColumns = @JoinColumn(name = "pelicula_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"))
@@ -77,7 +77,7 @@ public class Pelicula extends AbstractVersionedAndAuditingEntity implements Seri
     @OneToOne(optional = true, orphanRemoval = true)
     @JoinColumn(name = "documento_id", nullable = true)
     private Documento documento;
-    
+
     @ElementCollection
     @JoinTable(name = "pelicula_premio", joinColumns = @JoinColumn(name = "pelicula_id", referencedColumnName = "id"))
     @Column(name = "premio", nullable = false)

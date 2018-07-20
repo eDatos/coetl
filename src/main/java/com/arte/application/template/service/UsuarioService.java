@@ -20,7 +20,7 @@ public interface UsuarioService {
     void restore(Usuario usuario);
 
     Page<Usuario> getAllUsuarios(Pageable pageable, Boolean includeDeleted, String query);
-    
+
     Optional<Usuario> getUsuarioWithAuthoritiesByLogin(String login, Boolean includeDeleted);
 
     Usuario getUsuarioWithAuthorities(Long id);

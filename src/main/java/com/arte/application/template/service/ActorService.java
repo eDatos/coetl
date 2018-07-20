@@ -42,7 +42,7 @@ public interface ActorService {
      * @param id the id of the entity
      */
     void delete(Long id);
-    
+
     /**
      * Bind a documento to actor
      * 
@@ -51,7 +51,7 @@ public interface ActorService {
      * @return the persisted entity
      */
     Actor bindDocumento(Actor actor, Documento documento);
-    
+
     /**
      * Unbind a documento to actor
      * 

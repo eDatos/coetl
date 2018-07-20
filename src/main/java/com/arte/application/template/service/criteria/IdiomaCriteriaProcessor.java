@@ -7,7 +7,7 @@ import com.arte.libs.grammar.orm.jpa.criteria.RestrictionProcessorBuilder;
 public class IdiomaCriteriaProcessor extends AbstractCriteriaProcessor {
 
     private static final String ENTITY_FIELD_NOMBRE = "nombre";
-    
+
     public IdiomaCriteriaProcessor() {
         super(Idioma.class);
     }

@@ -28,7 +28,7 @@ public class ActorServiceImpl implements ActorService {
     private final PeliculaRepository peliculaRepository;
 
     private final QueryUtil queryUtil;
-    
+
     private final DocumentoService documentoService;
 
     public ActorServiceImpl(ActorRepository actorRepository, QueryUtil queryUtil, PeliculaRepository peliculaRepository, DocumentoService documentoService) {
