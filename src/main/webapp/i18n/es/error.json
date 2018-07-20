@@ -17,11 +17,6 @@
         "nonExistingUser": {
             "title": "Error de usuario",
             "detail": "Lo sentimos, el usuario con el que intenta acceder no se ha dado de alta."
-        },
-        "rol": {
-            "validation": {
-                "rol-necesita-operaciones": "Es obligatorio que al rol se le asigne, al menos, permisos para una operación."
-            }
         }
     }
 }

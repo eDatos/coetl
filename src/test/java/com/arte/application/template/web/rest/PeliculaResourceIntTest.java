@@ -34,13 +34,13 @@ import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.domain.Actor;
 import com.arte.application.template.domain.Categoria;
 import com.arte.application.template.domain.Pelicula;
+import com.arte.application.template.errors.ExceptionTranslator;
 import com.arte.application.template.repository.PeliculaRepository;
 import com.arte.application.template.service.ActorService;
 import com.arte.application.template.service.CategoriaService;
 import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.service.PeliculaService;
 import com.arte.application.template.web.rest.dto.PeliculaDTO;
-import com.arte.application.template.web.rest.errors.ExceptionTranslator;
 import com.arte.application.template.web.rest.mapper.PeliculaMapper;
 
 /**

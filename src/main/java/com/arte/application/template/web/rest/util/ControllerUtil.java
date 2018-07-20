@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StreamUtils;
 
 import com.arte.application.template.domain.Documento;
-import com.arte.application.template.web.rest.errors.CustomParameterizedException;
-import com.arte.application.template.web.rest.errors.ErrorConstants;
+import com.arte.application.template.errors.CustomParameterizedExceptionBuilder;
+import com.arte.application.template.errors.ErrorConstants;
 
 public final class ControllerUtil {
 
@@ -28,7 +28,7 @@ public final class ControllerUtil {
             copyContentToResponse(is, documento.getName(), documento.getDataContentType(), documento.getLength(), response);
         } catch (IOException | SQLException e) {
             log.error("Exception obtaining the file {}", documento.getId(), e);
-            throw new CustomParameterizedException(String.format("Exception obtaining the file %s", documento.getId()), ErrorConstants.FICHERO_NO_ENCONTRADO);
+            throw new CustomParameterizedExceptionBuilder().message(String.format("Exception obtaining the file %s", documento.getId())).code(ErrorConstants.FICHERO_NO_ENCONTRADO).build();
         }
     }
 

@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arte.application.template.domain.Categoria;
+import com.arte.application.template.errors.ErrorConstants;
 import com.arte.application.template.service.CategoriaService;
 import com.arte.application.template.web.rest.dto.CategoriaDTO;
-import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.CategoriaMapper;
 import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.codahale.metrics.annotation.Timed;

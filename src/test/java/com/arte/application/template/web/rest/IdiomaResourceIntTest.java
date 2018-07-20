@@ -30,10 +30,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.domain.Idioma;
+import com.arte.application.template.errors.ExceptionTranslator;
 import com.arte.application.template.repository.IdiomaRepository;
 import com.arte.application.template.service.IdiomaService;
 import com.arte.application.template.web.rest.dto.IdiomaDTO;
-import com.arte.application.template.web.rest.errors.ExceptionTranslator;
 import com.arte.application.template.web.rest.mapper.IdiomaMapper;
 
 /**

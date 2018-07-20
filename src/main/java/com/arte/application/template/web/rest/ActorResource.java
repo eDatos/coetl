@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.arte.application.template.domain.Actor;
 import com.arte.application.template.domain.Documento;
+import com.arte.application.template.errors.ErrorConstants;
 import com.arte.application.template.service.ActorService;
 import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.web.rest.dto.ActorDTO;
-import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.ActorMapper;
 import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.arte.application.template.web.rest.util.PaginationUtil;

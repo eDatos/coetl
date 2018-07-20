@@ -30,11 +30,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.domain.Actor;
+import com.arte.application.template.errors.ExceptionTranslator;
 import com.arte.application.template.repository.ActorRepository;
 import com.arte.application.template.service.ActorService;
 import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.web.rest.dto.ActorDTO;
-import com.arte.application.template.web.rest.errors.ExceptionTranslator;
 import com.arte.application.template.web.rest.mapper.ActorMapper;
 
 /**

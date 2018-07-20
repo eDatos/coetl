@@ -39,12 +39,12 @@ import com.arte.application.template.config.audit.AuditEventPublisher;
 import com.arte.application.template.domain.Usuario;
 import com.arte.application.template.domain.enumeration.Rol;
 import com.arte.application.template.entry.UsuarioLdapEntry;
+import com.arte.application.template.errors.ExceptionTranslator;
 import com.arte.application.template.repository.UsuarioRepository;
 import com.arte.application.template.service.LdapService;
 import com.arte.application.template.service.MailService;
 import com.arte.application.template.service.UsuarioService;
 import com.arte.application.template.web.rest.dto.UsuarioDTO;
-import com.arte.application.template.web.rest.errors.ExceptionTranslator;
 import com.arte.application.template.web.rest.mapper.UsuarioMapper;
 import com.arte.application.template.web.rest.vm.ManagedUserVM;
 

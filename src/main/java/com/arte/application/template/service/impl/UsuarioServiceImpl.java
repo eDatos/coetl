@@ -16,12 +16,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.arte.application.template.domain.Usuario;
+import com.arte.application.template.errors.CustomParameterizedExceptionBuilder;
+import com.arte.application.template.errors.ErrorConstants;
 import com.arte.application.template.repository.UsuarioRepository;
 import com.arte.application.template.security.SecurityUtils;
 import com.arte.application.template.service.LdapService;
 import com.arte.application.template.service.UsuarioService;
-import com.arte.application.template.web.rest.errors.CustomParameterizedException;
-import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.util.QueryUtil;
 
 @Service
@@ -81,7 +81,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     public void restore(Usuario usuario) {
         if (usuario == null) {
-            throw new CustomParameterizedException("User not valid", ErrorConstants.USUARIO_NO_VALIDO);
+            throw new CustomParameterizedExceptionBuilder().message("Usuario no válido").code(ErrorConstants.USUARIO_NO_VALIDO).build();
         }
         usuario.setDeletionDate(null);
         usuarioRepository.saveAndFlush(usuario);
@@ -133,7 +133,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private void validarUsuarioLdap(Usuario user) {
         if (ldapService.buscarUsuarioLdap(user.getLogin()) == null) {
-            throw new CustomParameterizedException("error.userManagement.usuario-ldap-no-encontrado", user.getLogin());
+            throw new CustomParameterizedExceptionBuilder().message("No se ha encontrado el usuario especificado").code(ErrorConstants.USUARIO_LDAP_NO_ENCONTRADO).build();
         }
     }
 }

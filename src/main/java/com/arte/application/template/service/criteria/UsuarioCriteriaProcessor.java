@@ -6,9 +6,9 @@ import java.util.Arrays;
 import org.hibernate.criterion.Criterion;
 
 import com.arte.application.template.domain.Usuario;
+import com.arte.application.template.errors.CustomParameterizedExceptionBuilder;
+import com.arte.application.template.errors.ErrorConstants;
 import com.arte.application.template.service.criteria.util.CriteriaUtil;
-import com.arte.application.template.web.rest.errors.CustomParameterizedException;
-import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 import com.arte.libs.grammar.orm.jpa.criteria.CriteriaProcessorContext;
@@ -84,8 +84,8 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
                 ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_LOGIN, TABLE_FIELD_NOMBRE, TABLE_FIELD_APELLIDO1, TABLE_FIELD_APELLIDO2));
                 return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
             }
-            throw new CustomParameterizedException(String.format("Query param not supported: '%s'", property), ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(),
-                    property.getOperationType().name());
+            throw new CustomParameterizedExceptionBuilder().message(String.format("Parámetro de búsqueda no soportado: '%s'", property))
+                    .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
         }
     }
 }

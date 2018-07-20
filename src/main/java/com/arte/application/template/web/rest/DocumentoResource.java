@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.arte.application.template.domain.Documento;
+import com.arte.application.template.errors.ErrorConstants;
 import com.arte.application.template.service.DocumentoService;
 import com.arte.application.template.web.rest.dto.DocumentoDTO;
-import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.DocumentoMapper;
 import com.arte.application.template.web.rest.util.ControllerUtil;
 import com.arte.application.template.web.rest.util.HeaderUtil;

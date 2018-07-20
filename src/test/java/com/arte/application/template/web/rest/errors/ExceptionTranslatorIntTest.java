@@ -18,6 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.arte.application.template.ArteApplicationTemplateApp;
+import com.arte.application.template.errors.ErrorConstants;
+import com.arte.application.template.errors.ExceptionTranslator;
 
 /**
  * Test class for the ExceptionTranslator controller advice.
@@ -56,16 +58,16 @@ public class ExceptionTranslatorIntTest {
     @Test
     public void testParameterizedError() throws Exception {
         mockMvc.perform(get("/test/parameterized-error")).andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").value("test parameterized error"))
-                .andExpect(jsonPath("$.code").value("error.test")).andExpect(jsonPath("$.paramList").value(hasItems("param0_value", "param1_value")));
+                .andExpect(jsonPath("$.code").value("error.test")).andExpect(jsonPath("$.params").value(hasItems("param0_value", "param1_value")));
     }
 
     @Test
     public void testParameterizedErrorWithErrorList() throws Exception {
         mockMvc.perform(get("/test/parameterized-error2")).andExpect(status().isBadRequest()).andExpect(jsonPath("$.message").value("test parameterized error"))
-                .andExpect(jsonPath("$.code").value("error.test")).andExpect(jsonPath("$.paramList").value(hasItems("param0_value", "param1_value"))).andExpect(jsonPath("$.errorItems").isNotEmpty())
+                .andExpect(jsonPath("$.code").value("error.test")).andExpect(jsonPath("$.params").value(hasItems("param0_value", "param1_value"))).andExpect(jsonPath("$.errorItems").isNotEmpty())
                 .andExpect(jsonPath("$.errorItems.[*].message").value(hasItems("message1", "message2", "message3")))
-                .andExpect(jsonPath("$.errorItems.[*].code").value(hasItems("code1", "code2", "code3"))).andExpect(jsonPath("$.errorItems[0].paramList").isEmpty())
-                .andExpect(jsonPath("$.errorItems[1].paramList").value(hasItem("param_code2"))).andExpect(jsonPath("$.errorItems[2].paramList").value(hasItems("param1_code3", "param2_code3")));
+                .andExpect(jsonPath("$.errorItems.[*].code").value(hasItems("code1", "code2", "code3"))).andExpect(jsonPath("$.errorItems[0].params").isEmpty())
+                .andExpect(jsonPath("$.errorItems[1].params").value(hasItem("param_code2"))).andExpect(jsonPath("$.errorItems[2].params").value(hasItems("param1_code3", "param2_code3")));
     }
 
     @Test

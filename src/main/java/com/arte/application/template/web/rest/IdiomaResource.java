@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arte.application.template.domain.Idioma;
+import com.arte.application.template.errors.ErrorConstants;
 import com.arte.application.template.service.IdiomaService;
 import com.arte.application.template.web.rest.dto.IdiomaDTO;
-import com.arte.application.template.web.rest.errors.ErrorConstants;
 import com.arte.application.template.web.rest.mapper.IdiomaMapper;
 import com.arte.application.template.web.rest.util.HeaderUtil;
 import com.codahale.metrics.annotation.Timed;

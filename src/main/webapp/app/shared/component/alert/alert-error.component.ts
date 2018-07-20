@@ -123,17 +123,17 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
         if (errorResponse.errorItems) {
             return this.parseErrorListResponse(errorResponse);
         } else {
-            return this.translateService.instant(errorResponse.code, errorResponse.paramList);
+            return this.translateService.instant(errorResponse.code, errorResponse.params);
         }
     }
 
     private parseErrorListResponse(errorResponse: any): string {
         let formattedText = '<div class="alerts-list">';
-        formattedText += `<h4>${this.translateService.instant(errorResponse.code, errorResponse.paramList)}</h4>`;
+        formattedText += `<h4>${this.translateService.instant(errorResponse.code, errorResponse.params)}</h4>`;
 
         formattedText += `<ul>`;
         errorResponse.errorItems.forEach((error) => {
-            const translatedMessage = this.translateService.instant(error.code, error.paramList);
+            const translatedMessage = this.translateService.instant(error.code, error.params);
             formattedText += `<li>${translatedMessage}</li>`;
         });
         formattedText += `</ul>`;

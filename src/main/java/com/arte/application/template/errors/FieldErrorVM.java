@@ -1,4 +1,4 @@
-package com.arte.application.template.web.rest.errors;
+package com.arte.application.template.errors;
 
 import java.io.Serializable;
 

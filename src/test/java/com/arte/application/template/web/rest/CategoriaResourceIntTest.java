@@ -30,10 +30,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.arte.application.template.ArteApplicationTemplateApp;
 import com.arte.application.template.domain.Categoria;
+import com.arte.application.template.errors.ExceptionTranslator;
 import com.arte.application.template.repository.CategoriaRepository;
 import com.arte.application.template.service.CategoriaService;
 import com.arte.application.template.web.rest.dto.CategoriaDTO;
-import com.arte.application.template.web.rest.errors.ExceptionTranslator;
 import com.arte.application.template.web.rest.mapper.CategoriaMapper;
 
 /**
