@@ -15,22 +15,22 @@
 	<!-- - Cambiar el issueManagement para especificar el proyecto correspondiente -->
 	<!-- - Cambiar el scm para especificar el proyecto correspondiente -->
 
-	<groupId>com.arte.application.template</groupId>
-	<artifactId>arte-application-template</artifactId>
-	<version>2.0.1-SNAPSHOT</version>
+	<groupId>es.gobcan.coetl</groupId>
+	<artifactId>coetl</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>Template Arte Aplicaciones</name>
 
 	<scm>
-		<connection>scm:git:http://git.arte-consultores.com/artesl/arte-application-template/</connection>
-		<developerConnection>scm:git:http://git.arte-consultores.com/artesl/arte-application-template/</developerConnection>
+		<connection>scm:git:http://git.arte-consultores.com/gobcan/coetl/</connection>
+		<developerConnection>scm:git:http://git.arte-consultores.com/gobcan/coetl/</developerConnection>
 		<tag>HEAD</tag>
-		<url>http://git.arte-consultores.com/artesl/arte-application-template</url>
+		<url>http://git.arte-consultores.com/gobcan/coetl</url>
 	</scm>
 	<issueManagement>
 		<system>Jira</system>
-		<url>http://jira.arte-consultores.com/browse/INFRASTR</url>
+		<url>http://jira.arte-consultores.com/browse/COETL</url>
 	</issueManagement>
 	<distributionManagement>
 		<repository>
@@ -570,7 +570,7 @@
 					<defaultSchemaName />
 					<username>arte_application_template</username>
 					<password>arte_application_template</password>
-					<referenceUrl>hibernate:spring:com.arte.application.template.domain?dialect=io.github.jhipster.domain.util.FixedPostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
+					<referenceUrl>hibernate:spring:es.gobcan.coetl.domain?dialect=io.github.jhipster.domain.util.FixedPostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
 					<verbose>true</verbose>
 					<logging>debug</logging>
 				</configuration>
