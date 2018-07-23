@@ -25,7 +25,7 @@ import liquibase.integration.spring.SpringLiquibase;
  */
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.arte.application.template.repository", repositoryFactoryBeanClass = ArteJpaRepositoryFactoryBean.class)
+@EnableJpaRepositories(basePackages = "es.gobcan.coetl.repository", repositoryFactoryBeanClass = ArteJpaRepositoryFactoryBean.class)
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableTransactionManagement
 public class DatabaseConfiguration {

@@ -17,7 +17,7 @@
 
   <property name="LOGS_HOME" value="/data/artesl/arte-application-template/serverlogs" />
 
-  <turboFilter class="com.arte.application.template.util.ExpiringDuplicateMessageFilter">
+  <turboFilter class="es.gobcan.coetl.util.ExpiringDuplicateMessageFilter">
 	<allowedRepetitions>4</allowedRepetitions>
 	<cacheSize>200</cacheSize>
 	<expireAfterWriteSeconds>1800</expireAfterWriteSeconds>
@@ -42,7 +42,7 @@
     </encoder>
   </appender>
 
-  <logger name="com.arte.application.template" level="#logback.loglevel#" />
+  <logger name="es.gobcan.coetl" level="#logback.loglevel#" />
 
   <logger name="io.github.jhipster" level="#logback.loglevel#" />
 

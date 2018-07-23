@@ -2,13 +2,13 @@
   "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
   "generator-jhipster": {
     "promptValues": {
-      "packageName": "com.arte.application.template",
+      "packageName": "es.gobcan.coetl",
       "nativeLanguage": "en"
     },
     "jhipsterVersion": "4.6.2",
     "baseName": "arte_application_template",
-    "packageName": "com.arte.application.template",
-    "packageFolder": "com/arte/application/template",
+    "packageName": "es.gobcan.coetl",
+    "packageFolder": "es/gobcan/coetl",
     "serverPort": "8080",
     "authenticationType": "jwt",
     "hibernateCache": "ehcache",
