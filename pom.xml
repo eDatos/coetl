@@ -47,7 +47,7 @@
 
 	<properties>
 		<argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>
-		<arte-libs-grammar.version>2.0.1-SNAPSHOT</arte-libs-grammar.version>
+		<arte-libs-grammar.version>2.1.0</arte-libs-grammar.version>
 		<assertj.version>3.6.2</assertj.version>
 		<awaitility.version>2.0.0</awaitility.version>
 		<commons-io.version>2.5</commons-io.version>
