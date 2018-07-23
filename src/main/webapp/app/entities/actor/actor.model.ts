@@ -8,7 +8,6 @@ export enum Genero {
 }
 
 export class Actor implements BaseEntity {
-
     constructor(
         public id?: number,
         public nombre?: string,
@@ -18,10 +17,14 @@ export class Actor implements BaseEntity {
         public oscarizado = false,
         public peliculas?: Pelicula[],
         public documentos?: Documento[]
-    ) {
-    }
+    ) {}
 
     public normalizeName(): string {
-        return ''.concat(this.apellido1).concat(this.apellido2 ? ' ' + this.apellido2 : '').concat(', ').concat(this.nombre);
+        console.log('hola');
+        return ''
+            .concat(this.apellido1)
+            .concat(this.apellido2 ? ' ' + this.apellido2 : '')
+            .concat(', ')
+            .concat(this.nombre);
     }
 }
