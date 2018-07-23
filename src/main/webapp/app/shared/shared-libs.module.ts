@@ -74,4 +74,4 @@ import { DEFAULT_LANGUAGE } from './service/language/language.constants';
         DataTableModule
     ]
 })
-export class ArteApplicationTemplateSharedLibsModule { }
+export class CoetlSharedLibsModule { }

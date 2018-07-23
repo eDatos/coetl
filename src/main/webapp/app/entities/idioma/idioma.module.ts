@@ -1,15 +1,15 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
-import { ArteApplicationTemplateSharedModule } from '../../shared';
+import { CoetlSharedModule } from '../../shared';
 import { IdiomaService } from '.';
 
 @NgModule({
     imports: [
-        ArteApplicationTemplateSharedModule,
+        CoetlSharedModule,
     ],
     providers: [
         IdiomaService,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ArteApplicationTemplateIdiomaModule {}
+export class CoetlIdiomaModule {}

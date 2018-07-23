@@ -8,4 +8,4 @@ import { NgModule } from '@angular/core';
         ConfigService,
     ],
 })
-export class ArteApplicationTemplateConfigModule { }
+export class CoetlConfigModule { }

@@ -7,18 +7,18 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ng2-webstorage';
 
-import { ArteApplicationTemplateSharedModule, UserRouteAccessService, AuthServerProvider } from './shared';
-import { ArteApplicationTemplateHomeModule } from './home/home.module';
-import { ArteApplicationTemplateAdminModule } from './admin/admin.module';
-import { ArteApplicationTemplateAccountModule } from './account/account.module';
-import { ArteApplicationTemplateEntityModule } from './entities/entity.module';
+import { CoetlSharedModule, UserRouteAccessService, AuthServerProvider } from './shared';
+import { CoetlHomeModule } from './home/home.module';
+import { CoetlAdminModule } from './admin/admin.module';
+import { CoetlAccountModule } from './account/account.module';
+import { CoetlEntityModule } from './entities/entity.module';
 
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
-import { ArteApplicationTemplateConfigModule, ConfigService } from './config';
+import { CoetlConfigModule, ConfigService } from './config';
 
 import {
     JhiMainComponent,
@@ -51,13 +51,13 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
         BrowserModule,
         LayoutRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
-        ArteApplicationTemplateSharedModule,
-        ArteApplicationTemplateHomeModule,
-        ArteApplicationTemplateAdminModule,
-        ArteApplicationTemplateAccountModule,
-        ArteApplicationTemplateEntityModule,
+        CoetlSharedModule,
+        CoetlHomeModule,
+        CoetlAdminModule,
+        CoetlAccountModule,
+        CoetlEntityModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
-        ArteApplicationTemplateConfigModule,
+        CoetlConfigModule,
         RouterModule.forRoot(APP_ROUTES, { useHash: true })
     ],
     declarations: [
@@ -78,4 +78,4 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
     ],
     bootstrap: [JhiMainComponent]
 })
-export class ArteApplicationTemplateAppModule { }
+export class CoetlAppModule { }

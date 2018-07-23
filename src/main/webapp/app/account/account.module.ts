@@ -3,7 +3,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { ArteApplicationTemplateSharedModule } from '../shared';
+import { CoetlSharedModule } from '../shared';
 
 import {
 
@@ -13,7 +13,7 @@ import {
 
 @NgModule({
     imports: [
-        ArteApplicationTemplateSharedModule,
+        CoetlSharedModule,
         RouterModule.forRoot(accountState, { useHash: true })
     ],
     declarations: [
@@ -25,4 +25,4 @@ import {
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ArteApplicationTemplateAccountModule { }
+export class CoetlAccountModule { }

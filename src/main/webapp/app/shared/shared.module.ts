@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 
 import {
     AcAlertService,
-    ArteApplicationTemplateSharedCommonModule,
-    ArteApplicationTemplateSharedLibsModule,
+    CoetlSharedCommonModule,
+    CoetlSharedLibsModule,
     AuthServerProvider,
     CalendarComponent,
     CSRFService,
@@ -27,8 +27,8 @@ import {
 
 @NgModule({
     imports: [
-        ArteApplicationTemplateSharedLibsModule,
-        ArteApplicationTemplateSharedCommonModule,
+        CoetlSharedLibsModule,
+        CoetlSharedCommonModule,
         RouterModule
     ],
     declarations: [
@@ -55,7 +55,7 @@ import {
     ],
     entryComponents: [],
     exports: [
-        ArteApplicationTemplateSharedCommonModule,
+        CoetlSharedCommonModule,
         DatePipe,
         EntityListEmptyComponent,
         AuditInfoComponent,
@@ -67,4 +67,4 @@ import {
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
-export class ArteApplicationTemplateSharedModule { }
+export class CoetlSharedModule { }

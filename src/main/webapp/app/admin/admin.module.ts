@@ -3,7 +3,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { ArteApplicationTemplateSharedModule } from '../shared';
+import { CoetlSharedModule } from '../shared';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 import {
@@ -33,7 +33,7 @@ import { UserSearchComponent } from './user-management/user-search';
 
 @NgModule({
     imports: [
-        ArteApplicationTemplateSharedModule,
+        CoetlSharedModule,
         RouterModule.forRoot(adminState, { useHash: true }),
         /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
     ],
@@ -70,4 +70,4 @@ import { UserSearchComponent } from './user-management/user-search';
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ArteApplicationTemplateAdminModule { }
+export class CoetlAdminModule { }

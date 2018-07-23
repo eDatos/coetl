@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { ArteApplicationTemplateSharedModule } from '../../shared';
+import { CoetlSharedModule } from '../../shared';
 import {
     ActorComponent,
     ActorDialogComponent,
@@ -20,7 +20,7 @@ const ENTITY_STATES = [
 
 @NgModule({
     imports: [
-        ArteApplicationTemplateSharedModule,
+        CoetlSharedModule,
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
     declarations: [
@@ -40,4 +40,4 @@ const ENTITY_STATES = [
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ArteApplicationTemplateActorModule {}
+export class CoetlActorModule {}

@@ -1,7 +1,7 @@
 {
   "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
-  "name": "ArteApplicationTemplate",
-  "short_name": "ArteApplicationTemplate",
+  "name": "Coetl",
+  "short_name": "Coetl",
   "icons": [
       {
           "src": "./content/images/logo-arte.png",

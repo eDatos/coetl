@@ -3,7 +3,7 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 import {
-    ArteApplicationTemplateSharedLibsModule,
+    CoetlSharedLibsModule,
     AutocompleteComponent,
     AutocompleteShortListComponent,
     AutocompleteLongListComponent,
@@ -27,7 +27,7 @@ import {
 
 @NgModule({
     imports: [
-        ArteApplicationTemplateSharedLibsModule
+        CoetlSharedLibsModule
     ],
     declarations: [
         JhiAlertErrorComponent,
@@ -58,7 +58,7 @@ import {
         },
     ],
     exports: [
-        ArteApplicationTemplateSharedLibsModule,
+        CoetlSharedLibsModule,
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
         TriInputSwitchComponent,
@@ -79,4 +79,4 @@ import {
         AcDatePipe
     ]
 })
-export class ArteApplicationTemplateSharedCommonModule { }
+export class CoetlSharedCommonModule { }
