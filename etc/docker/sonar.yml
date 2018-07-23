@@ -1,7 +1,7 @@
 # FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
 version: '2'
 services:
-    arte_application_template-sonar:
+    coetl-sonar:
         image: sonarqube:6.4-alpine
         ports:
             - 9000:9000

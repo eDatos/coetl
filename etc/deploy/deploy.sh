@@ -8,7 +8,7 @@ DEPLOY_TARGET_PATH=/servers/plantilla/tomcats/plantilla01/webapps
 DEMO_ENV=$HOME_PATH/env
 
 scp -r etc/deploy deploy@tacoronte.arte:$TRANSFER_PATH
-scp target/arte-application-template-*.war deploy@tacoronte.arte:$TRANSFER_PATH/plantilla.war
+scp target/coetl-*.war deploy@tacoronte.arte:$TRANSFER_PATH/plantilla.war
 ssh deploy@tacoronte.arte <<EOF
 
     chmod a+x $TRANSFER_PATH/deploy/*.sh;

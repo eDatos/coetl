@@ -6,7 +6,7 @@
       "nativeLanguage": "en"
     },
     "jhipsterVersion": "4.6.2",
-    "baseName": "arte_application_template",
+    "baseName": "coetl",
     "packageName": "es.gobcan.coetl",
     "packageFolder": "es/gobcan/coetl",
     "serverPort": "8080",

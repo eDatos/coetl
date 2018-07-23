@@ -1,8 +1,8 @@
 {
   "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
-  "name": "arte-application-template",
+  "name": "coetl",
   "version": "0.0.0",
-  "description": "Description for arte_application_template",
+  "description": "Description for coetl",
   "private": true,
   "license": "UNLICENSED",
   "cacheDirectories": [

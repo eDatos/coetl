@@ -22,7 +22,7 @@ management:
             enabled: false # When using the MailService, configure an SMTP server and set this to true
 spring:
     application:
-        name: arte_application_template
+        name: coetl
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://FILL_HOST:FILL_PORT/FILL_DATABASE
@@ -104,7 +104,7 @@ liquibase:
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
-# keytool -genkey -alias arte_application_template -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
+# keytool -genkey -alias coetl -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
 #
 # You can also use Let's Encrypt:
 # https://maximilian-boehm.com/hp2121/Create-a-Java-Keystore-JKS-from-Let-s-Encrypt-Certificates.htm
@@ -117,7 +117,7 @@ liquibase:
 #        key-store: keystore.p12
 #        key-store-password: <your-password>
 #        keyStoreType: PKCS12
-#        keyAlias: arte_application_template
+#        keyAlias: coetl
 # ===================================================================
 server:
     port: 8080
@@ -161,7 +161,7 @@ jhipster:
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: arte_application_template@localhost
+        from: coetl@localhost
         base-url: http://my-server-url-to-change # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
@@ -176,8 +176,8 @@ jhipster:
             queue-size: 512
     swagger:
         default-include-pattern: /api/.*
-        title: arte_application_template API
-        description: arte_application_template API documentation
+        title: coetl API
+        description: coetl API documentation
         version: 0.0.1
         terms-of-service-url:
         contact-name:

@@ -114,7 +114,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         casAuthenticationProvider.setAuthenticationUserDetailsService(authenticationUserDetailsService());
         casAuthenticationProvider.setServiceProperties(serviceProperties());
         casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
-        casAuthenticationProvider.setKey("ARTE_APPLICATION_TEMPLATE_CAS");
+        casAuthenticationProvider.setKey("COETL_CAS");
         return casAuthenticationProvider;
     }
 

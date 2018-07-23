@@ -41,7 +41,7 @@ public class CoetlApp {
     }
 
     /**
-     * Initializes arte_application_template.
+     * Initializes coetl.
      * <p>
      * Spring profiles can be configured with a program arguments
      * --spring.profiles.active=your-active-profile

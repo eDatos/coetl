@@ -15,7 +15,7 @@
 
   <!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
 
-  <property name="LOGS_HOME" value="/data/artesl/arte-application-template/serverlogs" />
+  <property name="LOGS_HOME" value="/data/artesl/coetl/serverlogs" />
 
   <turboFilter class="es.gobcan.coetl.util.ExpiringDuplicateMessageFilter">
 	<allowedRepetitions>4</allowedRepetitions>
@@ -33,7 +33,7 @@
   <appender name="FILE"
     class="ch.qos.logback.core.rolling.RollingFileAppender">
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>${LOGS_HOME}/arte-application-template-${servidor}.%d{yyyy-MM-dd}.log
+      <fileNamePattern>${LOGS_HOME}/coetl-${servidor}.%d{yyyy-MM-dd}.log
       </fileNamePattern>
     </rollingPolicy>
     <encoder>
