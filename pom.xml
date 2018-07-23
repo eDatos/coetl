@@ -9,12 +9,6 @@
 		<relativePath />
 	</parent>
 
-	<!-- FIXME: Eliminar referencias a la plantilla -->
-	<!-- - Renombrar Template Arte Aplicaciones, com.arte.application.template, arte-application-template, etc... -->
-	<!-- - Especificar la versión inicial del proyecto: 1.0.0-SNAPSHOT -->
-	<!-- - Cambiar el issueManagement para especificar el proyecto correspondiente -->
-	<!-- - Cambiar el scm para especificar el proyecto correspondiente -->
-
 	<groupId>es.gobcan.coetl</groupId>
 	<artifactId>coetl</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
