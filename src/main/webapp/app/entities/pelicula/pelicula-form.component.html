@@ -8,7 +8,7 @@
                         <span class="fa fa-arrow-left"></span>
                     </button>
                     <span class="fa fa-video-camera"></span>
-                    <span *ngIf="!pelicula.id" jhiTranslate="arteApplicationTemplateApp.pelicula.home.createLabel"></span>
+                    <span *ngIf="!pelicula.id" jhiTranslate="coetlApp.pelicula.home.createLabel"></span>
                     <span *ngIf="pelicula.id">{{pelicula.titulo}}</span>
                 </div>
                 <div>
@@ -37,11 +37,11 @@
         </div>
         <fieldset [disabled]="!isEditMode()" >
             <h3>
-                <span jhiTranslate="arteApplicationTemplateApp.pelicula.info.label"></span>
+                <span jhiTranslate="coetlApp.pelicula.info.label"></span>
             </h3>
             <div class="entity-fields">
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.titulo.label" for="field_titulo"></label>
+                    <label class="form-control-label" jhiTranslate="coetlApp.pelicula.titulo.label" for="field_titulo"></label>
                     <input type="text" class="form-control" name="titulo" id="field_titulo" [(ngModel)]="pelicula.titulo" required acAutofocus />
                     <div [hidden]="!(editForm.controls.titulo?.dirty && editForm.controls.titulo?.invalid)">
                         <small class="form-text text-danger" [hidden]="!editForm.controls.titulo?.errors?.required" jhiTranslate="entity.validation.required">
@@ -49,29 +49,29 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.presupuesto.label" for="field_presupuesto"></label>
+                    <label class="form-control-label" jhiTranslate="coetlApp.pelicula.presupuesto.label" for="field_presupuesto"></label>
                     <ac-currency class="form-control" id="field_presupuesto" name="presupuesto" [(ngModel)]="pelicula.presupuesto" acAutofocus></ac-currency>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.fechaEstreno.label" for="field_fechaEstreno"></label>
+                    <label class="form-control-label" jhiTranslate="coetlApp.pelicula.fechaEstreno.label" for="field_fechaEstreno"></label>
                     <ac-calendar class="form-control" name="fechaEstreno" [(ngModel)]="pelicula.fechaEstreno" [required]="true"></ac-calendar>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.idioma.label" for="field_idioma"></label>
+                    <label class="form-control-label" jhiTranslate="coetlApp.pelicula.idioma.label" for="field_idioma"></label>
                     <ac-autocomplete-short-list name="field_idioma" [(ngModel)]="pelicula.idioma" [suggestions]="idiomas" [required]="false" [properties]="['nombre']"></ac-autocomplete-short-list>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label" for="field_categorias"></label>
+                    <label class="form-control-label" jhiTranslate="coetlApp.pelicula.categorias.label" for="field_categorias"></label>
                     <ac-autocomplete-short-list name="categorias" [(ngModel)]="pelicula.categorias" [suggestions]="categorias"
                     [required]="true" [createNonFound]="true" [properties]="['nombre']" [multiple]="true">
                     </ac-autocomplete-short-list>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" [jhiTranslate]="'arteApplicationTemplateApp.pelicula.premios.label'" for="field_premios"></label>
+                    <label class="form-control-label" [jhiTranslate]="'coetlApp.pelicula.premios.label'" for="field_premios"></label>
                     <ac-multi-input class="form-control" name="premios" [(ngModel)]="pelicula.premios"></ac-multi-input>
                 </div>
                 <div class="form-group full-width">
-                    <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.descripcion.label" for="field_descripcion"></label>
+                    <label class="form-control-label" jhiTranslate="coetlApp.pelicula.descripcion.label" for="field_descripcion"></label>
                     <textarea [disabled]="!isEditMode()" class="form-control" name="descripcion" id="descripcion" [(ngModel)]="pelicula.descripcion"
                         maxLength="4000" required autosize #descripcionContainer></textarea>
                 </div>
@@ -79,11 +79,11 @@
         </fieldset>
         <fieldset [disabled]="!isEditMode()">
             <h3>
-                <span jhiTranslate="arteApplicationTemplateApp.actor.home.title"></span>
+                <span jhiTranslate="coetlApp.actor.home.title"></span>
             </h3>                
             <div class="entity-fields">
                 <div class="form-group full-width">
-                    <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.pelicula.reparto.label" for="field_actores"></label>
+                    <label class="form-control-label" jhiTranslate="coetlApp.pelicula.reparto.label" for="field_actores"></label>
                     <ac-order-list class="form-control" name="actores" [(ngModel)]="pelicula.actores" [suggestions]="actores" [required]="true" 
                         [itemTemplate]="actorItemTemplate">
                     </ac-order-list>
@@ -93,11 +93,11 @@
         <fieldset [disabled]="isEditMode()">
             <div class="entity-fields">
                 <div class="form-group full-width">
-                    <ac-file-upload [title]="'arteApplicationTemplateApp.pelicula.documento.label' | translate" [url]="resourceUrl" (onUpload)="onDocumentoUpload($event)"
+                    <ac-file-upload [title]="'coetlApp.pelicula.documento.label' | translate" [url]="resourceUrl" (onUpload)="onDocumentoUpload($event)"
                         accept="image/*" [files]="pelicula.documento">
 
                         <ng-template let-file="file">
-                            <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.delete.title' | translate"
+                            <button type="button" class="btn btn-sm" [title]="'coetlApp.documento.delete.title' | translate"
                                 (click)="deleteDocumento(file)" >
                                 <i class="fa fa-trash"></i>
                             </button>

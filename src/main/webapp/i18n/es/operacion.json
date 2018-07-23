@@ -1,6 +1,6 @@
 {
     "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
-    "arteApplicationTemplateApp": {
+    "coetlApp": {
         "operacion": {
             "home": {
                 "title": "Operaciones",

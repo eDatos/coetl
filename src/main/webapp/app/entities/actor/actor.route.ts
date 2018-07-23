@@ -35,7 +35,7 @@ export const actorRoute: Routes = [
         },
         data: {
             roles: ACTOR_ROLES,
-            pageTitle: 'arteApplicationTemplateApp.actor.home.title'
+            pageTitle: 'coetlApp.actor.home.title'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -47,7 +47,7 @@ export const actorPopupRoute: Routes = [
         component: ActorPopupComponent,
         data: {
             roles: ACTOR_ROLES,
-            pageTitle: 'arteApplicationTemplateApp.actor.home.title'
+            pageTitle: 'coetlApp.actor.home.title'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
@@ -57,7 +57,7 @@ export const actorPopupRoute: Routes = [
         component: ActorPopupComponent,
         data: {
             roles: ACTOR_ROLES,
-            pageTitle: 'arteApplicationTemplateApp.actor.home.title'
+            pageTitle: 'coetlApp.actor.home.title'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

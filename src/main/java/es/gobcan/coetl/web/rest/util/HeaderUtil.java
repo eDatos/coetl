@@ -15,15 +15,15 @@ public final class HeaderUtil {
 
     private static final Logger log = LoggerFactory.getLogger(HeaderUtil.class);
 
-    private static final String APPLICATION_NAME = "arteApplicationTemplateApp";
+    private static final String APPLICATION_NAME = "coetlApp";
 
     private HeaderUtil() {
     }
 
     public static HttpHeaders createAlert(String message, String param) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-arteApplicationTemplate-alert", message);
-        headers.add("X-arteApplicationTemplate-params", param);
+        headers.add("X-coetl-alert", message);
+        headers.add("X-coetl-params", param);
         return headers;
     }
 
@@ -42,8 +42,8 @@ public final class HeaderUtil {
     public static HttpHeaders createFailureAlert(String entityName, String errorKey, String defaultMessage) {
         log.error("Entity processing failed, {}", defaultMessage);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-arteApplicationTemplate-error", errorKey);
-        headers.add("X-arteApplicationTemplate-params", entityName);
+        headers.add("X-coetl-error", errorKey);
+        headers.add("X-coetl-params", entityName);
         return headers;
     }
 }

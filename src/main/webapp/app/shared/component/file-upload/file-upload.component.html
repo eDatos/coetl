@@ -8,24 +8,24 @@
 </h3>
 <ng-container *ngIf="!disabled && canUpload()">
     <p-fileUpload class="{{mode}}" [name]="name" [url]="url" (onUpload)="onUploadMethod($event)" (onSelect)="onSelectMethod($event)" (onError)="onErrorMethod($event)"
-        [maxFileSize]="maxFileSize" [disabled]="disabled" [mode]="mode" [accept]="accept" [chooseLabel]="'arteApplicationTemplateApp.documento.choose' | translate"
-        [uploadLabel]="'arteApplicationTemplateApp.documento.upload' | translate" [cancelLabel]="'arteApplicationTemplateApp.documento.cancel' | translate"
-        [invalidFileSizeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileSizeMessageSummary' | translate" [invalidFileSizeMessageDetail]="'arteApplicationTemplateApp.documento.invalidFileSizeMessageDetail' | translate"
-        [invalidFileTypeMessageSummary]="'arteApplicationTemplateApp.documento.invalidFileTypeMessageSummary' | translate" [invalidFileTypeMessageDetail]="'arteApplicationTemplateApp.documento.invalidFileTypeMessageDetail' | translate"
+        [maxFileSize]="maxFileSize" [disabled]="disabled" [mode]="mode" [accept]="accept" [chooseLabel]="'coetlApp.documento.choose' | translate"
+        [uploadLabel]="'coetlApp.documento.upload' | translate" [cancelLabel]="'coetlApp.documento.cancel' | translate"
+        [invalidFileSizeMessageSummary]="'coetlApp.documento.invalidFileSizeMessageSummary' | translate" [invalidFileSizeMessageDetail]="'coetlApp.documento.invalidFileSizeMessageDetail' | translate"
+        [invalidFileTypeMessageSummary]="'coetlApp.documento.invalidFileTypeMessageSummary' | translate" [invalidFileTypeMessageDetail]="'coetlApp.documento.invalidFileTypeMessageDetail' | translate"
         [auto]="auto" #fileUpload>
         <ng-template pTemplate="toolbar">
             <div *ngIf="fileUpload.files.length > 0" class="fileupload-header">
-                <span jhiTranslate="arteApplicationTemplateApp.documento.filesToUpload"></span>
+                <span jhiTranslate="coetlApp.documento.filesToUpload"></span>
             </div>
             <div *ngIf="fileUpload.files.length == 0" class="empty-file-list">
-                <span jhiTranslate="arteApplicationTemplateApp.documento.noUploadPending"></span>
+                <span jhiTranslate="coetlApp.documento.noUploadPending"></span>
             </div>
         </ng-template>
         <ng-template let-file pTemplate="file">
             <div class="ui-fileupload-row">
                 <div class="name-width">{{file.name}}</div>
                 <div class="actions-width table-actions">
-                    <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.delete.title' | translate" (click)="fileUpload.remove($event,i)">
+                    <button type="button" class="btn btn-sm" [title]="'coetlApp.documento.delete.title' | translate" (click)="fileUpload.remove($event,i)">
                         <i class="fa fa-trash"></i>
                     </button>
                 </div>
@@ -38,7 +38,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th jhiTranslate="arteApplicationTemplateApp.documento.filename" class="name-width"></th>
+                <th jhiTranslate="coetlApp.documento.filename" class="name-width"></th>
                 <th class="actions-width"></th>
             </tr>
         </thead>
@@ -46,7 +46,7 @@
             <tr *ngFor="let file of innerFiles">
                 <td>{{file.name}}</td>
                 <td class="table-actions">
-                    <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.download' | translate" (click)="funcionDescargar(file)">
+                    <button type="button" class="btn btn-sm" [title]="'coetlApp.documento.download' | translate" (click)="funcionDescargar(file)">
                         <i class="fa fa-download"></i>
                     </button>
                     <ng-template [ngTemplateOutlet]="actionsTemplate" [ngOutletContext]="{file: file}"></ng-template>
@@ -56,6 +56,6 @@
     </table>
 </ng-container>
 <ng-template #emptyFileList>
-    <div class="empty-file-list" jhiTranslate="arteApplicationTemplateApp.documento.emptyFileList">
+    <div class="empty-file-list" jhiTranslate="coetlApp.documento.emptyFileList">
     </div>
 </ng-template>

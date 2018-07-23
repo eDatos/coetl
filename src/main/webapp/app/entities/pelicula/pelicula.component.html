@@ -1,18 +1,18 @@
 <div class="entity" acMakeFixedRoom>
     <div class="entity-header">
         <h2>
-            <span jhiTranslate="arteApplicationTemplateApp.pelicula.home.title"></span>
+            <span jhiTranslate="coetlApp.pelicula.home.title"></span>
             <div>
                 <button [disabled]="!filters.batchSelection.hasSelection()" class="btn btn-danger" (click)="delete()">
                     <span class="fa fa-times"></span>
-                    <span *ngIf="allVisibleIdsAreSelected()" jhiTranslate="arteApplicationTemplateApp.pelicula.delete.all">
+                    <span *ngIf="allVisibleIdsAreSelected()" jhiTranslate="coetlApp.pelicula.delete.all">
                     </span>
-                    <span *ngIf="!allVisibleIdsAreSelected()" jhiTranslate="arteApplicationTemplateApp.pelicula.delete.selection" [translateValues]="{ n : filters.batchSelection.selectedIds.length  }">
+                    <span *ngIf="!allVisibleIdsAreSelected()" jhiTranslate="coetlApp.pelicula.delete.selection" [translateValues]="{ n : filters.batchSelection.selectedIds.length  }">
                     </span>
                 </button>
                 <button class="btn btn-primary jh-create-entity create-acto-administrativo" [routerLink]="['../pelicula-new']">
                     <span class="fa fa-plus"></span>
-                    <span jhiTranslate="arteApplicationTemplateApp.pelicula.home.createLabel">
+                    <span jhiTranslate="coetlApp.pelicula.home.createLabel">
                     </span>
                 </button>
             </div>
@@ -27,22 +27,22 @@
                     <thead>
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                             <th style="width: 20%" jhiSortBy="titulo">
-                                <span jhiTranslate="arteApplicationTemplateApp.pelicula.titulo.label"></span>
+                                <span jhiTranslate="coetlApp.pelicula.titulo.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                                 <span class="row-selector" (click)="$event.stopPropagation()">
                                     <p-checkbox binary="true" [disabled]="isDeleting" (onChange)="toggleVisibleSelection()" [ngModel]="allVisibleIdsAreSelected()"></p-checkbox>
                                 </span>
                             </th>
                             <th style="width: 10%" jhiSortBy="fechaEstreno">
-                                <span jhiTranslate="arteApplicationTemplateApp.pelicula.fechaEstreno.label"></span>
+                                <span jhiTranslate="coetlApp.pelicula.fechaEstreno.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
                             <th style="width: 10%" jhiSortBy="idioma">
-                                <span jhiTranslate="arteApplicationTemplateApp.pelicula.idioma.label"></span>
+                                <span jhiTranslate="coetlApp.pelicula.idioma.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
                             <th style="width: 10%">
-                                <span jhiTranslate="arteApplicationTemplateApp.pelicula.categorias.label"></span>
+                                <span jhiTranslate="coetlApp.pelicula.categorias.label"></span>
                             </th>
                         </tr>
                     </thead>

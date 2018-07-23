@@ -36,7 +36,7 @@ export const peliculaRoute: Routes = [
         },
         data: {
             roles: PELICULA_ROLES,
-            pageTitle: 'arteApplicationTemplateApp.pelicula.home.title'
+            pageTitle: 'coetlApp.pelicula.home.title'
         },
         canActivate: [UserRouteAccessService]
     }, {
@@ -47,7 +47,7 @@ export const peliculaRoute: Routes = [
         },
         data: {
             roles: PELICULA_ROLES,
-            pageTitle: 'arteApplicationTemplateApp.pelicula.home.title'
+            pageTitle: 'coetlApp.pelicula.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -56,7 +56,7 @@ export const peliculaRoute: Routes = [
         component: PeliculaFormComponent,
         data: {
             roles: PELICULA_ROLES,
-            pageTitle: 'arteApplicationTemplateApp.pelicula.home.title'
+            pageTitle: 'coetlApp.pelicula.home.title'
         },
         canActivate: [UserRouteAccessService],
     },
@@ -68,7 +68,7 @@ export const peliculaRoute: Routes = [
         },
         data: {
             roles: PELICULA_ROLES,
-            pageTitle: 'arteApplicationTemplateApp.pelicula.home.title'
+            pageTitle: 'coetlApp.pelicula.home.title'
         },
         canActivate: [UserRouteAccessService],
     }
@@ -80,7 +80,7 @@ export const peliculaPopupRoute: Routes = [
         component: PeliculaDeletePopupComponent,
         data: {
             roles: PELICULA_ROLES,
-            pageTitle: 'arteApplicationTemplateApp.pelicula.home.title'
+            pageTitle: 'coetlApp.pelicula.home.title'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

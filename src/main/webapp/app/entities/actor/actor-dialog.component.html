@@ -3,7 +3,7 @@
         <div class="modal-header">
             <h4 class="modal-title" id="myActorLabel">
                 <span class="fa fa-tag"></span>
-                <span *ngIf="!actor.id" jhiTranslate="arteApplicationTemplateApp.actor.home.createLabel"></span>
+                <span *ngIf="!actor.id" jhiTranslate="coetlApp.actor.home.createLabel"></span>
                 <span *ngIf="actor.id">{{actor.normalizeName()}}</span>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
@@ -13,11 +13,11 @@
             <fieldset>
                     <div class="entity-fields">
                         <div class="form-group">
-                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.genero.label" for="field_genero"></label>
-                            <ac-autocomplete-enum name="genero" [(ngModel)]="actor.genero" [suggestionsEnum]="generoEnum" [translationPath]="'arteApplicationTemplateApp.actor.genero.'"></ac-autocomplete-enum>
+                            <label class="form-control-label" jhiTranslate="coetlApp.actor.genero.label" for="field_genero"></label>
+                            <ac-autocomplete-enum name="genero" [(ngModel)]="actor.genero" [suggestionsEnum]="generoEnum" [translationPath]="'coetlApp.actor.genero.'"></ac-autocomplete-enum>
                         </div>
                         <div class="form-group">
-                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.nombre" for="field_nombre"></label>
+                            <label class="form-control-label" jhiTranslate="coetlApp.actor.nombre" for="field_nombre"></label>
                             <input type="text" class="form-control" name="nombre" id="field_nombre"
                                 [(ngModel)]="actor.nombre" required acAutofocus />
                             <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.apellido1" for="field_apellido1"></label>
+                            <label class="form-control-label" jhiTranslate="coetlApp.actor.apellido1" for="field_apellido1"></label>
                             <input type="text" class="form-control" name="apellido1" id="field_apellido1"
                                 [(ngModel)]="actor.apellido1" required />
                             <div [hidden]="!(editForm.controls.apellido1?.dirty && editForm.controls.apellido1?.invalid)">
@@ -37,19 +37,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.apellido2" for="field_apellido2"></label>
+                            <label class="form-control-label" jhiTranslate="coetlApp.actor.apellido2" for="field_apellido2"></label>
                             <input type="text" class="form-control" name="apellido2" id="field_apellido2"
                                 [(ngModel)]="actor.apellido2" />
                         </div>
                         <div class="form-group">
-                            <label class="form-control-label" jhiTranslate="arteApplicationTemplateApp.actor.oscarizado" for="field_genero"></label>
+                            <label class="form-control-label" jhiTranslate="coetlApp.actor.oscarizado" for="field_genero"></label>
                             <ac-tri-input-switch class="form-control" [(ngModel)]="actor.oscarizado" [ngModelOptions]="{ standalone: true }"></ac-tri-input-switch>
                         </div>
                     </div>
             </fieldset>
 
             <div *ngIf="peliculas" class="entity-fields">
-                <h3 jhiTranslate="arteApplicationTemplateApp.actor.peliculas.title">Peliculas</h3>
+                <h3 jhiTranslate="coetlApp.actor.peliculas.title">Peliculas</h3>
                 <ac-order-list name="peliculas" [(ngModel)]="peliculas" [suggestions]="peliculas"
                     [itemTemplate]="peliculaItemTemplate" [disabled]="true" [canReorder]="false">
                 </ac-order-list>
@@ -58,11 +58,11 @@
             <div *ngIf="actor.id" class="entity-fields">
                     <div class="form-group full-width">
                         <fieldset>
-                            <ac-file-upload [title]="'arteApplicationTemplateApp.actor.documentos.label' | translate" [url]="resourceUrl" (onUpload)="onDocumentoUpload($event)"
+                            <ac-file-upload [title]="'coetlApp.actor.documentos.label' | translate" [url]="resourceUrl" (onUpload)="onDocumentoUpload($event)"
                                 accept="image/*" [files]="actor.documentos" [auto]="false" [limited]="3">
     
                                 <ng-template let-file="file">
-                                    <button type="button" class="btn btn-sm" [title]="'arteApplicationTemplateApp.documento.delete.title' | translate" (click)="deleteDocumento(file)">
+                                    <button type="button" class="btn btn-sm" [title]="'coetlApp.documento.delete.title' | translate" (click)="deleteDocumento(file)">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </ng-template>
@@ -95,7 +95,7 @@
             </ng-container>
             <ng-container *ngIf="isDeleting">
                 <div class="col-sm-6 text-center">
-                    <span jhiTranslate="arteApplicationTemplateApp.actor.delete.question" translateValues="{nombre: '{{actor.normalizeName()}}'}"></span>
+                    <span jhiTranslate="coetlApp.actor.delete.question" translateValues="{nombre: '{{actor.normalizeName()}}'}"></span>
                 </div>
                 <div class="col-sm-6 text-right"> 
                     <button type="button" class="btn btn-success" (click)="confirmDelete(actor.id)">
