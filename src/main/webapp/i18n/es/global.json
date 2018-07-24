@@ -1,17 +1,21 @@
 {
-    "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
+    "_comment":
+        "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
     "global": {
-        "title": "Arte - Plantilla de aplicaciones web de gestión",
+        "title": "COETL",
         "yes": "Sí",
         "no": "No",
-        "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor, <a href=\"http://browsehappy.com/?locale=en\">actualice su navegador</a> para mejorar su experiencia.",
+        "browsehappy":
+            "Está usando un navegador <strong>no actualizado</strong>. Por favor, <a href=\"http://browsehappy.com/?locale=en\">actualice su navegador</a> para mejorar su experiencia.",
         "menu": {
             "home": "Inicio",
-            "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+            "jhipster-needle-menu-add-element":
+                "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "categorias": "Categorías",
                 "idiomas": "Idioma",
-                "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+                "jhipster-needle-menu-add-entry":
+                    "JHipster will add additional entities here (do not translate!)"
             },
             "videoteca": {
                 "main": "Videoteca",
@@ -36,7 +40,8 @@
                 "logs": "Logs",
                 "audits": "Auditorías",
                 "apidocs": "API",
-                "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
+                "jhipster-needle-menu-add-admin-element":
+                    "JHipster will add additional menu entries here (do not translate!)"
             }
         },
         "form": {
@@ -48,7 +53,8 @@
                 "email": {
                     "required": "Se requiere un correo electrónico.",
                     "invalid": "Su correo electrónico no es válido.",
-                    "minlength": "Se requiere que su correo electrónico tenga por lo menos 5 caracteres",
+                    "minlength":
+                        "Se requiere que su correo electrónico tenga por lo menos 5 caracteres",
                     "maxlength": "Su correo electrónico no puede tener más de 50 caracteres"
                 }
             }

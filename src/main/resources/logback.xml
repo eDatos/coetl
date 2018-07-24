@@ -15,7 +15,7 @@
 
   <!-- FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...) -->
 
-  <property name="LOGS_HOME" value="/data/artesl/coetl/serverlogs" />
+  <property name="LOGS_HOME" value="/data/gobcan/coetl/serverlogs" />
 
   <turboFilter class="es.gobcan.coetl.util.ExpiringDuplicateMessageFilter">
 	<allowedRepetitions>4</allowedRepetitions>
