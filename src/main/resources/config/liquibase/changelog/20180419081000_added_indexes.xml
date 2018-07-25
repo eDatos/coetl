@@ -7,13 +7,6 @@
 
     <changeSet author="arte" id="20180419081000-1">
 
-        <!-- Actor -->
-
-        <createIndex indexName="idx_pelicula_actor_actor_id" tableName="pelicula_actor">
-            <column name="actor_id" type="int8" />
-        </createIndex>
-
-
         <!-- Rol -->
 
         <createIndex indexName="idx_usuario_rol_rol" tableName="usuario_rol">

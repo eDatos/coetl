@@ -7,12 +7,9 @@ import { ConfigService } from '../../config';
 @Component({
     selector: 'jhi-navbar',
     templateUrl: './navbar.component.html',
-    styleUrls: [
-        'navbar.component.scss'
-    ]
+    styleUrls: ['navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-
     inProduction: boolean;
     isNavbarCollapsed: boolean;
     swaggerEnabled: boolean;
@@ -24,7 +21,7 @@ export class NavbarComponent implements OnInit {
         public permissionService: PermissionService,
         private principal: Principal,
         private profileService: ProfileService,
-        private configService: ConfigService,
+        private configService: ConfigService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -50,7 +47,6 @@ export class NavbarComponent implements OnInit {
         this.loginService.logout();
         const config = this.configService.getConfig();
         window.location.href = config.cas.logout;
-
     }
 
     toggleNavbar() {
@@ -59,9 +55,5 @@ export class NavbarComponent implements OnInit {
 
     public correctlyLogged(): boolean {
         return Boolean(this.principal.correctlyLogged());
-    }
-
-    isVideotecaVisible(): boolean {
-        return this.permissionService.puedeNavegarPelicula() || this.permissionService.puedeNavegarActor();
     }
 }

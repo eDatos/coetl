@@ -13,9 +13,6 @@ import com.arte.libs.grammar.antlr.QueryExprCompiler;
 import com.arte.libs.grammar.domain.QueryRequest;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 
-import es.gobcan.coetl.service.criteria.ActorCriteriaProcessor;
-import es.gobcan.coetl.service.criteria.IdiomaCriteriaProcessor;
-import es.gobcan.coetl.service.criteria.PeliculaCriteriaProcessor;
 import es.gobcan.coetl.service.criteria.UsuarioCriteriaProcessor;
 
 @Component
@@ -27,18 +24,6 @@ public class QueryUtil {
 
     public DetachedCriteria queryToUserCriteria(Pageable pageable, String query) {
         return queryToCriteria(pageable, query, new UsuarioCriteriaProcessor());
-    }
-
-    public DetachedCriteria queryToIdiomaCriteria(Pageable pageable, String query) {
-        return queryToCriteria(pageable, query, new IdiomaCriteriaProcessor());
-    }
-
-    public DetachedCriteria queryToPeliculaCriteria(Pageable pageable, String query) {
-        return queryToCriteria(pageable, query, new PeliculaCriteriaProcessor());
-    }
-
-    public DetachedCriteria queryToActorCriteria(Pageable pageable, String query) {
-        return queryToCriteria(pageable, query, new ActorCriteriaProcessor());
     }
 
     public String queryIncludingDeleted(String query) {

@@ -34,15 +34,6 @@ public class CacheConfiguration {
         return cm -> {
             cm.createCache(es.gobcan.coetl.domain.Usuario.class.getName(), jcacheConfiguration);
             cm.createCache(es.gobcan.coetl.domain.Usuario.class.getName() + ".roles", jcacheConfiguration);
-            cm.createCache(es.gobcan.coetl.domain.Pelicula.class.getName(), jcacheConfiguration);
-            cm.createCache(es.gobcan.coetl.domain.Pelicula.class.getName() + ".idiomas", jcacheConfiguration);
-            cm.createCache(es.gobcan.coetl.domain.Pelicula.class.getName() + ".actores", jcacheConfiguration);
-            cm.createCache(es.gobcan.coetl.domain.Pelicula.class.getName() + ".categorias", jcacheConfiguration);
-            cm.createCache(es.gobcan.coetl.domain.Actor.class.getName(), jcacheConfiguration);
-            cm.createCache(es.gobcan.coetl.domain.Actor.class.getName() + ".peliculas", jcacheConfiguration);
-            cm.createCache(es.gobcan.coetl.domain.Categoria.class.getName(), jcacheConfiguration);
-            cm.createCache(es.gobcan.coetl.domain.Categoria.class.getName() + ".peliculas", jcacheConfiguration);
-            cm.createCache(es.gobcan.coetl.domain.Idioma.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
