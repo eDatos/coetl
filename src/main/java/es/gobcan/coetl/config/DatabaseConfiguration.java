@@ -20,10 +20,6 @@ import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
 import liquibase.integration.spring.SpringLiquibase;
 
-/**
- * FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
- */
-
 @Configuration
 @EnableJpaRepositories(basePackages = "es.gobcan.coetl.repository", repositoryFactoryBeanClass = ArteJpaRepositoryFactoryBean.class)
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")

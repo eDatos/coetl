@@ -1,5 +1,4 @@
 {
-    "_comment": "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "project": {
         "name": "coetl"

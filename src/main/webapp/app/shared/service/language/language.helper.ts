@@ -31,7 +31,7 @@ export class JhiLanguageHelper {
      */
     updateTitle(titleKey?: string) {
         if (!titleKey) {
-             titleKey = this.getPageTitle(this.router.routerState.snapshot.root);
+            titleKey = this.getPageTitle(this.router.routerState.snapshot.root);
         }
 
         this.translateService.get(titleKey).subscribe((title) => {
@@ -41,14 +41,20 @@ export class JhiLanguageHelper {
 
     private init() {
         this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.renderer.setAttribute(document.querySelector('html'), 'lang', this.translateService.currentLang);
+            this.renderer.setAttribute(
+                document.querySelector('html'),
+                'lang',
+                this.translateService.currentLang
+            );
             this.updateTitle();
         });
     }
 
-    // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
-        let title: string = (routeSnapshot.data && routeSnapshot.data['pageTitle']) ? routeSnapshot.data['pageTitle'] : 'coetlApp';
+        let title: string =
+            routeSnapshot.data && routeSnapshot.data['pageTitle']
+                ? routeSnapshot.data['pageTitle']
+                : 'coetlApp';
         if (routeSnapshot.firstChild) {
             title = this.getPageTitle(routeSnapshot.firstChild) || title;
         }

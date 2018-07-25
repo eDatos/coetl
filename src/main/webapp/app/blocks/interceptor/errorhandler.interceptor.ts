@@ -3,7 +3,6 @@ import { JhiEventManager, JhiHttpInterceptor } from 'ng-jhipster';
 import { Observable } from 'rxjs/Observable';
 
 export class ErrorHandlerInterceptor extends JhiHttpInterceptor {
-
     constructor(private eventManager: JhiEventManager) {
         super();
     }
@@ -12,13 +11,16 @@ export class ErrorHandlerInterceptor extends JhiHttpInterceptor {
         return options;
     }
 
-    // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-
     responseIntercept(observable: Observable<Response>): Observable<Response> {
-        return <Observable<Response>> observable.catch((error) => {
-            if (!(error.status === 401 && (error.text() === '' ||
-                (error.json().path && error.json().path.indexOf('/api/account') === 0 )))) {
-                this.eventManager.broadcast( {name: 'coetlApp.httpError', content: error});
+        return <Observable<Response>>observable.catch((error) => {
+            if (
+                !(
+                    error.status === 401 &&
+                    (error.text() === '' ||
+                        (error.json().path && error.json().path.indexOf('/api/account') === 0))
+                )
+            ) {
+                this.eventManager.broadcast({ name: 'coetlApp.httpError', content: error });
             }
             return Observable.throw(error);
         });

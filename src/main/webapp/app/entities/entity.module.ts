@@ -1,4 +1,3 @@
-// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { CoetlActorModule } from './actor/actor.module';
@@ -15,7 +14,7 @@ import { CoetlPeliculaModule } from './pelicula/pelicula.module';
         CoetlActorModule,
         CoetlCategoriaModule,
         CoetlIdiomaModule,
-        CoetlDocumentoModule,
+        CoetlDocumentoModule
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

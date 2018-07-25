@@ -1,5 +1,3 @@
-// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -34,7 +32,7 @@ import { UserSearchComponent } from './user-management/user-search';
 @NgModule({
     imports: [
         CoetlSharedModule,
-        RouterModule.forRoot(adminState, { useHash: true }),
+        RouterModule.forRoot(adminState, { useHash: true })
         /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
     ],
     declarations: [
@@ -56,7 +54,7 @@ import { UserSearchComponent } from './user-management/user-search';
         UserMgmtFormComponent,
         UserMgmtDeleteDialogComponent,
         JhiHealthModalComponent,
-        JhiMetricsMonitoringModalComponent,
+        JhiMetricsMonitoringModalComponent
     ],
     providers: [
         AuditsService,
@@ -66,8 +64,8 @@ import { UserSearchComponent } from './user-management/user-search';
         LogsService,
         AuditsResolvePagingParams,
         UserResolvePagingParams,
-        UserModalService,
+        UserModalService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class CoetlAdminModule { }
+export class CoetlAdminModule {}

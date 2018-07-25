@@ -21,10 +21,6 @@ import io.github.jhipster.config.JHipsterProperties;
 @EnableScheduling
 public class AsyncConfiguration implements AsyncConfigurer {
 
-    /**
-     * FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-     */
-
     private final Logger log = LoggerFactory.getLogger(AsyncConfiguration.class);
 
     private final JHipsterProperties jHipsterProperties;

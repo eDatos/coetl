@@ -1,5 +1,3 @@
-# FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-
 version: '2'
 services:
     coetl-postgresql:

@@ -11,8 +11,6 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-# FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-
 management:
     security:
         enabled: false

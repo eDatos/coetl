@@ -1,4 +1,3 @@
-// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
 import { DatePipe } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -26,11 +25,7 @@ import {
 } from '.';
 
 @NgModule({
-    imports: [
-        CoetlSharedLibsModule,
-        CoetlSharedCommonModule,
-        RouterModule
-    ],
+    imports: [CoetlSharedLibsModule, CoetlSharedCommonModule, RouterModule],
     declarations: [
         EntityListEmptyComponent,
         AuditInfoComponent,
@@ -65,6 +60,5 @@ import {
         FileUploadComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
-
 })
-export class CoetlSharedModule { }
+export class CoetlSharedModule {}

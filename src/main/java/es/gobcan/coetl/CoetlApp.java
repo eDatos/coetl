@@ -28,10 +28,6 @@ import io.github.jhipster.config.JHipsterConstants;
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
 public class CoetlApp {
 
-    /**
-     * FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-     */
-
     private static final Logger log = LoggerFactory.getLogger(CoetlApp.class);
 
     private final Environment env;

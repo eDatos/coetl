@@ -1,5 +1,3 @@
-// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-
 import './vendor.ts';
 
 import { NgModule, APP_INITIALIZER } from '@angular/core';
@@ -28,9 +26,7 @@ import {
     notFoundRoute
 } from './layouts';
 
-const APP_ROUTES = [
-    notFoundRoute
-]
+const APP_ROUTES = [notFoundRoute];
 
 export function init(configService: ConfigService, authServerProvider: AuthServerProvider) {
     return () => {
@@ -39,11 +35,12 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
                 resolve(true);
             } else {
                 const config = configService.getConfig();
-                window.location.href = config.cas.login + '?service=' + encodeURIComponent(config.cas.service);
+                window.location.href =
+                    config.cas.login + '?service=' + encodeURIComponent(config.cas.service);
             }
         });
         return promise;
-    }
+    };
 }
 
 @NgModule({
@@ -60,22 +57,18 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
         CoetlConfigModule,
         RouterModule.forRoot(APP_ROUTES, { useHash: true })
     ],
-    declarations: [
-        JhiMainComponent,
-        NavbarComponent,
-        ErrorComponent,
-    ],
+    declarations: [JhiMainComponent, NavbarComponent, ErrorComponent],
     providers: [
         {
-            'provide': APP_INITIALIZER,
-            'useFactory': init,
-            'deps': [ConfigService, AuthServerProvider],
-            'multi': true
+            provide: APP_INITIALIZER,
+            useFactory: init,
+            deps: [ConfigService, AuthServerProvider],
+            multi: true
         },
         customHttpProvider(),
         PaginationConfig,
-        UserRouteAccessService,
+        UserRouteAccessService
     ],
     bootstrap: [JhiMainComponent]
 })
-export class CoetlAppModule { }
+export class CoetlAppModule {}

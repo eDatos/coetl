@@ -21,10 +21,6 @@ import io.github.jhipster.config.JHipsterConstants;
 @Aspect
 public class LoggingAspect {
 
-    /**
-     * FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-     */
-
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final Environment env;

@@ -9,10 +9,6 @@ import org.springframework.http.HttpHeaders;
  */
 public final class HeaderUtil {
 
-    /**
-     * FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
-     */
-
     private static final Logger log = LoggerFactory.getLogger(HeaderUtil.class);
 
     private static final String APPLICATION_NAME = "coetlApp";

@@ -107,7 +107,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return statelessTicketCache;
     }
 
-    // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
     @Bean
     public CasAuthenticationProvider casAuthenticationProvider() {
         CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();

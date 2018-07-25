@@ -17,16 +17,15 @@ import { AcAlertService } from './alert.service';
         </div>`
 })
 export class JhiAlertErrorComponent implements OnInit, OnDestroy {
-
     alerts: any[];
     cleanHttpErrorListener: Subscription;
 
-    // FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
     constructor(
         public alertService: JhiAlertService,
         public acAlertService: AcAlertService,
         private eventManager: JhiEventManager,
-        private translateService: TranslateService) {
+        private translateService: TranslateService
+    ) {
         this.cleanHttpErrorListener = eventManager.subscribe('coetlApp.httpError', (response) => {
             let i;
             const httpResponse = response.content;
@@ -53,31 +52,48 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
                         entityKey = httpResponse.headers.get(headers[1]);
                     }
                     if (errorHeader) {
-                        const entityName = translateService.instant('global.menu.entities.' + entityKey);
+                        const entityName = translateService.instant(
+                            'global.menu.entities.' + entityKey
+                        );
                         this.addErrorAlert(errorHeader, errorHeader, { entityName });
-                    } else if (httpResponse.text() !== '' && httpResponse.json() && httpResponse.json().fieldErrors) {
+                    } else if (
+                        httpResponse.text() !== '' &&
+                        httpResponse.json() &&
+                        httpResponse.json().fieldErrors
+                    ) {
                         const fieldErrors = httpResponse.json().fieldErrors;
                         for (i = 0; i < fieldErrors.length; i++) {
                             const fieldError = fieldErrors[i];
                             // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
                             const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
-                            const fieldName = translateService.instant('coetlApp.' +
-                                fieldError.objectName + '.' + convertedField);
+                            const fieldName = translateService.instant(
+                                'coetlApp.' + fieldError.objectName + '.' + convertedField
+                            );
                             this.addErrorAlert(
-                                'Error on field "' + fieldName + '"', 'error.' + fieldError.message, { fieldName });
+                                'Error on field "' + fieldName + '"',
+                                'error.' + fieldError.message,
+                                { fieldName }
+                            );
                         }
-                    } else if (httpResponse.text() !== '' && httpResponse.json() && httpResponse.json().message) {
+                    } else if (
+                        httpResponse.text() !== '' &&
+                        httpResponse.json() &&
+                        httpResponse.json().message
+                    ) {
                         // CustomParameterizedException
                         this.acAlertService.error(this.parseErrorResponse(httpResponse.json()));
                     } else if (httpResponse.text()) {
                         this.addErrorAlert(httpResponse.text());
                     } else {
                         this.addErrorAlert('Not found', 'error.url.not.found');
-
                     }
                     break;
                 default:
-                    if (httpResponse.text() !== '' && httpResponse.json() && httpResponse.json().message) {
+                    if (
+                        httpResponse.text() !== '' &&
+                        httpResponse.json() &&
+                        httpResponse.json().message
+                    ) {
                         this.addErrorAlert(httpResponse.json().message);
                     } else {
                         this.addErrorAlert(httpResponse.text());
@@ -102,7 +118,7 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
     }
 
     addErrorAlert(message, key?, data?) {
-        key = (key && key !== null) ? key : message;
+        key = key && key !== null ? key : message;
         this.alerts.push(
             this.alertService.addAlert(
                 {
@@ -129,7 +145,10 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
 
     private parseErrorListResponse(errorResponse: any): string {
         let formattedText = '<div class="alerts-list">';
-        formattedText += `<h4>${this.translateService.instant(errorResponse.code, errorResponse.params)}</h4>`;
+        formattedText += `<h4>${this.translateService.instant(
+            errorResponse.code,
+            errorResponse.params
+        )}</h4>`;
 
         formattedText += `<ul>`;
         errorResponse.errorItems.forEach((error) => {

@@ -1,8 +1,6 @@
 {
-    "_comment":
-        "FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)",
     "global": {
-        "title": "COETL",
+        "title": "Consola de ETL",
         "yes": "Sí",
         "no": "No",
         "browsehappy":

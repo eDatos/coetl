@@ -1,4 +1,3 @@
-// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
@@ -26,9 +25,7 @@ import {
 } from '.';
 
 @NgModule({
-    imports: [
-        CoetlSharedLibsModule
-    ],
+    imports: [CoetlSharedLibsModule],
     declarations: [
         JhiAlertErrorComponent,
         StickyTableHeaderDirective,
@@ -55,7 +52,7 @@ import {
         {
             provide: LOCALE_ID,
             useValue: 'es'
-        },
+        }
     ],
     exports: [
         CoetlSharedLibsModule,
@@ -79,4 +76,4 @@ import {
         AcDatePipe
     ]
 })
-export class CoetlSharedCommonModule { }
+export class CoetlSharedCommonModule {}

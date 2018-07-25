@@ -1,4 +1,3 @@
-// FIXME: Eliminar referencias a la plantilla (com.arte.application.template, arte-application-template, etc...)
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -20,15 +19,13 @@ import {
     InputTextareaModule,
     ListboxModule,
     OrderListModule,
-    SelectButtonModule,
+    SelectButtonModule
 } from 'primeng/primeng';
 
 import { DEFAULT_LANGUAGE } from './service/language/language.constants';
 
 @NgModule({
-    declarations: [
-        Autosize,
-    ],
+    declarations: [Autosize],
     imports: [
         NgbModule.forRoot(),
         NgJhipsterModule.forRoot({
@@ -74,4 +71,4 @@ import { DEFAULT_LANGUAGE } from './service/language/language.constants';
         DataTableModule
     ]
 })
-export class CoetlSharedLibsModule { }
+export class CoetlSharedLibsModule {}
