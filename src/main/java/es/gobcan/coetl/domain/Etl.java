@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "etl")
@@ -35,12 +36,12 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @SequenceGenerator(name = "etl_id_seq", sequenceName = "etl_id_seq", allocationSize = 50, initialValue = 10)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Size(min = 1, max = 255)
     @Column(name = "code", nullable = false, unique = true, length = 255)
     private String code;
 
-    @NotNull
+    @NotBlank
     @Size(min = 1, max = 255)
     @Column(name = "name", nullable = false, length = 255)
     private String name;
@@ -49,17 +50,17 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @Column(name = "purpose", length = 4000)
     private String purpose;
 
-    @NotNull
+    @NotBlank
     @Size(min = 1, max = 4000)
     @Column(name = "organization_in_charge", nullable = false, length = 4000)
     private String organizationInCharge;
 
-    @NotNull
+    @NotBlank
     @Size(min = 1, max = 4000)
     @Column(name = "functional_in_charge", nullable = false, length = 4000)
     private String functionalInCharge;
 
-    @NotNull
+    @NotBlank
     @Size(min = 1, max = 4000)
     @Column(name = "technical_in_charge", nullable = false, length = 4000)
     private String technicalInCharge;
@@ -170,7 +171,7 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     }
 
     public boolean isPlanned() {
-        return !StringUtils.isEmpty(executionPlanning);
+        return StringUtils.isNotBlank(executionPlanning);
     }
 
     @Override
@@ -194,7 +195,7 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @Override
     public String toString() {
         //@formatter:off
-        return "Usuario (" +
+        return "Etl (" +
                     "id = " + getId() + 
                     ", code = " + getCode() + 
                     ", name = " + getName() + 
