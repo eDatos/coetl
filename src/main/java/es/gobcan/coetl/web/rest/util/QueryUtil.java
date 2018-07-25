@@ -13,6 +13,7 @@ import com.arte.libs.grammar.antlr.QueryExprCompiler;
 import com.arte.libs.grammar.domain.QueryRequest;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 
+import es.gobcan.coetl.service.criteria.EtlCriteriaProcessor;
 import es.gobcan.coetl.service.criteria.UsuarioCriteriaProcessor;
 
 @Component
@@ -24,6 +25,10 @@ public class QueryUtil {
 
     public DetachedCriteria queryToUserCriteria(Pageable pageable, String query) {
         return queryToCriteria(pageable, query, new UsuarioCriteriaProcessor());
+    }
+
+    public DetachedCriteria queryToEtlCriteria(Pageable pageable, String query) {
+        return queryToCriteria(pageable, query, new EtlCriteriaProcessor());
     }
 
     public String queryIncludingDeleted(String query) {
