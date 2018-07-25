@@ -1,4 +1,4 @@
-package es.gobcan.coetl.optimistic;
+package es.gobcan.coetl.domain;
 
 import java.io.Serializable;
 

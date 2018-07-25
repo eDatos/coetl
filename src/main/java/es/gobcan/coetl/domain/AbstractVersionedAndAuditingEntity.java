@@ -1,11 +1,11 @@
-package es.gobcan.coetl.optimistic;
+package es.gobcan.coetl.domain;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
-import es.gobcan.coetl.domain.AbstractAuditingEntity;
+import es.gobcan.coetl.optimistic.OptimisticLockChecker;
 
 @MappedSuperclass
 @EntityListeners(OptimisticLockChecker.class)

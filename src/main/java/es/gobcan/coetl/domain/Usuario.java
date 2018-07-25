@@ -29,7 +29,6 @@ import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.coetl.config.Constants;
 import es.gobcan.coetl.domain.enumeration.Rol;
-import es.gobcan.coetl.optimistic.AbstractVersionedAndAuditingEntity;
 
 @Entity
 @Table(name = "usuario")
