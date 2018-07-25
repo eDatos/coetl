@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import es.gobcan.coetl.domain.enumeration.Rol;
 
 @Component("secChecker")
-public class ApplicationTemplateSecurity {
+public class SecurityChecker {
 
     public boolean puedeConsultarAuditoria(Authentication authentication) {
         return this.esAdmin(authentication);
