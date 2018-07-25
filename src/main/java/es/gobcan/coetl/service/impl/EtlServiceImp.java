@@ -44,11 +44,6 @@ public class EtlServiceImp implements EtlService {
         return save(etl);
     }
 
-    private Etl save(Etl etl) {
-        LOG.debug("Request to save an ETL : {}", etl);
-        return etlRepository.save(etl);
-    }
-
     @Override
     public Etl findOne(Long id) {
         LOG.debug("Request to find an ETL : {}", id);
@@ -60,6 +55,11 @@ public class EtlServiceImp implements EtlService {
         LOG.debug("Request to find all ETLs by query : {}", query);
         DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable);
         return etlRepository.findAll(criteria, pageable);
+    }
+
+    private Etl save(Etl etl) {
+        LOG.debug("Request to save an ETL : {}", etl);
+        return etlRepository.save(etl);
     }
 
     private DetachedCriteria buildEtlCriteria(String query, boolean includeDeleted, Pageable pageable) {
