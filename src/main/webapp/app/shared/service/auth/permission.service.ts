@@ -4,6 +4,8 @@ import { Rol } from './rol.model';
 
 export const USER_MANAGEMENT_ROLES = [Rol.ADMIN];
 export const HERRAMIENTAS_ROLES = [Rol.ADMIN];
+export const READ_ETL_ROLES = [Rol.ADMIN, Rol.TECNICO, Rol.LECTOR];
+export const MANAGE_ETL_ROLES = [Rol.ADMIN, Rol.TECNICO];
 
 @Injectable()
 export class PermissionService {
@@ -15,5 +17,13 @@ export class PermissionService {
 
     puedeNavegarHerramientas(): boolean {
         return this.principal.rolesRutaMatchesRolesUsuario(HERRAMIENTAS_ROLES);
+    }
+
+    canReadEtl(): boolean {
+        return this.principal.rolesRutaMatchesRolesUsuario(READ_ETL_ROLES);
+    }
+
+    canManageEtl(): boolean {
+        return this.principal.rolesRutaMatchesRolesUsuario(MANAGE_ETL_ROLES);
     }
 }
