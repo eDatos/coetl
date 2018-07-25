@@ -49,7 +49,7 @@ public class CoetlApp {
     public void initApplication() {
         Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(Constants.SPRING_PROFILE_ENV)) {
-            log.error("You have misconfigured your application! It should not run " + "with both the 'dev' and 'prod' profiles at the same time.");
+            log.error("You have misconfigured your application! It should not run with both the 'dev' and 'prod' profiles at the same time.");
         }
     }
 
