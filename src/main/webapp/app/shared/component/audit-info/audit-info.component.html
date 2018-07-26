@@ -13,7 +13,7 @@
             </dt>
             <dd>{{ entity.lastModifiedBy }}</dd>
         </dl>
-        <dl *ngIf="entity.deletedBy" class="jh-entity-details">
+        <dl *ngIf="isAuditableWithDeletion()" class="jh-entity-details">
             <dt>
                 <label jhiTranslate="entity.audits.deletedBy"></label>
             </dt>
@@ -31,7 +31,7 @@
             </dt>
             <dd>{{ entity.lastModifiedDate | acDate: 'datetime' }}</dd>
         </dl>
-        <dl *ngIf="entity.deletionDate" class="jh-entity-details">
+        <dl *ngIf="isAuditableWithDeletion()" class="jh-entity-details">
             <dt>
                 <label jhiTranslate="entity.audits.deletionDate"></label>
             </dt>

@@ -1,16 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BaseAuditingEntity } from '../../model/base-auditing-entity';
+import { BaseAuditingWithDeletionEntity } from '../../model/base-auditing-with-deletion-entity';
 
 @Component({
     selector: 'ac-audit-info',
     templateUrl: './audit-info.component.html'
 })
 export class AuditInfoComponent implements OnInit {
+    @Input() entity: BaseAuditingEntity;
 
-    @Input()
-    entity: BaseAuditingEntity;
-
-    constructor() { }
+    constructor() {}
 
     ngOnInit() {
         if (!this.isAuditable()) {
@@ -24,5 +23,9 @@ export class AuditInfoComponent implements OnInit {
 
     private isAuditable(): Boolean {
         return this.entity instanceof BaseAuditingEntity;
+    }
+
+    private isAuditableWithDeletion(): Boolean {
+        return this.entity instanceof BaseAuditingWithDeletionEntity;
     }
 }
