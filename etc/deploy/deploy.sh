@@ -18,15 +18,15 @@ ssh deploy@coetl.arte <<EOF
     ###
 
     # Update Process
-    sudo rm -rf $DEPLOY_TARGET_PATH/coetl
+    sudo rm -rf $DEPLOY_TARGET_PATH/ROOT
     sudo mv $TRANSFER_PATH/coetl.war $DEPLOY_TARGET_PATH/coetl.war
-    sudo unzip $DEPLOY_TARGET_PATH/coetl.war -d $DEPLOY_TARGET_PATH/coetl
+    sudo unzip $DEPLOY_TARGET_PATH/coetl.war -d $DEPLOY_TARGET_PATH/ROOT
     sudo rm -rf $DEPLOY_TARGET_PATH/coetl.war
 
     # Restore Configuration
-    sudo cp $DEMO_ENV/logback.xml $DEPLOY_TARGET_PATH/coetl/WEB-INF/classes/
-    sudo rm -f $DEPLOY_TARGET_PATH/coetl/WEB-INF/classes/config/application-env.yml
-    sudo cp $DEMO_ENV/data-location.properties $DEPLOY_TARGET_PATH/coetl/WEB-INF/classes/config/
+    sudo cp $DEMO_ENV/logback.xml $DEPLOY_TARGET_PATH/ROOT/WEB-INF/classes/
+    sudo rm -f $DEPLOY_TARGET_PATH/ROOT/WEB-INF/classes/config/application-env.yml
+    sudo cp $DEMO_ENV/data-location.properties $DEPLOY_TARGET_PATH/ROOT/WEB-INF/classes/config/
     
     sudo chown -R coetl.coetl /servers/coetl
     sudo service coetl01 start
