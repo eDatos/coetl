@@ -5,7 +5,7 @@ TRANSFER_PATH=$HOME_PATH/tmp
 DEPLOY_TARGET_PATH=/servers/coetl/tomcats/coetl01/webapps
 DEMO_ENV=$HOME_PATH/env
 
-scp -r etc/deploy deploy@coetl:$TRANSFER_PATH
+scp -r etc/deploy deploy@coetl.arte:$TRANSFER_PATH
 scp target/coetl-*.war deploy@coetl.arte:$TRANSFER_PATH/coetl.war
 ssh deploy@coetl.arte <<EOF
 
