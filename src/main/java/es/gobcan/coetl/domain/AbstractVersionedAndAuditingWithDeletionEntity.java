@@ -35,4 +35,8 @@ public abstract class AbstractVersionedAndAuditingWithDeletionEntity extends Abs
     public void setDeletedBy(String deletedBy) {
         this.deletedBy = deletedBy;
     }
+
+    public boolean isDeleted() {
+        return deletionDate == null;
+    }
 }

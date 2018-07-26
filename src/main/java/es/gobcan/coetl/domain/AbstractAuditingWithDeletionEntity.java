@@ -42,4 +42,8 @@ public abstract class AbstractAuditingWithDeletionEntity extends AbstractAuditin
         this.deletedBy = deletedBy;
     }
 
+    public boolean isDeleted() {
+        return deletionDate == null;
+    }
+
 }
