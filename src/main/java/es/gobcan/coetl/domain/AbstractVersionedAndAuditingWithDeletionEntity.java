@@ -37,6 +37,6 @@ public abstract class AbstractVersionedAndAuditingWithDeletionEntity extends Abs
     }
 
     public boolean isDeleted() {
-        return deletionDate == null;
+        return deletionDate != null;
     }
 }

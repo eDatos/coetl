@@ -43,7 +43,7 @@ public abstract class AbstractAuditingWithDeletionEntity extends AbstractAuditin
     }
 
     public boolean isDeleted() {
-        return deletionDate == null;
+        return deletionDate != null;
     }
 
 }

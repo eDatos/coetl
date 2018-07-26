@@ -14,7 +14,7 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
     @Autowired
     EtlRepository etlRepository;
 
-    Etl fromId(Long id) {
+    public Etl fromId(Long id) {
         return (id == null) ? null : etlRepository.findOne(id);
     }
 
