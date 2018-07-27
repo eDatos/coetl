@@ -9,6 +9,13 @@
     <div class="d-flex justify-content-end">
         <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
             <ul class="navbar-nav">
+                <li *ngIf="permissionService.canReadEtl()" class="nav-item pointer">
+                    <a class="nav-link" routerLink="etl" routerLinkActive="active">
+                        <i class="fa fa-fw fa-files-o" aria-hidden="true"></i>
+                        <span jhiTranslate="global.menu.etl.main"></span>
+                    </a>
+                </li>
+
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
                 <li *ngIf="correctlyLogged()" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
                     <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
