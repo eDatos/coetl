@@ -1,6 +1,6 @@
-import { BaseAuditingEntity } from '../../model/base-auditing-entity';
+import { BaseVersionedAndAuditingWithDeletionEntity } from '../../model/base-versioned-auditing-with-deletion-entity';
 
-export class User extends BaseAuditingEntity {
+export class User extends BaseVersionedAndAuditingWithDeletionEntity {
     public id?: any;
     public login?: string;
     public nombre?: string;
