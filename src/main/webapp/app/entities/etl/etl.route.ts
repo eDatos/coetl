@@ -3,6 +3,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@a
 import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { UserRouteAccessService, READ_ETL_ROLES, ITEMS_PER_PAGE } from '../../shared';
+import { DEFAULT_PATH } from '../../home';
 import { EtlComponent } from './etl.component';
 
 @Injectable()
@@ -26,7 +27,7 @@ export class EtlResolvePagingParams implements Resolve<any> {
 
 export const etlRoute: Routes = [
     {
-        path: 'etl',
+        path: DEFAULT_PATH,
         component: EtlComponent,
         resolve: {
             pagingParams: EtlResolvePagingParams

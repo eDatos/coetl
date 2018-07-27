@@ -3,25 +3,20 @@ import { Router } from '@angular/router';
 import { UserRouteAccessService, Principal, Account } from '../shared';
 import { USER_MANAGEMENT_ROLES } from '../shared';
 
-/**
- * FIXME
- * La constante DEFAULT_PATH debe contener el path de primer nivel al que los usuarios acceden al entrar a la aplicación.
- **/
-export const DEFAULT_PATH = 'user-management';
+export const DEFAULT_PATH = 'etl';
 
 @Component({
     selector: 'jhi-home',
     templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-
     public account: Account;
 
     constructor(
         private principal: Principal,
         private userRouteAccessService: UserRouteAccessService,
         private router: Router
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.principal.identity().then((account) => {
