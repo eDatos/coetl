@@ -25,14 +25,13 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
     private static final String ENTITY_FIELD_CODE = "code";
     private static final String ENTITY_FIELD_NAME = "name";
     private static final String ENTITY_FIELD_TYPE = "type";
-    private static final String ENTITY_FIELD_EXECUTION_PLANNING = "executionPlanning";
 
     public EtlCriteriaProcessor() {
         super(Etl.class);
     }
 
     public enum QueryProperty {
-        CODE, NAME, TYPE, EXECUTION_PLANNING
+        CODE, NAME, TYPE
     }
 
     @Override
@@ -64,10 +63,6 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
         registerRestrictionProcessor(RestrictionProcessorBuilder.enumRestrictionProcessor(Type.class)
                 .withQueryProperty(QueryProperty.TYPE)
                 .withEntityProperty(ENTITY_FIELD_TYPE)
-                .build());
-        registerRestrictionProcessor(RestrictionProcessorBuilder.enumRestrictionProcessor(Type.class)
-                .withQueryProperty(QueryProperty.EXECUTION_PLANNING)
-                .withEntityProperty(ENTITY_FIELD_EXECUTION_PLANNING)
                 .build());
         //@formatter:on
     }
