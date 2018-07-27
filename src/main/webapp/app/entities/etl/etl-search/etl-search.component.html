@@ -1,0 +1,32 @@
+<div class="entity-search">
+
+    <div class="entity-search-field">
+        <label for="titulo" jhiTranslate="coetlApp.etl.filters.code.label"></label>
+        <input class="form-control" [attr.aria-label]="'coetlApp.etl.filters.code.placeholder' | translate" placeholder="{{'coetlApp.etl.filters.code.placeholder' | translate}}"
+            [(ngModel)]="filters.code" (keyup)="filter()" />
+    </div>
+
+    <div class="entity-search-field">
+        <label for="name" jhiTranslate="coetlApp.etl.filters.name.label"></label>
+        <input class="form-control" [attr.aria-label]="'coetlApp.etl.filters.name.placeholder' | translate" placeholder="{{'coetlApp.etl.filters.name.placeholder' | translate}}"
+            [(ngModel)]="filters.name" (keyup)="filter()" />
+    </div>
+
+    <div class="entity-search-field">
+        <label for="type" jhiTranslate="coetlApp.etl.filters.type.label"></label>
+        <ac-autocomplete-enum name="type" [(ngModel)]="filters.type" [suggestionsEnum]="typeEnum" [translationPath]="'coetlApp.etl.type.'"
+            (onSelect)="filter()" (onUnselect)="filter()"></ac-autocomplete-enum>
+    </div>
+
+    <div class="entity-search-field">
+        <label jhiTranslate="coetlApp.etl.filters.includeDeleted"></label>
+        <ac-tri-input-switch [(ngModel)]="filters.includeDeleted" (onChange)="filter()" [required]="true"></ac-tri-input-switch>
+    </div>
+
+    <div class="entity-search-field-btn">
+        <button class="btn btn-default" (click)="resetFilters();">
+            <i class="fa fa-times"></i>
+            <span jhiTranslate="entity.action.filtersReset"></span>
+        </button>
+    </div>
+</div>
