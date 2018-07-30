@@ -20,6 +20,7 @@ public final class AuditConstants {
     public static final String ETL_CREATED = "ETL_CREATED";
     public static final String ETL_UPDATED = "ETL_UPDATED";
     public static final String ETL_DELETED = "ETL_DELETED";
+    public static final String ETL_RECOVERED = "ETL_RECOVERED";
 
     private AuditConstants() {
     }

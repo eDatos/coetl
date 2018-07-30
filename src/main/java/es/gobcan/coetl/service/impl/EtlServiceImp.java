@@ -50,6 +50,14 @@ public class EtlServiceImp implements EtlService {
     }
 
     @Override
+    public Etl recover(Etl etl) {
+        LOG.debug("Request to recover an ETL : {}", etl);
+        etl.setDeletedBy(null);
+        etl.setDeletionDate(null);
+        return save(etl);
+    }
+
+    @Override
     public Etl findOne(Long id) {
         LOG.debug("Request to find an ETL : {}", id);
         return etlRepository.findOne(id);

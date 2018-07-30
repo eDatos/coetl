@@ -111,6 +111,28 @@ public class EtlResource extends AbstractResource {
         return ResponseEntity.ok().body(result);
     }
 
+    @DeleteMapping("/{idEtl}/recover")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<EtlDTO> recover(@PathVariable Long idEtl) {
+        LOG.debug("REST Request to delete an ETL : {}", idEtl);
+        Etl currentEtl = etlService.findOne(idEtl);
+        if (currentEtl == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (!currentEtl.isDeleted()) {
+            throw new CustomParameterizedExceptionBuilder().message(String.format("ETL %s is not currently deleted, so you do not have anything to recover", currentEtl.getCode()))
+                    .code(ErrorConstants.ETL_CURRENTLY_NOT_DELETED).build();
+        }
+
+        Etl recoveredEtl = etlService.recover(currentEtl);
+        EtlDTO result = etlMapper.toDto(recoveredEtl);
+        auditEventPublisher.publish(AuditConstants.ETL_RECOVERED, result.getCode());
+
+        return ResponseEntity.ok().body(result);
+    }
+
     @GetMapping
     @Timed
     @PreAuthorize("@secChecker.canReadEtl(authentication)")

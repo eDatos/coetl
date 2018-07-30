@@ -23,6 +23,7 @@ public final class ErrorConstants {
 
     // ETL
     public static final String ETL_CURRENTLY_DELETED = "error.etl.currentlyDeleted";
+    public static final String ETL_CURRENTLY_NOT_DELETED = "error.etl.currentlyNotDeleted";
 
     private ErrorConstants() {
     }
