@@ -35,8 +35,7 @@ export class EtlComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private parseLinks: JhiParseLinks,
         private activatedRoute: ActivatedRoute,
-        private router: Router,
-        private translateService: TranslateService
+        private router: Router
     ) {
         this.routeDataSubscription = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
@@ -108,13 +107,6 @@ export class EtlComponent implements OnInit, OnDestroy {
 
     trackId(index: number, item: Etl) {
         return item.id;
-    }
-
-    getDeletedMessage(etl: Etl): string {
-        const codeMessage = etl.isDeleted()
-            ? 'coetlApp.etl.state.isDeleted'
-            : 'coetlApp.etl.state.isNotDeleted';
-        return this.translateService.instant(codeMessage);
     }
 
     private registerChangeInEtls() {
