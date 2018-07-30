@@ -58,19 +58,19 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
                 .build());
         
         // Restrictions
-        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.CODE)
                 .withEntityProperty(ENTITY_FIELD_CODE)
                 .build());
-        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.NAME)
                 .withCriterionConverter(new NameCriterionBuilder())
                 .build());
-        registerRestrictionProcessor(RestrictionProcessorBuilder.enumRestrictionProcessor(Type.class)
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.enumRestrictionProcessor(Type.class)
                 .withQueryProperty(QueryProperty.TYPE)
                 .withEntityProperty(ENTITY_FIELD_TYPE)
                 .build());
-        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.ORGANIZATION_IN_CHARGE)
                 .withCriterionConverter(new OrganizationInChargeCriterionBuilder())
                 .build());
