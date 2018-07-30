@@ -111,10 +111,10 @@ public class EtlResource extends AbstractResource {
         return ResponseEntity.ok().body(result);
     }
 
-    @DeleteMapping("/{idEtl}/recover")
+    @DeleteMapping("/{idEtl}/restore")
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
-    public ResponseEntity<EtlDTO> recover(@PathVariable Long idEtl) {
+    public ResponseEntity<EtlDTO> restore(@PathVariable Long idEtl) {
         LOG.debug("REST Request to delete an ETL : {}", idEtl);
         Etl currentEtl = etlService.findOne(idEtl);
         if (currentEtl == null) {
@@ -122,11 +122,11 @@ public class EtlResource extends AbstractResource {
         }
 
         if (!currentEtl.isDeleted()) {
-            throw new CustomParameterizedExceptionBuilder().message(String.format("ETL %s is not currently deleted, so you do not have anything to recover", currentEtl.getCode()))
+            throw new CustomParameterizedExceptionBuilder().message(String.format("ETL %s is not currently deleted, so you do not have anything to restore", currentEtl.getCode()))
                     .code(ErrorConstants.ETL_CURRENTLY_NOT_DELETED).build();
         }
 
-        Etl recoveredEtl = etlService.recover(currentEtl);
+        Etl recoveredEtl = etlService.restore(currentEtl);
         EtlDTO result = etlMapper.toDto(recoveredEtl);
         auditEventPublisher.publish(AuditConstants.ETL_RECOVERED, result.getCode());
 

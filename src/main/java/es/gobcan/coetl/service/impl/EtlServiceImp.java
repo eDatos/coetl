@@ -50,7 +50,7 @@ public class EtlServiceImp implements EtlService {
     }
 
     @Override
-    public Etl recover(Etl etl) {
+    public Etl restore(Etl etl) {
         LOG.debug("Request to recover an ETL : {}", etl);
         etl.setDeletedBy(null);
         etl.setDeletionDate(null);
