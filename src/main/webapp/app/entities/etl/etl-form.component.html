@@ -70,6 +70,14 @@
                     <ac-autocomplete-enum name="type" [(ngModel)]="etl.type" [suggestionsEnum]="typeEnum" [translationPath]="'coetlApp.etl.type.'"
                         [required]="true"></ac-autocomplete-enum>
                 </div>
+                <dl class="jh-entity-details">
+                    <dt>
+                        <label jhiTranslate="coetlApp.etl.state.label"></label>
+                    </dt>
+                    <dd>
+                        <span class="badge" [ngClass]="{'badge-success': !etl.isDeleted(), 'badge-danger': etl.isDeleted()}">{{ getDeletedMessage(etl) }}</span>
+                    </dd>
+                </dl>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.purpose.label" for="field_purpose"></label>
                     <textarea [disabled]="!isEditMode()" class="form-control" name="purpose" id="field_purpose" [(ngModel)]="etl.purpose" maxLength="4000"

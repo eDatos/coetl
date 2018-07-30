@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { JhiEventManager } from 'ng-jhipster';
 import { Autosize } from 'ng-autosize';
 import { Subscription, Observable } from 'rxjs';
@@ -45,7 +46,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         private etlService: EtlService,
         private genericModalService: GenericModalService,
         private eventManager: JhiEventManager,
-        private permissionService: PermissionService
+        private permissionService: PermissionService,
+        private translateService: TranslateService
     ) {
         this.instance = this;
     }
@@ -95,6 +97,13 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
 
     canEdit(): boolean {
         return this.permissionService.canManageEtl();
+    }
+
+    getDeletedMessage(etl: Etl): string {
+        const codeMessage = etl.isDeleted()
+            ? 'coetlApp.etl.state.isDeleted'
+            : 'coetlApp.etl.state.isNotDeleted';
+        return this.translateService.instant(codeMessage);
     }
 
     getTitlesContainer(): ElementRef {
