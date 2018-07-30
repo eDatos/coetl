@@ -31,7 +31,7 @@
         "activado": "Activado",
         "desactivado": "Desactivado",
         "profiles": "Roles",
-        "roles": "Roles",
+        "rol": "Rol",
         "filters": {
             "name": {
                 "label": "Búsqueda de usuario",
