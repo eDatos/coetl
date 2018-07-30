@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Headers } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
@@ -35,7 +34,8 @@ export class EtlComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private parseLinks: JhiParseLinks,
         private activatedRoute: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private translateService: TranslateService
     ) {
         this.routeDataSubscription = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
@@ -107,6 +107,10 @@ export class EtlComponent implements OnInit, OnDestroy {
 
     trackId(index: number, item: Etl) {
         return item.id;
+    }
+
+    getTypeName(etl: Etl): string {
+        return this.translateService.instant(`coetlApp.etl.type.${etl.type}`);
     }
 
     private registerChangeInEtls() {

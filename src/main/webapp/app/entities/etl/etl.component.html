@@ -27,12 +27,12 @@
                                 <span jhiTranslate="coetlApp.etl.name.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 20%" jhiSortBy="type">
-                                <span jhiTranslate="coetlApp.etl.type.label"></span>
-                                <span class="fa fa-sort order-by-class"></span>
-                            </th>
                             <th style="width: 30%" jhiSortBy="organization_in_charge">
                                 <span jhiTranslate="coetlApp.etl.organizationInCharge.label"></span>
+                                <span class="fa fa-sort order-by-class"></span>
+                            </th>
+                            <th style="width: 20%" jhiSortBy="type">
+                                <span jhiTranslate="coetlApp.etl.type.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
                         </tr>
@@ -41,8 +41,10 @@
                         <tr [ngClass]="{'entity-deleted': etl.isDeleted() }" *ngFor="let etl of etls ;trackBy: trackId" [routerLink]="['../etl', etl.id ]">
                             <td>{{etl.code}}</td>
                             <td>{{etl.name}}</td>
-                            <td>{{etl.type}}</td>
                             <td>{{etl.organizationInCharge}}</td>
+                            <td>
+                                <span class="badge badge-info">{{ getTypeName(etl) }}</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
