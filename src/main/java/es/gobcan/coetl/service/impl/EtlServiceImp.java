@@ -1,5 +1,7 @@
 package es.gobcan.coetl.service.impl;
 
+import java.time.ZonedDateTime;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.repository.EtlRepository;
+import es.gobcan.coetl.security.SecurityUtils;
 import es.gobcan.coetl.service.EtlService;
 import es.gobcan.coetl.web.rest.util.QueryUtil;
 
@@ -41,6 +44,8 @@ public class EtlServiceImp implements EtlService {
     @Override
     public Etl delete(Etl etl) {
         LOG.debug("Request to delete an ETL : {}", etl);
+        etl.setDeletedBy(SecurityUtils.getCurrentUserLogin());
+        etl.setDeletionDate(ZonedDateTime.now());
         return save(etl);
     }
 
