@@ -4,6 +4,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { Etl } from './etl.model';
 import { EtlService } from './etl.service';
+import { EtlFormComponent } from './etl-form.component';
 
 @Component({
     selector: 'ac-etl-restore-dialog',
@@ -27,7 +28,7 @@ export class EtlRestoreDialogComponent implements OnInit {
     confirmRestore(idEtl: number) {
         this.etlService.restore(idEtl).subscribe((response) => {
             this.eventManager.broadcast({
-                name: 'etlListModification',
+                name: EtlFormComponent.EVENT_NAME,
                 content: response
             });
             this.activeModal.close(true);

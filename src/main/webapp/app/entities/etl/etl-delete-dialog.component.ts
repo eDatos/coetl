@@ -4,6 +4,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { Etl } from './etl.model';
 import { EtlService } from './etl.service';
+import { EtlFormComponent } from './etl-form.component';
 
 @Component({
     selector: 'ac-etl-delete-dialog',
@@ -27,7 +28,7 @@ export class EtlDeleteDialogComponent implements OnInit {
     confirmDelete(idEtl: number) {
         this.etlService.delete(idEtl).subscribe((response) => {
             this.eventManager.broadcast({
-                name: 'etlListModification',
+                name: EtlFormComponent.EVENT_NAME,
                 content: response
             });
             this.activeModal.close(true);

@@ -8,6 +8,7 @@ import { Account, Principal, ResponseWrapper } from '../../shared';
 import { Etl } from './etl.model';
 import { EtlFilter } from './etl-search';
 import { EtlService } from './etl.service';
+import { EtlFormComponent } from './etl-form.component';
 
 @Component({
     selector: 'ac-etl',
@@ -121,8 +122,9 @@ export class EtlComponent implements OnInit, OnDestroy {
     }
 
     private registerChangeInEtls() {
-        this.eventSubscriber = this.eventManager.subscribe('etlListModification', (response) =>
-            this.loadAll()
+        this.eventSubscriber = this.eventManager.subscribe(
+            EtlFormComponent.EVENT_NAME,
+            (response) => this.loadAll()
         );
         this.searchSubsctiption = this.eventManager.subscribe('etlSearch', () => {
             this.page = 1;
