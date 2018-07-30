@@ -113,6 +113,13 @@ export class EtlComponent implements OnInit, OnDestroy {
         return this.translateService.instant(`coetlApp.etl.type.${etl.type}`);
     }
 
+    getPlanningMessage(etl: Etl): string {
+        const messageCode = etl.isPlanning()
+            ? 'coetlApp.etl.planning.isPlanning'
+            : 'coetlApp.etl.planning.isNotPlanning';
+        return this.translateService.instant(messageCode);
+    }
+
     private registerChangeInEtls() {
         this.eventSubscriber = this.eventManager.subscribe('etlListModification', (response) =>
             this.loadAll()

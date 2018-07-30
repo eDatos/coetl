@@ -68,6 +68,11 @@
                 "isDeleted": "Eliminada",
                 "isNotDeleted": "Activa"
             },
+            "planning": {
+                "label": "Planificación",
+                "isPlanning": "Planificado",
+                "isNotPlanning": "No planificado"
+            },
             "sections": {
                 "identification": "Identificación",
                 "inCharge": "Responsables",

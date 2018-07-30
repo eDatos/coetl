@@ -25,4 +25,8 @@ export class Etl extends BaseVersionedAndAuditingWithDeletionEntity {
     isDeleted(): boolean {
         return !!this.deletionDate;
     }
+
+    isPlanning(): boolean {
+        return !!this.executionPlanning;
+    }
 }
