@@ -47,7 +47,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit() {
         this.isSaving = false;
         this.etl = this.route.snapshot.data['etl'] ? this.route.snapshot.data['etl'] : new Etl();
-        this.registerChangesOnPelicula();
+        this.registerChangesOnEtl();
     }
 
     ngAfterViewInit() {
@@ -105,7 +105,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isSaving = false;
     }
 
-    private registerChangesOnPelicula() {
+    private registerChangesOnEtl() {
         this.updatesSubscription = this.eventManager.subscribe(
             EtlFormComponent.EVENT_NAME,
             (result) => {
