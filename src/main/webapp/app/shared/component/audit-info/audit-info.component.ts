@@ -7,7 +7,7 @@ import { BaseAuditingWithDeletionEntity } from '../../model/base-auditing-with-d
     templateUrl: './audit-info.component.html'
 })
 export class AuditInfoComponent implements OnInit {
-    @Input() entity: BaseAuditingEntity;
+    @Input() entity: any;
 
     constructor() {}
 
@@ -23,6 +23,10 @@ export class AuditInfoComponent implements OnInit {
 
     private isAuditable(): Boolean {
         return this.entity instanceof BaseAuditingEntity;
+    }
+
+    public canShowDeletionAuditing(): Boolean {
+        return this.isAuditableWithDeletion() && !!this.entity.deletionDate;
     }
 
     private isAuditableWithDeletion(): Boolean {
