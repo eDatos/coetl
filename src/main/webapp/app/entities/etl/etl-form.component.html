@@ -23,14 +23,22 @@
                         </button>
                     </ng-container>
                     <ng-container *ngIf="etl.id && !isEditMode()">
-                        <button class="btn btn-secondary jh-create-entity" [routerLink]="['../', etl.id, 'edit']" type="button">
-                            <span class="fa fa-pencil"></span>&nbsp;
-                            <span jhiTranslate="entity.action.edit"></span>
-                        </button>
-                        <button type="button" (click)="delete()" replaceUrl="true" class="btn btn-danger ">
-                            <span class="fa fa-remove"></span>&nbsp;
-                            <span class="hidden-md-down" jhiTranslate="entity.action.delete"></span>
-                        </button>
+                        <ng-container *ngIf="!etl.isDeleted()">
+                            <button class="btn btn-secondary jh-create-entity" [routerLink]="['../', etl.id, 'edit']" type="button">
+                                <span class="fa fa-pencil"></span>&nbsp;
+                                <span jhiTranslate="entity.action.edit"></span>
+                            </button>
+                            <button type="button" (click)="delete()" replaceUrl="true" class="btn btn-danger">
+                                <span class="fa fa-remove"></span>&nbsp;
+                                <span class="hidden-md-down" jhiTranslate="entity.action.delete"></span>
+                            </button>
+                        </ng-container>
+                        <ng-container *ngIf="etl.isDeleted()">
+                            <button type="button" (click)="restore()" replaceUrl="true" class="btn btn-warning">
+                                <span class="fa fa-recycle"></span>&nbsp;
+                                <span class="hidden-md-down" jhiTranslate="entity.action.restore"></span>
+                            </button>
+                        </ng-container>
                     </ng-container>
                 </div>
             </h2>

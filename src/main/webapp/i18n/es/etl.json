@@ -15,6 +15,9 @@
             "delete": {
                 "question": "¿Seguro que quiere eliminar la ETL {{ code }}?"
             },
+            "restore": {
+                "question": "¿Seguro que quiere resturar la ETL {{ code }}?"
+            },
             "detail": {
                 "title": "ETL"
             },

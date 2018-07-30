@@ -8,6 +8,7 @@ import { GenericModalService, PermissionService } from '../../shared';
 import { Etl, Type } from './etl.model';
 import { EtlService } from './etl.service';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
+import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
 
 @Component({
     selector: 'ac-etl-form',
@@ -76,6 +77,11 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy {
         this.genericModalService.open(<any>EtlDeleteDialogComponent, { etl: copy });
     }
 
+    restore() {
+        const copy = Object.assign(new Etl(), this.etl);
+        this.genericModalService.open(<any>EtlRestoreDialogComponent, { etl: copy });
+    }
+
     isEditMode(): Boolean {
         const lastPath = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
         return lastPath === 'edit' || lastPath === 'etl-new';
@@ -86,10 +92,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private subscribeToSaveResponse(result: Observable<Etl>) {
-        result.subscribe(
-            (res: Etl) => this.onSaveSuccess(res),
-            (res: Response) => this.onSaveError()
-        );
+        result.subscribe((res: Etl) => this.onSaveSuccess(res), () => this.onSaveError());
     }
 
     private onSaveSuccess(result: Etl) {
