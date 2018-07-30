@@ -1,10 +1,10 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 import { Autosize } from 'ng-autosize';
 import { Subscription, Observable } from 'rxjs';
 
-import { GenericModalService, PermissionService } from '../../shared';
+import { GenericModalService, PermissionService, HasTitlesContainer } from '../../shared';
 import { Etl, Type } from './etl.model';
 import { EtlService } from './etl.service';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
@@ -14,8 +14,10 @@ import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
     selector: 'ac-etl-form',
     templateUrl: 'etl-form.component.html'
 })
-export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTitlesContainer {
     public static EVENT_NAME = 'etlListModification';
+
+    instance: EtlFormComponent;
 
     etl: Etl;
     typeEnum = Type;
@@ -35,6 +37,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(Autosize) executionDescriptionContainer: Autosize;
 
+    @ViewChild('titlesContainer') titlesContaner: ElementRef;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -42,7 +46,9 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy {
         private genericModalService: GenericModalService,
         private eventManager: JhiEventManager,
         private permissionService: PermissionService
-    ) {}
+    ) {
+        this.instance = this;
+    }
 
     ngOnInit() {
         this.isSaving = false;
@@ -89,6 +95,10 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy {
 
     canEdit(): boolean {
         return this.permissionService.canManageEtl();
+    }
+
+    getTitlesContainer(): ElementRef {
+        return this.titlesContaner;
     }
 
     private subscribeToSaveResponse(result: Observable<Etl>) {

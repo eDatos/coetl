@@ -68,6 +68,13 @@
                 "isDeleted": "Eliminada",
                 "isNotDeleted": "Activa"
             },
+            "sections": {
+                "identification": "Identificación",
+                "inCharge": "Responsables",
+                "etl": "ETL",
+                "planning": "Planificación",
+                "executions": "Ejecuciones"
+            },
             "filters": {
                 "code": {
                     "placeholder": "Búsqueda por código",

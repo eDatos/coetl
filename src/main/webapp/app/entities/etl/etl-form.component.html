@@ -1,5 +1,6 @@
+<ac-side-menu [parent]="instance"></ac-side-menu>
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-    <div class="entity">
+    <div class="entity" #titlesContainer>
         <div>
             <h2>
                 <div>
@@ -44,6 +45,7 @@
             </h2>
         </div>
         <fieldset [disabled]="!isEditMode()">
+            <h3 jhiTranslate="coetlApp.etl.sections.identification"></h3>
             <div class="entity-fields">
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.code.label" for="field_code"></label>
@@ -68,44 +70,54 @@
                     <ac-autocomplete-enum name="type" [(ngModel)]="etl.type" [suggestionsEnum]="typeEnum" [translationPath]="'coetlApp.etl.type.'"
                         [required]="true"></ac-autocomplete-enum>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="coetlApp.etl.executionPlanning.label" for="field_executionPlanning"></label>
-                    <input type="text" class="form-control" name="executionPlanning" id="field_executionPlanning" [(ngModel)]="etl.executionPlanning"
-                        [placeholder]="'coetlApp.etl.executionPlanning.placeholder' | translate" />
-                    <div [hidden]="!(editForm.controls.executionPlanning?.dirty && editForm.controls.executionPlanning?.invalid)">
-                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
-                        </small>
-                    </div>
-                </div>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.purpose.label" for="field_purpose"></label>
                     <textarea [disabled]="!isEditMode()" class="form-control" name="purpose" id="field_purpose" [(ngModel)]="etl.purpose" maxLength="4000"
-                        autosize #purposeContainer></textarea>
-                </div>
-                <div class="form-group full-width">
-                    <label class="form-control-label" jhiTranslate="coetlApp.etl.organizationInCharge.label" for="field_organizationInCharge"></label>
-                    <textarea [disabled]="!isEditMode()" class="form-control" name="organizationInCharge" id="field_organizationInCharge" [(ngModel)]="etl.organizationInCharge"
-                        maxLength="4000" required autosize #organizationInChargeContainer></textarea>
-                </div>
-                <div class="form-group full-width">
-                    <label class="form-control-label" jhiTranslate="coetlApp.etl.functionalInCharge.label" for="field_functionalInCharge"></label>
-                    <textarea [disabled]="!isEditMode()" class="form-control" name="functionalInCharge" id="field_functionalInCharge" [(ngModel)]="etl.functionalInCharge"
-                        maxLength="4000" required autosize #functionalInChargeContainer></textarea>
-                </div>
-                <div class="form-group full-width">
-                    <label class="form-control-label" jhiTranslate="coetlApp.etl.technicalInCharge.label" for="field_technicalInCharge"></label>
-                    <textarea [disabled]="!isEditMode()" class="form-control" name="technicalInCharge" id="field_technicalInCharge" [(ngModel)]="etl.technicalInCharge"
-                        maxLength="4000" required autosize #technicalInChargeContainer></textarea>
+                        autosize [placeholder]="'coetlApp.etl.purpose.placeholder' | translate" #purposeContainer></textarea>
                 </div>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.comments.label" for="field_comments"></label>
                     <textarea [disabled]="!isEditMode()" class="form-control" name="comments" id="field_comments" [(ngModel)]="etl.comments"
-                        maxLength="4000" autosize #commentsContainer></textarea>
+                        maxLength="4000" [placeholder]="'coetlApp.etl.comments.placeholder' | translate" autosize #commentsContainer></textarea>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset [disabled]="!isEditMode()">
+            <h3 jhiTranslate="coetlApp.etl.sections.inCharge"></h3>
+            <div class="entity-fields">
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.organizationInCharge.label" for="field_organizationInCharge"></label>
+                    <textarea [disabled]="!isEditMode()" class="form-control" name="organizationInCharge" id="field_organizationInCharge" [(ngModel)]="etl.organizationInCharge"
+                        maxLength="4000" [placeholder]="'coetlApp.etl.organizationInCharge.placeholder' | translate" required
+                        autosize #organizationInChargeContainer></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.functionalInCharge.label" for="field_functionalInCharge"></label>
+                    <textarea [disabled]="!isEditMode()" class="form-control" name="functionalInCharge" id="field_functionalInCharge" [(ngModel)]="etl.functionalInCharge"
+                        maxLength="4000" [placeholder]="'coetlApp.etl.functionalInCharge.placeholder' | translate" required autosize
+                        #functionalInChargeContainer></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.technicalInCharge.label" for="field_technicalInCharge"></label>
+                    <textarea [disabled]="!isEditMode()" class="form-control" name="technicalInCharge" id="field_technicalInCharge" [(ngModel)]="etl.technicalInCharge"
+                        maxLength="4000" [placeholder]="'coetlApp.etl.technicalInCharge.placeholder' | translate" required autosize
+                        #technicalInChargeContainer></textarea>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset [disabled]="!isEditMode()">
+            <h3 jhiTranslate="coetlApp.etl.sections.planning"></h3>
+            <div class="entity-fields">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.executionPlanning.label" for="field_executionPlanning"></label>
+                    <input type="text" class="form-control" name="executionPlanning" id="field_executionPlanning" [(ngModel)]="etl.executionPlanning"
+                        [placeholder]="'coetlApp.etl.executionPlanning.placeholder' | translate" />
                 </div>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.executionDescription.label" for="field_executionDescription"></label>
                     <textarea [disabled]="!isEditMode()" class="form-control" name="executionDescription" id="field_executionDescription" [(ngModel)]="etl.executionDescription"
-                        maxLength="4000" autosize #executionDescriptionContainer></textarea>
+                        maxLength="4000" [placeholder]="'coetlApp.etl.executionDescription.placeholder' | translate" autosize
+                        #executionDescriptionContainer></textarea>
                 </div>
             </div>
         </fieldset>
