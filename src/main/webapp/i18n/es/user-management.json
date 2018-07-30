@@ -37,13 +37,9 @@
                 "label": "Búsqueda de usuario",
                 "placeholder": "Introduzca nombre, usuario o apellidos"
             },
-            "rolShort": {
-                "label": "Búsqueda por rol (ac-autocomplete-short-list)",
-                "placeholder": "Introduzca rol (ac-autocomplete-short-list)"
-            },
-            "rolLong": {
-                "label": "Búsqueda por rol (ac-autocomplete-long-list)",
-                "placeholder": "Introduzca rol (ac-autocomplete-long-list)"
+            "rol": {
+                "label": "Búsqueda por rol",
+                "placeholder": "Seleccione un rol"
             }
         }
     }

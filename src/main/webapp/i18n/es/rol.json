@@ -10,7 +10,12 @@
             "nombre": "Nombre",
             "accion": "Acción",
             "sujeto": "Sujeto",
-            "roles": "Roles"
+            "roles": {
+                "label": "Roles",
+                "ADMIN": "Administrador",
+                "TECNICO": "Técnico",
+                "LECTOR": "Lector"
+            }
         }
     }
 }
