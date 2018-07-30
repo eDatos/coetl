@@ -301,6 +301,9 @@ fieldset:enabled .form-group {
 
 .entity-deleted {
     text-decoration: line-through;
+    .badge {
+        text-decoration: line-through black;
+    }
 }
 .entity-search {
 
