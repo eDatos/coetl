@@ -7,6 +7,7 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
     public code: string;
     public name: string;
     public type: Type;
+    public organizationInCharge: string;
     public includeDeleted = false;
 
     constructor() {
@@ -34,6 +35,12 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
         });
 
         this.registerParam({
+            paramName: 'organizationInCharge',
+            updateFilterFromParam: (param) => (this.organizationInCharge = param),
+            clearFilter: () => (this.organizationInCharge = null)
+        });
+
+        this.registerParam({
             paramName: 'includeDeleted',
             updateFilterFromParam: (param) => (this.includeDeleted = param === 'true'),
             clearFilter: () => (this.includeDeleted = false)
@@ -55,6 +62,9 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
         }
         if (this.type) {
             criterias.push(`TYPE EQ '${this.type}'`);
+        }
+        if (this.organizationInCharge) {
+            criterias.push(`ORGANIZATION_IN_CHARGE ILIKE '%${this.organizationInCharge}%'`);
         }
 
         return criterias;

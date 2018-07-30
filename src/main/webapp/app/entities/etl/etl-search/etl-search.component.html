@@ -19,6 +19,12 @@
     </div>
 
     <div class="entity-search-field">
+        <label for="organizationInCharge" jhiTranslate="coetlApp.etl.filters.organizationInCharge.label"></label>
+        <input class="form-control" [attr.aria-label]="'coetlApp.etl.filters.organizationInCharge.placeholder' | translate" placeholder="{{'coetlApp.etl.filters.organizationInCharge.placeholder' | translate}}"
+            [(ngModel)]="filters.organizationInCharge" (keyup)="filter()" />
+    </div>
+
+    <div class="entity-search-field">
         <label jhiTranslate="coetlApp.etl.filters.includeDeleted"></label>
         <ac-tri-input-switch [(ngModel)]="filters.includeDeleted" (onChange)="filter()" [required]="true"></ac-tri-input-switch>
     </div>

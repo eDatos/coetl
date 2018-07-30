@@ -21,17 +21,19 @@ import es.gobcan.coetl.service.criteria.util.CriteriaUtil;
 public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
 
     private static final String TABLE_FIELD_NAME = "name";
+    private static final String TABLE_FIELD_ORGANIZATION_IN_CHARGE = "organization_in_charge";
 
     private static final String ENTITY_FIELD_CODE = "code";
     private static final String ENTITY_FIELD_NAME = "name";
     private static final String ENTITY_FIELD_TYPE = "type";
+    private static final String ENTITY_FIELD_ORGANIZATION_IN_CHARGE = "organizationInCharge";
 
     public EtlCriteriaProcessor() {
         super(Etl.class);
     }
 
     public enum QueryProperty {
-        CODE, NAME, TYPE
+        CODE, NAME, TYPE, ORGANIZATION_IN_CHARGE
     }
 
     @Override
@@ -50,6 +52,10 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.TYPE)
                 .withEntityProperty(ENTITY_FIELD_TYPE)
                 .build());
+        registerOrderProcessor(OrderProcessorBuilder.orderProcessor()
+                .withQueryProperty(QueryProperty.ORGANIZATION_IN_CHARGE)
+                .withEntityProperty(ENTITY_FIELD_ORGANIZATION_IN_CHARGE)
+                .build());
         
         // Restrictions
         registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
@@ -64,6 +70,10 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.TYPE)
                 .withEntityProperty(ENTITY_FIELD_TYPE)
                 .build());
+        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
+                .withQueryProperty(QueryProperty.ORGANIZATION_IN_CHARGE)
+                .withCriterionConverter(new OrganizationInChargeCriterionBuilder())
+                .build());
         //@formatter:on
     }
 
@@ -73,6 +83,19 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
         public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
             if ("ILIKE".equals(property.getOperationType().name())) {
                 ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_NAME));
+                return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
+            }
+            throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))
+                    .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
+        }
+    }
+
+    private static class OrganizationInChargeCriterionBuilder implements CriterionConverter {
+
+        @Override
+        public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
+            if ("ILIKE".equals(property.getOperationType().name())) {
+                ArrayList<String> fields = new ArrayList<>(Arrays.asList(TABLE_FIELD_ORGANIZATION_IN_CHARGE));
                 return CriteriaUtil.buildAccentAndCaseInsensitiveCriterion(property, fields);
             }
             throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))

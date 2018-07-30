@@ -78,6 +78,10 @@
                     "placeholder": "Búsqueda por tipo",
                     "label": "Tipo"
                 },
+                "organizationInCharge": {
+                    "placeholder": "Búsqueda por organismo responsable",
+                    "label": "Organismo responsable"
+                },
                 "includeDeleted": "Incluir eliminados"
             }
         }
