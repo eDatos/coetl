@@ -21,7 +21,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "etl")
+@Table(name = "tb_etls")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implements Serializable {
 

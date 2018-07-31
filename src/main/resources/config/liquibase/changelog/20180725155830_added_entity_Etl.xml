@@ -15,7 +15,7 @@
         <createSequence sequenceName="etl_id_seq" startValue="10" incrementBy="50" />
     </changeSet>
     <changeSet id="20180725155830-1" author="arte">
-        <createTable tableName="etl">
+        <createTable tableName="tb_etls">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false" />
             </column>
