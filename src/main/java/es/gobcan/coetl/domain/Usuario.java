@@ -39,7 +39,7 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_id_seq")
-    @SequenceGenerator(name = "usuario_id_seq", sequenceName = "usuario_id_seq", allocationSize = 50, initialValue = 10)
+    @SequenceGenerator(name = "usuario_id_seq", sequenceName = "usuario_id_seq", initialValue = 10)
     private Long id;
 
     @NotNull

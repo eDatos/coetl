@@ -33,7 +33,7 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "etl_id_seq")
-    @SequenceGenerator(name = "etl_id_seq", sequenceName = "etl_id_seq", allocationSize = 50, initialValue = 10)
+    @SequenceGenerator(name = "etl_id_seq", sequenceName = "etl_id_seq", initialValue = 10)
     private Long id;
 
     @NotBlank

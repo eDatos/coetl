@@ -26,7 +26,7 @@ public class Documento implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "documento_id_seq")
-    @SequenceGenerator(name = "documento_id_seq", sequenceName = "documento_id_seq", allocationSize = 50, initialValue = 10)
+    @SequenceGenerator(name = "documento_id_seq", sequenceName = "documento_id_seq", initialValue = 10)
     private Long id;
 
     @NotNull
