@@ -1,6 +1,7 @@
 package es.gobcan.coetl.domain;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -81,6 +82,9 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @Size(max = 255)
     @Column(name = "execution_planning", length = 255)
     private String executionPlanning;
+
+    @Column(name = "next_execution")
+    private ZonedDateTime nextExecution;
 
     public Long getId() {
         return id;
@@ -174,6 +178,14 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
         return StringUtils.isNotBlank(executionPlanning);
     }
 
+    public ZonedDateTime getNextExecution() {
+        return nextExecution;
+    }
+
+    public void setNextExecution(ZonedDateTime nextExecution) {
+        this.nextExecution = nextExecution;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -201,6 +213,7 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
                     ", name = " + getName() + 
                     ", type = " + getType() + 
                     ", isPlanned = " + isPlanned() + 
+                    ", isDeleted = " + isDeleted() + 
                 ")";
         //@formatter:on
     }

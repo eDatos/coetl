@@ -49,6 +49,9 @@
             <column name="execution_planning" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="next_execution" type="timestamp">
+                <constraints nullable="true" />
+            </column>
             <column name="created_by" type="varchar(255)">
                 <constraints nullable="false" />
             </column>

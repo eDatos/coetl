@@ -17,7 +17,8 @@ export class Etl extends BaseVersionedAndAuditingWithDeletionEntity {
         public type?: Type,
         public comments?: string,
         public executionDescription?: string,
-        public executionPlanning?: string
+        public executionPlanning?: string,
+        public nextExecution?: Date
     ) {
         super();
     }

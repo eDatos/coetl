@@ -63,6 +63,9 @@
                 "label": "Planificación",
                 "placeholder": "Introduzca una planificación"
             },
+            "nextExecution": {
+                "label": "Próxima ejecución"
+            },
             "state": {
                 "label": "Estado",
                 "isDeleted": "Eliminada",
