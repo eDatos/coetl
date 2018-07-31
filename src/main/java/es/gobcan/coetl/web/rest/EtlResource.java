@@ -70,7 +70,7 @@ public class EtlResource extends AbstractResource {
         EtlDTO result = etlMapper.toDto(createdEtl);
         auditEventPublisher.publish(AuditConstants.ETL_CREATED, result.getCode());
 
-        return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getId())).headers(HeaderUtil.createAlert("coetlApp.etl.created", result.getCode())).body(result);
+        return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getId())).headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getCode())).body(result);
     }
 
     @PutMapping
@@ -86,7 +86,7 @@ public class EtlResource extends AbstractResource {
         EtlDTO result = etlMapper.toDto(updatedEtl);
         auditEventPublisher.publish(AuditConstants.ETL_UPDATED, result.getCode());
 
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result), HeaderUtil.createAlert("coetlApp.etl.updated", result.getCode()));
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result), HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getCode()));
     }
 
     @DeleteMapping("/{idEtl}")
@@ -108,7 +108,7 @@ public class EtlResource extends AbstractResource {
         EtlDTO result = etlMapper.toDto(deletedEtl);
         auditEventPublisher.publish(AuditConstants.ETL_DELETED, result.getCode());
 
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, result.getCode())).body(result);
     }
 
     @DeleteMapping("/{idEtl}/restore")
@@ -130,7 +130,7 @@ public class EtlResource extends AbstractResource {
         EtlDTO result = etlMapper.toDto(recoveredEtl);
         auditEventPublisher.publish(AuditConstants.ETL_RECOVERED, result.getCode());
 
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getCode())).body(result);
     }
 
     @GetMapping
