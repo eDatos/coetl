@@ -1,6 +1,5 @@
 package es.gobcan.coetl.web.rest.mapper;
 
-import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,14 +26,14 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
 
         entity.setCode(dto.getCode());
         entity.setName(dto.getName());
-        entity.setPurpose((StringUtils.isNotBlank(dto.getPurpose())) ? dto.getPurpose() : null);
+        entity.setPurpose(dto.getPurpose());
         entity.setOrganizationInCharge(dto.getOrganizationInCharge());
         entity.setFunctionalInCharge(dto.getFunctionalInCharge());
         entity.setTechnicalInCharge(dto.getTechnicalInCharge());
         entity.setType(dto.getType());
-        entity.setComments((StringUtils.isNotBlank(dto.getComments())) ? dto.getComments() : null);
-        entity.setExecutionDescription((StringUtils.isNotBlank(dto.getExecutionDescription())) ? dto.getExecutionDescription() : null);
-        entity.setExecutionPlanning((StringUtils.isNotBlank(dto.getExecutionPlanning())) ? dto.getExecutionPlanning() : null);
+        entity.setComments(dto.getComments());
+        entity.setExecutionDescription(dto.getExecutionDescription());
+        entity.setExecutionPlanning(dto.getExecutionPlanning());
 
         entity.setOptLock(dto.getOptLock());
 
