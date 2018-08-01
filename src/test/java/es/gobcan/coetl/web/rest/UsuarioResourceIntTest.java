@@ -363,7 +363,6 @@ public class UsuarioResourceIntTest {
         //@formatter:off
 		ManagedUserVM managedUserVM = new ManagedUserVM();
 		UsuarioDTO source = UsuarioDTO.builder()
-				.setId(1l)
 				.setLogin(DEFAULT_LOGIN_NEW_USER)
 				.setFirstName(DEFAULT_NOMBRE)
 				.setLastName(DEFAULT_PRIMER_APELLIDO)
@@ -376,6 +375,7 @@ public class UsuarioResourceIntTest {
 				.build();
 		managedUserVM.updateFrom(source);
 		//@formatter:on
+
         Usuario user = userMapper.userDTOToUser(source);
         assertThat(user.getId()).isEqualTo(source.getId());
         assertThat(user.getLogin()).isEqualTo(source.getLogin());
