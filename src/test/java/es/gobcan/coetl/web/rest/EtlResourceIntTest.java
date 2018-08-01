@@ -173,7 +173,7 @@ public class EtlResourceIntTest {
 
         EtlDTO updatedEtlDTOMocked = etlMapper.toDto(updatedEtlMocked);
 
-        doReturn(updatedEtlMocked).when(etlMapper).fromId(updatedEtlDTOMocked.getId());
+        doReturn(updatedEtlMocked).when(etlMapper).toEntity(updatedEtlDTOMocked);
 
         doReturn(updatedEtlMocked).when(etlService).update(any(Etl.class));
 

@@ -12,12 +12,4 @@ public abstract class DocumentoMapper implements EntityMapper<DocumentoDTO, Docu
 
     @Autowired
     DocumentoRepository documentoRepository;
-
-    public Documento fromId(Long id) {
-        if (id == null) {
-            return null;
-        }
-
-        return documentoRepository.findOne(id);
-    }
 }
