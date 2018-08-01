@@ -74,7 +74,7 @@ export class UserMgmtFormComponent implements OnInit, OnDestroy {
 
     save() {
         this.isSaving = true;
-        this.user.roles[0] = this.roleSelected;
+        this.user.roles = [this.roleSelected];
         if (this.user.id !== null) {
             this.userService
                 .update(this.user)
