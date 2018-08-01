@@ -200,7 +200,6 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
                     ", code = " + getCode() + 
                     ", name = " + getName() + 
                     ", type = " + getType() + 
-                    ", isPlanned = " + isPlanned() + 
                 ")";
         //@formatter:on
     }
