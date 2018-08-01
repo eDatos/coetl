@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
@@ -13,6 +14,7 @@ import com.arte.libs.grammar.orm.jpa.criteria.RestrictionProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
 import es.gobcan.coetl.domain.Usuario;
+import es.gobcan.coetl.domain.enumeration.Rol;
 import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
 import es.gobcan.coetl.service.criteria.util.CriteriaUtil;
@@ -29,23 +31,21 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
     private static final String ENTITY_FIELD_APELLIDO1 = "apellido1";
     private static final String ENTITY_FIELD_APELLIDO2 = "apellido2";
     private static final String ENTITY_FIELD_EMAIL = "email";
-    private static final String ENTITY_FIELD_ROLES = "roles";
 
     public UsuarioCriteriaProcessor() {
         super(Usuario.class);
     }
 
     public enum QueryProperty {
-        LOGIN, NOMBRE, APELLIDO1, APELLIDO2, ROL, EMAIL, USUARIO
+        LOGIN, NOMBRE, APELLIDO1, APELLIDO2, ROLES, EMAIL, USUARIO
     }
 
     @Override
     public void registerProcessors() {
         //@formatter:off
-        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.longRestrictionProcessor()
-                .withQueryProperty(QueryProperty.ROL)
-                .withAlias(ENTITY_FIELD_ROLES, "r")
-                .withEntityProperty("r.id")
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.enumRestrictionProcessor(Rol.class)
+                .withQueryProperty(QueryProperty.ROLES)
+                .withCriterionConverter(new RolCriterionBuilder())
                 .build());
         
         registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
@@ -66,7 +66,7 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
     	
         registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
     			.withQueryProperty(QueryProperty.USUARIO)
-    			.withCriterionConverter(new SqlCriterionBuilder())
+    			.withCriterionConverter(new UsuarioCriterionBuilder())
     			.build());
     	
     	registerOrderProcessor(OrderProcessorBuilder.orderProcessor()
@@ -77,7 +77,7 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
         //@formatter:on
     }
 
-    private static class SqlCriterionBuilder implements CriterionConverter {
+    private static class UsuarioCriterionBuilder implements CriterionConverter {
 
         @Override
         public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
@@ -87,6 +87,24 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
             }
             throw new CustomParameterizedExceptionBuilder().message(String.format("Parámetro de búsqueda no soportado: '%s'", property))
                     .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
+        }
+    }
+
+    private static class RolCriterionBuilder implements CriterionConverter {
+
+        @Override
+        public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
+            if ("EQ".equals(property.getOperationType().name())) {
+                return buildUsersByRole(property);
+            }
+            throw new CustomParameterizedExceptionBuilder().message(String.format("Parámetro de búsqueda no soportado: '%s'", property))
+                    .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
+        }
+
+        private Criterion buildUsersByRole(QueryPropertyRestriction property) {
+            String query = "{alias}.id in (select ur.usuario_id from usuario_rol ur where rol = (%s))";
+            String sql = String.format(query, property.getRightExpression());
+            return Restrictions.sqlRestriction(sql);
         }
     }
 }
