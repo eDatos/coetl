@@ -1,5 +1,8 @@
 package es.gobcan.coetl.web.rest.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
@@ -13,6 +16,7 @@ import com.arte.libs.grammar.antlr.QueryExprCompiler;
 import com.arte.libs.grammar.domain.QueryRequest;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 
+import es.gobcan.coetl.service.criteria.EtlCriteriaProcessor;
 import es.gobcan.coetl.service.criteria.UsuarioCriteriaProcessor;
 
 @Component
@@ -24,6 +28,10 @@ public class QueryUtil {
 
     public DetachedCriteria queryToUserCriteria(Pageable pageable, String query) {
         return queryToCriteria(pageable, query, new UsuarioCriteriaProcessor());
+    }
+
+    public DetachedCriteria queryToEtlCriteria(Pageable pageable, String query) {
+        return queryToCriteria(pageable, query, new EtlCriteriaProcessor());
     }
 
     public String queryIncludingDeleted(String query) {
@@ -62,6 +70,8 @@ public class QueryUtil {
 
         finalQuery += pageableSortToQueryString(pageable);
 
+        finalQuery = moveHintToTheEnd(finalQuery);
+
         QueryRequest queryRequest = null;
         logger.debug("Petición para mapear query: {}", finalQuery);
         if (StringUtils.isNotBlank(finalQuery)) {
@@ -70,6 +80,17 @@ public class QueryUtil {
             queryRequest = visitor.getQueryRequest();
         }
         return processor.process(queryRequest);
+    }
+
+    private String moveHintToTheEnd(String query) {
+        Pattern pattern = Pattern.compile("( HINT [\\w\\s=\']+) (:?(:?ORDER).+)?$");
+        Matcher matcher = pattern.matcher(query);
+        String finalQuery = query;
+        if (matcher.find()) {
+            finalQuery = query.replace(matcher.group(1), "") + matcher.group(1);
+        }
+
+        return finalQuery;
     }
 
 }

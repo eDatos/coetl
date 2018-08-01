@@ -21,6 +21,10 @@ public final class ErrorConstants {
 
     public static final String QUERY_NO_SOPORTADA = "error.query-no-soportada";
 
+    // ETL
+    public static final String ETL_CURRENTLY_DELETED = "error.etl.currentlyDeleted";
+    public static final String ETL_CURRENTLY_NOT_DELETED = "error.etl.currentlyNotDeleted";
+
     private ErrorConstants() {
     }
 

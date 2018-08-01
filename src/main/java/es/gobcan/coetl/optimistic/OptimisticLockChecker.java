@@ -22,6 +22,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.util.ReflectionUtils;
 
+import es.gobcan.coetl.domain.VersionedEntity;
 import es.gobcan.coetl.optimistic.ApplicationContextProvider.AppContext;
 
 public class OptimisticLockChecker {

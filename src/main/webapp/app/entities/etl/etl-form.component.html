@@ -1,0 +1,140 @@
+<ac-side-menu [parent]="instance"></ac-side-menu>
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="entity" #titlesContainer>
+        <div>
+            <h2>
+                <div>
+                    <button *ngIf="!isEditMode()" [routerLink]="['../../etl']" type="button" class="btn btn-secondary btn-frameless back-arrow"
+                        [attr.aria-label]="'entity.action.back' | translate">
+                        <span class="fa fa-arrow-left"></span>
+                    </button>
+                    <span class="fa fa-file-code-o"></span>&nbsp;
+                    <span *ngIf="!etl.id" jhiTranslate="coetlApp.etl.home.createLabel"></span>
+                    <span *ngIf="etl.id">{{etl.name}}</span>
+                </div>
+                <div *ngIf="canEdit()">
+                    <ng-container *ngIf="isEditMode()">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+                            <span class="fa fa-ban"></span>&nbsp;
+                            <span jhiTranslate="entity.action.cancel"></span>
+                        </button>
+                        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                            <span class="fa fa-save"></span>&nbsp;
+                            <span jhiTranslate="entity.action.save"></span>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="etl.id && !isEditMode()">
+                        <ng-container *ngIf="!etl.isDeleted()">
+                            <button class="btn btn-secondary jh-create-entity" [routerLink]="['../', etl.id, 'edit']" type="button">
+                                <span class="fa fa-pencil"></span>&nbsp;
+                                <span jhiTranslate="entity.action.edit"></span>
+                            </button>
+                            <button type="button" (click)="delete()" replaceUrl="true" class="btn btn-danger">
+                                <span class="fa fa-remove"></span>&nbsp;
+                                <span class="hidden-md-down" jhiTranslate="entity.action.delete"></span>
+                            </button>
+                        </ng-container>
+                        <ng-container *ngIf="etl.isDeleted()">
+                            <button type="button" (click)="restore()" replaceUrl="true" class="btn btn-warning">
+                                <span class="fa fa-recycle"></span>&nbsp;
+                                <span class="hidden-md-down" jhiTranslate="entity.action.restore"></span>
+                            </button>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </h2>
+        </div>
+        <fieldset [disabled]="!isEditMode()">
+            <h3 jhiTranslate="coetlApp.etl.sections.identification"></h3>
+            <div class="entity-fields">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.code.label" for="field_code"></label>
+                    <input type="text" class="form-control" name="code" id="field_code" [(ngModel)]="etl.code" required acAutofocus [placeholder]="'coetlApp.etl.code.placeholder' | translate"
+                    />
+                    <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.code?.errors?.required" jhiTranslate="entity.validation.required">
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.name.label" for="field_name"></label>
+                    <input type="text" class="form-control" name="name" id="field_name" [(ngModel)]="etl.name" required [placeholder]="'coetlApp.etl.name.placeholder' | translate"
+                    />
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.type.label" for="field_type"></label>
+                    <ac-autocomplete-enum name="type" [(ngModel)]="etl.type" [suggestionsEnum]="typeEnum" [translationPath]="'coetlApp.etl.type.'"
+                        [required]="true"></ac-autocomplete-enum>
+                </div>
+                <dl *ngIf="!!etl.id" class="jh-entity-details">
+                    <dt>
+                        <label jhiTranslate="coetlApp.etl.state.label"></label>
+                    </dt>
+                    <dd>
+                        <span class="badge" [ngClass]="{'badge-success': !etl.isDeleted(), 'badge-danger': etl.isDeleted()}">{{ getDeletedMessage(etl) }}</span>
+                    </dd>
+                </dl>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.purpose.label" for="field_purpose"></label>
+                    <textarea [disabled]="!isEditMode()" class="form-control" name="purpose" id="field_purpose" [(ngModel)]="etl.purpose" maxLength="4000"
+                        autosize [placeholder]="'coetlApp.etl.purpose.placeholder' | translate" #purposeContainer></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.comments.label" for="field_comments"></label>
+                    <textarea [disabled]="!isEditMode()" class="form-control" name="comments" id="field_comments" [(ngModel)]="etl.comments"
+                        maxLength="4000" [placeholder]="'coetlApp.etl.comments.placeholder' | translate" autosize #commentsContainer></textarea>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset [disabled]="!isEditMode()">
+            <h3 jhiTranslate="coetlApp.etl.sections.inCharge"></h3>
+            <div class="entity-fields">
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.organizationInCharge.label" for="field_organizationInCharge"></label>
+                    <textarea [disabled]="!isEditMode()" class="form-control" name="organizationInCharge" id="field_organizationInCharge" [(ngModel)]="etl.organizationInCharge"
+                        maxLength="4000" [placeholder]="'coetlApp.etl.organizationInCharge.placeholder' | translate" required
+                        autosize #organizationInChargeContainer></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.functionalInCharge.label" for="field_functionalInCharge"></label>
+                    <textarea [disabled]="!isEditMode()" class="form-control" name="functionalInCharge" id="field_functionalInCharge" [(ngModel)]="etl.functionalInCharge"
+                        maxLength="4000" [placeholder]="'coetlApp.etl.functionalInCharge.placeholder' | translate" required autosize
+                        #functionalInChargeContainer></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.technicalInCharge.label" for="field_technicalInCharge"></label>
+                    <textarea [disabled]="!isEditMode()" class="form-control" name="technicalInCharge" id="field_technicalInCharge" [(ngModel)]="etl.technicalInCharge"
+                        maxLength="4000" [placeholder]="'coetlApp.etl.technicalInCharge.placeholder' | translate" required autosize
+                        #technicalInChargeContainer></textarea>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset [disabled]="!isEditMode()">
+            <h3 jhiTranslate="coetlApp.etl.sections.planning"></h3>
+            <div class="entity-fields">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.executionPlanning.label" for="field_executionPlanning"></label>
+                    <input type="text" class="form-control" name="executionPlanning" id="field_executionPlanning" [(ngModel)]="etl.executionPlanning"
+                        [placeholder]="'coetlApp.etl.executionPlanning.placeholder' | translate" />
+                </div>
+                <dl *ngIf="etl.isPlanning()" class="jh-entity-details">
+                    <dt>
+                        <label jhiTranslate="coetlApp.etl.nextExecution.label"></label>
+                    </dt>
+                    <dd>{{ etl.nextExecution | acDate: 'datetime' }}</dd>
+                </dl>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.executionDescription.label" for="field_executionDescription"></label>
+                    <textarea [disabled]="!isEditMode()" class="form-control" name="executionDescription" id="field_executionDescription" [(ngModel)]="etl.executionDescription"
+                        maxLength="4000" [placeholder]="'coetlApp.etl.executionDescription.placeholder' | translate" autosize
+                        #executionDescriptionContainer></textarea>
+                </div>
+            </div>
+        </fieldset>
+        <ac-audit-info [entity]="etl"></ac-audit-info>
+    </div>
+</form>

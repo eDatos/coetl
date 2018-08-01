@@ -44,7 +44,6 @@ import es.gobcan.coetl.repository.UsuarioRepository;
 import es.gobcan.coetl.service.LdapService;
 import es.gobcan.coetl.service.MailService;
 import es.gobcan.coetl.service.UsuarioService;
-import es.gobcan.coetl.web.rest.UsuarioResource;
 import es.gobcan.coetl.web.rest.dto.UsuarioDTO;
 import es.gobcan.coetl.web.rest.mapper.UsuarioMapper;
 import es.gobcan.coetl.web.rest.vm.ManagedUserVM;
@@ -356,13 +355,6 @@ public class UsuarioResourceIntTest {
         assertThat(userList).hasSize(databaseSizeBeforeDelete);
         Usuario deleted = userRepository.findOne(existingUser.getId());
         assertThat(deleted.getDeletionDate()).isNotNull();
-    }
-
-    @Test
-    @Transactional
-    public void testUserFromId() {
-        assertThat(userMapper.userFromId(existingUser.getId()).getId()).isEqualTo(existingUser.getId());
-        assertThat(userMapper.userFromId(null)).isNull();
     }
 
     @Test

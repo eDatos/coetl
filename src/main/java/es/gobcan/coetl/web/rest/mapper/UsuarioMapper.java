@@ -45,8 +45,7 @@ public class UsuarioMapper {
         if (userDTO == null) {
             return null;
         } else {
-            Usuario user = new Usuario();
-            user.setId(userDTO.getId());
+            Usuario user = (userDTO.getId() == null) ? new Usuario() : userFromId(userDTO.getId());
             user.setLogin(userDTO.getLogin());
             user.setNombre(userDTO.getNombre());
             user.setApellido1(userDTO.getApellido1());
@@ -63,10 +62,7 @@ public class UsuarioMapper {
         return userDTOs.stream().filter(Objects::nonNull).map(this::userDTOToUser).collect(Collectors.toList());
     }
 
-    public Usuario userFromId(Long id) {
-        if (id == null) {
-            return null;
-        }
+    private Usuario userFromId(Long id) {
         return usuarioRepository.findOne(id);
     }
 

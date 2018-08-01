@@ -29,7 +29,6 @@ import org.hibernate.validator.constraints.Email;
 
 import es.gobcan.coetl.config.Constants;
 import es.gobcan.coetl.domain.enumeration.Rol;
-import es.gobcan.coetl.optimistic.AbstractVersionedAndAuditingEntity;
 
 @Entity
 @Table(name = "usuario")
@@ -40,7 +39,7 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_id_seq")
-    @SequenceGenerator(name = "usuario_id_seq", sequenceName = "usuario_id_seq", allocationSize = 50, initialValue = 10)
+    @SequenceGenerator(name = "usuario_id_seq", sequenceName = "usuario_id_seq", initialValue = 10)
     private Long id;
 
     @NotNull

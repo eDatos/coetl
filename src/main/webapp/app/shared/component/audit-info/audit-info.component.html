@@ -9,21 +9,15 @@
         </dl>
         <dl class="jh-entity-details">
             <dt>
-                <label jhiTranslate="entity.audits.lastModifiedBy"></label>
-            </dt>
-            <dd>{{ entity.lastModifiedBy }}</dd>
-        </dl>
-        <dl *ngIf="entity.deletedBy" class="jh-entity-details">
-            <dt>
-                <label jhiTranslate="entity.audits.deletedBy"></label>
-            </dt>
-            <dd>{{ entity.deletedBy }}</dd>
-        </dl>
-        <dl class="jh-entity-details">
-            <dt>
                 <label jhiTranslate="entity.audits.createdDate"></label>
             </dt>
             <dd>{{ entity.createdDate | acDate: 'datetime' }}</dd>
+        </dl>
+        <dl class="jh-entity-details">
+            <dt>
+                <label jhiTranslate="entity.audits.lastModifiedBy"></label>
+            </dt>
+            <dd>{{ entity.lastModifiedBy }}</dd>
         </dl>
         <dl class="jh-entity-details">
             <dt>
@@ -31,11 +25,19 @@
             </dt>
             <dd>{{ entity.lastModifiedDate | acDate: 'datetime' }}</dd>
         </dl>
-        <dl *ngIf="entity.deletionDate" class="jh-entity-details">
-            <dt>
-                <label jhiTranslate="entity.audits.deletionDate"></label>
-            </dt>
-            <dd>{{ entity.deletionDate | acDate: 'datetime' }}</dd>
-        </dl>
+        <ng-container *ngIf="canShowDeletionAuditing()">
+            <dl class="jh-entity-details">
+                <dt>
+                    <label jhiTranslate="entity.audits.deletedBy"></label>
+                </dt>
+                <dd>{{ entity.deletedBy }}</dd>
+            </dl>
+            <dl class="jh-entity-details">
+                <dt>
+                    <label jhiTranslate="entity.audits.deletionDate"></label>
+                </dt>
+                <dd>{{ entity.deletionDate | acDate: 'datetime' }}</dd>
+            </dl>
+        </ng-container>
     </div>
 </fieldset>

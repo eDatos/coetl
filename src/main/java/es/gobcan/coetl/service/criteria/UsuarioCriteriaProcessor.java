@@ -43,28 +43,28 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
     @Override
     public void registerProcessors() {
         //@formatter:off
-        registerRestrictionProcessor(RestrictionProcessorBuilder.enumRestrictionProcessor(Rol.class)
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.enumRestrictionProcessor(Rol.class)
                 .withQueryProperty(QueryProperty.ROLES)
                 .withCriterionConverter(new RolCriterionBuilder())
                 .build());
         
-        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.LOGIN).sortable()
                 .withEntityProperty(ENTITY_FIELD_LOGIN).build());
         
-        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.NOMBRE).sortable()
                 .withEntityProperty(ENTITY_FIELD_NOMBRE).build());
         
-        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.APELLIDO1).sortable()
                 .withEntityProperty(ENTITY_FIELD_APELLIDO1).build());
         
-        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.APELLIDO2).sortable()
                 .withEntityProperty(ENTITY_FIELD_APELLIDO2).build());
     	
-        registerRestrictionProcessor(RestrictionProcessorBuilder.stringRestrictionProcessor()
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
     			.withQueryProperty(QueryProperty.USUARIO)
     			.withCriterionConverter(new UsuarioCriterionBuilder())
     			.build());

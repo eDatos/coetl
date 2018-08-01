@@ -8,6 +8,8 @@ import org.hibernate.event.spi.PersistEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import es.gobcan.coetl.domain.VersionedEntity;
+
 public class RootLinkInsertEventListener implements PersistEventListener {
 
     /**

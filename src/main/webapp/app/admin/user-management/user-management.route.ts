@@ -11,8 +11,7 @@ import { BASE_DECIMAL } from '../../app.constants';
 
 @Injectable()
 export class UserResolvePagingParams implements Resolve<any> {
-
-    constructor(private paginationUtil: JhiPaginationUtil) { }
+    constructor(private paginationUtil: JhiPaginationUtil) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
@@ -29,11 +28,11 @@ export class UserResolvePagingParams implements Resolve<any> {
 
 export const userMgmtRoute: Routes = [
     {
-        path: DEFAULT_PATH,
+        path: 'user-management',
         canActivate: [UserRouteAccessService],
         component: UserMgmtComponent,
         resolve: {
-            'pagingParams': UserResolvePagingParams
+            pagingParams: UserResolvePagingParams
         },
         data: {
             pageTitle: 'userManagement.home.title',
@@ -47,7 +46,7 @@ export const userMgmtRoute: Routes = [
         data: {
             pageTitle: 'userManagement.home.title',
             roles: USER_MANAGEMENT_ROLES
-        },
+        }
     },
     {
         path: 'user-management-new',
