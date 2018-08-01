@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Response } from '@angular/http';
 import { JhiEventManager } from 'ng-jhipster';
-import { User, UserService } from '../../shared';
+import { User, UserService, Rol } from '../../shared';
 import { Subscription } from 'rxjs';
 import { PermissionService } from '../../shared';
 
@@ -11,10 +11,11 @@ import { PermissionService } from '../../shared';
     templateUrl: './user-management-form.component.html'
 })
 export class UserMgmtFormComponent implements OnInit, OnDestroy {
-
     user: User;
     isSaving: Boolean;
     usuarioValido = false;
+    roleEnum = Rol;
+    roleSelected: Rol;
     private subscription: Subscription;
     paramLogin: string;
     eventSubscriber: Subscription;
@@ -25,7 +26,7 @@ export class UserMgmtFormComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private route: ActivatedRoute,
         private router: Router
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.isSaving = false;
@@ -36,7 +37,7 @@ export class UserMgmtFormComponent implements OnInit, OnDestroy {
         });
         this.eventSubscriber = this.eventManager.subscribe('UserModified', (response) => {
             if (!response.content || response.content.action !== 'deleted') {
-                this.load(response.content)
+                this.load(response.content);
             }
         });
     }
@@ -50,6 +51,7 @@ export class UserMgmtFormComponent implements OnInit, OnDestroy {
         if (login) {
             this.userService.find(login).subscribe((user) => {
                 this.user = user;
+                this.roleSelected = this.user.roles[0];
                 this.userService.buscarUsuarioEnLdap(this.user.login).subscribe((usuarioLdap) => {
                     if (!!usuarioLdap) {
                         this.usuarioValido = true;
@@ -72,10 +74,15 @@ export class UserMgmtFormComponent implements OnInit, OnDestroy {
 
     save() {
         this.isSaving = true;
+        this.user.roles[0] = this.roleSelected;
         if (this.user.id !== null) {
-            this.userService.update(this.user).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
+            this.userService
+                .update(this.user)
+                .subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         } else {
-            this.userService.create(this.user).subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
+            this.userService
+                .create(this.user)
+                .subscribe((response) => this.onSaveSuccess(response), () => this.onSaveError());
         }
     }
 
@@ -94,14 +101,12 @@ export class UserMgmtFormComponent implements OnInit, OnDestroy {
     }
 
     restore(login: string) {
-        this.userService.restore(login)
-            .subscribe((res: Response) => {
-                this.eventManager.broadcast(
-                    {
-                        name: 'UserModified',
-                        content: login
-                    });
-            })
+        this.userService.restore(login).subscribe((res: Response) => {
+            this.eventManager.broadcast({
+                name: 'UserModified',
+                content: login
+            });
+        });
     }
 
     private onSaveSuccess(result) {
