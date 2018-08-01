@@ -18,7 +18,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name = "file")
+@Table(name = "tb_files")
 @Cache(usage = CacheConcurrencyStrategy.NONE)
 public class File implements Serializable {
 

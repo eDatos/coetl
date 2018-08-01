@@ -15,7 +15,7 @@
         <createSequence sequenceName="file_id_seq" startValue="10" incrementBy="50" />
     </changeSet>
     <changeSet id="20180126141730-1" author="arte">
-        <createTable tableName="file">
+        <createTable tableName="tb_files">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false" />
             </column>
