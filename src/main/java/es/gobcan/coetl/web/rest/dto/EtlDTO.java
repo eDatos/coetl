@@ -1,6 +1,7 @@
 package es.gobcan.coetl.web.rest.dto;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
@@ -40,6 +41,8 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
     private String executionDescription;
 
     private String executionPlanning;
+
+    private ZonedDateTime nextExecution;
 
     public Long getId() {
         return id;
@@ -127,6 +130,14 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
 
     public void setExecutionPlanning(String executionPlanning) {
         this.executionPlanning = executionPlanning;
+    }
+
+    public ZonedDateTime getNextExecution() {
+        return nextExecution;
+    }
+
+    public void setNextExecution(ZonedDateTime nextExecution) {
+        this.nextExecution = nextExecution;
     }
 
     @Override

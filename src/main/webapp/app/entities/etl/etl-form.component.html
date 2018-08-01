@@ -70,7 +70,7 @@
                     <ac-autocomplete-enum name="type" [(ngModel)]="etl.type" [suggestionsEnum]="typeEnum" [translationPath]="'coetlApp.etl.type.'"
                         [required]="true"></ac-autocomplete-enum>
                 </div>
-                <dl class="jh-entity-details">
+                <dl *ngIf="!!etl.id" class="jh-entity-details">
                     <dt>
                         <label jhiTranslate="coetlApp.etl.state.label"></label>
                     </dt>
@@ -121,6 +121,12 @@
                     <input type="text" class="form-control" name="executionPlanning" id="field_executionPlanning" [(ngModel)]="etl.executionPlanning"
                         [placeholder]="'coetlApp.etl.executionPlanning.placeholder' | translate" />
                 </div>
+                <dl *ngIf="etl.isPlanning()" class="jh-entity-details">
+                    <dt>
+                        <label jhiTranslate="coetlApp.etl.nextExecution.label"></label>
+                    </dt>
+                    <dd>{{ etl.nextExecution | acDate: 'datetime' }}</dd>
+                </dl>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.executionDescription.label" for="field_executionDescription"></label>
                     <textarea [disabled]="!isEditMode()" class="form-control" name="executionDescription" id="field_executionDescription" [(ngModel)]="etl.executionDescription"

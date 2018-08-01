@@ -34,6 +34,7 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         entity.setComments(dto.getComments());
         entity.setExecutionDescription(dto.getExecutionDescription());
         entity.setExecutionPlanning(dto.getExecutionPlanning());
+        entity.setNextExecution(dto.getNextExecution());
 
         entity.setOptLock(dto.getOptLock());
 
