@@ -31,7 +31,7 @@ export class EtlService {
 
     public restore(idEtl: number): Observable<Etl> {
         return this.http
-            .delete(`${this.resourceUrl}/${idEtl}/restore`)
+            .put(`${this.resourceUrl}/${idEtl}/restore`, null)
             .map((response) => this.convertItemToEtl(response.json()));
     }
 
