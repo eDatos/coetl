@@ -66,6 +66,12 @@
             "nextExecution": {
                 "label": "Próxima ejecución"
             },
+            "descriptionFile": {
+                "label": "Fichero descriptivo"
+            },
+            "codeFile": {
+                "label": "Fichero ETL"
+            },
             "state": {
                 "label": "Estado",
                 "isDeleted": "Eliminada",

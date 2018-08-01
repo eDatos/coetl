@@ -4,13 +4,17 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -85,6 +89,16 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
 
     @Column(name = "next_execution")
     private ZonedDateTime nextExecution;
+
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "code_file_id")
+    private File codeFile;
+
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "description_file_id")
+    private File descriptionFile;
 
     public Long getId() {
         return id;
@@ -184,6 +198,22 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
 
     public void setNextExecution(ZonedDateTime nextExecution) {
         this.nextExecution = nextExecution;
+    }
+
+    public File getCodeFile() {
+        return codeFile;
+    }
+
+    public void setCodeFile(File codeFile) {
+        this.codeFile = codeFile;
+    }
+
+    public File getDescriptionFile() {
+        return descriptionFile;
+    }
+
+    public void setDescriptionFile(File descriptionFile) {
+        this.descriptionFile = descriptionFile;
     }
 
     @Override

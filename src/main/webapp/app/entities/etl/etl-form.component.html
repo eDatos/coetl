@@ -90,6 +90,38 @@
                 </div>
             </div>
         </fieldset>
+        <fieldset>
+            <div class="entity-fields">
+                <div class="form-group full-width">
+                    <ac-file-upload [title]="'coetlApp.etl.codeFile.label' | translate" [url]="fileResourceUrl" (onUpload)="onCodeFileUpload($event)"
+                        [files]="etl.codeFile" [disabled]="!isEditMode()">
+
+                        <ng-template let-file="file">
+                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteCodeFile(file)">
+                                <i class="fa fa-trash"></i>
+                                <span jhiTranslate="entity.action.delete"></span>
+                            </button>
+                        </ng-template>
+
+                    </ac-file-upload>
+
+
+                </div>
+                <div class="form-group full-width">
+                    <ac-file-upload [title]="'coetlApp.etl.descriptionFile.label' | translate" [url]="fileResourceUrl" (onUpload)="onDescriptionFileUpload($event)"
+                        accept="application/pdf" [files]="etl.descriptionFile" [disabled]="!isEditMode()">
+
+                        <ng-template let-file="file">
+                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteDescriptionFile(file)">
+                                <i class="fa fa-trash"></i>
+                                <span jhiTranslate="entity.action.delete"></span>
+                            </button>
+                        </ng-template>
+
+                    </ac-file-upload>
+                </div>
+            </div>
+        </fieldset>
         <fieldset [disabled]="!isEditMode()">
             <h3 jhiTranslate="coetlApp.etl.sections.inCharge"></h3>
             <div class="entity-fields">
