@@ -10,6 +10,7 @@ import { EtlResolve } from './etl-resolve.service';
 import { EtlFormComponent } from './etl-form.component';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
+import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
 
 const ENTITY_STATES = [...etlRoute];
 
@@ -20,9 +21,14 @@ const ENTITY_STATES = [...etlRoute];
         EtlSearchComponent,
         EtlFormComponent,
         EtlDeleteDialogComponent,
-        EtlRestoreDialogComponent
+        EtlRestoreDialogComponent,
+        EtlExpressionHelpDialogComponent
     ],
-    entryComponents: [EtlDeleteDialogComponent, EtlRestoreDialogComponent],
+    entryComponents: [
+        EtlDeleteDialogComponent,
+        EtlRestoreDialogComponent,
+        EtlExpressionHelpDialogComponent
+    ],
     providers: [EtlService, EtlResolve, EtlResolvePagingParams]
 })
 export class CoetlEtlModule {}
