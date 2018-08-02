@@ -111,7 +111,7 @@ public class EtlResource extends AbstractResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, result.getCode())).body(result);
     }
 
-    @DeleteMapping("/{idEtl}/restore")
+    @PutMapping("/{idEtl}/restore")
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
     public ResponseEntity<EtlDTO> restore(@PathVariable Long idEtl) {
