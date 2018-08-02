@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Principal, ResponseWrapper, User, UserService, Rol } from '../../shared';
 import { UserFilter } from './user-search';
 import { PermissionService } from '../../shared';
-import { TranslateService } from '../../../../../../node_modules/@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'jhi-user-mgmt',

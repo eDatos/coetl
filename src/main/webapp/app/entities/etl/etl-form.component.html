@@ -117,7 +117,12 @@
             <h3 jhiTranslate="coetlApp.etl.sections.planning"></h3>
             <div class="entity-fields">
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="coetlApp.etl.executionPlanning.label" for="field_executionPlanning"></label>
+                    <label class="form-control-label" for="field_executionPlanning">
+                        <span jhiTranslate="coetlApp.etl.executionPlanning.label"></span>
+                        <span (click)="help()">
+                            <ac-help-tooltip [position]="'bottom'" [label]="'coetlApp.etlExpressionHelp.tooltip' | translate"></ac-help-tooltip>
+                        </span>
+                    </label>
                     <input type="text" class="form-control" name="executionPlanning" id="field_executionPlanning" [(ngModel)]="etl.executionPlanning"
                         [placeholder]="'coetlApp.etl.executionPlanning.placeholder' | translate" />
                 </div>
