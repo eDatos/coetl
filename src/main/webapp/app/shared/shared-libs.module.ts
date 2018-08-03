@@ -8,6 +8,7 @@ import { Autosize } from 'ng-autosize';
 import { NgJhipsterModule } from 'ng-jhipster';
 import { CookieModule } from 'ngx-cookie';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import {
     AutoCompleteModule,
     ButtonModule,
@@ -37,6 +38,18 @@ import { DEFAULT_LANGUAGE } from './service/language/language.constants';
         }),
         InfiniteScrollModule,
         CookieModule.forRoot(),
+        MarkdownModule.forRoot({
+            provide: MarkedOptions,
+            useValue: {
+                gfm: true,
+                tables: true,
+                breaks: false,
+                pedantic: false,
+                sanitize: false,
+                smartLists: true,
+                smartypants: false
+            }
+        }),
         BrowserAnimationsModule,
         CalendarModule,
         AutoCompleteModule,
@@ -57,6 +70,7 @@ import { DEFAULT_LANGUAGE } from './service/language/language.constants';
         NgbModule,
         NgJhipsterModule,
         InfiniteScrollModule,
+        MarkdownModule,
         AutoCompleteModule,
         ChipsModule,
         CalendarModule,
