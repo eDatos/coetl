@@ -93,11 +93,11 @@
         <fieldset>
             <div class="entity-fields">
                 <div class="form-group full-width">
-                    <ac-file-upload [title]="'coetlApp.etl.codeFile.label' | translate" [url]="fileResourceUrl" (onUpload)="onCodeFileUpload($event)"
-                        [files]="etl.codeFile" [disabled]="!isEditMode()">
+                    <ac-file-upload [title]="'coetlApp.etl.codeFile.label' | translate" [url]="fileResourceUrl" (onUpload)="onEtlFileUpload($event)"
+                        [files]="etl.etlFile" [disabled]="!isEditMode()">
 
                         <ng-template let-file="file">
-                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteCodeFile(file)">
+                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteEtlFile(file)">
                                 <i class="fa fa-trash"></i>
                                 <span jhiTranslate="entity.action.delete"></span>
                             </button>
@@ -108,8 +108,8 @@
 
                 </div>
                 <div class="form-group full-width">
-                    <ac-file-upload [title]="'coetlApp.etl.descriptionFile.label' | translate" [url]="fileResourceUrl" (onUpload)="onDescriptionFileUpload($event)"
-                        accept="application/pdf" [files]="etl.descriptionFile" [disabled]="!isEditMode()">
+                    <ac-file-upload [title]="'coetlApp.etl.descriptionFile.label' | translate" [url]="fileResourceUrl" (onUpload)="onEtlDescriptionFileUpload($event)"
+                        accept="application/pdf" [files]="etl.etlDescriptionFile" [disabled]="!isEditMode()">
 
                         <ng-template let-file="file">
                             <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteDescriptionFile(file)">

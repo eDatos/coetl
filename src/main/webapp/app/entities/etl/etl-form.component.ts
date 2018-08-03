@@ -122,18 +122,18 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         return this.titlesContaner;
     }
 
-    onCodeFileUpload(event) {
-        const codeFile = JSON.parse(event.xhr.response);
-        this.etl.etlFile = codeFile;
+    onEtlFileUpload(event) {
+        const etlFile = JSON.parse(event.xhr.response);
+        this.etl.etlFile = etlFile;
     }
 
-    deleteCodeFile(file: File) {
+    deleteEtlFile(file: File) {
         this.fileService.delete(file.id).subscribe(() => (this.etl.etlFile = undefined));
     }
 
-    onDescriptionFileUpload(event) {
-        const descriptionFile = JSON.parse(event.xhr.response);
-        this.etl.etlDescriptionFile = descriptionFile;
+    onEtlDescriptionFileUpload(event) {
+        const etlDescriptionFile = JSON.parse(event.xhr.response);
+        this.etl.etlDescriptionFile = etlDescriptionFile;
     }
 
     deleteDescriptionFile(file: File) {
