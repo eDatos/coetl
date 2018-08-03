@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title th:text="#{email.creation.title}">JHipster creation</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="shortcut icon" href="${baseUrl}/favicon.ico" />
-    </head>
-    <body>
-        <p>
-        	<span th:text="#{email.creation.greeting(${user.nombre}, ${user.apellido1})}"></span>
-        	<span th:if="${user.apellido2}"></span>
-        </p>
-        <p th:text="#{email.creation.text1}">
-        </p>
-        <p th:text="#{email.creation.text2(${baseUrl})}">
-        </p>
-        <p th:text="#{email.creation.text3}">
-        </p>
-    </body>
+
+<head>
+    <title th:text="#{email.creation.title}">JHipster creation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="${baseUrl}/favicon.ico" />
+</head>
+
+<body>
+    <p>
+        <span th:if="${user.apellido2}">
+            <span th:text="#{email.creation.greeting2(${user.nombre}, ${user.apellido1}, ${user.apellido2})}"></span>
+        </span>
+        <span th:unless="${user.apellido2}">
+            <span th:text="#{email.creation.greeting1(${user.nombre}, ${user.apellido1})}"></span>
+        </span>
+    </p>
+    <p th:text="#{email.creation.text1}">
+    </p>
+    <p th:text="#{email.creation.text2(${baseUrl})}">
+    </p>
+    <p th:text="#{email.creation.text3}">
+    </p>
+</body>
+
 </html>
