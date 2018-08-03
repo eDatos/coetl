@@ -1,5 +1,5 @@
 
-# Arte Application Template
+# Consola de ETL
 
 En este tutorial se explica el proceso a seguir para llevar a cabo el proceso de instalación de la aplicación. Se recomienda llevar a cabo una lectura rápida de todo el tutorial antes de comenzar con el proceso de instalación.
 Además, podrá encontrar otros anexos de utilidad en los que se detallan algunas cuestiones relacionadas con el desarrollo, los diferentes perfiles de compilación,...
@@ -9,9 +9,13 @@ Además, podrá encontrar otros anexos de utilidad en los que se detallan alguna
 ## Introducción
 
 ### Descripción de la aplicación
-Arte Application Template es la plantilla base de aplicaciones web de gestión sobre la que Arte Consultores S.L. crea sus proyectos.
+Consola de ETL es la solución corporativa del Gobierno de Canarias para registrar y ejecutar ficheros ETLs desarrollados mediante la tecnología Pentaho Data Integration, permitiendo incluso programar las ejecuciones de estos procesos y la revisión de sus ejecuciones mediante un histórico.
 
-La plantilla está basada en el nuevo stack (ver [Más Información](#M%C3%A1s-informaci%C3%B3n)) aportando toda la arquitectura y configuración necesaria sobre la que trabajar en nuevos proyectos. Para mantenerlo lo más simple posible solo implementa el manejo de los usuarios y roles con acceso a la aplicación. 
+La aplicación está basada en tecnologías web estándar (HTML5, CSS3, Javascript y Java, ver [Más Información](#M%C3%A1s-informaci%C3%B3n)). La implantación de la solución permite llevar a cabo las siguientes tareas: 
+
+* Manejar los usuarios y roles con acceso a la aplicación.
+* Registrar, ejecutar y programar procesos ETL.
+* Revisar el histórico de ejecuciones de un proceso ETL.
 
 ### Requerimientos previos
 
@@ -26,6 +30,8 @@ En este apartado se especifican los requisitos necesarios, referidos al entorno,
 La aplicación requiere de determinados servicios para poder estar completamente operativa. Algunos de ellos son necesarios de manera directa y otros de manera indirecta:
 Los servicios necesarios de manera directa (son atacados directamente por la aplicación):
 - CAS. Se utiliza para llevar a cabo las labores de autenticación.
+- LDAP. Se utiliza para validar las credenciales de los usuarios.
+- Pentaho Data Integration Server. Se utiliza para ejecutar los procesos ETL desarrollados en Pentaho.
 
 
 ### Componentes de la instalación
@@ -52,13 +58,13 @@ La plantilla consta de una aplicación con interfaz web y un servicio web REST.
 - Definir si se desea externalizar la configuración de la aplicación o mantener dentro del propio archivo war.
     1. Si no se desea externalizar la configuración de las propiedades a un directorio DATA se puede omitir este paso.
     2. Si se desea externalizar la configuración de las propiedades a un directorio DATA se tendrán que realizar los siguientes pasos:
-        - Se hará una copia del archivo **arte-application-template.war/WEB-INF/classes/config/application-env.yml** a un directorio externalizado de su elección.
-        - Se editará el archivo **arte-application-template.war/WEB-INF/classes/config/data-location.properties** y se especificará la ruta anterior.
+        - Se hará una copia del archivo **coetl.war/WEB-INF/classes/config/application-env.yml** a un directorio externalizado de su elección.
+        - Se editará el archivo **coetl.war/WEB-INF/classes/config/data-location.properties** y se especificará la ruta anterior.
 - Se cumplimentarán las propiedades del fichero **application-env.yml**. Se puede consultar el detalle sobre cada una de las propiedades en el [Anexo de descripción de propiedades de configuración](#anexo-descripci%C3%B3n-de-las-propiedades-de-configuraci%C3%B3n).
 
 
 ### Paso 3. Configuración de logging.
-Pueden modificarse los ficheros relacionados con la configuración de logging en **arte-application-template.war/WEB-INF/classes/logback.xml**.
+Pueden modificarse los ficheros relacionados con la configuración de logging en **coetl.war/WEB-INF/classes/logback.xml**.
 
 ### Paso 4. Arrancar la aplicación.
 
@@ -177,16 +183,21 @@ Estas herramientas nos permitirán trabajar de forma sencilla con los ficheros y
 
 El siguiente paso es instalar las dependencias que se necesitan para trabajar con JavaScript en el proyecto. Para ello debe ejecutarse el comando:
 
-    yarn install
+```bash
+yarn install
+```
 
 Generalmente este comando sólo es necesario ejecutarlo cuando modifiquemos las dependencias especificadas en nuestro proyecto (fichero [package.json](package.json)). 
 
 Realizados los pasos anteriores, podemos proceder a arrancar la aplicación en "modo desarrollo".  Para ello necesitamos:
 
- 1. Arrancar la parte servidora de la aplicación. Esto lo podemos hacer ejecutando la clase [ArteApplicationTemplateApp](src/main/java/com/arte/application/template/ArteApplicationTemplateApp.java). Al ejecutar esta clase se estamos levantando un servidor Tomcat embebido. Este Tomcat embebido nos permite desarrollar de forma más rápida y eficiente. 
+ 1. Arrancar la parte servidora de la aplicación. Esto lo podemos hacer ejecutando la clase [CoetlApp](src/main/java/com/arte/application/template/CoetlApp.java). Al ejecutar esta clase se estamos levantando un servidor Tomcat embebido. Este Tomcat embebido nos permite desarrollar de forma más rápida y eficiente. 
+
  2. Ejecutar el siguiente comando de `yarn`:
 
+    ```bash
     yarn start
+    ```
 
 Este comando arranca la parte cliente de la aplicación. Al ejecutar `yarn start` se abrirá una ventana en el navegador con la aplicación. Por defecto, la aplicación estará disponible en la URL [http://localhost:9000](http://localhost:9000).
 
