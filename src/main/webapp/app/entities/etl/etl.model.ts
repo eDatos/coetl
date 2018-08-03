@@ -20,7 +20,7 @@ export class Etl extends BaseVersionedAndAuditingWithDeletionEntity {
         public executionDescription?: string,
         public executionPlanning?: string,
         public nextExecution?: Date,
-        public codeFile?: File,
+        public etlFile?: File,
         public descriptionFile?: File
     ) {
         super();

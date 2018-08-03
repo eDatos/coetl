@@ -109,7 +109,7 @@ public class EtlResourceIntTest {
         etl.setFunctionalInCharge(DEFAULT_FUNCTIONAL_IN_CHARGE);
         etl.setTechnicalInCharge(DEFAULT_TECHNICAL_IN_CHARGE);
         etl.setType(DEFAULT_TYPE);
-        etl.setCodeFile(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
+        etl.setEtlFile(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
         etl.setDescriptionFile(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
         return etl;
     }
@@ -123,7 +123,7 @@ public class EtlResourceIntTest {
         etl.setFunctionalInCharge(DEFAULT_FUNCTIONAL_IN_CHARGE);
         etl.setTechnicalInCharge(DEFAULT_TECHNICAL_IN_CHARGE);
         etl.setType(DEFAULT_TYPE);
-        etl.setCodeFile(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
+        etl.setEtlFile(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
         etl.setDescriptionFile(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
         return etl;
     }
