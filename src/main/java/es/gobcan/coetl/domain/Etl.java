@@ -97,8 +97,8 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "description_file_id")
-    private File descriptionFile;
+    @JoinColumn(name = "etl_description_file_fk")
+    private File etlDescriptionFile;
 
     public Long getId() {
         return id;
@@ -208,12 +208,12 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
         this.etlFile = etlFile;
     }
 
-    public File getDescriptionFile() {
-        return descriptionFile;
+    public File getEtlDescriptionFile() {
+        return etlDescriptionFile;
     }
 
-    public void setDescriptionFile(File descriptionFile) {
-        this.descriptionFile = descriptionFile;
+    public void setEtlDescriptionFile(File etlDescriptionFile) {
+        this.etlDescriptionFile = etlDescriptionFile;
     }
 
     @Override

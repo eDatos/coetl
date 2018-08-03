@@ -133,11 +133,11 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
 
     onDescriptionFileUpload(event) {
         const descriptionFile = JSON.parse(event.xhr.response);
-        this.etl.descriptionFile = descriptionFile;
+        this.etl.etlDescriptionFile = descriptionFile;
     }
 
     deleteDescriptionFile(file: File) {
-        this.fileService.delete(file.id).subscribe(() => (this.etl.descriptionFile = undefined));
+        this.fileService.delete(file.id).subscribe(() => (this.etl.etlDescriptionFile = undefined));
     }
 
     private subscribeToSaveResponse(result: Observable<Etl>) {

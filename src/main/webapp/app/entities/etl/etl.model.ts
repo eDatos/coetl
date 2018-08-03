@@ -21,7 +21,7 @@ export class Etl extends BaseVersionedAndAuditingWithDeletionEntity {
         public executionPlanning?: string,
         public nextExecution?: Date,
         public etlFile?: File,
-        public descriptionFile?: File
+        public etlDescriptionFile?: File
     ) {
         super();
     }

@@ -48,7 +48,7 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
     private FileDTO etlFile;
 
     @NotNull
-    private FileDTO descriptionFile;
+    private FileDTO etlDescriptionFile;
 
     public Long getId() {
         return id;
@@ -154,12 +154,12 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
         this.etlFile = etlFile;
     }
 
-    public FileDTO getDescriptionFile() {
-        return descriptionFile;
+    public FileDTO getEtlDescriptionFile() {
+        return etlDescriptionFile;
     }
 
-    public void setDescriptionFile(FileDTO descriptionFile) {
-        this.descriptionFile = descriptionFile;
+    public void setEtlDescriptionFile(FileDTO etlDescriptionFile) {
+        this.etlDescriptionFile = etlDescriptionFile;
     }
 
     @Override
