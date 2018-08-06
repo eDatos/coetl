@@ -8,6 +8,7 @@
     <include file="config/liquibase/changelog/20180118152128_added_procedure_add_usuario_with_existing_rol.xml" relativeToChangelogFile="false" />
     <include file="config/liquibase/changelog/20180126141730_added_entity_Documento.xml" relativeToChangelogFile="false" />
     <include file="config/liquibase/changelog/20180725155830_added_entity_Etl.xml" relativeToChangelogFile="false" />
+    <include file="config/liquibase/changelog/20180806152030_added_entity_Execution.xml" relativeToChangelogFile="false" />
   <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
   <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
   <include file="config/liquibase/changelog/20180419081000_added_indexes.xml" relativeToChangelogFile="false" />
