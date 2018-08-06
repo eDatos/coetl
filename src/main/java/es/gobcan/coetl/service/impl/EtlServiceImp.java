@@ -1,18 +1,35 @@
 package es.gobcan.coetl.service.impl;
 
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
+
+import java.text.ParseException;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
+import org.quartz.CronExpression;
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
+import es.gobcan.coetl.config.QuartzConstants;
 import es.gobcan.coetl.domain.Etl;
+import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
+import es.gobcan.coetl.errors.ErrorConstants;
+import es.gobcan.coetl.job.PentahoExecutionJob;
 import es.gobcan.coetl.repository.EtlRepository;
 import es.gobcan.coetl.security.SecurityUtils;
 import es.gobcan.coetl.service.EtlService;
@@ -28,6 +45,9 @@ public class EtlServiceImp implements EtlService {
 
     @Autowired
     QueryUtil queryUtil;
+
+    @Autowired
+    private SchedulerFactoryBean schedulerAccessorBean;
 
     @Override
     public Etl create(Etl etl) {
@@ -72,7 +92,84 @@ public class EtlServiceImp implements EtlService {
 
     private Etl save(Etl etl) {
         LOG.debug("Request to save an ETL : {}", etl);
+        final String identityJobPrefix = "pentahoExecutionJob_";
+        JobKey jobKey = new JobKey(identityJobPrefix + etl.getCode());
+        if (etl.isPlanned()) {
+            try {
+                CronExpression cronExpression = new CronExpression(etl.getExecutionPlanning());
+                etl.setNextExecution(getNextExecutionFromCronExpression(cronExpression));
+                schedulePentahoExecutionJob(jobKey, cronExpression, etl);
+            } catch (ParseException e) {
+                //@formatter:off
+                throw new CustomParameterizedExceptionBuilder()
+                    .message(String.format("The cron expression %s is not valid", etl.getExecutionPlanning()))
+                    .cause(e)
+                    .code(ErrorConstants.ETL_CRON_EXPRESSION_NOT_VALID, etl.getExecutionPlanning())
+                    .build();
+                //@formatter:on
+            }
+        } else {
+            etl.setNextExecution(null);
+            checkAndUnschedulePentahoExecutionJob(jobKey);
+        }
         return etlRepository.save(etl);
+    }
+
+    private ZonedDateTime getNextExecutionFromCronExpression(CronExpression cronExpression) {
+        Date now = Date.from(ZonedDateTime.now().toInstant());
+        Date nextValidExecutionDate = cronExpression.getNextValidTimeAfter(now);
+        return ZonedDateTime.ofInstant(nextValidExecutionDate.toInstant(), ZoneId.systemDefault());
+    }
+
+    private void schedulePentahoExecutionJob(JobKey jobKey, CronExpression cronExpression, Etl etl) {
+        LOG.debug("Request to scheduled a new Quartz job : {}", jobKey.getName());
+        final String identityTriggerPrefix = "pentahoExectionTrigger_";
+        //@formatter:off
+        JobDetail job = newJob(PentahoExecutionJob.class)
+                .withIdentity(jobKey)
+                .usingJobData(QuartzConstants.ETL_CODE_JOB_DATA, etl.getCode())
+                .build();
+        
+        CronTrigger trigger = newTrigger()
+                .withIdentity(identityTriggerPrefix + etl.getCode())
+                .withSchedule(cronSchedule(cronExpression))
+                .build();
+        //@formatter:on
+
+        try {
+            if (!schedulerAccessorBean.getScheduler().checkExists(jobKey)) {
+                schedulerAccessorBean.getScheduler().scheduleJob(job, trigger);
+            } else {
+                schedulerAccessorBean.getScheduler().deleteJob(jobKey);
+                schedulerAccessorBean.getScheduler().scheduleJob(job, trigger);
+            }
+        } catch (SchedulerException e) {
+            //@formatter:off
+            throw new CustomParameterizedExceptionBuilder()
+                .message(String.format("Error during schedule a new job %s", jobKey.getName()))
+                .cause(e)
+                .code(ErrorConstants.ETL_SCHEDULE_ERROR)
+                .build();
+            //@formatter:on
+        }
+    }
+
+    private void checkAndUnschedulePentahoExecutionJob(JobKey jobKey) {
+        LOG.debug("Request to unscheduled (if exists) a Quartz job : {}", jobKey.getName());
+
+        try {
+            if (schedulerAccessorBean.getScheduler().checkExists(jobKey)) {
+                schedulerAccessorBean.getScheduler().deleteJob(jobKey);
+            }
+        } catch (SchedulerException e) {
+            //@formatter:off
+            throw new CustomParameterizedExceptionBuilder()
+                .message(String.format("Error during unschedule the job %s", jobKey.getName()))
+                .cause(e)
+                .code(ErrorConstants.ETL_UNSCHEDULE_ERROR)
+                .build();
+            //@formatter:on
+        }
     }
 
     private DetachedCriteria buildEtlCriteria(String query, boolean includeDeleted, Pageable pageable) {
