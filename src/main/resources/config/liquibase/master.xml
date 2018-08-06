@@ -3,6 +3,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false" />
+    <include file="config/liquibase/changelog/20180806100000_added_tables_Quartz.xml" relativeToChangelogFile="false" />
     <include file="config/liquibase/changelog/20180117115714_added_function_lower_unaccent.xml" relativeToChangelogFile="false" />
     <include file="config/liquibase/changelog/20180118152128_added_procedure_add_usuario_with_existing_rol.xml" relativeToChangelogFile="false" />
     <include file="config/liquibase/changelog/20180126141730_added_entity_Documento.xml" relativeToChangelogFile="false" />
