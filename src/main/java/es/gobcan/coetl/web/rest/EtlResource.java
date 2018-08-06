@@ -154,4 +154,25 @@ public class EtlResource extends AbstractResource {
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
+
+    @GetMapping("/{idEtl}/execute")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<Void> execute(@PathVariable Long idEtl) {
+        LOG.debug("REST Request to find an ETL : {}", idEtl);
+        Etl etl = etlService.findOne(idEtl);
+        if (!etl.isDeleted()) {
+            etlService.execute(etl);
+            auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
+        } else {
+            //@formatter:off
+            throw new CustomParameterizedExceptionBuilder()
+                .message(String.format("ETL %s can not be executed, it is deleted", etl.getCode()))
+                .code(ErrorConstants.ETL_CURRENTLY_DELETED)
+                .build();
+            //@formatter:on
+        }
+
+        return ResponseEntity.ok().build();
+    }
 }

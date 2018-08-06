@@ -33,6 +33,7 @@ import es.gobcan.coetl.job.PentahoExecutionJob;
 import es.gobcan.coetl.repository.EtlRepository;
 import es.gobcan.coetl.security.SecurityUtils;
 import es.gobcan.coetl.service.EtlService;
+import es.gobcan.coetl.service.PentahoExecutionService;
 import es.gobcan.coetl.web.rest.util.QueryUtil;
 
 @Service
@@ -45,6 +46,9 @@ public class EtlServiceImp implements EtlService {
 
     @Autowired
     QueryUtil queryUtil;
+
+    @Autowired
+    PentahoExecutionService pentahoExecutionService;
 
     @Autowired
     private SchedulerFactoryBean schedulerAccessorBean;
@@ -90,6 +94,12 @@ public class EtlServiceImp implements EtlService {
         return etlRepository.findAll(criteria, pageable);
     }
 
+    @Override
+    public void execute(Etl etl) {
+        LOG.debug("Request to execute ETL : {}", etl);
+        pentahoExecutionService.execute(etl.getCode());
+    }
+
     private Etl save(Etl etl) {
         LOG.debug("Request to save an ETL : {}", etl);
         final String identityJobPrefix = "pentahoExecutionJob_";
@@ -109,6 +119,11 @@ public class EtlServiceImp implements EtlService {
                 //@formatter:on
             }
         } else {
+            etl.setNextExecution(null);
+            checkAndUnschedulePentahoExecutionJob(jobKey);
+        }
+
+        if (etl.isDeleted() && etl.isPlanned()) {
             etl.setNextExecution(null);
             checkAndUnschedulePentahoExecutionJob(jobKey);
         }
