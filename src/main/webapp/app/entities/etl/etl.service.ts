@@ -48,6 +48,12 @@ export class EtlService {
             .map((response) => this.convertResponseToResponseWrapper(response));
     }
 
+    public execute(idEtl: Number): Observable<string> {
+        return this.http
+            .get(`${this.resourceUrl}/${idEtl}/execute`)
+            .map((response) => response.text());
+    }
+
     private convertResponseToResponseWrapper(response: Response): ResponseWrapper {
         const jsonResponse = response.json().map((element: any) => this.convertItemToEtl(element));
         return new ResponseWrapper(response.headers, jsonResponse, response.status);

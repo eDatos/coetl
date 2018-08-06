@@ -25,6 +25,10 @@
                     </ng-container>
                     <ng-container *ngIf="etl.id && !isEditMode()">
                         <ng-container *ngIf="!etl.isDeleted()">
+                            <button class="btn btn-primary" type="button" (click)="execute()">
+                                <span class="fa fa-play"></span>&nbsp;
+                                <span jhiTranslate="entity.action.execute"></span>
+                            </button>
                             <button class="btn btn-secondary jh-create-entity" [routerLink]="['../', etl.id, 'edit']" type="button">
                                 <span class="fa fa-pencil"></span>&nbsp;
                                 <span jhiTranslate="entity.action.edit"></span>
