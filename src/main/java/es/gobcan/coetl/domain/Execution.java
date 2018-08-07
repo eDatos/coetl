@@ -35,7 +35,7 @@ public class Execution implements Serializable {
     }
 
     public enum Result {
-        SUCCESS, FAILED, RUNNING
+        SUCCESS, FAILED, RUNNING, WAITING
     }
 
     @Id
