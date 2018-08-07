@@ -105,6 +105,14 @@ public class Execution implements Serializable {
         this.notes = notes;
     }
 
+    public Etl getEtl() {
+        return etl;
+    }
+
+    public void setEtl(Etl etl) {
+        this.etl = etl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
