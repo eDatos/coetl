@@ -1,0 +1,21 @@
+{
+    "coetlApp": {
+        "execution": {
+            "title": "Ejecuciones",
+            "datetime": "Fecha y hora",
+            "type": {
+                "label": "Tipo",
+                "AUTO": "Automática",
+                "MANUAL": "Manual"
+            },
+            "result": {
+                "label": "Resultado",
+                "SUCCESS": "Correcto",
+                "FAILED": "Fallo",
+                "WAITING": "En espera",
+                "RUNNING": "En ejecución"
+            },
+            "notes": "Notas"
+        }
+    }
+}

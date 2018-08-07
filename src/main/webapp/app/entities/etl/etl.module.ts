@@ -10,6 +10,7 @@ import { EtlResolve } from './etl-resolve.service';
 import { EtlFormComponent } from './etl-form.component';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
+import { EtlExecutionListComponent } from './etl-execution-list';
 
 const ENTITY_STATES = [...etlRoute];
 
@@ -20,7 +21,8 @@ const ENTITY_STATES = [...etlRoute];
         EtlSearchComponent,
         EtlFormComponent,
         EtlDeleteDialogComponent,
-        EtlRestoreDialogComponent
+        EtlRestoreDialogComponent,
+        EtlExecutionListComponent
     ],
     entryComponents: [EtlDeleteDialogComponent, EtlRestoreDialogComponent],
     providers: [EtlService, EtlResolve, EtlResolvePagingParams]
