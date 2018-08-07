@@ -1,7 +1,9 @@
 {
     "coetlApp": {
         "execution": {
-            "title": "Ejecuciones",
+            "home": {
+                "title": "Ejecuciones"
+            },
             "datetime": "Fecha y hora",
             "type": {
                 "label": "Tipo",
@@ -15,7 +17,8 @@
                 "WAITING": "En espera",
                 "RUNNING": "En ejecución"
             },
-            "notes": "Notas"
+            "notes": "Notas",
+            "emptyListMessage": "No hay ejecuciones para esta ETL"
         }
     }
 }

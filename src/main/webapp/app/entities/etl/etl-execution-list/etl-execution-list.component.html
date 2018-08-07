@@ -1,5 +1,5 @@
 <div class="entity">
-    <h3 jhiTranslate="coetlApp.execution.title"></h3>
+    <h3 jhiTranslate="coetlApp.execution.home.title"></h3>
     <ng-container *ngIf="existExecutions(); else emptyList">
         <div class="entity-fields">
             <table class="table table-hover">
@@ -27,7 +27,7 @@
     </ng-container>
 </div>
 <ng-template #emptyList>
-    <div class="empty-list" [ngClass]="{'with-section-buttons': !disabled }">
-        {{emptyListMessage}}
+    <div class="empty-list">
+        <span jhiTranslate="coetlApp.execution.emptyListMessage"></span>
     </div>
 </ng-template>
