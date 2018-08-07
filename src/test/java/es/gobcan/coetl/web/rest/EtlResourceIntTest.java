@@ -42,8 +42,10 @@ import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.domain.Etl.Type;
 import es.gobcan.coetl.errors.ExceptionTranslator;
 import es.gobcan.coetl.service.EtlService;
+import es.gobcan.coetl.service.ExecutionService;
 import es.gobcan.coetl.web.rest.dto.EtlDTO;
 import es.gobcan.coetl.web.rest.mapper.EtlMapper;
+import es.gobcan.coetl.web.rest.mapper.ExecutionMapper;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CoetlApp.class)
@@ -70,6 +72,12 @@ public class EtlResourceIntTest {
     @SpyBean
     EtlMapper etlMapper;
 
+    @SpyBean
+    ExecutionService executionService;
+
+    @SpyBean
+    ExecutionMapper executionMapper;
+
     @Autowired
     AuditEventPublisher auditEventPublisher;
 
@@ -87,7 +95,7 @@ public class EtlResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        EtlResource etlResource = new EtlResource(etlService, etlMapper, auditEventPublisher);
+        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, auditEventPublisher);
         this.restEtlMockMvc = MockMvcBuilders.standaloneSetup(etlResource).setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
                 .setMessageConverters(jacksonMessageConverter).build();
     }
