@@ -33,6 +33,16 @@
         "rol": {
             "users-has-role": "No se puede eliminar un rol que está asignado a algunos usuarios"
         },
-        "query-no-soportada": "Parámetro de búsqueda {{0}} no soportado"
+        "query-no-soportada": "Parámetro de búsqueda {{0}} no soportado",
+        "etl": {
+            "currentlyDeleted": "Esta ETL se encuentra actualmente eliminada",
+            "currentlyNotDeleted": "Esta ETL se encuentra actualmente activa",
+            "cronExpressionNotValid": "La expresión cron {{0}} no es válida",
+            "scheduleError": "Ha ocurrido un error en la creación de la planificación de ejecución de la ETL",
+            "unscheduleError": "Ha ocurrido un error en el borrado de la planificación de ejecución de la ETL"
+        },
+        "quartz": {
+            "jobExecutionError": "Ha ocurrido un error en la ejecución planificada de la ETL con código {{0}}"
+        }
     }
 }
