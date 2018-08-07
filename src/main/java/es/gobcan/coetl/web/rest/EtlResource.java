@@ -195,7 +195,7 @@ public class EtlResource extends AbstractResource {
         if (etl == null) {
             return ResponseEntity.notFound().build();
         }
-        Page<ExecutionDTO> page = executionService.findAll(pageable).map(executionMapper::toDto);
+        Page<ExecutionDTO> page = executionService.findAllByEtlId(etl.getId(), pageable).map(executionMapper::toDto);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI + SLASH + idEtl + SLASH + "executions");
 

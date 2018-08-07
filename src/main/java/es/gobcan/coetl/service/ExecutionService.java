@@ -10,5 +10,5 @@ import es.gobcan.coetl.domain.Execution.Type;
 public interface ExecutionService {
 
     public Execution create(Etl etl, Type type);
-    public Page<Execution> findAll(Pageable pageable);
+    public Page<Execution> findAllByEtlId(Long idEtl, Pageable pageable);
 }

@@ -36,9 +36,9 @@ public class ExecutionServiceImpl implements ExecutionService {
     }
 
     @Override
-    public Page<Execution> findAll(Pageable pageable) {
-        LOG.debug("Request to find a page of all Executions");
-        return executionRepository.findAll(pageable);
+    public Page<Execution> findAllByEtlId(Long idEtl, Pageable pageable) {
+        LOG.debug("Request to find a page of all Executions by Etl : {}", idEtl);
+        return executionRepository.findAllByEtlId(idEtl, pageable);
     }
 
     private Execution save(Execution execution) {

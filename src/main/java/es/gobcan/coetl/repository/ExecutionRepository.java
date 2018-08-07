@@ -10,5 +10,5 @@ import es.gobcan.coetl.domain.Execution;
 @Repository
 public interface ExecutionRepository extends JpaRepository<Execution, Long> {
 
-    Page<Execution> findAll(Pageable pageable);
+    Page<Execution> findAllByEtlId(Long idEtl, Pageable pageable);
 }
