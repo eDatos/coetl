@@ -10,6 +10,7 @@ import { Etl, Type } from './etl.model';
 import { EtlService } from './etl.service';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
+import { EtlExecutionListComponent } from './etl-execution-list/etl-execution-list.component';
 
 @Component({
     selector: 'ac-etl-form',
@@ -92,11 +93,13 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     }
 
     execute() {
-        this.etlService
-            .execute(this.etl.id)
-            .subscribe(() =>
-                this.alertService.success(`Se ha ejecutado el proceso ETL de ${this.etl.code}`)
-            );
+        this.etlService.execute(this.etl.id).subscribe(() => {
+            this.alertService.success(`Se ha ejecutado el proceso ETL de ${this.etl.code}`);
+            this.eventManager.broadcast({
+                name: EtlExecutionListComponent.EVENT_NAME,
+                content: 'executed'
+            });
+        });
     }
 
     isEditMode(): Boolean {

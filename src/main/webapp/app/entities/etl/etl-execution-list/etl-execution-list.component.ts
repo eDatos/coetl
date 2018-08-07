@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { EtlService } from '../etl.service';
     selector: 'ac-etl-execution-list',
     templateUrl: 'etl-execution-list.component.html'
 })
-export class EtlExecutionListComponent implements OnInit {
+export class EtlExecutionListComponent implements OnInit, OnDestroy {
     public static EVENT_NAME = 'etlExecutionListModification';
 
     @Input() idEtl: number;
@@ -47,6 +47,10 @@ export class EtlExecutionListComponent implements OnInit {
         });
         this.loadAll();
         this.registerChangesInEtlExecution();
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.eventSubscriber);
     }
 
     existExecutions(): boolean {
