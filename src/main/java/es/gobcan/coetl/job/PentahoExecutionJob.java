@@ -16,6 +16,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import es.gobcan.coetl.config.QuartzConstants;
 import es.gobcan.coetl.domain.Etl;
+import es.gobcan.coetl.domain.Execution.Type;
 
 @Component
 public class PentahoExecutionJob extends AbstractCoetlQuartzJob {
@@ -40,7 +41,7 @@ public class PentahoExecutionJob extends AbstractCoetlQuartzJob {
                 Etl currentEtl = getEtlRepository(context).findOneByCode(etlCode);
                 currentEtl.setNextExecution(getNextExecutionFromContext(context));
                 getEtlRepository(context).save(currentEtl);
-                getPentahoExecutionService(context).execute(currentEtl.getCode());
+                getPentahoExecutionService(context).execute(currentEtl, Type.AUTO);
                 return true;
             }
         });

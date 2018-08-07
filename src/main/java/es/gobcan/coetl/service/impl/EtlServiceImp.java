@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import es.gobcan.coetl.config.QuartzConstants;
 import es.gobcan.coetl.domain.Etl;
+import es.gobcan.coetl.domain.Execution.Type;
 import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
 import es.gobcan.coetl.job.PentahoExecutionJob;
@@ -97,7 +98,7 @@ public class EtlServiceImp implements EtlService {
     @Override
     public void execute(Etl etl) {
         LOG.debug("Request to execute ETL : {}", etl);
-        pentahoExecutionService.execute(etl.getCode());
+        pentahoExecutionService.execute(etl, Type.MANUAL);
     }
 
     private Etl save(Etl etl) {
