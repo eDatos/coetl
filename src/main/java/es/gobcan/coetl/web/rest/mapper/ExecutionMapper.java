@@ -1,16 +1,12 @@
 package es.gobcan.coetl.web.rest.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import es.gobcan.coetl.domain.Execution;
 import es.gobcan.coetl.web.rest.dto.ExecutionDTO;
 
-@Mapper(componentModel = "spring", uses = {EtlMapper.class})
-public abstract class ExecutionMapper implements EntityMapper<ExecutionDTO, Execution> {
-
-    @Mapping(source = "idEtl", target = "etl")
-    public abstract Execution toEntity(ExecutionDTO dto);
+@Mapper(componentModel = "spring")
+public abstract class ExecutionMapper {
 
     public ExecutionDTO toDto(Execution entity) {
         if (entity == null) {
