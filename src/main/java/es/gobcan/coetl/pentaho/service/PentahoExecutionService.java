@@ -1,4 +1,4 @@
-package es.gobcan.coetl.service;
+package es.gobcan.coetl.pentaho.service;
 
 import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.domain.Execution.Type;

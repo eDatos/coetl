@@ -9,8 +9,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import es.gobcan.coetl.config.QuartzConstants;
 import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
+import es.gobcan.coetl.pentaho.service.PentahoExecutionService;
 import es.gobcan.coetl.repository.EtlRepository;
-import es.gobcan.coetl.service.PentahoExecutionService;
 
 public abstract class AbstractCoetlQuartzJob extends QuartzJobBean {
 

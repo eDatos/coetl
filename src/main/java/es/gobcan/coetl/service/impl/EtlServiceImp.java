@@ -31,10 +31,10 @@ import es.gobcan.coetl.domain.Execution.Type;
 import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
 import es.gobcan.coetl.job.PentahoExecutionJob;
+import es.gobcan.coetl.pentaho.service.PentahoExecutionService;
 import es.gobcan.coetl.repository.EtlRepository;
 import es.gobcan.coetl.security.SecurityUtils;
 import es.gobcan.coetl.service.EtlService;
-import es.gobcan.coetl.service.PentahoExecutionService;
 import es.gobcan.coetl.web.rest.util.QueryUtil;
 
 @Service
