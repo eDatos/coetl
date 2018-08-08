@@ -114,6 +114,17 @@ jhipster:
             queue-size: 512
 
 # ===================================================================
+# Pentaho specific properties
+# Add your own Pentaho properties here
+# ===================================================================
+
+pentaho:
+    endpoint: FILL_PENTAHO_ENDPOINT # Required: Pentaho Data Integration Server Endpoint
+    auth:
+        user: FILL_PENTAHO_USER # Required: Pentaho Data Integration Server User
+        password: FILL_PENTAHO_PASSWORD # Required: Pentaho Data Integration Server Password
+
+# ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
 # to have type-safe configuration, like in the JHipsterProperties above
