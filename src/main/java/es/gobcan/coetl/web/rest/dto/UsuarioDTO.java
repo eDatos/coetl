@@ -12,13 +12,10 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import es.gobcan.coetl.config.Constants;
 import es.gobcan.coetl.domain.enumeration.Rol;
 
-public class UsuarioDTO {
+public class UsuarioDTO extends AbstractVersionedAndAuditingWithDeletionDTO {
 
     private Long id;
 
@@ -26,8 +23,6 @@ public class UsuarioDTO {
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 255)
     private String login;
-
-    private Long optLock;
 
     @Size(max = 255)
     private String nombre;
@@ -42,17 +37,7 @@ public class UsuarioDTO {
     @Size(min = 3, max = 255)
     private String email;
 
-    private String createdBy;
-
-    private Instant createdDate;
-
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
-
     private SortedSet<Rol> roles;
-
-    private ZonedDateTime deletionDate;
 
     public UsuarioDTO() {
         // Empty constructor needed for Jackson.
@@ -60,17 +45,19 @@ public class UsuarioDTO {
 
     public void updateFrom(UsuarioDTO source) {
         this.id = source.getId();
-        this.optLock = source.getOptLock();
         this.login = source.getLogin();
         this.nombre = source.getNombre();
         this.apellido1 = source.getApellido1();
         this.apellido2 = source.getApellido2();
         this.email = source.getEmail();
-        this.createdBy = source.getCreatedBy();
-        this.createdDate = source.getCreatedDate();
-        this.lastModifiedBy = source.getLastModifiedBy();
-        this.lastModifiedDate = source.getLastModifiedDate();
         this.roles = new TreeSet<>(source.getRoles());
+        this.setCreatedBy(source.getCreatedBy());
+        this.setCreatedDate(source.getCreatedDate());
+        this.setLastModifiedBy(source.getLastModifiedBy());
+        this.setLastModifiedDate(source.getLastModifiedDate());
+        this.setDeletedBy(source.getDeletedBy());
+        this.setDeletionDate(source.getDeletionDate());
+        this.setOptLock(source.getOptLock());
     }
 
     public static Builder builder() {
@@ -83,14 +70,6 @@ public class UsuarioDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getOptLock() {
-        return optLock;
-    }
-
-    public void setOptLock(Long optLock) {
-        this.optLock = optLock;
     }
 
     public String getLogin() {
@@ -117,26 +96,6 @@ public class UsuarioDTO {
         return email;
     }
 
-    @JsonProperty
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    @JsonProperty
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    @JsonProperty
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    @JsonProperty
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
     public Set<Rol> getRoles() {
         return roles;
     }
@@ -147,29 +106,6 @@ public class UsuarioDTO {
         } else {
             this.roles = new TreeSet<>(set);
         }
-    }
-
-    @JsonIgnore
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
-    @JsonIgnore
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-
-    }
-
-    @JsonIgnore
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-
-    }
-
-    @JsonIgnore
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-
     }
 
     public void setEmail(String email) {
@@ -186,16 +122,6 @@ public class UsuarioDTO {
 
     public void setNombre(String firstName) {
         this.nombre = firstName;
-    }
-
-    @JsonProperty
-    public ZonedDateTime getDeletionDate() {
-        return deletionDate;
-    }
-
-    @JsonIgnore
-    public void setDeletionDate(ZonedDateTime deletionDate) {
-        this.deletionDate = deletionDate;
     }
 
     @Override
@@ -215,6 +141,8 @@ public class UsuarioDTO {
         private Instant createdDate;
         private String lastModifiedBy;
         private Instant lastModifiedDate;
+        private String deletedBy;
+        private ZonedDateTime deletionDate;
         private Set<Rol> authorities;
         private Long optLock;
 
@@ -231,6 +159,8 @@ public class UsuarioDTO {
             userDTO.setCreatedDate(this.createdDate);
             userDTO.setLastModifiedBy(this.lastModifiedBy);
             userDTO.setLastModifiedDate(this.lastModifiedDate);
+            userDTO.setDeletedBy(this.deletedBy);
+            userDTO.setDeletionDate(this.deletionDate);
             userDTO.setRoles(this.authorities);
             return userDTO;
         }
@@ -287,6 +217,16 @@ public class UsuarioDTO {
 
         public Builder setLastModifiedDate(Instant lastModifiedDate) {
             this.lastModifiedDate = lastModifiedDate;
+            return this;
+        }
+
+        public Builder setDeletedBy(String deletedBy) {
+            this.deletedBy = deletedBy;
+            return this;
+        }
+
+        public Builder setDeletionDate(ZonedDateTime deletionDate) {
+            this.deletionDate = deletionDate;
             return this;
         }
 
