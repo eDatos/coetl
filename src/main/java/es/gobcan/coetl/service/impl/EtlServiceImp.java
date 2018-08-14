@@ -158,9 +158,7 @@ public class EtlServiceImp implements EtlService {
         //@formatter:on
 
         try {
-            if (schedulerAccessorBean.getScheduler().checkExists(jobKey)) {
-                schedulerAccessorBean.getScheduler().deleteJob(jobKey);
-            }
+            deleteExistingJob(jobKey);
             schedulerAccessorBean.getScheduler().scheduleJob(job, trigger);
         } catch (SchedulerException e) {
             //@formatter:off
@@ -177,9 +175,7 @@ public class EtlServiceImp implements EtlService {
         LOG.debug("Request to unscheduled (if exists) a Quartz job : {}", jobKey.getName());
 
         try {
-            if (schedulerAccessorBean.getScheduler().checkExists(jobKey)) {
-                schedulerAccessorBean.getScheduler().deleteJob(jobKey);
-            }
+            deleteExistingJob(jobKey);
         } catch (SchedulerException e) {
             //@formatter:off
             throw new CustomParameterizedExceptionBuilder()
@@ -188,6 +184,12 @@ public class EtlServiceImp implements EtlService {
                 .code(ErrorConstants.ETL_UNSCHEDULE_ERROR)
                 .build();
             //@formatter:on
+        }
+    }
+
+    private void deleteExistingJob(JobKey jobKey) throws SchedulerException {
+        if (schedulerAccessorBean.getScheduler().checkExists(jobKey)) {
+            schedulerAccessorBean.getScheduler().deleteJob(jobKey);
         }
     }
 
