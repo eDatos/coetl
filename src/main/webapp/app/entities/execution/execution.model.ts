@@ -7,7 +7,8 @@ export enum Result {
     SUCCESS = 'SUCCESS',
     FAILED = 'FAILED',
     RUNNING = 'RUNNING',
-    WAITING = 'WAITING'
+    WAITING = 'WAITING',
+    DUPLICATED = 'DUPLICATED'
 }
 
 export class Execution {

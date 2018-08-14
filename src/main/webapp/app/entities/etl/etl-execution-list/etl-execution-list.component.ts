@@ -70,7 +70,8 @@ export class EtlExecutionListComponent implements OnInit, OnDestroy {
             'badge-success': execution.result === Result.SUCCESS,
             'badge-danger': execution.result === Result.FAILED,
             'badge-warning': execution.result === Result.WAITING,
-            'badge-primary': execution.result === Result.RUNNING
+            'badge-primary': execution.result === Result.RUNNING,
+            'badge-dark': execution.result === Result.DUPLICATED
         };
     }
 
