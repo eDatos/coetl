@@ -10,9 +10,9 @@ import { Etl, Type } from './etl.model';
 import { EtlService } from './etl.service';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
+import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
 import { File } from '../documento/file.model';
 import { FileService } from '../documento';
-import { Fieldset } from '../../../../../../node_modules/primeng/primeng';
 
 @Component({
     selector: 'ac-etl-form',
@@ -100,6 +100,11 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     restore() {
         const copy = Object.assign(new Etl(), this.etl);
         this.genericModalService.open(<any>EtlRestoreDialogComponent, { etl: copy });
+    }
+
+    help() {
+        const copy = Object.assign(new Etl(), this.etl);
+        this.genericModalService.open(<any>EtlExpressionHelpDialogComponent, {});
     }
 
     isEditMode(): Boolean {

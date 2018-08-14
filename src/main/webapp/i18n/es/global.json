@@ -71,7 +71,9 @@
             "deactivate": "Desactivar",
             "activate": "Activar",
             "close": "Cerrar",
-            "confirm": "Confirmar"
+            "confirm": "Confirmar",
+            "ok": "Entendido",
+            "help": "Ayuda"
         },
         "delete": {
             "title": "Confirmar operación de borrado"
