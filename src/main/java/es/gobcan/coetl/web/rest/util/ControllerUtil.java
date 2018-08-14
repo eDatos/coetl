@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StreamUtils;
 
-import es.gobcan.coetl.domain.Documento;
+import es.gobcan.coetl.domain.File;
 import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
 
@@ -23,12 +23,12 @@ public final class ControllerUtil {
         super();
     }
 
-    public static void download(Documento documento, HttpServletResponse response) {
-        try (InputStream is = documento.getData().getBinaryStream()) {
-            copyContentToResponse(is, documento.getName(), documento.getDataContentType(), documento.getLength(), response);
+    public static void download(File file, HttpServletResponse response) {
+        try (InputStream is = file.getData().getBinaryStream()) {
+            copyContentToResponse(is, file.getName(), file.getDataContentType(), file.getLength(), response);
         } catch (IOException | SQLException e) {
-            log.error("Exception obtaining the file {}", documento.getId(), e);
-            throw new CustomParameterizedExceptionBuilder().message(String.format("Exception obtaining the file %s", documento.getId())).code(ErrorConstants.FICHERO_NO_ENCONTRADO).build();
+            log.error("Exception obtaining the file {}", file.getId(), e);
+            throw new CustomParameterizedExceptionBuilder().message(String.format("Exception obtaining the file %s", file.getId())).code(ErrorConstants.FICHERO_NO_ENCONTRADO).build();
         }
     }
 

@@ -33,6 +33,7 @@ public class UsuarioMapper {
         usuarioDTO.setLastModifiedDate(user.getLastModifiedDate());
         usuarioDTO.setRoles(user.getRoles());
         usuarioDTO.setDeletionDate(user.getDeletionDate());
+        usuarioDTO.setDeletedBy(user.getDeletedBy());
         usuarioDTO.setOptLock(user.getOptLock());
         return usuarioDTO;
     }
@@ -51,9 +52,9 @@ public class UsuarioMapper {
             user.setApellido1(userDTO.getApellido1());
             user.setApellido2(userDTO.getApellido2());
             user.setEmail(userDTO.getEmail());
-            user.setDeletionDate(userDTO.getDeletionDate());
-            user.setOptLock(userDTO.getOptLock());
             user.setRoles(userDTO.getRoles());
+
+            user.setOptLock(userDTO.getOptLock());
             return user;
         }
     }

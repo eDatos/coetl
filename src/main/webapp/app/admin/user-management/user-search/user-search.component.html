@@ -7,6 +7,12 @@
     </div>
 
     <div class="entity-search-field">
+        <label jhiTranslate="userManagement.filters.email.label"></label>
+        <input class="form-control" [attr.aria-label]="'userManagement.filters.email.placeholder' | translate" placeholder="{{'userManagement.filters.email.placeholder' | translate}}"
+            [(ngModel)]="filters.email" (keyup)="filter()" />
+    </div>
+
+    <div class="entity-search-field">
         <label for="role" jhiTranslate="userManagement.filters.rol.label"></label>
         <ac-autocomplete-enum name="role" [(ngModel)]="filters.role" [suggestionsEnum]="roleEnum" [translationPath]="'coetlApp.rol.roles.'"
             (onSelect)="filter()" (onUnselect)="filter()"></ac-autocomplete-enum>

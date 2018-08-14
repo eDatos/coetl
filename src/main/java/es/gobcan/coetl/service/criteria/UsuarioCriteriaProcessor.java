@@ -9,7 +9,6 @@ import org.hibernate.criterion.Restrictions;
 import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 import com.arte.libs.grammar.orm.jpa.criteria.CriteriaProcessorContext;
-import com.arte.libs.grammar.orm.jpa.criteria.OrderProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.RestrictionProcessorBuilder;
 import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
@@ -69,9 +68,10 @@ public class UsuarioCriteriaProcessor extends AbstractCriteriaProcessor {
     			.withCriterionConverter(new UsuarioCriterionBuilder())
     			.build());
     	
-    	registerOrderProcessor(OrderProcessorBuilder.orderProcessor()
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
     	        .withQueryProperty(QueryProperty.EMAIL)
     	        .withEntityProperty(ENTITY_FIELD_EMAIL)
+    	        .sortable()
 	            .build());
 
         //@formatter:on

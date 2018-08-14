@@ -1,4 +1,5 @@
 import { BaseVersionedAndAuditingWithDeletionEntity } from '../../shared/model/base-versioned-auditing-with-deletion-entity';
+import { File } from '../documento/file.model';
 
 export enum Type {
     ETL = 'ETL',
@@ -18,7 +19,9 @@ export class Etl extends BaseVersionedAndAuditingWithDeletionEntity {
         public comments?: string,
         public executionDescription?: string,
         public executionPlanning?: string,
-        public nextExecution?: Date
+        public nextExecution?: Date,
+        public etlFile?: File,
+        public etlDescriptionFile?: File
     ) {
         super();
     }

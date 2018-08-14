@@ -124,7 +124,7 @@
         <div class="entity-fields">
             <div class="form-group">
                 <label for="role" jhiTranslate="userManagement.rol"></label>
-                <ac-autocomplete-enum name="role" [(ngModel)]="roleSelected" [suggestionsEnum]="roleEnum" [translationPath]="'coetlApp.rol.roles.'"></ac-autocomplete-enum>
+                <ac-autocomplete-enum name="role" required [(ngModel)]="roleSelected" [suggestionsEnum]="roleEnum" [translationPath]="'coetlApp.rol.roles.'"></ac-autocomplete-enum>
             </div>
             <div class="form-group">
                 <label jhiTranslate="userManagement.activado"></label>

@@ -18,15 +18,15 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name = "documento")
+@Table(name = "tb_files")
 @Cache(usage = CacheConcurrencyStrategy.NONE)
-public class Documento implements Serializable {
+public class File implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "documento_id_seq")
-    @SequenceGenerator(name = "documento_id_seq", sequenceName = "documento_id_seq", initialValue = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "file_id_seq")
+    @SequenceGenerator(name = "file_id_seq", sequenceName = "file_id_seq", initialValue = 10)
     private Long id;
 
     @NotNull
@@ -92,7 +92,7 @@ public class Documento implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Documento localFile = (Documento) o;
+        File localFile = (File) o;
         if (localFile.id == null || id == null) {
             return false;
         }
@@ -106,6 +106,6 @@ public class Documento implements Serializable {
 
     @Override
     public String toString() {
-        return "Documento (id = " + getId() + ", Nombre = " + getName() + ")";
+        return "File (id = " + getId() + ", name = " + getName() + ")";
     }
 }

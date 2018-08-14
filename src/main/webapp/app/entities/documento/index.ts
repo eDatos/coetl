@@ -1,1 +1,1 @@
-export * from './documento.service';
+export * from './file.service';
