@@ -1,12 +1,12 @@
 package es.gobcan.coetl.pentaho.enumeration;
 
-public enum ServerMethodPentahoServiceEnum implements CarteMethodPentahoServiceEnum {
+public enum ServerMethodsEnum implements CarteMethodsEnum {
 
     STATUS("status");
 
     private String resource;
 
-    private ServerMethodPentahoServiceEnum(String resource) {
+    private ServerMethodsEnum(String resource) {
         this.resource = resource;
     }
 

@@ -15,16 +15,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import es.gobcan.coetl.config.PentahoProperties;
 import es.gobcan.coetl.pentaho.dto.PentahoResponseDTO;
-import es.gobcan.coetl.pentaho.enumeration.CarteMethodPentahoServiceEnum;
+import es.gobcan.coetl.pentaho.enumeration.CarteMethodsEnum;
 
 public final class PentahoUtil {
 
     private PentahoUtil() {
     }
 
-    public static <E extends Enum<E> & CarteMethodPentahoServiceEnum, T extends PentahoResponseDTO> ResponseEntity<T> execute(String user, String password, String url, E enumResource, HttpMethod httpMethod,
+    public static <E extends Enum<E> & CarteMethodsEnum, T extends PentahoResponseDTO> ResponseEntity<T> execute(String user, String password, String url, E pentahoMethod, HttpMethod httpMethod,
             MultiValueMap<String, String> queryParams, Class<T> clazz) {
-        String uri = new StringBuilder().append(url).append(enumResource.getResource()).toString();
+        String uri = new StringBuilder().append(url).append(pentahoMethod.getResource()).toString();
         String uriWithQueryParameters = UriComponentsBuilder.fromHttpUrl(uri).queryParams(queryParams).toUriString();
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.exchange(uriWithQueryParameters, httpMethod, new HttpEntity<>(createHeaders(user, password)), clazz);

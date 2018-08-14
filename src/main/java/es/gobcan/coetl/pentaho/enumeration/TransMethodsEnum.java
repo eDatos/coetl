@@ -1,12 +1,12 @@
 package es.gobcan.coetl.pentaho.enumeration;
 
-public enum TransMethodPentahoServiceEnum implements CarteMethodPentahoServiceEnum {
+public enum TransMethodsEnum implements CarteMethodsEnum {
 
     STATUS("transStatus/"), REGISTER("registerTrans/");
 
     private String resource;
 
-    private TransMethodPentahoServiceEnum(String resource) {
+    private TransMethodsEnum(String resource) {
         this.resource = resource;
     }
 

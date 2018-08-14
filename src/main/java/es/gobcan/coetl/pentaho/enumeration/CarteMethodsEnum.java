@@ -1,6 +1,6 @@
 package es.gobcan.coetl.pentaho.enumeration;
 
-public interface CarteMethodPentahoServiceEnum {
+public interface CarteMethodsEnum {
 
     public String getResource();
 
