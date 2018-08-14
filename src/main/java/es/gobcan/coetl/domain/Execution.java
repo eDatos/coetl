@@ -44,8 +44,8 @@ public class Execution implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "datetime", nullable = false)
-    private ZonedDateTime datetime;
+    @Column(name = "planning_date", nullable = false)
+    private ZonedDateTime planningDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -73,12 +73,12 @@ public class Execution implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getDatetime() {
-        return datetime;
+    public ZonedDateTime getPlanningDate() {
+        return planningDate;
     }
 
-    public void setDatetime(ZonedDateTime datetime) {
-        this.datetime = datetime;
+    public void setPlanningDate(ZonedDateTime planningDate) {
+        this.planningDate = planningDate;
     }
 
     public Type getType() {
@@ -136,7 +136,7 @@ public class Execution implements Serializable {
         //@formatter:off
         return "Execution (" +
                     "id = " + getId() + 
-                    ", dateTime = " + getDatetime() + 
+                    ", planningDate = " + getPlanningDate() + 
                     ", type = " + getType() + 
                     ", result = " + getResult() + 
                     ", notes = " + getNotes() + 

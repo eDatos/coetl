@@ -19,8 +19,8 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="datetime" type="timestamp">
-                <constraints primaryKey="true" nullable="false" />
+            <column name="planning_date" type="timestamp">
+                <constraints nullable="false" />
             </column>
             <column name="type" type="varchar(255)">
                 <constraints nullable="false" />

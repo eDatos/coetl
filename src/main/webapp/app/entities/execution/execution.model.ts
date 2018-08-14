@@ -13,7 +13,7 @@ export enum Result {
 export class Execution {
     constructor(
         public id?: number,
-        public datetime?: Date,
+        public planningDate?: Date,
         public type?: Type,
         public result?: Result,
         public notes?: string,

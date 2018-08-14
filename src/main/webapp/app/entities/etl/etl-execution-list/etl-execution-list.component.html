@@ -12,7 +12,7 @@
                     </tr>
                 </thead>
                 <tr *ngFor="let execution of executions; let i=index; " (click)="editRecinto(execution)">
-                    <td>{{ execution.datetime | acDate: 'datetime' }}</td>
+                    <td>{{ execution.planningDate | acDate: 'datetime' }}</td>
                     <td>
                         <span class="badge badge-info">{{ getTypeName(execution) }}</span>
                     </td>

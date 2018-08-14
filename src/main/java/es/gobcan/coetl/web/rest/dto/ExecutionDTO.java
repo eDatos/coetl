@@ -13,7 +13,7 @@ public class ExecutionDTO implements Serializable {
 
     private Long id;
 
-    private ZonedDateTime datetime;
+    private ZonedDateTime planningDate;
 
     private Type type;
 
@@ -31,12 +31,12 @@ public class ExecutionDTO implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getDatetime() {
-        return datetime;
+    public ZonedDateTime getPlanningDate() {
+        return planningDate;
     }
 
-    public void setDatetime(ZonedDateTime datetime) {
-        this.datetime = datetime;
+    public void setPlanningDate(ZonedDateTime planningDate) {
+        this.planningDate = planningDate;
     }
 
     public Type getType() {
@@ -94,7 +94,7 @@ public class ExecutionDTO implements Serializable {
         //@formatter:off
         return "Execution (" +
                     "id = " + getId() + 
-                    ", dateTime = " + getDatetime() + 
+                    ", dateTime = " + getPlanningDate() + 
                     ", type = " + getType() + 
                     ", result = " + getResult() + 
                     ", notes = " + getNotes() + 

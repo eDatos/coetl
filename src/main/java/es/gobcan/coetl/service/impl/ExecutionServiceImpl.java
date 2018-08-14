@@ -28,7 +28,7 @@ public class ExecutionServiceImpl implements ExecutionService {
     public Execution create(Etl etl, Type type) {
         LOG.debug("Request to create an Execution ({}) from ETL : {}", type, etl);
         Execution execution = new Execution();
-        execution.setDatetime(ZonedDateTime.now());
+        execution.setPlanningDate(ZonedDateTime.now());
         execution.setType(type);
         execution.setResult(Result.SUCCESS);
         execution.setEtl(etl);
