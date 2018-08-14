@@ -41,6 +41,8 @@ import es.gobcan.coetl.web.rest.util.QueryUtil;
 public class EtlServiceImp implements EtlService {
 
     private static final Logger LOG = LoggerFactory.getLogger(EtlServiceImp.class);
+    private static final String IDENTITY_JOB_PREFIX = "pentahoExecutionJob_";
+    private static final String IDENTITY_TRIGGER_PREFIX = "pentahoExectionTrigger_";
 
     @Autowired
     EtlRepository etlRepository;
@@ -57,13 +59,13 @@ public class EtlServiceImp implements EtlService {
     @Override
     public Etl create(Etl etl) {
         LOG.debug("Request to create an ETL : {}", etl);
-        return save(etl);
+        return (etl.isPlanned()) ? planifyAndSave(etl) : save(etl);
     }
 
     @Override
     public Etl update(Etl etl) {
         LOG.debug("Request to update an ETL : {}", etl);
-        return save(etl);
+        return (etl.isPlanned()) ? planifyAndSave(etl) : unplanifyAndSave(etl);
     }
 
     @Override
@@ -71,7 +73,8 @@ public class EtlServiceImp implements EtlService {
         LOG.debug("Request to delete an ETL : {}", etl);
         etl.setDeletedBy(SecurityUtils.getCurrentUserLogin());
         etl.setDeletionDate(ZonedDateTime.now());
-        return save(etl);
+
+        return (etl.isPlanned()) ? unplanifyAndSave(etl) : save(etl);
     }
 
     @Override
@@ -79,7 +82,7 @@ public class EtlServiceImp implements EtlService {
         LOG.debug("Request to recover an ETL : {}", etl);
         etl.setDeletedBy(null);
         etl.setDeletionDate(null);
-        return save(etl);
+        return (etl.isPlanned()) ? planifyAndSave(etl) : save(etl);
     }
 
     @Override
@@ -101,33 +104,36 @@ public class EtlServiceImp implements EtlService {
         pentahoExecutionService.execute(etl, Type.MANUAL);
     }
 
-    private Etl save(Etl etl) {
-        LOG.debug("Request to save an ETL : {}", etl);
-        final String identityJobPrefix = "pentahoExecutionJob_";
-        JobKey jobKey = new JobKey(identityJobPrefix + etl.getCode());
-        if (etl.isPlanned()) {
-            try {
-                CronExpression cronExpression = new CronExpression(etl.getExecutionPlanning());
-                etl.setNextExecution(getNextExecutionFromCronExpression(cronExpression));
-                schedulePentahoExecutionJob(jobKey, cronExpression, etl);
-            } catch (ParseException e) {
-                //@formatter:off
+    private Etl planifyAndSave(Etl etl) {
+        LOG.debug("Request to planify and save an ETL : {}", etl);
+        JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + etl.getCode());
+        try {
+            CronExpression cronExpression = new CronExpression(etl.getExecutionPlanning());
+            etl.setNextExecution(getNextExecutionFromCronExpression(cronExpression));
+            schedulePentahoExecutionJob(jobKey, cronExpression, etl);
+        } catch (ParseException e) {
+            //@formatter:off
                 throw new CustomParameterizedExceptionBuilder()
                     .message(String.format("The cron expression %s is not valid", etl.getExecutionPlanning()))
                     .cause(e)
                     .code(ErrorConstants.ETL_CRON_EXPRESSION_NOT_VALID, etl.getExecutionPlanning())
                     .build();
                 //@formatter:on
-            }
-        } else {
-            etl.setNextExecution(null);
-            checkAndUnschedulePentahoExecutionJob(jobKey);
         }
 
-        if (etl.isDeleted() && etl.isPlanned()) {
-            etl.setNextExecution(null);
-            checkAndUnschedulePentahoExecutionJob(jobKey);
-        }
+        return etlRepository.save(etl);
+    }
+
+    private Etl unplanifyAndSave(Etl etl) {
+        LOG.debug("Request to unplanify and save an ETL : {}", etl);
+        JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + etl.getCode());
+        checkAndUnschedulePentahoExecutionJob(jobKey);
+        etl.setNextExecution(null);
+        return etlRepository.save(etl);
+    }
+
+    private Etl save(Etl etl) {
+        LOG.debug("Request to save an ETL : {}", etl);
         return etlRepository.save(etl);
     }
 
@@ -139,7 +145,6 @@ public class EtlServiceImp implements EtlService {
 
     private void schedulePentahoExecutionJob(JobKey jobKey, CronExpression cronExpression, Etl etl) {
         LOG.debug("Request to scheduled a new Quartz job : {}", jobKey.getName());
-        final String identityTriggerPrefix = "pentahoExectionTrigger_";
         //@formatter:off
         JobDetail job = newJob(PentahoExecutionJob.class)
                 .withIdentity(jobKey)
@@ -147,22 +152,20 @@ public class EtlServiceImp implements EtlService {
                 .build();
         
         CronTrigger trigger = newTrigger()
-                .withIdentity(identityTriggerPrefix + etl.getCode())
+                .withIdentity(IDENTITY_TRIGGER_PREFIX + etl.getCode())
                 .withSchedule(cronSchedule(cronExpression))
                 .build();
         //@formatter:on
 
         try {
-            if (!schedulerAccessorBean.getScheduler().checkExists(jobKey)) {
-                schedulerAccessorBean.getScheduler().scheduleJob(job, trigger);
-            } else {
+            if (schedulerAccessorBean.getScheduler().checkExists(jobKey)) {
                 schedulerAccessorBean.getScheduler().deleteJob(jobKey);
-                schedulerAccessorBean.getScheduler().scheduleJob(job, trigger);
             }
+            schedulerAccessorBean.getScheduler().scheduleJob(job, trigger);
         } catch (SchedulerException e) {
             //@formatter:off
             throw new CustomParameterizedExceptionBuilder()
-                .message(String.format("Error during schedule a new job %s", jobKey.getName()))
+                .message(String.format("Error during scheduling a new job %s", jobKey.getName()))
                 .cause(e)
                 .code(ErrorConstants.ETL_SCHEDULE_ERROR)
                 .build();
@@ -180,7 +183,7 @@ public class EtlServiceImp implements EtlService {
         } catch (SchedulerException e) {
             //@formatter:off
             throw new CustomParameterizedExceptionBuilder()
-                .message(String.format("Error during unschedule the job %s", jobKey.getName()))
+                .message(String.format("Error during unscheduling the job %s", jobKey.getName()))
                 .cause(e)
                 .code(ErrorConstants.ETL_UNSCHEDULE_ERROR)
                 .build();
