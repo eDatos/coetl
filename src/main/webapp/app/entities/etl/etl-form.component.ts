@@ -11,6 +11,9 @@ import { EtlService } from './etl.service';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
 import { EtlExecutionListComponent } from './etl-execution-list/etl-execution-list.component';
+import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
+import { File } from '../documento/file.model';
+import { FileService } from '../documento';
 
 @Component({
     selector: 'ac-etl-form',
@@ -26,6 +29,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     isSaving: boolean;
 
     updatesSubscription: Subscription;
+
+    fileResourceUrl: string;
 
     @ViewChild(Autosize) purposeContainer: Autosize;
 
@@ -49,14 +54,21 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         private eventManager: JhiEventManager,
         private permissionService: PermissionService,
         private translateService: TranslateService,
-        private alertService: JhiAlertService
+        private alertService: JhiAlertService,
+        private fileService: FileService
     ) {
         this.instance = this;
+        this.fileResourceUrl = 'api/files';
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.etl = this.route.snapshot.data['etl'] ? this.route.snapshot.data['etl'] : new Etl();
+        if (this.route.snapshot.data['etl']) {
+            this.etl = this.route.snapshot.data['etl'];
+        } else {
+            this.etl = new Etl();
+        }
+        // this.etl = this.route.snapshot.data['etl'] ? this.route.snapshot.data['etl'] : new Etl();
         this.registerChangesOnEtl();
     }
 
@@ -102,6 +114,11 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         });
     }
 
+    help() {
+        const copy = Object.assign(new Etl(), this.etl);
+        this.genericModalService.open(<any>EtlExpressionHelpDialogComponent, {});
+    }
+
     isEditMode(): Boolean {
         const lastPath = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
         return lastPath === 'edit' || lastPath === 'etl-new';
@@ -120,6 +137,28 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
 
     getTitlesContainer(): ElementRef {
         return this.titlesContaner;
+    }
+
+    onEtlFileUpload(event) {
+        const etlFile = JSON.parse(event.xhr.response);
+        this.etl.etlFile = etlFile;
+    }
+
+    deleteEtlFile(file: File) {
+        this.fileService.delete(file.id).subscribe(() => (this.etl.etlFile = undefined));
+    }
+
+    onEtlDescriptionFileUpload(event) {
+        const etlDescriptionFile = JSON.parse(event.xhr.response);
+        this.etl.etlDescriptionFile = etlDescriptionFile;
+    }
+
+    deleteDescriptionFile(file: File) {
+        this.fileService.delete(file.id).subscribe(() => (this.etl.etlDescriptionFile = undefined));
+    }
+
+    canSave(): boolean {
+        return !this.isSaving && !!this.etl.etlFile && !!this.etl.etlDescriptionFile;
     }
 
     private subscribeToSaveResponse(result: Observable<Etl>) {

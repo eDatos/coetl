@@ -18,7 +18,7 @@
                             <span class="fa fa-ban"></span>&nbsp;
                             <span jhiTranslate="entity.action.cancel"></span>
                         </button>
-                        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                        <button type="submit" [disabled]="editForm.form.invalid || !canSave()" class="btn btn-primary">
                             <span class="fa fa-save"></span>&nbsp;
                             <span jhiTranslate="entity.action.save"></span>
                         </button>
@@ -94,6 +94,38 @@
                 </div>
             </div>
         </fieldset>
+        <fieldset>
+            <div class="entity-fields">
+                <div class="form-group full-width">
+                    <ac-file-upload [title]="'coetlApp.etl.codeFile.label' | translate" [url]="fileResourceUrl" (onUpload)="onEtlFileUpload($event)"
+                        [files]="etl.etlFile" [disabled]="!isEditMode()">
+
+                        <ng-template let-file="file">
+                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteEtlFile(file)">
+                                <i class="fa fa-trash"></i>
+                                <span jhiTranslate="entity.action.delete"></span>
+                            </button>
+                        </ng-template>
+
+                    </ac-file-upload>
+
+
+                </div>
+                <div class="form-group full-width">
+                    <ac-file-upload [title]="'coetlApp.etl.descriptionFile.label' | translate" [url]="fileResourceUrl" (onUpload)="onEtlDescriptionFileUpload($event)"
+                        accept="application/pdf" [files]="etl.etlDescriptionFile" [disabled]="!isEditMode()">
+
+                        <ng-template let-file="file">
+                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteDescriptionFile(file)">
+                                <i class="fa fa-trash"></i>
+                                <span jhiTranslate="entity.action.delete"></span>
+                            </button>
+                        </ng-template>
+
+                    </ac-file-upload>
+                </div>
+            </div>
+        </fieldset>
         <fieldset [disabled]="!isEditMode()">
             <h3 jhiTranslate="coetlApp.etl.sections.inCharge"></h3>
             <div class="entity-fields">
@@ -121,7 +153,12 @@
             <h3 jhiTranslate="coetlApp.etl.sections.planning"></h3>
             <div class="entity-fields">
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="coetlApp.etl.executionPlanning.label" for="field_executionPlanning"></label>
+                    <label class="form-control-label" for="field_executionPlanning">
+                        <span jhiTranslate="coetlApp.etl.executionPlanning.label"></span>
+                        <span (click)="help()">
+                            <ac-help-tooltip [position]="'bottom'" [label]="'coetlApp.etlExpressionHelp.tooltip' | translate"></ac-help-tooltip>
+                        </span>
+                    </label>
                     <input type="text" class="form-control" name="executionPlanning" id="field_executionPlanning" [(ngModel)]="etl.executionPlanning"
                         [placeholder]="'coetlApp.etl.executionPlanning.placeholder' | translate" />
                 </div>

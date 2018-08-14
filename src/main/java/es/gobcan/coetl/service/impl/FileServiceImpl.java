@@ -15,50 +15,50 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import es.gobcan.coetl.domain.Documento;
-import es.gobcan.coetl.repository.DocumentoRepository;
-import es.gobcan.coetl.service.DocumentoService;
+import es.gobcan.coetl.domain.File;
+import es.gobcan.coetl.repository.FileRepository;
+import es.gobcan.coetl.service.FileService;
 
 @Service
-public class DocumentoServiceImpl implements DocumentoService {
+public class FileServiceImpl implements FileService {
 
-    private Logger log = LoggerFactory.getLogger(DocumentoServiceImpl.class);
+    private Logger log = LoggerFactory.getLogger(FileServiceImpl.class);
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    private final DocumentoRepository documentoRepository;
+    private final FileRepository fileRepository;
 
-    public DocumentoServiceImpl(DocumentoRepository documentoRepository) {
-        this.documentoRepository = documentoRepository;
+    public FileServiceImpl(FileRepository fileRepository) {
+        this.fileRepository = fileRepository;
     }
 
     @Override
-    public Documento save(Documento documento) {
-        log.debug("Request to save Documento : {}", documento);
-        return documentoRepository.saveAndFlush(documento);
+    public File save(File file) {
+        log.debug("Request to save a File : {}", file);
+        return fileRepository.saveAndFlush(file);
     }
 
     @Override
-    public List<Documento> findAll() {
-        log.debug("Request to get all Documentos");
-        return documentoRepository.findAll();
+    public List<File> findAll() {
+        log.debug("Request to get all Files");
+        return fileRepository.findAll();
     }
 
     @Override
-    public Documento findOne(Long id) {
-        log.debug("Request to get Documento : {}", id);
-        return documentoRepository.findOne(id);
+    public File findOne(Long id) {
+        log.debug("Request to get File : {}", id);
+        return fileRepository.findOne(id);
     }
 
     @Override
     public void delete(Long id) {
-        log.debug("Request to delete Documento : {}", id);
-        documentoRepository.delete(id);
+        log.debug("Request to delete File : {}", id);
+        fileRepository.delete(id);
     }
 
     @Override
-    public Documento create(MultipartFile file) {
+    public File create(MultipartFile file) {
         log.debug("Request to save File : {}", file.getOriginalFilename());
 
         Blob data;
@@ -69,12 +69,12 @@ public class DocumentoServiceImpl implements DocumentoService {
             throw new ValidationException(e);
         }
 
-        Documento documento = new Documento();
+        File documento = new File();
         documento.setName(file.getOriginalFilename());
         documento.setData(data);
         documento.setLength(file.getSize());
         documento.setDataContentType(file.getContentType());
-        return documentoRepository.saveAndFlush(documento);
+        return fileRepository.saveAndFlush(documento);
     }
 
 }

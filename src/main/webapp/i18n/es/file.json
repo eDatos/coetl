@@ -1,6 +1,6 @@
 {
     "coetlApp": {
-        "documento": {
+        "file": {
             "choose": "Elegir",
             "upload": "Subir",
             "cancel": "Cancelar",

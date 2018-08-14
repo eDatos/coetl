@@ -42,20 +42,12 @@ public class SecurityChecker {
         return this.isAdmin(authentication);
     }
 
-    public boolean puedeConsultarDocumento(Authentication authentication) {
-        return this.isTecnico(authentication);
+    public boolean canReadFile(Authentication authentication) {
+        return this.isAdmin(authentication) || this.isTecnico(authentication) || this.isLector(authentication);
     }
 
-    public boolean puedeCrearDocumento(Authentication authentication) {
-        return this.isTecnico(authentication);
-    }
-
-    public boolean puedeModificarDocumento(Authentication authentication) {
-        return this.isTecnico(authentication);
-    }
-
-    public boolean puedeBorrarDocumento(Authentication authentication) {
-        return this.isTecnico(authentication);
+    public boolean canManageFile(Authentication authentication) {
+        return this.isAdmin(authentication) || this.isTecnico(authentication);
     }
 
     public boolean puedeConsultarMetrica(Authentication authentication) {

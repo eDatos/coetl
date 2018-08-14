@@ -1,7 +1,6 @@
 package es.gobcan.coetl.domain;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -33,7 +32,7 @@ import es.gobcan.coetl.domain.enumeration.Rol;
 @Entity
 @Table(name = "usuario")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Usuario extends AbstractVersionedAndAuditingEntity implements Serializable {
+public class Usuario extends AbstractVersionedAndAuditingWithDeletionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -70,9 +69,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
     @Column(name = "rol", nullable = false)
     @Enumerated(EnumType.STRING)
     private Set<Rol> roles = new HashSet<>();
-
-    @Column(name = "deletion_date")
-    private ZonedDateTime deletionDate;
 
     public Long getId() {
         return id;
@@ -128,14 +124,6 @@ public class Usuario extends AbstractVersionedAndAuditingEntity implements Seria
 
     public void setRoles(Set<Rol> roles) {
         this.roles = roles;
-    }
-
-    public ZonedDateTime getDeletionDate() {
-        return deletionDate;
-    }
-
-    public void setDeletionDate(ZonedDateTime deletionDate) {
-        this.deletionDate = deletionDate;
     }
 
     @Override

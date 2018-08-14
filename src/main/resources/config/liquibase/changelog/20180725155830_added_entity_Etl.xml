@@ -52,6 +52,12 @@
             <column name="next_execution" type="timestamp">
                 <constraints nullable="true" />
             </column>
+            <column name="etl_file_fk" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_etl_file_id" referencedColumnNames="id" referencedTableName="tb_files" />
+            </column>
+            <column name="etl_description_file_fk" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_etl_description_file_id" referencedColumnNames="id" referencedTableName="tb_files" />
+            </column>
             <column name="created_by" type="varchar(255)">
                 <constraints nullable="false" />
             </column>

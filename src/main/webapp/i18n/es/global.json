@@ -72,7 +72,9 @@
             "activate": "Activar",
             "close": "Cerrar",
             "confirm": "Confirmar",
-            "execute": "Ejecutar"
+            "execute": "Ejecutar",
+            "ok": "Entendido",
+            "help": "Ayuda"
         },
         "delete": {
             "title": "Confirmar operación de borrado"

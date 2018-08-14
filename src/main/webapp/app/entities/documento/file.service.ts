@@ -5,26 +5,27 @@ import { Observable } from 'rxjs';
 
 import { TOKEN_AUTH_NAME } from '../../app.constants';
 import { ResponseWrapper } from '../../shared';
-import { Documento } from './documento.model';
+import { File } from './file.model';
 
 @Injectable()
-export class DocumentoService {
-
-    public resourceUrl = 'api/documentos';
+export class FileService {
+    public resourceUrl = 'api/files';
 
     constructor(
         private http: Http,
         private localStorage: LocalStorageService,
         private sessionStorage: SessionStorageService
-    ) {
-    }
+    ) {}
 
     download(id: number) {
         window.open(`${this.resourceUrl}/${id}/download?bearerToken=${this.getAuthToken()}`);
     }
 
     private getAuthToken() {
-        return this.localStorage.retrieve(TOKEN_AUTH_NAME) || this.sessionStorage.retrieve(TOKEN_AUTH_NAME);
+        return (
+            this.localStorage.retrieve(TOKEN_AUTH_NAME) ||
+            this.sessionStorage.retrieve(TOKEN_AUTH_NAME)
+        );
     }
 
     delete(id: number) {
@@ -32,10 +33,10 @@ export class DocumentoService {
     }
 
     query(req?: any): Observable<ResponseWrapper> {
-        throw new Error('TODO - Not implemented')
+        throw new Error('TODO - Not implemented');
     }
 
-    find(id: number): Observable<Documento> {
+    find(id: number): Observable<File> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => res.json());
     }
 }

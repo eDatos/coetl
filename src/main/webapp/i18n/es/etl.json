@@ -60,11 +60,17 @@
                 "placeholder": "Introduzca una descripción relativa a la ejecución"
             },
             "executionPlanning": {
-                "label": "Planificación",
-                "placeholder": "Introduzca una planificación"
+                "label": "Expresión de planificación",
+                "placeholder": "Introduzca una expresión de planificación"
             },
             "nextExecution": {
                 "label": "Próxima ejecución"
+            },
+            "descriptionFile": {
+                "label": "Fichero descriptivo"
+            },
+            "codeFile": {
+                "label": "Fichero ETL"
             },
             "state": {
                 "label": "Estado",

@@ -28,6 +28,7 @@
         "ng2-webstorage": "1.8.0",
         "ngx-cookie": "1.0.0",
         "ngx-infinite-scroll": "0.5.1",
+        "ngx-markdown": "1.5.2",
         "primeng": "4.3.0",
         "reflect-metadata": "0.1.10",
         "rxjs": "5.4.2",

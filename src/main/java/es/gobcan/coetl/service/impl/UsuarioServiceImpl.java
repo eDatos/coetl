@@ -74,6 +74,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void deleteUsuario(String login) {
         usuarioRepository.findOneByLoginAndDeletionDateIsNull(login).ifPresent(user -> {
             user.setDeletionDate(ZonedDateTime.now());
+            user.setDeletedBy(SecurityUtils.getCurrentUserLogin());
             usuarioRepository.saveAndFlush(user);
             log.debug("Eliminado Usuario: {}", user);
         });
@@ -84,6 +85,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new CustomParameterizedExceptionBuilder().message("Usuario no válido").code(ErrorConstants.USUARIO_NO_VALIDO).build();
         }
         usuario.setDeletionDate(null);
+        usuario.setDeletedBy(null);
         usuarioRepository.saveAndFlush(usuario);
         log.debug("Restaurado usuario: {}", usuario);
     }
@@ -124,7 +126,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     public Usuario getUsuarioWithAuthorities() {
         Usuario returnValue = usuarioRepository.findOneWithRolesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(new Usuario());
-        if (returnValue.getDeletionDate() != null) {
+        if (returnValue.isDeleted()) {
             returnValue.setRoles(new HashSet<>());
         }
 
