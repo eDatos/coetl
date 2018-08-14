@@ -12,10 +12,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.junit.Before;
@@ -64,6 +67,12 @@ public class EtlResourceIntTest {
     private static final Type DEFAULT_TYPE = Type.ETL;
     private static final Type UPDATED_TYPE = Type.JOB;
 
+    private static final String PATH_CODE_FILE = "src/main/resources/banner.txt";
+    private static final String PATH_DESCRIPTION_FILE = "src/main/resources/config/data-location.properties";
+
+    @Autowired
+    EntityManager entityManager;
+
     @SpyBean
     EtlService etlService;
 
@@ -92,7 +101,7 @@ public class EtlResourceIntTest {
                 .setMessageConverters(jacksonMessageConverter).build();
     }
 
-    private Etl mockEntityWithoutId() {
+    private Etl mockEntityWithoutId() throws IOException, SQLException {
         Etl etl = new Etl();
         etl.setCode(DEFAULT_CODE);
         etl.setName(DEFAULT_NAME);
@@ -100,10 +109,12 @@ public class EtlResourceIntTest {
         etl.setFunctionalInCharge(DEFAULT_FUNCTIONAL_IN_CHARGE);
         etl.setTechnicalInCharge(DEFAULT_TECHNICAL_IN_CHARGE);
         etl.setType(DEFAULT_TYPE);
+        etl.setEtlFile(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
+        etl.setEtlDescriptionFile(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
         return etl;
     }
 
-    private Etl mockEntity() {
+    private Etl mockEntity() throws IOException, SQLException {
         Etl etl = new Etl();
         etl.setId(1L);
         etl.setCode(DEFAULT_CODE);
@@ -112,17 +123,15 @@ public class EtlResourceIntTest {
         etl.setFunctionalInCharge(DEFAULT_FUNCTIONAL_IN_CHARGE);
         etl.setTechnicalInCharge(DEFAULT_TECHNICAL_IN_CHARGE);
         etl.setType(DEFAULT_TYPE);
+        etl.setEtlFile(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
+        etl.setEtlDescriptionFile(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
         return etl;
     }
 
     @Test
     @Transactional
-    public void create() throws Exception {
+    public void create() throws IOException, SQLException, Exception {
         EtlDTO createdEtlDTOMocked = etlMapper.toDto(mockEntityWithoutId());
-
-        Etl createdEtlMocked = mockEntity();
-
-        doReturn(createdEtlMocked).when(etlService).create(any(Etl.class));
 
         //@formatter:off
         restEtlMockMvc.perform(post(BASE_URI)
@@ -130,7 +139,7 @@ public class EtlResourceIntTest {
                 .content(TestUtil.convertObjectToJsonBytes(createdEtlDTOMocked)))
             .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$.id").value(createdEtlMocked.getId()))
+            .andExpect(jsonPath("$.id").isNotEmpty())
             .andExpect(jsonPath("$.code").value(createdEtlDTOMocked.getCode()))
             .andExpect(jsonPath("$.name").value(createdEtlDTOMocked.getName()))
             .andExpect(jsonPath("$.purpose").value(is(nullValue())))
@@ -141,6 +150,8 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.comments").value(is(nullValue())))
             .andExpect(jsonPath("$.executionDescription").value(is(nullValue())))
             .andExpect(jsonPath("$.executionPlanning").value(is(nullValue())))
+            .andExpect(jsonPath("$.codeFile").isNotEmpty())
+            .andExpect(jsonPath("$.descriptionFile").isNotEmpty())
             .andExpect(jsonPath("$.deletionDate").value(is(nullValue())))
             .andExpect(jsonPath("$.deletedBy").value(is(nullValue())));
         //@formatter:on
@@ -148,7 +159,7 @@ public class EtlResourceIntTest {
 
     @Test
     @Transactional
-    public void createWithExistingId() throws Exception {
+    public void createWithExistingId() throws IOException, SQLException, Exception {
         Etl createdEtlMocked = mockEntity();
         EtlDTO createdEtlDTOMocked = etlMapper.toDto(createdEtlMocked);
 
@@ -162,7 +173,7 @@ public class EtlResourceIntTest {
 
     @Test
     @Transactional
-    public void update() throws Exception {
+    public void update() throws IOException, SQLException, Exception {
         Etl updatedEtlMocked = mockEntity();
         updatedEtlMocked.setCode(UPDATED_CODE);
         updatedEtlMocked.setName(UPDATED_NAME);
@@ -201,7 +212,7 @@ public class EtlResourceIntTest {
 
     @Test
     @Transactional
-    public void updateWithoutId() throws Exception {
+    public void updateWithoutId() throws IOException, SQLException, Exception {
         Etl updatedEtlMocked = mockEntityWithoutId();
         updatedEtlMocked.setCode(UPDATED_CODE);
         updatedEtlMocked.setName(UPDATED_NAME);
@@ -222,7 +233,7 @@ public class EtlResourceIntTest {
 
     @Test
     @Transactional
-    public void delete() throws Exception {
+    public void delete() throws IOException, SQLException, Exception {
         Etl etlToDeleteMocked = mockEntity();
         EtlDTO etlToDeleteDTOMocked = etlMapper.toDto(etlToDeleteMocked);
 
@@ -246,7 +257,7 @@ public class EtlResourceIntTest {
 
     @Test
     @Transactional
-    public void deleteCurrentlyDeleted() throws Exception {
+    public void deleteCurrentlyDeleted() throws IOException, SQLException, Exception {
         Etl currentlyDeletedEtlMocked = mockEntity();
         currentlyDeletedEtlMocked.setDeletionDate(ZonedDateTime.now());
         currentlyDeletedEtlMocked.setDeletedBy("test");
@@ -263,7 +274,7 @@ public class EtlResourceIntTest {
 
     @Test
     @Transactional
-    public void findOne() throws Exception {
+    public void findOne() throws IOException, SQLException, Exception {
         Etl etlMocked = mockEntity();
 
         EtlDTO etlDTOMocked = etlMapper.toDto(etlMocked);
@@ -294,7 +305,7 @@ public class EtlResourceIntTest {
 
     @Test
     @Transactional
-    public void findAll() throws Exception {
+    public void findAll() throws IOException, SQLException, Exception {
         Etl etlMocked = mockEntity();
 
         EtlDTO etlDTOMocked = etlMapper.toDto(etlMocked);

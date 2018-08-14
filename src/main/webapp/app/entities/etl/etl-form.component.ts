@@ -10,6 +10,9 @@ import { Etl, Type } from './etl.model';
 import { EtlService } from './etl.service';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
+import { File } from '../documento/file.model';
+import { FileService } from '../documento';
+import { Fieldset } from '../../../../../../node_modules/primeng/primeng';
 
 @Component({
     selector: 'ac-etl-form',
@@ -25,6 +28,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     isSaving: boolean;
 
     updatesSubscription: Subscription;
+
+    fileResourceUrl: string;
 
     @ViewChild(Autosize) purposeContainer: Autosize;
 
@@ -47,14 +52,21 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         private genericModalService: GenericModalService,
         private eventManager: JhiEventManager,
         private permissionService: PermissionService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private fileService: FileService
     ) {
         this.instance = this;
+        this.fileResourceUrl = 'api/files';
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.etl = this.route.snapshot.data['etl'] ? this.route.snapshot.data['etl'] : new Etl();
+        if (this.route.snapshot.data['etl']) {
+            this.etl = this.route.snapshot.data['etl'];
+        } else {
+            this.etl = new Etl();
+        }
+        // this.etl = this.route.snapshot.data['etl'] ? this.route.snapshot.data['etl'] : new Etl();
         this.registerChangesOnEtl();
     }
 
@@ -108,6 +120,28 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
 
     getTitlesContainer(): ElementRef {
         return this.titlesContaner;
+    }
+
+    onEtlFileUpload(event) {
+        const etlFile = JSON.parse(event.xhr.response);
+        this.etl.etlFile = etlFile;
+    }
+
+    deleteEtlFile(file: File) {
+        this.fileService.delete(file.id).subscribe(() => (this.etl.etlFile = undefined));
+    }
+
+    onEtlDescriptionFileUpload(event) {
+        const etlDescriptionFile = JSON.parse(event.xhr.response);
+        this.etl.etlDescriptionFile = etlDescriptionFile;
+    }
+
+    deleteDescriptionFile(file: File) {
+        this.fileService.delete(file.id).subscribe(() => (this.etl.etlDescriptionFile = undefined));
+    }
+
+    canSave(): boolean {
+        return !this.isSaving && !!this.etl.etlFile && !!this.etl.etlDescriptionFile;
     }
 
     private subscribeToSaveResponse(result: Observable<Etl>) {

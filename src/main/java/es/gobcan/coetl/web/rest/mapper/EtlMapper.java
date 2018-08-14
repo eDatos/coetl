@@ -7,13 +7,16 @@ import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.repository.EtlRepository;
 import es.gobcan.coetl.web.rest.dto.EtlDTO;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {FileMapper.class})
 public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
 
     @Autowired
     EtlRepository etlRepository;
 
-    private Etl fromId(Long id) {
+    @Autowired
+    FileMapper fileMapper;
+
+    public Etl fromId(Long id) {
         return etlRepository.findOne(id);
     }
 
@@ -35,6 +38,9 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         entity.setExecutionDescription(dto.getExecutionDescription());
         entity.setExecutionPlanning(dto.getExecutionPlanning());
         entity.setNextExecution(dto.getNextExecution());
+
+        entity.setEtlFile(fileMapper.toEntity(dto.getEtlFile()));
+        entity.setEtlDescriptionFile(fileMapper.toEntity(dto.getEtlDescriptionFile()));
 
         entity.setOptLock(dto.getOptLock());
 

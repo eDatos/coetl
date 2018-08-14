@@ -3,7 +3,7 @@ package es.gobcan.coetl.web.rest.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class DocumentoDTO implements Serializable {
+public class FileDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -56,7 +56,7 @@ public class DocumentoDTO implements Serializable {
             return false;
         }
 
-        DocumentoDTO localFileDTO = (DocumentoDTO) o;
+        FileDTO localFileDTO = (FileDTO) o;
 
         return Objects.equals(id, localFileDTO.id);
     }
@@ -68,6 +68,6 @@ public class DocumentoDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "DocumentoDTO (id = " + getId() + ", Nombre = " + getName() + ")";
+        return "FileDTO (id = " + getId() + ", name = " + getName() + ")";
     }
 }

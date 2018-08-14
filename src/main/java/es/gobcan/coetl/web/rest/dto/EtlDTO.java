@@ -44,6 +44,12 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
 
     private ZonedDateTime nextExecution;
 
+    @NotNull
+    private FileDTO etlFile;
+
+    @NotNull
+    private FileDTO etlDescriptionFile;
+
     public Long getId() {
         return id;
     }
@@ -138,6 +144,22 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
 
     public void setNextExecution(ZonedDateTime nextExecution) {
         this.nextExecution = nextExecution;
+    }
+
+    public FileDTO getEtlFile() {
+        return etlFile;
+    }
+
+    public void setEtlFile(FileDTO etlFile) {
+        this.etlFile = etlFile;
+    }
+
+    public FileDTO getEtlDescriptionFile() {
+        return etlDescriptionFile;
+    }
+
+    public void setEtlDescriptionFile(FileDTO etlDescriptionFile) {
+        this.etlDescriptionFile = etlDescriptionFile;
     }
 
     @Override
