@@ -150,8 +150,8 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.comments").value(is(nullValue())))
             .andExpect(jsonPath("$.executionDescription").value(is(nullValue())))
             .andExpect(jsonPath("$.executionPlanning").value(is(nullValue())))
-            .andExpect(jsonPath("$.codeFile").isNotEmpty())
-            .andExpect(jsonPath("$.descriptionFile").isNotEmpty())
+            .andExpect(jsonPath("$.etlFile").isNotEmpty())
+            .andExpect(jsonPath("$.etlDescriptionFile").isNotEmpty())
             .andExpect(jsonPath("$.deletionDate").value(is(nullValue())))
             .andExpect(jsonPath("$.deletedBy").value(is(nullValue())));
         //@formatter:on
