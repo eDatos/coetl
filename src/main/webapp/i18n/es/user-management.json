@@ -37,6 +37,10 @@
                 "label": "Búsqueda de usuario",
                 "placeholder": "Introduzca nombre, usuario o apellidos"
             },
+            "email": {
+                "label": "Búsqueda de correo electrónico",
+                "placeholder": "Introduzca el correo electrónico"
+            },
             "rol": {
                 "label": "Búsqueda por rol",
                 "placeholder": "Seleccione un rol"
