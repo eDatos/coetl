@@ -38,7 +38,7 @@ export class EtlExecutionListComponent implements OnInit, OnDestroy {
         this.page = 1;
         this.itemsPerPage = ITEMS_PER_PAGE_SM;
         this.reverse = false;
-        this.predicate = 'datetime';
+        this.predicate = 'planningDate';
     }
 
     ngOnInit() {
