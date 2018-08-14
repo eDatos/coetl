@@ -2,9 +2,11 @@ package es.gobcan.coetl.pentaho.service.util;
 
 import java.nio.charset.Charset;
 
+import org.apache.commons.lang3.CharEncoding;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.util.MultiValueMap;
@@ -48,10 +50,11 @@ public final class PentahoUtil {
 
     private static HttpHeaders createHeaders(String username, String password) {
         String auth = username + ":" + password;
-        byte[] encodedAuth = Base64.encode(auth.getBytes(Charset.forName("US-ASCII")));
+        byte[] encodedAuth = Base64.encode(auth.getBytes(Charset.forName(CharEncoding.UTF_8)));
         String authHeader = "Basic " + new String(encodedAuth);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authHeader);
+        headers.setContentType(MediaType.APPLICATION_XML);
         return headers;
     }
 }
