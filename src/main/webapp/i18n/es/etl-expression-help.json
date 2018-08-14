@@ -2,9 +2,6 @@
     "coetlApp": {
         "etlExpressionHelp": {
             "title": "Ayuda expresiones Cron/Quartz",
-            "body": {
-                "paragraph1": "Lorem ipsum sit amet..."
-            },
             "tooltip": "Por favor haga click en este icono para mostrar la ayuda."
         }
     }
