@@ -191,11 +191,7 @@ public class EtlResource extends AbstractResource {
     @PreAuthorize("@secChecker.canReadEtl(authentication)")
     public ResponseEntity<List<ExecutionDTO>> findAllExecutions(@PathVariable Long idEtl, @ApiParam Pageable pageable) {
         LOG.debug("REST Request to find a page of Executions by ETL : {}", idEtl);
-        Etl etl = etlService.findOne(idEtl);
-        if (etl == null) {
-            return ResponseEntity.notFound().build();
-        }
-        Page<ExecutionDTO> page = executionService.findAllByEtlId(etl.getId(), pageable).map(executionMapper::toDto);
+        Page<ExecutionDTO> page = executionService.findAllByEtlId(idEtl, pageable).map(executionMapper::toDto);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI + SLASH + idEtl + SLASH + "executions");
 
