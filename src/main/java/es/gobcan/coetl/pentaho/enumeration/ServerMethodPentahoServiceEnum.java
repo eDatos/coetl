@@ -1,12 +1,12 @@
 package es.gobcan.coetl.pentaho.enumeration;
 
-public enum PentahoJobResource implements PentahoCarteResource {
+public enum ServerMethodPentahoServiceEnum implements CarteMethodPentahoServiceEnum {
 
-    STATUS("jobStatus/"), REGISTER_JOB("registerJob/");
+    STATUS("status");
 
     private String resource;
 
-    private PentahoJobResource(String resource) {
+    private ServerMethodPentahoServiceEnum(String resource) {
         this.resource = resource;
     }
 

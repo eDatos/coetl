@@ -12,7 +12,7 @@ import es.gobcan.coetl.config.PentahoProperties;
 import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.domain.Execution.Type;
 import es.gobcan.coetl.pentaho.dto.ServerStatusDTO;
-import es.gobcan.coetl.pentaho.enumeration.PentahoServerResource;
+import es.gobcan.coetl.pentaho.enumeration.ServerMethodPentahoServiceEnum;
 import es.gobcan.coetl.pentaho.service.PentahoExecutionService;
 import es.gobcan.coetl.pentaho.service.util.PentahoUtil;
 import es.gobcan.coetl.service.ExecutionService;
@@ -37,6 +37,6 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
         final String password = PentahoUtil.getPassword(pentahoProperties);
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("xml", "y");
-        PentahoUtil.execute(user, password, url, PentahoServerResource.STATUS, HttpMethod.GET, queryParams, ServerStatusDTO.class);
+        PentahoUtil.execute(user, password, url, ServerMethodPentahoServiceEnum.STATUS, HttpMethod.GET, queryParams, ServerStatusDTO.class);
     }
 }

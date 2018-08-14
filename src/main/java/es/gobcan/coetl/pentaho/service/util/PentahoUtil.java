@@ -15,14 +15,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import es.gobcan.coetl.config.PentahoProperties;
 import es.gobcan.coetl.pentaho.dto.PentahoResponseDTO;
-import es.gobcan.coetl.pentaho.enumeration.PentahoCarteResource;
+import es.gobcan.coetl.pentaho.enumeration.CarteMethodPentahoServiceEnum;
 
 public final class PentahoUtil {
 
     private PentahoUtil() {
     }
 
-    public static <E extends Enum<E> & PentahoCarteResource, T extends PentahoResponseDTO> ResponseEntity<T> execute(String user, String password, String url, E enumResource, HttpMethod httpMethod,
+    public static <E extends Enum<E> & CarteMethodPentahoServiceEnum, T extends PentahoResponseDTO> ResponseEntity<T> execute(String user, String password, String url, E enumResource, HttpMethod httpMethod,
             MultiValueMap<String, String> queryParams, Class<T> clazz) {
         String uri = new StringBuilder().append(url).append(enumResource.getResource()).toString();
         String uriWithQueryParameters = UriComponentsBuilder.fromHttpUrl(uri).queryParams(queryParams).toUriString();
