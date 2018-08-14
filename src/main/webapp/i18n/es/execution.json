@@ -4,7 +4,7 @@
             "home": {
                 "title": "Ejecuciones"
             },
-            "datetime": "Fecha y hora",
+            "planningDate": "Fecha y hora",
             "type": {
                 "label": "Tipo",
                 "AUTO": "Automática",
