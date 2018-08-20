@@ -12,8 +12,8 @@ import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
 import { EtlExecutionListComponent } from './etl-execution-list/etl-execution-list.component';
 import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
-import { File } from '../documento/file.model';
-import { FileService } from '../documento';
+import { File } from '../file/file.model';
+import { FileService } from '../file/file.service';
 
 @Component({
     selector: 'ac-etl-form',

@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { FileService } from '.';
+import { FileService } from './file.service';
 import { CoetlSharedModule } from '../../shared';
 
 const ENTITY_STATES = [];

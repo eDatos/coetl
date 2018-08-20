@@ -12,7 +12,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { FileUpload } from 'primeng/primeng';
 import { AcAlertService } from '../alert/alert.service';
-import { FileService } from '../../../entities/documento/file.service';
+import { FileService } from '../../../entities/file/file.service';
 
 @Component({
     selector: 'ac-file-upload',
