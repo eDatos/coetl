@@ -164,6 +164,14 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
         this.type = type;
     }
 
+    public boolean isJob() {
+        return Type.JOB.equals(type);
+    }
+
+    public boolean isEtl() {
+        return Type.ETL.equals(type);
+    }
+
     public String getComments() {
         return comments;
     }
