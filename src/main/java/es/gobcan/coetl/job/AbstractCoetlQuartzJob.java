@@ -11,6 +11,7 @@ import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
 import es.gobcan.coetl.pentaho.service.PentahoExecutionService;
 import es.gobcan.coetl.repository.EtlRepository;
+import es.gobcan.coetl.service.ExecutionService;
 
 public abstract class AbstractCoetlQuartzJob extends QuartzJobBean {
 
@@ -39,5 +40,9 @@ public abstract class AbstractCoetlQuartzJob extends QuartzJobBean {
 
     protected EtlRepository getEtlRepository(JobExecutionContext context) {
         return getApplicationContext(context).getBean(EtlRepository.class);
+    }
+
+    protected ExecutionService getExecutionService(JobExecutionContext context) {
+        return getApplicationContext(context).getBean(ExecutionService.class);
     }
 }
