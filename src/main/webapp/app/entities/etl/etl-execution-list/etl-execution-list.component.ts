@@ -66,12 +66,13 @@ export class EtlExecutionListComponent implements OnInit, OnDestroy {
     }
 
     getResultBadgeClass(execution: Execution): any {
+        console.log(execution);
         return {
             'badge-success': execution.result === Result.SUCCESS,
             'badge-danger': execution.result === Result.FAILED,
             'badge-warning': execution.result === Result.WAITING,
             'badge-primary': execution.result === Result.RUNNING,
-            'badge-dark': execution.result === Result.DUPLICATED
+            'badge-default': execution.result === Result.DUPLICATED
         };
     }
 

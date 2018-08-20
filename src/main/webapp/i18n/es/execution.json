@@ -15,7 +15,8 @@
                 "SUCCESS": "Correcto",
                 "FAILED": "Fallo",
                 "WAITING": "En espera",
-                "RUNNING": "En ejecución"
+                "RUNNING": "En ejecución",
+                "DUPLICATED": "Duplicado"
             },
             "notes": "Notas",
             "emptyListMessage": "No hay ejecuciones para esta ETL"

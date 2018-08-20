@@ -71,7 +71,6 @@ export class FileUploadComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes) {
         if (changes.files && changes.files.currentValue !== changes.files.previousValue) {
-            console.log('ngOnChanges#isArray ', Array.isArray(this.files));
             this.innerFiles = Array.isArray(this.files)
                 ? this.files
                 : this.files

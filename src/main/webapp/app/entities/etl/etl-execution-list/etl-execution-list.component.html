@@ -11,7 +11,7 @@
                         <th style="width: 55%;" jhiTranslate="coetlApp.execution.notes"></th>
                     </tr>
                 </thead>
-                <tr *ngFor="let execution of executions; let i=index; " (click)="editRecinto(execution)">
+                <tr *ngFor="let execution of executions; let i=index;">
                     <td>{{ execution.planningDate | acDate: 'datetime' }}</td>
                     <td>
                         <span class="badge badge-info">{{ getTypeName(execution) }}</span>
