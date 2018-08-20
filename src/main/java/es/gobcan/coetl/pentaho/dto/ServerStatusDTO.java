@@ -1,6 +1,12 @@
 package es.gobcan.coetl.pentaho.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "serverstatus")
@@ -29,6 +35,10 @@ public class ServerStatusDTO implements PentahoResponseDTO {
     private String osVersion;
 
     private String osArchitecture;
+
+    private List<TransStatusDTO> transStatusList = new ArrayList<>();
+
+    private List<JobStatusDTO> jobStatusList = new ArrayList<>();
 
     @XmlElement(name = "statusdesc")
     public String getDescription() {
@@ -129,4 +139,31 @@ public class ServerStatusDTO implements PentahoResponseDTO {
         this.osArchitecture = osArchitecture;
     }
 
+    @XmlElementWrapper(name = "transstatuslist")
+    @XmlElement(name = "transstatus")
+    public List<TransStatusDTO> getTransStatusList() {
+        return transStatusList;
+    }
+
+    public void setTransStatusList(List<TransStatusDTO> transStatusList) {
+        this.transStatusList = transStatusList;
+    }
+
+    @XmlElementWrapper(name = "jobstatuslist")
+    @XmlElement(name = "jobstatus")
+    public List<JobStatusDTO> getJobStatusList() {
+        return jobStatusList;
+    }
+
+    public void setJobStatusList(List<JobStatusDTO> jobStatusList) {
+        this.jobStatusList = jobStatusList;
+    }
+
+    public List<EtlStatusDTO> getStatusList() {
+        return Stream.of(transStatusList, jobStatusList).flatMap(statusList -> statusList.stream()).collect(Collectors.toList());
+    }
+
+    public boolean isOnline() {
+        return "Online".equals(description);
+    }
 }
