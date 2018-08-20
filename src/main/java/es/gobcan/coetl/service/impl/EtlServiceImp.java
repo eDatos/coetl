@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import es.gobcan.coetl.config.QuartzConstants;
 import es.gobcan.coetl.domain.Etl;
+import es.gobcan.coetl.domain.Execution;
 import es.gobcan.coetl.domain.Execution.Type;
 import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
@@ -35,6 +36,7 @@ import es.gobcan.coetl.pentaho.service.PentahoExecutionService;
 import es.gobcan.coetl.repository.EtlRepository;
 import es.gobcan.coetl.security.SecurityUtils;
 import es.gobcan.coetl.service.EtlService;
+import es.gobcan.coetl.service.ExecutionService;
 import es.gobcan.coetl.web.rest.util.QueryUtil;
 
 @Service
@@ -49,6 +51,9 @@ public class EtlServiceImp implements EtlService {
 
     @Autowired
     QueryUtil queryUtil;
+
+    @Autowired
+    ExecutionService executionService;
 
     @Autowired
     PentahoExecutionService pentahoExecutionService;
@@ -101,7 +106,9 @@ public class EtlServiceImp implements EtlService {
     @Override
     public void execute(Etl etl) {
         LOG.debug("Request to execute ETL : {}", etl);
-        pentahoExecutionService.execute(etl, Type.MANUAL);
+        Execution resultExecution = pentahoExecutionService.execute(etl, Type.MANUAL);
+        executionService.create(resultExecution);
+
     }
 
     private Etl planifyAndSave(Etl etl) {
