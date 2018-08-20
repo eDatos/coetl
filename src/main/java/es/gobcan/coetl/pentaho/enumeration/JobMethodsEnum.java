@@ -2,7 +2,7 @@ package es.gobcan.coetl.pentaho.enumeration;
 
 public enum JobMethodsEnum implements CarteMethodsEnum {
 
-    STATUS("jobStatus/"), REGISTER("registerJob/");
+    STATUS("jobStatus/"), REGISTER("registerJob/"), START("startJob/");
 
     private String resource;
 
