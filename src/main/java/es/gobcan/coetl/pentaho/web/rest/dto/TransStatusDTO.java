@@ -1,12 +1,10 @@
-package es.gobcan.coetl.pentaho.dto;
+package es.gobcan.coetl.pentaho.web.rest.dto;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import es.gobcan.coetl.pentaho.enumeration.Status;
 
-@XmlRootElement(name = "jobstatus")
-public class JobStatusDTO implements PentahoResponseDTO, EtlStatusDTO {
+public class TransStatusDTO implements PentahoResponseDTO, EtlStatusDTO {
 
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +13,7 @@ public class JobStatusDTO implements PentahoResponseDTO, EtlStatusDTO {
     private Status status;
     private String errorDescription;
 
-    @XmlElement(name = "jobname")
+    @XmlElement(name = "transname")
     public String getName() {
         return name;
     }

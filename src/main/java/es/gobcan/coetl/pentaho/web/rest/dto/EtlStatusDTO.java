@@ -1,4 +1,4 @@
-package es.gobcan.coetl.pentaho.dto;
+package es.gobcan.coetl.pentaho.web.rest.dto;
 
 import es.gobcan.coetl.pentaho.enumeration.Status;
 

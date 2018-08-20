@@ -1,4 +1,4 @@
-package es.gobcan.coetl.pentaho.dto;
+package es.gobcan.coetl.pentaho.web.rest.dto;
 
 import java.util.ArrayList;
 import java.util.List;

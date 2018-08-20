@@ -26,14 +26,14 @@ import es.gobcan.coetl.domain.Execution;
 import es.gobcan.coetl.domain.Execution.Result;
 import es.gobcan.coetl.domain.Execution.Type;
 import es.gobcan.coetl.domain.File;
-import es.gobcan.coetl.pentaho.dto.EtlStatusDTO;
-import es.gobcan.coetl.pentaho.dto.ServerStatusDTO;
-import es.gobcan.coetl.pentaho.dto.WebResultDTO;
 import es.gobcan.coetl.pentaho.enumeration.JobMethodsEnum;
 import es.gobcan.coetl.pentaho.enumeration.ServerMethodsEnum;
 import es.gobcan.coetl.pentaho.enumeration.TransMethodsEnum;
 import es.gobcan.coetl.pentaho.service.PentahoExecutionService;
 import es.gobcan.coetl.pentaho.service.util.PentahoUtil;
+import es.gobcan.coetl.pentaho.web.rest.dto.EtlStatusDTO;
+import es.gobcan.coetl.pentaho.web.rest.dto.ServerStatusDTO;
+import es.gobcan.coetl.pentaho.web.rest.dto.WebResultDTO;
 import es.gobcan.coetl.service.ExecutionService;
 
 @Service
@@ -160,14 +160,14 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
 
     private WebResultDTO buildErrorConnectionServerWebResult() {
         WebResultDTO errorWebResultDTO = new WebResultDTO();
-        errorWebResultDTO.setResult(es.gobcan.coetl.pentaho.dto.WebResultDTO.Result.ERROR);
+        errorWebResultDTO.setResult(es.gobcan.coetl.pentaho.web.rest.dto.WebResultDTO.Result.ERROR);
         errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.parsingXML", null, Constants.DEFAULT_LOCALE));
         return errorWebResultDTO;
     }
 
     private WebResultDTO buildErrorParseFileWebResult() {
         WebResultDTO errorWebResultDTO = new WebResultDTO();
-        errorWebResultDTO.setResult(es.gobcan.coetl.pentaho.dto.WebResultDTO.Result.ERROR);
+        errorWebResultDTO.setResult(es.gobcan.coetl.pentaho.web.rest.dto.WebResultDTO.Result.ERROR);
         errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.server.connection", null, Constants.DEFAULT_LOCALE));
         return errorWebResultDTO;
     }

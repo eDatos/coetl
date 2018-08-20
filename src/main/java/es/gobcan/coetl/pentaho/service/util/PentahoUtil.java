@@ -36,8 +36,8 @@ import org.xml.sax.SAXException;
 
 import es.gobcan.coetl.config.PentahoProperties;
 import es.gobcan.coetl.domain.File;
-import es.gobcan.coetl.pentaho.dto.PentahoResponseDTO;
 import es.gobcan.coetl.pentaho.enumeration.CarteMethodsEnum;
+import es.gobcan.coetl.pentaho.web.rest.dto.PentahoResponseDTO;
 
 public final class PentahoUtil {
 
