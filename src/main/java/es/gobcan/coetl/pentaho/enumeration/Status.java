@@ -9,7 +9,7 @@ public enum Status {
     @XmlEnumValue("Running") RUNNING,
     @XmlEnumValue("Stopped") STOPPED,
     @XmlEnumValue("Waiting") WAITING,
-    @XmlEnumValue("Finised") FINISHED,
+    @XmlEnumValue("Finished") FINISHED,
     @XmlEnumValue("Finished (with errors)") FINISHED_WITH_ERRORS
     //@formatter:on
 }
