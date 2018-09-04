@@ -29,6 +29,7 @@ import es.gobcan.coetl.config.QuartzConstants;
 import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.domain.Execution;
 import es.gobcan.coetl.domain.Execution.Type;
+import es.gobcan.coetl.domain.File;
 import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
 import es.gobcan.coetl.job.PentahoExecutionJob;
@@ -37,6 +38,7 @@ import es.gobcan.coetl.repository.EtlRepository;
 import es.gobcan.coetl.security.SecurityUtils;
 import es.gobcan.coetl.service.EtlService;
 import es.gobcan.coetl.service.ExecutionService;
+import es.gobcan.coetl.service.FileService;
 import es.gobcan.coetl.web.rest.util.QueryUtil;
 
 @Service
@@ -57,6 +59,9 @@ public class EtlServiceImp implements EtlService {
 
     @Autowired
     PentahoExecutionService pentahoExecutionService;
+
+    @Autowired
+    FileService fileService;
 
     @Autowired
     private SchedulerFactoryBean schedulerAccessorBean;
@@ -111,6 +116,24 @@ public class EtlServiceImp implements EtlService {
 
     }
 
+    @Override
+    public Etl deleteEtlFile(Etl etl) {
+        LOG.debug("Request to delete the bound code file of ETL : {}", etl);
+        File etlFile = etl.getEtlFile();
+        etl.setEtlFile(null);
+        fileService.delete(etlFile.getId());
+        return save(etl);
+    }
+
+    @Override
+    public Etl deleteEtlDescriptionFile(Etl etl) {
+        LOG.debug("Request to delete the bound description file of ETL : {}", etl);
+        File etlDescriptionFile = etl.getEtlDescriptionFile();
+        etl.setEtlDescriptionFile(null);
+        fileService.delete(etlDescriptionFile.getId());
+        return save(etl);
+    }
+
     private Etl planifyAndSave(Etl etl) {
         LOG.debug("Request to planify and save an ETL : {}", etl);
         JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + etl.getCode());
@@ -120,12 +143,12 @@ public class EtlServiceImp implements EtlService {
             schedulePentahoExecutionJob(jobKey, cronExpression, etl);
         } catch (ParseException e) {
             //@formatter:off
-                throw new CustomParameterizedExceptionBuilder()
-                    .message(String.format("The cron expression %s is not valid", etl.getExecutionPlanning()))
-                    .cause(e)
-                    .code(ErrorConstants.ETL_CRON_EXPRESSION_NOT_VALID, etl.getExecutionPlanning())
-                    .build();
-                //@formatter:on
+            throw new CustomParameterizedExceptionBuilder()
+                .message(String.format("The cron expression %s is not valid", etl.getExecutionPlanning()))
+                .cause(e)
+                .code(ErrorConstants.ETL_CRON_EXPRESSION_NOT_VALID, etl.getExecutionPlanning())
+                .build();
+            //@formatter:on
         }
 
         return etlRepository.save(etl);
