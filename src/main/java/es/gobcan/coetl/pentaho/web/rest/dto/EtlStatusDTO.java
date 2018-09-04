@@ -23,4 +23,8 @@ public interface EtlStatusDTO {
     public boolean isRunning();
 
     public boolean isWaiting();
+
+    public boolean isFinished();
+
+    public boolean isFinishedWithErrors();
 }

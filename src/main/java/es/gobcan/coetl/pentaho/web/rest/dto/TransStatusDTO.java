@@ -1,9 +1,11 @@
 package es.gobcan.coetl.pentaho.web.rest.dto;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import es.gobcan.coetl.pentaho.enumeration.Status;
 
+@XmlRootElement(name = "transstatus")
 public class TransStatusDTO implements PentahoResponseDTO, EtlStatusDTO {
 
     private static final long serialVersionUID = 1L;
@@ -55,5 +57,13 @@ public class TransStatusDTO implements PentahoResponseDTO, EtlStatusDTO {
 
     public boolean isWaiting() {
         return Status.WAITING.equals(status);
+    }
+
+    public boolean isFinished() {
+        return Status.FINISHED.equals(status) || Status.FINISHED_WITH_ERRORS.equals(status);
+    }
+
+    public boolean isFinishedWithErrors() {
+        return Status.FINISHED_WITH_ERRORS.equals(status);
     }
 }

@@ -58,4 +58,12 @@ public class JobStatusDTO implements PentahoResponseDTO, EtlStatusDTO {
     public boolean isWaiting() {
         return Status.WAITING.equals(status);
     }
+
+    public boolean isFinished() {
+        return Status.FINISHED.equals(status) || Status.FINISHED_WITH_ERRORS.equals(status);
+    }
+
+    public boolean isFinishedWithErrors() {
+        return Status.FINISHED_WITH_ERRORS.equals(status);
+    }
 }
