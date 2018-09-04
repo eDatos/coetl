@@ -51,6 +51,18 @@ public class ExecutionServiceImpl implements ExecutionService {
         return executionRepository.existsByResultInAndEtlId(results, idEtl);
     }
 
+    @Override
+    public Execution getInRunning() {
+        LOG.debug("Request to get Execution in RUNNING");
+        return executionRepository.findByResult(Result.RUNNING);
+    }
+
+    @Override
+    public Execution getOldestInWaiting() {
+        LOG.debug("Request to get the oldest Execution in WAITING");
+        return executionRepository.findFirstByResultOrderByPlanningDateDesc(Result.WAITING);
+    }
+
     private Execution save(Execution execution) {
         LOG.debug("Request to create an Execution : {}", execution);
         return executionRepository.save(execution);

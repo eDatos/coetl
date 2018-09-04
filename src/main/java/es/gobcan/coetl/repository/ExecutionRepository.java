@@ -16,4 +16,8 @@ public interface ExecutionRepository extends JpaRepository<Execution, Long> {
     Page<Execution> findAllByEtlId(Long idEtl, Pageable pageable);
 
     boolean existsByResultInAndEtlId(List<Result> results, Long idEtl);
+
+    Execution findByResult(Result running);
+
+    Execution findFirstByResultOrderByPlanningDateDesc(Result waiting);
 }
