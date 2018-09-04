@@ -60,7 +60,7 @@ public class ExecutionServiceImpl implements ExecutionService {
     @Override
     public Execution getOldestInWaitingResult() {
         LOG.debug("Request to get the oldest Execution in WAITING");
-        return executionRepository.findFirstByResultOrderByPlanningDateDesc(Result.WAITING);
+        return executionRepository.findFirstByResultOrderByPlanningDateAsc(Result.WAITING);
     }
 
     private Execution save(Execution execution) {

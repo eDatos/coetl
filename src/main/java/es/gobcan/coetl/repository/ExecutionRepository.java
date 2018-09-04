@@ -19,5 +19,5 @@ public interface ExecutionRepository extends JpaRepository<Execution, Long> {
 
     Execution findByResult(Result running);
 
-    Execution findFirstByResultOrderByPlanningDateDesc(Result waiting);
+    Execution findFirstByResultOrderByPlanningDateAsc(Result waiting);
 }
