@@ -14,7 +14,6 @@ import { EtlConfirmExecutionDialogComponent } from './etl-confirm-execution-dial
 import { EtlExecutionListComponent } from './etl-execution-list/etl-execution-list.component';
 import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
 import { File } from '../file/file.model';
-import { FileService } from '../file/file.service';
 
 @Component({
     selector: 'ac-etl-form',
@@ -55,8 +54,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         private eventManager: JhiEventManager,
         private permissionService: PermissionService,
         private translateService: TranslateService,
-        private alertService: JhiAlertService,
-        private fileService: FileService
+        private alertService: JhiAlertService
     ) {
         this.instance = this;
         this.fileResourceUrl = 'api/files';
@@ -140,8 +138,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         this.etl.etlFile = etlFile;
     }
 
-    deleteEtlFile(file: File) {
-        this.fileService.delete(file.id).subscribe(() => (this.etl.etlFile = undefined));
+    deleteEtlFile(idEtl: number) {
+        this.etlService.deleteEtlFile(idEtl).subscribe((modifiedEtl) => (this.etl = modifiedEtl));
     }
 
     onEtlDescriptionFileUpload(event) {
@@ -149,8 +147,10 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         this.etl.etlDescriptionFile = etlDescriptionFile;
     }
 
-    deleteDescriptionFile(file: File) {
-        this.fileService.delete(file.id).subscribe(() => (this.etl.etlDescriptionFile = undefined));
+    deleteDescriptionFile(idEtl: number) {
+        this.etlService
+            .deleteDescriptionFile(idEtl)
+            .subscribe((modifiedEtl) => (this.etl = modifiedEtl));
     }
 
     canShowNextExecution(): boolean {

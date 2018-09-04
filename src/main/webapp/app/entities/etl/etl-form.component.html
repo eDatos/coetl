@@ -103,7 +103,7 @@
                         [files]="etl.etlFile" [disabled]="!isEditMode()">
 
                         <ng-template let-file="file">
-                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteEtlFile(file)">
+                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteEtlFile(etl.id)">
                                 <i class="fa fa-trash"></i>
                                 <span jhiTranslate="entity.action.delete"></span>
                             </button>
@@ -118,7 +118,7 @@
                         accept="application/pdf" [files]="etl.etlDescriptionFile" [disabled]="!isEditMode()">
 
                         <ng-template let-file="file">
-                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteDescriptionFile(file)">
+                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteDescriptionFile(etl.id)">
                                 <i class="fa fa-trash"></i>
                                 <span jhiTranslate="entity.action.delete"></span>
                             </button>

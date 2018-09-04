@@ -62,6 +62,18 @@ export class EtlService {
             .map((response) => this.convertResponseToExecutionResponseWrapper(response));
     }
 
+    public deleteEtlFile(idEtl: number): Observable<Etl> {
+        return this.http
+            .delete(`${this.resourceUrl}/${idEtl}/etl-file`)
+            .map((response) => this.convertItemToEtl(response.json()));
+    }
+
+    public deleteDescriptionFile(idEtl: number): Observable<Etl> {
+        return this.http
+            .delete(`${this.resourceUrl}/${idEtl}/etl-description-file`)
+            .map((response) => this.convertItemToEtl(response.json()));
+    }
+
     private convertResponseToEtlResponseWrapper(response: Response): ResponseWrapper {
         const jsonResponse = response.json().map((element: any) => this.convertItemToEtl(element));
         return new ResponseWrapper(response.headers, jsonResponse, response.status);

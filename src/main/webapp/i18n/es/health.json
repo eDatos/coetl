@@ -15,7 +15,8 @@
             "mail": "Email",
             "db": "Base de datos",
             "ldap": "LDAP",
-            "cas": "CAS"
+            "cas": "CAS",
+            "pentaho": "Pentaho Data Integration Server"
         },
         "table": {
             "service": "Nombre del servicio",
