@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -35,6 +36,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import es.gobcan.coetl.config.PentahoProperties;
+import es.gobcan.coetl.domain.Etl;
+import es.gobcan.coetl.domain.Execution;
+import es.gobcan.coetl.domain.Execution.Result;
+import es.gobcan.coetl.domain.Execution.Type;
 import es.gobcan.coetl.domain.File;
 import es.gobcan.coetl.pentaho.enumeration.CarteMethodsEnum;
 import es.gobcan.coetl.pentaho.web.rest.dto.PentahoResponseDTO;
@@ -101,6 +106,20 @@ public final class PentahoUtil {
 
     public static String getFileBasename(String fileNameWithExtension) {
         return FilenameUtils.getBaseName(fileNameWithExtension);
+    }
+
+    public static Execution buildExecution(Etl etl, Type type, Result result) {
+        return buildExecution(etl, type, result, null);
+    }
+
+    public static Execution buildExecution(Etl etl, Type type, Result result, String notes) {
+        Execution execution = new Execution();
+        execution.setEtl(etl);
+        execution.setType(type);
+        execution.setResult(result);
+        execution.setPlanningDate(ZonedDateTime.now());
+        execution.setNotes(notes);
+        return execution;
     }
 
     private static HttpHeaders createHeaders(String username, String password) {

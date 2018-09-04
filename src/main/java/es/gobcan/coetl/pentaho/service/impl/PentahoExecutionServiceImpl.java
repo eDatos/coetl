@@ -2,7 +2,6 @@ package es.gobcan.coetl.pentaho.service.impl;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,32 +63,33 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
     @Override
     public Execution execute(Etl etl, Type type) {
         LOG.debug("Executing ETL : {}", etl.getCode());
-
         if (executionService.existsRunnnigOrWaitingByEtl(etl.getId())) {
             String duplicateEtlMessage = messageSource.getMessage("execution.note.duplicated", null, Constants.DEFAULT_LOCALE);
-            return buildExecution(etl, type, Result.DUPLICATED, duplicateEtlMessage);
+            return PentahoUtil.buildExecution(etl, type, Result.DUPLICATED, duplicateEtlMessage);
         }
 
-        WebResultDTO webResultDTO;
-        final File etlFile = etl.getEtlFile();
-        if (etl.isEtl()) {
-            webResultDTO = registerAndPrepareTrans(etlFile);
-        } else {
-            webResultDTO = registerJob(etlFile);
-        }
+        final String etlFilename = PentahoUtil.getFileBasename(etl.getEtlFile().getName());
 
+        WebResultDTO webResultDTO = registerETL(etl);
         if (!webResultDTO.isOk()) {
-            return buildExecution(etl, type, Result.FAILED, webResultDTO.getMessage());
+            return PentahoUtil.buildExecution(etl, type, Result.FAILED, webResultDTO.getMessage());
+        }
+
+        if (etl.isEtl()) {
+            webResultDTO = executePrepareTrans(etlFilename);
+            if (!webResultDTO.isOk()) {
+                executeRemoveTrans(etlFilename);
+                return PentahoUtil.buildExecution(etl, type, Result.FAILED, webResultDTO.getMessage());
+            }
         }
 
         ServerStatusDTO serverStatusDTO = executeServerStatus();
 
         if (!serverStatusDTO.isOnline()) {
             String offlineServerMessage = messageSource.getMessage("execution.note.server.offline", null, Constants.DEFAULT_LOCALE);
-            return buildExecution(etl, type, Result.FAILED, offlineServerMessage);
+            return PentahoUtil.buildExecution(etl, type, Result.FAILED, offlineServerMessage);
         }
 
-        final String etlFilename = PentahoUtil.getFileBasename(etl.getEtlFile().getName());
         //@formatter:off
         List<EtlStatusDTO> transAndJobsRunningOrWaitingList = serverStatusDTO.getStatusList()
                 .stream()
@@ -99,41 +99,48 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
        //@formatter:on
 
         if (!transAndJobsRunningOrWaitingList.isEmpty()) {
-            return buildExecution(etl, type, Result.WAITING);
+            return PentahoUtil.buildExecution(etl, type, Result.WAITING);
         }
 
+        webResultDTO = runEtl(etl, etlFilename);
+
+        if (!webResultDTO.isOk()) {
+            removeEtl(etl, etlFilename);
+            return PentahoUtil.buildExecution(etl, type, Result.FAILED, webResultDTO.getMessage());
+        }
+
+        return PentahoUtil.buildExecution(etl, type, Result.RUNNING);
+    }
+
+    public WebResultDTO removeEtl(Etl etl, final String etlFilename) {
         if (etl.isEtl()) {
-            webResultDTO = executeStartTrans(etlFilename);
+            return executeRemoveTrans(etlFilename);
         } else {
-            webResultDTO = executeStartJob(etlFilename);
+            return executeRemoveJob(etlFilename);
         }
-
-        return (webResultDTO.isOk()) ? buildExecution(etl, type, Result.RUNNING) : buildExecution(etl, type, Result.FAILED);
     }
 
-    private Execution buildExecution(Etl etl, Type type, Result result) {
-        return buildExecution(etl, type, result, null);
+    public WebResultDTO runEtl(Etl etl, final String etlFilename) {
+        if (etl.isEtl()) {
+            return executeStartTrans(etlFilename);
+        } else {
+            return executeStartJob(etlFilename);
+        }
     }
 
-    private Execution buildExecution(Etl etl, Type type, Result result, String notes) {
-        Execution execution = new Execution();
-        execution.setEtl(etl);
-        execution.setType(type);
-        execution.setResult(result);
-        execution.setPlanningDate(ZonedDateTime.now());
-        execution.setNotes(notes);
-        return execution;
+    private WebResultDTO registerETL(Etl etl) {
+        final File etlFile = etl.getEtlFile();
+        if (etl.isEtl()) {
+            return registerTrans(etlFile);
+        } else {
+            return registerJob(etlFile);
+        }
     }
 
-    private WebResultDTO registerAndPrepareTrans(File etlFile) {
+    private WebResultDTO registerTrans(File etlFile) {
         try {
             String transCode = PentahoUtil.getCarteWrappedCodeFromEtlFile(etlFile, TRANS_PREFIX_TAG_NAME);
-            WebResultDTO webResultDTO = executeRegisterTrans(transCode);
-            if (webResultDTO.isOk()) {
-                final String etlFilename = PentahoUtil.getFileBasename(etlFile.getName());
-                return executePrepareTrans(etlFilename);
-            }
-            return webResultDTO;
+            return executeRegisterTrans(transCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {
             LOG.error(ERROR_PARSING_CARTE_WRAPPED_XML_TO_STRING_MESSAGE, e);
             return buildErrorParseFileWebResult();
@@ -192,6 +199,13 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
         return PentahoUtil.execute(user, password, url, TransMethodsEnum.START, HttpMethod.GET, null, queryParams, WebResultDTO.class).getBody();
     }
 
+    private WebResultDTO executeRemoveTrans(String etlFilename) {
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("xml", "y");
+        queryParams.add("name", etlFilename);
+        return PentahoUtil.execute(user, password, url, TransMethodsEnum.REMOVE, HttpMethod.GET, null, queryParams, WebResultDTO.class).getBody();
+    }
+
     private WebResultDTO executeRegisterJob(String codeEtl) {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("xml", "y");
@@ -203,6 +217,13 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
         queryParams.add("xml", "y");
         queryParams.add("name", etlFilename);
         return PentahoUtil.execute(user, password, url, JobMethodsEnum.START, HttpMethod.GET, null, queryParams, WebResultDTO.class).getBody();
+    }
+
+    private WebResultDTO executeRemoveJob(String etlFilename) {
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("xml", "y");
+        queryParams.add("name", etlFilename);
+        return PentahoUtil.execute(user, password, url, JobMethodsEnum.REMOVE, HttpMethod.GET, null, queryParams, WebResultDTO.class).getBody();
     }
 
     private ServerStatusDTO executeServerStatus() {
