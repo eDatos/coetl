@@ -44,10 +44,8 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
 
     private ZonedDateTime nextExecution;
 
-    @NotNull
     private FileDTO etlFile;
 
-    @NotNull
     private FileDTO etlDescriptionFile;
 
     public Long getId() {
