@@ -10,6 +10,7 @@ import { Etl, Type } from './etl.model';
 import { EtlService } from './etl.service';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
+import { EtlConfirmExecutionDialogComponent } from './etl-confirm-execution-dialog.component';
 import { EtlExecutionListComponent } from './etl-execution-list/etl-execution-list.component';
 import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
 import { File } from '../file/file.model';
@@ -105,13 +106,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     }
 
     execute() {
-        this.etlService.execute(this.etl.id).subscribe(() => {
-            this.alertService.success(`Se ha ejecutado el proceso ETL de ${this.etl.code}`);
-            this.eventManager.broadcast({
-                name: EtlExecutionListComponent.EVENT_NAME,
-                content: 'executed'
-            });
-        });
+        const copy = Object.assign(new Etl(), this.etl);
+        this.genericModalService.open(<any>EtlConfirmExecutionDialogComponent, { etl: copy });
     }
 
     help() {

@@ -18,6 +18,10 @@
             "restore": {
                 "question": "¿Seguro que quiere resturar la ETL {{ code }}?"
             },
+            "execution": {
+                "title": "Confirmar ejecución",
+                "question": "¿Seguro que quiere ejecutar la ETL {{ code }}?"
+            },
             "detail": {
                 "title": "ETL"
             },
