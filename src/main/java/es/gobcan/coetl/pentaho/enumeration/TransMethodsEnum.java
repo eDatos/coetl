@@ -2,7 +2,7 @@ package es.gobcan.coetl.pentaho.enumeration;
 
 public enum TransMethodsEnum implements CarteMethodsEnum {
 
-    STATUS("transStatus/"), REGISTER("registerTrans/"), PREPARE("prepareExec/"), START("startExec/");
+    STATUS("transStatus/"), REGISTER("registerTrans/"), PREPARE("prepareExec/"), START("startExec/"), REMOVE("removeTrans/");
 
     private String resource;
 
