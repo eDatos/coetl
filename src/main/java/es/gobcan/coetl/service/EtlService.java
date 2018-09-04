@@ -13,4 +13,5 @@ public interface EtlService {
     public Etl restore(Etl etl);
     public Etl findOne(Long id);
     public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable);
+    public void execute(Etl etl);
 }

@@ -1,5 +1,5 @@
 import { BaseVersionedAndAuditingWithDeletionEntity } from '../../shared/model/base-versioned-auditing-with-deletion-entity';
-import { File } from '../documento/file.model';
+import { File } from '../file/file.model';
 
 export enum Type {
     ETL = 'ETL',

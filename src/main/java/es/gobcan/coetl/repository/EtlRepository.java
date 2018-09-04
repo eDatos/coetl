@@ -12,4 +12,6 @@ import es.gobcan.coetl.domain.Etl;
 public interface EtlRepository extends JpaRepository<Etl, Long> {
 
     Page<Etl> findAll(DetachedCriteria criteria, Pageable pageable);
+
+    Etl findOneByCode(String code);
 }

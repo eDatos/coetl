@@ -25,6 +25,10 @@
                     </ng-container>
                     <ng-container *ngIf="etl.id && !isEditMode()">
                         <ng-container *ngIf="!etl.isDeleted()">
+                            <button class="btn btn-primary" type="button" (click)="execute()">
+                                <span class="fa fa-play"></span>&nbsp;
+                                <span jhiTranslate="entity.action.execute"></span>
+                            </button>
                             <button class="btn btn-secondary jh-create-entity" [routerLink]="['../', etl.id, 'edit']" type="button">
                                 <span class="fa fa-pencil"></span>&nbsp;
                                 <span jhiTranslate="entity.action.edit"></span>
@@ -75,7 +79,9 @@
                         <label jhiTranslate="coetlApp.etl.state.label"></label>
                     </dt>
                     <dd>
-                        <span class="badge" [ngClass]="{'badge-success': !etl.isDeleted(), 'badge-danger': etl.isDeleted()}">{{ getDeletedMessage(etl) }}</span>
+                        <span class="badge" [ngClass]="{'badge-success': !etl.isDeleted(), 'badge-danger': etl.isDeleted()}">
+                            {{ getDeletedMessage(etl) }}
+                        </span>
                     </dd>
                 </dl>
                 <div class="form-group full-width">
@@ -158,7 +164,7 @@
                     <input type="text" class="form-control" name="executionPlanning" id="field_executionPlanning" [(ngModel)]="etl.executionPlanning"
                         [placeholder]="'coetlApp.etl.executionPlanning.placeholder' | translate" />
                 </div>
-                <dl *ngIf="etl.isPlanning()" class="jh-entity-details">
+                <dl *ngIf="canShowNextExecution()" class="jh-entity-details">
                     <dt>
                         <label jhiTranslate="coetlApp.etl.nextExecution.label"></label>
                     </dt>
@@ -171,6 +177,9 @@
                         #executionDescriptionContainer></textarea>
                 </div>
             </div>
+        </fieldset>
+        <fieldset *ngIf="etl.id">
+            <ac-etl-execution-list [idEtl]="etl.id"></ac-etl-execution-list>
         </fieldset>
         <ac-audit-info [entity]="etl"></ac-audit-info>
     </div>

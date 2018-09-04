@@ -31,8 +31,11 @@ import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
 import es.gobcan.coetl.service.EtlService;
+import es.gobcan.coetl.service.ExecutionService;
 import es.gobcan.coetl.web.rest.dto.EtlDTO;
+import es.gobcan.coetl.web.rest.dto.ExecutionDTO;
 import es.gobcan.coetl.web.rest.mapper.EtlMapper;
+import es.gobcan.coetl.web.rest.mapper.ExecutionMapper;
 import es.gobcan.coetl.web.rest.util.HeaderUtil;
 import es.gobcan.coetl.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -49,11 +52,15 @@ public class EtlResource extends AbstractResource {
 
     private final EtlService etlService;
     private final EtlMapper etlMapper;
+    private final ExecutionService executionService;
+    private final ExecutionMapper executionMapper;
     private final AuditEventPublisher auditEventPublisher;
 
-    public EtlResource(EtlService etlService, EtlMapper etlMapper, AuditEventPublisher auditEventPublisher) {
+    public EtlResource(EtlService etlService, EtlMapper etlMapper, ExecutionService executionService, ExecutionMapper executionMapper, AuditEventPublisher auditEventPublisher) {
         this.etlService = etlService;
         this.etlMapper = etlMapper;
+        this.executionService = executionService;
+        this.executionMapper = executionMapper;
         this.auditEventPublisher = auditEventPublisher;
     }
 
@@ -153,5 +160,41 @@ public class EtlResource extends AbstractResource {
         EtlDTO result = etlMapper.toDto(etl);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    @GetMapping("/{idEtl}/execute")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<Void> execute(@PathVariable Long idEtl) {
+        LOG.debug("REST Request to find an ETL : {}", idEtl);
+        Etl etl = etlService.findOne(idEtl);
+        if (etl == null) {
+            return ResponseEntity.notFound().build();
+        }
+        if (!etl.isDeleted()) {
+            etlService.execute(etl);
+            auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
+        } else {
+            //@formatter:off
+            throw new CustomParameterizedExceptionBuilder()
+                .message(String.format("ETL %s can not be executed, it is deleted", etl.getCode()))
+                .code(ErrorConstants.ETL_CURRENTLY_DELETED)
+                .build();
+            //@formatter:on
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{idEtl}/executions")
+    @Timed
+    @PreAuthorize("@secChecker.canReadEtl(authentication)")
+    public ResponseEntity<List<ExecutionDTO>> findAllExecutions(@PathVariable Long idEtl, @ApiParam Pageable pageable) {
+        LOG.debug("REST Request to find a page of Executions by ETL : {}", idEtl);
+        Page<ExecutionDTO> page = executionService.findAllByEtlId(idEtl, pageable).map(executionMapper::toDto);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI + SLASH + idEtl + SLASH + "executions");
+
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }

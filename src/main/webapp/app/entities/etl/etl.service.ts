@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { createRequestOption, ResponseWrapper } from '../../shared';
 import { Etl } from './etl.model';
+import { Execution } from '../execution/execution.model';
 
 @Injectable()
 export class EtlService {
@@ -45,15 +46,39 @@ export class EtlService {
         const options = createRequestOption(req);
         return this.http
             .get(this.resourceUrl, options)
-            .map((response) => this.convertResponseToResponseWrapper(response));
+            .map((response) => this.convertResponseToEtlResponseWrapper(response));
     }
 
-    private convertResponseToResponseWrapper(response: Response): ResponseWrapper {
+    public execute(idEtl: Number): Observable<string> {
+        return this.http
+            .get(`${this.resourceUrl}/${idEtl}/execute`)
+            .map((response) => response.text());
+    }
+
+    public findAllExecutions(idEtl: number, req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http
+            .get(`${this.resourceUrl}/${idEtl}/executions`, options)
+            .map((response) => this.convertResponseToExecutionResponseWrapper(response));
+    }
+
+    private convertResponseToEtlResponseWrapper(response: Response): ResponseWrapper {
         const jsonResponse = response.json().map((element: any) => this.convertItemToEtl(element));
         return new ResponseWrapper(response.headers, jsonResponse, response.status);
     }
 
     private convertItemToEtl(entity: any): Etl {
         return Object.assign(new Etl(), entity);
+    }
+
+    private convertResponseToExecutionResponseWrapper(response: Response): ResponseWrapper {
+        const jsonResponse = response
+            .json()
+            .map((element: any) => this.convertItemToExecution(element));
+        return new ResponseWrapper(response.headers, jsonResponse, response.status);
+    }
+
+    private convertItemToExecution(entity: any): Etl {
+        return Object.assign(new Execution(), entity);
     }
 }

@@ -5,5 +5,6 @@ export * from './etl-resolve.service';
 export * from './etl.component';
 export * from './etl-delete-dialog.component';
 export * from './etl-restore-dialog.component';
+export * from './etl-execution-list';
 export * from './etl-expression-help-dialog';
 export * from './etl.route';

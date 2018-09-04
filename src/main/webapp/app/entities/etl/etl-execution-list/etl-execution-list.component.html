@@ -1,0 +1,33 @@
+<div class="entity">
+    <h3 jhiTranslate="coetlApp.execution.home.title"></h3>
+    <ng-container *ngIf="existExecutions(); else emptyList">
+        <div class="entity-fields">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;" jhiTranslate="coetlApp.execution.planningDate"></th>
+                        <th style="width: 15%;" jhiTranslate="coetlApp.execution.type.label"></th>
+                        <th style="width: 15%;" jhiTranslate="coetlApp.execution.result.label"></th>
+                        <th style="width: 55%;" jhiTranslate="coetlApp.execution.notes"></th>
+                    </tr>
+                </thead>
+                <tr *ngFor="let execution of executions; let i=index;">
+                    <td>{{ execution.planningDate | acDate: 'datetime' }}</td>
+                    <td>
+                        <span class="badge badge-info">{{ getTypeName(execution) }}</span>
+                    </td>
+                    <td>
+                        <span class="badge" [ngClass]="getResultBadgeClass(execution)">{{ getResultName(execution) }}</span>
+                    </td>
+                    <td>{{execution.notes}}</td>
+                </tr>
+            </table>
+        </div>
+        <ac-pagination [(page)]="page" [(totalItems)]="totalItems" [(itemsPerPage)]="itemsPerPage" (onTransition)="transition()"></ac-pagination>
+    </ng-container>
+</div>
+<ng-template #emptyList>
+    <div class="empty-list">
+        <span jhiTranslate="coetlApp.execution.emptyListMessage"></span>
+    </div>
+</ng-template>
