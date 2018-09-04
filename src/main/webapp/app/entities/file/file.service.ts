@@ -27,16 +27,4 @@ export class FileService {
             this.sessionStorage.retrieve(TOKEN_AUTH_NAME)
         );
     }
-
-    delete(id: number) {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
-    }
-
-    query(req?: any): Observable<ResponseWrapper> {
-        throw new Error('TODO - Not implemented');
-    }
-
-    find(id: number): Observable<File> {
-        return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => res.json());
-    }
 }
