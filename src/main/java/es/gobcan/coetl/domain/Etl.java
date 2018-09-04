@@ -214,12 +214,20 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
         this.etlFile = etlFile;
     }
 
+    public boolean isEtlFileDeleted() {
+        return this.etlFile == null;
+    }
+
     public File getEtlDescriptionFile() {
         return etlDescriptionFile;
     }
 
     public void setEtlDescriptionFile(File etlDescriptionFile) {
         this.etlDescriptionFile = etlDescriptionFile;
+    }
+
+    public boolean isEtlDescriptionFileDeleted() {
+        return this.etlDescriptionFile == null;
     }
 
     @Override
