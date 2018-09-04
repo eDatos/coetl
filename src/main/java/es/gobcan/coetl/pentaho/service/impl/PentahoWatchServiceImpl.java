@@ -55,7 +55,7 @@ public class PentahoWatchServiceImpl implements PentahoWatchService {
     @Transactional
     public void run() {
         LOG.debug("Init watcher!");
-        Execution runningExecution = executionService.getInRunning();
+        Execution runningExecution = executionService.getInRunningResult();
 
         if (runningExecution != null) {
             Etl runningEtl = runningExecution.getEtl();
@@ -76,7 +76,7 @@ public class PentahoWatchServiceImpl implements PentahoWatchService {
             }
         }
 
-        Execution nextExecution = executionService.getOldestInWaiting();
+        Execution nextExecution = executionService.getOldestInWaitingResult();
         if (nextExecution == null) {
             return;
         }

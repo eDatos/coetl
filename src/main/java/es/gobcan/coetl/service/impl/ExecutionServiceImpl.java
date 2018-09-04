@@ -52,13 +52,13 @@ public class ExecutionServiceImpl implements ExecutionService {
     }
 
     @Override
-    public Execution getInRunning() {
+    public Execution getInRunningResult() {
         LOG.debug("Request to get Execution in RUNNING");
         return executionRepository.findByResult(Result.RUNNING);
     }
 
     @Override
-    public Execution getOldestInWaiting() {
+    public Execution getOldestInWaitingResult() {
         LOG.debug("Request to get the oldest Execution in WAITING");
         return executionRepository.findFirstByResultOrderByPlanningDateDesc(Result.WAITING);
     }

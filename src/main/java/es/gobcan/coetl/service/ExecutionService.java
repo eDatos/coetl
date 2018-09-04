@@ -11,6 +11,6 @@ public interface ExecutionService {
     public Execution update(Execution execution);
     public Page<Execution> findAllByEtlId(Long idEtl, Pageable pageable);
     public boolean existsRunnnigOrWaitingByEtl(Long idEtl);
-    public Execution getInRunning();
-    public Execution getOldestInWaiting();
+    public Execution getInRunningResult();
+    public Execution getOldestInWaitingResult();
 }
