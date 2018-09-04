@@ -60,7 +60,7 @@ public class TransStatusDTO implements PentahoResponseDTO, EtlStatusDTO {
     }
 
     public boolean isFinished() {
-        return Status.FINISHED.equals(status) || Status.FINISHED_WITH_ERRORS.equals(status);
+        return Status.FINISHED.equals(status) || isFinishedWithErrors();
     }
 
     public boolean isFinishedWithErrors() {
