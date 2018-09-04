@@ -129,8 +129,12 @@ public class EtlResource extends AbstractResource {
         }
 
         if (!currentEtl.isDeleted()) {
-            throw new CustomParameterizedExceptionBuilder().message(String.format("ETL %s is not currently deleted, so you do not have anything to restore", currentEtl.getCode()))
-                    .code(ErrorConstants.ETL_CURRENTLY_NOT_DELETED).build();
+            //@formatter:off
+            throw new CustomParameterizedExceptionBuilder()
+                .message(String.format("ETL %s is not currently deleted, so you do not have anything to restore", currentEtl.getCode()))
+                .code(ErrorConstants.ETL_CURRENTLY_NOT_DELETED)
+                .build();
+            //@formatter:on
         }
 
         Etl recoveredEtl = etlService.restore(currentEtl);
@@ -196,5 +200,49 @@ public class EtlResource extends AbstractResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI + SLASH + idEtl + SLASH + "executions");
 
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @DeleteMapping("/{idEtl}/etl-file")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<EtlDTO> deleteEtlFile(@PathVariable Long idEtl) {
+        LOG.debug("REST Request to delete the bound code file of ETL : {}", idEtl);
+        Etl currentEtl = etlService.findOne(idEtl);
+        if (currentEtl == null) {
+            return ResponseEntity.notFound().build();
+        }
+        if (currentEtl.isEtlFileDeleted()) {
+            //@formatter:off
+            throw new CustomParameterizedExceptionBuilder()
+                .message(String.format("Etl file of ETL %s is already deleted", currentEtl.getCode()))
+                .code(ErrorConstants.ETL_FILE_CURRENTLY_DELETED)
+                .build();
+            //@formatter:on
+        }
+
+        EtlDTO result = etlMapper.toDto(etlService.deleteEtlFile(currentEtl));
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getCode())).body(result);
+    }
+
+    @DeleteMapping("/{idEtl}/etl-description-file")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<EtlDTO> deleteEtlDescriptionFile(@PathVariable Long idEtl) {
+        LOG.debug("REST Request to delete the bound description file of ETL : {}", idEtl);
+        Etl currentEtl = etlService.findOne(idEtl);
+        if (currentEtl == null) {
+            return ResponseEntity.notFound().build();
+        }
+        if (currentEtl.isEtlDescriptionFileDeleted()) {
+            //@formatter:off
+            throw new CustomParameterizedExceptionBuilder()
+                .message(String.format("Etl description file of ETL %s is already deleted", currentEtl.getCode()))
+                .code(ErrorConstants.ETL_DESCRIPTION_FILE_CURRENTLY_DELETED)
+                .build();
+            //@formatter:on
+        }
+
+        EtlDTO result = etlMapper.toDto(etlService.deleteEtlDescriptionFile(currentEtl));
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getCode())).body(result);
     }
 }
