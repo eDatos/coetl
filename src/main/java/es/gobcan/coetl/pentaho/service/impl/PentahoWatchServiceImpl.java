@@ -1,5 +1,7 @@
 package es.gobcan.coetl.pentaho.service.impl;
 
+import java.time.ZonedDateTime;
+
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -88,6 +90,7 @@ public class PentahoWatchServiceImpl implements PentahoWatchService {
         Execution nextExecutionResult;
         if (!webResultDTO.isOk()) {
             pentahoExecutionService.removeEtl(nextEtl, etlFilename);
+            nextExecution.setStartDate(ZonedDateTime.now());
             nextExecutionResult = updateExecutionFromResult(nextExecution, Result.FAILED, webResultDTO.getMessage());
         } else {
             nextExecutionResult = updateExecutionFromResult(nextExecution, Result.RUNNING);
@@ -117,6 +120,12 @@ public class PentahoWatchServiceImpl implements PentahoWatchService {
     }
 
     private Execution updateExecutionFromResult(Execution currentExecution, Result result, String notes) {
+        if (Result.RUNNING.equals(result)) {
+            currentExecution.setStartDate(ZonedDateTime.now());
+        }
+        if (Result.FAILED.equals(result) || Result.SUCCESS.equals(result)) {
+            currentExecution.setFinishDate(ZonedDateTime.now());
+        }
         currentExecution.setResult(result);
         currentExecution.setNotes(notes);
         return currentExecution;
