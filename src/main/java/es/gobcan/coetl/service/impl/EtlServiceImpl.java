@@ -30,8 +30,8 @@ import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.domain.Execution;
 import es.gobcan.coetl.domain.Execution.Type;
 import es.gobcan.coetl.domain.File;
-import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
+import es.gobcan.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.coetl.job.PentahoExecutionJob;
 import es.gobcan.coetl.pentaho.service.PentahoExecutionService;
 import es.gobcan.coetl.repository.EtlRepository;
@@ -42,9 +42,9 @@ import es.gobcan.coetl.service.FileService;
 import es.gobcan.coetl.web.rest.util.QueryUtil;
 
 @Service
-public class EtlServiceImp implements EtlService {
+public class EtlServiceImpl implements EtlService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EtlServiceImp.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EtlServiceImpl.class);
     private static final String IDENTITY_JOB_PREFIX = "pentahoExecutionJob_";
     private static final String IDENTITY_TRIGGER_PREFIX = "pentahoExectionTrigger_";
 
@@ -137,18 +137,15 @@ public class EtlServiceImp implements EtlService {
     private Etl planifyAndSave(Etl etl) {
         LOG.debug("Request to planify and save an ETL : {}", etl);
         JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + etl.getCode());
+        final String executionPlanning = etl.getExecutionPlanning();
         try {
-            CronExpression cronExpression = new CronExpression(etl.getExecutionPlanning());
+            CronExpression cronExpression = new CronExpression(executionPlanning);
             etl.setNextExecution(getNextExecutionFromCronExpression(cronExpression));
             schedulePentahoExecutionJob(jobKey, cronExpression, etl);
         } catch (ParseException e) {
-            //@formatter:off
-            throw new CustomParameterizedExceptionBuilder()
-                .message(String.format("The cron expression %s is not valid", etl.getExecutionPlanning()))
-                .cause(e)
-                .code(ErrorConstants.ETL_CRON_EXPRESSION_NOT_VALID, etl.getExecutionPlanning())
-                .build();
-            //@formatter:on
+            final String message = String.format("The cron expression %s is not valid", executionPlanning);
+            final String code = ErrorConstants.ETL_CRON_EXPRESSION_NOT_VALID;
+            CustomExceptionUtil.throwCustomParameterizedException(message, e, code, executionPlanning);
         }
 
         return etlRepository.save(etl);
@@ -191,13 +188,9 @@ public class EtlServiceImp implements EtlService {
             deleteExistingJob(jobKey);
             schedulerAccessorBean.getScheduler().scheduleJob(job, trigger);
         } catch (SchedulerException e) {
-            //@formatter:off
-            throw new CustomParameterizedExceptionBuilder()
-                .message(String.format("Error during scheduling a new job %s", jobKey.getName()))
-                .cause(e)
-                .code(ErrorConstants.ETL_SCHEDULE_ERROR)
-                .build();
-            //@formatter:on
+            final String message = String.format("Error during scheduling a new job %s", jobKey.getName());
+            final String code = ErrorConstants.ETL_SCHEDULE_ERROR;
+            CustomExceptionUtil.throwCustomParameterizedException(message, e, code);
         }
     }
 
@@ -207,13 +200,9 @@ public class EtlServiceImp implements EtlService {
         try {
             deleteExistingJob(jobKey);
         } catch (SchedulerException e) {
-            //@formatter:off
-            throw new CustomParameterizedExceptionBuilder()
-                .message(String.format("Error during unscheduling the job %s", jobKey.getName()))
-                .cause(e)
-                .code(ErrorConstants.ETL_UNSCHEDULE_ERROR)
-                .build();
-            //@formatter:on
+            final String message = String.format("Error during unscheduling the job %s", jobKey.getName());
+            final String code = ErrorConstants.ETL_UNSCHEDULE_ERROR;
+            CustomExceptionUtil.throwCustomParameterizedException(message, e, code);
         }
     }
 

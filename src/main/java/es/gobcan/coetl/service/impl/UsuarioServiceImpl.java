@@ -82,7 +82,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     public void restore(Usuario usuario) {
         if (usuario == null) {
-            throw new CustomParameterizedExceptionBuilder().message("Usuario no válido").code(ErrorConstants.USUARIO_NO_VALIDO).build();
+            final String message = "Usuario no válido";
+            final String code = ErrorConstants.USUARIO_NO_VALIDO;
+            throw new CustomParameterizedExceptionBuilder().message(message).code(code).build();
         }
         usuario.setDeletionDate(null);
         usuario.setDeletedBy(null);
