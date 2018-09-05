@@ -7,8 +7,8 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import es.gobcan.coetl.config.QuartzConstants;
+import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
-import es.gobcan.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.coetl.pentaho.service.PentahoExecutionService;
 import es.gobcan.coetl.repository.EtlRepository;
 import es.gobcan.coetl.service.ExecutionService;
@@ -26,7 +26,7 @@ public abstract class AbstractCoetlQuartzJob extends QuartzJobBean {
             String etlCode = (String) context.getJobDetail().getJobDataMap().get(QuartzConstants.ETL_CODE_JOB_DATA);
             final String message = "Error during Quartz job execution";
             final String code = ErrorConstants.QUARTZ_JOB_EXECUTION_ERROR;
-            CustomExceptionUtil.throwCustomParameterizedException(message, e, code, etlCode);
+            throw new CustomParameterizedExceptionBuilder().message(message).cause(e).code(code, etlCode).build();
         }
     }
 
