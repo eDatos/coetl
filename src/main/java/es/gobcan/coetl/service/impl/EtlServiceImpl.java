@@ -122,7 +122,7 @@ public class EtlServiceImpl implements EtlService {
         File etlFile = etl.getEtlFile();
         etl.setEtlFile(null);
         fileService.delete(etlFile.getId());
-        return save(etl);
+        return saveAndFlush(etl);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class EtlServiceImpl implements EtlService {
         File etlDescriptionFile = etl.getEtlDescriptionFile();
         etl.setEtlDescriptionFile(null);
         fileService.delete(etlDescriptionFile.getId());
-        return save(etl);
+        return saveAndFlush(etl);
     }
 
     private Etl planifyAndSave(Etl etl) {
@@ -162,6 +162,11 @@ public class EtlServiceImpl implements EtlService {
     private Etl save(Etl etl) {
         LOG.debug("Request to save an ETL : {}", etl);
         return etlRepository.save(etl);
+    }
+
+    private Etl saveAndFlush(Etl etl) {
+        LOG.debug("Request to save an ETL : {}", etl);
+        return etlRepository.saveAndFlush(etl);
     }
 
     private ZonedDateTime getNextExecutionFromCronExpression(CronExpression cronExpression) {
