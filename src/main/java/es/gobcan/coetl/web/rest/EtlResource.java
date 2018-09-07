@@ -196,42 +196,4 @@ public class EtlResource extends AbstractResource {
 
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
-    @DeleteMapping("/{idEtl}/etl-file")
-    @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
-    public ResponseEntity<EtlDTO> deleteEtlFile(@PathVariable Long idEtl) {
-        LOG.debug("REST Request to delete the bound code file of ETL : {}", idEtl);
-        Etl currentEtl = etlService.findOne(idEtl);
-        if (currentEtl == null) {
-            return ResponseEntity.notFound().build();
-        }
-        if (currentEtl.isEtlFileDeleted()) {
-            final String message = String.format("Etl file of ETL %s is already deleted", currentEtl.getCode());
-            final String code = ErrorConstants.ETL_FILE_CURRENTLY_DELETED;
-            CustomExceptionUtil.throwCustomParameterizedException(message, code);
-        }
-
-        EtlDTO result = etlMapper.toDto(etlService.deleteEtlFile(currentEtl));
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getCode())).body(result);
-    }
-
-    @DeleteMapping("/{idEtl}/etl-description-file")
-    @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
-    public ResponseEntity<EtlDTO> deleteEtlDescriptionFile(@PathVariable Long idEtl) {
-        LOG.debug("REST Request to delete the bound description file of ETL : {}", idEtl);
-        Etl currentEtl = etlService.findOne(idEtl);
-        if (currentEtl == null) {
-            return ResponseEntity.notFound().build();
-        }
-        if (currentEtl.isEtlDescriptionFileDeleted()) {
-            final String message = String.format("Etl description file of ETL %s is already deleted", currentEtl.getCode());
-            final String code = ErrorConstants.ETL_DESCRIPTION_FILE_CURRENTLY_DELETED;
-            CustomExceptionUtil.throwCustomParameterizedException(message, code);
-        }
-
-        EtlDTO result = etlMapper.toDto(etlService.deleteEtlDescriptionFile(currentEtl));
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getCode())).body(result);
-    }
 }

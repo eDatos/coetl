@@ -29,7 +29,6 @@ import es.gobcan.coetl.config.QuartzConstants;
 import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.domain.Execution;
 import es.gobcan.coetl.domain.Execution.Type;
-import es.gobcan.coetl.domain.File;
 import es.gobcan.coetl.errors.ErrorConstants;
 import es.gobcan.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.coetl.job.PentahoExecutionJob;
@@ -116,24 +115,6 @@ public class EtlServiceImpl implements EtlService {
 
     }
 
-    @Override
-    public Etl deleteEtlFile(Etl etl) {
-        LOG.debug("Request to delete the bound code file of ETL : {}", etl);
-        File etlFile = etl.getEtlFile();
-        etl.setEtlFile(null);
-        fileService.delete(etlFile.getId());
-        return saveAndFlush(etl);
-    }
-
-    @Override
-    public Etl deleteEtlDescriptionFile(Etl etl) {
-        LOG.debug("Request to delete the bound description file of ETL : {}", etl);
-        File etlDescriptionFile = etl.getEtlDescriptionFile();
-        etl.setEtlDescriptionFile(null);
-        fileService.delete(etlDescriptionFile.getId());
-        return saveAndFlush(etl);
-    }
-
     private Etl planifyAndSave(Etl etl) {
         LOG.debug("Request to planify and save an ETL : {}", etl);
         JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + etl.getCode());
@@ -162,11 +143,6 @@ public class EtlServiceImpl implements EtlService {
     private Etl save(Etl etl) {
         LOG.debug("Request to save an ETL : {}", etl);
         return etlRepository.save(etl);
-    }
-
-    private Etl saveAndFlush(Etl etl) {
-        LOG.debug("Request to save an ETL : {}", etl);
-        return etlRepository.saveAndFlush(etl);
     }
 
     private ZonedDateTime getNextExecutionFromCronExpression(CronExpression cronExpression) {
