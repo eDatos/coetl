@@ -103,27 +103,23 @@
                         [files]="etl.etlFile" [disabled]="!isEditMode()">
 
                         <ng-template let-file="file">
-                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteEtlFile(etl.id)">
+                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteEtlFile()">
                                 <i class="fa fa-trash"></i>
                                 <span jhiTranslate="entity.action.delete"></span>
                             </button>
                         </ng-template>
-
                     </ac-file-upload>
-
-
                 </div>
                 <div class="form-group full-width">
                     <ac-file-upload [title]="'coetlApp.etl.descriptionFile.label' | translate" [url]="fileResourceUrl" (onUpload)="onEtlDescriptionFileUpload($event)"
                         accept="application/pdf" [files]="etl.etlDescriptionFile" [disabled]="!isEditMode()">
 
                         <ng-template let-file="file">
-                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteDescriptionFile(etl.id)">
+                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteDescriptionFile()">
                                 <i class="fa fa-trash"></i>
                                 <span jhiTranslate="entity.action.delete"></span>
                             </button>
                         </ng-template>
-
                     </ac-file-upload>
                 </div>
             </div>

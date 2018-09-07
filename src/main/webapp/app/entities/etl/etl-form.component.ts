@@ -138,8 +138,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         this.etl.etlFile = etlFile;
     }
 
-    deleteEtlFile(idEtl: number) {
-        this.etlService.deleteEtlFile(idEtl).subscribe((modifiedEtl) => (this.etl = modifiedEtl));
+    deleteEtlFile() {
+        this.etl.etlFile = undefined;
     }
 
     onEtlDescriptionFileUpload(event) {
@@ -147,10 +147,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         this.etl.etlDescriptionFile = etlDescriptionFile;
     }
 
-    deleteDescriptionFile(idEtl: number) {
-        this.etlService
-            .deleteDescriptionFile(idEtl)
-            .subscribe((modifiedEtl) => (this.etl = modifiedEtl));
+    deleteDescriptionFile() {
+        this.etl.etlDescriptionFile = undefined;
     }
 
     canShowNextExecution(): boolean {
