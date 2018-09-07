@@ -12,6 +12,10 @@ public final class Constants {
 
     public static final Locale DEFAULT_LOCALE = Locale.forLanguageTag("es");
 
+    public static final String DEFAULT_PENTAHO_WATCH_CRON = "0 * * * * *";
+
+    public static final String REMOVE_ORPHAN_FILES_CRON = "0 0 0 ? * SUN";
+
     private Constants() {
     }
 }
