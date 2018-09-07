@@ -90,11 +90,13 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @Column(name = "next_execution")
     private ZonedDateTime nextExecution;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(name = "etl_file_fk")
     private File etlFile;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(name = "etl_description_file_fk")
     private File etlDescriptionFile;
 
@@ -214,20 +216,12 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
         this.etlFile = etlFile;
     }
 
-    public boolean isEtlFileDeleted() {
-        return this.etlFile == null;
-    }
-
     public File getEtlDescriptionFile() {
         return etlDescriptionFile;
     }
 
     public void setEtlDescriptionFile(File etlDescriptionFile) {
         this.etlDescriptionFile = etlDescriptionFile;
-    }
-
-    public boolean isEtlDescriptionFileDeleted() {
-        return this.etlDescriptionFile == null;
     }
 
     @Override
