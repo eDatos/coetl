@@ -11,4 +11,6 @@ public interface FileService {
     File findOne(Long id);
 
     File create(MultipartFile file);
+
+    void removeOrphans();
 }

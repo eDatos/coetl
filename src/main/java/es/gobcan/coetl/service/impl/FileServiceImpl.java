@@ -63,4 +63,9 @@ public class FileServiceImpl implements FileService {
         documento.setDataContentType(file.getContentType());
         return fileRepository.saveAndFlush(documento);
     }
+
+    @Override
+    public void removeOrphans() {
+        fileRepository.removeOrphans();
+    }
 }
