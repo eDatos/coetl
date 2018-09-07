@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import es.gobcan.coetl.config.Constants;
 import es.gobcan.coetl.config.PentahoProperties;
 import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.domain.Execution;
@@ -47,7 +48,7 @@ public class PentahoWatchJob {
         this.password = PentahoUtil.getPassword(pentahoProperties);
     }
 
-    @Scheduled(cron = "${application.watcher.cron:0 * * * * *}")
+    @Scheduled(cron = Constants.DEFAULT_PENTAHO_WATCH_CRON)
     @Transactional
     public void run() {
         LOG.info("Init Pentaho watch job");
