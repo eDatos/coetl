@@ -2,7 +2,6 @@ package es.gobcan.coetl.service.impl;
 
 import java.io.IOException;
 import java.sql.Blob;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -40,21 +39,9 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public List<File> findAll() {
-        log.debug("Request to get all Files");
-        return fileRepository.findAll();
-    }
-
-    @Override
     public File findOne(Long id) {
         log.debug("Request to get File : {}", id);
         return fileRepository.findOne(id);
-    }
-
-    @Override
-    public void delete(Long id) {
-        log.debug("Request to delete File : {}", id);
-        fileRepository.delete(id);
     }
 
     @Override
@@ -77,4 +64,8 @@ public class FileServiceImpl implements FileService {
         return fileRepository.saveAndFlush(documento);
     }
 
+    @Override
+    public void removeOrphans() {
+        fileRepository.removeOrphans();
+    }
 }

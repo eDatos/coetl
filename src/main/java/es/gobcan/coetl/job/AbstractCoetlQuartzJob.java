@@ -24,13 +24,9 @@ public abstract class AbstractCoetlQuartzJob extends QuartzJobBean {
             return (ApplicationContext) context.getScheduler().getContext().get(QuartzConstants.APPLICATION_CONTEXT_KEY);
         } catch (SchedulerException e) {
             String etlCode = (String) context.getJobDetail().getJobDataMap().get(QuartzConstants.ETL_CODE_JOB_DATA);
-            //@formatter:off
-            throw new CustomParameterizedExceptionBuilder()
-                .message("Error during Quartz job execution")
-                .cause(e)
-                .code(ErrorConstants.QUARTZ_JOB_EXECUTION_ERROR, etlCode)
-                .build();
-            //@formatter:on
+            final String message = "Error during Quartz job execution";
+            final String code = ErrorConstants.QUARTZ_JOB_EXECUTION_ERROR;
+            throw new CustomParameterizedExceptionBuilder().message(message).cause(e).code(code, etlCode).build();
         }
     }
 

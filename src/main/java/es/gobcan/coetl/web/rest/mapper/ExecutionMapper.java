@@ -16,6 +16,8 @@ public abstract class ExecutionMapper {
         ExecutionDTO dto = new ExecutionDTO();
         dto.setId(entity.getId());
         dto.setPlanningDate(entity.getPlanningDate());
+        dto.setStartDate(entity.getStartDate());
+        dto.setFinishDate(entity.getFinishDate());
         dto.setType(entity.getType());
         dto.setResult(entity.getResult());
         dto.setNotes(entity.getNotes());

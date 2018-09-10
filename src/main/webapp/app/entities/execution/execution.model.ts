@@ -15,6 +15,8 @@ export class Execution {
     constructor(
         public id?: number,
         public planningDate?: Date,
+        public startDate?: Date,
+        public finishDate?: Date,
         public type?: Type,
         public result?: Result,
         public notes?: string,

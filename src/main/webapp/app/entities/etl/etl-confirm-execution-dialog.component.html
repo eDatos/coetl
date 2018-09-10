@@ -1,0 +1,19 @@
+<form name="deleteForm" (ngSubmit)="confirmExecution(etl.id)">
+    <div class="modal-header">
+        <h4 class="modal-title" jhiTranslate="coetlApp.etl.execution.title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <p jhiTranslate="coetlApp.etl.execution.question" translateValues="{code: '{{etl.code}}'}"></p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;
+            <span jhiTranslate="entity.action.cancel"></span>
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <span class="fa fa-play"></span>&nbsp;
+            <span jhiTranslate="entity.action.execute"></span>
+        </button>
+    </div>
+</form>

@@ -91,12 +91,12 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     private ZonedDateTime nextExecution;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(name = "etl_file_fk")
     private File etlFile;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(name = "etl_description_file_fk")
     private File etlDescriptionFile;
 

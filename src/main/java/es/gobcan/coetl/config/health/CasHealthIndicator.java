@@ -31,7 +31,7 @@ public class CasHealthIndicator extends AbstractHealthIndicator {
         if (HttpStatus.ACCEPTED.equals(getUrlStatus(casEndPoint)) || HttpStatus.OK.equals(getUrlStatus(casEndPoint))) {
             builder.up();
         } else {
-            logger.warn("Cas not available. " + "Impossible to reach");
+            logger.warn("Cas not available. Impossible to reach");
             builder.down();
         }
     }

@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StreamUtils;
 
 import es.gobcan.coetl.domain.File;
-import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
+import es.gobcan.coetl.errors.util.CustomExceptionUtil;
 
 public final class ControllerUtil {
 
@@ -28,7 +28,9 @@ public final class ControllerUtil {
             copyContentToResponse(is, file.getName(), file.getDataContentType(), file.getLength(), response);
         } catch (IOException | SQLException e) {
             log.error("Exception obtaining the file {}", file.getId(), e);
-            throw new CustomParameterizedExceptionBuilder().message(String.format("Exception obtaining the file %s", file.getId())).code(ErrorConstants.FICHERO_NO_ENCONTRADO).build();
+            final String message = String.format("Exception obtaining the file %s", file.getId());
+            final String code = ErrorConstants.FICHERO_NO_ENCONTRADO;
+            CustomExceptionUtil.throwCustomParameterizedException(message, e, code);
         }
     }
 

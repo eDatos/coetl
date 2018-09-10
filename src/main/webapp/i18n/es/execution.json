@@ -4,7 +4,9 @@
             "home": {
                 "title": "Ejecuciones"
             },
-            "planningDate": "Fecha y hora",
+            "planningDate": "Fecha de planificación",
+            "startDate": "Fecha de inicio",
+            "finishDate": "Fecha de finalización",
             "type": {
                 "label": "Tipo",
                 "AUTO": "Automática",

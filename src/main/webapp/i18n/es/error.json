@@ -37,6 +37,8 @@
         "etl": {
             "currentlyDeleted": "Esta ETL se encuentra actualmente eliminada",
             "currentlyNotDeleted": "Esta ETL se encuentra actualmente activa",
+            "etlFileCurrentlyDeleted": "El fichero ETL ya ha sido eliminado",
+            "etlDescriptionFileCurrentlyDeleted": "El fichero descriptivo ya ha sido eliminado",
             "cronExpressionNotValid": "La expresión cron {{0}} no es válida",
             "scheduleError": "Ha ocurrido un error en la creación de la planificación de ejecución de la ETL",
             "unscheduleError": "Ha ocurrido un error en el borrado de la planificación de ejecución de la ETL"

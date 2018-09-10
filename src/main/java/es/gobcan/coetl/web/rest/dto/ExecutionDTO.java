@@ -15,6 +15,10 @@ public class ExecutionDTO implements Serializable {
 
     private ZonedDateTime planningDate;
 
+    private ZonedDateTime startDate;
+
+    private ZonedDateTime finishDate;
+
     private Type type;
 
     private Result result;
@@ -37,6 +41,22 @@ public class ExecutionDTO implements Serializable {
 
     public void setPlanningDate(ZonedDateTime planningDate) {
         this.planningDate = planningDate;
+    }
+
+    public ZonedDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(ZonedDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public ZonedDateTime getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(ZonedDateTime finishDate) {
+        this.finishDate = finishDate;
     }
 
     public Type getType() {

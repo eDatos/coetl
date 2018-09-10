@@ -28,8 +28,8 @@ import com.codahale.metrics.annotation.Timed;
 import es.gobcan.coetl.config.AuditConstants;
 import es.gobcan.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.coetl.domain.Etl;
-import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
+import es.gobcan.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.coetl.service.EtlService;
 import es.gobcan.coetl.service.ExecutionService;
 import es.gobcan.coetl.web.rest.dto.EtlDTO;
@@ -107,8 +107,9 @@ public class EtlResource extends AbstractResource {
         }
 
         if (currentEtl.isDeleted()) {
-            throw new CustomParameterizedExceptionBuilder().message(String.format("ETL %s is currently deleted, so can not be deleted twice", currentEtl.getCode()))
-                    .code(ErrorConstants.ETL_CURRENTLY_DELETED).build();
+            final String message = String.format("ETL %s is currently deleted, so can not be deleted twice", currentEtl.getCode());
+            final String code = ErrorConstants.ETL_CURRENTLY_DELETED;
+            CustomExceptionUtil.throwCustomParameterizedException(message, code);
         }
 
         Etl deletedEtl = etlService.delete(currentEtl);
@@ -129,8 +130,9 @@ public class EtlResource extends AbstractResource {
         }
 
         if (!currentEtl.isDeleted()) {
-            throw new CustomParameterizedExceptionBuilder().message(String.format("ETL %s is not currently deleted, so you do not have anything to restore", currentEtl.getCode()))
-                    .code(ErrorConstants.ETL_CURRENTLY_NOT_DELETED).build();
+            final String message = String.format("ETL %s is not currently deleted, so you do not have anything to restore", currentEtl.getCode());
+            final String code = ErrorConstants.ETL_CURRENTLY_NOT_DELETED;
+            CustomExceptionUtil.throwCustomParameterizedException(message, code);
         }
 
         Etl recoveredEtl = etlService.restore(currentEtl);
@@ -175,12 +177,9 @@ public class EtlResource extends AbstractResource {
             etlService.execute(etl);
             auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
         } else {
-            //@formatter:off
-            throw new CustomParameterizedExceptionBuilder()
-                .message(String.format("ETL %s can not be executed, it is deleted", etl.getCode()))
-                .code(ErrorConstants.ETL_CURRENTLY_DELETED)
-                .build();
-            //@formatter:on
+            final String message = String.format("ETL %s can not be executed, it is deleted", etl.getCode());
+            final String code = ErrorConstants.ETL_CURRENTLY_DELETED;
+            CustomExceptionUtil.throwCustomParameterizedException(message, code);
         }
 
         return ResponseEntity.ok().build();

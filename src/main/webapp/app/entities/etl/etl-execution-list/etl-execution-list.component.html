@@ -7,6 +7,8 @@
                     <tr>
                         <th style="width: 15%;" jhiTranslate="coetlApp.execution.planningDate"></th>
                         <th style="width: 15%;" jhiTranslate="coetlApp.execution.type.label"></th>
+                        <th style="width: 15%;" jhiTranslate="coetlApp.execution.startDate"></th>
+                        <th style="width: 15%;" jhiTranslate="coetlApp.execution.finishDate"></th>
                         <th style="width: 15%;" jhiTranslate="coetlApp.execution.result.label"></th>
                         <th style="width: 55%;" jhiTranslate="coetlApp.execution.notes"></th>
                     </tr>
@@ -16,6 +18,8 @@
                     <td>
                         <span class="badge badge-info">{{ getTypeName(execution) }}</span>
                     </td>
+                    <td>{{ execution.startDate | acDate: 'datetime' }}</td>
+                    <td>{{ execution.finishDate | acDate: 'datetime' }}</td>
                     <td>
                         <span class="badge" [ngClass]="getResultBadgeClass(execution)">{{ getResultName(execution) }}</span>
                     </td>

@@ -10,10 +10,10 @@ import { Etl, Type } from './etl.model';
 import { EtlService } from './etl.service';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
+import { EtlConfirmExecutionDialogComponent } from './etl-confirm-execution-dialog.component';
 import { EtlExecutionListComponent } from './etl-execution-list/etl-execution-list.component';
 import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
 import { File } from '../file/file.model';
-import { FileService } from '../file/file.service';
 
 @Component({
     selector: 'ac-etl-form',
@@ -54,8 +54,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         private eventManager: JhiEventManager,
         private permissionService: PermissionService,
         private translateService: TranslateService,
-        private alertService: JhiAlertService,
-        private fileService: FileService
+        private alertService: JhiAlertService
     ) {
         this.instance = this;
         this.fileResourceUrl = 'api/files';
@@ -105,13 +104,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     }
 
     execute() {
-        this.etlService.execute(this.etl.id).subscribe(() => {
-            this.alertService.success(`Se ha ejecutado el proceso ETL de ${this.etl.code}`);
-            this.eventManager.broadcast({
-                name: EtlExecutionListComponent.EVENT_NAME,
-                content: 'executed'
-            });
-        });
+        const copy = Object.assign(new Etl(), this.etl);
+        this.genericModalService.open(<any>EtlConfirmExecutionDialogComponent, { etl: copy });
     }
 
     help() {
@@ -144,8 +138,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         this.etl.etlFile = etlFile;
     }
 
-    deleteEtlFile(file: File) {
-        this.fileService.delete(file.id).subscribe(() => (this.etl.etlFile = undefined));
+    deleteEtlFile() {
+        this.etl.etlFile = undefined;
     }
 
     onEtlDescriptionFileUpload(event) {
@@ -153,8 +147,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         this.etl.etlDescriptionFile = etlDescriptionFile;
     }
 
-    deleteDescriptionFile(file: File) {
-        this.fileService.delete(file.id).subscribe(() => (this.etl.etlDescriptionFile = undefined));
+    deleteDescriptionFile() {
+        this.etl.etlDescriptionFile = undefined;
     }
 
     canShowNextExecution(): boolean {

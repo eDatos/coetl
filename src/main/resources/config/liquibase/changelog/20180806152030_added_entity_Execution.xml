@@ -22,6 +22,12 @@
             <column name="planning_date" type="timestamp">
                 <constraints nullable="false" />
             </column>
+            <column name="start_date" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+            <column name="finish_date" type="timestamp">
+                <constraints nullable="true" />
+            </column>
             <column name="type" type="varchar(255)">
                 <constraints nullable="false" />
             </column>

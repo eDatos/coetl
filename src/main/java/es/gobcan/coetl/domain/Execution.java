@@ -47,6 +47,12 @@ public class Execution implements Serializable {
     @Column(name = "planning_date", nullable = false)
     private ZonedDateTime planningDate;
 
+    @Column(name = "start_date", nullable = false)
+    private ZonedDateTime startDate;
+
+    @Column(name = "finish_date", nullable = false)
+    private ZonedDateTime finishDate;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
@@ -79,6 +85,22 @@ public class Execution implements Serializable {
 
     public void setPlanningDate(ZonedDateTime planningDate) {
         this.planningDate = planningDate;
+    }
+
+    public ZonedDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(ZonedDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public ZonedDateTime getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(ZonedDateTime finishDate) {
+        this.finishDate = finishDate;
     }
 
     public Type getType() {

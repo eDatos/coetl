@@ -119,6 +119,9 @@ public final class PentahoUtil {
         execution.setResult(result);
         execution.setPlanningDate(ZonedDateTime.now());
         execution.setNotes(notes);
+        if (Result.RUNNING.equals(result)) {
+            execution.setStartDate(ZonedDateTime.now());
+        }
         return execution;
     }
 
