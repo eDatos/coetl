@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.time.format.DateTimeParseException;
 
 import org.hamcrest.Description;
@@ -59,24 +59,24 @@ public class TestUtil {
     /**
      * A matcher that tests that the examined string represents the same instant as the reference datetime.
      */
-    public static class ZonedDateTimeMatcher extends TypeSafeDiagnosingMatcher<String> {
+    public static class InstantMatcher extends TypeSafeDiagnosingMatcher<String> {
 
-        private final ZonedDateTime date;
+        private final Instant date;
 
-        public ZonedDateTimeMatcher(ZonedDateTime date) {
+        public InstantMatcher(Instant date) {
             this.date = date;
         }
 
         @Override
         protected boolean matchesSafely(String item, Description mismatchDescription) {
             try {
-                if (!date.isEqual(ZonedDateTime.parse(item))) {
+                if (!date.equals(Instant.parse(item))) {
                     mismatchDescription.appendText("was ").appendValue(item);
                     return false;
                 }
                 return true;
             } catch (DateTimeParseException e) {
-                mismatchDescription.appendText("was ").appendValue(item).appendText(", which could not be parsed as a ZonedDateTime");
+                mismatchDescription.appendText("was ").appendValue(item).appendText(", which could not be parsed as a Instant");
                 return false;
             }
 
@@ -93,8 +93,8 @@ public class TestUtil {
      * 
      * @param date the reference datetime against which the examined string is checked
      */
-    public static ZonedDateTimeMatcher sameInstant(ZonedDateTime date) {
-        return new ZonedDateTimeMatcher(date);
+    public static InstantMatcher sameInstant(Instant date) {
+        return new InstantMatcher(date);
     }
 
     /**

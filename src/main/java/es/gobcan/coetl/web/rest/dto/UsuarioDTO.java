@@ -1,7 +1,7 @@
 package es.gobcan.coetl.web.rest.dto;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -142,7 +142,7 @@ public class UsuarioDTO extends AbstractVersionedAndAuditingWithDeletionDTO {
         private String lastModifiedBy;
         private Instant lastModifiedDate;
         private String deletedBy;
-        private ZonedDateTime deletionDate;
+        private Instant deletionDate;
         private Set<Rol> authorities;
         private Long optLock;
 
@@ -225,7 +225,7 @@ public class UsuarioDTO extends AbstractVersionedAndAuditingWithDeletionDTO {
             return this;
         }
 
-        public Builder setDeletionDate(ZonedDateTime deletionDate) {
+        public Builder setDeletionDate(Instant deletionDate) {
             this.deletionDate = deletionDate;
             return this;
         }

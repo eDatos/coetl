@@ -1,6 +1,6 @@
 package es.gobcan.coetl.service.impl;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Optional;
 
@@ -73,7 +73,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     public void deleteUsuario(String login) {
         usuarioRepository.findOneByLoginAndDeletionDateIsNull(login).ifPresent(user -> {
-            user.setDeletionDate(ZonedDateTime.now());
+            user.setDeletionDate(Instant.now());
             user.setDeletedBy(SecurityUtils.getCurrentUserLogin());
             usuarioRepository.saveAndFlush(user);
             log.debug("Eliminado Usuario: {}", user);

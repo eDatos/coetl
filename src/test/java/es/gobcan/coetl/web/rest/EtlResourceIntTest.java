@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -248,7 +248,7 @@ public class EtlResourceIntTest {
         doReturn(etlToDeleteMocked).when(etlService).findOne(etlToDeleteDTOMocked.getId());
 
         Etl deletedEtlMocked = mockEntity();
-        deletedEtlMocked.setDeletionDate(ZonedDateTime.now());
+        deletedEtlMocked.setDeletionDate(Instant.now());
         deletedEtlMocked.setDeletedBy("test");
 
         doReturn(deletedEtlMocked).when(etlService).delete(any(Etl.class));
@@ -267,7 +267,7 @@ public class EtlResourceIntTest {
     @Transactional
     public void deleteCurrentlyDeleted() throws IOException, SQLException, Exception {
         Etl currentlyDeletedEtlMocked = mockEntity();
-        currentlyDeletedEtlMocked.setDeletionDate(ZonedDateTime.now());
+        currentlyDeletedEtlMocked.setDeletionDate(Instant.now());
         currentlyDeletedEtlMocked.setDeletedBy("test");
         EtlDTO deletedEtlDTOMocked = etlMapper.toDto(currentlyDeletedEtlMocked);
 

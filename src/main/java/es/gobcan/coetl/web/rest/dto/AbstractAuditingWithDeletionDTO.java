@@ -1,23 +1,23 @@
 package es.gobcan.coetl.web.rest.dto;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class AbstractAuditingWithDeletionDTO extends AbstractAuditingDTO {
 
-    private ZonedDateTime deletionDate;
+    private Instant deletionDate;
 
     private String deletedBy;
 
     @JsonProperty
-    public ZonedDateTime getDeletionDate() {
+    public Instant getDeletionDate() {
         return deletionDate;
     }
 
     @JsonIgnore
-    public void setDeletionDate(ZonedDateTime deletionDate) {
+    public void setDeletionDate(Instant deletionDate) {
         this.deletionDate = deletionDate;
     }
 

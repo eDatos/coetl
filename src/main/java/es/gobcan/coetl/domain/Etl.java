@@ -1,7 +1,7 @@
 package es.gobcan.coetl.domain;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -88,7 +88,7 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     private String executionPlanning;
 
     @Column(name = "next_execution")
-    private ZonedDateTime nextExecution;
+    private Instant nextExecution;
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
@@ -200,11 +200,11 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
         return StringUtils.isNotBlank(executionPlanning);
     }
 
-    public ZonedDateTime getNextExecution() {
+    public Instant getNextExecution() {
         return nextExecution;
     }
 
-    public void setNextExecution(ZonedDateTime nextExecution) {
+    public void setNextExecution(Instant nextExecution) {
         this.nextExecution = nextExecution;
     }
 
