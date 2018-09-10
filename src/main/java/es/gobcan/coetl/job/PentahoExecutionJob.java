@@ -1,7 +1,6 @@
 package es.gobcan.coetl.job;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Date;
 
 import org.quartz.JobExecutionContext;
@@ -49,9 +48,9 @@ public class PentahoExecutionJob extends AbstractCoetlQuartzJob {
         });
     }
 
-    private ZonedDateTime getNextExecutionFromContext(JobExecutionContext context) {
+    private Instant getNextExecutionFromContext(JobExecutionContext context) {
         Date nextFireDate = context.getNextFireTime();
-        return ZonedDateTime.ofInstant(nextFireDate.toInstant(), ZoneId.systemDefault());
+        return nextFireDate.toInstant();
     }
 
 }

@@ -5,8 +5,7 @@ import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 import java.text.ParseException;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Date;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -81,7 +80,7 @@ public class EtlServiceImpl implements EtlService {
     public Etl delete(Etl etl) {
         LOG.debug("Request to delete an ETL : {}", etl);
         etl.setDeletedBy(SecurityUtils.getCurrentUserLogin());
-        etl.setDeletionDate(ZonedDateTime.now());
+        etl.setDeletionDate(Instant.now());
 
         return (etl.isPlanned()) ? unplanifyAndSave(etl) : save(etl);
     }
@@ -145,10 +144,10 @@ public class EtlServiceImpl implements EtlService {
         return etlRepository.save(etl);
     }
 
-    private ZonedDateTime getNextExecutionFromCronExpression(CronExpression cronExpression) {
-        Date now = Date.from(ZonedDateTime.now().toInstant());
+    private Instant getNextExecutionFromCronExpression(CronExpression cronExpression) {
+        Date now = Date.from(Instant.now());
         Date nextValidExecutionDate = cronExpression.getNextValidTimeAfter(now);
-        return ZonedDateTime.ofInstant(nextValidExecutionDate.toInstant(), ZoneId.systemDefault());
+        return nextValidExecutionDate.toInstant();
     }
 
     private void schedulePentahoExecutionJob(JobKey jobKey, CronExpression cronExpression, Etl etl) {

@@ -1,6 +1,6 @@
 package es.gobcan.coetl.service.impl;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class ExecutionServiceImpl implements ExecutionService {
     @Override
     public Execution update(Execution execution) {
         LOG.debug("Request to update an Execution : {}", execution);
-        execution.setPlanningDate(ZonedDateTime.now());
+        execution.setPlanningDate(Instant.now());
         return save(execution);
     }
 

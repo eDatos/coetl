@@ -1,6 +1,6 @@
 package es.gobcan.coetl.job;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 import javax.transaction.Transactional;
 
@@ -90,7 +90,7 @@ public class PentahoWatchJob {
         if (!webResultDTO.isOk()) {
             LOG.error("Error executing next ETL {} - cause: {}", nextEtl.getCode(), webResultDTO.getMessage());
             pentahoExecutionService.removeEtl(nextEtl, etlFilename);
-            nextExecution.setStartDate(ZonedDateTime.now());
+            nextExecution.setStartDate(Instant.now());
             nextExecutionResult = updateExecutionFromResult(nextExecution, Result.FAILED, webResultDTO.getMessage());
         } else {
             LOG.info("Executing next etl {}", nextEtl.getCode());
@@ -122,10 +122,10 @@ public class PentahoWatchJob {
 
     private Execution updateExecutionFromResult(Execution currentExecution, Result result, String notes) {
         if (Result.RUNNING.equals(result)) {
-            currentExecution.setStartDate(ZonedDateTime.now());
+            currentExecution.setStartDate(Instant.now());
         }
         if (Result.FAILED.equals(result) || Result.SUCCESS.equals(result)) {
-            currentExecution.setFinishDate(ZonedDateTime.now());
+            currentExecution.setFinishDate(Instant.now());
         }
         currentExecution.setResult(result);
         currentExecution.setNotes(notes);

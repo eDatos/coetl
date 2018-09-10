@@ -6,7 +6,7 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -117,10 +117,10 @@ public final class PentahoUtil {
         execution.setEtl(etl);
         execution.setType(type);
         execution.setResult(result);
-        execution.setPlanningDate(ZonedDateTime.now());
+        execution.setPlanningDate(Instant.now());
         execution.setNotes(notes);
         if (Result.RUNNING.equals(result)) {
-            execution.setStartDate(ZonedDateTime.now());
+            execution.setStartDate(Instant.now());
         }
         return execution;
     }

@@ -1,6 +1,6 @@
 package es.gobcan.coetl.domain;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -15,16 +15,16 @@ public abstract class AbstractVersionedAndAuditingWithDeletionEntity extends Abs
     private static final long serialVersionUID = 2035689875143963693L;
 
     @Column(name = "deletion_date")
-    private ZonedDateTime deletionDate;
+    private Instant deletionDate;
 
     @Column(name = "deleted_by", length = 50)
     private String deletedBy;
 
-    public ZonedDateTime getDeletionDate() {
+    public Instant getDeletionDate() {
         return deletionDate;
     }
 
-    public void setDeletionDate(ZonedDateTime deletionDate) {
+    public void setDeletionDate(Instant deletionDate) {
         this.deletionDate = deletionDate;
     }
 

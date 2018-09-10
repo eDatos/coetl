@@ -1,7 +1,7 @@
 package es.gobcan.coetl.web.rest.dto;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 import es.gobcan.coetl.domain.Execution.Result;
@@ -13,11 +13,11 @@ public class ExecutionDTO implements Serializable {
 
     private Long id;
 
-    private ZonedDateTime planningDate;
+    private Instant planningDate;
 
-    private ZonedDateTime startDate;
+    private Instant startDate;
 
-    private ZonedDateTime finishDate;
+    private Instant finishDate;
 
     private Type type;
 
@@ -35,27 +35,27 @@ public class ExecutionDTO implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getPlanningDate() {
+    public Instant getPlanningDate() {
         return planningDate;
     }
 
-    public void setPlanningDate(ZonedDateTime planningDate) {
+    public void setPlanningDate(Instant planningDate) {
         this.planningDate = planningDate;
     }
 
-    public ZonedDateTime getStartDate() {
+    public Instant getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(ZonedDateTime startDate) {
+    public void setStartDate(Instant startDate) {
         this.startDate = startDate;
     }
 
-    public ZonedDateTime getFinishDate() {
+    public Instant getFinishDate() {
         return finishDate;
     }
 
-    public void setFinishDate(ZonedDateTime finishDate) {
+    public void setFinishDate(Instant finishDate) {
         this.finishDate = finishDate;
     }
 
