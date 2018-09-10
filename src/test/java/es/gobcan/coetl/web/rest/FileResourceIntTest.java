@@ -1,6 +1,5 @@
 package es.gobcan.coetl.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -15,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -33,7 +31,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import es.gobcan.coetl.CoetlApp;
@@ -114,22 +111,5 @@ public class FileResourceIntTest {
             .andExpect(jsonPath("$.dataContentType").value(file.getDataContentType()))
             .andExpect(jsonPath("$.length").value(file.getLength()));
         //@formatter:on
-    }
-
-    @Test
-    @Transactional
-    public void delete() throws IOException, SQLException, Exception {
-        File file = createEntity(PATH_FILE, entityManager);
-        fileRepository.save(file);
-
-        int databaseSizeBeforeDelete = fileRepository.findAll().size();
-
-        //@formatter:off
-        restFileMockMvc.perform(MockMvcRequestBuilders.delete(BASE_URI + SLASH + file.getId()))
-        .andExpect(status().isOk());
-        //@formatter:on
-
-        List<File> fileList = fileRepository.findAll();
-        assertThat(fileList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }
