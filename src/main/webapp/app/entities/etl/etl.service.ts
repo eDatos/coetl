@@ -8,7 +8,7 @@ import { Execution } from '../execution/execution.model';
 
 @Injectable()
 export class EtlService {
-    public readonly resourceUrl = '/api/etls';
+    public readonly resourceUrl = 'api/etls';
 
     constructor(private http: Http) {}
 
