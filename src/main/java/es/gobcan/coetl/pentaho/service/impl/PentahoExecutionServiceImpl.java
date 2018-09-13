@@ -112,6 +112,7 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
         return PentahoUtil.buildExecution(etl, type, Result.RUNNING);
     }
 
+    @Override
     public WebResultDTO removeEtl(Etl etl, final String etlFilename) {
         if (etl.isEtl()) {
             return executeRemoveTrans(etlFilename);
@@ -120,6 +121,7 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
         }
     }
 
+    @Override
     public WebResultDTO runEtl(Etl etl, final String etlFilename) {
         if (etl.isEtl()) {
             return executeStartTrans(etlFilename);
@@ -168,14 +170,14 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
     private WebResultDTO buildErrorConnectionServerWebResult() {
         WebResultDTO errorWebResultDTO = new WebResultDTO();
         errorWebResultDTO.setResult(es.gobcan.coetl.pentaho.web.rest.dto.WebResultDTO.Result.ERROR);
-        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.parsingXML", null, Constants.DEFAULT_LOCALE));
+        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.server.connection", null, Constants.DEFAULT_LOCALE));
         return errorWebResultDTO;
     }
 
     private WebResultDTO buildErrorParseFileWebResult() {
         WebResultDTO errorWebResultDTO = new WebResultDTO();
         errorWebResultDTO.setResult(es.gobcan.coetl.pentaho.web.rest.dto.WebResultDTO.Result.ERROR);
-        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.server.connection", null, Constants.DEFAULT_LOCALE));
+        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.parsingXML", null, Constants.DEFAULT_LOCALE));
         return errorWebResultDTO;
     }
 
