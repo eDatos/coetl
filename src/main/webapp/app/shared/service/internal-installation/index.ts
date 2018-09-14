@@ -1,1 +1,1 @@
-export * from './internal-installation.service';
+export * from './installation.service';

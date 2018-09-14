@@ -5,7 +5,7 @@ import {
     Principal,
     LoginService,
     PermissionService,
-    InternalInstallationService
+    InstallationService
 } from '../../shared';
 import { VERSION } from '../../app.constants';
 import { ConfigService } from '../../config';
@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit {
         private profileService: ProfileService,
         private configService: ConfigService,
         private translateService: TranslateService,
-        private internalInstallationService: InternalInstallationService
+        private internalInstallationService: InstallationService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
-        this.isInternalApp = this.internalInstallationService.isInternalApp();
+        this.isInternalApp = this.internalInstallationService.isInternalType();
         this.title = this.isInternalApp
             ? this.translateService.instant('global.internalTitle')
             : this.translateService.instant('global.title');

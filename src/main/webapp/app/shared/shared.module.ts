@@ -22,7 +22,7 @@ import {
     UserService,
     ProfileService,
     PermissionService,
-    InternalInstallationService
+    InstallationService
 } from '.';
 
 @NgModule({
@@ -48,7 +48,7 @@ import {
         AcAlertService,
         ScrollService,
         PermissionService,
-        InternalInstallationService
+        InstallationService
     ],
     entryComponents: [],
     exports: [
