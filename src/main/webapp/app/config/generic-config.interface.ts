@@ -4,5 +4,7 @@ export interface GenericConfig {
         logout;
         service;
     };
-    internalInstallation: string;
+    installation: {
+        type;
+    };
 }

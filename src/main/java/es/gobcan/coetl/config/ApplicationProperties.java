@@ -11,7 +11,7 @@ public class ApplicationProperties {
 
     private final Cas cas = new Cas();
     private final Ldap ldap = new Ldap();
-    private String internalInstallation;
+    private final Installation installation = new Installation();
 
     public Cas getCas() {
         return cas;
@@ -132,12 +132,22 @@ public class ApplicationProperties {
         }
     }
 
-    public String getInternalInstallation() {
-        return internalInstallation;
+    public Installation getInstallation() {
+        return installation;
     }
 
-    public void setInternalInstallation(String internalInstallation) {
-        this.internalInstallation = internalInstallation;
+    public static class Installation {
+
+        private String type;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
     }
 
 }
