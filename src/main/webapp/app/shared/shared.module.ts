@@ -21,7 +21,8 @@ import {
     StateStorageService,
     UserService,
     ProfileService,
-    PermissionService
+    PermissionService,
+    InternalInstallationService
 } from '.';
 
 @NgModule({
@@ -46,7 +47,8 @@ import {
         GenericModalService,
         AcAlertService,
         ScrollService,
-        PermissionService
+        PermissionService,
+        InternalInstallationService
     ],
     entryComponents: [],
     exports: [
