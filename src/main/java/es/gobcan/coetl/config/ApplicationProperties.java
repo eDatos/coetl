@@ -11,6 +11,7 @@ public class ApplicationProperties {
 
     private final Cas cas = new Cas();
     private final Ldap ldap = new Ldap();
+    private String internalInstallation;
 
     public Cas getCas() {
         return cas;
@@ -129,6 +130,14 @@ public class ApplicationProperties {
         public void setSearchUsersProperty(String searchUsersProperty) {
             this.searchUsersProperty = searchUsersProperty;
         }
+    }
+
+    public String getInternalInstallation() {
+        return internalInstallation;
+    }
+
+    public void setInternalInstallation(String internalInstallation) {
+        this.internalInstallation = internalInstallation;
     }
 
 }
