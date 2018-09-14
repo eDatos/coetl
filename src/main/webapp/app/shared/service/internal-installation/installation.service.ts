@@ -9,6 +9,6 @@ export class InstallationService {
     }
 
     isInternalType(): boolean {
-        return this._type === 'INTERNAL';
+        return this._type.toUpperCase() === 'INTERNAL';
     }
 }
