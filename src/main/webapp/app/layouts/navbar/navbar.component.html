@@ -1,8 +1,8 @@
-<nav class="navbar-inverse fixed-top navbar-toggleable-lg jh-navbar d-flex justify-content-between">
+<nav class="navbar-inverse fixed-top navbar-toggleable-lg jh-navbar d-flex justify-content-between" [ngClass]="{'internal-navbar': isInternalApp}">
     <div class="navbar-collapse">
         <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
             <img class="logo-img" src="~images/logo-gobcan.png" alt="Logo" />
-            <span jhiTranslate="global.title" class="navbar-title"></span>
+            <span class="navbar-title">{{title}}</span>
             <span class="navbar-version">{{version}}</span>
         </a>
     </div>
@@ -17,7 +17,8 @@
                 </li>
 
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-                <li *ngIf="correctlyLogged()" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+                <li *ngIf="correctlyLogged()" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: false}">
                     <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                         <span>
                             <i class="fa fa-user" aria-hidden="true"></i>
@@ -40,8 +41,8 @@
                         <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
                     </ul>
                 </li>
-                <li *ngIf="permissionService.puedeNavegarHerramientas()" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active"
-                    [routerLinkActiveOptions]="{exact: false}">
+                <li *ngIf="permissionService.puedeNavegarHerramientas()" ngbDropdown class="nav-item dropdown pointer"
+                    routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
                     <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                         <span>
                             <i class="fa fa-fw fa-wrench" aria-hidden="true"></i>
@@ -91,14 +92,14 @@
             </ul>
         </div>
         <div class="hidden-xl-up">
-            <a class="jh-navbar-toggler" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
+            <a class="jh-navbar-toggler" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
                 <i class="fa fa-bars"></i>
             </a>
         </div>
 
-        <div class="navbar-nav navbar-toggleable" [ngSwitch]="isAuthenticated()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"
-            id="account-menu">
+        <div class="navbar-nav navbar-toggleable" [ngSwitch]="isAuthenticated()" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: false}" id="account-menu">
             <a *ngSwitchCase="true" class="nav-link" (click)="logout()" id="logout" [title]="'global.menu.account.logout' | translate">
                 <i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>
             </a>

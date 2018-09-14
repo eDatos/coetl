@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ProfileService, Principal, LoginService, PermissionService } from '../../shared';
+import {
+    ProfileService,
+    Principal,
+    LoginService,
+    PermissionService,
+    InternalInstallationService
+} from '../../shared';
 import { VERSION } from '../../app.constants';
 import { ConfigService } from '../../config';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'jhi-navbar',
@@ -15,13 +22,17 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+    isInternalApp: boolean;
+    title: string;
 
     constructor(
         private loginService: LoginService,
         public permissionService: PermissionService,
         private principal: Principal,
         private profileService: ProfileService,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private translateService: TranslateService,
+        private internalInstallationService: InternalInstallationService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -32,6 +43,10 @@ export class NavbarComponent implements OnInit {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
+        this.isInternalApp = this.internalInstallationService.isInternalApp();
+        this.title = this.isInternalApp
+            ? this.translateService.instant('global.internalTitle')
+            : this.translateService.instant('global.title');
     }
 
     collapseNavbar() {
