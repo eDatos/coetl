@@ -146,3 +146,4 @@ application:
         password: FILL_PASSWORD # Ejemplo: mipassword
         base: FILL_BASE # Ejemplo ou=usuarios,dc=miorganizacion,dc=com
         searchUsersProperty: FILL_SEARCH_USERS_PROPERTY # Ejemplo: uid
+    internalInstallation: FILL_INTERNAL_INSTALLATION # Required: Internal Installation Context (EXTERNAL / INTERNAL)
