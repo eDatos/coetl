@@ -111,6 +111,12 @@ Una vez generado este usuario administrador (con todos los permisos), este tendr
    - Cuenta desde la que se quiere especificar que se envían los e-mails.
 - `jhipster.mail.base-url`
    - URL de acceso a la aplicación. Esta URL se usará para enviarla por correo a los nuevos usuarios que sean dados de alta en la aplicación.
+- `pentaho.endpoint`
+   - Endpoint donde se localiza el servidor de Pentaho
+- `pentaho.auth.user`
+   - Usuario para conectar con el servidor Pentaho.
+- `pentaho.auth.password`
+   - Contraseña del usuario del servidor Pentaho. 
 - `application.cas.endpoint`
    - Endpoint donde se localiza el CAS.
 - `application.cas.service`
@@ -126,13 +132,15 @@ Una vez generado este usuario administrador (con todos los permisos), este tendr
 - `application.ldap.url`
    - URL del servidor LDAP. Ejemplo: ldap://ldap.miorganizacion.com
 - `application.ldap.username`
-   - Usuario que se usar para conectarse al servidor LDAP. Ejemplo: cn=username,dc=miorganizacion,dc=com
+   - Usuario que se usa para conectarse al servidor LDAP. Ejemplo: cn=username,dc=miorganizacion,dc=com
 - `application.ldap.password`: 
    - Contraseña del usuario LDAP. 
 - `application.ldap.base`
    - Ruta relativa dónde se realizarán las operaciones. Ejemplo ou=usuarios,dc=miorganizacion,dc=com
 - `application.ldap.searchUsersProperty`
    - Propiedad de LDAP por la que se buscará el usuario mediante su _username_. Valores admitidos: sAMAccountName, cn, uid
+- `application.installation.type`
+   - Propiedad para indicar el tipo de instalación de la aplicación, permite dos valores (**INTERNAL** / **EXTERNAL**). Dependiendo del valor elegido la aplicación tendrá un estilo y nombre de aplicación diferente. En caso de seleccionar **INTERNAL** la aplicación se mostrará como *"Consola de ETL - Gestión"*, en caso contrario será *"Consola de ETL"*.
 
 
 ## Anexo. Perfiles de compilación
