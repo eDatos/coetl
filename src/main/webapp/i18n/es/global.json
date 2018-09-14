@@ -1,6 +1,7 @@
 {
     "global": {
         "title": "Consola de ETL",
+        "internalTitle": "Consola de ETL - Gestión",
         "yes": "Sí",
         "no": "No",
         "browsehappy":

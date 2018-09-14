@@ -1,6 +1,5 @@
 @import '~scss/variables';
 
-
 /* ==========================================================================
 Navbar
 ========================================================================== */
@@ -15,12 +14,14 @@ Navbar
     .nav-link {
         padding-left: 1.5rem;
         padding-right: 1.5rem;
-    }    
+    }
 }
 .jh-navbar {
     background-color: $main-dark;
 
-    .dropdown-item.active, .dropdown-item.active:focus, .dropdown-item.active:hover {
+    .dropdown-item.active,
+    .dropdown-item.active:focus,
+    .dropdown-item.active:hover {
         background-color: $main-dark;
     }
     .dropdown-toggle::after {
@@ -51,16 +52,20 @@ Navbar
     }
 }
 
+.internal-navbar {
+    background-color: $main-internal;
+}
+
 .navbar-title {
     display: inline-block;
     vertical-align: middle;
 }
 
-#account-menu {    
+#account-menu {
     &.navbar-toggleable {
         align-items: unset;
     }
-    .nav-link {    
+    .nav-link {
         padding-right: $page-padding-right;
         padding-left: 1em;
         display: inline-block;

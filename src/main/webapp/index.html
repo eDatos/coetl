@@ -22,6 +22,8 @@
         window.CONFIGURATION.cas.login = /*[[${cas.getEndpoint()}]]*/ 'https://demo-cas.arte-consultores.com/login';
         window.CONFIGURATION.cas.logout = /*[[${cas.getLogout()}]]*/ 'https://demo-cas.arte-consultores.com/logout';
         window.CONFIGURATION.cas.service = /*[[${cas.getService()}]]*/ 'http://localhost:9000/login/cas';
+        window.CONFIGURATION.installation = {}
+        window.CONFIGURATION.installation.type = /*[[${installation.getType()}]]*/ 'INTERNAL';
 
        	/*]]>*/
     </script>
