@@ -1,7 +1,8 @@
 export interface GenericConfig {
     cas: {
-        login,
-        logout,
-        service
+        login;
+        logout;
+        service;
     };
-};
+    internalInstallation: string;
+}
