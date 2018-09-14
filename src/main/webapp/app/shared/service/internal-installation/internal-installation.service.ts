@@ -5,7 +5,6 @@ import { ConfigService } from '../../../config/config.service';
 export class InternalInstallationService {
     private _type: string;
     constructor(private configService: ConfigService) {
-        console.log(this.configService.getConfig());
         this._type = this.configService.getConfig().internalInstallation;
     }
 
