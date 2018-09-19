@@ -14,6 +14,7 @@ import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;
@@ -64,8 +65,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private ApplicationProperties applicationProperties;
 
+    private final Environment env;
+
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter,
-            JHipsterProperties jHipsterProperties, ApplicationProperties applicationProperties) {
+            JHipsterProperties jHipsterProperties, ApplicationProperties applicationProperties, Environment env) {
 
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userDetailsService = userDetailsService;
@@ -73,6 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.corsFilter = corsFilter;
         this.jHipsterProperties = jHipsterProperties;
         this.applicationProperties = applicationProperties;
+        this.env = env;
     }
 
     @PostConstruct
@@ -129,7 +133,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new JWTAuthenticationSuccessHandler(tokenProvider, jHipsterProperties);
+        return new JWTAuthenticationSuccessHandler(tokenProvider, jHipsterProperties, env);
     }
 
     @Bean
@@ -208,7 +212,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and() 
             .csrf().disable()
             .headers()
-            .frameOptions().disable()
+            .frameOptions().sameOrigin()
         .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
