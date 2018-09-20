@@ -19,6 +19,7 @@
             "detail": "Lo sentimos, el usuario con el que intenta acceder no se ha dado de alta."
         },
         "internalServerError": "Error interno del servidor",
+        "fieldValue": "El valor de uno de los campos es incorrecto",
         "server.not.reachable": "Servidor no accesible",
         "url.not.found": "No encontrado",
         "NotNull": "¡El campo {{0}} no puede estar vacío!",
