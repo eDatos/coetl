@@ -1,12 +1,14 @@
 package es.gobcan.coetl.service.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.errors.ErrorConstants;
 import es.gobcan.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.coetl.repository.EtlRepository;
 
+@Component
 public class EtlValidator extends AbstractValidator<Etl> {
 
     @Autowired
