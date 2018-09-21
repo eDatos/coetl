@@ -1,7 +1,6 @@
 package es.gobcan.coetl.job;
 
 import java.time.Instant;
-import java.util.Date;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -9,14 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import es.gobcan.coetl.config.QuartzConstants;
 import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.domain.Execution;
 import es.gobcan.coetl.domain.Execution.Type;
+import es.gobcan.coetl.util.CronUtils;
 
 @Component
 public class PentahoExecutionJob extends AbstractCoetlQuartzJob {
@@ -34,23 +32,15 @@ public class PentahoExecutionJob extends AbstractCoetlQuartzJob {
         PlatformTransactionManager platformTransactionManager = getPlatformTransactionManager(context);
         TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
 
-        transactionTemplate.execute(new TransactionCallback<Boolean>() {
-
-            @Override
-            public Boolean doInTransaction(TransactionStatus status) {
-                Etl currentEtl = getEtlRepository(context).findOneByCode(etlCode);
-                currentEtl.setNextExecution(getNextExecutionFromContext(context));
-                getEtlRepository(context).save(currentEtl);
-                Execution resultExecution = getPentahoExecutionService(context).execute(currentEtl, Type.AUTO);
-                getExecutionService(context).create(resultExecution);
-                return true;
-            }
+        transactionTemplate.execute(status -> {
+            Etl currentEtl = getEtlRepository(context).findOneByCode(etlCode);
+            Instant nextExecution = CronUtils.getNextExecutionFromJobContext(context);
+            currentEtl.setNextExecution(nextExecution);
+            getEtlRepository(context).save(currentEtl);
+            Execution resultExecution = getPentahoExecutionService(context).execute(currentEtl, Type.AUTO);
+            getExecutionService(context).create(resultExecution);
+            return true;
         });
-    }
-
-    private Instant getNextExecutionFromContext(JobExecutionContext context) {
-        Date nextFireDate = context.getNextFireTime();
-        return nextFireDate.toInstant();
     }
 
 }

@@ -6,7 +6,6 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 import java.text.ParseException;
 import java.time.Instant;
-import java.util.Date;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +27,7 @@ import es.gobcan.coetl.config.QuartzConstants;
 import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.domain.Execution;
 import es.gobcan.coetl.domain.Execution.Type;
+import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.coetl.errors.ErrorConstants;
 import es.gobcan.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.coetl.job.PentahoExecutionJob;
@@ -37,6 +37,8 @@ import es.gobcan.coetl.security.SecurityUtils;
 import es.gobcan.coetl.service.EtlService;
 import es.gobcan.coetl.service.ExecutionService;
 import es.gobcan.coetl.service.FileService;
+import es.gobcan.coetl.service.validator.EtlValidator;
+import es.gobcan.coetl.util.CronUtils;
 import es.gobcan.coetl.web.rest.util.QueryUtil;
 
 @Service
@@ -48,6 +50,9 @@ public class EtlServiceImpl implements EtlService {
 
     @Autowired
     EtlRepository etlRepository;
+
+    @Autowired
+    EtlValidator etlValidator;
 
     @Autowired
     QueryUtil queryUtil;
@@ -67,12 +72,14 @@ public class EtlServiceImpl implements EtlService {
     @Override
     public Etl create(Etl etl) {
         LOG.debug("Request to create an ETL : {}", etl);
+        etlValidator.validate(etl);
         return (etl.isPlanned()) ? planifyAndSave(etl) : save(etl);
     }
 
     @Override
     public Etl update(Etl etl) {
         LOG.debug("Request to update an ETL : {}", etl);
+        etlValidator.validate(etl);
         return (etl.isPlanned()) ? planifyAndSave(etl) : unplanifyAndSave(etl);
     }
 
@@ -118,36 +125,36 @@ public class EtlServiceImpl implements EtlService {
         LOG.debug("Request to planify and save an ETL : {}", etl);
         JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + etl.getCode());
         final String executionPlanning = etl.getExecutionPlanning();
+
+        CronExpression cronExpression = buildCronExpression(executionPlanning);
+        Instant nextExecution = CronUtils.getNextExecutionFromCronExpression(cronExpression);
+        etl.setNextExecution(nextExecution);
+        schedulePentahoExecutionJob(jobKey, cronExpression, etl);
+
+        return save(etl);
+    }
+
+    private CronExpression buildCronExpression(final String executionPlanning) {
         try {
-            CronExpression cronExpression = new CronExpression(executionPlanning);
-            etl.setNextExecution(getNextExecutionFromCronExpression(cronExpression));
-            schedulePentahoExecutionJob(jobKey, cronExpression, etl);
+            return new CronExpression(executionPlanning);
         } catch (ParseException e) {
             final String message = String.format("The cron expression %s is not valid", executionPlanning);
             final String code = ErrorConstants.ETL_CRON_EXPRESSION_NOT_VALID;
-            CustomExceptionUtil.throwCustomParameterizedException(message, e, code, executionPlanning);
+            throw new CustomParameterizedExceptionBuilder().message(message).code(code).build();
         }
-
-        return etlRepository.save(etl);
     }
 
     private Etl unplanifyAndSave(Etl etl) {
         LOG.debug("Request to unplanify and save an ETL : {}", etl);
         JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + etl.getCode());
-        checkAndUnschedulePentahoExecutionJob(jobKey);
+        unschedulePentahoExecutionJob(jobKey);
         etl.setNextExecution(null);
-        return etlRepository.save(etl);
+        return save(etl);
     }
 
     private Etl save(Etl etl) {
         LOG.debug("Request to save an ETL : {}", etl);
         return etlRepository.save(etl);
-    }
-
-    private Instant getNextExecutionFromCronExpression(CronExpression cronExpression) {
-        Date now = Date.from(Instant.now());
-        Date nextValidExecutionDate = cronExpression.getNextValidTimeAfter(now);
-        return nextValidExecutionDate.toInstant();
     }
 
     private void schedulePentahoExecutionJob(JobKey jobKey, CronExpression cronExpression, Etl etl) {
@@ -174,7 +181,7 @@ public class EtlServiceImpl implements EtlService {
         }
     }
 
-    private void checkAndUnschedulePentahoExecutionJob(JobKey jobKey) {
+    private void unschedulePentahoExecutionJob(JobKey jobKey) {
         LOG.debug("Request to unscheduled (if exists) a Quartz job : {}", jobKey.getName());
 
         try {
