@@ -77,7 +77,7 @@ public class EtlResource extends AbstractResource {
         EtlDTO result = etlMapper.toDto(createdEtl);
         auditEventPublisher.publish(AuditConstants.ETL_CREATED, result.getCode());
 
-        return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getId())).headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getCode())).body(result);
+        return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getId())).headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 
     @PutMapping
