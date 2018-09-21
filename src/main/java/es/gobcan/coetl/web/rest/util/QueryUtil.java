@@ -16,6 +16,8 @@ import com.arte.libs.grammar.antlr.QueryExprCompiler;
 import com.arte.libs.grammar.domain.QueryRequest;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 
+import es.gobcan.coetl.errors.CustomParameterizedExceptionBuilder;
+import es.gobcan.coetl.errors.ErrorConstants;
 import es.gobcan.coetl.service.criteria.EtlCriteriaProcessor;
 import es.gobcan.coetl.service.criteria.UsuarioCriteriaProcessor;
 
@@ -72,14 +74,22 @@ public class QueryUtil {
 
         finalQuery = moveHintToTheEnd(finalQuery);
 
-        QueryRequest queryRequest = null;
-        logger.debug("Petición para mapear query: {}", finalQuery);
-        if (StringUtils.isNotBlank(finalQuery)) {
-            DefaultQueryExprVisitor visitor = new DefaultQueryExprVisitor();
-            queryExprCompiler.parse(finalQuery, visitor);
-            queryRequest = visitor.getQueryRequest();
+        try {
+            QueryRequest queryRequest = null;
+            logger.debug("Petición para mapear query: {}", finalQuery);
+            if (StringUtils.isNotBlank(finalQuery)) {
+                DefaultQueryExprVisitor visitor = new DefaultQueryExprVisitor();
+                queryExprCompiler.parse(finalQuery, visitor);
+                queryRequest = visitor.getQueryRequest();
+                if (queryRequest.getRestriction() == null && StringUtils.isNotBlank(query)) {
+                    throw new CustomParameterizedExceptionBuilder().code(ErrorConstants.ERR_INTERNAL_SERVER_ERROR).message("Search Parameter not supported").build();
+                }
+            }
+
+            return processor.process(queryRequest);
+        } catch (Exception e) {
+            throw new CustomParameterizedExceptionBuilder().message("Incorrect query parameter").code(ErrorConstants.QUERY_NO_SOPORTADA).build();
         }
-        return processor.process(queryRequest);
     }
 
     private String moveHintToTheEnd(String query) {

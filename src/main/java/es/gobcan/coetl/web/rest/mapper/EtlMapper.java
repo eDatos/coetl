@@ -11,15 +11,16 @@ import es.gobcan.coetl.web.rest.dto.EtlDTO;
 public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
 
     @Autowired
-    EtlRepository etlRepository;
+    private EtlRepository etlRepository;
 
     @Autowired
-    FileMapper fileMapper;
+    private FileMapper fileMapper;
 
     public Etl fromId(Long id) {
         return etlRepository.findOne(id);
     }
 
+    @Override
     public Etl toEntity(EtlDTO dto) {
         if (dto == null) {
             return null;

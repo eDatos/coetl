@@ -7,6 +7,7 @@ public final class ErrorConstants {
     public static final String ERR_VALIDATION = "error.validation";
     public static final String ERR_METHOD_NOT_SUPPORTED = "error.methodNotSupported";
     public static final String ERR_INTERNAL_SERVER_ERROR = "error.internalServerError";
+    public static final String ERR_FIELD_VALUE = "error.fieldValue";
 
     public static final String USUARIO_EXISTE = "error.usuario-existe";
     public static final String USUARIO_LDAP_NO_ENCONTRADO = "error.userManagement.usuario-ldap-no-encontrado";
@@ -29,6 +30,7 @@ public final class ErrorConstants {
     public static final String ETL_CRON_EXPRESSION_NOT_VALID = "error.etl.cronExpressionNotValid";
     public static final String ETL_SCHEDULE_ERROR = "error.etl.scheduleError";
     public static final String ETL_UNSCHEDULE_ERROR = "error.etl.unscheduleError";
+    public static final String ETL_CODE_EXISTS = "error.etl.codeExists";
 
     // QUARZT
     public static final String QUARTZ_JOB_EXECUTION_ERROR = "error.quartz.jobExecutionError";

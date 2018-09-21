@@ -31,7 +31,6 @@ import com.codahale.metrics.servlets.MetricsServlet;
 
 import es.gobcan.coetl.web.filter.CustomStaticsResourceHttpHeadersFilter;
 import io.github.jhipster.config.JHipsterProperties;
-import io.github.jhipster.web.filter.CachingHttpHeadersFilter;
 import io.undertow.UndertowOptions;
 
 /**
@@ -62,7 +61,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
         initMetrics(servletContext, disps);
         if (env.acceptsProfiles(Constants.SPRING_PROFILE_ENV)) {
-            initCachingHttpHeadersFilter(servletContext, disps);
             initCustomStaticResourceHttpHeadersFilter(servletContext, disps);
         }
         log.info("Aplicación web configurada");
@@ -118,20 +116,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         return extractedPath.substring(0, extractionEndIndex);
     }
 
-    /**
-     * Initializes the caching HTTP Headers Filter.
-     */
-    private void initCachingHttpHeadersFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
-        log.debug("Registering Caching HTTP Headers Filter");
-        FilterRegistration.Dynamic cachingHttpHeadersFilter = servletContext.addFilter("cachingHttpHeadersFilter", new CachingHttpHeadersFilter(jHipsterProperties));
-
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/content/*");
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/app/*");
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
-        cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/swagger-ui/index.html");
-        cachingHttpHeadersFilter.setAsyncSupported(true);
-    }
-
     private void initCustomStaticResourceHttpHeadersFilter(ServletContext servletContext, EnumSet<DispatcherType> disps) {
         log.debug("Registering Custom static resources HTTP Headers Filter");
         FilterRegistration.Dynamic customStaticResourcesHttpHeadersFilter = servletContext.addFilter("customStaticResourcesHttpHeadersFilter", new CustomStaticsResourceHttpHeadersFilter());
@@ -139,6 +123,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         customStaticResourcesHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/content/*");
         customStaticResourcesHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/app/*");
         customStaticResourcesHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
+        customStaticResourcesHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/templates/*");
         customStaticResourcesHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/swagger-ui/index.html");
         customStaticResourcesHttpHeadersFilter.setAsyncSupported(true);
     }
