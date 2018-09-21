@@ -74,18 +74,22 @@ public class QueryUtil {
 
         finalQuery = moveHintToTheEnd(finalQuery);
 
-        QueryRequest queryRequest = null;
-        logger.debug("Petición para mapear query: {}", finalQuery);
-        if (StringUtils.isNotBlank(finalQuery)) {
-            DefaultQueryExprVisitor visitor = new DefaultQueryExprVisitor();
-            queryExprCompiler.parse(finalQuery, visitor);
-            queryRequest = visitor.getQueryRequest();
-            if (queryRequest.getRestriction() == null && StringUtils.isNotBlank(query)) {
-                throw new CustomParameterizedExceptionBuilder().code(ErrorConstants.ERR_INTERNAL_SERVER_ERROR).message("Search Parameter not supported").build();
+        try {
+            QueryRequest queryRequest = null;
+            logger.debug("Petición para mapear query: {}", finalQuery);
+            if (StringUtils.isNotBlank(finalQuery)) {
+                DefaultQueryExprVisitor visitor = new DefaultQueryExprVisitor();
+                queryExprCompiler.parse(finalQuery, visitor);
+                queryRequest = visitor.getQueryRequest();
+                if (queryRequest.getRestriction() == null && StringUtils.isNotBlank(query)) {
+                    throw new CustomParameterizedExceptionBuilder().code(ErrorConstants.ERR_INTERNAL_SERVER_ERROR).message("Search Parameter not supported").build();
+                }
             }
-        }
 
-        return processor.process(queryRequest);
+            return processor.process(queryRequest);
+        } catch (Exception e) {
+            throw new CustomParameterizedExceptionBuilder().message("Incorrect query parameter").code(ErrorConstants.QUERY_NO_SOPORTADA).build();
+        }
     }
 
     private String moveHintToTheEnd(String query) {
