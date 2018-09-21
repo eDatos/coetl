@@ -36,7 +36,6 @@ import es.gobcan.coetl.repository.EtlRepository;
 import es.gobcan.coetl.security.SecurityUtils;
 import es.gobcan.coetl.service.EtlService;
 import es.gobcan.coetl.service.ExecutionService;
-import es.gobcan.coetl.service.FileService;
 import es.gobcan.coetl.service.validator.EtlValidator;
 import es.gobcan.coetl.util.CronUtils;
 import es.gobcan.coetl.web.rest.util.QueryUtil;
@@ -49,22 +48,19 @@ public class EtlServiceImpl implements EtlService {
     private static final String IDENTITY_TRIGGER_PREFIX = "pentahoExectionTrigger_";
 
     @Autowired
-    EtlRepository etlRepository;
+    private EtlRepository etlRepository;
 
     @Autowired
-    EtlValidator etlValidator;
+    private EtlValidator etlValidator;
 
     @Autowired
-    QueryUtil queryUtil;
+    private QueryUtil queryUtil;
 
     @Autowired
-    ExecutionService executionService;
+    private ExecutionService executionService;
 
     @Autowired
-    PentahoExecutionService pentahoExecutionService;
-
-    @Autowired
-    FileService fileService;
+    private PentahoExecutionService pentahoExecutionService;
 
     @Autowired
     private SchedulerFactoryBean schedulerAccessorBean;
@@ -140,7 +136,7 @@ public class EtlServiceImpl implements EtlService {
         } catch (ParseException e) {
             final String message = String.format("The cron expression %s is not valid", executionPlanning);
             final String code = ErrorConstants.ETL_CRON_EXPRESSION_NOT_VALID;
-            throw new CustomParameterizedExceptionBuilder().message(message).code(code).build();
+            throw new CustomParameterizedExceptionBuilder().message(message).code(code, executionPlanning).build();
         }
     }
 

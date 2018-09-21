@@ -55,7 +55,7 @@
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.code.label" for="field_code"></label>
                     <input type="text" class="form-control" name="code" id="field_code" [(ngModel)]="etl.code" required
-                        acAutofocus [placeholder]="'coetlApp.etl.code.placeholder' | translate" [disabled]="!etl.id" />
+                        acAutofocus [placeholder]="'coetlApp.etl.code.placeholder' | translate" [disabled]="etl.id" />
                     <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
                         <small class="form-text text-danger" [hidden]="!editForm.controls.code?.errors?.required"
                             jhiTranslate="entity.validation.required">
