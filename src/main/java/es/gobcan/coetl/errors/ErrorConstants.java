@@ -30,6 +30,7 @@ public final class ErrorConstants {
     public static final String ETL_CRON_EXPRESSION_NOT_VALID = "error.etl.cronExpressionNotValid";
     public static final String ETL_SCHEDULE_ERROR = "error.etl.scheduleError";
     public static final String ETL_UNSCHEDULE_ERROR = "error.etl.unscheduleError";
+    public static final String ETL_CODE_EXISTS = "error.etl.codeExists";
 
     // QUARZT
     public static final String QUARTZ_JOB_EXECUTION_ERROR = "error.quartz.jobExecutionError";
