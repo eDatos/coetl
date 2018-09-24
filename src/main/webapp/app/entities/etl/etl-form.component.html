@@ -105,7 +105,8 @@
             <div class="entity-fields">
                 <div class="form-group full-width">
                     <ac-file-upload [title]="'coetlApp.etl.codeFile.label' | translate" [url]="fileResourceUrl"
-                        (onUpload)="onEtlFileUpload($event)" [files]="etl.etlFile" [disabled]="!isEditMode()">
+                        [accept]="'.ktr,.kjb,.xml'" (onUpload)="onEtlFileUpload($event)" [files]="etl.etlFile"
+                        [disabled]="!isEditMode()">
 
                         <ng-template let-file="file">
                             <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate"
