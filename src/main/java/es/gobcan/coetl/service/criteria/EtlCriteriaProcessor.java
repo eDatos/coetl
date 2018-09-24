@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 import com.arte.libs.grammar.domain.QueryPropertyRestriction;
 import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
@@ -33,7 +34,7 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        CODE, NAME, TYPE, ORGANIZATION_IN_CHARGE
+        CODE, NAME, TYPE, ORGANIZATION_IN_CHARGE, IS_PLANNED
     }
 
     @Override
@@ -74,6 +75,10 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.ORGANIZATION_IN_CHARGE)
                 .withCriterionConverter(new OrganizationInChargeCriterionBuilder())
                 .build());
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
+                .withQueryProperty(QueryProperty.IS_PLANNED)
+                .withCriterionConverter(new IsPlannedCriterionBuilder())
+                .build());
         //@formatter:on
     }
 
@@ -100,6 +105,29 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
             }
             throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))
                     .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
+        }
+    }
+
+    private static class IsPlannedCriterionBuilder implements CriterionConverter {
+
+        @Override
+        public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
+            if ("EQ".equals(property.getOperationType().name())) {
+                boolean value = Boolean.valueOf(property.getRightExpression());
+                return value ? buildEtlByIsPlanned() : buildEtlByIsNotPlanned();
+            }
+            throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))
+                    .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
+        }
+
+        private Criterion buildEtlByIsPlanned() {
+            String sql = "{alias}.execution_planning IS NOT NULL";
+            return Restrictions.sqlRestriction(sql);
+        }
+
+        private Criterion buildEtlByIsNotPlanned() {
+            String sql = "{alias}.execution_planning IS NULL";
+            return Restrictions.sqlRestriction(sql);
         }
     }
 }

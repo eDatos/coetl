@@ -14,14 +14,20 @@
 
     <div class="entity-search-field">
         <label for="organizationInCharge" jhiTranslate="coetlApp.etl.filters.organizationInCharge.label"></label>
-        <input class="form-control" [attr.aria-label]="'coetlApp.etl.filters.organizationInCharge.placeholder' | translate" placeholder="{{'coetlApp.etl.filters.organizationInCharge.placeholder' | translate}}"
-            [(ngModel)]="filters.organizationInCharge" (keyup)="filter()" />
+        <input class="form-control" [attr.aria-label]="'coetlApp.etl.filters.organizationInCharge.placeholder' | translate"
+            placeholder="{{'coetlApp.etl.filters.organizationInCharge.placeholder' | translate}}" [(ngModel)]="filters.organizationInCharge"
+            (keyup)="filter()" />
     </div>
 
     <div class="entity-search-field">
         <label for="type" jhiTranslate="coetlApp.etl.filters.type.label"></label>
         <ac-autocomplete-enum name="type" [(ngModel)]="filters.type" [suggestionsEnum]="typeEnum" [translationPath]="'coetlApp.etl.type.'"
             (onSelect)="filter()" (onUnselect)="filter()"></ac-autocomplete-enum>
+    </div>
+
+    <div class="entity-search-field">
+        <label jhiTranslate="coetlApp.etl.filters.isPlanned"></label><br />
+        <ac-tri-input-switch [(ngModel)]="filters.isPlanned" (onChange)="filter()" [options]="options"></ac-tri-input-switch>
     </div>
 
     <div class="entity-search-field">

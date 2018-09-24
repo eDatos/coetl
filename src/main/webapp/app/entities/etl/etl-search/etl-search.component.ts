@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { JhiEventManager } from 'ng-jhipster';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject, Subscription } from 'rxjs';
 
 import { EtlFilter } from './etl-filter.model';
@@ -13,11 +14,16 @@ export class EtlSearchComponent implements OnInit, OnDestroy {
     @Input() filters: EtlFilter;
     susbcription: Subscription;
     typeEnum = Type;
+    options: any;
 
     private filterChangesSubject: Subject<any>;
 
-    constructor(private eventManager: JhiEventManager) {
+    constructor(private eventManager: JhiEventManager, private translateService: TranslateService) {
         this.filterChangesSubject = new Subject<any>();
+        this.options = [
+            { label: this.translateService.instant('global.yes'), value: 'true' },
+            { label: this.translateService.instant('global.no'), value: 'false' }
+        ];
     }
 
     ngOnInit() {

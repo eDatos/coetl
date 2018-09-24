@@ -110,6 +110,7 @@
                     "placeholder": "Búsqueda por organismo responsable",
                     "label": "Organismo responsable"
                 },
+                "isPlanned": "Incluir planificados",
                 "includeDeleted": "Incluir eliminados"
             }
         }

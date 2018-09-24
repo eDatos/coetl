@@ -10,37 +10,34 @@ import { TranslateService } from '@ngx-translate/core';
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => TriInputSwitchComponent),
-            multi: true,
+            multi: true
         }
     ]
 })
-
 export class TriInputSwitchComponent implements ControlValueAccessor {
+    @Input() _selectedValue: any;
 
-    @Input()
-    _selectedValue: any;
-
-    @Input()
-    required = false;
+    @Input() required = false;
 
     @Input()
     @HostBinding('class.disabled')
     disabled = false;
 
-    @Output()
-    private onChange: EventEmitter<any> = new EventEmitter();
+    @Output() private onChange: EventEmitter<any> = new EventEmitter();
 
     @Input()
     options = [
         {
-            label: this.translateService.instant('global.yes'), value: true
+            label: this.translateService.instant('global.yes'),
+            value: true
         },
         {
-            label: this.translateService.instant('global.no'), value: false
+            label: this.translateService.instant('global.no'),
+            value: false
         }
     ];
 
-    constructor(protected translateService: TranslateService) { }
+    constructor(protected translateService: TranslateService) {}
 
     get selectedValue() {
         return this._selectedValue;
@@ -55,7 +52,7 @@ export class TriInputSwitchComponent implements ControlValueAccessor {
         this.propagateChange(this._selectedValue);
     }
 
-    propagateChange = (_: any) => { };
+    propagateChange = (_: any) => {};
 
     writeValue(value: any) {
         if (value !== undefined) {
@@ -65,13 +62,14 @@ export class TriInputSwitchComponent implements ControlValueAccessor {
 
     clear() {
         this.selectedValue = null;
+        this.onChange.emit();
     }
 
     registerOnChange(fn) {
         this.propagateChange = fn;
     }
 
-    registerOnTouched() { }
+    registerOnTouched() {}
 
     onChangeMethod($event) {
         this.onChange.emit($event);
