@@ -52,7 +52,7 @@
             "type": {
                 "label": "Tipo",
                 "placeholder": "Introduzca un tipo",
-                "ETL": "ETL",
+                "TRANSFORMATION": "Transformation",
                 "JOB": "Job"
             },
             "comments": {

@@ -33,7 +33,7 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     private static final long serialVersionUID = 1L;
 
     public enum Type {
-        ETL, JOB
+        TRANSFORMATION, JOB
     }
 
     @Id
@@ -168,8 +168,8 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
         return Type.JOB.equals(type);
     }
 
-    public boolean isEtl() {
-        return Type.ETL.equals(type);
+    public boolean isTransformation() {
+        return Type.TRANSFORMATION.equals(type);
     }
 
     public String getComments() {

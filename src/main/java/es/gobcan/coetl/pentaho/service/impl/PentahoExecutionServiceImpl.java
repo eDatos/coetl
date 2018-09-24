@@ -75,7 +75,7 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
             return PentahoUtil.buildExecution(etl, type, Result.FAILED, webResultDTO.getMessage());
         }
 
-        if (etl.isEtl()) {
+        if (etl.isTransformation()) {
             webResultDTO = executePrepareTrans(etlFilename);
             if (!webResultDTO.isOk()) {
                 executeRemoveTrans(etlFilename);
@@ -114,7 +114,7 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
 
     @Override
     public WebResultDTO removeEtl(Etl etl, final String etlFilename) {
-        if (etl.isEtl()) {
+        if (etl.isTransformation()) {
             return executeRemoveTrans(etlFilename);
         } else {
             return executeRemoveJob(etlFilename);
@@ -123,7 +123,7 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
 
     @Override
     public WebResultDTO runEtl(Etl etl, final String etlFilename) {
-        if (etl.isEtl()) {
+        if (etl.isTransformation()) {
             return executeStartTrans(etlFilename);
         } else {
             return executeStartJob(etlFilename);
@@ -132,7 +132,7 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
 
     private WebResultDTO registerETL(Etl etl) {
         final File etlFile = etl.getEtlFile();
-        if (etl.isEtl()) {
+        if (etl.isTransformation()) {
             return registerTrans(etlFile);
         } else {
             return registerJob(etlFile);
