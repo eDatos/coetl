@@ -59,7 +59,7 @@ public class PentahoWatchJob {
             LOG.info("Watching running ETL {}", runningEtl.getCode());
             final String etlFilename = PentahoUtil.getFileBasename(runningEtl.getEtlFile().getName());
             EtlStatusDTO etlStatusDTO;
-            if (runningEtl.isEtl()) {
+            if (runningEtl.isTransformation()) {
                 etlStatusDTO = executeStatusTrans(etlFilename);
             } else {
                 etlStatusDTO = executeStatusJob(etlFilename);

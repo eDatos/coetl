@@ -2,7 +2,7 @@ import { BaseVersionedAndAuditingWithDeletionEntity } from '../../shared/model/b
 import { File } from '../file/file.model';
 
 export enum Type {
-    ETL = 'ETL',
+    TRANSFORMATION = 'TRANSFORMATION',
     JOB = 'JOB'
 }
 

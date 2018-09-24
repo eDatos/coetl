@@ -66,7 +66,7 @@ public class EtlResourceIntTest {
     private static final String UPDATED_FUNCTIONAL_IN_CHARGE = "UPDATED_FUNCTIONAL_IN_CHARGE";
     private static final String DEFAULT_TECHNICAL_IN_CHARGE = "DEFAULT_TECHNICAL_IN_CHARGE";
     private static final String UPDATED_TECHNICAL_IN_CHARGE = "UPDATED_TECHNICAL_IN_CHARGE";
-    private static final Type DEFAULT_TYPE = Type.ETL;
+    private static final Type DEFAULT_TYPE = Type.TRANSFORMATION;
     private static final Type UPDATED_TYPE = Type.JOB;
 
     private static final String PATH_CODE_FILE = "src/main/resources/banner.txt";
