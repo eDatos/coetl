@@ -46,11 +46,9 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
 
-import es.gobcan.coetl.config.Constants;
-import es.gobcan.coetl.config.WebConfigurer;
+import es.gobcan.coetl.web.filter.CustomStaticsResourceHttpHeadersFilter;
 import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.config.JHipsterProperties;
-import io.github.jhipster.web.filter.CachingHttpHeadersFilter;
 import io.undertow.Undertow;
 import io.undertow.Undertow.Builder;
 import io.undertow.UndertowOptions;
@@ -95,7 +93,7 @@ public class WebConfigurerTest {
         assertThat(servletContext.getAttribute(MetricsServlet.METRICS_REGISTRY)).isEqualTo(metricRegistry);
         verify(servletContext).addFilter(eq("webappMetricsFilter"), any(InstrumentedFilter.class));
         verify(servletContext).addServlet(eq("metricsServlet"), any(MetricsServlet.class));
-        verify(servletContext).addFilter(eq("cachingHttpHeadersFilter"), any(CachingHttpHeadersFilter.class));
+        verify(servletContext).addFilter(eq("customStaticResourcesHttpHeadersFilter"), any(CustomStaticsResourceHttpHeadersFilter.class));
     }
 
     @Test
@@ -107,7 +105,7 @@ public class WebConfigurerTest {
         assertThat(servletContext.getAttribute(MetricsServlet.METRICS_REGISTRY)).isEqualTo(metricRegistry);
         verify(servletContext).addFilter(eq("webappMetricsFilter"), any(InstrumentedFilter.class));
         verify(servletContext).addServlet(eq("metricsServlet"), any(MetricsServlet.class));
-        verify(servletContext, never()).addFilter(eq("cachingHttpHeadersFilter"), any(CachingHttpHeadersFilter.class));
+        verify(servletContext, never()).addFilter(eq("customStaticResourcesHttpHeadersFilter"), any(CustomStaticsResourceHttpHeadersFilter.class));
     }
 
     @Test
