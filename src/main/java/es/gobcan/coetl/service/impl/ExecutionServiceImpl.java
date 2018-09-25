@@ -65,6 +65,6 @@ public class ExecutionServiceImpl implements ExecutionService {
 
     private Execution save(Execution execution) {
         LOG.debug("Request to create an Execution : {}", execution);
-        return executionRepository.save(execution);
+        return executionRepository.saveAndFlush(execution);
     }
 }

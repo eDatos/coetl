@@ -1,11 +1,15 @@
 package es.gobcan.coetl.errors;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.dao.ConcurrencyFailureException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import es.gobcan.coetl.util.StringUtils;
 
 /**
  * Controller advice to translate the server side exceptions to client-friendly
@@ -83,6 +89,22 @@ public class ExceptionTranslator {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorVM processHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
         return new ErrorVM(ErrorConstants.ERR_FIELD_VALUE, exception.getMessage());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ErrorVM processConstraintViolationException(ConstraintViolationException exception) {
+        List<FieldErrorVM> fieldErrors = exception.getConstraintViolations().stream()
+                .map(c -> new FieldErrorVM(StringUtils.toLowerCamelCase(c.getRootBeanClass().getSimpleName()), c.getPropertyPath().toString(), c.getMessage())).collect(Collectors.toList());
+        return new ErrorVM(ErrorConstants.ERR_FIELD_VALIDATION, exception.getMessage(), fieldErrors);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorVM processPropertyReferenceException(PropertyReferenceException exception) {
+        return new ErrorVM(ErrorConstants.QUERY_NO_SOPORTADA, exception.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

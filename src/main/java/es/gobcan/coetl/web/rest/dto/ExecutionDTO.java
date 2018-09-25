@@ -12,17 +12,11 @@ public class ExecutionDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-
     private Instant planningDate;
-
     private Instant startDate;
-
     private Instant finishDate;
-
     private Type type;
-
     private Result result;
-
     private String notes;
 
     private Long idEtl;

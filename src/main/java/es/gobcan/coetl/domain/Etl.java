@@ -100,6 +100,7 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @JoinColumn(name = "etl_description_file_fk")
     private File etlDescriptionFile;
 
+    @Override
     public Long getId() {
         return id;
     }
