@@ -88,6 +88,10 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
                         this.addErrorAlert('Not found', 'error.url.not.found');
                     }
                     break;
+                case 422:
+                    // ConstraintValidationException
+                    this.acAlertService.error(this.parseErrorResponse(httpResponse.json()));
+                    break;
                 default:
                     if (
                         httpResponse.text() !== '' &&
@@ -138,6 +142,8 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
     private parseErrorResponse(errorResponse: any): string {
         if (errorResponse.errorItems) {
             return this.parseErrorListResponse(errorResponse);
+        } else if (errorResponse.fieldErrors) {
+            return this.parseFieldErrorResponse(errorResponse);
         } else {
             return this.translateService.instant(errorResponse.code, errorResponse.params);
         }
@@ -158,5 +164,32 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
         formattedText += `</ul>`;
         formattedText += `</div>`;
         return formattedText;
+    }
+
+    private parseFieldErrorResponse(errorResponse: any): string {
+        let formattedText = '<div class="alerts-list">';
+        formattedText += `<h4>${this.translateService.instant(errorResponse.message)}</h4>`;
+
+        formattedText += `<ul>`;
+        errorResponse.fieldErrors.forEach((fieldError) => {
+            const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
+            const fieldNameTranslation = this.translateService.instant(
+                'coetlApp.' + fieldError.objectName + '.' + convertedField
+            );
+            const fieldName = this.getFieldName(fieldNameTranslation);
+            const causeMessage = fieldError.message;
+            const translatedMessage = this.translateService.instant('error.field.constraint', {
+                fieldName,
+                causeMessage
+            });
+            formattedText += `<li>${translatedMessage}</li>`;
+        });
+        formattedText += `</ul>`;
+        formattedText += `</div>`;
+        return formattedText;
+    }
+
+    private getFieldName(fieldNameTranslation: any): string {
+        return fieldNameTranslation.label ? fieldNameTranslation.label : fieldNameTranslation;
     }
 }

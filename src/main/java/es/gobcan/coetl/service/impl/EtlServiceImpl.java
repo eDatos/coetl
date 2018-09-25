@@ -150,7 +150,7 @@ public class EtlServiceImpl implements EtlService {
 
     private Etl save(Etl etl) {
         LOG.debug("Request to save an ETL : {}", etl);
-        return etlRepository.save(etl);
+        return etlRepository.saveAndFlush(etl);
     }
 
     private void schedulePentahoExecutionJob(JobKey jobKey, CronExpression cronExpression, Etl etl) {
