@@ -171,19 +171,31 @@ export class JhiAlertErrorComponent implements OnInit, OnDestroy {
         formattedText += `<h4>${this.translateService.instant(errorResponse.message)}</h4>`;
 
         formattedText += `<ul>`;
-        errorResponse.fieldErrors.forEach((fieldError) => {
-            const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
-            const fieldNameTranslation = this.translateService.instant(
-                'coetlApp.' + fieldError.objectName + '.' + convertedField
-            );
-            const fieldName = this.getFieldName(fieldNameTranslation);
-            const causeMessage = fieldError.message;
-            const translatedMessage = this.translateService.instant('error.field.constraint', {
-                fieldName,
-                causeMessage
+        errorResponse.fieldErrors
+            .sort((firstElement, nextElement) => {
+                if (firstElement.field > nextElement.field) {
+                    return 1;
+                }
+
+                if (firstElement.field < nextElement.field) {
+                    return -1;
+                }
+
+                return 0;
+            })
+            .forEach((fieldError) => {
+                const convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
+                const fieldNameTranslation = this.translateService.instant(
+                    'coetlApp.' + fieldError.objectName + '.' + convertedField
+                );
+                const fieldName = this.getFieldName(fieldNameTranslation);
+                const causeMessage = fieldError.message;
+                const translatedMessage = this.translateService.instant('error.field.constraint', {
+                    fieldName,
+                    causeMessage
+                });
+                formattedText += `<li>${translatedMessage}</li>`;
             });
-            formattedText += `<li>${translatedMessage}</li>`;
-        });
         formattedText += `</ul>`;
         formattedText += `</div>`;
         return formattedText;

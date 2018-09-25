@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
-
 import es.gobcan.coetl.domain.Etl.Type;
 
 public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implements Serializable {
@@ -15,37 +11,18 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
     private static final long serialVersionUID = 1L;
 
     private Long id;
-
-    @NotBlank
     private String code;
-
-    @NotBlank
     private String name;
-
     private String purpose;
-
-    @NotBlank
     private String organizationInCharge;
-
-    @NotBlank
     private String functionalInCharge;
-
-    @NotBlank
     private String technicalInCharge;
-
-    @NotNull
     private Type type;
-
     private String comments;
-
     private String executionDescription;
-
     private String executionPlanning;
-
     private Instant nextExecution;
-
     private FileDTO etlFile;
-
     private FileDTO etlDescriptionFile;
 
     public Long getId() {
