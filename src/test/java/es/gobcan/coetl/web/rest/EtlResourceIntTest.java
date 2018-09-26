@@ -43,7 +43,9 @@ import es.gobcan.coetl.CoetlApp;
 import es.gobcan.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.coetl.domain.Etl;
 import es.gobcan.coetl.domain.Etl.Type;
+import es.gobcan.coetl.domain.File;
 import es.gobcan.coetl.errors.ExceptionTranslator;
+import es.gobcan.coetl.repository.FileRepository;
 import es.gobcan.coetl.service.EtlService;
 import es.gobcan.coetl.service.ExecutionService;
 import es.gobcan.coetl.web.rest.dto.EtlDTO;
@@ -88,6 +90,9 @@ public class EtlResourceIntTest {
     ExecutionMapper executionMapper;
 
     @Autowired
+    FileRepository fileRepository;
+
+    @Autowired
     AuditEventPublisher auditEventPublisher;
 
     @Autowired
@@ -117,8 +122,10 @@ public class EtlResourceIntTest {
         etl.setFunctionalInCharge(DEFAULT_FUNCTIONAL_IN_CHARGE);
         etl.setTechnicalInCharge(DEFAULT_TECHNICAL_IN_CHARGE);
         etl.setType(DEFAULT_TYPE);
-        etl.setEtlFile(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
-        etl.setEtlDescriptionFile(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
+        File etlFile = fileRepository.saveAndFlush(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
+        etl.setEtlFile(etlFile);
+        File etlDescriptionFile = fileRepository.saveAndFlush(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
+        etl.setEtlDescriptionFile(etlDescriptionFile);
         return etl;
     }
 
@@ -131,8 +138,10 @@ public class EtlResourceIntTest {
         etl.setFunctionalInCharge(DEFAULT_FUNCTIONAL_IN_CHARGE);
         etl.setTechnicalInCharge(DEFAULT_TECHNICAL_IN_CHARGE);
         etl.setType(DEFAULT_TYPE);
-        etl.setEtlFile(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
-        etl.setEtlDescriptionFile(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
+        File etlFile = fileRepository.saveAndFlush(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
+        etl.setEtlFile(etlFile);
+        File etlDescriptionFile = fileRepository.saveAndFlush(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
+        etl.setEtlDescriptionFile(etlDescriptionFile);
         return etl;
     }
 

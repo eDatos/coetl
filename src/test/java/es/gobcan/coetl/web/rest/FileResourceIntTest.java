@@ -45,7 +45,6 @@ import es.gobcan.coetl.web.rest.mapper.FileMapper;
 public class FileResourceIntTest {
 
     private static final String BASE_URI = FileResource.BASE_URI;
-    private static final String SLASH = "/";
     private static final String PATH_FILE = "src/main/resources/banner.txt";
 
     @Autowired
@@ -84,7 +83,8 @@ public class FileResourceIntTest {
         Path path = Paths.get(pathFile);
         File file = new File();
         file.setName(path.getFileName().toString());
-        file.setDataContentType(Files.probeContentType(path));
+        String dataContentType = Files.probeContentType(path) != null ? Files.probeContentType(path) : "octet/stream";
+        file.setDataContentType(dataContentType);
         file.setLength(path.toFile().length());
         Blob data = Hibernate.getLobCreator((Session) entityManager.getDelegate()).createBlob(Files.readAllBytes(path));
         file.setData(data);
