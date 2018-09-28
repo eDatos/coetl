@@ -1,5 +1,6 @@
 <div class="d-flex justify-content-between">
     <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
     <ac-items-per-page [(itemsPerPage)]="itemsPerPage" (itemsPerPageChange)="onTransitionMethod($event)"></ac-items-per-page>
-    <ngb-pagination [(page)]="page" [collectionSize]="totalItems" [pageSize]="itemsPerPage" (pageChange)="onTransitionMethod($event)"></ngb-pagination>
+    <ngb-pagination [(page)]="page" [collectionSize]="totalItems" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
+        [pageSize]="itemsPerPage" (pageChange)="onTransitionMethod($event)"></ngb-pagination>
 </div>
