@@ -81,7 +81,7 @@ public class QueryUtil {
                 DefaultQueryExprVisitor visitor = new DefaultQueryExprVisitor();
                 queryExprCompiler.parse(finalQuery, visitor);
                 queryRequest = visitor.getQueryRequest();
-                if (queryRequest.getRestriction() == null && StringUtils.isNotBlank(query)) {
+                if (queryRequest.getRestriction() == null && StringUtils.isNotBlank(query) && isNotQueryHint(query)) {
                     throw new CustomParameterizedExceptionBuilder().code(ErrorConstants.ERR_INTERNAL_SERVER_ERROR).message("Search Parameter not supported").build();
                 }
             }
@@ -103,4 +103,9 @@ public class QueryUtil {
         return finalQuery;
     }
 
+    private boolean isNotQueryHint(String query) {
+        Pattern pattern = Pattern.compile("( HINT [\\w\\s=\']+)");
+        Matcher matcher = pattern.matcher(query);
+        return !matcher.matches();
+    }
 }
