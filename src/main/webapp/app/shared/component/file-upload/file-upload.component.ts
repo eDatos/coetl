@@ -40,9 +40,15 @@ export class FileUploadComponent implements OnInit, OnChanges {
 
     @Input() public funcionDescargar;
 
+    @Input() public showHelp = false;
+
+    @Input() public helpTitle: string;
+
     public innerFiles;
 
     public mode;
+
+    public helpTranslatedTitle: string;
 
     @ContentChild(TemplateRef) actionsTemplate: TemplateRef<any>;
 
@@ -66,6 +72,10 @@ export class FileUploadComponent implements OnInit, OnChanges {
         } else {
             this.mode = 'advanced';
         }
+        this.helpTranslatedTitle = this.helpTitle
+            ? this.translateService.instant(this.helpTitle)
+            : '';
+        console.log(this.helpTranslatedTitle);
         this.funcionDescargar = this.funcionDescargar || this.download;
     }
 
