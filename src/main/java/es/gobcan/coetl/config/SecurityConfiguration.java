@@ -134,7 +134,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new JWTAuthenticationSuccessHandler(tokenProvider, jHipsterProperties, env);
+        return new JWTAuthenticationSuccessHandler(tokenProvider, env);
     }
 
     @Bean
