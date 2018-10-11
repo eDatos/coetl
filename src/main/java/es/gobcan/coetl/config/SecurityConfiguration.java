@@ -38,6 +38,7 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CorsFilter;
 
@@ -211,7 +212,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .exceptionHandling()
         	.authenticationEntryPoint(casAuthenticationEntryPoint())
         .and() 
-            .csrf().disable()
+            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        .and()
             .headers()
             .frameOptions().disable()
         .and()
@@ -225,6 +227,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/management/metrics").access("@secChecker.puedeConsultarMetrica(authentication)")
             .antMatchers("/management/health").access("@secChecker.puedeConsultarSalud(authentication)")
             .antMatchers("/management/configprops").access("@secChecker.puedeConsultarConfig(authentication)")
+            .antMatchers("/management/env").access("@secChecker.puedeConsultarConfig(authentication)")
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/swagger-resources/configuration/ui").permitAll()
             .antMatchers("/swagger-ui/index.html").access("@secChecker.puedeConsultarApi(authentication)")

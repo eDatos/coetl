@@ -10,6 +10,14 @@
 # Full reference is available at:
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
+endpoints:
+    enabled: false
+    configprops:
+        enabled: true
+    health:
+        enabled: true
+    env:
+        enabled: true
 
 management:
     security:
