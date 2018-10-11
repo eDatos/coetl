@@ -71,7 +71,8 @@
                 "label": "Próxima ejecución"
             },
             "descriptionFile": {
-                "label": "Fichero descriptivo"
+                "label": "Fichero descriptivo",
+                "help": "El documento descriptivo deberá ser un documento PDF elaborado por el técnico con la descripción del cometido de la ETL así como cualquier otra información que considere necesaria sobre su implementación."
             },
             "codeFile": {
                 "label": "Fichero ETL"

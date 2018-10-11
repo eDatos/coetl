@@ -5,13 +5,20 @@
 </div>
 <h3>
     {{title}}
+    <ng-contaner *ngIf="showHelp">
+        &nbsp;
+        <ac-help-tooltip [position]="'bottom'" [label]="helpTranslatedTitle"></ac-help-tooltip>
+    </ng-contaner>
 </h3>
 <ng-container *ngIf="!disabled && canUpload()">
     <p-fileUpload class="{{mode}}" [name]="name" [url]="url" (onUpload)="onUploadMethod($event)" (onSelect)="onSelectMethod($event)"
-        (onError)="onErrorMethod($event)" [maxFileSize]="maxFileSize" [disabled]="disabled" [mode]="mode" [accept]="accept" [chooseLabel]="'coetlApp.file.choose' | translate"
-        [uploadLabel]="'coetlApp.file.upload' | translate" [cancelLabel]="'coetlApp.file.cancel' | translate" [invalidFileSizeMessageSummary]="'coetlApp.file.invalidFileSizeMessageSummary' | translate"
-        [invalidFileSizeMessageDetail]="'coetlApp.file.invalidFileSizeMessageDetail' | translate" [invalidFileTypeMessageSummary]="'coetlApp.file.invalidFileTypeMessageSummary' | translate"
-        [invalidFileTypeMessageDetail]="'coetlApp.file.invalidFileTypeMessageDetail' | translate" [auto]="auto" #fileUpload>
+        (onError)="onErrorMethod($event)" [maxFileSize]="maxFileSize" [disabled]="disabled" [mode]="mode" [accept]="accept"
+        [chooseLabel]="'coetlApp.file.choose' | translate" [uploadLabel]="'coetlApp.file.upload' | translate"
+        [cancelLabel]="'coetlApp.file.cancel' | translate" [invalidFileSizeMessageSummary]="'coetlApp.file.invalidFileSizeMessageSummary' | translate"
+        [invalidFileSizeMessageDetail]="'coetlApp.file.invalidFileSizeMessageDetail' | translate"
+        [invalidFileTypeMessageSummary]="'coetlApp.file.invalidFileTypeMessageSummary' | translate"
+        [invalidFileTypeMessageDetail]="'coetlApp.file.invalidFileTypeMessageDetail' | translate" [auto]="auto"
+        #fileUpload>
         <ng-template pTemplate="toolbar">
             <div *ngIf="fileUpload.files.length > 0" class="fileupload-header">
                 <span jhiTranslate="coetlApp.file.filesToUpload"></span>
