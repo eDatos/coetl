@@ -15,21 +15,18 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import com.google.common.primitives.Ints;
 
 import es.gobcan.coetl.config.Constants;
-import io.github.jhipster.config.JHipsterProperties;
 
 public class JWTAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     public static final String TOKEN = "token";
     public static final String JHI_AUTHENTICATIONTOKEN = "jhi-authenticationtoken";
 
-    private long tokenValidityInSeconds;
     private TokenProvider tokenProvider;
 
     private final Environment env;
 
-    public JWTAuthenticationSuccessHandler(TokenProvider tokenProvider, JHipsterProperties jHipsterProperties, Environment env) {
+    public JWTAuthenticationSuccessHandler(TokenProvider tokenProvider, Environment env) {
         this.tokenProvider = tokenProvider;
-        this.tokenValidityInSeconds = jHipsterProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSeconds();
         this.env = env;
     }
 
@@ -39,7 +36,7 @@ public class JWTAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucc
         String jwt = tokenProvider.createToken(authentication, rememberMe);
         Cookie cookie = new Cookie(JHI_AUTHENTICATIONTOKEN, jwt);
         cookie.setSecure(env.acceptsProfiles(Constants.SPRING_PROFILE_ENV));
-        cookie.setMaxAge(Ints.saturatedCast(tokenValidityInSeconds));
+        cookie.setMaxAge(Ints.saturatedCast(7200));
         cookie.setHttpOnly(false);
         cookie.setPath("/");
         response.addCookie(cookie);
