@@ -109,7 +109,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
     }
     
     onBeforeSendMethod($event) {
-        $event.xhr.setRequestHeader('XSRF-TOKEN', this.cookieService.get('XSRF-TOKEN'));
+        $event.xhr.setRequestHeader('X-XSRF-TOKEN', this.cookieService.get('XSRF-TOKEN'));
     }
 
     download(file) {
