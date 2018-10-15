@@ -11,7 +11,7 @@
     </ng-contaner>
 </h3>
 <ng-container *ngIf="!disabled && canUpload()">
-    <p-fileUpload class="{{mode}}" [name]="name" [url]="url" (onUpload)="onUploadMethod($event)" (onSelect)="onSelectMethod($event)"
+    <p-fileUpload class="{{mode}}" [name]="name" [url]="url" (onUpload)="onUploadMethod($event)" (onSelect)="onSelectMethod($event)" (onBeforeSend)="onBeforeSendMethod($event)"
         (onError)="onErrorMethod($event)" [maxFileSize]="maxFileSize" [disabled]="disabled" [mode]="mode" [accept]="accept"
         [chooseLabel]="'coetlApp.file.choose' | translate" [uploadLabel]="'coetlApp.file.upload' | translate"
         [cancelLabel]="'coetlApp.file.cancel' | translate" [invalidFileSizeMessageSummary]="'coetlApp.file.invalidFileSizeMessageSummary' | translate"
