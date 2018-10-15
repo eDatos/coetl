@@ -13,6 +13,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { FileUpload } from 'primeng/primeng';
 import { AcAlertService } from '../alert/alert.service';
 import { FileService } from '../../../entities/file/file.service';
+import { CookieService } from 'ngx-cookie';
+
 
 @Component({
     selector: 'ac-file-upload',
@@ -61,7 +63,8 @@ export class FileUploadComponent implements OnInit, OnChanges {
     constructor(
         private translateService: TranslateService,
         private fileService: FileService,
-        private alertService: AcAlertService
+        private alertService: AcAlertService,
+        private cookieService: CookieService
     ) {
         this.innerFiles = Array.isArray(this.files) ? this.files : this.files ? [this.files] : [];
     }
@@ -75,7 +78,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
         this.helpTranslatedTitle = this.helpTitle
             ? this.translateService.instant(this.helpTitle)
             : '';
-        console.log(this.helpTranslatedTitle);
+
         this.funcionDescargar = this.funcionDescargar || this.download;
     }
 
@@ -103,6 +106,10 @@ export class FileUploadComponent implements OnInit, OnChanges {
                 this.alertService.error(message.summary + ' ' + message.detail);
             });
         }
+    }
+    
+    onBeforeSendMethod($event) {
+        $event.xhr.setRequestHeader('XSRF-TOKEN', this.cookieService.get('XSRF-TOKEN'));
     }
 
     download(file) {
