@@ -15,7 +15,6 @@ import { AcAlertService } from '../alert/alert.service';
 import { FileService } from '../../../entities/file/file.service';
 import { CookieService } from 'ngx-cookie';
 
-
 @Component({
     selector: 'ac-file-upload',
     templateUrl: 'file-upload.component.html',
@@ -107,7 +106,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
             });
         }
     }
-    
+
     onBeforeSendMethod($event) {
         $event.xhr.setRequestHeader('X-XSRF-TOKEN', this.cookieService.get('XSRF-TOKEN'));
     }
