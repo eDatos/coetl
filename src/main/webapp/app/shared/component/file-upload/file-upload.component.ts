@@ -100,6 +100,16 @@ export class FileUploadComponent implements OnInit, OnChanges {
     }
 
     onSelectMethod($event) {
+        const files: File[] = Array.from($event.files);
+        const emptyFiles: File[] = files.filter((fichero) => fichero.size === 0);
+        if (emptyFiles.length > 0) {
+            const codeErrorFileEmpty =
+                this.limited > 1 ? 'error.file.multi.empty' : 'error.file.single.empty';
+            const messageFileEmpty = this.translateService.instant(codeErrorFileEmpty, [
+                emptyFiles.map((fichero) => fichero.name).join(', ')
+            ]);
+            this.alertService.error(messageFileEmpty);
+        }
         if (this.fileUpload.msgs.length > 0) {
             this.fileUpload.msgs.forEach((message) => {
                 this.alertService.error(message.summary + ' ' + message.detail);
