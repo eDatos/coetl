@@ -46,7 +46,6 @@ import es.gobcan.coetl.security.jwt.CasEhCacheBasedTicketCache;
 import es.gobcan.coetl.security.jwt.JWTAuthenticationSuccessHandler;
 import es.gobcan.coetl.security.jwt.JWTFilter;
 import es.gobcan.coetl.security.jwt.TokenProvider;
-import io.github.jhipster.config.JHipsterProperties;
 import io.github.jhipster.security.Http401UnauthorizedEntryPoint;
 
 @Configuration
@@ -62,20 +61,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    private JHipsterProperties jHipsterProperties;
-
     private ApplicationProperties applicationProperties;
 
     private final Environment env;
 
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter,
-            JHipsterProperties jHipsterProperties, ApplicationProperties applicationProperties, Environment env) {
+            ApplicationProperties applicationProperties, Environment env) {
 
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
-        this.jHipsterProperties = jHipsterProperties;
         this.applicationProperties = applicationProperties;
         this.env = env;
     }

@@ -15,7 +15,8 @@ public final class ErrorConstants {
     public static final String USUARIO_LDAP_NO_ENCONTRADO = "error.userManagement.usuario-ldap-no-encontrado";
     public static final String USUARIO_NO_VALIDO = "error.userManagement.usuario-no-valido";
 
-    public static final String FICHERO_VACIO = "error.file-empty";
+    public static final String FICHERO_UNICO_VACIO = "error.file.single.empty";
+    public static final String FICHEROS_VARIOS_VACIOS = "error.file.multi.empty";
     public static final String FICHERO_NO_ENCONTRADO = "error.file-not-found";
 
     public static final String ENTIDAD_NO_ENCONTRADA = "error.entidad-no-encontrada";

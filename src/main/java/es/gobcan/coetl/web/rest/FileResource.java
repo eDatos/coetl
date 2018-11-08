@@ -53,7 +53,7 @@ public class FileResource extends AbstractResource {
     public ResponseEntity<FileDTO> create(@RequestParam("file") MultipartFile file) throws URISyntaxException {
         log.debug("REST request to save a File : {}", file);
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.FICHERO_VACIO, "Uploaded file is empty")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.FICHERO_UNICO_VACIO, "Uploaded file is empty")).body(null);
         }
         File result = fileService.create(file);
         FileDTO resultDTO = fileMapper.toDto(result);
