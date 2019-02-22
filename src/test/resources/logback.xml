@@ -3,7 +3,7 @@
 <configuration scan="true">
   <include resource="org/springframework/boot/logging/logback/base.xml" />
 
-  <logger name="es.gobcan.coetl" level="INFO" />
+  <logger name="es.gobcan.istac.coetl" level="INFO" />
 
   <logger name="io.github.jhipster" level="WARN" />
 

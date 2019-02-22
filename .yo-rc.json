@@ -1,13 +1,13 @@
 {
   "generator-jhipster": {
     "promptValues": {
-      "packageName": "es.gobcan.coetl",
+      "packageName": "es.gobcan.istac.coetl",
       "nativeLanguage": "en"
     },
     "jhipsterVersion": "4.6.2",
     "baseName": "coetl",
-    "packageName": "es.gobcan.coetl",
-    "packageFolder": "es/gobcan/coetl",
+    "packageName": "es.gobcan.istac.coetl",
+    "packageFolder": "es/gobcan/istac/coetl",
     "serverPort": "8080",
     "authenticationType": "jwt",
     "hibernateCache": "ehcache",

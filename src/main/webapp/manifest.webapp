@@ -3,22 +3,22 @@
   "short_name": "Coetl",
   "icons": [
       {
-          "src": "./content/images/logo-gobcan.png",
+          "src": "./content/images/logo-istac.png",
           "sizes": "192x192",
           "type": "image/png"
       },
       {
-          "src": "./content/images/logo-gobcan.png",
+          "src": "./content/images/logo-istac.png",
           "sizes": "256x256",
           "type": "image/png"
       },
       {
-          "src": "./content/images/logo-gobcan.png",
+          "src": "./content/images/logo-istac.png",
           "sizes": "384x384",
           "type": "image/png"
       },
       {
-          "src": "./content/images/logo-gobcan.png",
+          "src": "./content/images/logo-istac.png",
           "sizes": "512x512",
           "type": "image/png"
       }

@@ -92,7 +92,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         ]),
         new WebpackNotifierPlugin({
             title: 'JHipster',
-            contentImage: path.join(__dirname, 'logo-gobcan.png')
+            contentImage: path.join(__dirname, 'logo-istac.png')
         })
     ]
 });

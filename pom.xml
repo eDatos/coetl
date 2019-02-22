@@ -9,7 +9,7 @@
 		<relativePath />
 	</parent>
 
-	<groupId>es.gobcan.coetl</groupId>
+	<groupId>es.gobcan.istac.coetl</groupId>
 	<artifactId>coetl</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -17,14 +17,14 @@
 	<name>COETL</name>
 
 	<scm>
-		<connection>scm:git:http://git.arte-consultores.com/gobcan/coetl/</connection>
-		<developerConnection>scm:git:http://git.arte-consultores.com/gobcan/coetl/</developerConnection>
+		<connection>scm:git:http://git.arte-consultores.com/istac/coetl/</connection>
+		<developerConnection>scm:git:http://git.arte-consultores.com/istac/coetl/</developerConnection>
 		<tag>HEAD</tag>
-		<url>http://git.arte-consultores.com/gobcan/coetl</url>
+		<url>http://git.arte-consultores.com/istac/coetl</url>
 	</scm>
 	<issueManagement>
 		<system>Jira</system>
-		<url>http://jira.arte-consultores.com/browse/COETL</url>
+		<url>http://jira.arte-consultores.com/browse/METAMAC</url>
 	</issueManagement>
 	<distributionManagement>
 		<repository>
@@ -576,7 +576,7 @@
 					<defaultSchemaName />
 					<username>coetl</username>
 					<password>coetl</password>
-					<referenceUrl>hibernate:spring:es.gobcan.coetl.domain?dialect=io.github.jhipster.domain.util.FixedPostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
+					<referenceUrl>hibernate:spring:es.gobcan.istac.coetl.domain?dialect=io.github.jhipster.domain.util.FixedPostgreSQL82Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
 					<verbose>true</verbose>
 					<logging>debug</logging>
 				</configuration>
