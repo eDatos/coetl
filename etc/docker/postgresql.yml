@@ -1,0 +1,12 @@
+version: '2'
+services:
+    coetl-postgresql:
+        image: postgres:9.6.2
+        # volumes:
+        #     - ~/volumes/jhipster/coetl/postgresql/:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=coetl
+            - POSTGRES_PASSWORD=coetl
+            - POSTGRES_DB=dev
+        ports:
+            - 5432:5432

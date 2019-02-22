@@ -1,0 +1,21 @@
+{
+    "coetlApp": {
+        "rol": {
+            "created": "Se ha creado el rol {{ param }}",
+            "updated": "Se ha actualizado el rol {{ param }}",
+            "deleted": "Se ha eliminado el rol {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar el rol {{ id }}?"
+            },
+            "nombre": "Nombre",
+            "accion": "Acción",
+            "sujeto": "Sujeto",
+            "roles": {
+                "label": "Roles",
+                "ADMIN": "Administrador",
+                "TECNICO": "Técnico",
+                "LECTOR": "Lector"
+            }
+        }
+    }
+}

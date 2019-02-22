@@ -1,0 +1,48 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+
+fieldset {
+    :host {
+        /deep/ p-chips {
+            ul.ui-inputtext {
+                li {
+                    margin-left: 0;
+                }
+                padding: 0;
+            }
+
+            input {
+                @include placeholder {
+                    color: $grey-medium;
+                }
+            }    
+        }
+        /deep/ .ui-state-default {
+            &:hover {
+                border-bottom-color: transparent !important;
+            }    
+            li {
+                width: 100%;
+                input {
+                    width: 100%;
+                }
+                margin-bottom: $spacer-y / 2;
+            }
+        }
+        
+        &.disabled /deep/ input::placeholder {
+            @extend %disabled-multi-input;
+        }
+    }
+        
+    &:disabled,
+    &[disabled] {
+        :host /deep/ input::placeholder {
+            @extend %disabled-multi-input;
+        }
+    }
+}
+
+%disabled-multi-input {
+    opacity: 0;
+}

@@ -1,0 +1,83 @@
+@import '~scss/variables';
+
+$step-background-height: 1rem;
+$bubble-size: $step-background-height * 3;
+
+.wizard {
+    display: flex;
+    justify-content: space-around;
+    margin-top: $spacer-y * 2;
+    margin-bottom: $spacer-y;
+
+    .step {
+        text-align: center;
+        flex: 1;
+        position: relative;
+        
+        .bubble-wrapper {
+            height: $step-background-height;
+            margin: $step-background-height 0;
+            
+            background: $grey-light;
+            color: $grey-dark;
+
+            &.past-step {
+                background: $green-medium;
+
+                .bubble {
+                    background: $green-medium;
+                    color: $white;     
+                    &.btn:hover {
+                        background: $main-light;
+                    }               
+                }
+            }
+            
+            &.current-step {
+                background: $main-medium;
+
+                .bubble {
+                    background: $main-medium;
+                    color: $white;
+                    &.btn:hover {
+                        background: $main-light;
+                    }
+                }
+            }
+
+            .bubble {
+                width: $bubble-size;
+                height: $bubble-size;
+                margin: auto;
+
+                position: absolute;
+                top: 0;
+                right: 0;
+                left: 0;
+    
+                border-radius: 100%;
+                border: $border-width*2 solid $grey-lightest;
+    
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background: $grey-light;
+                color: $grey-dark;    
+
+                &.btn {
+                    cursor: pointer;
+
+                    &:disabled {
+                        opacity: 1;
+                        cursor: not-allowed;
+                    }
+                }
+            }        
+        }    
+
+        .step-title {
+            padding-top: $spacer-y;
+        }
+    }
+}

@@ -1,0 +1,73 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+
+// Bootstrap table overrides
+.jh-card {
+    .table-responsive {
+        width: inherit;
+        min-width: 100%;
+        margin-left: -$page-padding-left;
+        margin-right: -$page-padding-right;
+        margin-bottom: $spacer-y;
+        overflow-x: unset;
+        
+        thead {
+            th {
+                font-weight: $font-weight-light;
+                text-transform: uppercase;
+                color: $grey-darkest;
+                border-bottom: ($table-border-width)*3 double $grey-light;      
+                border-top: none;
+                background: $white;
+            }
+        }
+        
+        tr {
+            td:first-child, th:first-child {
+                position: relative;
+                padding-left: $page-padding-left;
+            }
+            td:last-child, th:last-child {
+                padding-right: $page-padding-right;
+            }
+            cursor: pointer;
+        }
+
+        .row-selector {
+            position: absolute;
+            left: $page-padding-left / 3;
+        }
+
+        th {
+            .row-selector {
+                bottom: $spacer-y;
+            }
+        }
+        
+        .flex-btn-group-container {
+            visibility: hidden;
+            .btn {
+                @include transition(opacity 0s);
+            }
+        }
+        tr:hover {
+            .flex-btn-group-container {
+                visibility: inherit;
+            }
+        }
+        
+        border-bottom: $table-border-width solid $grey-light;
+
+        &.has-datatable {
+            border-bottom: none;
+        }
+    }
+}
+
+.entity-fields .table {
+    th {
+        color: $grey-dark;
+        background: $grey-lightest;
+        font-weight: $font-weight-light;
+    }
+}

@@ -1,0 +1,6 @@
+@import '~scss/variables';
+
+.tooltip-inner {
+    border: $border-width solid $tooltip-arrow-color;
+    text-align: left;
+}

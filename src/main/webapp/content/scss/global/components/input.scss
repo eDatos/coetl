@@ -1,0 +1,9 @@
+input[type=text] {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+input:required {
+    box-shadow: none;
+}

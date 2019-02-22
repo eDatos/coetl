@@ -1,0 +1,97 @@
+@import '~scss/mixins';
+
+:host {
+    width: 100%;
+
+    .section-buttons, p-fileUpload {
+
+        & /deep/ .ui-button {
+            @include link-button();         
+        }
+        & /deep/ .ui-button-text {
+            padding: 0 0 0 $btn-padding-x;
+        }
+        & /deep/ .ui-fileupload-choose {
+            overflow: visible;            
+            input[type=file] {
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+        }
+    }
+
+    .table-actions {
+        text-align: right;
+    }
+
+    .empty-file-list {
+        font-style: italic;
+        border-top: $border-width solid $grey-light;
+        padding: $spacer-y $spacer-x;
+        color: $grey-medium;
+    }
+
+    p-fileupload.basic {
+        float: right;
+        margin-top: 1.5 * $spacer-y;
+    }
+
+    p-fileupload {
+        & /deep/ .ui-widget-content {
+            border: none;
+        }
+        & /deep/ .ui-fileupload-buttonbar {
+            padding: 0;
+            text-align: right;
+        }
+        & /deep/ .ui-button-icon-left {
+            left: 0;
+        }
+        & /deep/ .ui-widget-header { // Piercing selector shadow dom
+            border: none;   
+            & > div {
+                text-align: left;
+
+                font-weight: $font-weight-light;
+                font-size: $font-size-base;
+            }    
+            .fileupload-header {
+                color: $grey-dark;
+                background: $grey-lightest;
+
+                padding: $table-cell-padding;
+            }
+        }
+        & /deep/ .ui-fileupload-content {
+            padding: 0;
+        }
+        & /deep/ .ui-fileupload-row { 
+            width: 100%;
+            & > div {
+                padding: .5em $table-cell-padding;
+            }
+        }
+        & /deep/ .ui-fileupload-files {
+            width: 100%;
+            display: block;
+
+            & > div {
+                width: 100%;
+                display: table;
+            }
+        }
+    }
+    .name-width {
+        width: 70%;
+    }
+    .actions-width {
+        width: 30%;
+    }
+}
+
+fieldset[disabled] :host {
+    p-fileUpload {
+        display: none;
+    }
+}

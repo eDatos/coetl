@@ -1,0 +1,15 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+
+.audit-date-search-field {
+    @include make-col(12);
+    @include media-breakpoint-up(md) {
+        @include make-col(8);
+    }
+    @include media-breakpoint-up(lg) {
+        @include make-col(6);
+    }
+    @include media-breakpoint-up(xl) {
+        @include make-col(4);
+    }
+}

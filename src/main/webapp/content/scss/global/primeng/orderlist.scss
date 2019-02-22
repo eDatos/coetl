@@ -1,0 +1,104 @@
+@import '~scss/variables';
+
+$orderlist-control-width: 2rem;
+$orderlist-control-padding-x: 0.25rem;
+
+.orderlist-header {
+    margin-right: $orderlist-control-width + $orderlist-control-padding-x*2;
+    border: $border-width solid transparent;
+    
+    .orderlist-row {
+        color: $grey-dark;
+        background: $grey-lightest;
+    } 
+}
+
+.orderlist-row {
+    display: flex;
+    flex-wrap: wrap;
+    font-style: normal;
+
+    .orderlist-cell {
+        @include make-col-ready();
+        padding: $spacer-y/2 $spacer-x/2;
+    }
+}
+
+%disable-order-list {
+    .ui-orderlist-controls {
+        visibility: hidden;
+        height: 0;
+    }
+    .ui-orderlist {
+        .ui-orderlist-list-container {
+            .ui-orderlist-list {
+                border: $border-width solid transparent;
+                .ui-orderlist-item {          
+                    border-top: $border-width solid $grey-light;
+                    &:not(.ui-state-highlight):hover {
+                        background: $grey-lightest;
+                        color: $black;
+                    }
+                }
+            }
+        }
+    }
+    .ui-orderlist-droppoint {
+        display: none;
+    }
+}
+
+fieldset[disabled] {
+    p-orderList {
+        @extend %disable-order-list;
+    }
+}
+
+p-orderList {
+    &.disabled {
+        @extend %disable-order-list;
+    }
+    .ui-orderlist {
+        width: 100%;            
+        display: flex;
+        
+        .ui-orderlist-controls {
+            order: 1;
+
+            display: flex;
+            flex-direction: column;
+
+            button[icon=fa-angle-double-up]     { order: 1; }
+            button[icon=fa-angle-up]            { order: 2; }
+            button[icon=fa-angle-down]          { order: 3; }
+            button[icon=fa-angle-double-down]   { order: 4; }
+
+            padding: 0 $orderlist-control-padding-x;
+            .ui-button-icon-only {
+                width: $orderlist-control-width;
+            }
+        }
+
+        .ui-orderlist-list-container {
+            flex: 1;    
+            max-width: 100%;        
+
+            .ui-orderlist-list {
+                border: $border-width solid $grey-medium;                
+                border-radius: $border-radius;
+
+                .ui-orderlist-item {
+                    padding: 0;
+                    margin-left: 0;
+                    margin-right: 0;
+                }
+        
+                display: block;
+
+                width: 100%;            
+                height: 100%;    
+            }
+        }
+
+    }
+}

@@ -1,0 +1,83 @@
+@import 'variables';
+@import 'node_modules/bootstrap/scss/_mixins';
+
+@mixin link-button() {    
+    border: none;
+    background: none;
+    color: $main-medium;
+    font-weight: $font-weight-normal;
+
+    box-shadow: none;
+    cursor: pointer;
+    &:hover {
+        color: $main-dark;
+        border: none;
+        box-shadow: none;
+    }
+
+    height: $btn-line-height + $btn-padding-y*2;
+    line-height: $btn-line-height;
+    padding: $btn-padding-y $btn-padding-x/2;
+    vertical-align: bottom;
+    margin: 0;    
+}
+
+@mixin menu-item() {
+    width: 100%;
+    display: block;
+    border-radius: 0;
+    cursor: pointer;        
+
+    padding: $btn-padding-y $btn-padding-x;        
+
+    text-align: left;
+
+    word-break: break-all;
+    word-break: break-word;        
+    
+    color: $black;
+    text-decoration: none;
+    border: none;
+
+    &:hover {
+        background: $grey-lightest;
+    }
+}
+
+@mixin appearance($appearance...) {
+    appearance: $appearance;
+    -moz-appearance: $appearance; /* Firefox */
+    -webkit-appearance: $appearance; /* Safari and Chrome */
+}
+
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content}
+    &:-moz-placeholder           {@content}
+    &::-moz-placeholder          {@content}
+    &:-ms-input-placeholder      {@content}  
+}
+
+@mixin make-narrowed-container($gutters: $grid-gutter-widths) {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+  
+    @each $breakpoint in map-keys($gutters) {
+        @include media-breakpoint-up($breakpoint) {
+            padding-right: $page-padding-right;
+            padding-left: $page-padding-left;
+        }
+    }
+}
+
+@mixin make-narrowed-row($gutters: $grid-gutter-widths) {
+    display: flex;
+    flex-wrap: wrap;
+  
+    @each $breakpoint in map-keys($gutters) {
+      @include media-breakpoint-up($breakpoint) {
+        margin-right: -$page-padding-right;
+        margin-left:  -$page-padding-left;
+      }
+    }
+  }

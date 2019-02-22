@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false" />
+    <include file="config/liquibase/changelog/20180806100000_added_tables_Quartz.xml" relativeToChangelogFile="false" />
+    <include file="config/liquibase/changelog/20180117115714_added_function_lower_unaccent.xml" relativeToChangelogFile="false" />
+    <include file="config/liquibase/changelog/20180118152128_added_procedure_add_usuario_with_existing_rol.xml" relativeToChangelogFile="false" />
+    <include file="config/liquibase/changelog/20180126141730_added_entity_File.xml" relativeToChangelogFile="false" />
+    <include file="config/liquibase/changelog/20180725155830_added_entity_Etl.xml" relativeToChangelogFile="false" />
+    <include file="config/liquibase/changelog/20180806152030_added_entity_Execution.xml" relativeToChangelogFile="false" />
+  <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+  <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+  <include file="config/liquibase/changelog/20180419081000_added_indexes.xml" relativeToChangelogFile="false" />
+</databaseChangeLog>

@@ -1,0 +1,22 @@
+@import '~scss/variables';
+
+ngb-pagination {
+    .pagination {
+        .page-item {
+            .page-link {
+                // Chevron icons
+                [aria-hidden] {
+                    font-size: 2em;
+                    line-height: 0.45em;
+                    color: $grey-dark;
+                } 
+            }            
+            &.disabled [aria-hidden] {
+                color: $pagination-disabled-color;
+            }
+            &.active .page-link {
+                font-weight: $font-weight-bold;
+            }
+        }
+    }        
+}

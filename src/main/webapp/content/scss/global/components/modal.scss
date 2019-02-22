@@ -1,0 +1,41 @@
+
+// Se sobrescribe el estilo sólo en este modal ya que se necesita una ventana mayor para gestionar los firmantes.
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 750px;
+    }
+}
+
+.modal-body {
+    fieldset {
+        .entity-fields {    
+            .form-group {
+                @include make-col(12);
+                .form-control-label {
+                    @include make-col(12);
+                }
+                ac-autocomplete,
+                ac-autocomplete-short-list,
+                ac-autocomplete-long-list,
+                ac-autocomplete-enum,
+                p-listbox,
+                .form-control,
+                .input-group {
+                    @include make-col(12);
+                }
+            }
+
+            .jh-entity-details {            
+                @include make-col(12);        
+                dt {
+                    @include make-col(12);  
+                    border-bottom: none;
+                }
+                dd {
+                    @include make-col(12);          
+                }
+            }
+
+        }
+    }
+}

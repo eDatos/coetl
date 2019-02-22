@@ -1,0 +1,74 @@
+# ===================================================================
+# Spring Boot configuration for the "env" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    datasource:
+        url: jdbc:postgresql://FILL_HOST:FILL_PORT/FILL_DATABASE
+        username: FILL_USER
+        password: FILL_PASS
+    jpa:
+        show-sql: false
+    mail:
+        host: FILL_HOST
+        port: FILL_PORT
+        username: FILL_USER
+        password: FILL_PASS
+
+# ===================================================================
+# JHipster specific properties
+#
+# Full reference is available at: https://jhipster.github.io/common-application-properties/
+# ===================================================================
+
+jhipster:
+    mail: 
+        from: FILL_EMAIL
+        base-url: http://FILL_APPLICATION_URL 
+
+# ===================================================================
+# Pentaho specific properties
+# Add your own Pentaho properties here
+# ===================================================================
+
+pentaho:
+    endpoint: FILL_PENTAHO_ENDPOINT # Required: Pentaho Data Integration Server Endpoint
+    auth:
+        user: FILL_PENTAHO_USER # Required: Pentaho Data Integration Server User
+        password: FILL_PENTAHO_PASSWORD # Required: Pentaho Data Integration Server Password
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here.
+# ===================================================================
+
+application:
+    cas:
+        endpoint: FILL_CAS_ENDPOINT # Required: Cas Endpoint
+        service: FILL_SERVICE_URL # Required: Aplication service
+        login:  # Optional: Only change if needed (Leave empty for cas.enpoint + '/login')
+        logout: # Optional: Only change if needed(Leave empty for cas.enpoint + '/logout')
+    ldap:
+        url: FILL_URL # Ejemplo: ldap://ldap.miorganizacion.com
+        username: FILL_USERNAME # Ejemplo: cn=username,dc=miorganizacion,dc=com
+        password: FILL_PASSWORD # Ejemplo: mipassword
+        base: FILL_BASE # Ejemplo ou=usuarios,dc=miorganizacion,dc=com
+        searchUsersProperty: FILL_SEARCH_USERS_PROPERTY # Ejemplo: uid
+    installation:
+        type: FILL_INSTALLATION_TYPE # Required: Installation Type Context (EXTERNAL / INTERNAL)
+
+# ===================================================================        
+# Application debug properties
+#
+# Uncomment if debug mode needed
+# ===================================================================
+
+# debug

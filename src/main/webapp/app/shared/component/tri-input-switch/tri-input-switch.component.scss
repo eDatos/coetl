@@ -1,0 +1,27 @@
+@import '~scss/variables';
+
+$border-width: 5px;
+$color-invalid: $brand-success;
+$color-valid: $brand-danger;
+
+.clear {
+    cursor: pointer;
+}
+
+:host[required] {
+    display: block;
+    p-selectButton{
+        border-left: none;            
+    }
+}
+
+fieldset[disabled], fieldset:disabled {
+    :host i {
+        display: none;
+    }
+}
+
+$same-width-si-and-no: 40px;
+p-selectButton /deep/ .ui-button-text-only .ui-button-text {
+    min-width: $same-width-si-and-no;
+}

@@ -1,0 +1,86 @@
+@import '~scss/variables';
+
+/* ==========================================================================
+Navbar
+========================================================================== */
+.navbar-version {
+    font-size: 10px;
+    color: $grey-lightest;
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+
+.collapse.show {
+    .nav-link {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+.jh-navbar {
+    background-color: $main-dark;
+
+    .dropdown-item.active,
+    .dropdown-item.active:focus,
+    .dropdown-item.active:hover {
+        background-color: $main-dark;
+    }
+    .dropdown-toggle::after {
+        margin-left: 0.15em;
+    }
+    ul.navbar-nav {
+        .nav-item {
+            margin-left: 0.5rem;
+            white-space: nowrap;
+            &.active {
+                background: $grey-dark;
+            }
+        }
+    }
+    a.nav-link {
+        font-weight: $font-weight-normal;
+        line-height: $navbar-content-height;
+    }
+    .jh-navbar-toggler {
+        color: $grey-lightest;
+        font-size: 1.5em;
+        padding: $navbar-padding-y;
+        vertical-align: middle;
+        display: inline-block;
+        &:hover {
+            color: $white;
+        }
+    }
+}
+
+.internal-navbar {
+    background-color: $main-internal;
+}
+
+.navbar-title {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#account-menu {
+    &.navbar-toggleable {
+        align-items: unset;
+    }
+    .nav-link {
+        padding-right: $page-padding-right;
+        padding-left: 1em;
+        display: inline-block;
+    }
+}
+
+/* ==========================================================================
+Logo styles
+========================================================================== */
+.navbar-brand {
+    &.logo {
+        padding: $navbar-padding-y $page-padding-right $navbar-padding-y $page-padding-left;
+        .logo-img {
+            height: $navbar-content-height;
+            margin-right: $grid-gutter-width-base / 2;
+        }
+    }
+}

@@ -1,0 +1,119 @@
+{
+    "coetlApp": {
+        "etl": {
+            "home": {
+                "title": "Registro de ETLs",
+                "createLabel": "Crear nueva ETL",
+                "createOrEditLabel": "Crear o editar ETL"
+            },
+            "menu": {
+                "title": "Registro de ETLs"
+            },
+            "created": "Se ha creado la ETL {{ param }}",
+            "updated": "Se ha actualizado la ETL {{ param }}",
+            "deleted": "Se ha eliminado la ETL {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar la ETL {{ code }}?"
+            },
+            "restore": {
+                "question": "¿Seguro que quiere resturar la ETL {{ code }}?"
+            },
+            "execution": {
+                "title": "Confirmar ejecución",
+                "question": "¿Seguro que quiere ejecutar la ETL {{ code }}?"
+            },
+            "detail": {
+                "title": "ETL"
+            },
+            "code": {
+                "label": "Código",
+                "placeholder": "Introduzca un código"
+            },
+            "name": {
+                "label": "Nombre",
+                "placeholder": "Introduzca un nombre"
+            },
+            "purpose": {
+                "label": "Finalidad",
+                "placeholder": "Introduzca una finalidad"
+            },
+            "organizationInCharge": {
+                "label": "Organismo responsable ",
+                "placeholder": "Introduzca un organismo responsable"
+            },
+            "functionalInCharge": {
+                "label": "Responsable funcional",
+                "placeholder": "Introduzca un responsable funcional"
+            },
+            "technicalInCharge": {
+                "label": "Responsable técnico",
+                "placeholder": "Introduzca un responsable técnico"
+            },
+            "type": {
+                "label": "Tipo",
+                "placeholder": "Introduzca un tipo",
+                "TRANSFORMATION": "Transformation",
+                "JOB": "Job"
+            },
+            "comments": {
+                "label": "Comentarios",
+                "placeholder": "Introduzca comentarios"
+            },
+            "executionDescription": {
+                "label": "Cuando debe ejecutarse",
+                "placeholder": "Introduzca una descripción relativa a la ejecución"
+            },
+            "executionPlanning": {
+                "label": "Expresión de planificación",
+                "placeholder": "Introduzca una expresión de planificación"
+            },
+            "nextExecution": {
+                "label": "Próxima ejecución"
+            },
+            "descriptionFile": {
+                "label": "Fichero descriptivo",
+                "help": "El documento descriptivo deberá ser un documento PDF elaborado por el técnico con la descripción del cometido de la ETL así como cualquier otra información que considere necesaria sobre su implementación."
+            },
+            "codeFile": {
+                "label": "Fichero ETL"
+            },
+            "state": {
+                "label": "Estado",
+                "isDeleted": "Eliminada",
+                "isNotDeleted": "Activa"
+            },
+            "planning": {
+                "label": "Planificación",
+                "isPlanning": "Planificado",
+                "isNotPlanning": "No planificado"
+            },
+            "sections": {
+                "identification": "Identificación",
+                "inCharge": "Responsables",
+                "etl": "ETL",
+                "planning": "Planificación",
+                "executions": "Ejecuciones"
+            },
+            "filters": {
+                "code": {
+                    "placeholder": "Búsqueda por código",
+                    "label": "Código"
+                },
+                "name": {
+                    "placeholder": "Búsqueda por nombre",
+                    "label": "Nombre"
+                },
+                "type": {
+                    "placeholder": "Búsqueda por tipo",
+                    "label": "Tipo"
+                },
+                "organizationInCharge": {
+                    "placeholder": "Búsqueda por organismo responsable",
+                    "label": "Organismo responsable"
+                },
+                "isPlanned": "Incluir planificados",
+                "includeDeleted": "Incluir eliminados"
+            }
+        }
+    }
+}

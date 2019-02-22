@@ -1,0 +1,24 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+@import 'node_modules/bootstrap/scss/bootstrap';
+
+.form-control {
+    font-weight: $font-weight-normal;
+}
+// Overriding _normalize.scss
+button,
+input,
+optgroup,
+select,
+textarea {
+   font-family: $font-family-sans-serif;
+}
+
+input {
+    @include placeholder {
+        font-weight: $font-weight-light;
+    }
+}
+.navbar-toggleable-lg .navbar-collapse {
+    width: auto;
+}

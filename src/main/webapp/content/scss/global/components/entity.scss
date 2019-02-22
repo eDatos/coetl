@@ -1,0 +1,361 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+@import 'node_modules/bootstrap/scss/utilities/_position';
+
+$zindex-fixed-navs: $zindex-dropdown - 5; // Dont cover navbar dropdown
+.entity-header {
+    @include make-narrowed-container();
+    html & {
+        @extend .fixed-top;
+        z-index: $zindex-fixed-navs;
+    }
+    margin-top: $navbar-height;
+    box-shadow: $nav-shadow;
+    background: $grey-lightest;    
+    
+    h2:not(.fullcalendar-title) {
+        position: relative;
+        box-shadow: none;
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 0;
+        
+        .back-arrow {
+            left: -$entity-header-height
+        }
+    }
+}
+.has-entity-header {
+    margin-top: -$entity-header-height;
+}
+
+$error-font-size: 0.8rem;
+// Jhipster always generates the same layout. We can trust h2 is where is needed
+h2:not(.fullcalendar-title) {
+    display: flex;
+    align-items: center;        
+    justify-content: space-between;
+    span {
+        justify-content: unset;
+    }
+    line-height: $entity-header-height;
+
+    background: $grey-lightest;        
+    
+    @include make-narrowed-container();
+    html & {
+        @extend .fixed-top;
+        z-index: $zindex-fixed-navs;
+        margin-top: $navbar-height;
+    }
+    box-shadow: $nav-shadow;
+
+    .back-arrow {
+        position: absolute;
+        left: $page-padding-left/3;
+        padding: 0;
+        margin: auto;
+        height: $entity-header-height;
+
+        .fa-arrow-left:before {
+            content: '';
+        }
+        
+        .fa.fa-arrow-left {    
+            background-image: url("~images/arrow-back.svg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            width: 2em;
+            height: 2em;
+            opacity: 0.5;
+        
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    // Buttons
+    & > *:last-child {
+        flex-shrink: 0;
+        margin-left: $page-padding-right;        
+    }
+    // Title
+    & > *:first-child {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        flex-shrink: unset;
+        margin-left: 0;
+    }
+}
+
+h3 {
+    margin-top: 2 * $spacer-y;
+    padding-bottom: 0;
+    margin-bottom: $spacer-y;
+    display: inline-block;
+}
+
+fieldset {
+    .entity-fields {    
+        padding-top: $spacer-y;
+        @include make-row();
+
+        .form-group {
+            &.full-width {
+                @include make-col(12); 
+                label {                    
+                    @include make-col(2);            
+                }
+                .form-control,
+                ac-autocomplete,
+                ac-autocomplete-short-list,
+                ac-autocomplete-long-list,
+                ac-autocomplete-enum,
+                p-listbox {
+                    @include make-col(10);
+                }
+            }
+            
+            @include make-col-ready();
+            @include make-col(6);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;      
+            label {
+                @include make-col-ready();
+                @include make-col(4);  
+                padding-left: 0 !important; 
+            }
+            
+            .form-control {
+                @include make-col(8);      
+                border-top: none;
+                border-right: none;
+                border-bottom: none;
+                &:hover {
+                    border-bottom: 2 * $border-width solid $grey-medium;
+                    margin-bottom: -2 * $border-width;
+                }
+
+                .btn {
+                    margin-right: $spacer-x/4;
+                }
+            }            
+            .input-group {
+                @include make-col-ready();
+                @include make-col(8);
+
+                .input-group-actions {
+                    @include make-col(4); 
+                    text-align: right;
+                }
+            }
+
+            // Workaround for https://github.com/stevepapa/ng-autosize/issues/11
+            textarea[autosize].form-control {
+                border-top: $border-width solid transparent;
+                &:hover {                    
+                    margin-bottom: 0;
+                }
+            }
+
+            ac-autocomplete,
+            ac-autocomplete-short-list,
+            ac-autocomplete-long-list,
+            ac-autocomplete-enum,
+            p-listbox {
+                @include make-col(8);
+            }        
+            
+            .entity-field-error {
+                @include make-col-ready();
+                padding-right: $grid-gutter-width-base !important;                
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                text-align: right;
+                
+                position: absolute !important;
+                top: 105%;
+                right: 0;
+                font-size: $error-font-size;
+                
+                small.form-text.text-danger {
+                    font-size: $error-font-size;
+                    display: inline;
+                }
+            }            
+
+            &::after {
+                content: '';
+                border-bottom: $border-width solid $grey-light;  
+                width: 100%;
+            }
+        }
+
+        .jh-entity-details {            
+            @include make-col-ready();
+            @include make-col(6);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+
+            dt {
+                @include make-col-ready();
+                @include make-col(4);  
+                padding-left: 0 !important; 
+            }
+            dd {
+                @include make-col-ready();
+                @include make-col(8);  
+                border: none !important;
+                font-weight: $font-weight-normal;
+            }
+
+            &::after {
+                content: '';
+                border-bottom: $border-width solid $grey-light;
+                width: 100%;
+            }
+        }
+        
+    }
+
+    .form-group {
+        .ng-touched.ng-invalid:not(form),
+        .ng-dirty.ng-invalid:not(form) {
+            border-bottom: $border-width solid $accent-medium;
+            &:hover {
+                border-bottom: 2 * $border-width solid $accent-medium;
+                margin-bottom: -$border-width;
+            }
+        }           
+    }    
+
+    .form-group {
+        .form-control:disabled, 
+        .form-control[disabled], 
+        .form-control.disabled,
+        .form-control[readonly] {
+            @extend %disabled-form-control;
+        }    
+    }   
+    
+    &:disabled,
+    &[disabled] {
+        .entity-fields {
+            .form-control {
+                @extend %disabled-form-control;
+            }
+        }
+    }
+}
+
+fieldset .form-group .form-control {
+    border-left: $border-required-none;
+}
+
+fieldset:enabled .form-group {
+    .form-control:not(.disabled),
+    .form-control:enabled, 
+    .form-control[enabled] {
+        &[required],
+        &:required {
+            border-left: $border-required-error;
+            &.ng-valid {
+                border-left: $border-required-valid;                    
+            }
+        }
+    }
+}
+
+.entity {
+    &.has-menu {
+        position: relative;
+        padding-left: $side-menu-width;        
+        h2 {
+            left: $side-menu-width;
+        }
+        .entity-header {
+            left: $side-menu-width;
+            h2 {
+                left: 0;
+            }   
+        }
+    }
+    &.has-search {
+        padding-top: $entity-search-default-height;
+    }
+
+    .alert {
+        margin-top: $spacer-y;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.entity-deleted {
+    text-decoration: line-through;
+    .badge {
+        text-decoration: line-through black;
+    }
+}
+.entity-search {
+
+    justify-content: flex-start;
+
+    @include make-row();
+    .entity-search-field,
+    .entity-search-field-btn {        
+        @include make-col-ready();
+        @include make-col(12/5);
+        &.small-search-field {
+            @include make-col(12/10);
+        }
+        .form-group {
+            display: flex;
+            margin-bottom: 0;
+        }
+        @include placeholder {
+            color: $grey-medium;
+        } 
+        margin-bottom: $form-group-margin-bottom;
+    }
+    .entity-search-field-btn {
+        margin-left: auto;    
+        text-align: right;
+        align-self: flex-end;
+    }
+}
+
+.container-fluid {
+    @include make-narrowed-container();
+}
+
+%disabled-form-control {
+    background-color: transparent;
+    cursor: default;
+    @include appearance(none);
+    &:hover {
+        border-bottom: none;
+        margin-bottom: initial;
+    }
+}
+.ui-tree {
+    width: 100% !important;
+}
+
+
+.section-buttons {
+    margin-top: 1.5 * $spacer-y;
+    float: right;
+
+    .btn {
+        @include link-button();
+    }
+}

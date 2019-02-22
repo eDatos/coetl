@@ -1,0 +1,68 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+
+:host {
+    /deep/ p-calendar {
+        border: none !important;
+        input {
+            padding: 0;
+            width: 100%;
+            border: none  !important;
+            @include placeholder {
+                color: $grey-medium;
+            }
+        }
+        
+        .ui-calendar {
+            width: 100%;
+        }
+        .ui-state-default:hover {
+            border: none;
+            margin-bottom: 0;
+        }
+        .entity-field-error {
+            margin-top: 2 * $border-width;
+        }
+        .ui-datepicker {
+            padding: $input-padding-y $input-padding-x;
+            th {
+                font-weight: $font-weight-normal;
+                border-top: $border-width solid $grey-medium;
+                border-bottom: $border-width solid $grey-medium;
+            }
+            td span, 
+            td a {
+                text-align: center;
+            }
+            .ui-datepicker-header {
+                font-weight: $font-weight-light;
+                border: none;
+
+            }
+            .ui-state-default {
+                border: none;
+                border-radius: $border-radius;
+                background: $white;
+            }
+            .ui-state-active {
+                border-color: $main-medium;
+                background: $main-light;
+                color: $white;
+            }
+            .ui-state-highlight {
+                border-color: $main-medium;
+                background: $main-medium;
+                color: $white;
+            }
+            .ui-datepicker-other-month a {
+                color: $grey-medium;
+            }
+        }
+    }
+}
+
+:host.disabled, fieldset[disabled] :host, fieldset:disabled :host{
+    /deep/ p-calendar input::placeholder {
+        opacity: 0;
+    }
+}

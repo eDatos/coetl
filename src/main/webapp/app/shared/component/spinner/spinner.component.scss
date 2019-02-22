@@ -1,0 +1,23 @@
+@import '~scss/variables';
+
+.spinner {
+    text-align: center;
+}
+
+:host(.overlay) .spinner {
+    position: fixed;
+    top: $navbar-content-height + $navbar-padding-y * 2;
+    z-index:1000;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba($grey-darkest, 0.3);
+    left: 50%;
+    transform: translateX(-50%);
+
+    & > img {
+        top: 30%;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}

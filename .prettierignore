@@ -1,0 +1,8 @@
+/*
+!/src
+/src/*
+!/src/main
+/src/main/*
+!/src/main/webapp
+/src/main/webapp/*
+!/src/main/webapp/app

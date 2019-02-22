@@ -1,0 +1,24 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+
+.side-menu {
+    background: $grey-light;
+    color: $black;
+
+    position: fixed;
+    width: $side-menu-width;
+    left: 0;
+    top: $navbar-height;
+    bottom: 0;
+
+    padding-top: $entity-header-height / 2;
+
+    border-right: $border-width solid $grey-medium;
+
+    z-index: $zindex-dropdown;
+
+    /deep/ .side-menu-item {
+        @include menu-item();
+        padding-left: $page-padding;
+    }
+}

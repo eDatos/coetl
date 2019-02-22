@@ -1,0 +1,6 @@
+<div class="side-menu">
+    <a class="side-menu-item" *ngFor="let item of menu" [routerLink]="[]" [fragment]="item.url">{{item.title}}</a>
+    <ng-content>
+
+    </ng-content>
+</div>

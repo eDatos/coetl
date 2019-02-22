@@ -1,0 +1,22 @@
+{
+    "coetlApp": {
+        "file": {
+            "choose": "Elegir",
+            "upload": "Subir",
+            "cancel": "Cancelar",
+            "delete": {
+                "title": "Eliminar",
+                "question": "¿Seguro que quirere eliminar el documento {{ documentoNombre }}"
+            },
+            "invalidFileSizeMessageSummary": "{0}: Tamaño incorrecto",
+            "invalidFileSizeMessageDetail": "el tamaño máximo es {0}.",
+            "invalidFileTypeMessageSummary": "{0}: Tipo de documento no válido, ",
+            "invalidFileTypeMessageDetail": "tipos de documento permitidos: {0}.",
+            "download": "Descargar",
+            "filename": "Nombre archivo",
+            "emptyFileList": "No hay archivos subidos",
+            "filesToUpload": "Archivos para subir",
+            "noUploadPending": "No hay archivos pendientes de subir"
+        }
+    }
+}

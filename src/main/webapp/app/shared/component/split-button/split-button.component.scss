@@ -1,0 +1,47 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+
+$side-margin: 6px;
+
+.ui-splitbutton {
+    white-space: nowrap;   
+    
+    &.has-other-buttons /deep/ ac-split-button-main button {
+        border-radius: $border-radius 0 0 $border-radius !important;   
+        border-right: none;
+    }
+    .ui-splitbutton-menubutton {
+        font-size: $font-size-base;
+        &.ui-button-icon-only /deep/ .ui-button-text {
+            padding: 0;
+            line-height: $input-line-height;
+        }
+        border-radius: 0 $border-radius $border-radius 0 !important;   
+        margin-left: -$side-margin;
+    }
+    .ui-menu {
+        white-space: initial;    
+        width: initial;
+        background: $white;
+        z-index: $zindex-popover;
+        margin-top: -5px; // Magic number!
+
+        padding: $spacer-y/2 0;
+        hr {
+            margin: $spacer-y/2 0;
+        }
+
+        right: 0;
+
+        /deep/ ac-split-button-others {
+            button {
+                @include menu-item();
+                padding-left: $spacer-x;
+                padding-right: $spacer-x;
+                &:hover {
+                    background: $grey-light;
+                }
+            }
+        }
+    }
+}
