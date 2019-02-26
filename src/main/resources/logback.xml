@@ -13,7 +13,7 @@
     class="ch.qos.logback.classic.AsyncAppender"> <queueSize>512</queueSize> 
     <appender-ref ref="FILE"/> </appender> -->
 
-  <property name="LOGS_HOME" value="/data/istac/coetl/serverlogs" />
+  <property name="LOGS_HOME" value="/servers/metamac/data/coetl/logs" />
 
   <turboFilter class="es.gobcan.istac.coetl.util.ExpiringDuplicateMessageFilter">
 	<allowedRepetitions>4</allowedRepetitions>
