@@ -11,7 +11,7 @@ if [ "$1" == "--no-restart" ]; then
 fi
 
 scp -r etc/deploy deploy@estadisticas.arte-consultores.com:$TRANSFER_PATH
-scp coetl/target/coetl-*.war deploy@estadisticas.arte-consultores.com:$TRANSFER_PATH/coetl.war
+scp target/coetl-*.war deploy@estadisticas.arte-consultores.com:$TRANSFER_PATH/coetl.war
 ssh deploy@estadisticas.arte-consultores.com <<EOF
 
     # chmod a+x $TRANSFER_PATH/deploy/*.sh;
