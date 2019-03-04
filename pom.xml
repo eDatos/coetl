@@ -41,7 +41,7 @@
 
 	<properties>
 		<argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>
-		<arte-libs-grammar.version>2.1.0</arte-libs-grammar.version>
+		<arte-libs-grammar.version>2.2.0</arte-libs-grammar.version>
 		<assertj.version>3.6.2</assertj.version>
 		<awaitility.version>2.0.0</awaitility.version>
 		<commons-io.version>2.5</commons-io.version>
@@ -74,7 +74,6 @@
 		<postgresql.version>9.4.1212</postgresql.version>
 		<!-- These remain empty unless the corresponding profile is active -->
 		<profile.no-liquibase />
-		<profile.swagger />
 		<!-- Sonar properties -->
 		<project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
 		<quartz.version>2.2.3</quartz.version>
@@ -711,12 +710,6 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>swagger</id>
-			<properties>
-				<profile.swagger>,swagger</profile.swagger>
-			</properties>
-		</profile>
-		<profile>
 			<id>webpack</id>
 			<build>
 				<plugins>
@@ -867,7 +860,7 @@
 				<!-- log configuration -->
 				<logback.loglevel>INFO</logback.loglevel>
 				<!-- default Spring profiles -->
-				<spring.profiles.active>env${profile.swagger}${profile.no-liquibase}</spring.profiles.active>
+				<spring.profiles.active>env${profile.no-liquibase}</spring.profiles.active>
 			</properties>
 		</profile>
 		<profile>

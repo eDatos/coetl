@@ -1,4 +1,4 @@
-package es.gobcan.istac.coetl.web.filter;
+package es.gobcan.istac.coetl.security.filter;
 
 import java.io.IOException;
 

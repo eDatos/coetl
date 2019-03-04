@@ -48,7 +48,7 @@ import com.codahale.metrics.servlets.MetricsServlet;
 
 import es.gobcan.istac.coetl.config.Constants;
 import es.gobcan.istac.coetl.config.WebConfigurer;
-import es.gobcan.istac.coetl.web.filter.CustomStaticsResourceHttpHeadersFilter;
+import es.gobcan.istac.coetl.security.filter.CustomStaticsResourceHttpHeadersFilter;
 import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.config.JHipsterProperties;
 import io.undertow.Undertow;

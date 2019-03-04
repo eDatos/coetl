@@ -33,7 +33,6 @@
         "reflect-metadata": "0.1.10",
         "rxjs": "5.4.2",
         "sticky-table-headers": "^0.1.19",
-        "swagger-ui": "2.2.10",
         "tether": "1.4.0",
         "zone.js": "0.8.13"
     },

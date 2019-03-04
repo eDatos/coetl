@@ -17,7 +17,6 @@ import {
     JhiHealthModalComponent,
     JhiHealthCheckComponent,
     JhiConfigurationComponent,
-    JhiDocsComponent,
     AuditsService,
     JhiConfigurationService,
     JhiHealthService,
@@ -46,7 +45,6 @@ import { UserSearchComponent } from './user-management/user-search';
         JhiConfigurationComponent,
         JhiHealthCheckComponent,
         JhiHealthModalComponent,
-        JhiDocsComponent,
         JhiMetricsMonitoringComponent,
         JhiMetricsMonitoringModalComponent
     ],

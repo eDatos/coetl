@@ -19,7 +19,6 @@ import { TranslateService } from '@ngx-translate/core';
 export class NavbarComponent implements OnInit {
     inProduction: boolean;
     isNavbarCollapsed: boolean;
-    swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
     isInternalApp: boolean;
@@ -41,7 +40,6 @@ export class NavbarComponent implements OnInit {
     ngOnInit() {
         this.profileService.getProfileInfo().subscribe((profileInfo) => {
             this.inProduction = profileInfo.inProduction;
-            this.swaggerEnabled = false;
         });
         this.isInternalApp = this.internalInstallationService.isInternalType();
         this.title = this.isInternalApp

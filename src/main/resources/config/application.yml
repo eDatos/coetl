@@ -85,7 +85,6 @@ spring:
         # Otherwise, it will be filled in by maven when building the WAR file
         # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
         active: #spring.profiles.active#
-        include: swagger
     thymeleaf:
         cache: true
         mode: XHTML
@@ -180,17 +179,6 @@ jhipster:
             host: localhost
             port: 5000
             queue-size: 512
-    swagger:
-        default-include-pattern: /api/.*
-        title: coetl API
-        description: coetl API documentation
-        version: 0.0.1
-        terms-of-service-url:
-        contact-name:
-        contact-url:
-        contact-email:
-        license:
-        license-url:
     ribbon:
         display-on-active-profiles: dev
 

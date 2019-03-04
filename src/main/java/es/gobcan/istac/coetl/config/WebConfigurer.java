@@ -29,7 +29,7 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
 
-import es.gobcan.istac.coetl.web.filter.CustomStaticsResourceHttpHeadersFilter;
+import es.gobcan.istac.coetl.security.filter.CustomStaticsResourceHttpHeadersFilter;
 import io.github.jhipster.config.JHipsterProperties;
 import io.undertow.UndertowOptions;
 
@@ -124,7 +124,6 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         customStaticResourcesHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/app/*");
         customStaticResourcesHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
         customStaticResourcesHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/templates/*");
-        customStaticResourcesHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/swagger-ui/index.html");
         customStaticResourcesHttpHeadersFilter.setAsyncSupported(true);
     }
 

@@ -189,7 +189,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/bower_components/**")
             .antMatchers("/i18n/**")
             .antMatchers("/content/**")
-            .antMatchers("/swagger-ui/index.html")
             .antMatchers("/templates/**")
             .antMatchers("/test/**");
         //@formatter:on
@@ -211,7 +210,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         .and()
             .headers()
-            .frameOptions().disable()
+            .frameOptions().sameOrigin()
         .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -222,11 +221,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/profile-info").permitAll()
             .antMatchers("/management/metrics").access("@secChecker.puedeConsultarMetrica(authentication)")
             .antMatchers("/management/health").access("@secChecker.puedeConsultarSalud(authentication)")
-            .antMatchers("/management/configprops").access("@secChecker.puedeConsultarConfig(authentication)")
             .antMatchers("/management/env").access("@secChecker.puedeConsultarConfig(authentication)")
+            .antMatchers("/management/configprops").access("@secChecker.puedeConsultarConfig(authentication)")
             .antMatchers("/v2/api-docs/**").permitAll()
-            .antMatchers("/swagger-resources/configuration/ui").permitAll()
-            .antMatchers("/swagger-ui/index.html").access("@secChecker.puedeConsultarApi(authentication)")
             .antMatchers("/**").authenticated();
         //@formatter:on
     }

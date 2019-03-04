@@ -7229,10 +7229,6 @@ svgo@^0.7.0:
     sax "~1.2.1"
     whet.extend "~0.9.9"
 
-swagger-ui@2.2.10:
-  version "2.2.10"
-  resolved "http://repository.arte-consultores.com/repository/npm-all/swagger-ui/-/swagger-ui-2.2.10.tgz#b25e7a21664e5d90bf391db30db08de41e852d7b"
-
 symbol-observable@^1.0.1:
   version "1.0.4"
   resolved "http://repository.arte-consultores.com/repository/npm-all/symbol-observable/-/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
