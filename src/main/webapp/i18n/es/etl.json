@@ -77,6 +77,10 @@
             "codeFile": {
                 "label": "Fichero ETL"
             },
+            "attachedFiles": {
+                "label": "Ficheros adjuntos ETL",
+                "help": "Se toman como ficheros adjuntos aquellos recursos usados internamente por la ETL, ya sean otras ETLs, imágenes, CSVs, etcétera."
+            },
             "state": {
                 "label": "Estado",
                 "isDeleted": "Eliminada",

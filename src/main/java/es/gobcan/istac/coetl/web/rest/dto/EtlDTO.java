@@ -2,6 +2,7 @@ package es.gobcan.istac.coetl.web.rest.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 import es.gobcan.istac.coetl.domain.Etl.Type;
@@ -24,6 +25,7 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
     private Instant nextExecution;
     private FileDTO etlFile;
     private FileDTO etlDescriptionFile;
+    private List<FileDTO> attachedFiles;
 
     public Long getId() {
         return id;
@@ -135,6 +137,14 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
 
     public void setEtlDescriptionFile(FileDTO etlDescriptionFile) {
         this.etlDescriptionFile = etlDescriptionFile;
+    }
+
+    public List<FileDTO> getAttachedFiles() {
+        return attachedFiles;
+    }
+
+    public void setAttachedFiles(List<FileDTO> attachedFiles) {
+        this.attachedFiles = attachedFiles;
     }
 
     @Override

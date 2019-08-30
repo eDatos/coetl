@@ -21,9 +21,12 @@ export class Etl extends BaseVersionedAndAuditingWithDeletionEntity {
         public executionPlanning?: string,
         public nextExecution?: Date,
         public etlFile?: File,
-        public etlDescriptionFile?: File
+        public etlDescriptionFile?: File,
+        public attachedFiles?: File[],
+        public isAttachedFilesChanged?: boolean
     ) {
         super();
+        this.isAttachedFilesChanged = !!isAttachedFilesChanged;
     }
 
     isDeleted(): boolean {

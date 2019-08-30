@@ -42,6 +42,7 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
 
         entity.setEtlFile(fileMapper.toEntity(dto.getEtlFile()));
         entity.setEtlDescriptionFile(fileMapper.toEntity(dto.getEtlDescriptionFile()));
+        entity.addAllAttachedFiles(fileMapper.toEntity(dto.getAttachedFiles()));
 
         entity.setOptLock(dto.getOptLock());
 
