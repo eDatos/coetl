@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.repository.EtlRepository;
+import es.gobcan.istac.coetl.web.rest.dto.EtlBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 
 @Mapper(componentModel = "spring", uses = {FileMapper.class})
@@ -47,5 +48,31 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         entity.setOptLock(dto.getOptLock());
 
         return entity;
+    }
+
+    public EtlBaseDTO toBaseDto(Etl entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        EtlBaseDTO baseDto = new EtlBaseDTO();
+
+        baseDto.setId(entity.getId());
+        baseDto.setCode(entity.getCode());
+        baseDto.setName(entity.getName());
+        baseDto.setOrganizationInCharge(entity.getOrganizationInCharge());
+        baseDto.setType(entity.getType());
+        baseDto.setExecutionPlanning(entity.getExecutionPlanning());
+
+        baseDto.setCreatedBy(entity.getCreatedBy());
+        baseDto.setCreatedDate(entity.getCreatedDate());
+        baseDto.setLastModifiedBy(entity.getLastModifiedBy());
+        baseDto.setLastModifiedDate(entity.getLastModifiedDate());
+        baseDto.setDeletedBy(entity.getDeletedBy());
+        baseDto.setDeletionDate(entity.getDeletionDate());
+
+        baseDto.setOptLock(entity.getOptLock());
+
+        return baseDto;
     }
 }

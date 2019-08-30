@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { createRequestOption, ResponseWrapper } from '../../shared';
-import { Etl } from './etl.model';
+import { Etl, EtlBase } from './etl.model';
 import { Execution } from '../execution/execution.model';
 
 @Injectable()
@@ -46,7 +46,7 @@ export class EtlService {
         const options = createRequestOption(req);
         return this.http
             .get(this.resourceUrl, options)
-            .map((response) => this.convertResponseToEtlResponseWrapper(response));
+            .map((response) => this.convertResponseToEtlBaseResponseWrapper(response));
     }
 
     public execute(idEtl: Number): Observable<string> {
@@ -62,9 +62,15 @@ export class EtlService {
             .map((response) => this.convertResponseToExecutionResponseWrapper(response));
     }
 
-    private convertResponseToEtlResponseWrapper(response: Response): ResponseWrapper {
-        const jsonResponse = response.json().map((element: any) => this.convertItemToEtl(element));
+    private convertResponseToEtlBaseResponseWrapper(response: Response): ResponseWrapper {
+        const jsonResponse = response
+            .json()
+            .map((element: any) => this.convertItemToBaseEtl(element));
         return new ResponseWrapper(response.headers, jsonResponse, response.status);
+    }
+
+    private convertItemToBaseEtl(entity: any): Etl {
+        return Object.assign(new EtlBase(), entity);
     }
 
     private convertItemToEtl(entity: any): Etl {

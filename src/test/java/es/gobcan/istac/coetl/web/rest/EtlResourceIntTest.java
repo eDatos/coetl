@@ -50,6 +50,7 @@ import es.gobcan.istac.coetl.pentaho.service.PentahoSftpService;
 import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
+import es.gobcan.istac.coetl.web.rest.dto.EtlBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 import es.gobcan.istac.coetl.web.rest.mapper.EtlMapper;
 import es.gobcan.istac.coetl.web.rest.mapper.ExecutionMapper;
@@ -332,7 +333,7 @@ public class EtlResourceIntTest {
     public void findAll() throws IOException, SQLException, Exception {
         Etl etlMocked = mockEntity();
 
-        EtlDTO etlDTOMocked = etlMapper.toDto(etlMocked);
+        EtlBaseDTO etlDTOMocked = etlMapper.toBaseDto(etlMocked);
 
         Page<Etl> etlMockPage = new PageImpl<>(new ArrayList<>(Arrays.asList(etlMocked)));
         doReturn(etlMockPage).when(etlService).findAll(any(String.class), any(Boolean.class), any(Pageable.class));
@@ -346,13 +347,8 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(etlDTOMocked.getId().intValue())))
             .andExpect(jsonPath("$.[*].code").value(hasItem(etlDTOMocked.getCode())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(etlDTOMocked.getName())))
-            .andExpect(jsonPath("$.[*].purpose").value(hasItem(is(nullValue()))))
             .andExpect(jsonPath("$.[*].organizationInCharge").value(hasItem(etlDTOMocked.getOrganizationInCharge())))
-            .andExpect(jsonPath("$.[*].functionalInCharge").value(hasItem(etlDTOMocked.getFunctionalInCharge())))
-            .andExpect(jsonPath("$.[*].technicalInCharge").value(hasItem(etlDTOMocked.getTechnicalInCharge())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(etlDTOMocked.getType().name())))
-            .andExpect(jsonPath("$.[*].comments").value(hasItem(is(nullValue()))))
-            .andExpect(jsonPath("$.[*].executionDescription").value(hasItem(is(nullValue()))))
             .andExpect(jsonPath("$.[*].executionPlanning").value(hasItem(is(nullValue()))))
             .andExpect(jsonPath("$.[*].deletionDate").value(hasItem(is(nullValue()))))
             .andExpect(jsonPath("$.[*].deletedBy").value(hasItem(is(nullValue()))));

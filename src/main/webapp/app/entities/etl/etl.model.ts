@@ -6,27 +6,16 @@ export enum Type {
     JOB = 'JOB'
 }
 
-export class Etl extends BaseVersionedAndAuditingWithDeletionEntity {
+export class EtlBase extends BaseVersionedAndAuditingWithDeletionEntity {
     constructor(
         public id?: number,
         public code?: string,
         public name?: string,
-        public purpose?: string,
         public organizationInCharge?: string,
-        public functionalInCharge?: string,
-        public technicalInCharge?: string,
         public type?: Type,
-        public comments?: string,
-        public executionDescription?: string,
-        public executionPlanning?: string,
-        public nextExecution?: Date,
-        public etlFile?: File,
-        public etlDescriptionFile?: File,
-        public attachedFiles?: File[],
-        public isAttachedFilesChanged?: boolean
+        public executionPlanning?: string
     ) {
         super();
-        this.isAttachedFilesChanged = !!isAttachedFilesChanged;
     }
 
     isDeleted(): boolean {
@@ -35,5 +24,23 @@ export class Etl extends BaseVersionedAndAuditingWithDeletionEntity {
 
     isPlanning(): boolean {
         return !!this.executionPlanning;
+    }
+}
+
+export class Etl extends EtlBase {
+    constructor(
+        public purpose?: string,
+        public functionalInCharge?: string,
+        public technicalInCharge?: string,
+        public comments?: string,
+        public executionDescription?: string,
+        public nextExecution?: Date,
+        public etlFile?: File,
+        public etlDescriptionFile?: File,
+        public attachedFiles?: File[],
+        public isAttachedFilesChanged?: boolean
+    ) {
+        super();
+        this.isAttachedFilesChanged = !!isAttachedFilesChanged;
     }
 }

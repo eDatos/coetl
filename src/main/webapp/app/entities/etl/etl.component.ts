@@ -5,7 +5,7 @@ import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
 import { Account, Principal, ResponseWrapper } from '../../shared';
-import { Etl } from './etl.model';
+import { EtlBase } from './etl.model';
 import { EtlFilter } from './etl-search';
 import { EtlService } from './etl.service';
 import { EtlFormComponent } from './etl-form.component';
@@ -20,7 +20,7 @@ export class EtlComponent implements OnInit, OnDestroy {
     itemsPerPage: number;
 
     currentAccount: Account;
-    etls: Etl[];
+    etls: EtlBase[];
     eventSubscriber: Subscription;
     searchSubsctiption: Subscription;
     routeDataSubscription: any;
@@ -106,15 +106,15 @@ export class EtlComponent implements OnInit, OnDestroy {
         ]);
     }
 
-    trackId(index: number, item: Etl) {
+    trackId(index: number, item: EtlBase) {
         return item.id;
     }
 
-    getTypeName(etl: Etl): string {
+    getTypeName(etl: EtlBase): string {
         return this.translateService.instant(`coetlApp.etl.type.${etl.type}`);
     }
 
-    getPlanningMessage(etl: Etl): string {
+    getPlanningMessage(etl: EtlBase): string {
         const messageCode = etl.isPlanning()
             ? 'coetlApp.etl.planning.isPlanning'
             : 'coetlApp.etl.planning.isNotPlanning';
@@ -137,7 +137,7 @@ export class EtlComponent implements OnInit, OnDestroy {
         });
     }
 
-    private onSuccess(data: Etl[], headers) {
+    private onSuccess(data: EtlBase[], headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.etls = data;
