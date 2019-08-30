@@ -44,6 +44,16 @@ pentaho:
     auth:
         user: FILL_PENTAHO_USER # Required: Pentaho Data Integration Server User
         password: FILL_PENTAHO_PASSWORD # Required: Pentaho Data Integration Server Password
+    host:
+        os: FILL_PENTAHO_HOST_OS # Required: Pentaho Host Operating System
+        address: FILL_PENTAHO_HOST_ADDRESS # Required: Pentaho Host Address
+        username: FILL_PENTAHO_HOST_USERNAME # Required: Pentaho Host Username
+        password: FILL_PENTAHO_HOST_PASSWORD # Required: Pentaho Host Password
+        sudoUsername: FILL_PENTAHO_HOST_SUDO_USERNAME # Required: Pentaho Host Sudo Username
+        sudoPassword: FILL_PENTAHO_HOST_SUDO_PASSWORD # Required: Pentaho Host Sudo Password
+        sudoPasswordPromptRegex: FILL_PENTAHO_HOST_SUDO_PASSWORD_PROMPT_REGEX # Required: Pentaho Host Sudo Password Prompt Regular Expression
+        sftpPath: FILL_PENTAHO_HOST_SFTP_PATH # Required: Pentaho Host SFTP Path
+        resourcesPath: FILL_PENTAHO_HOST_RESOURCES_PATH # Required: Pentaho Host Resources Path
 
 # ===================================================================
 # Application specific properties
