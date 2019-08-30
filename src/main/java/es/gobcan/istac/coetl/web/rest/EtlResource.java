@@ -30,6 +30,7 @@ import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
+import es.gobcan.istac.coetl.pentaho.service.PentahoSftpService;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
@@ -55,12 +56,15 @@ public class EtlResource extends AbstractResource {
     private final ExecutionService executionService;
     private final ExecutionMapper executionMapper;
     private final AuditEventPublisher auditEventPublisher;
+    private final PentahoSftpService pentahoSftpService;
 
-    public EtlResource(EtlService etlService, EtlMapper etlMapper, ExecutionService executionService, ExecutionMapper executionMapper, AuditEventPublisher auditEventPublisher) {
+    public EtlResource(EtlService etlService, EtlMapper etlMapper, ExecutionService executionService, ExecutionMapper executionMapper, PentahoSftpService pentahoSftpService,
+            AuditEventPublisher auditEventPublisher) {
         this.etlService = etlService;
         this.etlMapper = etlMapper;
         this.executionService = executionService;
         this.executionMapper = executionMapper;
+        this.pentahoSftpService = pentahoSftpService;
         this.auditEventPublisher = auditEventPublisher;
     }
 
@@ -74,6 +78,8 @@ public class EtlResource extends AbstractResource {
         }
 
         Etl createdEtl = etlService.create(etlMapper.toEntity(etlDTO));
+        pentahoSftpService.uploadAttachedFiles(createdEtl);
+
         EtlDTO result = etlMapper.toDto(createdEtl);
         auditEventPublisher.publish(AuditConstants.ETL_CREATED, result.getCode());
 
@@ -83,13 +89,17 @@ public class EtlResource extends AbstractResource {
     @PutMapping
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
-    public ResponseEntity<EtlDTO> update(@Valid @RequestBody EtlDTO etlDTO) {
+    public ResponseEntity<EtlDTO> update(@Valid @RequestBody EtlDTO etlDTO, @ApiParam(required = true) boolean isAttachedFilesChanged) {
         LOG.debug("REST Request to update an ETL : {}", etlDTO);
         if (etlDTO.getId() == null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_FALTA, "An updated ETL must have an ID")).body(null);
         }
 
         Etl updatedEtl = etlService.update(etlMapper.toEntity(etlDTO));
+        if (isAttachedFilesChanged) {
+            pentahoSftpService.uploadAttachedFiles(updatedEtl);
+        }
+
         EtlDTO result = etlMapper.toDto(updatedEtl);
         auditEventPublisher.publish(AuditConstants.ETL_UPDATED, result.getCode());
 

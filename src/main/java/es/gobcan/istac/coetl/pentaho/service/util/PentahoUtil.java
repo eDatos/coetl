@@ -125,6 +125,10 @@ public final class PentahoUtil {
         return execution;
     }
 
+    public static String normalizeEtlCode(String etlCode) {
+        return etlCode.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+    }
+
     private static HttpHeaders createHeaders(String username, String password) {
         String auth = username + ":" + password;
         byte[] encodedAuth = Base64.encode(auth.getBytes(Charset.forName(CharEncoding.UTF_8)));

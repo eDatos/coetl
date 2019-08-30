@@ -18,9 +18,9 @@ export class EtlService {
             .map((response) => this.convertItemToEtl(response.json()));
     }
 
-    public update(etl: Etl): Observable<Etl> {
+    public update(etl: Etl, isAttachedFilesChanged: boolean): Observable<Etl> {
         return this.http
-            .put(this.resourceUrl, etl)
+            .put(this.resourceUrl, etl, { params: { isAttachedFilesChanged } })
             .map((response) => this.convertItemToEtl(response.json()));
     }
 

@@ -1,5 +1,6 @@
 package es.gobcan.istac.coetl.web.rest;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -42,13 +43,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import es.gobcan.istac.coetl.CoetlApp;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.istac.coetl.domain.Etl;
-import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.domain.Etl.Type;
+import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.errors.ExceptionTranslator;
+import es.gobcan.istac.coetl.pentaho.service.PentahoSftpService;
 import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
-import es.gobcan.istac.coetl.web.rest.EtlResource;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 import es.gobcan.istac.coetl.web.rest.mapper.EtlMapper;
 import es.gobcan.istac.coetl.web.rest.mapper.ExecutionMapper;
@@ -94,6 +95,9 @@ public class EtlResourceIntTest {
     FileRepository fileRepository;
 
     @Autowired
+    PentahoSftpService pentahoSftoService;
+
+    @Autowired
     AuditEventPublisher auditEventPublisher;
 
     @Autowired
@@ -110,7 +114,7 @@ public class EtlResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, auditEventPublisher);
+        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, pentahoSftoService, auditEventPublisher);
         this.restEtlMockMvc = MockMvcBuilders.standaloneSetup(etlResource).setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
                 .setMessageConverters(jacksonMessageConverter).build();
     }
@@ -170,6 +174,7 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.executionPlanning").value(is(nullValue())))
             .andExpect(jsonPath("$.etlFile").isNotEmpty())
             .andExpect(jsonPath("$.etlDescriptionFile").isNotEmpty())
+            .andExpect(jsonPath("$.attachedFiles").value(is(empty())))
             .andExpect(jsonPath("$.deletionDate").value(is(nullValue())))
             .andExpect(jsonPath("$.deletedBy").value(is(nullValue())));
         //@formatter:on
@@ -207,7 +212,7 @@ public class EtlResourceIntTest {
         doReturn(updatedEtlMocked).when(etlService).update(any(Etl.class));
 
         //@formatter:off
-        restEtlMockMvc.perform(put(BASE_URI)
+        restEtlMockMvc.perform(put(BASE_URI.concat("?isAttachedFileChanged=\"false\""))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(updatedEtlDTOMocked)))
             .andExpect(status().isOk())
@@ -223,6 +228,7 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.comments").value(is(nullValue())))
             .andExpect(jsonPath("$.executionDescription").value(is(nullValue())))
             .andExpect(jsonPath("$.executionPlanning").value(is(nullValue())))
+            .andExpect(jsonPath("$.attachedFiles").value(is(empty())))
             .andExpect(jsonPath("$.deletionDate").value(is(nullValue())))
             .andExpect(jsonPath("$.deletedBy").value(is(nullValue())));
         //@formatter:on
@@ -242,7 +248,7 @@ public class EtlResourceIntTest {
         EtlDTO updatedEtlDTOMocked = etlMapper.toDto(updatedEtlMocked);
 
         //@formatter:off
-        restEtlMockMvc.perform(put(BASE_URI)
+        restEtlMockMvc.perform(put(BASE_URI.concat("?isAttachedFileChanged=\"false\""))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(updatedEtlDTOMocked)))
             .andExpect(status().isBadRequest());
