@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { createRequestOption, ResponseWrapper } from '../../shared';
 import { Etl, EtlBase } from './etl.model';
 import { Execution } from '../execution/execution.model';
+import { Parameter } from '../parameter';
 
 @Injectable()
 export class EtlService {
@@ -62,6 +63,34 @@ export class EtlService {
             .map((response) => this.convertResponseToExecutionResponseWrapper(response));
     }
 
+    public createParameter(idEtl: number, parameter: Parameter): Observable<Parameter> {
+        return this.http
+            .post(`${this.resourceUrl}/${idEtl}/parameters`, parameter)
+            .map((response: Response) => this.convertItemToParameter(response.json()));
+    }
+
+    public updateParameter(idEtl: number, parameter: Parameter): Observable<Parameter> {
+        return this.http
+            .put(`${this.resourceUrl}/${idEtl}/parameters`, parameter)
+            .map((response: Response) => this.convertItemToParameter(response.json()));
+    }
+
+    public deleteParameter(idEtl: number, idParameter: number): Observable<Response> {
+        return this.http.delete(`${this.resourceUrl}/${idEtl}/parameters/${idParameter}`);
+    }
+
+    public findParameter(idEtl: number, idParameter: number): Observable<Parameter> {
+        return this.http
+            .get(`${this.resourceUrl}/${idEtl}/parameters/${idParameter}`)
+            .map((response: Response) => this.convertItemToParameter(response));
+    }
+
+    public findAllParameters(idEtl: number): Observable<ResponseWrapper> {
+        return this.http
+            .get(`${this.resourceUrl}/${idEtl}/parameters`)
+            .map((response: Response) => this.convertResponseToParameterReponseWrapper(response));
+    }
+
     private convertResponseToEtlBaseResponseWrapper(response: Response): ResponseWrapper {
         const jsonResponse = response
             .json()
@@ -86,5 +115,16 @@ export class EtlService {
 
     private convertItemToExecution(entity: any): Etl {
         return Object.assign(new Execution(), entity);
+    }
+
+    private convertResponseToParameterReponseWrapper(response: Response): ResponseWrapper {
+        const jsonResponse = response
+            .json()
+            .map((element: any) => this.convertItemToParameter(element));
+        return new ResponseWrapper(response.headers, jsonResponse, response.status);
+    }
+
+    private convertItemToParameter(entity: any): Parameter {
+        return Object.assign(new Parameter(), entity);
     }
 }

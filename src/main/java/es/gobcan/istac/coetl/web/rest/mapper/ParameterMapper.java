@@ -4,16 +4,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
 import es.gobcan.istac.coetl.web.rest.dto.ParameterDTO;
 
-@Mapper(componentModel = "spring", uses = {EtlMapper.class})
-public abstract class ParameterMapper {
+@Component
+public class ParameterMapper {
 
     @Autowired
     private ParameterRepository parameterRepository;

@@ -13,6 +13,7 @@ import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
 import { EtlConfirmExecutionDialogComponent } from './etl-confirm-execution-dialog.component';
 import { EtlExecutionListComponent } from './etl-execution-list/etl-execution-list.component';
 import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
+import { EtlParameterListComponent } from './etl-parameter-list/etl-parameter-list.component';
 
 const ENTITY_STATES = [...etlRoute];
 
@@ -26,7 +27,8 @@ const ENTITY_STATES = [...etlRoute];
         EtlRestoreDialogComponent,
         EtlConfirmExecutionDialogComponent,
         EtlExecutionListComponent,
-        EtlExpressionHelpDialogComponent
+        EtlExpressionHelpDialogComponent,
+        EtlParameterListComponent
     ],
     entryComponents: [
         EtlDeleteDialogComponent,

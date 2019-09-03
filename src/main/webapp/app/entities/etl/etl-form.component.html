@@ -197,6 +197,9 @@
                 </div>
             </div>
         </fieldset>
+        <fieldset *ngIf="etl.id">
+            <ac-etl-parameter-list [idEtl]="etl.id"></ac-etl-parameter-list>
+        </fieldset>
         <fieldset [disabled]="!isEditMode()">
             <h3 jhiTranslate="coetlApp.etl.sections.inCharge"></h3>
             <div class="entity-fields">

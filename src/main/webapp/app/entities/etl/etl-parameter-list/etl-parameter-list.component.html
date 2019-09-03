@@ -1,0 +1,30 @@
+<div class="entity">
+    <h3 jhiTranslate="coetlApp.parameter.home.title"></h3>
+    <ng-container *ngIf="existParameters(); else emptyList">
+        <div class="entity-fields">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 30%;" jhiTranslate="coetlApp.parameter.key"></th>
+                        <th style="width: 30%;" jhiTranslate="coetlApp.parameter.value"></th>
+                        <th style="width: 10%;" jhiTranslate="coetlApp.parameter.type.label"></th>
+                        <th style="width: 30%;"></th>
+                    </tr>
+                </thead>
+                <tr *ngFor="let parameter of parameters; let i = index">
+                    <td>{{ parameter.key }}</td>
+                    <td>{{ parameter.value }}</td>
+                    <td>
+                        <span class="badge badge-info">{{ getTypeName(parameter) }}</span>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </ng-container>
+</div>
+<ng-template #emptyList>
+    <div class="empty-list">
+        <span jhiTranslate="coetlApp.parameter.emptyListMessage"></span>
+    </div>
+</ng-template>

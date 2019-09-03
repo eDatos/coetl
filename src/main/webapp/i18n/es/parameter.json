@@ -1,0 +1,17 @@
+{
+    "coetlApp": {
+        "parameter": {
+            "home": {
+                "title": "Parámetros ETL"
+            },
+            "key": "Clave",
+            "value": "Valor",
+            "type": {
+                "label": "Tipo",
+                "AUTO": "Automática",
+                "MANUAL": "Manual"
+            },
+            "emptyListMessage": "No existen parámetros para esta ETL"
+        }
+    }
+}
