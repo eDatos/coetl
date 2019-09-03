@@ -22,6 +22,9 @@ public final class AuditConstants {
     public static final String ETL_DELETED = "ETL_DELETED";
     public static final String ETL_RECOVERED = "ETL_RECOVERED";
     public static final String ETL_EXECUTED = "ETL_EXECUTED";
+    public static final String ETL_PARAMETER_CREATED = "ETL_PARAMETER_CREATED";
+    public static final String ETL_PARAMETER_UPDATED = "ETL_PARAMETER_UPDATED";
+    public static final String ETL_PARAMETER_DELETED = "ETL_PARAMETER_DELETED";
 
     // Audits Health Type
     public static final String HEALTH_CREATED = "HEALTH_CREATED";
