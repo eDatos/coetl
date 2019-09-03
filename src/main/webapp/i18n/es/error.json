@@ -34,6 +34,9 @@
         "userManagement": {
             "usuario-ldap-no-encontrado": "No se ha encontrado el usuario especificado"
         },
+        "entity": {
+            "deleted": "El resultado de {{0}} se encuentra eliminado"
+        },
         "file": {
             "single": {
                 "empty": "El fichero <strong>{{0}}</strong> está vacío"
@@ -56,6 +59,16 @@
             "unscheduleError": "Ha ocurrido un error en el borrado de la planificación de ejecución de la ETL",
             "codeExists": "Ya existe otra ETL con el mismo código",
             "attachedFilesUpload": "Ha ocurrido un error en la subida de los ficheros adjuntos de la ETL"
+        },
+        "parameter": {
+            "key": {
+                "isDuplicated": "Ya existe un parámetro con la misma clave",
+                "isBlank": "La clave del parámetro no puede estar vacía"
+            },
+            "value": {
+                "isBlank": "El valor del parámetro no puede estar vacío"
+            },
+            "edit": "Ha ocurrido un error en la edición del parámetro"
         },
         "quartz": {
             "jobExecutionError": "Ha ocurrido un error en la ejecución planificada de la ETL con código {{0}}"

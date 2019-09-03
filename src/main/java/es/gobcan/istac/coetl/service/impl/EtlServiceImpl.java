@@ -43,7 +43,7 @@ import es.gobcan.istac.coetl.web.rest.util.QueryUtil;
 @Service
 public class EtlServiceImpl implements EtlService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EtlServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EtlService.class);
     private static final String IDENTITY_JOB_PREFIX = "pentahoExecutionJob_";
     private static final String IDENTITY_TRIGGER_PREFIX = "pentahoExectionTrigger_";
 

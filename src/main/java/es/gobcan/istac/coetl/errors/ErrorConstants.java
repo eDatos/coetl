@@ -22,6 +22,7 @@ public final class ErrorConstants {
     public static final String ENTIDAD_NO_ENCONTRADA = "error.entidad-no-encontrada";
     public static final String ID_EXISTE = "error.id-existe";
     public static final String ID_FALTA = "error.id-falta";
+    public static final String ENTITY_DELETED = "error.entity.deleted";
 
     public static final String QUERY_NO_SOPORTADA = "error.query-no-soportada";
 
@@ -39,6 +40,12 @@ public final class ErrorConstants {
     // HEALTH
     public static final String HEALTH_SERVICE_NAME_IS_BLANK = "error.health.serviceName.isBlank";
     public static final String HEALTH_ENDPOINT_IS_BLANK = "error.health.endpoint.isBlank";
+
+    // PARAMETER
+    public static final String PARAMETER_KEY_IS_DUPLICATED = "error.parameter.key.isDuplicated";
+    public static final String PARAMETER_KEY_IS_BLANK = "error.parameter.key.isBlank";
+    public static final String PARAMETER_VALUE_IS_BLANK = "error.parameter.value.isBlank";
+    public static final String PARAMETER_EDIT = "error.parameter.edit";
 
     // QUARZT
     public static final String QUARTZ_JOB_EXECUTION_ERROR = "error.quartz.jobExecutionError";

@@ -50,7 +50,7 @@ import es.gobcan.istac.coetl.pentaho.service.util.PentahoUtil;
 @Service
 public class PentahoSftpServiceImpl implements PentahoSftpService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PentahoSftpServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PentahoSftpService.class);
 
     private static ConnectionOptions getSourceOptions() {
         ConnectionOptions options = new ConnectionOptions();

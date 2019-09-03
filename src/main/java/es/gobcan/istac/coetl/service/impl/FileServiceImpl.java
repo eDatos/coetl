@@ -21,7 +21,7 @@ import es.gobcan.istac.coetl.service.FileService;
 @Service
 public class FileServiceImpl implements FileService {
 
-    private Logger log = LoggerFactory.getLogger(FileServiceImpl.class);
+    private Logger log = LoggerFactory.getLogger(FileService.class);
 
     @PersistenceContext
     private EntityManager entityManager;

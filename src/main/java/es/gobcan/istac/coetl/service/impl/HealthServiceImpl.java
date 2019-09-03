@@ -28,7 +28,7 @@ public class HealthServiceImpl implements HealthService {
         UP, DOWN
     }
 
-    private static class CheckHealthDetail {
+    protected static class CheckHealthDetail {
 
         private final Status status;
         private final String endpoint;

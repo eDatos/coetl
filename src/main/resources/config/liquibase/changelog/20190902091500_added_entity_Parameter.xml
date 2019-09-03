@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2" />
+
+    <property name="now" value="current_timestamp" dbms="postgresql" />
+
+    <property name="floatType" value="float4" dbms="postgresql, h2" />
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql" />
+
+    <changeSet id="20190902091500-0" author="arte">
+        <createSequence sequenceName="parameter_id_seq" startValue="10" incrementBy="50" />
+    </changeSet>
+
+    <changeSet id="20190902091500-1" author="arte">
+        <createTable tableName="tb_parameters">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="key" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="value" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="etl_fk" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_tb_parameters_tb_etls_id" referencedTableName="tb_etls" referencedColumnNames="id" />
+            </column>
+            <column name="opt_lock" type="bigint" />
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="20190902091500-2" author="arte">
+        <addUniqueConstraint columnNames="etl_fk, key" tableName="tb_parameters" constraintName="uk_tb_parameters_etl_fk_key"/>
+    </changeSet>
+
+</databaseChangeLog>

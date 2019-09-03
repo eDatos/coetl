@@ -38,7 +38,7 @@ import es.gobcan.istac.coetl.service.ExecutionService;
 @Service
 public class PentahoExecutionServiceImpl implements PentahoExecutionService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PentahoExecutionServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PentahoExecutionService.class);
     private static final String TRANS_PREFIX_TAG_NAME = "transformation";
     private static final String JOB_PREFIX_TAG_NAME = "job";
     private static final String ERROR_PARSING_CARTE_WRAPPED_XML_TO_STRING_MESSAGE = "Error parsing Carte-wrapped XML to string";
