@@ -2,7 +2,11 @@
     "coetlApp": {
         "parameter": {
             "home": {
-                "title": "Parámetros ETL"
+                "title": "Parámetros ETL",
+                "createLabel": "Añadir nuevo parámetro ETL"
+            },
+            "delete": {
+                "question": "¿Seguro que quiere eliminar el parámetro <b>{{ key }}</b>?"
             },
             "key": "Clave",
             "value": "Valor",

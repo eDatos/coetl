@@ -60,12 +60,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
 
     ngOnInit() {
         this.isSaving = false;
-        if (this.route.snapshot.data['etl']) {
-            this.etl = this.route.snapshot.data['etl'];
-        } else {
-            this.etl = new Etl();
-        }
-        // this.etl = this.route.snapshot.data['etl'] ? this.route.snapshot.data['etl'] : new Etl();
+        this.etl = !!this.route.snapshot.data['etl'] ? this.route.snapshot.data['etl'] : new Etl();
         this.registerChangesOnEtl();
     }
 

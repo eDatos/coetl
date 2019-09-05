@@ -13,14 +13,14 @@
             "updated": "Se ha actualizado la ETL {{ param }}",
             "deleted": "Se ha eliminado la ETL {{ param }}",
             "delete": {
-                "question": "¿Seguro que quiere eliminar la ETL {{ code }}?"
+                "question": "¿Seguro que quiere eliminar la ETL <b>{{ code }}</b>?"
             },
             "restore": {
-                "question": "¿Seguro que quiere resturar la ETL {{ code }}?"
+                "question": "¿Seguro que quiere resturar la ETL <b>{{ code }}</b>?"
             },
             "execution": {
                 "title": "Confirmar ejecución",
-                "question": "¿Seguro que quiere ejecutar la ETL {{ code }}?"
+                "question": "¿Seguro que quiere ejecutar la ETL <b>{{ code }}</b>?"
             },
             "detail": {
                 "title": "ETL"

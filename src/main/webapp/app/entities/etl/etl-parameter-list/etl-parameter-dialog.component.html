@@ -1,0 +1,35 @@
+<form name="modalEditForm" role="form" novalidate (ngSubmit)="save()" #modalEditForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            <span *ngIf="!parameter.id" jhiTranslate="coetlApp.parameter.home.createLabel"></span>
+            <span *ngIf="!!parameter.id">{{ parameter.key }}</span>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <fieldset>
+            <div class="entity-fields">
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.parameter.key" for="field_key"></label>
+                    <input type="text" [disabled]="!!parameter.id" class="form-control" name="key" id="field_key" required [(ngModel)]="parameter.key" maxlength="255" />
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.parameter.value" for="field_value"></label>
+                    <input type="text" class="form-control" name="value" id="field_value" [(ngModel)]="parameter.value" required maxlength="255" />
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="modal-footer">
+        <div class="col-sm-8 text-right">
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+                <span class="fa fa-ban"></span>&nbsp;
+                <span jhiTranslate="entity.action.cancel"></span>
+            </button>
+            <button type="submit" [disabled]="modalEditForm.form.invalid" class="btn btn-primary">
+                <span class="fa fa-save"></span>&nbsp;
+                <span jhiTranslate="entity.action.save"></span>
+            </button>
+        </div>
+    </div>
+</form>

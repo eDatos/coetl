@@ -4,9 +4,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { Parameter } from '../../parameter/parameter.model';
-import { Principal, ResponseWrapper } from '../../../shared';
+import { Principal, ResponseWrapper, GenericModalService } from '../../../shared';
+import { Parameter, Type } from '../../parameter/parameter.model';
 import { EtlService } from '../etl.service';
+import { EtlParameterDialogComponent } from './etl-parameter-dialog.component';
+import { EtlParameterDeleteDialogComponent } from './etl-parameter-delete-dialog.component';
 
 @Component({
     selector: 'ac-etl-parameter-list',
@@ -25,6 +27,7 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private etlService: EtlService,
         private principal: Principal,
+        private genericModalService: GenericModalService,
         private translateService: TranslateService
     ) {}
 
@@ -50,6 +53,28 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
 
     trackId(index: number, item: Parameter) {
         return item.id;
+    }
+
+    editParameter(parameter?: Parameter) {
+        let copy = new Parameter();
+        if (!!parameter) {
+            copy = Object.assign(copy, parameter);
+        } else {
+            copy.etlId = this.idEtl;
+            copy.type = Type.MANUAL;
+        }
+
+        this.genericModalService.open(EtlParameterDialogComponent as Component, {
+            parameter: copy
+        });
+    }
+
+    deleteParameter(parameter: Parameter) {
+        const copy = Object.assign(new Parameter(), parameter);
+
+        this.genericModalService.open(EtlParameterDeleteDialogComponent as Component, {
+            parameter: copy
+        });
     }
 
     private loadAll() {
