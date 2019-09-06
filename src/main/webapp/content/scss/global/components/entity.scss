@@ -11,15 +11,15 @@ $zindex-fixed-navs: $zindex-dropdown - 5; // Dont cover navbar dropdown
     }
     margin-top: $navbar-height;
     box-shadow: $nav-shadow;
-    background: $grey-lightest;    
-    
+    background: $grey-lightest;
+
     h2:not(.fullcalendar-title) {
         position: relative;
         box-shadow: none;
         padding-left: 0;
         padding-right: 0;
         margin-top: 0;
-        
+
         .back-arrow {
             left: -$entity-header-height
         }
@@ -33,15 +33,15 @@ $error-font-size: 0.8rem;
 // Jhipster always generates the same layout. We can trust h2 is where is needed
 h2:not(.fullcalendar-title) {
     display: flex;
-    align-items: center;        
+    align-items: center;
     justify-content: space-between;
     span {
         justify-content: unset;
     }
     line-height: $entity-header-height;
 
-    background: $grey-lightest;        
-    
+    background: $grey-lightest;
+
     @include make-narrowed-container();
     html & {
         @extend .fixed-top;
@@ -60,8 +60,8 @@ h2:not(.fullcalendar-title) {
         .fa-arrow-left:before {
             content: '';
         }
-        
-        .fa.fa-arrow-left {    
+
+        .fa.fa-arrow-left {
             background-image: url("~images/arrow-back.svg");
             background-repeat: no-repeat;
             background-position: center;
@@ -69,7 +69,7 @@ h2:not(.fullcalendar-title) {
             width: 2em;
             height: 2em;
             opacity: 0.5;
-        
+
             &:hover {
                 opacity: 1;
             }
@@ -79,7 +79,7 @@ h2:not(.fullcalendar-title) {
     // Buttons
     & > *:last-child {
         flex-shrink: 0;
-        margin-left: $page-padding-right;        
+        margin-left: $page-padding-right;
     }
     // Title
     & > *:first-child {
@@ -100,15 +100,15 @@ h3 {
 }
 
 fieldset {
-    .entity-fields {    
+    .entity-fields {
         padding-top: $spacer-y;
         @include make-row();
 
         .form-group {
             &.full-width {
-                @include make-col(12); 
-                label {                    
-                    @include make-col(2);            
+                @include make-col(12);
+                label {
+                    @include make-col(2);
                 }
                 .form-control,
                 ac-autocomplete,
@@ -119,20 +119,20 @@ fieldset {
                     @include make-col(10);
                 }
             }
-            
+
             @include make-col-ready();
             @include make-col(6);
             display: flex;
             flex-wrap: wrap;
-            align-items: baseline;      
+            align-items: baseline;
             label {
                 @include make-col-ready();
-                @include make-col(4);  
-                padding-left: 0 !important; 
+                @include make-col(4);
+                padding-left: 0 !important;
             }
-            
+
             .form-control {
-                @include make-col(8);      
+                @include make-col(8);
                 border-top: none;
                 border-right: none;
                 border-bottom: none;
@@ -144,13 +144,13 @@ fieldset {
                 .btn {
                     margin-right: $spacer-x/4;
                 }
-            }            
+            }
             .input-group {
                 @include make-col-ready();
                 @include make-col(8);
 
                 .input-group-actions {
-                    @include make-col(4); 
+                    @include make-col(4);
                     text-align: right;
                 }
             }
@@ -158,7 +158,7 @@ fieldset {
             // Workaround for https://github.com/stevepapa/ng-autosize/issues/11
             textarea[autosize].form-control {
                 border-top: $border-width solid transparent;
-                &:hover {                    
+                &:hover {
                     margin-bottom: 0;
                 }
             }
@@ -169,35 +169,35 @@ fieldset {
             ac-autocomplete-enum,
             p-listbox {
                 @include make-col(8);
-            }        
-            
+            }
+
             .entity-field-error {
                 @include make-col-ready();
-                padding-right: $grid-gutter-width-base !important;                
+                padding-right: $grid-gutter-width-base !important;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 text-align: right;
-                
+
                 position: absolute !important;
                 top: 105%;
                 right: 0;
                 font-size: $error-font-size;
-                
+
                 small.form-text.text-danger {
                     font-size: $error-font-size;
                     display: inline;
                 }
-            }            
+            }
 
             &::after {
                 content: '';
-                border-bottom: $border-width solid $grey-light;  
+                border-bottom: $border-width solid $grey-light;
                 width: 100%;
             }
         }
 
-        .jh-entity-details {            
+        .jh-entity-details {
             @include make-col-ready();
             @include make-col(6);
             display: flex;
@@ -206,12 +206,12 @@ fieldset {
 
             dt {
                 @include make-col-ready();
-                @include make-col(4);  
-                padding-left: 0 !important; 
+                @include make-col(4);
+                padding-left: 0 !important;
             }
             dd {
                 @include make-col-ready();
-                @include make-col(8);  
+                @include make-col(8);
                 border: none !important;
                 font-weight: $font-weight-normal;
             }
@@ -222,7 +222,7 @@ fieldset {
                 width: 100%;
             }
         }
-        
+
     }
 
     .form-group {
@@ -233,18 +233,18 @@ fieldset {
                 border-bottom: 2 * $border-width solid $accent-medium;
                 margin-bottom: -$border-width;
             }
-        }           
-    }    
+        }
+    }
 
     .form-group {
-        .form-control:disabled, 
-        .form-control[disabled], 
+        .form-control:disabled,
+        .form-control[disabled],
         .form-control.disabled,
         .form-control[readonly] {
             @extend %disabled-form-control;
-        }    
-    }   
-    
+        }
+    }
+
     &:disabled,
     &[disabled] {
         .entity-fields {
@@ -261,13 +261,13 @@ fieldset .form-group .form-control {
 
 fieldset:enabled .form-group {
     .form-control:not(.disabled),
-    .form-control:enabled, 
+    .form-control:enabled,
     .form-control[enabled] {
         &[required],
         &:required {
             border-left: $border-required-error;
             &.ng-valid {
-                border-left: $border-required-valid;                    
+                border-left: $border-required-valid;
             }
         }
     }
@@ -276,7 +276,7 @@ fieldset:enabled .form-group {
 .entity {
     &.has-menu {
         position: relative;
-        padding-left: $side-menu-width;        
+        padding-left: $side-menu-width;
         h2 {
             left: $side-menu-width;
         }
@@ -284,7 +284,7 @@ fieldset:enabled .form-group {
             left: $side-menu-width;
             h2 {
                 left: 0;
-            }   
+            }
         }
     }
     &.has-search {
@@ -311,7 +311,7 @@ fieldset:enabled .form-group {
 
     @include make-row();
     .entity-search-field,
-    .entity-search-field-btn {        
+    .entity-search-field-btn {
         @include make-col-ready();
         @include make-col(12/5);
         &.small-search-field {
@@ -323,11 +323,11 @@ fieldset:enabled .form-group {
         }
         @include placeholder {
             color: $grey-medium;
-        } 
+        }
         margin-bottom: $form-group-margin-bottom;
     }
     .entity-search-field-btn {
-        margin-left: auto;    
+        margin-left: auto;
         text-align: right;
         align-self: flex-end;
     }
@@ -358,4 +358,12 @@ fieldset:enabled .form-group {
     .btn {
         @include link-button();
     }
+}
+
+.empty-list {
+    font-style: italic;
+    border-top: $border-width solid $grey-light;
+    border-bottom: $border-width solid $grey-light;
+    padding: $spacer-y $spacer-x;
+    color: $grey-medium;
 }
