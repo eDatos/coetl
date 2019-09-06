@@ -2,11 +2,14 @@ package es.gobcan.istac.coetl.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -89,7 +92,12 @@ public class EtlResource extends AbstractResource {
         }
 
         Etl createdEtl = etlService.create(etlMapper.toEntity(etlDTO));
-        pentahoSftpService.uploadAttachedFiles(createdEtl);
+        String uploadedAttachedFilesPath = pentahoSftpService.uploadAttachedFiles(createdEtl);
+        if (StringUtils.isNoneBlank(uploadedAttachedFilesPath)) {
+            Map<String, String> parameters = new HashMap<>();
+            parameters.put("ETL_RESOURCES", uploadedAttachedFilesPath);
+            parameterService.createDefaultParameters(createdEtl, parameters);
+        }
 
         EtlDTO result = etlMapper.toDto(createdEtl);
         auditEventPublisher.publish(AuditConstants.ETL_CREATED, result.getCode());
@@ -114,7 +122,13 @@ public class EtlResource extends AbstractResource {
 
         Etl updatedEtl = etlService.update(currentEtl);
         if (isAttachedFilesChanged) {
-            pentahoSftpService.uploadAttachedFiles(updatedEtl);
+            parameterService.deleteDefaultParameters(updatedEtl);
+            String uploadedAttachedFilesPath = pentahoSftpService.uploadAttachedFiles(updatedEtl);
+            if (StringUtils.isNoneBlank(uploadedAttachedFilesPath)) {
+                Map<String, String> parameters = new HashMap<>();
+                parameters.put("ETL_RESOURCES", uploadedAttachedFilesPath);
+                parameterService.createDefaultParameters(updatedEtl, parameters);
+            }
         }
 
         EtlDTO result = etlMapper.toDto(updatedEtl);

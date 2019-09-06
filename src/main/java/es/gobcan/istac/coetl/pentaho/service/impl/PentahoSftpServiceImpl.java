@@ -117,10 +117,10 @@ public class PentahoSftpServiceImpl implements PentahoSftpService {
     PentahoProperties pentahoProperties;
 
     @Override
-    public void uploadAttachedFiles(Etl etl) {
+    public String uploadAttachedFiles(Etl etl) {
         if (CollectionUtils.isEmpty(etl.getAttachedFiles())) {
             LOGGER.debug("There are no attached file to upload of ETL : {}", etl.getCode());
-            return;
+            return null;
         }
 
         LOGGER.info("Upload attached files of ETL : {}", etl.getCode());
@@ -131,8 +131,9 @@ public class PentahoSftpServiceImpl implements PentahoSftpService {
             String sourceZipPath = createZipAttachedFile(etl);
             uploadZipAttachedFiles(sourceConnection, destinationConnection, sourceZipPath);
             OverthereFile resourcesDirectory = moveZipFile(etl, sudoDestinationConnection);
-            unzipFile(etl, sudoDestinationConnection, resourcesDirectory);
+            String unzippedFilesPath = unzipFile(etl, sudoDestinationConnection, resourcesDirectory);
             changeOwnerUnzippedFiles(sudoDestinationConnection, resourcesDirectory);
+            return unzippedFilesPath;
         } catch (Exception e) {
             throw new CustomParameterizedExceptionBuilder().cause(e).message(String.format("An error ocurrs while uploading attached files from ETL : %s. Cause: %s", etl.getCode(), e.getMessage()))
                     .code(ErrorConstants.ETL_ATTACHED_FILES_UPLOAD).build();
@@ -224,12 +225,14 @@ public class PentahoSftpServiceImpl implements PentahoSftpService {
         return resourcesDirectory;
     }
 
-    private void unzipFile(Etl etl, OverthereConnection sudoDestinationConnection, OverthereFile resourcesDirectory) {
+    private String unzipFile(Etl etl, OverthereConnection sudoDestinationConnection, OverthereFile resourcesDirectory) {
         OverthereFile movedZipFile = resourcesDirectory.getFile(PentahoUtil.normalizeEtlCode(etl.getCode()).concat(".").concat("zip"));
-        OverthereFile oldUnzippedFolder = resourcesDirectory.getFile(PentahoUtil.normalizeEtlCode(etl.getCode()));
-        oldUnzippedFolder.deleteRecursively();
+        OverthereFile unzippedFolder = resourcesDirectory.getFile(PentahoUtil.normalizeEtlCode(etl.getCode()));
+        // Delete old unzipped folder if exists
+        unzippedFolder.deleteRecursively();
         executeCommand(sudoDestinationConnection, "unzip", movedZipFile.getPath(), "-d", resourcesDirectory.getPath());
         movedZipFile.delete();
+        return unzippedFolder.getPath();
     }
 
     private void changeOwnerUnzippedFiles(OverthereConnection sudoConnection, OverthereFile resourcesDirectory) {

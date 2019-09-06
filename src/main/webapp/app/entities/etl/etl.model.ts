@@ -41,6 +41,7 @@ export class Etl extends EtlBase {
         public isAttachedFilesChanged?: boolean
     ) {
         super();
+        this.attachedFiles = !!attachedFiles ? attachedFiles : [];
         this.isAttachedFilesChanged = !!isAttachedFilesChanged;
     }
 }

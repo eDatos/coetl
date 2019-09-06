@@ -4,5 +4,5 @@ import es.gobcan.istac.coetl.domain.Etl;
 
 public interface PentahoSftpService {
 
-    public void uploadAttachedFiles(Etl etl);
+    public String uploadAttachedFiles(Etl etl);
 }
