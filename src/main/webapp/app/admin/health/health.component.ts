@@ -1,22 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager } from 'ng-jhipster';
+import { Subscription, Observable } from 'rxjs';
 
-import { JhiHealthService } from './health.service';
-import { JhiHealthModalComponent } from './health-modal.component';
+import { GenericModalService } from '../../shared';
+import { HealthService } from './health.service';
+import { HealthDialogComponent } from './health-dialog.component';
+import { HealthEditDialogComponent } from './health-edit-dialog.component';
+import { HealthDeleteDialogComponent } from './health-delete-dialog.component';
 
 @Component({
-    selector: 'jhi-health',
+    selector: 'ac-health',
     templateUrl: './health.component.html',
-    styles: ['.table-responsive { margin-top: 1px; }']
+    styleUrls: ['./health.component.scss']
 })
-export class JhiHealthCheckComponent implements OnInit {
+export class HealthComponent implements OnInit, OnDestroy {
+    public static EVENT_NAME = 'healthCheckEvent';
+
     healthData: any;
     updatingHealth: boolean;
 
-    constructor(private modalService: NgbModal, private healthService: JhiHealthService) {}
+    private checkSubscription: Subscription;
+
+    constructor(
+        private modalService: NgbModal,
+        private genericModalService: GenericModalService,
+        private healthService: HealthService,
+        private eventManager: JhiEventManager
+    ) {}
 
     ngOnInit() {
         this.refresh();
+        this.registerChangesOnHealth();
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.checkSubscription);
     }
 
     baseName(name: string) {
@@ -34,12 +53,19 @@ export class JhiHealthCheckComponent implements OnInit {
     refresh() {
         this.updatingHealth = true;
 
-        this.healthService.checkHealth().subscribe(
+        Observable.forkJoin(
+            this.healthService.checkHealth(),
+            this.healthService.checkCustomHealth()
+        ).subscribe(
             (health) => {
-                this.healthData = this.healthService.transformHealthData(health);
+                this.healthData = [
+                    ...this.healthService.transformHealthData(health[0]),
+                    ...this.healthService.transformHealthData(health[1])
+                ];
                 this.updatingHealth = false;
             },
             (error) => {
+                console.log(error);
                 if (error.status === 503) {
                     this.healthData = this.healthService.transformHealthData(error.json());
                     this.updatingHealth = false;
@@ -49,7 +75,7 @@ export class JhiHealthCheckComponent implements OnInit {
     }
 
     showHealth(health: any) {
-        const modalRef = this.modalService.open(JhiHealthModalComponent);
+        const modalRef = this.modalService.open(HealthDialogComponent);
         modalRef.componentInstance.currentHealth = health;
         modalRef.result.then(
             (result) => {
@@ -63,5 +89,32 @@ export class JhiHealthCheckComponent implements OnInit {
 
     subSystemName(name: string) {
         return this.healthService.getSubSystemName(name);
+    }
+
+    editCustomHealth(health?: any) {
+        const customHealth = !health
+            ? { id: null, serviceName: null, endpoint: null }
+            : {
+                  id: health.details.id,
+                  serviceName: health.name,
+                  endpoint: health.details.endpoint
+              };
+        this.genericModalService.open(HealthEditDialogComponent as Component, {
+            currentHealth: customHealth
+        });
+        event.stopPropagation();
+    }
+
+    deleteCustomHealth(health: any) {
+        this.genericModalService.open(HealthDeleteDialogComponent as Component, {
+            currentHealth: health
+        });
+        event.stopPropagation();
+    }
+
+    private registerChangesOnHealth() {
+        this.checkSubscription = this.eventManager.subscribe(HealthComponent.EVENT_NAME, () =>
+            this.refresh()
+        );
     }
 }

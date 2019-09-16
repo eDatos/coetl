@@ -35,6 +35,10 @@ public final class ErrorConstants {
     public static final String ETL_UNSCHEDULE_ERROR = "error.etl.unscheduleError";
     public static final String ETL_CODE_EXISTS = "error.etl.codeExists";
 
+    // HEALTH
+    public static final String HEALTH_SERVICE_NAME_IS_BLANK = "error.health.serviceName.isBlank";
+    public static final String HEALTH_ENDPOINT_IS_BLANK = "error.health.endpoint.isBlank";
+
     // QUARZT
     public static final String QUARTZ_JOB_EXECUTION_ERROR = "error.quartz.jobExecutionError";
 

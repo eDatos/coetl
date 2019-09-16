@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { JhiHealthService } from './health.service';
+import { HealthService } from './health.service';
 
 @Component({
-    selector: 'jhi-health-modal',
-    templateUrl: './health-modal.component.html'
+    selector: 'ac-health-modal',
+    templateUrl: './health-dialog.component.html'
 })
-export class JhiHealthModalComponent {
+export class HealthDialogComponent {
     currentHealth: any;
 
-    constructor(private healthService: JhiHealthService, public activeModal: NgbActiveModal) {}
+    constructor(private healthService: HealthService, public activeModal: NgbActiveModal) {}
 
     baseName(name) {
         return this.healthService.getBaseName(name);
@@ -33,5 +33,9 @@ export class JhiHealthModalComponent {
         } else {
             return (value / 1048576).toFixed(2) + ' MB';
         }
+    }
+
+    close() {
+        this.activeModal.dismiss('closed');
     }
 }

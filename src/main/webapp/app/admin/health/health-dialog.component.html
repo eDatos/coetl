@@ -1,8 +1,8 @@
 <div class="modal-header">
     <h4 class="modal-title" id="showHealthLabel">
-        {{'health.indicator.' + baseName(currentHealth.name) | translate}} {{subSystemName(currentHealth.name)}}
+        {{ !currentHealth.details?.custom ? ('health.indicator.' + baseName(currentHealth.name) | translate) : currentHealth.name }} {{ subSystemName(currentHealth.name) }}
     </h4>
-    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="activeModal.dismiss('closed')"><span aria-hidden="true">&times;</span></button>
+    <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="close()"><span aria-hidden="true">&times;</span></button>
 </div>
 <div class="modal-body">
     <div *ngIf="currentHealth.details">
@@ -17,8 +17,8 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let entry of currentHealth.details | keys">
-                        <td class="text-left">{{entry.key}}</td>
-                        <td class="text-left">{{readableValue(entry.value)}}</td>
+                        <td class="text-left">{{ entry.key }}</td>
+                        <td class="text-left">{{ readableValue(entry.value) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -26,11 +26,11 @@
     </div>
     <div *ngIf="currentHealth.error">
         <h4 jhiTranslate="health.details.error"></h4>
-        <pre>{{currentHealth.error}}</pre>
+        <pre>{{ currentHealth.error }}</pre>
     </div>
 </div>
 <div class="modal-footer">
-    <button data-dismiss="modal" class="btn btn-secondary float-left" type="button" (click)="activeModal.dismiss('closed')">
+    <button data-dismiss="modal" class="btn btn-secondary float-left" type="button" (click)="close()">
         <span jhiTranslate="entity.action.close"></span>
     </button>
 </div>

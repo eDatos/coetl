@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class JhiHealthService {
+export class HealthService {
     separator: string;
 
     constructor(private http: Http) {
@@ -12,6 +12,22 @@ export class JhiHealthService {
 
     checkHealth(): Observable<any> {
         return this.http.get('management/health').map((res: Response) => res.json());
+    }
+
+    checkCustomHealth(): Observable<any> {
+        return this.http.get('api/health/check').map((res: Response) => res.json());
+    }
+
+    createCustomHealth(health: any): Observable<any> {
+        return this.http.post('api/health', health).map((res: Response) => res.json());
+    }
+
+    updateCustomHealth(health: any): Observable<any> {
+        return this.http.put('api/health', health).map((res: Response) => res.json());
+    }
+
+    deleteCustomHealth(healthId: number): Observable<Response> {
+        return this.http.delete(`api/health/${healthId}`);
     }
 
     transformHealthData(data): any {
