@@ -165,10 +165,10 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     private compareWith: Function = (selectedSuggestion, existingSuggestion) => {
         if (selectedSuggestion && existingSuggestion) {
             if (!selectedSuggestion.id) {
-                console.error("selectedSuggestion don't have defined id", selectedSuggestion);
+                console.error(`selectedSuggestion do not have defined id`, selectedSuggestion);
             }
             if (!existingSuggestion.id) {
-                console.error("existingSuggestion don't have defined id", existingSuggestion);
+                console.error(`existingSuggestion do not have defined id`, existingSuggestion);
             }
             return selectedSuggestion.id === existingSuggestion.id;
         } else {

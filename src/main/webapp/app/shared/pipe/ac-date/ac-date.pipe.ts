@@ -21,7 +21,7 @@ export class AcDatePipe implements PipeTransform {
     transform(value: any, formatName: string): string {
         const format = FORMATS_HASH[formatName];
         if (!format) {
-            throw new Error("Unknown format name '" + formatName + "'");
+            throw new Error(`Unknown format name '${formatName}'`);
         }
         const momentDate = moment(value);
         return momentDate.isValid() ? momentDate.format(format) : value;

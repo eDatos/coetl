@@ -12,7 +12,7 @@ export class AcAlertService {
         const alert: JhiAlert = {
             type: 'danger',
             msg: message,
-            id: id,
+            id,
             timeout: 0,
             toast: this.alertService.isToast(),
             position: 'top right',

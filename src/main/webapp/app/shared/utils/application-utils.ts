@@ -24,7 +24,8 @@ export class ApplicationUtils {
     }
 
     /**
-     * Devuelve un String que contiene los elementos del array separados por el contenido del parámetro `separator` (por defecto un espacio), validando cada campo antes de concatenar.
+     * Devuelve un String que contiene los elementos del array separados por el contenido del parámetro `separator`
+     * (por defecto un espacio), validando cada campo antes de concatenar.
      *
      * @param usuario
      * @param separador (Por defecto un espacio)

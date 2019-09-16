@@ -70,10 +70,10 @@ export class OrderListComponent implements ControlValueAccessor {
     private compareWith: Function = (selectedItem, existingItem) => {
         if (selectedItem && existingItem) {
             if (!selectedItem.id) {
-                console.error("selectedItem don't have defined id", selectedItem);
+                console.error(`selectedItem do not have defined id`, selectedItem);
             }
             if (!existingItem.id) {
-                console.error("existingItem don't have defined id", existingItem);
+                console.error(`existingItem do not have defined id`, existingItem);
             }
             return selectedItem.id === existingItem.id;
         } else {
