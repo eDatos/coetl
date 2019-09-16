@@ -11,15 +11,13 @@ import { UserModalService } from './user-modal.service';
     templateUrl: './user-management-delete-dialog.component.html'
 })
 export class UserMgmtDeleteDialogComponent {
-
     user: User;
 
     constructor(
         private userService: UserService,
         public activeModal: NgbActiveModal,
         private eventManager: JhiEventManager
-    ) {
-    }
+    ) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -61,18 +59,17 @@ export class UserMgmtDeleteDialogComponent {
     template: ''
 })
 export class UserDeleteDialogComponent implements OnInit, OnDestroy {
-
     modalRef: NgbModalRef;
     routeSub: any;
 
-    constructor(
-        private route: ActivatedRoute,
-        private userModalService: UserModalService
-    ) { }
+    constructor(private route: ActivatedRoute, private userModalService: UserModalService) {}
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.userModalService.open(UserMgmtDeleteDialogComponent as Component, params['login']);
+            this.modalRef = this.userModalService.open(
+                UserMgmtDeleteDialogComponent as Component,
+                params['login']
+            );
         });
     }
 

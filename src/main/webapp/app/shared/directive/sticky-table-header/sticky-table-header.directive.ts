@@ -6,14 +6,12 @@ import * as $ from 'jquery';
     selector: '[acStickyTableHeader]'
 })
 export class StickyTableHeaderDirective implements AfterViewInit, DoCheck {
-
     private currentOffset = 0;
 
     private initialized = false;
 
     constructor(private el: ElementRef) {
-        Observable
-            .fromEvent(window, 'resize')
+        Observable.fromEvent(window, 'resize')
             .debounceTime(1500)
             .subscribe(() => {
                 this.updateStickyTableHeader();

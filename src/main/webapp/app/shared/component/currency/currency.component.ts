@@ -15,7 +15,6 @@ export const AC_CURRENCY_VALUE_ACCESSOR: any = {
     providers: [AC_CURRENCY_VALUE_ACCESSOR]
 })
 export class CurrencyComponent implements ControlValueAccessor {
-
     private _acModel;
 
     private options: CurrencyConfig = {
@@ -24,7 +23,7 @@ export class CurrencyComponent implements ControlValueAccessor {
         suffix: ' €',
         decimal: ',',
         thousands: '.'
-    }
+    };
 
     constructor(@Optional() @Inject(CURRENCY_CONFIG) private currencyConfig: CurrencyConfig) {
         if (currencyConfig) {
@@ -62,9 +61,9 @@ export class CurrencyComponent implements ControlValueAccessor {
         this.onModelTouched = fn;
     }
 
-    private onModelChange: Function = () => { };
+    private onModelChange: Function = () => {};
 
-    private onModelTouched: Function = () => { };
+    private onModelTouched: Function = () => {};
 
     private transformForUser(value: string): string {
         const num = this.parse(value);
@@ -82,11 +81,13 @@ export class CurrencyComponent implements ControlValueAccessor {
         let decimalPart = '';
         const indexOfDecimal = stringValue.indexOf('.');
         if (indexOfDecimal >= 0) {
-            integerPart = stringValue.slice(0, indexOfDecimal)
+            integerPart = stringValue.slice(0, indexOfDecimal);
             decimalPart = stringValue.slice(indexOfDecimal + 1);
         }
 
-        integerPart = integerPart.replace(/^0*/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, this.options.thousands);
+        integerPart = integerPart
+            .replace(/^0*/g, '')
+            .replace(/\B(?=(\d{3})+(?!\d))/g, this.options.thousands);
 
         if (integerPart === '') {
             integerPart = '0';
@@ -96,7 +97,13 @@ export class CurrencyComponent implements ControlValueAccessor {
             decimalPart = decimalPart + '0'.repeat(this.options.precision - decimalPart.length);
         }
 
-        return this.options.prefix + integerPart + this.options.decimal + decimalPart + this.options.suffix;
+        return (
+            this.options.prefix +
+            integerPart +
+            this.options.decimal +
+            decimalPart +
+            this.options.suffix
+        );
     }
 
     private parse(value: string): number {
@@ -104,7 +111,8 @@ export class CurrencyComponent implements ControlValueAccessor {
             return null;
         }
 
-        const parsedValue = value.replace(this.options.prefix, '')
+        const parsedValue = value
+            .replace(this.options.prefix, '')
             .replace(this.options.suffix, '')
             .replace(new RegExp('\\' + this.options.thousands, 'g'), '')
             .replace(this.options.decimal, '.');

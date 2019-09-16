@@ -5,11 +5,7 @@ import { AuthServerProvider } from './auth-jwt.service';
 
 @Injectable()
 export class LoginService {
-
-    constructor(
-        private principal: Principal,
-        private authServerProvider: AuthServerProvider
-    ) { }
+    constructor(private principal: Principal, private authServerProvider: AuthServerProvider) {}
 
     logout() {
         this.authServerProvider.logout().subscribe();

@@ -10,26 +10,31 @@ import { createRequestOption } from '../../model/request-util';
 export class UserService {
     private resourceUrl = 'api/usuarios';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) {}
 
     create(user: User): Observable<ResponseWrapper> {
-        return this.http.post(this.resourceUrl, user)
+        return this.http
+            .post(this.resourceUrl, user)
             .map((res: Response) => this.convertResponse(res));
     }
 
     update(user: User): Observable<ResponseWrapper> {
-        return this.http.put(this.resourceUrl, user)
+        return this.http
+            .put(this.resourceUrl, user)
             .map((res: Response) => this.convertResponse(res));
     }
 
     find(login: string, includeDeleted = true): Observable<User> {
         const options = createRequestOption({ includeDeleted });
-        return this.http.get(`${this.resourceUrl}/${login}`, options).map((res: Response) => this.convert(res.json()));
+        return this.http
+            .get(`${this.resourceUrl}/${login}`, options)
+            .map((res: Response) => this.convert(res.json()));
     }
 
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
-        return this.http.get(this.resourceUrl, options)
+        return this.http
+            .get(this.resourceUrl, options)
             .map((res: Response) => this.convertResponse(res));
     }
 
@@ -38,18 +43,19 @@ export class UserService {
     }
 
     restore(login: string): Observable<ResponseWrapper> {
-        return this.http.put(`${this.resourceUrl}/${login}/restore`, null)
+        return this.http
+            .put(`${this.resourceUrl}/${login}/restore`, null)
             .map((res: Response) => this.convertResponse(res));
     }
 
     buscarUsuarioEnLdap(login: string): Observable<User> {
-        return this.http.get(`${this.resourceUrl}/${login}/ldap`)
+        return this.http
+            .get(`${this.resourceUrl}/${login}/ldap`)
             .map((res: Response) => this.convert(res.json()));
     }
 
     getLogueado(): Observable<any> {
-        return this.http.get('api/usuario')
-            .map((res: Response) => res.json());
+        return this.http.get('api/usuario').map((res: Response) => res.json());
     }
 
     private convertResponse(res: Response): ResponseWrapper {

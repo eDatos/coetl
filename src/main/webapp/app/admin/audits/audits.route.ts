@@ -8,8 +8,7 @@ import { BASE_DECIMAL } from '../../app.constants';
 
 @Injectable()
 export class AuditsResolvePagingParams implements Resolve<any> {
-
-    constructor(private paginationUtil: JhiPaginationUtil) { }
+    constructor(private paginationUtil: JhiPaginationUtil) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
@@ -28,7 +27,7 @@ export const auditsRoute: Route = {
     path: 'audits',
     component: AuditsComponent,
     resolve: {
-        'pagingParams': AuditsResolvePagingParams
+        pagingParams: AuditsResolvePagingParams
     },
     data: {
         pageTitle: 'audits.title',

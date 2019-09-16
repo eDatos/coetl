@@ -6,9 +6,7 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class GenericModalService {
     private isOpen = false;
-    constructor(
-        private modalService: NgbModal,
-    ) { }
+    constructor(private modalService: NgbModal) {}
 
     /**
      *
@@ -23,15 +21,18 @@ export class GenericModalService {
             const modalRef = this.modalService.open(component, options);
             this.isOpen = true;
 
-            Object.keys(data).forEach((datum) => modalRef.componentInstance[datum] = data[datum] );
+            Object.keys(data).forEach((datum) => (modalRef.componentInstance[datum] = data[datum]));
             const subject: Subject<any> = new Subject();
-            modalRef.result.then((result) => {
-                this.isOpen = false;
-                subject.next(result);
-            }, (reason) => {
-                this.isOpen = false;
-                subject.next(reason);
-            });
+            modalRef.result.then(
+                (result) => {
+                    this.isOpen = false;
+                    subject.next(result);
+                },
+                (reason) => {
+                    this.isOpen = false;
+                    subject.next(reason);
+                }
+            );
             genericModal.modalRef = modalRef;
             genericModal.result = subject.asObservable();
         }

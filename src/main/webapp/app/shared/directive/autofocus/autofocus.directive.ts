@@ -7,16 +7,14 @@ import { AfterViewInit, Directive, ElementRef, Renderer2 } from '@angular/core';
  * Soporta la inclusión de este atributo en un elemento 'focusable'
  * (<input>, <textarea>, <ac-autocomplete>, <ac-calendar>, etc...); así como en un <fieldset>.
  * NO debe usarse dentro de un fieldset disabled. En ese caso, la directiva siempre debe estar asignada al fieldset
-*/
+ */
 @Directive({
     selector: '[acAutofocus]'
 })
 export class AutofocusDirective implements AfterViewInit {
-
     readonly focusableElements: string[] = ['input', 'textarea'];
 
-    constructor(private el: ElementRef, private renderer: Renderer2) {
-    }
+    constructor(private el: ElementRef, private renderer: Renderer2) {}
 
     ngAfterViewInit() {
         setTimeout(() => {
@@ -54,6 +52,8 @@ export class AutofocusDirective implements AfterViewInit {
     }
 
     private querySelectorAllFocusableElements(htmlElement: HTMLElement): HTMLElement[] {
-        return Array.prototype.slice.call(htmlElement.querySelectorAll(this.focusableElements.join(', ')));
+        return Array.prototype.slice.call(
+            htmlElement.querySelectorAll(this.focusableElements.join(', '))
+        );
     }
 }

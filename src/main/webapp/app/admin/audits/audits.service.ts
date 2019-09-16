@@ -3,8 +3,8 @@ import { Http, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class AuditsService  {
-    constructor(private http: Http) { }
+export class AuditsService {
+    constructor(private http: Http) {}
 
     query(req: any): Observable<Response> {
         const params: URLSearchParams = new URLSearchParams();

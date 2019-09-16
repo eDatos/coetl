@@ -1,5 +1,4 @@
 <div *ngIf="audits" class="entity" acMakeFixedRoom>
-
     <div class="entity-header">
         <h2 jhiTranslate="audits.title"></h2>
         <div class="entity-search audits-search">
@@ -31,8 +30,13 @@
                 <td>{{audit.type}}</td>
                 <td>
                     <span *ngIf="audit.data.message" ng-show="audit.data.message">{{audit.data.message}}</span>
-                    <span *ngIf="audit.data.remoteAddress" ng-show="audit.data.remoteAddress"><strong><span jhiTranslate="audits.table.data.remoteAddress"></span></strong>&nbsp;{{audit.data.remoteAddress}}</span>
-                    <span *ngIf="audit.data.code" ng-show="audit.data.code"><strong><span jhiTranslate="audits.table.data.code">Code</span></strong>&nbsp;{{audit.data.code}}</span>
+                    <span *ngIf="audit.data.remoteAddress" ng-show="audit.data.remoteAddress"
+                        ><strong><span jhiTranslate="audits.table.data.remoteAddress"></span></strong>&nbsp;{{audit.data.remoteAddress}}</span
+                    >
+                    <span *ngIf="audit.data.code" ng-show="audit.data.code"
+                        ><strong><span jhiTranslate="audits.table.data.code">Code</span></strong
+                        >&nbsp;{{audit.data.code}}</span
+                    >
                 </td>
             </tr>
         </table>

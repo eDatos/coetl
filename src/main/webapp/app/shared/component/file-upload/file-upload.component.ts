@@ -86,8 +86,8 @@ export class FileUploadComponent implements OnInit, OnChanges {
             this.innerFiles = Array.isArray(this.files)
                 ? this.files
                 : this.files
-                    ? [this.files]
-                    : [];
+                ? [this.files]
+                : [];
         }
     }
 

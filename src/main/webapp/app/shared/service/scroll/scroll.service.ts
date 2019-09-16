@@ -2,16 +2,23 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ScrollService {
-
-    constructor() { }
+    constructor() {}
 
     scrollToFragment(titlesContainerElement: HTMLElement, fragment: string) {
-        if (!titlesContainerElement) { return; }
+        if (!titlesContainerElement) {
+            return;
+        }
 
-        const elementTitle: HTMLElement = <HTMLElement>titlesContainerElement.querySelector('#' + fragment);
-        if (!elementTitle) { return; }
+        const elementTitle: HTMLElement = <HTMLElement>(
+            titlesContainerElement.querySelector('#' + fragment)
+        );
+        if (!elementTitle) {
+            return;
+        }
 
-        const offset: number = this.calculateFixedNavbarOffsetBeforeScrollIntoView(titlesContainerElement);
+        const offset: number = this.calculateFixedNavbarOffsetBeforeScrollIntoView(
+            titlesContainerElement
+        );
         elementTitle.scrollIntoView();
         if (this.needsOffsetScrolling(elementTitle)) {
             window.scrollBy(0, -offset);
@@ -25,7 +32,12 @@ export class ScrollService {
         // Lets see where is located the titles container
         let offset = titlesContainerElement.getBoundingClientRect().top;
         // Add the top padding
-        offset += Number(window.getComputedStyle(titlesContainerElement).getPropertyValue('padding-top').replace('px', ''));
+        offset += Number(
+            window
+                .getComputedStyle(titlesContainerElement)
+                .getPropertyValue('padding-top')
+                .replace('px', '')
+        );
         // Hand adjusted
         offset += 15;
         return offset;

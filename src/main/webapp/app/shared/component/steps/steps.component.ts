@@ -6,7 +6,6 @@ import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
     styleUrls: ['steps.component.scss']
 })
 export class StepsComponent {
-
     @Input()
     public steps: any[];
 
@@ -22,7 +21,7 @@ export class StepsComponent {
     @ContentChild(TemplateRef)
     public titleTemplate: TemplateRef<any>;
 
-    constructor() { }
+    constructor() {}
 
     public hasStepAction(): boolean {
         return !!this.stepAction;

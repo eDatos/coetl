@@ -1,4 +1,13 @@
-import { Component, OnInit, forwardRef, Input, ViewChild, Output, EventEmitter, HostBinding } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    forwardRef,
+    Input,
+    ViewChild,
+    Output,
+    EventEmitter,
+    HostBinding
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -28,12 +37,38 @@ class LocaleEs {
             dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
             dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            monthNames: [
+                'Enero',
+                'Febrero',
+                'Marzo',
+                'Abril',
+                'Mayo',
+                'Junio',
+                'Julio',
+                'Agosto',
+                'Septiembre',
+                'Octubre',
+                'Noviembre',
+                'Diciembre'
+            ],
+            monthNamesShort: [
+                'Ene',
+                'Feb',
+                'Mar',
+                'Abr',
+                'May',
+                'Jun',
+                'Jul',
+                'Ago',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dic'
+            ],
             today: 'Hoy',
             clear: 'Reiniciar'
-        }
-    };
+        };
+    }
 }
 
 @Component({
@@ -43,7 +78,6 @@ class LocaleEs {
     providers: [AC_CALENDAR_VALUE_ACCESSOR]
 })
 export class CalendarComponent implements ControlValueAccessor, OnInit {
-
     _date;
 
     locale = LocaleEs.getLocale();
@@ -84,12 +118,11 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
 
     public onModelChange: (_: any) => {};
 
-    public onModelTouched: Function = () => { };
+    public onModelTouched: Function = () => {};
 
-    constructor(private translateService: TranslateService) { }
+    constructor(private translateService: TranslateService) {}
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     onSelectMethod($event) {
         this.onSelect.emit($event);
@@ -125,5 +158,4 @@ export class CalendarComponent implements ControlValueAccessor, OnInit {
     registerOnTouched(fn: any): void {
         this.onModelTouched = fn;
     }
-
 }

@@ -12,9 +12,7 @@ export class Principal {
     private authenticated = false;
     private authenticationState = new Subject<any>();
 
-    constructor(
-        private userService: UserService
-    ) { }
+    constructor(private userService: UserService) {}
 
     authenticate(identity) {
         this.userIdentity = identity;
@@ -34,8 +32,13 @@ export class Principal {
         if (!this.userIdentity || !this.userIdentity.roles) {
             return false;
         }
-        return rolesRuta.filter((rolRuta) => this.userIdentity.roles.filter((rolUsuario) => rolRuta === rolUsuario).length >= 1).length >= 1;
-
+        return (
+            rolesRuta.filter(
+                (rolRuta) =>
+                    this.userIdentity.roles.filter((rolUsuario) => rolRuta === rolUsuario).length >=
+                    1
+            ).length >= 1
+        );
     }
 
     identity(): Promise<any> {
@@ -46,22 +49,26 @@ export class Principal {
         }
 
         // retrieve the userIdentity data from the server, update the identity object, and then resolve.
-        return this.userService.getLogueado().toPromise().then((account) => {
-            if (account) {
-                this.userIdentity = account;
-                this.authenticated = true;
-            } else {
+        return this.userService
+            .getLogueado()
+            .toPromise()
+            .then((account) => {
+                if (account) {
+                    this.userIdentity = account;
+                    this.authenticated = true;
+                } else {
+                    this.userIdentity = null;
+                    this.authenticated = false;
+                }
+                this.authenticationState.next(this.userIdentity);
+                return this.userIdentity;
+            })
+            .catch((err) => {
                 this.userIdentity = null;
                 this.authenticated = false;
-            }
-            this.authenticationState.next(this.userIdentity);
-            return this.userIdentity;
-        }).catch((err) => {
-            this.userIdentity = null;
-            this.authenticated = false;
-            this.authenticationState.next(this.userIdentity);
-            return null;
-        });
+                this.authenticationState.next(this.userIdentity);
+                return null;
+            });
     }
 
     isAuthenticated(): boolean {

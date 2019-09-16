@@ -19,9 +19,7 @@ export class JhiConfigurationComponent implements OnInit, HasTitlesContainer {
     @ViewChild('titlesContainer') titlesContainer: ElementRef;
     public instance: JhiConfigurationComponent;
 
-    constructor(
-        private configurationService: JhiConfigurationService
-    ) {
+    constructor(private configurationService: JhiConfigurationService) {
         this.configKeys = [];
         this.filter = '';
         this.orderProp = 'prefix';
@@ -30,7 +28,7 @@ export class JhiConfigurationComponent implements OnInit, HasTitlesContainer {
     }
 
     keys(dict): Array<string> {
-        return (dict === undefined) ? [] : Object.keys(dict);
+        return dict === undefined ? [] : Object.keys(dict);
     }
 
     ngOnInit() {

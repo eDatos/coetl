@@ -3,7 +3,6 @@
  * El objetivo principal es la mejora en la calidad de código y la disminución de éste.
  */
 export class ApplicationUtils {
-
     /**
      * Este método devuelve un boolean que representa el estado del parámetro recibido.
      * (null o undefined o vacío) implica true
@@ -11,7 +10,7 @@ export class ApplicationUtils {
      * @param value
      */
     public static isNullOrBlank(value: any): boolean {
-        return (value === null) || (value === undefined) || (value === '') || (value === 'undefined');
+        return value === null || value === undefined || value === '' || value === 'undefined';
     }
 
     /**
@@ -21,16 +20,16 @@ export class ApplicationUtils {
      * @param value
      */
     public static isNullOrEmpty(value: any): boolean {
-        return (!Array.isArray(value)) || (!value.length);
+        return !Array.isArray(value) || !value.length;
     }
 
     /**
-	 * Devuelve un String que contiene los elementos del array separados por el contenido del parámetro `separator` (por defecto un espacio), validando cada campo antes de concatenar.
-	 *
-	 * @param usuario
+     * Devuelve un String que contiene los elementos del array separados por el contenido del parámetro `separator` (por defecto un espacio), validando cada campo antes de concatenar.
+     *
+     * @param usuario
      * @param separador (Por defecto un espacio)
-	 * @return
-	 */
+     * @return
+     */
     public static concatenarStrings(params: string[], separator = ' '): string {
         return params.filter((o) => o).join(separator);
     }

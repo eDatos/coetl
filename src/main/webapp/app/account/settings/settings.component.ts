@@ -17,28 +17,33 @@ export class SettingsComponent implements OnInit {
         private userService: UserService,
         private route: ActivatedRoute,
         private router: Router
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         this.isSaving = false;
-        this.userService.getLogueado().toPromise().then((account) => {
-            this.settingsAccount = account;
-        });
+        this.userService
+            .getLogueado()
+            .toPromise()
+            .then((account) => {
+                this.settingsAccount = account;
+            });
     }
 
     save() {
         this.isSaving = true;
-        this.userService.update(this.settingsAccount).subscribe(() => {
-            this.error = null;
-            this.success = 'OK';
-            this.isSaving = false;
-            this.router.navigate(['settings']);
-        }, () => {
-            this.success = null;
-            this.error = 'ERROR';
-            this.isSaving = false;
-        });
+        this.userService.update(this.settingsAccount).subscribe(
+            () => {
+                this.error = null;
+                this.success = 'OK';
+                this.isSaving = false;
+                this.router.navigate(['settings']);
+            },
+            () => {
+                this.success = null;
+                this.error = 'ERROR';
+                this.isSaving = false;
+            }
+        );
     }
 
     clear() {

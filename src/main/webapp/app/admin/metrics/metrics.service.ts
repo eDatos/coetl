@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class JhiMetricsService {
-
     constructor(private http: Http) {}
 
     getMetrics(): Observable<any> {
