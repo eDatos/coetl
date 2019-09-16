@@ -3,8 +3,7 @@ import { CookieService } from 'ngx-cookie';
 
 @Injectable()
 export class CSRFService {
-
-    constructor(private cookieService: CookieService) { }
+    constructor(private cookieService: CookieService) {}
 
     getCSRF(name?: string) {
         name = `${name ? name : 'XSRF-TOKEN'}`;

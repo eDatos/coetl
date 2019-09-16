@@ -3,26 +3,25 @@ import { DatePipe } from '@angular/common';
 import { ParamLoader } from './param-loader';
 
 export abstract class BaseEntityFilter {
-
     private loaders: ParamLoader[] = [];
 
-    constructor(
-        public datePipe?: DatePipe
-    ) {
+    constructor(public datePipe?: DatePipe) {
         this.registerParameters();
     }
 
     protected updateQueryParam(id: string, params: any[], field?: string) {
         if (this[id] && (this[id].length === undefined || this[id].length > 0)) {
             if (this[id] instanceof Array) {
-                params[id] = Array.from(this[id]).map((item) => this.getItemOrId(item, field)).join();
+                params[id] = Array.from(this[id])
+                    .map((item) => this.getItemOrId(item, field))
+                    .join();
             } else if (this[id] instanceof Date) {
                 params[id] = this.dateToString(this[id]);
             } else {
                 params[id] = this.getItemOrId(this[id], field);
             }
         } else {
-            delete params[id]
+            delete params[id];
         }
     }
 
@@ -47,7 +46,10 @@ export abstract class BaseEntityFilter {
                 return false;
             }
 
-            if (!loader.needsToRecoverFilterFromServer || loader.needsToRecoverFilterFromServer(paramValue)) {
+            if (
+                !loader.needsToRecoverFilterFromServer ||
+                loader.needsToRecoverFilterFromServer(paramValue)
+            ) {
                 loader.updateFilterFromParam(paramValue);
                 return false;
             }
@@ -62,8 +64,12 @@ export abstract class BaseEntityFilter {
             });
         }
 
-        const observableList = filtersToRefresh.map((loader) => loader.recoverFilterFromServer(params[loader.paramName]));
-        const callbackList = filtersToRefresh.map((loader) => loader.updateFilterAndSuggestionsFromServer);
+        const observableList = filtersToRefresh.map((loader) =>
+            loader.recoverFilterFromServer(params[loader.paramName])
+        );
+        const callbackList = filtersToRefresh.map(
+            (loader) => loader.updateFilterAndSuggestionsFromServer
+        );
         return Observable.zip(...observableList, (...responsesArray: Array<any>): void => {
             responsesArray.forEach((response, index) => {
                 callbackList[index](response);
@@ -94,7 +100,7 @@ export abstract class BaseEntityFilter {
         if (date && date.toString().match('../../....')) {
             return date.toString();
         }
-        return this.datePipe.transform(date, dateFormat)
+        return this.datePipe.transform(date, dateFormat);
     }
 
     abstract getCriterias();

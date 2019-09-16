@@ -14,4 +14,6 @@ public interface EtlRepository extends JpaRepository<Etl, Long> {
     Page<Etl> findAll(DetachedCriteria criteria, Pageable pageable);
 
     Etl findOneByCode(String code);
+
+    Etl findByIdAndDeletionDateIsNull(Long id);
 }

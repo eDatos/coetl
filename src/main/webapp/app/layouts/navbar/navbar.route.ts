@@ -5,8 +5,7 @@ import { UserRouteAccessService } from '../../shared';
 export const navbarRoute: Route = {
     path: '',
     component: NavbarComponent,
-    data: {
-    },
+    data: {},
     canActivate: [UserRouteAccessService],
     outlet: 'navbar'
 };

@@ -10,6 +10,7 @@ public class PentahoProperties {
 
     private String endpoint = StringUtils.EMPTY;
     private final Auth auth = new Auth();
+    private final Host host = new Host();
 
     public String getEndpoint() {
         return endpoint;
@@ -21,6 +22,10 @@ public class PentahoProperties {
 
     public Auth getAuth() {
         return auth;
+    }
+
+    public Host getHost() {
+        return host;
     }
 
     public static class Auth {
@@ -44,5 +49,90 @@ public class PentahoProperties {
             this.password = password;
         }
 
+    }
+
+    public static class Host {
+
+        private String address = StringUtils.EMPTY;
+        private String username = StringUtils.EMPTY;
+        private String password = StringUtils.EMPTY;
+        private String sudoUsername = StringUtils.EMPTY;
+        private String sudoPassword = StringUtils.EMPTY;
+        private String sudoPasswordPromptRegex = StringUtils.EMPTY;
+        private String os = StringUtils.EMPTY;
+        private String sftpPath = StringUtils.EMPTY;
+        private String resourcesPath = StringUtils.EMPTY;
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getSudoUsername() {
+            return sudoUsername;
+        }
+
+        public void setSudoUsername(String sudoUsername) {
+            this.sudoUsername = sudoUsername;
+        }
+
+        public String getSudoPassword() {
+            return sudoPassword;
+        }
+
+        public void setSudoPassword(String sudoPassword) {
+            this.sudoPassword = sudoPassword;
+        }
+
+        public String getSudoPasswordPromptRegex() {
+            return sudoPasswordPromptRegex;
+        }
+
+        public void setSudoPasswordPromptRegex(String sudoPasswordPromptRegex) {
+            this.sudoPasswordPromptRegex = sudoPasswordPromptRegex;
+        }
+
+        public String getOs() {
+            return os;
+        }
+
+        public void setOs(String os) {
+            this.os = os;
+        }
+
+        public String getSftpPath() {
+            return sftpPath;
+        }
+
+        public void setSftpPath(String sftpPath) {
+            this.sftpPath = sftpPath;
+        }
+
+        public String getResourcesPath() {
+            return resourcesPath;
+        }
+
+        public void setResourcesPath(String resourcesPath) {
+            this.resourcesPath = resourcesPath;
+        }
     }
 }

@@ -1,7 +1,5 @@
 <div class="section-buttons">
-    <ng-content select="ac-file-header">
-
-    </ng-content>
+    <ng-content select="ac-file-header"> </ng-content>
 </div>
 <h3>
     {{title}}
@@ -11,14 +9,28 @@
     </ng-contaner>
 </h3>
 <ng-container *ngIf="!disabled && canUpload()">
-    <p-fileUpload class="{{mode}}" [name]="name" [url]="url" (onUpload)="onUploadMethod($event)" (onSelect)="onSelectMethod($event)" (onBeforeSend)="onBeforeSendMethod($event)"
-        (onError)="onErrorMethod($event)" [maxFileSize]="maxFileSize" [disabled]="disabled" [mode]="mode" [accept]="accept"
-        [chooseLabel]="'coetlApp.file.choose' | translate" [uploadLabel]="'coetlApp.file.upload' | translate"
-        [cancelLabel]="'coetlApp.file.cancel' | translate" [invalidFileSizeMessageSummary]="'coetlApp.file.invalidFileSizeMessageSummary' | translate"
+    <p-fileUpload
+        class="{{mode}}"
+        [name]="name"
+        [url]="url"
+        (onUpload)="onUploadMethod($event)"
+        (onSelect)="onSelectMethod($event)"
+        (onBeforeSend)="onBeforeSendMethod($event)"
+        (onError)="onErrorMethod($event)"
+        [maxFileSize]="maxFileSize"
+        [disabled]="disabled"
+        [mode]="mode"
+        [accept]="accept"
+        [chooseLabel]="'coetlApp.file.choose' | translate"
+        [uploadLabel]="'coetlApp.file.upload' | translate"
+        [cancelLabel]="'coetlApp.file.cancel' | translate"
+        [invalidFileSizeMessageSummary]="'coetlApp.file.invalidFileSizeMessageSummary' | translate"
         [invalidFileSizeMessageDetail]="'coetlApp.file.invalidFileSizeMessageDetail' | translate"
         [invalidFileTypeMessageSummary]="'coetlApp.file.invalidFileTypeMessageSummary' | translate"
-        [invalidFileTypeMessageDetail]="'coetlApp.file.invalidFileTypeMessageDetail' | translate" [auto]="auto"
-        #fileUpload>
+        [invalidFileTypeMessageDetail]="'coetlApp.file.invalidFileTypeMessageDetail' | translate"
+        [auto]="auto"
+        #fileUpload
+    >
         <ng-template pTemplate="toolbar">
             <div *ngIf="fileUpload.files.length > 0" class="fileupload-header">
                 <span jhiTranslate="coetlApp.file.filesToUpload"></span>
@@ -63,6 +75,5 @@
     </table>
 </ng-container>
 <ng-template #emptyFileList>
-    <div class="empty-file-list" jhiTranslate="coetlApp.file.emptyFileList">
-    </div>
+    <div class="empty-file-list" jhiTranslate="coetlApp.file.emptyFileList"></div>
 </ng-template>

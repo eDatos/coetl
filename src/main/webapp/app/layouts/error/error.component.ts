@@ -15,7 +15,7 @@ export class ErrorComponent implements OnInit {
     public title: string;
     public detail: string;
 
-    constructor(private route: ActivatedRoute) { }
+    constructor(private route: ActivatedRoute) {}
 
     ngOnInit() {
         this.route.data.subscribe((routeData) => {

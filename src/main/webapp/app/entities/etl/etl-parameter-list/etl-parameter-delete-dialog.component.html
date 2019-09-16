@@ -1,0 +1,21 @@
+<form name="modalDeleteForm" role="form" novalidate (ngSubmit)="delete()" #modalEditForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" jhiTranslate="entity.delete.title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <p jhiTranslate="coetlApp.parameter.delete.question" translateValues="{key: '{{ parameter.key }}'}"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="col-sm-8 text-right">
+            <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+                <span class="fa fa-ban"></span>&nbsp;
+                <span jhiTranslate="entity.action.cancel"></span>
+            </button>
+            <button type="submit" class="btn btn-danger">
+                <span class="fa fa-remove"></span>&nbsp;
+                <span jhiTranslate="entity.action.delete"></span>
+            </button>
+        </div>
+    </div>
+</form>

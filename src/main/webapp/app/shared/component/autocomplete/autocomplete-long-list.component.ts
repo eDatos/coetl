@@ -13,11 +13,10 @@ import { buildProvider } from '../../utils/build-provider.function';
     providers: [buildProvider(AutocompleteLongListComponent)]
 })
 export class AutocompleteLongListComponent extends AutocompleteComponent implements OnInit {
-
     constructor(protected translateService: TranslateService) {
         super(translateService);
         this.minLength = 3;
-     }
+    }
 
     ngOnInit() {
         if (!(this.completeMethod.observers.length > 0)) {

@@ -6,7 +6,6 @@ import { AfterContentInit, Component, ElementRef, ViewChild } from '@angular/cor
     styleUrls: ['./split-button.component.scss']
 })
 export class SplitButtonComponent implements AfterContentInit {
-
     public menuVisible = false;
 
     @ViewChild('otherButtonsWrapper')
@@ -14,11 +13,13 @@ export class SplitButtonComponent implements AfterContentInit {
 
     public hasOtherButtons = false;
 
-    constructor(private element: ElementRef) { }
+    constructor(private element: ElementRef) {}
 
     ngAfterContentInit() {
         const acSplitButtonOthers = this.otherButtons.nativeElement.children[0];
-        return this.hasOtherButtons = acSplitButtonOthers ? acSplitButtonOthers.children.length > 0 : false;
+        return (this.hasOtherButtons = acSplitButtonOthers
+            ? acSplitButtonOthers.children.length > 0
+            : false);
     }
 
     toggleMenu() {
@@ -28,7 +29,7 @@ export class SplitButtonComponent implements AfterContentInit {
     onFocusOut($event) {
         if (!this.element.nativeElement.contains($event.relatedTarget)) {
             // https://github.com/angular/angular/issues/17572
-            setTimeout(() => this.menuVisible = false, 0);
+            setTimeout(() => (this.menuVisible = false), 0);
         }
     }
 }

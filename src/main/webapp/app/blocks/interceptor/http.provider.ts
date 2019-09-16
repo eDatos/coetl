@@ -17,17 +17,13 @@ export function interceptableFactory(
     injector: Injector,
     eventManager: JhiEventManager
 ) {
-    return new JhiInterceptableHttp(
-        backend,
-        defaultOptions,
-        [
-            new AuthInterceptor(localStorage, sessionStorage, cookieService),
-            new AuthExpiredInterceptor(injector),
-            // Other interceptors can be added here
-            new ErrorHandlerInterceptor(eventManager)
-        ]
-    );
-};
+    return new JhiInterceptableHttp(backend, defaultOptions, [
+        new AuthInterceptor(localStorage, sessionStorage, cookieService),
+        new AuthExpiredInterceptor(injector),
+        // Other interceptors can be added here
+        new ErrorHandlerInterceptor(eventManager)
+    ]);
+}
 
 export function customHttpProvider() {
     return {
@@ -43,4 +39,4 @@ export function customHttpProvider() {
             JhiEventManager
         ]
     };
-};
+}

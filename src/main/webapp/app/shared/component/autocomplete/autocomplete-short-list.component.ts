@@ -12,7 +12,6 @@ import { buildProvider } from '../../utils/build-provider.function';
     providers: [buildProvider(AutocompleteShortListComponent)]
 })
 export class AutocompleteShortListComponent extends AutocompleteComponent implements OnInit {
-
     ngOnInit() {
         if (this.completeMethod.observers.length > 0) {
             throw new Error('completeMethod is not supported on ac-autocomplete-short-list');

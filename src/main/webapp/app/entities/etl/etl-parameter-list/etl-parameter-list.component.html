@@ -1,0 +1,47 @@
+<div class="entity">
+    <h3 jhiTranslate="coetlApp.parameter.home.title"></h3>
+    <div class="section-buttons">
+        <button type="button" class="btn btn-primary btn-sm" (click)="editParameter()">
+            <span class="fa fa-plus"></span>&nbsp;
+            <span jhiTranslate="coetlApp.parameter.home.createLabel"></span>
+        </button>
+    </div>
+    <ng-container *ngIf="existParameters(); else emptyList">
+        <div class="entity-fields">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 30%;" jhiTranslate="coetlApp.parameter.key"></th>
+                        <th style="width: 30%;" jhiTranslate="coetlApp.parameter.value"></th>
+                        <th style="width: 10%;" jhiTranslate="coetlApp.parameter.type.label"></th>
+                        <th style="width: 30%;"></th>
+                    </tr>
+                </thead>
+                <tr *ngFor="let parameter of parameters; let i = index">
+                    <td>{{ parameter.key }}</td>
+                    <td>{{ parameter.value }}</td>
+                    <td>
+                        <span class="badge badge-info">{{ getTypeName(parameter) }}</span>
+                    </td>
+                    <td>
+                        <div *ngIf="parameter.type === 'MANUAL'">
+                            <button type="button" class="btn btn-warning btn-sm" (click)="editParameter(parameter)">
+                                <span class="fa fa-pencil"></span>&nbsp;
+                                <span jhiTranslate="entity.action.edit"></span>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" (click)="deleteParameter(parameter)">
+                                <span class="fa fa-remove"></span>&nbsp;
+                                <span jhiTranslate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </ng-container>
+</div>
+<ng-template #emptyList>
+    <div class="empty-list">
+        <span jhiTranslate="coetlApp.parameter.emptyListMessage"></span>
+    </div>
+</ng-template>

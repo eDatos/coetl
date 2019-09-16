@@ -6,7 +6,6 @@ import { PAGINATION_OPTIONS, ITEMS_PER_PAGE } from '../items-per-page';
     templateUrl: 'pagination.component.html'
 })
 export class PaginationComponent {
-
     public _page: number;
 
     @Output()
@@ -55,7 +54,8 @@ export class PaginationComponent {
     }
 
     set itemsPerPage(itemsPerPage: number) {
-        const validItemsPerPage = PAGINATION_OPTIONS.indexOf(Number(itemsPerPage)) > -1 ? itemsPerPage : ITEMS_PER_PAGE
+        const validItemsPerPage =
+            PAGINATION_OPTIONS.indexOf(Number(itemsPerPage)) > -1 ? itemsPerPage : ITEMS_PER_PAGE;
         if (this._itemsPerPage !== validItemsPerPage) {
             this._itemsPerPage = validItemsPerPage;
             this.itemsPerPageChange.emit(this._itemsPerPage);

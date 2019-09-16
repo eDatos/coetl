@@ -1,21 +1,36 @@
 <div class="entity-search operacion-search">
-
     <div class="entity-search-field">
         <label jhiTranslate="userManagement.filters.name.label"></label>
-        <input class="form-control" [attr.aria-label]="'userManagement.filters.name.placeholder' | translate" placeholder="{{'userManagement.filters.name.placeholder' | translate}}"
-            [(ngModel)]="filters.name" (keyup)="filter()" />
+        <input
+            class="form-control"
+            [attr.aria-label]="'userManagement.filters.name.placeholder' | translate"
+            placeholder="{{'userManagement.filters.name.placeholder' | translate}}"
+            [(ngModel)]="filters.name"
+            (keyup)="filter()"
+        />
     </div>
 
     <div class="entity-search-field">
         <label jhiTranslate="userManagement.filters.email.label"></label>
-        <input class="form-control" [attr.aria-label]="'userManagement.filters.email.placeholder' | translate" placeholder="{{'userManagement.filters.email.placeholder' | translate}}"
-            [(ngModel)]="filters.email" (keyup)="filter()" />
+        <input
+            class="form-control"
+            [attr.aria-label]="'userManagement.filters.email.placeholder' | translate"
+            placeholder="{{'userManagement.filters.email.placeholder' | translate}}"
+            [(ngModel)]="filters.email"
+            (keyup)="filter()"
+        />
     </div>
 
     <div class="entity-search-field">
         <label for="role" jhiTranslate="userManagement.filters.rol.label"></label>
-        <ac-autocomplete-enum name="role" [(ngModel)]="filters.role" [suggestionsEnum]="roleEnum" [translationPath]="'coetlApp.rol.roles.'"
-            (onSelect)="filter()" (onUnselect)="filter()"></ac-autocomplete-enum>
+        <ac-autocomplete-enum
+            name="role"
+            [(ngModel)]="filters.role"
+            [suggestionsEnum]="roleEnum"
+            [translationPath]="'coetlApp.rol.roles.'"
+            (onSelect)="filter()"
+            (onUnselect)="filter()"
+        ></ac-autocomplete-enum>
     </div>
 
     <div class="entity-search-field">

@@ -12,19 +12,17 @@ import { ScrollService } from '../../service/scroll';
     styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent implements AfterViewInit {
-
     @Input()
     public parent: HasTitlesContainer;
 
     public menu: any[] = [];
 
-    constructor(
-        private route: ActivatedRoute,
-        private scrollService: ScrollService
-    ) { }
+    constructor(private route: ActivatedRoute, private scrollService: ScrollService) {}
 
     ngAfterViewInit() {
-        if (!this.parent || !this.parent.getTitlesContainer()) { return; }
+        if (!this.parent || !this.parent.getTitlesContainer()) {
+            return;
+        }
 
         const titlesContainerElement: HTMLElement = this.parent.getTitlesContainer().nativeElement;
         titlesContainerElement.classList.add('has-menu');
@@ -33,21 +31,23 @@ export class SideMenuComponent implements AfterViewInit {
         this.route.fragment.subscribe((fragment) => {
             this.scrollService.scrollToFragment(titlesContainerElement, fragment);
         });
-
     }
 
     buildMenu(titlesContainerElement: HTMLElement) {
-        if (this.menu.length > 0) { return; } // Already built
+        if (this.menu.length > 0) {
+            return;
+        } // Already built
         setTimeout(() => {
             const titles = this.querySelectorAll(titlesContainerElement, 'h3');
-            this.menu = titles.filter((element) => !!element.textContent)
+            this.menu = titles
+                .filter((element) => !!element.textContent)
                 .map((element) => {
                     element.id = element.id || this.htmlIdGenerator(element.textContent);
                     return {
                         url: element.id,
                         title: element.textContent
                     };
-                })
+                });
         }, 0);
     }
 
@@ -56,15 +56,13 @@ export class SideMenuComponent implements AfterViewInit {
         const elements = htmlElement.querySelectorAll(selector);
         for (let i = 0; i < elements.length; i++) {
             result.push(elements[i]);
-
         }
         return result;
     }
 
     htmlIdGenerator(textContent: string) {
-        return 'side-menu-id-' + textContent.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9]/gmi, '');
+        return 'side-menu-id-' + textContent.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9]/gim, '');
     }
-
 }
 
 export interface HasTitlesContainer {

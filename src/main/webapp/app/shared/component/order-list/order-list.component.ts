@@ -7,7 +7,7 @@ export const AC_ORDER_LIST_VALUE_ACCESSOR: any = {
     multi: true
 };
 
-type QueryEmitter = {query: string, originalEvent: Event};
+type QueryEmitter = { query: string; originalEvent: Event };
 
 // IMPORTANTE : La lista a ordenar debe ser un List en el servidor y no un set, o no guardará el orden
 @Component({
@@ -17,7 +17,6 @@ type QueryEmitter = {query: string, originalEvent: Event};
     providers: [AC_ORDER_LIST_VALUE_ACCESSOR]
 })
 export class OrderListComponent implements ControlValueAccessor {
-
     private _orderedList: any;
 
     @Input()
@@ -63,20 +62,24 @@ export class OrderListComponent implements ControlValueAccessor {
     @Input()
     public itemTemplate: Function;
 
-    private onModelChange: Function = () => { };
+    private onModelChange: Function = () => {};
 
-    private onModelTouched: Function = () => { };
+    private onModelTouched: Function = () => {};
 
     @Input()
     private compareWith: Function = (selectedItem, existingItem) => {
         if (selectedItem && existingItem) {
-            if (!selectedItem.id) { console.error('selectedItem don\'t have defined id', selectedItem) };
-            if (!existingItem.id) { console.error('existingItem don\'t have defined id', existingItem) };
+            if (!selectedItem.id) {
+                console.error(`selectedItem do not have defined id`, selectedItem);
+            }
+            if (!existingItem.id) {
+                console.error(`existingItem do not have defined id`, existingItem);
+            }
             return selectedItem.id === existingItem.id;
         } else {
             return selectedItem === existingItem;
         }
-    }
+    };
 
     constructor() {
         this.dragAndDropScope = this.generateRandomDragAndDropScope();

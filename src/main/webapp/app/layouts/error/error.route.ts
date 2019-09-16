@@ -8,7 +8,7 @@ export const errorRoute: Routes = [
         data: {
             roles: [],
             pageTitle: 'error.title'
-        },
+        }
     },
     {
         path: 'accessdenied',
@@ -17,7 +17,7 @@ export const errorRoute: Routes = [
             roles: [],
             pageTitle: 'error.title',
             error403: true
-        },
+        }
     },
     {
         path: 'notfound',

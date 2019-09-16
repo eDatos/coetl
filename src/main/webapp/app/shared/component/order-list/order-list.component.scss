@@ -5,7 +5,7 @@
 
     .order-list {
         border: $border-width solid $grey-light;
-        padding: .25em;
+        padding: 0.25em;
     }
 
     ac-autocomplete /deep/ {
@@ -20,7 +20,7 @@
         }
     }
 
-    p-orderList /deep/ {                        
+    p-orderList /deep/ {
         .ui-orderlist {
             display: block;
 
@@ -36,7 +36,7 @@
             }
 
             .ui-orderlist-controls {
-                display: none;                
+                display: none;
             }
 
             .ui-orderlist-list {
@@ -44,7 +44,7 @@
                 width: 100%;
                 border: none;
                 padding: 0;
-                
+
                 .ui-orderlist-item {
                     margin: 0;
                     overflow: hidden;
@@ -63,7 +63,7 @@
                         background: $main-medium;
                         color: $white;
                     }
-                    
+
                     .ui-autocomplete-token-icon {
                         top: unset;
                         margin-top: unset;
@@ -89,21 +89,21 @@
     }
 
     fieldset:disabled &,
-    fieldset[disabled] &{
+    fieldset[disabled] & {
         @extend %ac-order-list-disabled;
-        p-orderList /deep/ {     
+        p-orderList /deep/ {
             @extend %p-order-list-disabled;
         }
     }
     &:disabled,
     &[disabled] {
         @extend %ac-order-list-disabled;
-        p-orderList /deep/ {     
+        p-orderList /deep/ {
             @extend %p-order-list-disabled;
         }
     }
 
-    p-orderList /deep/ { 
+    p-orderList /deep/ {
         .ui-orderlist.disabled {
             @extend %p-order-list-disabled;
         }
@@ -137,7 +137,7 @@
             display: none;
         }
     }
-    
+
     ac-autocomplete {
         display: none;
     }

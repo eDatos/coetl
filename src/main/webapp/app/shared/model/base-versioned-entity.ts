@@ -1,5 +1,3 @@
 export abstract class BaseVersionedEntity {
-    constructor(
-        optLock?: number,
-    ) {}
+    constructor(optLock?: number) {}
 }

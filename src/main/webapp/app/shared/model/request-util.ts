@@ -24,8 +24,6 @@ export const orderParamsToQuery = (param) => {
     return param
         .map((p) => p.split(','))
         .filter((a) => a.length === 2)
-        .map((a) => a
-            .map((s) => s.toUpperCase())
-            .join(' '))
-        .join(',')
-}
+        .map((a) => a.map((s) => s.toUpperCase()).join(' '))
+        .join(',');
+};

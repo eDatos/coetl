@@ -35,10 +35,10 @@ export class MultiInputComponent implements ControlValueAccessor {
     @Input()
     addOnTab = true;
 
-    private onModelChange: Function = () => { };
-    private onModelTouched: Function = () => { };
+    private onModelChange: Function = () => {};
+    private onModelTouched: Function = () => {};
 
-    constructor(private translateService: TranslateService) { }
+    constructor(private translateService: TranslateService) {}
 
     /* ControlValueAccessor */
 

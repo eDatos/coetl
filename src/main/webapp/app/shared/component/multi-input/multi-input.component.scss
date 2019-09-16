@@ -15,12 +15,12 @@ fieldset {
                 @include placeholder {
                     color: $grey-medium;
                 }
-            }    
+            }
         }
         /deep/ .ui-state-default {
             &:hover {
                 border-bottom-color: transparent !important;
-            }    
+            }
             li {
                 width: 100%;
                 input {
@@ -29,12 +29,12 @@ fieldset {
                 margin-bottom: $spacer-y / 2;
             }
         }
-        
+
         &.disabled /deep/ input::placeholder {
             @extend %disabled-multi-input;
         }
     }
-        
+
     &:disabled,
     &[disabled] {
         :host /deep/ input::placeholder {

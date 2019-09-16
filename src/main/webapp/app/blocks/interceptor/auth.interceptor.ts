@@ -5,18 +5,18 @@ import { JhiHttpInterceptor } from 'ng-jhipster';
 import { CookieService } from 'ngx-cookie';
 
 export class AuthInterceptor extends JhiHttpInterceptor {
-
     constructor(
         private localStorage: LocalStorageService,
         private sessionStorage: SessionStorageService,
-        private cookieService: CookieService,
-
+        private cookieService: CookieService
     ) {
         super();
     }
 
     requestIntercept(options?: RequestOptionsArgs): RequestOptionsArgs {
-        const token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
+        const token =
+            this.localStorage.retrieve('authenticationToken') ||
+            this.sessionStorage.retrieve('authenticationToken');
         if (!!token) {
             options.headers.append('Authorization', 'Bearer ' + token);
         } else {
@@ -41,5 +41,4 @@ export class AuthInterceptor extends JhiHttpInterceptor {
             this.sessionStorage.store('authenticationtoken', jwt);
         }
     }
-
 }

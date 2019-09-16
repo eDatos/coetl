@@ -1,0 +1,39 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="showHealthLabel">
+            <span *ngIf="!!currentHealth.id">{{currentHealth.serviceName}}</span>
+            <span *ngIf="!currentHealth.id" jhiTranslate="health.action.create"></span>
+        </h4>
+        <button aria-label="Close" data-dismiss="modal" class="close" type="button" (click)="close()"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-body">
+        <div class="entity-fields">
+            <fieldset>
+                <div class="form-group full-width">
+                    <label class="form-control-label" for="field_serviceName" jhiTranslate="health.custom.field.serviceName"></label>
+                    <input type="text" class="form-control" name="serviceName" id="field_serviceName" [(ngModel)]="currentHealth.serviceName" required />
+                    <div [hidden]="!(editForm.controls.serviceName?.dirty && editForm.controls.serviceName?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.serviceName?.errors?.required" jhiTranslate="entity.validation.required"> </small>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" for="field_endpoint" jhiTranslate="health.custom.field.endpoint"></label>
+                    <input type="text" class="form-control" name="endpoint" id="field_endpoint" [(ngModel)]="currentHealth.endpoint" required />
+                    <div [hidden]="!(editForm.controls.endpoint?.dirty && editForm.controls.endpoint?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.endpoint?.errors?.required" jhiTranslate="entity.validation.required"> </small>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-secondary" type="button" (click)="close()">
+            <span class="fa fa-ban"></span>&nbsp;
+            <span jhiTranslate="entity.action.cancel"></span>
+        </button>
+        <button data-dismiss="modal" class="btn btn-primary" type="submit">
+            <span class="fa fa-save"></span>&nbsp;
+            <span jhiTranslate="entity.action.save"></span>
+        </button>
+    </div>
+</form>

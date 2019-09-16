@@ -10,12 +10,13 @@ $color-valid: $brand-danger;
 
 :host[required] {
     display: block;
-    p-selectButton{
-        border-left: none;            
+    p-selectButton {
+        border-left: none;
     }
 }
 
-fieldset[disabled], fieldset:disabled {
+fieldset[disabled],
+fieldset:disabled {
     :host i {
         display: none;
     }

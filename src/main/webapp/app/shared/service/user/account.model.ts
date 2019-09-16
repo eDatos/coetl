@@ -9,6 +9,6 @@ export class Account {
         public idioma: string,
         public apellido1: string,
         public apellido2: string,
-        public login: string,
-    ) { }
+        public login: string
+    ) {}
 }

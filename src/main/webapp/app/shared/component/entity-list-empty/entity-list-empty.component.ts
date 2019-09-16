@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
     templateUrl: './entity-list-empty.component.html'
 })
 export class EntityListEmptyComponent {
-
     @Input()
     buttonLink: string[];
 
@@ -16,9 +15,7 @@ export class EntityListEmptyComponent {
     @Input()
     hasPermission = false;
 
-    constructor(
-        private router: Router
-    ) { }
+    constructor(private router: Router) {}
 
     createNewEntity() {
         this.router.navigate(this.buttonLink);

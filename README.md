@@ -117,6 +117,24 @@ Una vez generado este usuario administrador (con todos los permisos), este tendr
    - Usuario para conectar con el servidor Pentaho.
 - `pentaho.auth.password`
    - Contraseña del usuario del servidor Pentaho. 
+- `pentaho.host.os`
+   - Sistema operativo donde se ha instalado el servidor Pentaho, permite los valores UNIX (incluye Mac OS) o WINDOWS. 
+- `pentaho.host.address`
+   - Dirección del sistema donde se ha instalado el servidor Pentaho. 
+- `pentaho.host.username`
+   - Usuario de conexión al servidor donde se ha instalado el servidor Pentaho. 
+- `pentaho.host.password`
+   - Contraseña del usuario de conexión al servidor donde se ha instalado el servidor Pentaho. 
+- `pentaho.host.sudoUsername`
+   - Usuario SUDO en el servidor donde se ha instalado el servidor Pentaho. 
+- `pentaho.host.sudoPassword`
+   - Constraseña del usuario SUDO en el servidor donde se ha instalado el servidor Pentaho. 
+- `pentaho.host.sudoPasswordPromptRegex`
+   - Expresión regular para detectar la solicitud de password del usuario SUDO que se muestra en el PROMPT del servidor donde se ha instalado el servidor Pentaho, por ejemplo `.*[Pp]assword.*:`:  
+- `pentaho.host.sftpPath`
+   - Ruta de subida de fichero al servidor donde se ha instalado el servidor Pentaho, por ejemplo `/tmp`. 
+- `pentaho.host.resourcesPath`
+   - Ruta donde se encuentran los ficheros de recurso adjuntos de las ETLs en el servidor donde se ha instalado el servidor Pentaho, ejemplo `/servers/pentaho/data-integration/resources`. 
 - `application.cas.endpoint`
    - Endpoint donde se localiza el CAS.
 - `application.cas.service`

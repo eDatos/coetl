@@ -19,7 +19,7 @@ import es.gobcan.istac.coetl.service.ExecutionService;
 @Service
 public class ExecutionServiceImpl implements ExecutionService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ExecutionServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExecutionService.class);
 
     @Autowired
     ExecutionRepository executionRepository;

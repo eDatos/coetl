@@ -13,11 +13,11 @@ $bubble-size: $step-background-height * 3;
         text-align: center;
         flex: 1;
         position: relative;
-        
+
         .bubble-wrapper {
             height: $step-background-height;
             margin: $step-background-height 0;
-            
+
             background: $grey-light;
             color: $grey-dark;
 
@@ -26,13 +26,13 @@ $bubble-size: $step-background-height * 3;
 
                 .bubble {
                     background: $green-medium;
-                    color: $white;     
+                    color: $white;
                     &.btn:hover {
                         background: $main-light;
-                    }               
+                    }
                 }
             }
-            
+
             &.current-step {
                 background: $main-medium;
 
@@ -54,16 +54,16 @@ $bubble-size: $step-background-height * 3;
                 top: 0;
                 right: 0;
                 left: 0;
-    
+
                 border-radius: 100%;
-                border: $border-width*2 solid $grey-lightest;
-    
+                border: $border-width * 2 solid $grey-lightest;
+
                 display: flex;
                 align-items: center;
                 justify-content: center;
 
                 background: $grey-light;
-                color: $grey-dark;    
+                color: $grey-dark;
 
                 &.btn {
                     cursor: pointer;
@@ -73,8 +73,8 @@ $bubble-size: $step-background-height * 3;
                         cursor: not-allowed;
                     }
                 }
-            }        
-        }    
+            }
+        }
 
         .step-title {
             padding-top: $spacer-y;

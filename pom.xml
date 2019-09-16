@@ -118,6 +118,9 @@
 		<yarn.version>v0.27.5</yarn.version>
 		<java.cas.client.version>3.4.1</java.cas.client.version>
 		<caffeine.version>2.6.2</caffeine.version>
+		
+		<!-- OVERTHERE -->
+		<overthere.version>5.0.2</overthere.version>
 
 	</properties>
 
@@ -427,6 +430,17 @@
 			<groupId>com.github.ben-manes.caffeine</groupId>
 			<artifactId>caffeine</artifactId>
 			<version>${caffeine.version}</version>
+		</dependency>
+		<dependency>
+  			<groupId>com.xebialabs.overthere</groupId>
+  			<artifactId>overthere</artifactId>
+  			<version>${overthere.version}</version>
+  			<exclusions>
+  				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+  				</exclusion>
+  			</exclusions>
 		</dependency>
 	</dependencies>
 	<build>

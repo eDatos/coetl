@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2" />
+
+    <property name="now" value="current_timestamp" dbms="postgresql" />
+
+    <property name="floatType" value="float4" dbms="postgresql, h2" />
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql" />
+
+    <changeSet id="20190828120000-0" author="arte">
+        <createTable tableName="tb_etls_attached_files">
+            <column name="etl_fk" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_tb_etls_attached_files_tb_etls_id" referencedTableName="tb_etls" referencedColumnNames="id" />
+            </column>
+            <column name="file_fk" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_tb_etls_attached_files_tb_files_id" referencedTableName="tb_files" referencedColumnNames="id"
+                	unique="true" uniqueConstraintName="uk_tb_etls_attached_files_file_fk" />
+            </column>
+        </createTable>
+    </changeSet>
+	<changeSet id="20190828120000-1" author="arte">
+		<addPrimaryKey columnNames="etl_fk, file_fk" tableName="tb_etls_attached_files" constraintName="pk_tb_etls_attached_files"/>
+	</changeSet>
+
+</databaseChangeLog>

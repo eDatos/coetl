@@ -8,16 +8,17 @@ export class AuthServerProvider {
     constructor(
         private $localStorage: LocalStorageService,
         private $sessionStorage: SessionStorageService,
-        private cookieService: CookieService,
-    ) { }
+        private cookieService: CookieService
+    ) {}
 
     getToken() {
-        const token = this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken');
+        const token =
+            this.$localStorage.retrieve('authenticationToken') ||
+            this.$sessionStorage.retrieve('authenticationToken');
         if (!token) {
             return this.cookieService.get('jhi-authenticationtoken');
         }
         return token;
-
     }
 
     loginWithToken(jwt, rememberMe) {

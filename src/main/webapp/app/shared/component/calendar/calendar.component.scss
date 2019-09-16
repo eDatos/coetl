@@ -7,12 +7,12 @@
         input {
             padding: 0;
             width: 100%;
-            border: none  !important;
+            border: none !important;
             @include placeholder {
                 color: $grey-medium;
             }
         }
-        
+
         .ui-calendar {
             width: 100%;
         }
@@ -30,14 +30,13 @@
                 border-top: $border-width solid $grey-medium;
                 border-bottom: $border-width solid $grey-medium;
             }
-            td span, 
+            td span,
             td a {
                 text-align: center;
             }
             .ui-datepicker-header {
                 font-weight: $font-weight-light;
                 border: none;
-
             }
             .ui-state-default {
                 border: none;
@@ -61,7 +60,9 @@
     }
 }
 
-:host.disabled, fieldset[disabled] :host, fieldset:disabled :host{
+:host.disabled,
+fieldset[disabled] :host,
+fieldset:disabled :host {
     /deep/ p-calendar input::placeholder {
         opacity: 0;
     }

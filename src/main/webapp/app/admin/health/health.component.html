@@ -1,25 +1,41 @@
-<div>
-    <h2>
-        <span jhiTranslate="health.title"></span>
-        <button class="btn btn-primary float-right" (click)="refresh()">
-            <span class="fa fa-refresh"></span> <span jhiTranslate="health.refresh.button"></span>
-        </button>
-    </h2>
+<div class="entity" acMakeFixedRoom>
+    <div class="entity-header">
+        <h2>
+            <span jhiTranslate="health.title"></span>
+            <div>
+                <button class="btn btn-secondary" (click)="editCustomHealth()"><span class="fa fa-plus"></span>&nbsp; <span jhiTranslate="health.action.create"></span></button>
+                <button class="btn btn-primary" (click)="refresh()"><span class="fa fa-refresh"></span>&nbsp; <span jhiTranslate="health.action.refresh"></span></button>
+            </div>
+        </h2>
+    </div>
     <div class="table-responsive">
         <table id="healthCheck" class="table table-hover" acStickyTableHeader>
             <thead>
                 <tr>
                     <th style="width: 40%" jhiTranslate="health.table.service"></th>
-                    <th style="width: 60%" class="text-center" jhiTranslate="health.table.status"></th>
+                    <th style="width: 20%" class="text-center" jhiTranslate="health.table.status"></th>
+                    <th style="width: 40%" class="text-center"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let health of healthData" (click)="showHealth(health)">
-                    <td>{{'health.indicator.' + baseName(health.name) | translate}} {{subSystemName(health.name)}}</td>
+                    <td>{{ !health.details?.custom ? ('health.indicator.' + baseName(health.name) | translate) : health.name }} {{ subSystemName(health.name) }}</td>
                     <td class="text-center">
-                        <span class="badge" [ngClass]="getBadgeClass(health.status)" jhiTranslate="{{'health.status.' + health.status}}">
-                            {{health.status}}
+                        <span class="badge" [ngClass]="getBadgeClass(health.status)" jhiTranslate="{{ 'health.status.' + health.status }}">
+                            {{ health.status }}
                         </span>
+                    </td>
+                    <td>
+                        <div class="wrapped-buttons" *ngIf="health.details?.custom">
+                            <button class="btn btn-warning btn-sm" type="button" (click)="editCustomHealth(health)">
+                                <span class="fa fa-pencil"></span>&nbsp;
+                                <span jhiTranslate="entity.action.edit"></span>
+                            </button>
+                            <button class="btn btn-danger btn-sm" type="button" (click)="deleteCustomHealth(health)">
+                                <span class="fa fa-trash"></span>&nbsp;
+                                <span jhiTranslate="entity.action.delete"></span>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>

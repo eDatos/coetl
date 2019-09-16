@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild, HostBinding } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    EventEmitter,
+    forwardRef,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+    HostBinding
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { AutoComplete } from 'primeng/primeng';
@@ -20,7 +30,6 @@ const ITEM_TEMPLATE_FIELD = '_ITEM_TEMPLATE_FIELD_';
     providers: [AC_AUTOCOMPLETE_VALUE_ACCESSOR]
 })
 export class AutocompleteComponent implements ControlValueAccessor, OnInit, AfterViewInit {
-
     // Atributos internos
     @ViewChild(AutoComplete)
     private autoComplete: AutoComplete;
@@ -90,14 +99,21 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     @Output()
     public completeMethod: EventEmitter<any> = new EventEmitter();
 
-    constructor(protected translateService: TranslateService) { }
+    constructor(protected translateService: TranslateService) {}
 
     ngOnInit() {
-        if (this.itemTemplate === undefined && (this.properties === undefined || this.properties.length === 0)) {
+        if (
+            this.itemTemplate === undefined &&
+            (this.properties === undefined || this.properties.length === 0)
+        ) {
             throw new Error('properties is required');
         }
 
-        if (this.itemTemplate !== undefined && this.properties !== undefined && this.properties.length > 0) {
+        if (
+            this.itemTemplate !== undefined &&
+            this.properties !== undefined &&
+            this.properties.length > 0
+        ) {
             throw new Error('itemTemplate override properties! You must delete properties');
         }
 
@@ -106,7 +122,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         }
 
         if (this.createNonFound && this.itemTemplate !== undefined) {
-            throw new Error('is not possible to create new elements if there is a custom item template');
+            throw new Error(
+                'is not possible to create new elements if there is a custom item template'
+            );
         }
 
         this.initFieldAndPropertiesAndItemTemplate();
@@ -135,24 +153,28 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         }
     }
 
-    protected onModelChange: Function = () => { };
+    protected onModelChange: Function = () => {};
 
-    private onModelTouched: Function = () => { };
+    private onModelTouched: Function = () => {};
 
     private defaultItemTemplate: Function = (item) => {
         return this.properties.map((property) => item[property]).join(' ');
-    }
+    };
 
     @Input()
     private compareWith: Function = (selectedSuggestion, existingSuggestion) => {
         if (selectedSuggestion && existingSuggestion) {
-            if (!selectedSuggestion.id) { console.error('selectedSuggestion don\'t have defined id', selectedSuggestion) };
-            if (!existingSuggestion.id) { console.error('existingSuggestion don\'t have defined id', existingSuggestion) };
+            if (!selectedSuggestion.id) {
+                console.error(`selectedSuggestion do not have defined id`, selectedSuggestion);
+            }
+            if (!existingSuggestion.id) {
+                console.error(`existingSuggestion do not have defined id`, existingSuggestion);
+            }
             return selectedSuggestion.id === existingSuggestion.id;
         } else {
             return selectedSuggestion === existingSuggestion;
         }
-    }
+    };
 
     ngAfterViewInit() {
         this.autoComplete.onInputBlur = this.onInputBlur.bind(this);
@@ -179,7 +201,11 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
             if (this.autoComplete.suggestions) {
                 for (const suggestion of this.autoComplete.suggestions) {
-                    const itemValue = this.autoComplete.field ? this.autoComplete.objectUtils.resolveFieldData(suggestion, this.autoComplete.field)
+                    const itemValue = this.autoComplete.field
+                        ? this.autoComplete.objectUtils.resolveFieldData(
+                              suggestion,
+                              this.autoComplete.field
+                          )
                         : this.internalItemTemplate(suggestion);
                     if (itemValue && inputValue === itemValue.toLowerCase()) {
                         valid = true;
@@ -217,7 +243,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     }
 
     itsNewSuggestion(item) {
-        return this.myNewLabel === item[this.field] ? this.translateService.instant('entity.list.empty.createNewIitem') : '';
+        return this.myNewLabel === item[this.field]
+            ? this.translateService.instant('entity.list.empty.createNewIitem')
+            : '';
     }
 
     onSelectMethod($event) {
@@ -233,11 +261,15 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     }
 
     private isWrapCase(): boolean {
-        return !this.multiple && ((this.properties !== undefined && this.properties.length > 1) || (this.itemTemplate !== undefined));
+        return (
+            !this.multiple &&
+            ((this.properties !== undefined && this.properties.length > 1) ||
+                this.itemTemplate !== undefined)
+        );
     }
 
     updateFilteredSuggestions(query?: string) {
-        query = (query !== undefined && query !== null) ? query : this.getQueryValue();
+        query = query !== undefined && query !== null ? query : this.getQueryValue();
 
         let updatedFilteredSuggestions = this.suggestions ? this.suggestions.slice() : [];
 
@@ -246,7 +278,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
         }
 
         if (this._selectedSuggestions instanceof Array) {
-            updatedFilteredSuggestions = this.excludeAlreadySelectedSuggestions(updatedFilteredSuggestions);
+            updatedFilteredSuggestions = this.excludeAlreadySelectedSuggestions(
+                updatedFilteredSuggestions
+            );
         }
 
         // TODO: INFRASTR-113 - Revisar la implementación del componente order-list
@@ -274,7 +308,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     private wrapItem(item) {
         if (item) {
-            return Object.assign({}, item, { _ITEM_TEMPLATE_FIELD_: this.internalItemTemplate(item) });
+            return Object.assign({}, item, {
+                _ITEM_TEMPLATE_FIELD_: this.internalItemTemplate(item)
+            });
         } else {
             return item;
         }
@@ -282,7 +318,13 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     addNonFound(filteredSuggestions, query) {
         this.myNewLabel = null;
-        if (query && filteredSuggestions && !filteredSuggestions.some((suggestion) => suggestion[this.field].toLowerCase() === query.toLowerCase())) {
+        if (
+            query &&
+            filteredSuggestions &&
+            !filteredSuggestions.some(
+                (suggestion) => suggestion[this.field].toLowerCase() === query.toLowerCase()
+            )
+        ) {
             this.myNewLabel = query;
             filteredSuggestions.push(this.buildNewSuggestion(query));
         }
@@ -296,30 +338,41 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     }
 
     filterByProperties(suggestions: any[], query: string) {
-        return suggestions
-            .filter((suggestion) => {
-                // TODO: INFRASTR-113 - Revisar la implementación del componente order-list
-                if (this.internalProperties.length > 0) {
-                    return this.internalProperties.findIndex((property) => {
-                        return this.queryContainsValue(query, suggestion[property])
-                    }) !== -1;
-                } else {
-                    return this.queryContainsValue(query, suggestion)
-                }
-            });
+        return suggestions.filter((suggestion) => {
+            // TODO: INFRASTR-113 - Revisar la implementación del componente order-list
+            if (this.internalProperties.length > 0) {
+                return (
+                    this.internalProperties.findIndex((property) => {
+                        return this.queryContainsValue(query, suggestion[property]);
+                    }) !== -1
+                );
+            } else {
+                return this.queryContainsValue(query, suggestion);
+            }
+        });
     }
 
     private queryContainsValue(query: string, value: string): boolean {
-        if (!value) { return false; }
-        return ApplicationUtils.removeDiacritics(value.toUpperCase()).indexOf(ApplicationUtils.removeDiacritics(query.toUpperCase())) !== -1;
+        if (!value) {
+            return false;
+        }
+        return (
+            ApplicationUtils.removeDiacritics(value.toUpperCase()).indexOf(
+                ApplicationUtils.removeDiacritics(query.toUpperCase())
+            ) !== -1
+        );
     }
 
     excludeAlreadySelectedSuggestions(suggestions: any[]) {
-        return suggestions
-            .filter((suggestion) => {
-                const self = this;
-                return !self._selectedSuggestions || self._selectedSuggestions.findIndex((selectedSuggestion) => self.compareWith(selectedSuggestion, suggestion)) === -1;
-            });
+        return suggestions.filter((suggestion) => {
+            const self = this;
+            return (
+                !self._selectedSuggestions ||
+                self._selectedSuggestions.findIndex((selectedSuggestion) =>
+                    self.compareWith(selectedSuggestion, suggestion)
+                ) === -1
+            );
+        });
     }
 
     handleOnFocusOutSuggestions($event) {
@@ -331,7 +384,6 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
     handleDropdownSuggestions($event) {
         const queryValue = this.getQueryValue();
         if (!this.debouncedMode || queryValue.length >= this.minLength) {
-
             this.updateFilteredSuggestions('');
 
             setTimeout(() => {
@@ -346,7 +398,9 @@ export class AutocompleteComponent implements ControlValueAccessor, OnInit, Afte
 
     getQueryValue() {
         if (this.multiple) {
-            return this.autoComplete.multiInputEL ? this.autoComplete.multiInputEL.nativeElement.value : '';
+            return this.autoComplete.multiInputEL
+                ? this.autoComplete.multiInputEL.nativeElement.value
+                : '';
         } else {
             return this.autoComplete.inputEL ? this.autoComplete.inputEL.nativeElement.value : '';
         }

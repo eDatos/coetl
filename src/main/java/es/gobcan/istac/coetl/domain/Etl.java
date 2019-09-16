@@ -2,6 +2,9 @@ package es.gobcan.istac.coetl.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -14,6 +17,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -99,6 +104,10 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(name = "etl_description_file_fk")
     private File etlDescriptionFile;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name = "tb_etls_attached_files", joinColumns = {@JoinColumn(name = "etl_fk")}, inverseJoinColumns = {@JoinColumn(name = "file_fk")})
+    private List<File> attachedFiles = new ArrayList<>();
 
     @Override
     public Long getId() {
@@ -223,6 +232,23 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
 
     public void setEtlDescriptionFile(File etlDescriptionFile) {
         this.etlDescriptionFile = etlDescriptionFile;
+    }
+
+    public List<File> getAttachedFiles() {
+        return Collections.unmodifiableList(attachedFiles);
+    }
+
+    public void addAllAttachedFiles(List<File> files) {
+        removeAllAttachedFiles();
+        attachedFiles.addAll(files);
+    }
+
+    public void removeAllAttachedFiles() {
+        attachedFiles.clear();
+    }
+
+    public void addAttachedFile(File file) {
+        attachedFiles.add(file);
     }
 
     @Override

@@ -13,10 +13,8 @@ export const AC_PAGINATION_VALUE_ACCESSOR: any = {
     templateUrl: 'items-per-page.component.html',
     styleUrls: ['items-per-page.component.scss'],
     providers: [AC_PAGINATION_VALUE_ACCESSOR]
-
 })
 export class ItemsPerPageComponent {
-
     @Input()
     options = PAGINATION_OPTIONS;
 

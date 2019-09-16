@@ -13,6 +13,9 @@ import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
 import { EtlConfirmExecutionDialogComponent } from './etl-confirm-execution-dialog.component';
 import { EtlExecutionListComponent } from './etl-execution-list/etl-execution-list.component';
 import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
+import { EtlParameterListComponent } from './etl-parameter-list/etl-parameter-list.component';
+import { EtlParameterDialogComponent } from './etl-parameter-list/etl-parameter-dialog.component';
+import { EtlParameterDeleteDialogComponent } from './etl-parameter-list/etl-parameter-delete-dialog.component';
 
 const ENTITY_STATES = [...etlRoute];
 
@@ -26,13 +29,18 @@ const ENTITY_STATES = [...etlRoute];
         EtlRestoreDialogComponent,
         EtlConfirmExecutionDialogComponent,
         EtlExecutionListComponent,
-        EtlExpressionHelpDialogComponent
+        EtlExpressionHelpDialogComponent,
+        EtlParameterListComponent,
+        EtlParameterDialogComponent,
+        EtlParameterDeleteDialogComponent
     ],
     entryComponents: [
         EtlDeleteDialogComponent,
         EtlRestoreDialogComponent,
         EtlConfirmExecutionDialogComponent,
-        EtlExpressionHelpDialogComponent
+        EtlExpressionHelpDialogComponent,
+        EtlParameterDialogComponent,
+        EtlParameterDeleteDialogComponent
     ],
     providers: [EtlService, EtlResolve, EtlResolvePagingParams]
 })

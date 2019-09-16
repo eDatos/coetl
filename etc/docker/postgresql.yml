@@ -1,6 +1,6 @@
 version: '2'
 services:
-    coetl-postgresql:
+    istac-coetl-postgresql:
         image: postgres:9.6.2
         # volumes:
         #     - ~/volumes/jhipster/coetl/postgresql/:/var/lib/postgresql/data/

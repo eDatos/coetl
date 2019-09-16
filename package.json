@@ -54,7 +54,7 @@
         "generator-jhipster": "4.6.2",
         "html-loader": "0.4.5",
         "html-webpack-plugin": "2.29.0",
-        "husky": "^0.14.3",
+        "husky": "1.3.1",
         "jasmine-core": "2.6.4",
         "karma": "1.7.0",
         "karma-chrome-launcher": "2.2.0",
@@ -72,8 +72,8 @@
         "node-sass": "4.5.3",
         "phantomjs-prebuilt": "2.1.14",
         "postcss-loader": "2.0.6",
-        "prettier": "1.13.7",
-        "pretty-quick": "^1.6.0",
+        "prettier": "1.18.2",
+        "pretty-quick": "1.11.1",
         "proxy-middleware": "0.15.0",
         "rimraf": "2.6.1",
         "sass-loader": "6.0.6",
@@ -111,6 +111,13 @@
         "webpack-dev-server": "node --max_old_space_size=4096 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
         "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js",
         "postinstall": "node node_modules/phantomjs-prebuilt/install.js",
-        "precommit": "pretty-quick --staged"
+        "prettier": "node node_modules/prettier/bin-prettier.js",
+        "pretty-quick": "node node_modules/pretty-quick/bin/pretty-quick.js",
+        "format": "yarn run prettier -- --write \"src/**/*.{ts,scss,html}\""
+    },
+    "husky": {
+        "hooks": {
+          "pre-commit": "yarn run pretty-quick -- --staged"
+        }
     }
 }

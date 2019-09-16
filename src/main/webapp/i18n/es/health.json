@@ -1,7 +1,10 @@
 {
     "health": {
         "title": "Control de salud",
-        "refresh.button": "Refrescar",
+        "action": {
+            "refresh": "Refrescar",
+            "create": "Crear indicador de salud"
+        },
         "stacktrace": "Traza",
         "details": {
             "details": "Detalles",
@@ -25,6 +28,15 @@
         "status": {
             "UP": "LEVANTADO",
             "DOWN": "CAÍDO"
+        },
+        "custom": {
+            "field": {
+                "serviceName": "Nombre del servicio",
+                "endpoint": "URL"
+            }
+        },
+        "delete": {
+            "question": "¿Seguro que quiere eliminar el indicador del servicio <b>{{ serviceName }}</b>?"
         }
     }
 }

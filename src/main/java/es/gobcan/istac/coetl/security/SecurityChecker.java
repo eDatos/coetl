@@ -58,6 +58,10 @@ public class SecurityChecker {
         return this.isAdmin(authentication);
     }
 
+    public boolean puedeGestionarSalud(Authentication authentication) {
+        return this.isAdmin(authentication);
+    }
+
     public boolean puedeConsultarConfig(Authentication authentication) {
         return this.isAdmin(authentication);
     }

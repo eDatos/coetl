@@ -3,9 +3,8 @@
 
 :host {
     border-radius: $border-radius;
-    
-    /deep/ .ui-autocomplete {
 
+    /deep/ .ui-autocomplete {
         .ui-autocomplete-token {
             &.ui-state-highlight {
                 border-color: $grey-light;
@@ -26,7 +25,7 @@
         &.is-empty {
             .ui-autocomplete-input-token {
                 width: 100%;
-                padding-right: $primeng-dropdown-button-width;         
+                padding-right: $primeng-dropdown-button-width;
             }
             input {
                 width: 100%;
@@ -40,16 +39,16 @@
 }
 
 /deep/ {
-    .ui-autocomplete-dd input.ui-corner-all ,
+    .ui-autocomplete-dd input.ui-corner-all,
     .ui-autocomplete-dd .ui-autocomplete-multiple-container.ui-corner-all,
     .ui-autocomplete-dd .ui-autocomplete-dropdown.ui-corner-all {
-         -moz-border-radius-topright: $border-radius; 
-         -webkit-border-top-right-radius: $border-radius;
-         border-top-right-radius: $border-radius;
-         -moz-border-radius-bottomright: $border-radius;
-         -webkit-border-bottom-right-radius: $border-radius;
-         border-bottom-right-radius: $border-radius;
-     }
+        -moz-border-radius-topright: $border-radius;
+        -webkit-border-top-right-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+        -moz-border-radius-bottomright: $border-radius;
+        -webkit-border-bottom-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+    }
 }
 
 fieldset .form-group :host {
@@ -61,13 +60,14 @@ fieldset:enabled .form-group :host:not(.disabled) {
     &:required {
         border-left: $border-required-error;
         &.ng-valid {
-            border-left: $border-required-valid;                    
+            border-left: $border-required-valid;
         }
     }
 }
 
-fieldset[disabled], fieldset:disabled {
-     .entity-fields .form-group {
+fieldset[disabled],
+fieldset:disabled {
+    .entity-fields .form-group {
         :host {
             /deep/ .ui-autocomplete {
                 @extend %disabled-autocomplete;
@@ -88,7 +88,7 @@ fieldset[disabled], fieldset:disabled {
         display: none;
     }
     .ui-autocomplete-token {
-        padding-right: .5em;
+        padding-right: 0.5em;
     }
     .ui-autocomplete-dropdown {
         display: none;

@@ -12,7 +12,6 @@ import { buildProvider } from '../../utils/build-provider.function';
     providers: [buildProvider(AutocompleteEnumComponent)]
 })
 export class AutocompleteEnumComponent extends AutocompleteComponent implements OnInit {
-
     public _suggestionsEnum;
 
     @Input()
@@ -64,9 +63,15 @@ export class AutocompleteEnumComponent extends AutocompleteComponent implements 
     }
 
     private mapSuggestions() {
-        this._suggestions = Object.keys(this._suggestionsEnum).map((key) => Object.assign({}, {
-            id: key, value: this.translateService.instant(this.translationPath + key)
-        }));
+        this._suggestions = Object.keys(this._suggestionsEnum).map((key) =>
+            Object.assign(
+                {},
+                {
+                    id: key,
+                    value: this.translateService.instant(this.translationPath + key)
+                }
+            )
+        );
     }
 
     writeValue(value: any): void {

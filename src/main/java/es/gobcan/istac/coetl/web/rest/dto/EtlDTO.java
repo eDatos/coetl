@@ -2,52 +2,22 @@ package es.gobcan.istac.coetl.web.rest.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
-import es.gobcan.istac.coetl.domain.Etl.Type;
-
-public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implements Serializable {
+public class EtlDTO extends EtlBaseDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
-    private String code;
-    private String name;
     private String purpose;
-    private String organizationInCharge;
     private String functionalInCharge;
     private String technicalInCharge;
-    private Type type;
     private String comments;
     private String executionDescription;
-    private String executionPlanning;
     private Instant nextExecution;
     private FileDTO etlFile;
     private FileDTO etlDescriptionFile;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private List<FileDTO> attachedFiles;
 
     public String getPurpose() {
         return purpose;
@@ -55,14 +25,6 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
 
     public void setPurpose(String purpose) {
         this.purpose = purpose;
-    }
-
-    public String getOrganizationInCharge() {
-        return organizationInCharge;
-    }
-
-    public void setOrganizationInCharge(String organizationInCharge) {
-        this.organizationInCharge = organizationInCharge;
     }
 
     public String getFunctionalInCharge() {
@@ -81,14 +43,6 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
         this.technicalInCharge = technicalInCharge;
     }
 
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
     public String getComments() {
         return comments;
     }
@@ -103,14 +57,6 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
 
     public void setExecutionDescription(String executionDescription) {
         this.executionDescription = executionDescription;
-    }
-
-    public String getExecutionPlanning() {
-        return executionPlanning;
-    }
-
-    public void setExecutionPlanning(String executionPlanning) {
-        this.executionPlanning = executionPlanning;
     }
 
     public Instant getNextExecution() {
@@ -137,6 +83,14 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
         this.etlDescriptionFile = etlDescriptionFile;
     }
 
+    public List<FileDTO> getAttachedFiles() {
+        return attachedFiles;
+    }
+
+    public void setAttachedFiles(List<FileDTO> attachedFiles) {
+        this.attachedFiles = attachedFiles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -159,10 +113,10 @@ public class EtlDTO extends AbstractVersionedAndAuditingWithDeletionDTO implemen
     public String toString() {
         //@formatter:off
         return "EtlDTO (" +
-                    "id = " + getId() + 
-                    ", code = " + getCode() + 
-                    ", name = " + getName() + 
-                    ", type = " + getType() + 
+                    "id = " + getId() +
+                    ", code = " + getCode() +
+                    ", name = " + getName() +
+                    ", type = " + getType() +
                 ")";
         //@formatter:on
     }

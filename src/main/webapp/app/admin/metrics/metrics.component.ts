@@ -15,10 +15,7 @@ export class JhiMetricsMonitoringComponent implements OnInit {
     updatingMetrics = true;
     JCACHE_KEY: string;
 
-    constructor(
-        private modalService: NgbModal,
-        private metricsService: JhiMetricsService
-    ) {
+    constructor(private modalService: NgbModal, private metricsService: JhiMetricsService) {
         this.JCACHE_KEY = 'jcache.statistics';
     }
 
@@ -48,8 +45,8 @@ export class JhiMetricsMonitoringComponent implements OnInit {
 
                     // Keep the name of the domain
                     this.cachesStats[newKey] = {
-                        'name': this.JCACHE_KEY.length,
-                        'value': value
+                        name: this.JCACHE_KEY.length,
+                        value
                     };
                 }
             });
@@ -58,13 +55,18 @@ export class JhiMetricsMonitoringComponent implements OnInit {
 
     refreshThreadDumpData() {
         this.metricsService.threadDump().subscribe((data) => {
-            const modalRef  = this.modalService.open(JhiMetricsMonitoringModalComponent, { size: 'lg'});
-            modalRef.componentInstance.threadDump = data;
-            modalRef.result.then((result) => {
-                // Left blank intentionally, nothing to do here
-            }, (reason) => {
-                // Left blank intentionally, nothing to do here
+            const modalRef = this.modalService.open(JhiMetricsMonitoringModalComponent, {
+                size: 'lg'
             });
+            modalRef.componentInstance.threadDump = data;
+            modalRef.result.then(
+                (result) => {
+                    // Left blank intentionally, nothing to do here
+                },
+                (reason) => {
+                    // Left blank intentionally, nothing to do here
+                }
+            );
         });
     }
 
@@ -74,5 +76,4 @@ export class JhiMetricsMonitoringComponent implements OnInit {
         }
         return input;
     }
-
 }

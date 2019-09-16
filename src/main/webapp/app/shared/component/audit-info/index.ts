@@ -1,1 +1,1 @@
-export * from './audit-info.component'
+export * from './audit-info.component';
