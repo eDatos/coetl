@@ -211,6 +211,8 @@ pentaho:
         sudoPasswordPromptRegex: FILL_PENTAHO_HOST_SUDO_PASSWORD_PROMPT_REGEX # Required: Pentaho Host Sudo Password Prompt Regular Expression
         sftpPath: FILL_PENTAHO_HOST_SFTP_PATH # Required: Pentaho Host SFTP Path
         resourcesPath: FILL_PENTAHO_HOST_RESOURCES_PATH # Required: Pentaho Host Resources Path
+        ownerUserResourcesPath: FILL_PENTAHO_HOST_OWNER_USER_RESOURCES_PATH # Required: Pentaho Host Owner User Resources Path
+        ownerGroupResourcesPath: FILL_PENTAHO_HOST_OWNER_GROUP_RESOURCES_PATH # Required: Pentaho Host Owner Group Resources Path
 
 # ===================================================================
 # Application specific properties

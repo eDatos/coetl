@@ -135,6 +135,10 @@ Una vez generado este usuario administrador (con todos los permisos), este tendr
    - Ruta de subida de fichero al servidor donde se ha instalado el servidor Pentaho, por ejemplo `/tmp`. 
 - `pentaho.host.resourcesPath`
    - Ruta donde se encuentran los ficheros de recurso adjuntos de las ETLs en el servidor donde se ha instalado el servidor Pentaho, ejemplo `/servers/pentaho/data-integration/resources`. 
+- `pentaho.host.ownerUserResourcesPath`
+   - Usuario propietario de la ruta donde se encuentran los ficheros de recurso adjuntos de las ETLs en el servidor donde se ha instalado el servidor Pentaho.
+- `pentaho.host.ownerGroupResourcesPath`
+   - Grupo propietario de la ruta donde se encuentran los ficheros de recurso adjuntos de las ETLs en el servidor donde se ha instalado el servidor Pentaho. 
 - `application.cas.endpoint`
    - Endpoint donde se localiza el CAS.
 - `application.cas.service`

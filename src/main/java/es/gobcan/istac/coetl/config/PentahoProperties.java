@@ -62,6 +62,8 @@ public class PentahoProperties {
         private String os = StringUtils.EMPTY;
         private String sftpPath = StringUtils.EMPTY;
         private String resourcesPath = StringUtils.EMPTY;
+        private String ownerUserResourcesPath = StringUtils.EMPTY;
+        private String ownerGroupResourcesPath = StringUtils.EMPTY;
 
         public String getAddress() {
             return address;
@@ -133,6 +135,22 @@ public class PentahoProperties {
 
         public void setResourcesPath(String resourcesPath) {
             this.resourcesPath = resourcesPath;
+        }
+
+        public String getOwnerUserResourcesPath() {
+            return ownerUserResourcesPath;
+        }
+
+        public void setOwnerUserResourcesPath(String ownerUserResourcesPath) {
+            this.ownerUserResourcesPath = ownerUserResourcesPath;
+        }
+
+        public String getOwnerGroupResourcesPath() {
+            return ownerGroupResourcesPath;
+        }
+
+        public void setOwnerGroupResourcesPath(String ownerGroupResourcesPath) {
+            this.ownerGroupResourcesPath = ownerGroupResourcesPath;
         }
     }
 }

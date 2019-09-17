@@ -236,7 +236,8 @@ public class PentahoSftpServiceImpl implements PentahoSftpService {
     }
 
     private void changeOwnerUnzippedFiles(OverthereConnection sudoConnection, OverthereFile resourcesDirectory) {
-        executeCommand(sudoConnection, "chown", "pentaho:pentaho", "-R", resourcesDirectory.getPath());
+        String chownParameter = pentahoProperties.getHost().getOwnerUserResourcesPath().concat(":").concat(pentahoProperties.getHost().getOwnerGroupResourcesPath());
+        executeCommand(sudoConnection, "chown", chownParameter, "-R", resourcesDirectory.getPath());
     }
 
     private void executeCommand(OverthereConnection connection, String... args) {
