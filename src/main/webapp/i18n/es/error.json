@@ -60,6 +60,14 @@
             "codeExists": "Ya existe otra ETL con el mismo código",
             "attachedFilesUpload": "Ha ocurrido un error en la subida de los ficheros adjuntos de la ETL"
         },
+        "health": {
+            "serviceName": {
+                "isBlank": "El nombre del servicio no puede estar vacío"
+            },
+            "endpoint": {
+                "isBlank": "La URL no puede estar vacía"
+            }
+        },
         "parameter": {
             "key": {
                 "isDuplicated": "Ya existe un parámetro con la misma clave",
