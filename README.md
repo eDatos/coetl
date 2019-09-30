@@ -97,8 +97,6 @@ Una vez generado este usuario administrador (con todos los permisos), este tendr
    - Nombre del usuario de conexión a la base de datos.
 - `spring.datasource.password`
    - Password de conexión a la base de datos.
-- `spring.jpa.show-sql`
-   - Permite añadir al log las sentencias SQL.
 - `spring.mail.host`
    - Host del servidor para el envío del mail.
 - `spring.mail.port`
@@ -128,7 +126,7 @@ Una vez generado este usuario administrador (con todos los permisos), este tendr
 - `pentaho.host.sudoUsername`
    - Usuario SUDO en el servidor donde se ha instalado el servidor Pentaho. 
 - `pentaho.host.sudoPassword`
-   - Constraseña del usuario SUDO en el servidor donde se ha instalado el servidor Pentaho. 
+   - Contraseña del usuario SUDO en el servidor donde se ha instalado el servidor Pentaho. 
 - `pentaho.host.sudoPasswordPromptRegex`
    - Expresión regular para detectar la solicitud de password del usuario SUDO que se muestra en el PROMPT del servidor donde se ha instalado el servidor Pentaho, por ejemplo `.*[Pp]assword.*:`:  
 - `pentaho.host.sftpPath`
@@ -144,18 +142,16 @@ Una vez generado este usuario administrador (con todos los permisos), este tendr
 - `application.cas.service`
    - URL absoluta del endpoint de la aplicación donde se va a validar el usuario tras la autenticación en el CAS ('login/cas'). Si la URL de la aplicación es http://miaplicacion.com, esta propiedad debe tomar el valor http://miaplicacion.com/login/cas.
 - `application.cas.login`
-   - URL a la que se debe acceder para realizar la acción de login. Sólo debe cumplimentarse en el caso se que su valor sea distinto a `application.cas.endopoint`+ '/login'.
+   - URL a la que se debe acceder para realizar la acción de login. Sólo debe cumplimentarse en el caso que su valor sea distinto a `application.cas.endopoint`+ '/login'.
 - `application.cas.logout`
-   - URL a la que se debe acceder para realizar la acción de logout. Sólo debe cumplimentarse en el caso se que su valor sea distinto a `application.cas.endopoint`+ '/logout'.
-- `application.cas.validate`
-   - URL a la que se debe acceder para realizar la acción de logout. Sólo debe cumplimentarse en el caso se que su valor sea distinto a `application.cas.endopoint`+ '/logout'.
+   - URL a la que se debe acceder para realizar la acción de logout. Sólo debe cumplimentarse en el caso que su valor sea distinto a `application.cas.endopoint`+ '/logout'.
 - `debug`
    - Permite aumentar el nivel de log a DEBUG.    
 - `application.ldap.url`
    - URL del servidor LDAP. Ejemplo: ldap://ldap.miorganizacion.com
 - `application.ldap.username`
    - Usuario que se usa para conectarse al servidor LDAP. Ejemplo: cn=username,dc=miorganizacion,dc=com
-- `application.ldap.password`: 
+- `application.ldap.password` 
    - Contraseña del usuario LDAP. 
 - `application.ldap.base`
    - Ruta relativa dónde se realizarán las operaciones. Ejemplo ou=usuarios,dc=miorganizacion,dc=com

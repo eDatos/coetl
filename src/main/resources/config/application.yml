@@ -61,9 +61,9 @@ spring:
 # spring.jmx.default-domain y spring.hikari.pool-name evitan que al levantar dos aplicaciones con un spring boot similar al template
 # (con beans de jmx configurado) la primera registre sus beans impidiendo a las siguientes registrar los suyos
     jmx:
-      default-domain: FILL_APP_NAME # Ejemplo: ebandeja
+      default-domain: istaccoetl
     hikari:
-        pool-name: FILL_APP_NAME_WITH_POOL # ebandejapool
+        pool-name: istaccoetlpool
     mail:
         host: FILL_HOST
         port: FILL_PORT

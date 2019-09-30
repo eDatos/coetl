@@ -15,8 +15,6 @@ spring:
         url: jdbc:postgresql://FILL_HOST:FILL_PORT/FILL_DATABASE
         username: FILL_USER
         password: FILL_PASS
-    jpa:
-        show-sql: false
     mail:
         host: FILL_HOST
         port: FILL_PORT
