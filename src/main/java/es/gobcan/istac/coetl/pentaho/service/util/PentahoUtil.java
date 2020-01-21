@@ -38,9 +38,9 @@ import org.xml.sax.SAXException;
 import es.gobcan.istac.coetl.config.PentahoProperties;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
-import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.domain.Execution.Type;
+import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.pentaho.enumeration.CarteMethodsEnum;
 import es.gobcan.istac.coetl.pentaho.web.rest.dto.PentahoResponseDTO;
 
@@ -69,13 +69,7 @@ public final class PentahoUtil {
     }
 
     public static String getUrl(PentahoProperties pentahoProperties) {
-        //@formatter:off
-        return new StringBuilder()
-                .append("http://")
-                .append(pentahoProperties.getEndpoint().endsWith("/") ? pentahoProperties.getEndpoint() : pentahoProperties.getEndpoint() + "/")
-                .append("kettle/")
-                .toString();
-        //@formatter:on
+        return pentahoProperties.getEndpoint().endsWith("/") ? pentahoProperties.getEndpoint() : pentahoProperties.getEndpoint() + "/";
     }
 
     public static String getUser(PentahoProperties pentahoProperties) {

@@ -86,7 +86,13 @@ Una vez generado este usuario administrador (con todos los permisos), este tendr
 
 ## Procedimiento de actualización desde versiones anteriores
 
-### Desde versión 1.0.0 a x.y.z
+### Desde versión 1.0.0 a 1.1.0
+- Completar las siguientes propiedades:
+   - `pentaho.host.*` (Más información en el apartado [Anexo de descripción de propiedades de configuración](#anexo-descripci%C3%B3n-de-las-propiedades-de-configuraci%C3%B3n)).
+### Desde la versión 1.1.0 a 1.1.1
+- Modificar el valor de la siguiente propiedad, `pentaho.endpoint`. Ahora hay que añadir la ruta completa hasta el servidor Carte y el protocolo.
+Ejemplo, teniendo anteriormente la propiedad un valor `ruta-carte-server/` ahora debería ser `http://ruta-carte-server/kettle/`.
+
 
 ----------
 
