@@ -2,11 +2,13 @@ package es.gobcan.istac.coetl;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.Security;
 import java.util.Arrays;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -47,6 +49,7 @@ public class CoetlApp {
      */
     @PostConstruct
     public void initApplication() {
+        Security.addProvider(new BouncyCastleProvider());
         Collection<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
         if (activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT) && activeProfiles.contains(Constants.SPRING_PROFILE_ENV)) {
             log.error("You have misconfigured your application! It should not run with both the 'dev' and 'prod' profiles at the same time.");
