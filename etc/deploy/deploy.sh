@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 HOME_PATH=coetl
 TRANSFER_PATH=$HOME_PATH/tmp
