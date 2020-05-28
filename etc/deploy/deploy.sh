@@ -12,9 +12,9 @@ if [ "$1" == "--no-restart" ]; then
     RESTART=0
 fi
 
-scp -o ProxyCommand="ssh -W %h:%p deploy@estadisticas.arte-consultores.com" -r etc/deploy deploy@192.168.10.16:$TRANSFER_PATH
-scp -o ProxyCommand="ssh -W %h:%p deploy@estadisticas.arte-consultores.com" target/coetl-*.war deploy@192.168.10.16:$TRANSFER_PATH/coetl.war
-ssh -o ProxyCommand="ssh -W %h:%p deploy@estadisticas.arte-consultores.com" deploy@192.168.10.16 <<EOF
+scp -o ProxyCommand="ssh -W %h:%p deploy@estadisticas.arte-consultores.com" -r etc/deploy deploy@estadisticas.arte.internal:$TRANSFER_PATH
+scp -o ProxyCommand="ssh -W %h:%p deploy@estadisticas.arte-consultores.com" target/coetl-*.war deploy@estadisticas.arte.internal:$TRANSFER_PATH/coetl.war
+ssh -o ProxyCommand="ssh -W %h:%p deploy@estadisticas.arte-consultores.com" deploy@estadisticas.arte.internal <<EOF
 
     chmod a+x $TRANSFER_PATH/deploy/*.sh;
     . $TRANSFER_PATH/deploy/utilities.sh
