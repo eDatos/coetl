@@ -121,7 +121,7 @@ pentaho:
     endpoint: http://localhost:11310/pentaho
     auth:
         user: admin # Required: Pentaho Data Integration Server User
-        password: password # Required: Pentaho Data Integration Server Password
+        password: FILL_PASS! # Required: Pentaho Data Integration Server Password
     host:
         os: UNIX # Required: Pentaho Host Operating System
         address: localhost # Required: Pentaho Host Address
