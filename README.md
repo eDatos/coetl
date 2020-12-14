@@ -9,7 +9,7 @@ Además, podrá encontrar otros anexos de utilidad en los que se detallan alguna
 ## Introducción
 
 ### Descripción de la aplicación
-Consola de ETL es la solución corporativa del Gobierno de Canarias para registrar y ejecutar ficheros ETLs desarrollados mediante la tecnología Pentaho Data Integration, permitiendo incluso programar las ejecuciones de estos procesos y la revisión de sus ejecuciones mediante un histórico.
+Consola de ETL es una solución para registrar y ejecutar ficheros ETLs desarrollados mediante la tecnología Pentaho Data Integration, permitiendo incluso programar las ejecuciones de estos procesos y la revisión de sus ejecuciones mediante un histórico.
 
 La aplicación está basada en tecnologías web estándar (HTML5, CSS3, Javascript y Java, ver [Más Información](#M%C3%A1s-informaci%C3%B3n)). La implantación de la solución permite llevar a cabo las siguientes tareas: 
 

@@ -22,9 +22,9 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://FILL_HOST:FILL_PORT/FILL_DATABASE
-        username: FILL_USER
-        password: FILL_PASS
+        url: jdbc:postgresql://localhost:5432/etlistac-bd
+        username: etlistac-bd
+        password: FILL_PASS!
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
@@ -35,10 +35,10 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
     mail:
-        host: FILL_HOST
-        port: FILL_PORT
-        username: FILL_USER
-        password: FILL_PASS
+        host: smtp.gmail.com
+        port:
+        username: prueba@arte-consultores.com
+        password: FILL_PASS!
         protocol: smtp
         tls: true
         properties.mail.smtp:
@@ -118,22 +118,22 @@ jhipster:
 # ===================================================================
 
 pentaho:
-    endpoint: FILL_PENTAHO_ENDPOINT # Required: Pentaho Data Integration Server Endpoint
+    endpoint: http://localhost:11310/pentaho
     auth:
-        user: FILL_PENTAHO_USER # Required: Pentaho Data Integration Server User
-        password: FILL_PENTAHO_PASSWORD # Required: Pentaho Data Integration Server Password
+        user: admin # Required: Pentaho Data Integration Server User
+        password: FILL_PASS! # Required: Pentaho Data Integration Server Password
     host:
-        os: FILL_PENTAHO_HOST_OS # Required: Pentaho Host Operating System
-        address: FILL_PENTAHO_HOST_ADDRESS # Required: Pentaho Host Address
-        username: FILL_PENTAHO_HOST_USERNAME # Required: Pentaho Host Username
-        password: FILL_PENTAHO_HOST_PASSWORD # Required: Pentaho Host Password
-        sudoUsername: FILL_PENTAHO_HOST_SUDO_USERNAME # Required: Pentaho Host Sudo Username
-        sudoPassword: FILL_PENTAHO_HOST_SUDO_PASSWORD # Required: Pentaho Host Sudo Password
-        sudoPasswordPromptRegex: FILL_PENTAHO_HOST_SUDO_PASSWORD_PROMPT_REGEX # Required: Pentaho Host Sudo Password Prompt Regular Expression
-        sftpPath: FILL_PENTAHO_HOST_SFTP_PATH # Required: Pentaho Host SFTP Path
-        resourcesPath: FILL_PENTAHO_HOST_RESOURCES_PATH # Required: Pentaho Host Resources Path
-        ownerUserResourcesPath: FILL_PENTAHO_HOST_OWNER_USER_RESOURCES_PATH # Required: Pentaho Host Owner User Resources Path
-        ownerGroupResourcesPath: FILL_PENTAHO_HOST_OWNER_GROUP_RESOURCES_PATH # Required: Pentaho Host Owner Group Resources Path
+        os: UNIX # Required: Pentaho Host Operating System
+        address: localhost # Required: Pentaho Host Address
+        username: arte # Required: Pentaho Host Username
+        password: FILL_PASS! # Required: Pentaho Host Password
+        sudoUsername: root # Required: Pentaho Host Sudo Username
+        sudoPassword: FILL_PASS! # Required: Pentaho Host Sudo Password
+        sudoPasswordPromptRegex: '.*[Pp]assword.*' # Required: Pentaho Host Sudo Password Prompt Regular Expression
+        sftpPath: /home/arte # Required: Pentaho Host SFTP Path
+        resourcesPath: /home/pentaho/resources # Required: Pentaho Host Resources Path
+        ownerUserResourcesPath: pentaho # Required: Pentaho Host Owner User Resources Path
+        ownerGroupResourcesPath: pentaho # Required: Pentaho Host Owner Group Resources Path
 
 # ===================================================================
 # Application specific properties
@@ -146,16 +146,16 @@ pentaho:
 
 application:
     cas:
-        endpoint: FILL_CAS_ENDPOINT # Required: Cas Endpoint
-        service: FILL_SERVICE_URL # Required: Aplication service
+        endpoint: https://estadisticas.arte-consultores.com/cas # Required: Cas Endpoint
+        service: http://localhost:9000/login/cas # Required: Aplication service
         login:  # Optional: Only change if needed (Leave empty for cas.enpoint + '/login')
         logout: # Optional: Only change if needed(Leave empty for cas.enpoint + '/logout')
         validate: # Optional: Only change if needed (Leave empty for 2.0 Cas Protocol). For CAS 3.0 protocol change for 'p3'
     ldap:
-        url: FILL_URL # Ejemplo: ldap://ldap.miorganizacion.com
-        username: FILL_USERNAME # Ejemplo: cn=username,dc=miorganizacion,dc=com
-        password: FILL_PASSWORD # Ejemplo: mipassword
-        base: FILL_BASE # Ejemplo ou=usuarios,dc=miorganizacion,dc=com
-        searchUsersProperty: FILL_SEARCH_USERS_PROPERTY # Ejemplo: uid
+        url: ldap://localhost # Ejemplo: ldap://ldap.miorganizacion.com
+        username: cn=admin,dc=estadisticas,dc=arte-consultores,dc=com # Ejemplo: cn=username,dc=miorganizacion,dc=com
+        password: FILL_PASS! # Ejemplo: mipassword
+        base: ou=people,dc=estadisticas,dc=arte-consultores,dc=com # Ejemplo ou=usuarios,dc=miorganizacion,dc=com
+        searchUsersProperty: uid # Ejemplo: uid
     installation:
-        type: FILL_INSTALLATION_TYPE # Required: Installation Type Context (EXTERNAL / INTERNAL)
+        type: INTERNAL # Required: Installation Type Context (EXTERNAL / INTERNAL)
