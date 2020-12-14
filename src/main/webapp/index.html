@@ -24,19 +24,7 @@
         window.CONFIGURATION.cas.service = /*[[${cas.getService()}]]*/ 'http://localhost:9000/login/cas';
         window.CONFIGURATION.installation = {}
         window.CONFIGURATION.installation.type = /*[[${installation.getType()}]]*/ 'INTERNAL';
-        window.CONFIGURATION.metadata = "https://estadisticas.arte-consultores.com/cmetadata/v1.0";
-        window.CONFIGURATION.faviconMetadataKey = "metamac.app.style.favicon.url";
 
-        (async function () {
-            const res = await fetch(`${window.CONFIGURATION.metadata}/properties/${window.CONFIGURATION.faviconMetadataKey}.json`);
-            const body = await res.json();
-            if (!res.ok) {
-                console.error(body.message);
-            } else {
-                const link = document.querySelector("link[rel~='icon']");
-                link.href = res.value;
-            }
-        })();
        	/*]]>*/
     </script>
 
