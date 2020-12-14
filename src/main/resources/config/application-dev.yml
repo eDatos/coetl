@@ -37,7 +37,7 @@ spring:
     mail:
         host: smtp.gmail.com
         port:
-        username: prueba@localhost
+        username: prueba@arte-consultores.com
         password: FILL_PASS!
         protocol: smtp
         tls: true
@@ -118,10 +118,10 @@ jhipster:
 # ===================================================================
 
 pentaho:
-    endpoint: 'http://localhost:11310/pentaho'
+    endpoint: http://localhost:11310/pentaho
     auth:
         user: admin # Required: Pentaho Data Integration Server User
-        password: FILL_PASS! # Required: Pentaho Data Integration Server Password
+        password: password # Required: Pentaho Data Integration Server Password
     host:
         os: UNIX # Required: Pentaho Host Operating System
         address: localhost # Required: Pentaho Host Address
