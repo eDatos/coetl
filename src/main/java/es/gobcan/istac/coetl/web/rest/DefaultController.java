@@ -14,12 +14,16 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import es.gobcan.istac.coetl.config.ApplicationProperties;
+import es.gobcan.istac.coetl.config.MetadataProperties;
 
 @Controller
 public class DefaultController {
 
     @Autowired
     private ApplicationProperties applicationProperties;
+    
+    @Autowired
+    private MetadataProperties metadataProperties;
 
     private final Logger log = LoggerFactory.getLogger(DefaultController.class);
 
@@ -30,6 +34,7 @@ public class DefaultController {
         Map<String, Object> model = new HashMap<>();
         model.put("cas", applicationProperties.getCas());
         model.put("installation", applicationProperties.getInstallation());
+        model.put("metadata", metadataProperties);
         Map<String, Object> flashMap = (Map<String, Object>) RequestContextUtils.getInputFlashMap(request);
         if (flashMap != null) {
             model.putAll(flashMap);

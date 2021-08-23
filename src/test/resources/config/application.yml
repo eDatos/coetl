@@ -105,6 +105,14 @@ jhipster:
 # More documentation is available at:
 # https://jhipster.github.io/common-application-properties/
 # ===================================================================
+environment:
+    edatos:
+        configuration:
+            db:
+                driverName: oracle.jdbc.OracleDriver
+                url: jdbc:oracle:thin:@teide.arte:1521:orcl
+                username: JENKINS_METAMAC_COMMON
+                password: tV8lk+6r+URVXobfg7zSrSIJsk+uWcy+D5kXs7V9LlQ=
 
 application:
     cas:

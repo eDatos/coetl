@@ -1,0 +1,47 @@
+@import '~scss/variables';
+
+/* 
+* Tras añadir la barra del ISTAC fue necesario encapsular los estilos existentes.
+* No obstante es necesario mantener aquellos estilos que se aplicaban a los tags contenedores
+*/
+html, .app {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%; 
+    box-sizing: border-box;
+    -ms-overflow-style: scrollbar;
+    -webkit-tap-highlight-color: transparent;
+    font-size: 14px;
+    letter-spacing: $letter-spacing;
+}
+
+body {
+    margin: 0; 
+    font-family: $font-family-sans-serif;
+    font-size: 1rem;
+    color: $grey-darkest;
+    background-color: $white;
+    overflow-y: scroll;
+    line-height: $input-line-height;
+    font-weight: $font-weight-light;
+}
+
+html [type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+/* Se reduce la capa de profundidad a 1 del contenedor de la aplicación para que no superponga los desplegables del ISTAC */
+.app {
+    position: relative;
+    z-index: 1;
+    margin: 0; 
+    font-family: $font-family-sans-serif;
+    font-size: 1rem;
+    color: $grey-darkest;
+    background-color: $white;
+    line-height: $input-line-height;
+    font-weight: $font-weight-light;
+}

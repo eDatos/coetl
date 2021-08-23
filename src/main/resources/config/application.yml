@@ -29,13 +29,6 @@ management:
 spring:
     application:
         name: coetl
-    datasource:
-        type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://FILL_HOST:FILL_PORT/FILL_DATABASE
-        username: FILL_USER
-        password: FILL_PASS
-        hikari:
-            maximumPoolSize: 5
     devtools:
         restart:
             enabled: false

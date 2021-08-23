@@ -1,7 +1,10 @@
 /* after changing this file run 'yarn run webpack:build' */
-@import 'vendor/bootstrap';
-@import 'vendor/fontawesome';
+.app {
+    @import 'vendor/bootstrap';
+}
+
+@import '~scss/variables';
+@import '~scss/mixins';
 @import 'vendor/montserrat';
+@import 'vendor/fontawesome';
 @import 'vendor/primeng';
-
-

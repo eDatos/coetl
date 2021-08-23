@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { errorRoute, navbarRoute } from '.';
+import { errorRoute, navbarRoute, edatosNavbarRoute } from '.';
 
-const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
+const LAYOUT_ROUTES = [navbarRoute, edatosNavbarRoute, ...errorRoute];
 
 @NgModule({
     imports: [RouterModule.forRoot(LAYOUT_ROUTES, { useHash: true })],
