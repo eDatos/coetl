@@ -1,11 +1,15 @@
-@import 'global/jhipster';
-@import 'global/bootstrap/ngbtooltip';
-@import 'global/bootstrap/ngbpagination';
-@import 'global/bootstrap/tables';
-@import 'global/bootstrap/buttons';
-@import 'global/components/entity';
-@import 'global/components/image-message';
-@import 'global/primeng/primeng';
-@import 'global/primeng/orderlist';
-@import 'global/components/autosize';
-@import 'global/components/input';
+.app {
+    @import 'global/jhipster';
+    @import 'global/bootstrap/ngbtooltip';
+    @import 'global/bootstrap/ngbpagination';
+    @import 'global/bootstrap/tables';
+    @import 'global/bootstrap/buttons';
+    @import 'global/components/entity';
+    @import 'global/components/image-message';
+    @import 'global/primeng/primeng';
+    @import 'global/primeng/orderlist';
+    @import 'global/components/autosize';
+    @import 'global/components/input';
+}
+
+@import 'global/encapsulation-fixes';

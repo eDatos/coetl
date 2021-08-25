@@ -9,7 +9,7 @@ $zindex-fixed-navs: $zindex-dropdown - 5; // Dont cover navbar dropdown
         @extend .fixed-top;
         z-index: $zindex-fixed-navs;
     }
-    margin-top: $navbar-height;
+    margin-top: $navbar-height + $primary-navbar-height;
     box-shadow: $nav-shadow;
     background: $grey-lightest;
 
@@ -46,7 +46,7 @@ h2:not(.fullcalendar-title) {
     html & {
         @extend .fixed-top;
         z-index: $zindex-fixed-navs;
-        margin-top: $navbar-height;
+        margin-top: $navbar-height + $primary-navbar-height;
     }
     box-shadow: $nav-shadow;
 

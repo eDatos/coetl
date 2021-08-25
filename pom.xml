@@ -134,10 +134,17 @@
         <overthere.version>5.0.2</overthere.version>
         <bouncycastle-provider.version>1.64</bouncycastle-provider.version>
 
+		<!-- Metamac  -->
+		<edatos-core-common.version>0.0.1-SNAPSHOT</edatos-core-common.version>
     </properties>
 
 
     <dependencies>
+        <dependency>
+            <groupId>org.siemac.metamac</groupId>
+            <artifactId>edatos-core-common</artifactId>
+            <version>${edatos-core-common.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.github.jhipster</groupId>
             <artifactId>jhipster</artifactId>

@@ -20,11 +20,6 @@ spring:
             enabled: false # we use gulp + BrowserSync for livereload
     jackson:
         serialization.indent_output: true
-    datasource:
-        type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/etlistac-bd
-        username: etlistac-bd
-        password: FILL_PASS!
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
@@ -143,6 +138,14 @@ pentaho:
 # More documentation is available at:
 # https://jhipster.github.io/common-application-properties/
 # ===================================================================
+environment:
+    edatos:
+        configuration:
+            db:
+                driverName: FILL_ME
+                url: FILL_ME
+                username: FILL_ME
+                password: FILL_ME
 
 application:
     cas:

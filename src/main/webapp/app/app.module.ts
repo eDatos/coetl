@@ -22,6 +22,7 @@ import {
     JhiMainComponent,
     LayoutRoutingModule,
     NavbarComponent,
+    EdatosNavbarComponent,
     ErrorComponent,
     notFoundRoute
 } from './layouts';
@@ -57,7 +58,7 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
         CoetlConfigModule,
         RouterModule.forRoot(APP_ROUTES, { useHash: true })
     ],
-    declarations: [JhiMainComponent, NavbarComponent, ErrorComponent],
+    declarations: [JhiMainComponent, NavbarComponent, EdatosNavbarComponent, ErrorComponent],
     providers: [
         {
             provide: APP_INITIALIZER,

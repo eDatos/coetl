@@ -7,4 +7,7 @@ export interface GenericConfig {
     installation: {
         type;
     };
+    metadata: {
+        navbarScriptUrl: string;
+    };
 }

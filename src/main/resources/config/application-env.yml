@@ -11,10 +11,6 @@
 # ===================================================================
 
 spring:
-    datasource:
-        url: jdbc:postgresql://FILL_HOST:FILL_PORT/FILL_DATABASE
-        username: FILL_USER
-        password: FILL_PASS
     mail:
         host: FILL_HOST
         port: FILL_PORT
@@ -59,6 +55,14 @@ pentaho:
 # Application specific properties
 # Add your own application properties here.
 # ===================================================================
+environment:
+    edatos:
+        configuration:
+            db:
+                driverName: FILL_ME
+                url: FILL_ME
+                username: FILL_ME
+                password: FILL_ME
 
 application:
     cas:
