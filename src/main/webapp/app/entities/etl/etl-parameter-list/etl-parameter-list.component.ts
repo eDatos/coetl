@@ -64,17 +64,20 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
             copy.type = Type.MANUAL;
         }
 
-        this.genericModalService.open(EtlParameterDialogComponent as Component, {
-            parameter: copy
-        });
+        this.genericModalService.open(
+            EtlParameterDialogComponent as Component,
+            { parameter: copy },
+            { container: '.app' }
+        );
     }
 
     deleteParameter(parameter: Parameter) {
         const copy = Object.assign(new Parameter(), parameter);
-
-        this.genericModalService.open(EtlParameterDeleteDialogComponent as Component, {
-            parameter: copy
-        });
+        this.genericModalService.open(
+            EtlParameterDeleteDialogComponent as Component,
+            { parameter: copy },
+            { container: '.app' }
+        );
     }
 
     private loadAll() {

@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { UserService } from '../user/user.service';
-import { Account } from '../user/account.model';
+import { UserCAS } from '../user/account.model';
 import { Rol } from './rol.model';
+import { AuthServerProvider } from './auth-jwt.service';
 
 @Injectable()
 export class Principal {
     [x: string]: any;
-    private userIdentity: Account;
+    private userIdentity: UserCAS;
     private authenticated = false;
     private authenticationState = new Subject<any>();
 
-    constructor(private userService: UserService) {}
+    constructor(private authServerProvider: AuthServerProvider) {}
 
     authenticate(identity) {
         this.userIdentity = identity;
@@ -32,13 +32,7 @@ export class Principal {
         if (!this.userIdentity || !this.userIdentity.roles) {
             return false;
         }
-        return (
-            rolesRuta.filter(
-                (rolRuta) =>
-                    this.userIdentity.roles.filter((rolUsuario) => rolRuta === rolUsuario).length >=
-                    1
-            ).length >= 1
-        );
+        return rolesRuta.filter((rolRuta) => this.userIdentity.hasRole(rolRuta)).length >= 1;
     }
 
     identity(): Promise<any> {
@@ -48,27 +42,17 @@ export class Principal {
             return Promise.resolve(this.userIdentity);
         }
 
-        // retrieve the userIdentity data from the server, update the identity object, and then resolve.
-        return this.userService
-            .getLogueado()
-            .toPromise()
-            .then((account) => {
-                if (account) {
-                    this.userIdentity = account;
-                    this.authenticated = true;
-                } else {
-                    this.userIdentity = null;
-                    this.authenticated = false;
-                }
-                this.authenticationState.next(this.userIdentity);
-                return this.userIdentity;
-            })
-            .catch((err) => {
-                this.userIdentity = null;
-                this.authenticated = false;
-                this.authenticationState.next(this.userIdentity);
-                return null;
-            });
+        const token: string = this.authServerProvider.getToken();
+        if (token) {
+            this.userIdentity = UserCAS.fromJwt(token);
+            this.authenticated = true;
+        } else {
+            this.userIdentity = null;
+            this.authenticated = false;
+        }
+
+        this.authenticationState.next(this.userIdentity);
+        return Promise.resolve(this.userIdentity);
     }
 
     isAuthenticated(): boolean {

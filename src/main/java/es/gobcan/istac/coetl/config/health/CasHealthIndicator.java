@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import es.gobcan.istac.coetl.config.ApplicationProperties;
+import es.gobcan.istac.coetl.config.MetadataProperties;
 
 @Component
 public class CasHealthIndicator extends AbstractHealthIndicator {
@@ -22,11 +22,11 @@ public class CasHealthIndicator extends AbstractHealthIndicator {
     private final Logger logger = LoggerFactory.getLogger(CasHealthIndicator.class);
 
     @Autowired
-    private ApplicationProperties applicationProperties;
+    private MetadataProperties metadataProperties;
 
     @Override
     protected void doHealthCheck(Health.Builder builder) throws Exception {
-        final String casEndPoint = applicationProperties.getCas().getEndpoint();
+        final String casEndPoint = metadataProperties.getMetamacCasPrefix();
         builder.withDetail("endpoint", casEndPoint);
         if (HttpStatus.ACCEPTED.equals(getUrlStatus(casEndPoint)) || HttpStatus.OK.equals(getUrlStatus(casEndPoint))) {
             builder.up();

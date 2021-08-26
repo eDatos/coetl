@@ -87,21 +87,37 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
 
     delete() {
         const copy = Object.assign(new Etl(), this.etl);
-        this.genericModalService.open(<any>EtlDeleteDialogComponent, { etl: copy });
+        this.genericModalService.open(
+            <any>EtlDeleteDialogComponent,
+            { etl: copy },
+            { container: '.app' }
+        );
     }
 
     restore() {
         const copy = Object.assign(new Etl(), this.etl);
-        this.genericModalService.open(<any>EtlRestoreDialogComponent, { etl: copy });
+        this.genericModalService.open(
+            <any>EtlRestoreDialogComponent,
+            { etl: copy },
+            { container: '.app' }
+        );
     }
 
     execute() {
         const copy = Object.assign(new Etl(), this.etl);
-        this.genericModalService.open(<any>EtlConfirmExecutionDialogComponent, { etl: copy });
+        this.genericModalService.open(
+            <any>EtlConfirmExecutionDialogComponent,
+            { etl: copy },
+            { container: '.app' }
+        );
     }
 
     help() {
-        this.genericModalService.open(<any>EtlExpressionHelpDialogComponent, {});
+        this.genericModalService.open(
+            <any>EtlExpressionHelpDialogComponent,
+            {},
+            { container: '.app' }
+        );
     }
 
     isEditMode(): Boolean {

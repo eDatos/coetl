@@ -51,7 +51,7 @@ import es.gobcan.istac.coetl.web.rest.mapper.UsuarioMapper;
 @SpringBootTest(classes = CoetlApp.class)
 public class AccountResourceIntTest {
 
-    private static final String ROL_ADMIN = "ADMIN";
+    private static final String ROL_ADMIN = "ADMINISTRADOR";
 
     @Autowired
     private UsuarioRepository userRepository;
@@ -115,7 +115,7 @@ public class AccountResourceIntTest {
     @Transactional
     public void testGetExistingAccount() throws Exception {
         Set<Rol> authorities = new HashSet<>();
-        authorities.add(Rol.ADMIN);
+        authorities.add(Rol.ADMINISTRADOR);
 
         Usuario user = new Usuario();
         user.setLogin("test");
@@ -159,7 +159,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(mockRolSet(Rol.ADMIN))
+				.setAuthorities(mockRolSet(Rol.ADMINISTRADOR))
 				.build();
 		//@formatter:on
 
@@ -193,7 +193,7 @@ public class AccountResourceIntTest {
 				.setCreatedDate(null)
 				.setLastModifiedBy(null)
 				.setLastModifiedDate(null)
-				.setAuthorities(mockRolSet(Rol.ADMIN))
+				.setAuthorities(mockRolSet(Rol.ADMINISTRADOR))
 				.build();
 		//@formatter:on
 

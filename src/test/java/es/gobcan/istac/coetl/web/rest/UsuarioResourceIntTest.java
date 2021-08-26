@@ -113,7 +113,7 @@ public class UsuarioResourceIntTest {
     }
 
     private Set<Rol> mockRolesDTO() {
-        return Stream.of(Rol.ADMIN).collect(Collectors.toSet());
+        return Stream.of(Rol.ADMINISTRADOR).collect(Collectors.toSet());
     }
 
     /**
@@ -387,7 +387,7 @@ public class UsuarioResourceIntTest {
         assertThat(user.getCreatedDate()).isNotNull();
         assertThat(user.getLastModifiedBy()).isNull();
         assertThat(user.getLastModifiedDate()).isNotNull();
-        assertThat(user.getRoles()).containsExactly(Rol.ADMIN);
+        assertThat(user.getRoles()).containsExactly(Rol.ADMINISTRADOR);
     }
 
     @Test

@@ -19,8 +19,8 @@
         /*<![CDATA[*/
         window.CONFIGURATION = {};
         window.CONFIGURATION.cas = {};
-        window.CONFIGURATION.cas.login = /*[[${cas.getEndpoint()}]]*/ 'https://estadisticas.arte-consultores.com/authentication-service-internal';
-        window.CONFIGURATION.cas.logout = /*[[${cas.getLogout()}]]*/ 'https://estadisticas.arte-consultores.com/authentication-service-internal/logout';
+        window.CONFIGURATION.cas.login = /*[[${metadata.getMetamacCasLoginUrl()}]]*/ 'https://estadisticas.arte-consultores.com/authentication-service-internal/login';
+        window.CONFIGURATION.cas.logout = /*[[${metadata.getMetamacCasLogoutUrl()}]]*/ 'https://estadisticas.arte-consultores.com/authentication-service-internal/logout';
         window.CONFIGURATION.cas.service = /*[[${cas.getService()}]]*/ 'http://localhost:9000/login/cas';
         window.CONFIGURATION.installation = {};
         window.CONFIGURATION.installation.type = /*[[${installation.getType()}]]*/ 'INTERNAL';
