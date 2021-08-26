@@ -7,10 +7,6 @@ import { CoetlSharedModule } from '../shared';
 import {
     adminState,
     AuditsComponent,
-    UserMgmtComponent,
-    UserDeleteDialogComponent,
-    UserMgmtFormComponent,
-    UserMgmtDeleteDialogComponent,
     LogsComponent,
     JhiMetricsMonitoringModalComponent,
     JhiMetricsMonitoringComponent,
@@ -24,11 +20,8 @@ import {
     HealthService,
     JhiMetricsService,
     LogsService,
-    UserResolvePagingParams,
-    UserModalService,
     AuditsResolvePagingParams
 } from '.';
-import { UserSearchComponent } from './user-management/user-search';
 
 @NgModule({
     imports: [
@@ -38,11 +31,6 @@ import { UserSearchComponent } from './user-management/user-search';
     ],
     declarations: [
         AuditsComponent,
-        UserSearchComponent,
-        UserMgmtComponent,
-        UserDeleteDialogComponent,
-        UserMgmtFormComponent,
-        UserMgmtDeleteDialogComponent,
         LogsComponent,
         JhiConfigurationComponent,
         HealthComponent,
@@ -53,8 +41,6 @@ import { UserSearchComponent } from './user-management/user-search';
         JhiMetricsMonitoringModalComponent
     ],
     entryComponents: [
-        UserMgmtFormComponent,
-        UserMgmtDeleteDialogComponent,
         HealthDialogComponent,
         HealthEditDialogComponent,
         HealthDeleteDialogComponent,
@@ -66,9 +52,7 @@ import { UserSearchComponent } from './user-management/user-search';
         HealthService,
         JhiMetricsService,
         LogsService,
-        AuditsResolvePagingParams,
-        UserResolvePagingParams,
-        UserModalService
+        AuditsResolvePagingParams
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

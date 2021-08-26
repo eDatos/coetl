@@ -55,8 +55,6 @@ import io.github.jhipster.security.Http401UnauthorizedEntryPoint;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
-
     private final TokenProvider tokenProvider;
 
     private final CorsFilter corsFilter;
@@ -69,11 +67,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final Environment env;
 
-    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter,
+    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, TokenProvider tokenProvider, CorsFilter corsFilter,
             ApplicationProperties applicationProperties, MetadataProperties metadataProperties, Environment env) {
 
         this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
         this.applicationProperties = applicationProperties;
@@ -122,21 +119,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         casAuthenticationProvider.setKey("COETL_CAS");
         return casAuthenticationProvider;
     }
-
-    /*@Bean
-    public AuthenticationUserDetailsService<CasAssertionAuthenticationToken> authenticationUserDetailsService() {
-        return new UserDetailsByNameServiceWrapper<>(userDetailsService);
-    }*/
     
     @Bean
     public CasUserDetailsService authenticationUserDetailsService() {
         return new CasUserDetailsService();
     }
-
-    /*@Bean
-    public Cas20ServiceTicketValidator cas20ServiceTicketValidator() {
-        return new Cas20ServiceTicketValidator(applicationProperties.getCas().getValidate());
-    }*/
     
     @Bean
     public Cas30ServiceTicketValidator casServiceTicketValidator() {
