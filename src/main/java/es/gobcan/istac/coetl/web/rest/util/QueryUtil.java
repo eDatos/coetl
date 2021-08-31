@@ -19,7 +19,6 @@ import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.service.criteria.EtlCriteriaProcessor;
-import es.gobcan.istac.coetl.service.criteria.UsuarioCriteriaProcessor;
 
 @Component
 public class QueryUtil {
@@ -27,10 +26,6 @@ public class QueryUtil {
     private static final Logger logger = LoggerFactory.getLogger(QueryUtil.class);
     private static final String INCLUDE_DELETED_HINT = "HINT INCLUDE_DELETED SET 'true'";
     private QueryExprCompiler queryExprCompiler = new QueryExprCompiler();
-
-    public DetachedCriteria queryToUserCriteria(Pageable pageable, String query) {
-        return queryToCriteria(pageable, query, new UsuarioCriteriaProcessor());
-    }
 
     public DetachedCriteria queryToEtlCriteria(Pageable pageable, String query) {
         return queryToCriteria(pageable, query, new EtlCriteriaProcessor());

@@ -1,8 +1,5 @@
 package es.gobcan.istac.coetl.config;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,11 +19,17 @@ public class MetadataProperties {
     private MetadataConfigurationService configurationService;
 
     private String metamacNavbar;
+    private String metamacCasPrefix;
+    private String metamacCasLoginUrl;
+    private String metamacCasLogoutUrl;
  
     @PostConstruct
     public void setValues() {
         try {
             metamacNavbar = normalizeUrl(configurationService.retrieveNavbarUrl());
+            metamacCasPrefix = normalizeUrl(configurationService.retrieveSecurityCasServerUrlPrefix());
+            metamacCasLoginUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLoginUrl());
+            metamacCasLogoutUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLogoutUrl());
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
         }
@@ -38,6 +41,30 @@ public class MetadataProperties {
 
     public void setMetamacNavbar(String metamacNavbar) {
         this.metamacNavbar = metamacNavbar;
+    }
+        
+    public String getMetamacCasPrefix() {
+        return metamacCasPrefix;
+    }
+   
+    public void setMetamacCasPrefix(String metamacCasPrefix) {
+        this.metamacCasPrefix = metamacCasPrefix;
+    }
+    
+    public String getMetamacCasLoginUrl() {
+        return metamacCasLoginUrl;
+    }
+    
+    public void setMetamacCasLoginUrl(String metamacCasLoginUrl) {
+        this.metamacCasLoginUrl = metamacCasLoginUrl;
+    }
+    
+    public String getMetamacCasLogoutUrl() {
+        return metamacCasLogoutUrl;
+    }
+    
+    public void setMetamacCasLogoutUrl(String metamacCasLogoutUrl) {
+        this.metamacCasLogoutUrl = metamacCasLogoutUrl;
     }
 
     private String normalizeUrl(String url) {

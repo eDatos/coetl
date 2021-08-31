@@ -45,3 +45,7 @@ html [type="button"],
     line-height: $input-line-height;
     font-weight: $font-weight-light;
 }
+
+.app .modal {
+    top: $primary-navbar-height;
+}

@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
-import { Account, Principal, ResponseWrapper } from '../../shared';
+import { UserCAS, Principal, ResponseWrapper, PermissionService } from '../../shared';
 import { EtlBase } from './etl.model';
 import { EtlFilter } from './etl-search';
 import { EtlService } from './etl.service';
@@ -19,7 +19,7 @@ export class EtlComponent implements OnInit, OnDestroy {
     totalItems: number;
     itemsPerPage: number;
 
-    currentAccount: Account;
+    currentAccount: UserCAS;
     etls: EtlBase[];
     eventSubscriber: Subscription;
     searchSubsctiption: Subscription;
@@ -36,7 +36,8 @@ export class EtlComponent implements OnInit, OnDestroy {
         private parseLinks: JhiParseLinks,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private permissionService: PermissionService
     ) {
         this.routeDataSubscription = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
@@ -119,6 +120,10 @@ export class EtlComponent implements OnInit, OnDestroy {
             ? 'coetlApp.etl.planning.isPlanning'
             : 'coetlApp.etl.planning.isNotPlanning';
         return this.translateService.instant(messageCode);
+    }
+
+    canCreateEtl(): boolean {
+        return this.permissionService.canManageEtl();
     }
 
     private registerChangeInEtls() {
