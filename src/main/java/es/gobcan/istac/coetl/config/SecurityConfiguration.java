@@ -47,7 +47,11 @@ import es.gobcan.istac.coetl.security.CasUserDetailsService;
 import es.gobcan.istac.coetl.security.jwt.CasEhCacheBasedTicketCache;
 import es.gobcan.istac.coetl.security.jwt.JWTAuthenticationSuccessHandler;
 import es.gobcan.istac.coetl.security.jwt.JWTFilter;
+import es.gobcan.istac.coetl.security.jwt.JWTSingleSignOutFilter;
+import es.gobcan.istac.coetl.security.jwt.JWTSingleSignOutHandler;
 import es.gobcan.istac.coetl.security.jwt.TokenProvider;
+import es.gobcan.istac.coetl.service.EnabledTokenService;
+import io.github.jhipster.config.JHipsterProperties;
 import io.github.jhipster.security.Http401UnauthorizedEntryPoint;
 
 @Configuration
@@ -66,9 +70,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private MetadataProperties metadataProperties;
 
     private final Environment env;
+    
+    private final EnabledTokenService enabledTokenService;
+    
+    private JHipsterProperties jHipsterProperties;
 
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, TokenProvider tokenProvider, CorsFilter corsFilter,
-            ApplicationProperties applicationProperties, MetadataProperties metadataProperties, Environment env) {
+            ApplicationProperties applicationProperties, MetadataProperties metadataProperties, Environment env, EnabledTokenService enabledTokenService, JHipsterProperties jHipsterProperties) {
 
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.tokenProvider = tokenProvider;
@@ -76,6 +84,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.applicationProperties = applicationProperties;
         this.metadataProperties = metadataProperties;
         this.env = env;
+        this.enabledTokenService = enabledTokenService;
+        this.jHipsterProperties = jHipsterProperties;
     }
 
     @PostConstruct
@@ -151,10 +161,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return casAuthenticationEntryPoint;
     }
 
-    public SingleSignOutFilter singleSignOutFilter() {
-        SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
+    public JWTSingleSignOutFilter singleSignOutFilter() {
+        /*SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
+        singleSignOutFilter.setCasServerUrlPrefix(metadataProperties.getMetamacCasPrefix());
+        return singleSignOutFilter;*/
+        JWTSingleSignOutFilter singleSignOutFilter = new JWTSingleSignOutFilter(singleSignOutHandler());
         singleSignOutFilter.setCasServerUrlPrefix(metadataProperties.getMetamacCasPrefix());
         return singleSignOutFilter;
+    }
+    
+    public JWTSingleSignOutHandler singleSignOutHandler() {
+        return new JWTSingleSignOutHandler(jHipsterProperties, applicationProperties, env, enabledTokenService);
     }
 
     @Bean
@@ -207,9 +224,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class)
 	    	.addFilterBefore(requestCasGlobalLogoutFilter(), LogoutFilter.class)
             .exceptionHandling()
-        	.authenticationEntryPoint(casAuthenticationEntryPoint())
+        	//.authenticationEntryPoint(casAuthenticationEntryPoint())
+            .authenticationEntryPoint(http401UnauthorizedEntryPoint())
         .and() 
             .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .ignoringAntMatchers("/login/cas")
         .and()
             .headers()
             .frameOptions().sameOrigin()
