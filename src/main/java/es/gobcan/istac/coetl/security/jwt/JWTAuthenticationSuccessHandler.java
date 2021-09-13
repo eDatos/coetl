@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import com.google.common.primitives.Ints;
 
 import es.gobcan.istac.coetl.config.Constants;
+import es.gobcan.istac.coetl.security.util.SecurityCookiesUtil;
 
 public class JWTAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -38,7 +39,7 @@ public class JWTAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucc
         cookie.setSecure(env.acceptsProfiles(Constants.SPRING_PROFILE_ENV));
         cookie.setMaxAge(Ints.saturatedCast(7200));
         cookie.setHttpOnly(false);
-        cookie.setPath("/");
+        cookie.setPath(SecurityCookiesUtil.getCookiePath());
         response.addCookie(cookie);
 
         // For evict JSESSIONID, invalidate the session of CASFilter
