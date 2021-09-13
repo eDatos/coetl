@@ -21,7 +21,7 @@ public class DeleteExpiredEnabledTokens {
     }
 
     @Transactional
-    @Scheduled(cron = "0 0 4 * * *") // TODO: Pasarlo/obtenerlo del common-metadata
+    @Scheduled(cron = "${application.jobs.cron.enabledTokens}")
     public void execute() {
         LOG.info("Starting to clean expired enabled tokens...");
         enabledTokenRepository.deleteByExpirationDateBefore(Instant.now());

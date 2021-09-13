@@ -12,6 +12,7 @@ public class ApplicationProperties {
     private final Cas cas = new Cas();
     private final Ldap ldap = new Ldap();
     private final Installation installation = new Installation();
+    private final Jobs jobs = new Jobs();
 
     public Cas getCas() {
         return cas;
@@ -148,6 +149,37 @@ public class ApplicationProperties {
             this.type = type;
         }
 
+    }
+    
+    public Jobs getJobs() {
+        return this.jobs;
+    }
+    
+    public static class Jobs {
+        
+        private Cron cron = new Cron();
+
+        
+        public Cron getCron() {
+            return cron;
+        }
+
+        public void setCron(Cron cron) {
+            this.cron = cron;
+        }
+    }
+    
+    public static class Cron {
+        
+        private String enabledTokens;
+        
+        public String getEnabledTokens() {
+            return enabledTokens;
+        }
+        
+        public void setEnabledTokens(String enabledTokens) {
+            this.enabledTokens = enabledTokens;
+        }
     }
 
 }

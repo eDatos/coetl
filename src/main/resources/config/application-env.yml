@@ -78,7 +78,9 @@ application:
         searchUsersProperty: FILL_SEARCH_USERS_PROPERTY # Ejemplo: uid
     installation:
         type: FILL_INSTALLATION_TYPE # Required: Installation Type Context (EXTERNAL / INTERNAL)
-
+    jobs:
+        cron:
+            enabledTokens: FILL_CRON_EXPRESSION
 # ===================================================================        
 # Application debug properties
 #
