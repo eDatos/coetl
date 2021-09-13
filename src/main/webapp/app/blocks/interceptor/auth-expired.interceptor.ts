@@ -18,6 +18,7 @@ export class AuthExpiredInterceptor extends JhiHttpInterceptor {
             if (error.status === 401) {
                 const loginService: LoginService = this.injector.get(LoginService);
                 loginService.logout();
+                loginService.login();
             }
             return Observable.throw(error);
         });

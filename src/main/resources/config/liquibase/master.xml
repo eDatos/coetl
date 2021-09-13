@@ -15,4 +15,5 @@
   <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
   <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
   <include file="config/liquibase/changelog/20180419081000_added_indexes.xml" relativeToChangelogFile="false" />
+  <include file="config/liquibase/changelog/20210902083432_added_entity_EnabledToken.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>
