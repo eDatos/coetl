@@ -115,18 +115,6 @@ environment:
                 password: tV8lk+6r+URVXobfg7zSrSIJsk+uWcy+D5kXs7V9LlQ=
 
 application:
-    cas:
-        endpoint: https://docker-machine:9443/cas # Required: Cas Endpoint
-        service: http://localhost:9000/login/cas # Required: Aplication service
-        login:  # Optional: Only change if needed (Leave empty for cas.enpoint + '/login')
-        logout: # Optional: Only change if needed(Leave empty for cas.enpoint + '/logout')
-        validate: # Optional: Only change if needed (Leave empty for 2.0 Cas Protocol). For CAS 3.0 protocol change for 'p3'
-    ldap:
-        url: FILL_URL # Ejemplo: ldap://ldap.miorganizacion.com
-        username: FILL_USERNAME # Ejemplo: cn=username,dc=miorganizacion,dc=com
-        password: FILL_PASSWORD # Ejemplo: mipassword
-        base: ou=usuarios,dc=miorganizacion,dc=com # Ejemplo ou=usuarios,dc=miorganizacion,dc=com
-        searchUsersProperty: FILL_SEARCH_USERS_PROPERTY # Ejemplo: uid
     jobs:
         cron:
             enabledTokens: 0 0 4 * * *

@@ -14,6 +14,8 @@ import es.gobcan.istac.coetl.service.MetadataConfigurationService;
 public class MetadataProperties {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+    
+    private static final String METAMAC_KEY_CAS_SERVICE = "metamac.coetl.cas.service";
 
     @Autowired
     private MetadataConfigurationService configurationService;
@@ -22,6 +24,7 @@ public class MetadataProperties {
     private String metamacCasPrefix;
     private String metamacCasLoginUrl;
     private String metamacCasLogoutUrl;
+    private String casService;
  
     @PostConstruct
     public void setValues() {
@@ -30,6 +33,7 @@ public class MetadataProperties {
             metamacCasPrefix = normalizeUrl(configurationService.retrieveSecurityCasServerUrlPrefix());
             metamacCasLoginUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLoginUrl());
             metamacCasLogoutUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLogoutUrl());
+            casService = normalizeUrl(configurationService.findProperty(METAMAC_KEY_CAS_SERVICE));
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
         }
@@ -65,6 +69,14 @@ public class MetadataProperties {
     
     public void setMetamacCasLogoutUrl(String metamacCasLogoutUrl) {
         this.metamacCasLogoutUrl = metamacCasLogoutUrl;
+    }
+        
+    public String getCasService() {
+        return casService;
+    }
+   
+    public void setCasService(String casService) {
+        this.casService = casService;
     }
 
     private String normalizeUrl(String url) {
