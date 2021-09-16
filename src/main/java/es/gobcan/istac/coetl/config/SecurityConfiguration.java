@@ -9,8 +9,6 @@ import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.CacheManagerBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.core.Ehcache;
-import org.jasig.cas.client.session.SingleSignOutFilter;
-import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
 import org.jasig.cas.client.validation.Cas30ServiceTicketValidator;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.cas.ServiceProperties;
-import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
@@ -30,9 +27,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
-import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
@@ -102,7 +96,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public ServiceProperties serviceProperties() {
         ServiceProperties serviceProperties = new ServiceProperties();
-        serviceProperties.setService(StringUtils.removeEnd(applicationProperties.getCas().getService(), "/"));
+        serviceProperties.setService(StringUtils.removeEnd(metadataProperties.getCasService(), "/"));
         serviceProperties.setSendRenew(false);
         return serviceProperties;
     }
@@ -162,9 +156,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     public JWTSingleSignOutFilter singleSignOutFilter() {
-        /*SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
-        singleSignOutFilter.setCasServerUrlPrefix(metadataProperties.getMetamacCasPrefix());
-        return singleSignOutFilter;*/
         JWTSingleSignOutFilter singleSignOutFilter = new JWTSingleSignOutFilter(singleSignOutHandler());
         singleSignOutFilter.setCasServerUrlPrefix(metadataProperties.getMetamacCasPrefix());
         return singleSignOutFilter;
@@ -224,7 +215,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class)
 	    	.addFilterBefore(requestCasGlobalLogoutFilter(), LogoutFilter.class)
             .exceptionHandling()
-        	//.authenticationEntryPoint(casAuthenticationEntryPoint())
             .authenticationEntryPoint(http401UnauthorizedEntryPoint())
         .and() 
             .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
