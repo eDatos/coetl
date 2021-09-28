@@ -36,6 +36,10 @@ public final class ErrorConstants {
     public static final String ETL_UNSCHEDULE_ERROR = "error.etl.unscheduleError";
     public static final String ETL_CODE_EXISTS = "error.etl.codeExists";
     public static final String ETL_ATTACHED_FILES_UPLOAD = "error.etl.attachedFilesUpload";
+    public static final String ETL_MALFORMED_URL = "error.etl.urlMalformed";
+    public static final String ETL_URL_NOT_EXIST = "error.etl.urlNotExist";
+    public static final String ETL_CLONE_REPOSITORY = "error.etl.cloneRepository";
+    public static final String ETL_REPLACE_REPOSITORY = "error.etl.replacingRepository";
 
     // HEALTH
     public static final String HEALTH_SERVICE_NAME_IS_BLANK = "error.health.serviceName.isBlank";

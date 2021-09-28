@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="arte (generated)" id="1632145874040-1">
+        <addColumn tableName="tb_etls">
+            <column name="uri_repository" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="arte (generated)" id="1632145874040-6">
+        <dropForeignKeyConstraint baseTableName="tb_etls" constraintName="fk_etl_file_id"/>
+    </changeSet>
+    <changeSet author="arte (generated)" id="1632145874040-7">
+        <dropForeignKeyConstraint baseTableName="tb_etls_attached_files" constraintName="fk_tb_etls_attached_files_tb_etls_id"/>
+    </changeSet>
+    <changeSet author="arte (generated)" id="1632145874040-15">
+        <dropUniqueConstraint constraintName="uk_tb_etls_attached_files_file_fk" tableName="tb_etls_attached_files"/>
+    </changeSet>
+    <changeSet author="arte (generated)" id="1632145874040-32">
+        <dropColumn columnName="etl_file_fk" tableName="tb_etls"/>
+    </changeSet>
+</databaseChangeLog>
