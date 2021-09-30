@@ -55,16 +55,16 @@ public class PentahoGitServiceImpl implements PentahoGitService {
             executeCommand(sudoDestinationConnection, "git", "-C", path.concat("/").concat(REPOSITORY_FOLDER_NAME), "remote", "set-url", "origin", etl.getUriRepository());
             changeOwnerUnzippedFiles(sudoDestinationConnection, path);
         } catch (UnsupportedEncodingException e) {
-            LOGGER.error("An error ocurred encoding git credentials");
+            LOGGER.error("An error ocurred encoding git credentials", e);
             return null;
         } catch (MalformedURLException e) {
-            LOGGER.error("An error ocurred with URI repository in ETL with code {}", etl.getCode());
+            LOGGER.error("An error ocurred with URI repository in ETL with code " + etl.getCode(), e);
             return null;
         } catch (SftpException e) {
-            LOGGER.error("An error ocurred executing shell commands while cloning repository");
+            LOGGER.error("An error ocurred executing shell commands while cloning repository", e);
             return null;
         } catch (Exception e) {
-            LOGGER.error("Unknown error ocurred while clone repository {}", etl.getUriRepository());
+            LOGGER.error("Unknown error ocurred while clone repository " + etl.getUriRepository(), e);
             return null;            
         } finally {
             sudoDestinationConnection.close();
@@ -82,16 +82,16 @@ public class PentahoGitServiceImpl implements PentahoGitService {
             executeCommand(sudoDestinationConnection, "git", "-C", path, "pull");
             executeCommand(sudoDestinationConnection, "git", "-C", path, "remote", "set-url", "origin", etl.getUriRepository());
         } catch (UnsupportedEncodingException e) {
-            LOGGER.error("An error ocurred encoding git credentials");
+            LOGGER.error("An error ocurred encoding git credentials", e);
             return false;
         } catch (MalformedURLException e) {
-            LOGGER.error("An error ocurred with URI repository in ETL with code {}", etl.getCode());
+            LOGGER.error("An error ocurred with URI repository in ETL with code " + etl.getCode(), e);
             return false;
         }catch (SftpException e) {
-            LOGGER.error("An error ocurred executing shell commands while pulling repository");
+            LOGGER.error("An error ocurred executing shell commands while pulling repository", e);
             return false;
         } catch (Exception e) {
-            LOGGER.error("Unknown error ocurred while pulling repository {}", etl.getUriRepository());
+            LOGGER.error("Unknown error ocurred while pulling repository {}" + etl.getUriRepository(), e);
             return false;            
         } finally {
             sudoDestinationConnection.close();
@@ -118,7 +118,7 @@ public class PentahoGitServiceImpl implements PentahoGitService {
                 executeCommand(sudoDestinationConnection, "rm", "-Rf", path.concat("/").concat(REPOSITORY_FOLDER_BACKUP_NAME));
             }
         } catch (Exception e) {
-            LOGGER.error("Unknown error ocurred while replacing repository {}", etl.getUriRepository());
+            LOGGER.error("Unknown error ocurred while replacing repository " + etl.getUriRepository(), e);
             return null;
         } finally {
             sudoDestinationConnection.close();
