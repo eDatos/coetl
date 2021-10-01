@@ -35,13 +35,10 @@ export class Etl extends EtlBase {
         public comments?: string,
         public executionDescription?: string,
         public nextExecution?: Date,
-        public etlFile?: File,
         public etlDescriptionFile?: File,
-        public attachedFiles?: File[],
+        public uriRepository?: string,
         public isAttachedFilesChanged?: boolean
     ) {
         super();
-        this.attachedFiles = !!attachedFiles ? attachedFiles : [];
-        this.isAttachedFilesChanged = !!isAttachedFilesChanged;
     }
 }

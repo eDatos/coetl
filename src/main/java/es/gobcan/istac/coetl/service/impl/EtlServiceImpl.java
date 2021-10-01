@@ -38,6 +38,7 @@ import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.validator.EtlValidator;
 import es.gobcan.istac.coetl.util.CronUtils;
+import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 import es.gobcan.istac.coetl.web.rest.util.QueryUtil;
 
 @Service
@@ -115,6 +116,19 @@ public class EtlServiceImpl implements EtlService {
         Execution resultExecution = pentahoExecutionService.execute(etl, Type.MANUAL);
         executionService.create(resultExecution);
 
+    }
+    
+    @Override
+    public boolean goingToChangeRepository(EtlDTO etlDto) {
+        LOG.debug("Request to check if its going to change repository from DTO: {}", etlDto);
+        if (etlDto.getId() == null) {
+            return false;
+        }
+        Etl etl = etlRepository.findOne(etlDto.getId());
+        if (etl.getUriRepository().equals(etlDto.getUriRepository())) {
+            return false;
+        }
+        return true;
     }
 
     private Etl planifyAndSave(Etl etl) {

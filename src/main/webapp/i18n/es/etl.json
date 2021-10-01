@@ -81,6 +81,10 @@
                 "label": "Ficheros adjuntos ETL",
                 "help": "Se toman como ficheros adjuntos aquellos recursos usados internamente por la ETL, ya sean otras ETLs, imágenes, CSVs, etcétera."
             },
+            "uriRepository": {
+                "label": "Repositorio Git",
+                "placeholder": "https://repositoryServer.com/etlRepository.git"
+            },
             "state": {
                 "label": "Estado",
                 "isDeleted": "Eliminada",
@@ -96,7 +100,8 @@
                 "inCharge": "Responsables",
                 "etl": "ETL",
                 "planning": "Planificación",
-                "executions": "Ejecuciones"
+                "executions": "Ejecuciones",
+                "uriRepository": "Repositorio"
             },
             "filters": {
                 "code": {

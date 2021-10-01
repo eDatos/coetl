@@ -29,9 +29,10 @@ public class PentahoProperties {
     private static final String METAMAC_KEY_PENTAHO_HOST_RESOURCESPATH = "metamac.coetl.pentaho.host.resourcesPath";
     private static final String METAMAC_KEY_PENTAHO_HOST_OWNERUSERRESOURCESPATH = "metamac.coetl.pentaho.host.ownerUserResourcesPath";
     private static final String METAMAC_KEY_PENTAHO_HOST_OWNERGROUPRESOURCESPATH = "metamac.coetl.pentaho.host.ownerGroupResourcesPath";
-    
+    private static final String METAMAC_KEY_PENTAHO_MAIN_RESOURCE_PREFIX = "metamac.coetl.pentaho.mainResourcePrefix";
     
     private String endpoint = StringUtils.EMPTY;
+    private String mainResourcePrefix = StringUtils.EMPTY;
     private final Auth auth = new Auth();
     private final Host host = new Host();
     
@@ -42,6 +43,7 @@ public class PentahoProperties {
     public void setValues() {
         try {
             setEndpoint(configurationService.findProperty(METAMAC_KEY_PENTAHO_ENDPOINT));
+            setMainResourcePrefix(configurationService.findProperty(METAMAC_KEY_PENTAHO_MAIN_RESOURCE_PREFIX));
             auth.setUser(configurationService.findProperty(METAMAC_KEY_PENTAHO_AUTH_USER));
             auth.setPassword(configurationService.findProperty(METAMAC_KEY_PENTAHO_AUTH_PASSWORD));
             host.setOs(configurationService.findProperty(METAMAC_KEY_PENTAHO_HOST_OS));
@@ -66,6 +68,14 @@ public class PentahoProperties {
 
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
+    }
+
+    public String getMainResourcePrefix() {
+        return mainResourcePrefix;
+    }
+
+    public void setMainResourcePrefix(String mainResourcePrefix) {
+        this.mainResourcePrefix = mainResourcePrefix;
     }
 
     public Auth getAuth() {

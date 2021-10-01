@@ -15,9 +15,8 @@ public class EtlDTO extends EtlBaseDTO implements Serializable {
     private String comments;
     private String executionDescription;
     private Instant nextExecution;
-    private FileDTO etlFile;
     private FileDTO etlDescriptionFile;
-    private List<FileDTO> attachedFiles;
+    private String uriRepository;
 
     public String getPurpose() {
         return purpose;
@@ -67,14 +66,6 @@ public class EtlDTO extends EtlBaseDTO implements Serializable {
         this.nextExecution = nextExecution;
     }
 
-    public FileDTO getEtlFile() {
-        return etlFile;
-    }
-
-    public void setEtlFile(FileDTO etlFile) {
-        this.etlFile = etlFile;
-    }
-
     public FileDTO getEtlDescriptionFile() {
         return etlDescriptionFile;
     }
@@ -83,12 +74,12 @@ public class EtlDTO extends EtlBaseDTO implements Serializable {
         this.etlDescriptionFile = etlDescriptionFile;
     }
 
-    public List<FileDTO> getAttachedFiles() {
-        return attachedFiles;
+    public String getUriRepository() {
+        return uriRepository;
     }
 
-    public void setAttachedFiles(List<FileDTO> attachedFiles) {
-        this.attachedFiles = attachedFiles;
+    public void setUriRepository(String uriRepository) {
+        this.uriRepository = uriRepository;
     }
 
     @Override

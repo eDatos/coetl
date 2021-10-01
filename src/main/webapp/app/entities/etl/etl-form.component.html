@@ -138,44 +138,25 @@
                 </div>
             </div>
         </fieldset>
-        <fieldset>
+        <fieldset [disabled]="!isEditMode()">
+            <h3 jhiTranslate="coetlApp.etl.sections.uriRepository"></h3>
             <div class="entity-fields">
                 <div class="form-group full-width">
-                    <ac-file-upload
-                        [title]="'coetlApp.etl.codeFile.label' | translate"
-                        [url]="fileResourceUrl"
-                        [accept]="'.ktr,.kjb,.xml'"
-                        (onUpload)="onEtlFileUpload($event)"
-                        [files]="etl.etlFile"
-                        [disabled]="!isEditMode()"
-                    >
-                        <ng-template let-file="file">
-                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteEtlFile()">
-                                <i class="fa fa-trash"></i>
-                                <span jhiTranslate="entity.action.delete"></span>
-                            </button>
-                        </ng-template>
-                    </ac-file-upload>
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.uriRepository.label" for="field_repository"></label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="uriRepository"
+                        id="field_repository"
+                        required
+                        [(ngModel)]="etl.uriRepository"
+                        [placeholder]="'coetlApp.etl.uriRepository.placeholder' | translate"
+                    />
                 </div>
-                <div class="form-group full-width">
-                    <ac-file-upload
-                        [title]="'coetlApp.etl.attachedFiles.label' | translate"
-                        [url]="fileResourceUrl"
-                        [showHelp]="true"
-                        [helpTitle]="'coetlApp.etl.attachedFiles.help'"
-                        (onUpload)="onEtlAttachedFileUpload($event)"
-                        [limited]="0"
-                        [files]="etl.attachedFiles"
-                        [disabled]="!isEditMode()"
-                    >
-                        <ng-template let-file="file">
-                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteEtlAttachedFile(file)">
-                                <i class="fa fa-trash"></i>
-                                <span jhiTranslate="entity.action.delete"></span>
-                            </button>
-                        </ng-template>
-                    </ac-file-upload>
-                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="entity-fields">
                 <div class="form-group full-width">
                     <ac-file-upload
                         [title]="'coetlApp.etl.descriptionFile.label' | translate"

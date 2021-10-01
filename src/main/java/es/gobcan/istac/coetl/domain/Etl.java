@@ -97,17 +97,13 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
-    @JoinColumn(name = "etl_file_fk")
-    private File etlFile;
-
-    @NotNull
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(name = "etl_description_file_fk")
     private File etlDescriptionFile;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "tb_etls_attached_files", joinColumns = {@JoinColumn(name = "etl_fk")}, inverseJoinColumns = {@JoinColumn(name = "file_fk")})
-    private List<File> attachedFiles = new ArrayList<>();
+    
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "uri_repository", length = 255)
+    private String uriRepository;
 
     @Override
     public Long getId() {
@@ -218,14 +214,6 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
         this.nextExecution = nextExecution;
     }
 
-    public File getEtlFile() {
-        return etlFile;
-    }
-
-    public void setEtlFile(File etlFile) {
-        this.etlFile = etlFile;
-    }
-
     public File getEtlDescriptionFile() {
         return etlDescriptionFile;
     }
@@ -233,22 +221,13 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     public void setEtlDescriptionFile(File etlDescriptionFile) {
         this.etlDescriptionFile = etlDescriptionFile;
     }
-
-    public List<File> getAttachedFiles() {
-        return Collections.unmodifiableList(attachedFiles);
+    
+    public String getUriRepository() {
+        return uriRepository;
     }
 
-    public void addAllAttachedFiles(List<File> files) {
-        removeAllAttachedFiles();
-        attachedFiles.addAll(files);
-    }
-
-    public void removeAllAttachedFiles() {
-        attachedFiles.clear();
-    }
-
-    public void addAttachedFile(File file) {
-        attachedFiles.add(file);
+    public void setUriRepository(String uriRepository) {
+        this.uriRepository = uriRepository;
     }
 
     @Override

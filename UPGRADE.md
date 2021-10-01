@@ -12,6 +12,7 @@
 * Se ha integrado el acceso al common-metadata, por lo que es necesario añadirlo los parámetros de configuración *environment.edatos.configuration.db.[PARAM]* al application-env.yml (ver archivo *src\main\resources\config\application-env.yml*)
 * Se ha de añadir los parámetros de acceso a la base de datos al common-metadata. Para ello, se ha de ejecutar el script *etc\changes-from-release\1.1.2\db\common-metadata\postgresql\20210830_coetl_common_metadata_conf.sql* sustituyendo los valores por los apropiados. Puede tomarse como referencia los establecidos en el archivo de configuración application-env.yml en los parámetros *spring.datasource*.
 * Se ha de añadir parámetros al common-metadata. Para ello, se ha de ejecutar el script *etc\changes-from-release\1.1.2\db\common-metadata\postgresql\20210913_add_properties_to_common_metadata.sql* sustituyendo los valores por los apropiados. Puede tomarse como referencia los establecidos en el archivo de configuración application-env.yml, atendiendo a los parámetros *application.cas.*\* y *pentaho.*\*.
+* Se ha de añadir parámetros relativos al git al common-metadata. Para ello, se ha de ejecutar el script *etc\changes-from-release\1.1.2\db\common-metadata\postgresql\20210920_add_git_properties.sql * sustituyendo los valores por los apropiados.
 * Eliminar del archivo de configuración application-env.yml los parámetros *spring.datasource*.
 * Eliminar del archivo de configuración application-env.yml los parámetros *application.cas.*\*, *application.ldap.*\*, *pentaho.*\* y *spring.mail*\*
 * Actualizar el WAR

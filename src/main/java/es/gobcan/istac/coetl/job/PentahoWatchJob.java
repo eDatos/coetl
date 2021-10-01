@@ -20,6 +20,7 @@ import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.pentaho.enumeration.JobMethodsEnum;
 import es.gobcan.istac.coetl.pentaho.enumeration.TransMethodsEnum;
 import es.gobcan.istac.coetl.pentaho.service.PentahoExecutionService;
+import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.pentaho.service.util.PentahoUtil;
 import es.gobcan.istac.coetl.pentaho.web.rest.dto.EtlStatusDTO;
 import es.gobcan.istac.coetl.pentaho.web.rest.dto.JobStatusDTO;
@@ -35,17 +36,20 @@ public class PentahoWatchJob {
     private final ExecutionService executionService;
 
     private final PentahoExecutionService pentahoExecutionService;
+    
+    private final PentahoGitService pentahoGitService;
 
     private final String url;
     private final String user;
     private final String password;
 
-    public PentahoWatchJob(PentahoProperties pentahoProperties, ExecutionService executionService, PentahoExecutionService pentahoExecutionService) {
+    public PentahoWatchJob(PentahoProperties pentahoProperties, ExecutionService executionService, PentahoExecutionService pentahoExecutionService, PentahoGitService pentahoGitService) {
         this.executionService = executionService;
         this.pentahoExecutionService = pentahoExecutionService;
         this.url = PentahoUtil.getUrl(pentahoProperties);
         this.user = PentahoUtil.getUser(pentahoProperties);
         this.password = PentahoUtil.getPassword(pentahoProperties);
+        this.pentahoGitService = pentahoGitService;
     }
 
     @Scheduled(cron = Constants.DEFAULT_PENTAHO_WATCH_CRON)
@@ -57,7 +61,7 @@ public class PentahoWatchJob {
         if (runningExecution != null) {
             Etl runningEtl = runningExecution.getEtl();
             LOG.info("Watching running ETL {}", runningEtl.getCode());
-            final String etlFilename = PentahoUtil.getFileBasename(runningEtl.getEtlFile().getName());
+            final String etlFilename = pentahoGitService.getMainFileName(runningEtl);
             EtlStatusDTO etlStatusDTO;
             if (runningEtl.isTransformation()) {
                 etlStatusDTO = executeStatusTrans(etlFilename);
@@ -83,7 +87,7 @@ public class PentahoWatchJob {
         }
 
         Etl nextEtl = nextExecution.getEtl();
-        final String etlFilename = PentahoUtil.getFileBasename(nextEtl.getEtlFile().getName());
+        final String etlFilename = pentahoGitService.getMainFileName(nextEtl);
         WebResultDTO webResultDTO = pentahoExecutionService.runEtl(nextEtl, etlFilename);
 
         Execution nextExecutionResult;

@@ -26,11 +26,11 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.domain.Execution.Type;
-import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.pentaho.enumeration.JobMethodsEnum;
 import es.gobcan.istac.coetl.pentaho.enumeration.ServerMethodsEnum;
 import es.gobcan.istac.coetl.pentaho.enumeration.TransMethodsEnum;
 import es.gobcan.istac.coetl.pentaho.service.PentahoExecutionService;
+import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.pentaho.service.util.PentahoUtil;
 import es.gobcan.istac.coetl.pentaho.web.rest.dto.EtlStatusDTO;
 import es.gobcan.istac.coetl.pentaho.web.rest.dto.ServerStatusDTO;
@@ -52,18 +52,21 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
     private final ParameterService parameterService;
 
     private final MessageSource messageSource;
+    
+    private final PentahoGitService pentahoGitService;
 
     private final String url;
     private final String user;
     private final String password;
 
-    public PentahoExecutionServiceImpl(PentahoProperties pentahoProperties, ExecutionService executionService, ParameterService parameterService, MessageSource messageSource) {
+    public PentahoExecutionServiceImpl(PentahoProperties pentahoProperties, ExecutionService executionService, ParameterService parameterService, MessageSource messageSource, PentahoGitService pentahoGitService) {
         this.executionService = executionService;
         this.parameterService = parameterService;
         this.messageSource = messageSource;
         this.url = PentahoUtil.getUrl(pentahoProperties);
         this.user = PentahoUtil.getUser(pentahoProperties);
         this.password = PentahoUtil.getPassword(pentahoProperties);
+        this.pentahoGitService = pentahoGitService;
     }
 
     @Override
@@ -74,7 +77,7 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
             return PentahoUtil.buildExecution(etl, type, Result.DUPLICATED, duplicateEtlMessage);
         }
 
-        final String etlFilename = PentahoUtil.getFileBasename(etl.getEtlFile().getName());
+        final String etlFilename = pentahoGitService.getMainFileName(etl);
 
         WebResultDTO webResultDTO = registerETL(etl);
         if (!webResultDTO.isOk()) {
@@ -146,8 +149,8 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
 
     private WebResultDTO registerTrans(Etl etl) {
         try {
-            final File etlFile = etl.getEtlFile();
-            String transCode = PentahoUtil.getCarteWrappedCodeFromEtlFile(etlFile, TRANS_PREFIX_TAG_NAME);
+            String mainCode = pentahoGitService.getMainFileContent(etl);
+            String transCode = PentahoUtil.getCarteWrappedCodeFromEtlFile(mainCode, TRANS_PREFIX_TAG_NAME);
             String replacedTransCode = replaceEtlCodeVariables(etl, transCode);
             return executeRegisterTrans(replacedTransCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {
@@ -162,8 +165,8 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
 
     private WebResultDTO registerJob(Etl etl) {
         try {
-            final File etlFile = etl.getEtlFile();
-            String jobCode = PentahoUtil.getCarteWrappedCodeFromEtlFile(etlFile, JOB_PREFIX_TAG_NAME);
+            String mainCode = pentahoGitService.getMainFileContent(etl);
+            String jobCode = PentahoUtil.getCarteWrappedCodeFromEtlFile(mainCode, JOB_PREFIX_TAG_NAME);
             String replacedJobCode = replaceEtlCodeVariables(etl, jobCode);
             return executeRegisterJob(replacedJobCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {

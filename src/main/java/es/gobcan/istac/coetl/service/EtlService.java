@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import es.gobcan.istac.coetl.domain.Etl;
+import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 
 public interface EtlService {
 
@@ -14,4 +15,6 @@ public interface EtlService {
     public Etl findOne(Long id);
     public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable);
     public void execute(Etl etl);
+    
+    public boolean goingToChangeRepository(EtlDTO etlDto);
 }

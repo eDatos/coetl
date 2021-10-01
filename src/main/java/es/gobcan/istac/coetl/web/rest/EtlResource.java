@@ -34,7 +34,7 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
-import es.gobcan.istac.coetl.pentaho.service.PentahoSftpService;
+import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
@@ -68,18 +68,18 @@ public class EtlResource extends AbstractResource {
     private final ParameterService parameterService;
     private final ParameterMapper parameterMapper;
     private final AuditEventPublisher auditEventPublisher;
-    private final PentahoSftpService pentahoSftpService;
+    private final PentahoGitService pentahoGitService;
 
     public EtlResource(EtlService etlService, EtlMapper etlMapper, ExecutionService executionService, ExecutionMapper executionMapper, ParameterService parameterService,
-            ParameterMapper parameterMapper, PentahoSftpService pentahoSftpService, AuditEventPublisher auditEventPublisher) {
+            ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher, PentahoGitService pentahoGitService) {
         this.etlService = etlService;
         this.etlMapper = etlMapper;
         this.executionService = executionService;
         this.executionMapper = executionMapper;
         this.parameterService = parameterService;
         this.parameterMapper = parameterMapper;
-        this.pentahoSftpService = pentahoSftpService;
         this.auditEventPublisher = auditEventPublisher;
+        this.pentahoGitService = pentahoGitService;
     }
 
     @PostMapping
@@ -92,10 +92,14 @@ public class EtlResource extends AbstractResource {
         }
 
         Etl createdEtl = etlService.create(etlMapper.toEntity(etlDTO));
-        String uploadedAttachedFilesPath = pentahoSftpService.uploadAttachedFiles(createdEtl);
-        if (StringUtils.isNoneBlank(uploadedAttachedFilesPath)) {
+                
+        if (StringUtils.isNoneBlank(etlDTO.getUriRepository())) {
+            String repositoryPath = pentahoGitService.cloneRepository(createdEtl);
+            if (repositoryPath == null) {
+                CustomExceptionUtil.throwCustomParameterizedException("An error ocurred cloning repository", ErrorConstants.ETL_CLONE_REPOSITORY);
+            }
             Map<String, String> parameters = new HashMap<>();
-            parameters.put("ETL_RESOURCES", uploadedAttachedFilesPath);
+            parameters.put("ETL_RESOURCES", repositoryPath);
             parameterService.createDefaultParameters(createdEtl, parameters);
         }
 
@@ -108,29 +112,29 @@ public class EtlResource extends AbstractResource {
     @PutMapping
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
-    public ResponseEntity<EtlDTO> update(@Valid @RequestBody EtlDTO etlDTO, @ApiParam(required = true) boolean isAttachedFilesChanged) {
+    public ResponseEntity<EtlDTO> update(@Valid @RequestBody EtlDTO etlDTO) {
         LOG.debug("REST Request to update an ETL : {}", etlDTO);
         if (etlDTO.getId() == null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ID_FALTA, "An updated ETL must have an ID")).build();
         }
 
+        boolean repositoryGoingToChange = etlService.goingToChangeRepository(etlDTO);
+        
         Etl currentEtl = etlMapper.toEntity(etlDTO);
         if (currentEtl.isDeleted()) {
             return ResponseEntity.badRequest()
                     .headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ENTITY_DELETED, String.format(ETL_IS_DELETED_MESSAGE, currentEtl.getId().toString()))).build();
         }
-
+        
         Etl updatedEtl = etlService.update(currentEtl);
-        if (isAttachedFilesChanged) {
-            parameterService.deleteDefaultParameters(updatedEtl);
-            String uploadedAttachedFilesPath = pentahoSftpService.uploadAttachedFiles(updatedEtl);
-            if (StringUtils.isNoneBlank(uploadedAttachedFilesPath)) {
-                Map<String, String> parameters = new HashMap<>();
-                parameters.put("ETL_RESOURCES", uploadedAttachedFilesPath);
-                parameterService.createDefaultParameters(updatedEtl, parameters);
+
+        if (repositoryGoingToChange) {
+            String repositoryPath = pentahoGitService.replaceRepository(updatedEtl);
+            if (repositoryPath == null) {
+                CustomExceptionUtil.throwCustomParameterizedException("An error ocurred updating repository", ErrorConstants.ETL_REPLACE_REPOSITORY);
             }
         }
-
+        
         EtlDTO result = etlMapper.toDto(updatedEtl);
         auditEventPublisher.publish(AuditConstants.ETL_UPDATED, result.getCode());
 
@@ -215,6 +219,7 @@ public class EtlResource extends AbstractResource {
             return ResponseEntity.notFound().build();
         }
         if (!etl.isDeleted()) {
+            pentahoGitService.updateRepository(etl);
             etlService.execute(etl);
             auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
         } else {

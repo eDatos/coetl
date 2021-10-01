@@ -80,7 +80,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     save() {
         this.isSaving = true;
         const etlEditObservable = !!this.etl.id
-            ? this.etlService.update(this.etl, this.etl.isAttachedFilesChanged)
+            ? this.etlService.update(this.etl)
             : this.etlService.create(this.etl);
         this.subscribeToSaveResponse(etlEditObservable);
     }
@@ -140,28 +140,6 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         return this.titlesContaner;
     }
 
-    onEtlFileUpload(event) {
-        const etlFile = JSON.parse(event.xhr.response);
-        this.etl.etlFile = etlFile;
-    }
-
-    deleteEtlFile() {
-        this.etl.etlFile = undefined;
-    }
-
-    onEtlAttachedFileUpload(event) {
-        const etlAttachedFile = JSON.parse(event.xhr.response);
-        this.etl.attachedFiles.push(etlAttachedFile);
-        this.etl.isAttachedFilesChanged = true;
-    }
-
-    deleteEtlAttachedFile(file: File) {
-        this.etl.attachedFiles = this.etl.attachedFiles.filter(
-            (attachedFile) => attachedFile.id !== file.id
-        );
-        this.etl.isAttachedFilesChanged = true;
-    }
-
     onEtlDescriptionFileUpload(event) {
         const etlDescriptionFile = JSON.parse(event.xhr.response);
         this.etl.etlDescriptionFile = etlDescriptionFile;
@@ -176,7 +154,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     }
 
     canSave(): boolean {
-        return !this.isSaving && !!this.etl.etlFile && !!this.etl.etlDescriptionFile;
+        return !this.isSaving && !!this.etl.etlDescriptionFile && !!this.etl.uriRepository;
     }
 
     private subscribeToSaveResponse(result: Observable<Etl>) {
