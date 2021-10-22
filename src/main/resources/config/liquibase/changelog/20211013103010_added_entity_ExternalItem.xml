@@ -32,9 +32,6 @@
             <column name="type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="etl_fk" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_external_items_etl_id" referencedTableName="tb_etls" referencedColumnNames="id" />
-            </column>
         </createTable>
     </changeSet>
 

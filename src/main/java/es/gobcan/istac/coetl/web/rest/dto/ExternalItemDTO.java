@@ -3,9 +3,7 @@ package es.gobcan.istac.coetl.web.rest.dto;
 import java.io.Serializable;
 
 import org.siemac.edatos.core.common.enume.TypeExternalArtefactsEnum;
-import org.siemac.metamac.rest.common.v1_0.domain.InternationalString;
 
-import es.gobcan.istac.coetl.domain.Etl.Type;
 
 public class ExternalItemDTO extends AbstractVersionedAndAuditingWithDeletionDTO implements Serializable {
 
@@ -13,9 +11,9 @@ public class ExternalItemDTO extends AbstractVersionedAndAuditingWithDeletionDTO
 
     private Long id;
     private String code;
-    private InternationalString name;
+    private String name;
     private String urn;
-
+    private TypeExternalArtefactsEnum type;
 
     public ExternalItemDTO() {
         super();
@@ -45,11 +43,19 @@ public class ExternalItemDTO extends AbstractVersionedAndAuditingWithDeletionDTO
         this.urn = urn;
     }
 
-    public InternationalString getName() {
+    public String getName() {
         return this.name;
     }
 
-    public void setName(InternationalString name) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public TypeExternalArtefactsEnum getType() {
+        return type;
+    }
+
+    public void setType(TypeExternalArtefactsEnum type) {
+        this.type = type;
     }
 }

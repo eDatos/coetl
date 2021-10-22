@@ -6,6 +6,6 @@ public interface StatisticalOperationsRestInternalFacade {
 
     public static final String BEAN_ID = "statisticalOperationsInternalFacade";
 
-    public Operations findOperations(int firstResult, int maxResult, String[] operationCodes, String criteria);
+    public Operations findOperations(int limit, int offset, String criteria);
 }
 

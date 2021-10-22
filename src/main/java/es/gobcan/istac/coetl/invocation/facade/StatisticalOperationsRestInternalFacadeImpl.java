@@ -1,6 +1,5 @@
 package es.gobcan.istac.coetl.invocation.facade;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.siemac.edatos.core.common.exception.CommonServiceExceptionParameters;
 import org.siemac.metamac.rest.common.v1_0.domain.ComparisonOperator;
@@ -20,13 +19,10 @@ public class StatisticalOperationsRestInternalFacadeImpl implements StatisticalO
     private MetamacApisLocator restApiLocator;
 
     @Override
-    public Operations findOperations(int firstResult, int maxResult, String[] operationCodes, String criteria){
+    public Operations findOperations(int limit, int offset, String criteria){
         try {
-            String limit = String.valueOf(maxResult);
-            String offset = String.valueOf(firstResult);
-            String query = buildQuery(operationCodes, criteria);
 
-            Operations findOperationsResult = restApiLocator.getStatisticalOperationsRestInternalFacadeV10().findOperations(query, "ASC", limit, offset);
+            Operations findOperationsResult = restApiLocator.getStatisticalOperationsRestInternalFacadeV10().findOperations(buildQuery(criteria), null, String.valueOf(limit), String.valueOf(offset));
 
             return findOperationsResult;
         } catch (Exception e) {
@@ -35,26 +31,14 @@ public class StatisticalOperationsRestInternalFacadeImpl implements StatisticalO
         }
     }
 
-    private String buildQuery(String[] operationCodes, String criteria) {
+    private String buildQuery(String criteria) {
         StringBuilder queryBuilder = new StringBuilder();
         if (StringUtils.isNotBlank(criteria)) {
             queryBuilder.append("(").append(OperationCriteriaPropertyRestriction.TITLE).append(" ").append(ComparisonOperator.ILIKE.name()).append(" \"").append(criteria).append("\"");
             queryBuilder.append(" ").append(LogicalOperator.OR.name()).append(" ");
             queryBuilder.append(OperationCriteriaPropertyRestriction.ID).append(" ").append(ComparisonOperator.ILIKE.name()).append(" \"").append(criteria).append("\"").append(")");
         }
-        if (ArrayUtils.isNotEmpty(operationCodes)) {
-            if (StringUtils.isNotBlank(queryBuilder.toString())) {
-                queryBuilder.append(" ").append(LogicalOperator.AND).append(" ");
-            }
-            queryBuilder.append("(");
-            for (int i = 0; i < operationCodes.length; i++) {
-                if (i != 0) {
-                    queryBuilder.append(" ").append(LogicalOperator.OR).append(" ");
-                }
-                queryBuilder.append(OperationCriteriaPropertyRestriction.ID).append(" ").append(ComparisonOperator.EQ.name()).append(" \"").append(operationCodes[i]).append("\"");
-            }
-            queryBuilder.append(")");
-        }
+
         return queryBuilder.toString();
     }
 }
