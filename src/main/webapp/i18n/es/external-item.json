@@ -1,0 +1,27 @@
+{
+    "coetlApp": {
+        "externalItem": {
+            "home": {
+                "title": "Operaciones Estadísticas"
+            },
+            "noSelected": "No hay ningúna operación estadística seleccionada.",
+            "table": {
+                "code": "Código",
+                "name": "Nombre"
+            },
+            "filters": {
+                "search": "Buscar",
+                "noResourceFound": "No se ha encontrado ningún resultado", 
+                "emptyExternalItem": "La lista esta vacía",
+                "code": {
+                    "placeholder": " Código",
+                    "label": "Código"
+                },
+                "name": {
+                    "placeholder": "Nombre",
+                    "label": "Nombre"
+                }
+            }
+        }
+    }
+}
