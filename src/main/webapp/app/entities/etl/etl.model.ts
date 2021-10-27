@@ -1,4 +1,5 @@
 import { BaseVersionedAndAuditingWithDeletionEntity } from '../../shared/model/base-versioned-auditing-with-deletion-entity';
+import { ExternalItem } from '../external-item';
 import { File } from '../file/file.model';
 
 export enum Type {
@@ -37,7 +38,8 @@ export class Etl extends EtlBase {
         public nextExecution?: Date,
         public etlDescriptionFile?: File,
         public uriRepository?: string,
-        public isAttachedFilesChanged?: boolean
+        public isAttachedFilesChanged?: boolean,
+        public externalItem?: ExternalItem
     ) {
         super();
     }

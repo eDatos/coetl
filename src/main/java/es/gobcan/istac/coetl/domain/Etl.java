@@ -2,9 +2,6 @@ package es.gobcan.istac.coetl.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -17,8 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -99,11 +95,15 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(name = "etl_description_file_fk")
     private File etlDescriptionFile;
-    
+
     @NotNull
     @Size(max = 255)
     @Column(name = "uri_repository", length = 255)
     private String uriRepository;
+
+    @ManyToOne(targetEntity = ExternalItem.class)
+    @JoinColumn(name = "external_item_fk")
+    private ExternalItem externalItem;
 
     @Override
     public Long getId() {
@@ -221,13 +221,21 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     public void setEtlDescriptionFile(File etlDescriptionFile) {
         this.etlDescriptionFile = etlDescriptionFile;
     }
-    
+
     public String getUriRepository() {
         return uriRepository;
     }
 
     public void setUriRepository(String uriRepository) {
         this.uriRepository = uriRepository;
+    }
+
+    public ExternalItem getExternalItem() {
+        return externalItem;
+    }
+
+    public void setExternalItem(ExternalItem externalItem) {
+        this.externalItem = externalItem;
     }
 
     @Override
@@ -252,10 +260,10 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     public String toString() {
         //@formatter:off
         return "Etl (" +
-                    "id = " + getId() + 
-                    ", code = " + getCode() + 
-                    ", name = " + getName() + 
-                    ", type = " + getType() + 
+                    "id = " + getId() +
+                    ", code = " + getCode() +
+                    ", name = " + getName() +
+                    ", type = " + getType() +
                 ")";
         //@formatter:on
     }
