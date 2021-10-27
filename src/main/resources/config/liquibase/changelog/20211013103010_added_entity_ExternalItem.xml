@@ -27,10 +27,10 @@
                 <constraints nullable="false" />
             </column>
             <column name="urn" type="varchar(4000)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="type" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
         </createTable>
     </changeSet>
