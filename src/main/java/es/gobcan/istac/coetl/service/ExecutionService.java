@@ -1,5 +1,7 @@
 package es.gobcan.istac.coetl.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,6 +13,6 @@ public interface ExecutionService {
     public Execution update(Execution execution);
     public Page<Execution> findAllByEtlId(Long idEtl, Pageable pageable);
     public boolean existsRunnnigOrWaitingByEtl(Long idEtl);
-    public Execution getInRunningResult();
+    public List<Execution> getInRunningResult();
     public Execution getOldestInWaitingResult();
 }

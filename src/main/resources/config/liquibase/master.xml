@@ -17,4 +17,5 @@
   <include file="config/liquibase/changelog/20180419081000_added_indexes.xml" relativeToChangelogFile="false" />
   <include file="config/liquibase/changelog/20210902083432_added_entity_EnabledToken.xml" relativeToChangelogFile="false"/>
   <include file="config/liquibase/changelog/20210920135100_change_etl_resources.xml" relativeToChangelogFile="false"/>
+  <include file="config/liquibase/changelog/20211021063900_add_idExecution_tb_executions.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>
