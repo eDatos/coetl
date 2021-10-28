@@ -17,8 +17,7 @@ import { ExternalItem, ExternalItemService } from '../external-item';
 
 @Component({
     selector: 'ac-etl-form',
-    templateUrl: 'etl-form.component.html',
-    styleUrls: ['etl-form.component.scss']
+    templateUrl: 'etl-form.component.html'
 })
 export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTitlesContainer {
     public static EVENT_NAME = 'etlListModification';
