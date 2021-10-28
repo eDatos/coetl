@@ -108,6 +108,18 @@
                         </span>
                     </dd>
                 </dl>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.stadisticalOperations.label" for="field_externalitem"> </label>
+                    <ac-autocomplete-long-list
+                        name="externalItem"
+                        [multiple]="false"
+                        [(ngModel)]="etl.externalItem"
+                        [suggestions]="externalItemsSuggestions"
+                        (completeMethod)="completeMethodStadisticalOperations($event)"
+                        [emptyMessage]="'coetlApp.externalItem.filters.emptyExternalItem' | translate"
+                        [properties]="['code','name']"
+                    ></ac-autocomplete-long-list>
+                </div>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.purpose.label" for="field_purpose"></label>
                     <textarea
@@ -122,6 +134,7 @@
                         #purposeContainer
                     ></textarea>
                 </div>
+
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.comments.label" for="field_comments"></label>
                     <textarea

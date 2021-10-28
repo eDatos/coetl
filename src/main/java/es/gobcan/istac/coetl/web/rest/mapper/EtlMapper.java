@@ -8,7 +8,7 @@ import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.web.rest.dto.EtlBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 
-@Mapper(componentModel = "spring", uses = {FileMapper.class})
+@Mapper(componentModel = "spring", uses = {FileMapper.class, ExternalItemMapper.class})
 public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
 
     @Autowired
@@ -16,6 +16,9 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
 
     @Autowired
     private FileMapper fileMapper;
+
+    @Autowired
+    private ExternalItemMapper externalItemMapper;
 
     public Etl fromId(Long id) {
         return etlRepository.findOne(id);
@@ -43,6 +46,8 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
 
         entity.setUriRepository(dto.getUriRepository());
         entity.setEtlDescriptionFile(fileMapper.toEntity(dto.getEtlDescriptionFile()));
+
+        entity.setExternalItem(externalItemMapper.toEntity(dto.getExternalItem()));
 
         entity.setOptLock(dto.getOptLock());
 

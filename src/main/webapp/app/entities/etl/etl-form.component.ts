@@ -13,6 +13,7 @@ import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
 import { EtlConfirmExecutionDialogComponent } from './etl-confirm-execution-dialog.component';
 import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
 import { File } from '../file/file.model';
+import { ExternalItem, ExternalItemService } from '../external-item';
 
 @Component({
     selector: 'ac-etl-form',
@@ -22,6 +23,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     public static EVENT_NAME = 'etlListModification';
 
     instance: EtlFormComponent;
+
+    externalItemsSuggestions: ExternalItem[] = [];
 
     etl: Etl;
     typeEnum = Type;
@@ -52,7 +55,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         private genericModalService: GenericModalService,
         private eventManager: JhiEventManager,
         private permissionService: PermissionService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private externalItemService: ExternalItemService
     ) {
         this.instance = this;
         this.fileResourceUrl = 'api/files';
@@ -193,5 +197,14 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         this.technicalInChargeContainer.adjust();
         this.commentsContainer.adjust();
         this.executionDescriptionContainer.adjust();
+    }
+
+    completeMethodStadisticalOperations(event) {
+        this.externalItemService
+            .findAll({
+                query: event.query
+            })
+            .map((res) => res.json)
+            .subscribe((operaciones) => (this.externalItemsSuggestions = operaciones));
     }
 }
