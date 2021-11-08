@@ -8,6 +8,6 @@ import es.gobcan.istac.coetl.pentaho.web.rest.dto.WebResultDTO;
 public interface PentahoExecutionService {
 
     Execution execute(Etl etl, Type type);
-    WebResultDTO runEtl(Etl etl, final String etlFilename);
-    WebResultDTO removeEtl(Etl etl, final String etlFilename);
+    WebResultDTO runEtl(Etl etl, final String etlFilename, final String idExecution);
+    WebResultDTO removeEtl(Etl etl, final String etlFilename, final String idExecution);
 }

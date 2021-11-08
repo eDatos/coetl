@@ -50,7 +50,7 @@ public class Execution implements Serializable {
     @Column(name = "start_date", nullable = false)
     private Instant startDate;
 
-    @Column(name = "finish_date", nullable = false)
+    @Column(name = "finish_date", nullable = true)
     private Instant finishDate;
 
     @NotNull
@@ -70,6 +70,9 @@ public class Execution implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "etl_fk")
     private Etl etl;
+    
+    @Column(name = "id_execution", length = 250, nullable = true)
+    private String idExecution;
 
     public Long getId() {
         return id;
@@ -133,6 +136,14 @@ public class Execution implements Serializable {
 
     public void setEtl(Etl etl) {
         this.etl = etl;
+    }
+    
+    public String getIdExecution() {
+        return idExecution;
+    }
+    
+    public void setIdExecution(String idExecution) {
+        this.idExecution = idExecution;
     }
 
     @Override
