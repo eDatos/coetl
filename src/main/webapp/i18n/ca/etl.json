@@ -1,0 +1,131 @@
+{
+    "coetlApp": {
+        "etl": {
+            "home": {
+                "title": "Registre d'ETLs",
+                "createLabel": "Crear nova ETL",
+                "createOrEditLabel": "Crear o editar ETL"
+            },
+            "menu": {
+                "title": "Registre d'ETLs"
+            },
+            "created": "S'ha creat la ETL {{ param }}",
+            "updated": "S'ha actualizat la ETL {{ param }}",
+            "deleted": "S'ha eliminat la ETL {{ param }}",
+            "delete": {
+                "question": "Segur que vol eliminar la ETL <b>{{ code }}</b>?"
+            },
+            "restore": {
+                "question": "Segur que vol resturar la ETL <b>{{ code }}</b>?"
+            },
+            "execution": {
+                "title": "Confirmar execució",
+                "question": "Segur que vol executar la ETL <b>{{ code }}</b>?"
+            },
+            "detail": {
+                "title": "ETL"
+            },
+            "code": {
+                "label": "Código",
+                "placeholder": "Introdueixi un codi"
+            },
+            "name": {
+                "label": "Nom",
+                "placeholder": "Introdueixi un nom"
+            },
+            "stadisticalOperations": {
+                "label": "Operació estadística",
+                "placeholder": "Triï l'operació estadística"
+            },
+            "purpose": {
+                "label": "Finalitat",
+                "placeholder": "Introdueixi una finalitat"
+            },
+            "organizationInCharge": {
+                "label": "Organisme responsable",
+                "placeholder": "Introdueixi un organisme responsable"
+            },
+            "functionalInCharge": {
+                "label": "Responsable funcional",
+                "placeholder": "Introdueixi un responsable funcional"
+            },
+            "technicalInCharge": {
+                "label": "Responsable tècnic",
+                "placeholder": "Introdueixi un responsable tècnic"
+            },
+            "type": {
+                "label": "Tipo",
+                "placeholder": "Introdueixi un tipus",
+                "TRANSFORMATION": "Transformation",
+                "JOB": "Job"
+            },
+            "comments": {
+                "label": "Comentaris",
+                "placeholder": "Introdueixi comentaris"
+            },
+            "executionDescription": {
+                "label": "Quan ha d'executar-se",
+                "placeholder": "Introdueixi una descripció relativa a la execució"
+            },
+            "executionPlanning": {
+                "label": "Expressión de planificació",
+                "placeholder": "Introdueixi una expressió de planificació"
+            },
+            "nextExecution": {
+                "label": "Pròxima execució"
+            },
+            "descriptionFile": {
+                "label": "Fixer descriptiu",
+                "help": "El document descriptiu haurà de ser un document PDF elaborat pel tècnic amb la descripció de la comesa de la ETL així com qualsevol altra informació que consideri necessària sobre la seva implementació."
+            },
+            "codeFile": {
+                "label": "Fixer ETL"
+            },
+            "attachedFiles": {
+                "label": "Fixers adjunts ETL",
+                "help": "Es prenen com a fixers adjunts aquells recursos usats internament per la ETL, ja siguin unes altres ETLs, imatges, CSVs, etcètera."
+            },
+            "uriRepository": {
+                "label": "Repositori Git",
+                "placeholder": "https://repositoryServer.com/etlRepository.git"
+            },
+            "state": {
+                "label": "Estat",
+                "isDeleted": "Eliminada",
+                "isNotDeleted": "Activa"
+            },
+            "planning": {
+                "label": "Planificació",
+                "isPlanning": "Planificat",
+                "isNotPlanning": "No planificat"
+            },
+            "sections": {
+                "identification": "Identificació",
+                "inCharge": "Responsables",
+                "etl": "ETL",
+                "planning": "Planificació",
+                "executions": "Execucions"
+            },
+            "filters": {
+                "code": {
+                    "placeholder": "Cerca per codi",
+                    "label": "Codi"
+                },
+                "name": {
+                    "placeholder": "Cerca per nom",
+                    "label": "Nom"
+                },
+                "type": {
+                    "placeholder": "Cerca per tipus",
+                    "label": "Tipus"
+                },
+                "organizationInCharge": {
+                    "placeholder": "Cerca per organisme responsable",
+                    "label": "Organisme responsable"
+                },
+                "isPlanned": "Incloure planificats",
+                "includeDeleted": "Incloure eliminats"
+            }
+        }
+    }
+}

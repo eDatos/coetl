@@ -1,0 +1,39 @@
+{
+    "settings": {
+        "title": "La meva compta",
+        "form": {
+            "nombre": "Nom",
+            "nombre.placeholder": "El seu nom",
+            "apellido1": "Primer llinatge",
+            "apellido2": "Segon llinatge",
+            "apellido1.placeholder": "El seu primer llinatge",
+            "apellido2.placeholder": "El seu segundo llinatge",
+            "idioma": "Idioma",
+            "button": "Guardar"
+        },
+        "messages": {
+            "error": {
+                "fail": "<strong>¡Ha ocorregut un error!</strong> Els ajustos no s'han pogut guardar.",
+                "emailexists": "<strong>¡La direcció de correu ja existeix!</strong> Per favor, triï una altra."
+            },
+            "success": "<strong>¡Ajustes guardats!</strong>",
+            "validate": {
+                "nombre": {
+                    "required": "Es requereix que introdueixi el seu nom.",
+                    "minlength": "Es requereix que el seu nom tingui almenenys 1 caràcter",
+                    "maxlength": "El seu nom no pot tenir més de 50 caràcters"
+                },
+                "apellido1": {
+                    "required": "Es requereix que introdueixi el seu primer llinatge.",
+                    "minlength": "Es requereix que el seu primer llinatge tingui almenys 1 caràcter",
+                    "maxlength": "El seu primer llinatge no pot tenir més de 50 caràcters"
+                },
+                "apellido2": {
+                    "required": "Es requereix que introdueixi el seu segon llinatge.",
+                    "minlength": "Es requereix que el seu segon linatge tingui almenys 1 caràcter",
+                    "maxlength": "El seu segon llinatge no pot tenir més de 50 caràcters"
+                }
+            }
+        }
+    }
+}

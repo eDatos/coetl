@@ -1,0 +1,96 @@
+{
+    "metrics": {
+        "title": "Mètriques d'aplicació",
+        "refresh.button": "Refrescar",
+        "filter": "Filtre",
+        "updating": "Actualitzant...",
+        "jvm": {
+            "title": "Mètriques de JVM",
+            "memory": {
+                "title": "Memòria",
+                "total": "Memòria total",
+                "heap": "Memòria del Heap",
+                "nonheap": "Memòria no Heap"
+            },
+            "threads": {
+                "title": "Fils",
+                "all": "Tot",
+                "runnable": "Executables",
+                "timedwaiting": "Temps esperat",
+                "waiting": "Esperant",
+                "blocked": "Bloquejats",
+                "dump": {
+                    "title": "Fils ",
+                    "id": "Id: ",
+                    "blockedtime": "Temps bloquejat",
+                    "blockedcount": "Comptador bloquejats",
+                    "waitedtime": "Temps en espera",
+                    "waitedcount": "Comptador en espera",
+                    "lockname": "Lock name",
+                    "stacktrace": "Stacktrace",
+                    "show": "Mostrar",
+                    "hide": "Ocultar"
+                }
+            },
+            "gc": {
+                "title": "Col·leccions de fems",
+                "marksweepcount": "Núm. marques Sweep",
+                "marksweeptime": "Temps marques Sweep ",
+                "scavengecount": "Núm. Scavenge",
+                "scavengetime": "Temps Scavenge "
+            },
+            "http": {
+                "title": "Peticions HTTP (esdeveniments per segon)",
+                "active": "Peticions actives:",
+                "total": "Peticions totals:",
+                "table": {
+                    "code": "Codi",
+                    "count": "Recompta",
+                    "mean": "Mesura",
+                    "average1": "Mitjana (1 min.)",
+                    "average5": "Mitjana(5 min.)",
+                    "average15": "Mitjana (15 min.)"
+                },
+                "code": {
+                    "ok": "Ok",
+                    "notfound": "No trobat",
+                    "servererror": "Error de servidor"
+                }
+            }
+        },
+        "servicesstats": {
+            "title": "Estadístiques de serveis(temps en mil·lisegons)",
+            "table": {
+                "name": "Nom del servei",
+                "count": "Comptador",
+                "mean": "Mesura",
+                "min": "Min.",
+                "max": "Max.",
+                "p50": "p50",
+                "p75": "p75",
+                "p95": "p95",
+                "p99": "p99"
+            }
+        },
+        "cache": {
+            "title": "Estadístiques de cache",
+            "cachename": "Nom cache",
+            "hits": "Accessos",
+            "misses": "Errades",
+            "evictions": "Comptador desallotjaments"
+        },
+        "datasource": {
+            "usage": "Ús",
+            "title": "Estadístiques de la font de dades (temps en mil·lisegons)",
+            "name": "Ús del pool",
+            "count": "Recompta",
+            "mean": "Mesura",
+            "min": "Min.",
+            "max": "Max.",
+            "p50": "p50",
+            "p75": "p75",
+            "p95": "p95",
+            "p99": "p99"
+        }
+    }
+}

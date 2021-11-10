@@ -1,0 +1,11 @@
+{
+    "configuration": {
+        "title": "Configuració",
+        "spring": "Spring configuration",
+        "filter": "Filtre (per prefixe)",
+        "table": {
+            "prefix": "Prefixe",
+            "properties": "Propietats"
+        }
+    }
+}

@@ -1,0 +1,131 @@
+{
+    "global": {
+        "title": "Consola de ETL",
+        "internalTitle": "Consola de ETL - Gestió",
+        "yes": "Sí",
+        "no": "No",
+        "browsehappy":
+            "Està usant un navegador <strong>no actualizat</strong>. Per favor, <a href=\"http://browsehappy.com/?locale=en\">actualitzi el seu navegador</a> per a millorar la seva experiència.",
+        "menu": {
+            "home": "Inici",
+            "jhipster-needle-menu-add-element":
+                "JHipster will add additional menu entries here (do not translate!)",
+            "entities": {
+                "jhipster-needle-menu-add-entry":
+                    "JHipster will add additional entities here (do not translate!)"
+            },
+            "etl": {
+                "main": "Registre de ETLs"
+            },
+            "account": {
+                "main": "Compte",
+                "settings": "Ajustos",
+                "sessions": "Sessions",
+                "login": "Iniciar sessió",
+                "logout": "Tarcar la sessió",
+                "myAccount": "El meu compte"
+            },
+            "admin": {
+                "main": "Administració",
+                "userManagement": "Gestió d'usuaris",
+                "rolManagement": "Gestió de rols",
+                "metrics": "Mètriques",
+                "health": "Salut",
+                "configuration": "Configuració",
+                "logs": "Logs",
+                "audits": "Auditories",
+                "apidocs": "API",
+                "jhipster-needle-menu-add-admin-element":
+                    "JHipster will add additional menu entries here (do not translate!)"
+            }
+        },
+        "form": {
+            "email": "Correu electrònic",
+            "email.placeholder": "El seu correu electrònic"
+        },
+        "messages": {
+            "validate": {
+                "email": {
+                    "required": "Es requereix un correu electrònic.",
+                    "invalid": "El seu correu electrònic no es vàlit.",
+                    "minlength":
+                        "Es requereix que el seu correu electrònic tingui almenys 5 caràcters",
+                    "maxlength": "El seu correu electrònic no pot tenir més de 50 caràcters"
+                }
+            }
+        },
+        "item-count": "{{first}} - {{second}} de {{total}}",
+        "pageSizeSelector": "Grandària de pàgina",
+        "loading": "Carregant"
+    },
+    "entity": {
+        "action": {
+            "back": "Tornar",
+            "cancel": "Cancel·lar",
+            "delete": "Eliminar",
+            "edit": "Editar",
+            "restore": "Restaurar",
+            "open": "Obrir",
+            "save": "Guardar",
+            "view": "Veure",
+            "filtersReset": "Reiniciar filtres",
+            "deactivate": "Desactivar",
+            "activate": "Activar",
+            "close": "Tancar",
+            "confirm": "Confirmar",
+            "execute": "Executar",
+            "ok": "Entès",
+            "help": "Ajuda"
+        },
+        "delete": {
+            "title": "Confirmar operació d'esborrat"
+        },
+        "restore": {
+            "title": "Confirmar restauració"
+        },
+        "deactivate": {
+            "title": "Confirmar desactivació"
+        },
+        "validation": {
+            "required": "Aquest camp és obligatori.",
+            "minlength": "Aqeust camp requereix almenys {{min}} caràcters.",
+            "maxlength": "Aquest camp no pot superar més de {{max}} caràcters.",
+            "min": "Aquest camp ha de ser major que {{min}}.",
+            "max": "Aquest camp no pot ser major que {{max}}.",
+            "minbytes": "Aquest camp ha de tenir com a mínim {{min}} bytes.",
+            "maxbytes": "Aquest camp no pot tenir més de {{max}} bytes.",
+            "pattern": "Aquest camp ha de seguir el patró {{pattern}}.",
+            "number": "Aquest camp ha de ser un número.",
+            "datetimelocal": "Aquest camp ha de ser una data i hora.",
+            "Instantlocal": "Aquest camp ha de ser una data i hora.",
+            "not-valid": "El valor d'aquest camp no és vàlit"
+        },
+        "list": {
+            "empty": {
+                "sorry": "Ho sentim.",
+                "detail": "No s'han obtinigut resultats que compleixin els criteris de recerca.",
+                "createNewIitem": "(Afagir nou)",
+                "writeForSuggestions": "Comenci a escriure per a suggerir resultats",
+                "selectOption": "Seleccioni una de les opcions disponibles",
+                "multiInput": "Escrigui el valor i pitgi enter per a afegir-lo"
+            }
+        },
+        "audits": {
+            "title": "Auditorias",
+            "createdBy": "Creat per",
+            "createdDate": "Data de creació",
+            "lastModifiedBy": "Modificat per",
+            "lastModifiedDate": "Data de modificació",
+            "deletedBy": "Eliminat per",
+            "deletionDate": "Data d'eliminació"
+        },
+        "calendar": {
+            "placeholder": "Seleccioni en el calendari la data desitjada"
+        }
+    },
+    "home": {
+        "pageTitle": "Benvingut",
+        "title": "Benvingut, {{user}}",
+        "detail": "Accedeixi a l'apartat desitjat a través del menú de navegació"
+    }
+}

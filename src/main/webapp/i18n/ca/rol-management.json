@@ -1,0 +1,25 @@
+{
+    "rolManagement": {
+        "home": {
+            "title": "Rols",
+            "createLabel": "Crear un nou rol",
+            "createOrEditLabel": "Crear o editar un rol"
+        },
+        "created": "S'ha creat el rol {{ param }}",
+        "updated": "S'ha actualizat el rol {{ param }}",
+        "deleted": "S'ha esborrat el rol {{ param }}",
+        "delete": {
+            "question": "Segur que vol eliminar el rol {{ nombre }}?"
+        },
+        "detail": {
+            "title": "Rol"
+        },
+        "codigo": "Codi",
+        "nombre": "Nom",
+        "operaciones": {
+            "operaciones": "Operacions",
+            "empty": "No hi han operacions per a aquest rol",
+            "operacion-leer-requerida-para-modificar": "Les operacions que impliquin modificacions sobre una entitat requereixen el corresponent permís de lectura sobre l'entitat"
+        }
+    }
+}
