@@ -109,7 +109,13 @@
                     </dd>
                 </dl>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="coetlApp.etl.stadisticalOperations.label" for="field_externalitem"> </label>
+                    <label class="form-control-label" for="field_externalitem">
+                        <span jhiTranslate="coetlApp.etl.stadisticalOperations.label"></span>
+                        <span (click)="help()">
+                            <ac-help-tooltip [position]="'bottom'" [label]="'coetlApp.externalItem.help' | translate"></ac-help-tooltip>
+                        </span>
+                    </label>
+
                     <ac-autocomplete-long-list
                         name="externalItem"
                         [multiple]="false"

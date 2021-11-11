@@ -34,16 +34,16 @@ public class ExternalItem implements Serializable {
     private Long id;
 
     @NotNull
+    @NotBlank
     @Column(name = "code", nullable = false)
     private String code;
 
     @NotNull
+    @NotBlank
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull
-    @NotBlank
-    @Column(name = "urn",length = 4000, nullable = false)
+    @Column(name = "urn",length = 4000, nullable = true)
     private String urn;
 
     @NotNull

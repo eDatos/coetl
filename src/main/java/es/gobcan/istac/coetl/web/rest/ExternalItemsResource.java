@@ -41,7 +41,7 @@ public class ExternalItemsResource extends AbstractResource {
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
     public ResponseEntity<List<ExternalItemDTO>> getList(@ApiParam Pageable pageable, @RequestParam(required = false) String query) {
-        LOG.debug("REST Request to find all statisticar operations by query : {} and including deleted : {}");
+        LOG.debug("REST Request to find all statistical operations by query : {} and including deleted : {}");
         List<ExternalItemDTO> result =  statisticalOperationsRestInternalFacade.findOperations(pageable.getPageSize(),pageable.getPageNumber(),query)
             .getOperations().stream()
             .map( operation -> externalItemMapper.toDtoFromOperation(operation, TypeExternalArtefactsEnum.STATISTICAL_OPERATION))
