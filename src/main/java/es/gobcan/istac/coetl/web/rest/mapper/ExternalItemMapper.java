@@ -33,6 +33,7 @@ public abstract class ExternalItemMapper implements EntityMapper<ExternalItemDTO
 
         externalItemDTO.setId(entity.getId());
         externalItemDTO.setCode(entity.getCode());
+        externalItemDTO.setUrn(entity.getUrn());
         externalItemDTO.setName(entity.getName());
         externalItemDTO.setType(entity.getType());
 
@@ -53,6 +54,7 @@ public abstract class ExternalItemMapper implements EntityMapper<ExternalItemDTO
         String name = operation.getName().getTexts().stream()
             .filter(localisedString -> "es".equalsIgnoreCase(localisedString.getLang()))
             .map(localisedString -> localisedString.getValue()).findFirst().get();
+        externalItemDTO.setUrn(operation.getUrn());
         externalItemDTO.setName(name);
         externalItemDTO.setType(type);
 

@@ -43,7 +43,9 @@ public class ExternalItem implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "urn",length = 4000, nullable = true)
+    @NotNull
+    @NotBlank
+    @Column(name = "urn",length = 4000, nullable = false)
     private String urn;
 
     @NotNull
