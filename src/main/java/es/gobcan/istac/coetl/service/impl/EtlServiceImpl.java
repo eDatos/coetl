@@ -88,6 +88,7 @@ public class EtlServiceImpl implements EtlService {
     public Etl update(Etl etl) {
         LOG.debug("Request to update an ETL : {}", etl);
         etlValidator.validate(etl);
+        createExternalItem(etl.getExternalItem());
         return (etl.isPlanned()) ? planifyAndSave(etl) : unplanifyAndSave(etl);
     }
 

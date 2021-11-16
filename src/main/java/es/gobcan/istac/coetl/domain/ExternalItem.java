@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.siemac.edatos.core.common.enume.TypeExternalArtefactsEnum;
 import org.siemac.edatos.core.common.enume.converter.TypeExternalArtefactsEnumConverter;
@@ -35,21 +36,34 @@ public class ExternalItem implements Serializable {
 
     @NotNull
     @NotBlank
-    @Column(name = "code", nullable = false)
+    @Column(name = "CODE", nullable = false)
     private String code;
 
     @NotNull
     @NotBlank
-    @Column(name = "name", nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name;
+
+    @Column(name = "URI", nullable = false, length = 4000)
+    @Length(max = 4000)
+    @NotNull
+    private String uri;
 
     @NotNull
     @NotBlank
-    @Column(name = "urn",length = 4000, nullable = false)
+    @Column(name = "URN",length = 4000, nullable = false)
     private String urn;
 
+    @Column(name = "URN_PROVIDER", length = 4000)
+    @Length(max = 4000)
+    private String urnProvider;
+
+    @Column(name = "MANAGEMENT_APP_URL", length = 4000)
+    @Length(max = 4000)
+    private String managementAppUrl;
+
     @NotNull
-    @Column(name = "type", nullable = false)
+    @Column(name = "TYPE", nullable = false)
     @Convert(converter = TypeExternalArtefactsEnumConverter.class)
     private TypeExternalArtefactsEnum type;
 
@@ -79,6 +93,30 @@ public class ExternalItem implements Serializable {
 
     public String getUrn() {
         return urn;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getUrnProvider() {
+        return urnProvider;
+    }
+
+    public void setUrnProvider(String urnProvider) {
+        this.urnProvider = urnProvider;
+    }
+
+    public String getManagementAppUrl() {
+        return managementAppUrl;
+    }
+
+    public void setManagementAppUrl(String managementAppUrl) {
+        this.managementAppUrl = managementAppUrl;
     }
 
     public void setUrn(String urn) {
