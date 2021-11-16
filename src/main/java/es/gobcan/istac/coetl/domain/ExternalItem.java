@@ -34,10 +34,12 @@ public class ExternalItem implements Serializable {
     private Long id;
 
     @NotNull
+    @NotBlank
     @Column(name = "code", nullable = false)
     private String code;
 
     @NotNull
+    @NotBlank
     @Column(name = "name", nullable = false)
     private String name;
 

@@ -27,6 +27,7 @@ import es.gobcan.istac.coetl.config.QuartzConstants;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Type;
+import es.gobcan.istac.coetl.domain.ExternalItem;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
@@ -36,6 +37,7 @@ import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
+import es.gobcan.istac.coetl.service.ExternalItemService;
 import es.gobcan.istac.coetl.service.validator.EtlValidator;
 import es.gobcan.istac.coetl.util.CronUtils;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
@@ -64,15 +66,24 @@ public class EtlServiceImpl implements EtlService {
     private PentahoExecutionService pentahoExecutionService;
 
     @Autowired
+    private ExternalItemService externalItemService;
+
+    @Autowired
     private SchedulerFactoryBean schedulerAccessorBean;
 
     @Override
     public Etl create(Etl etl) {
         LOG.debug("Request to create an ETL : {}", etl);
         etlValidator.validate(etl);
+        createExternalItem(etl.getExternalItem());
         return (etl.isPlanned()) ? planifyAndSave(etl) : save(etl);
     }
 
+    private void createExternalItem(ExternalItem externalItem){
+        if(externalItem != null) {
+            externalItemService.save(externalItem);
+        }
+    }
     @Override
     public Etl update(Etl etl) {
         LOG.debug("Request to update an ETL : {}", etl);
@@ -117,7 +128,7 @@ public class EtlServiceImpl implements EtlService {
         executionService.create(resultExecution);
 
     }
-    
+
     @Override
     public boolean goingToChangeRepository(EtlDTO etlDto) {
         LOG.debug("Request to check if its going to change repository from DTO: {}", etlDto);
@@ -174,7 +185,7 @@ public class EtlServiceImpl implements EtlService {
                 .withIdentity(jobKey)
                 .usingJobData(QuartzConstants.ETL_CODE_JOB_DATA, etl.getCode())
                 .build();
-        
+
         CronTrigger trigger = newTrigger()
                 .withIdentity(IDENTITY_TRIGGER_PREFIX + etl.getCode())
                 .withSchedule(cronSchedule(cronExpression))
