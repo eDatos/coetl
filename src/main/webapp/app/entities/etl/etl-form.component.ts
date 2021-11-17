@@ -199,7 +199,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         this.executionDescriptionContainer.adjust();
     }
 
-    completeMethodStadisticalOperations(event) {
+    completeMethodStatisticalOperations(event) {
         this.externalItemService
             .findAll({
                 query: event.query

@@ -1,28 +1,30 @@
 {
     "coetlApp": {
         "externalItem": {
-            "home": {
-                "title": "Operaciones Estadísticas"
-            },
-            "noSelected": "No hay ningúna operación estadística seleccionada.",
-            "table": {
-                "code": "Código",
-                "name": "Nombre"
-            },
-            "filters": {
-                "search": "Buscar",
-                "noResourceFound": "No se ha encontrado ningún resultado", 
-                "emptyExternalItem": "La lista esta vacía",
-                "code": {
-                    "placeholder": " Código",
-                    "label": "Código"
+            "statisticalOperation" : {
+                "home": {
+                    "title": "Operaciones Estadísticas"
                 },
-                "name": {
-                    "placeholder": "Nombre",
-                    "label": "Nombre"
-                }
-            },
-            "help": "La búsqueda necesitará mínimo 3 caracteres. Si desea encoentrar E30308A Encuesta de Población Activa. Por ejemplo, deberá indicar E30 ó Población/Pob."
+                "noSelected": "No hay ningúna operación estadística seleccionada.",
+                "table": {
+                    "code": "Código",
+                    "name": "Nombre"
+                },
+                "filters": {
+                    "search": "Buscar",
+                    "noResourceFound": "No se ha encontrado ningún resultado", 
+                    "emptyExternalItem": "La lista esta vacía",
+                    "code": {
+                        "placeholder": " Código",
+                        "label": "Código"
+                    },
+                    "name": {
+                        "placeholder": "Nombre",
+                        "label": "Nombre"
+                    }
+                },
+                "help": "La búsqueda necesitará mínimo 3 caracteres. Si desea encoentrar E30308A Encuesta de Población Activa. Por ejemplo, deberá indicar E30 ó Población/Pob."
+            }
         }
     }
 }
