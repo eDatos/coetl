@@ -16,7 +16,6 @@ public class EtlDTO extends EtlBaseDTO implements Serializable {
     private Instant nextExecution;
     private FileDTO etlDescriptionFile;
     private String uriRepository;
-    private ExternalItemDTO externalItem;
 
 
     public String getPurpose() {
@@ -81,14 +80,6 @@ public class EtlDTO extends EtlBaseDTO implements Serializable {
 
     public void setUriRepository(String uriRepository) {
         this.uriRepository = uriRepository;
-    }
-
-    public ExternalItemDTO getExternalItem() {
-        return externalItem;
-    }
-
-    public void setExternalItem(ExternalItemDTO externalItem) {
-        this.externalItem = externalItem;
     }
 
     @Override

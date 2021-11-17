@@ -7,6 +7,7 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
     public code: string;
     public name: string;
     public type: Type;
+    public statisticalOperation: string;
     public organizationInCharge: string;
     public isPlanned: string;
     public includeDeleted = false;
@@ -33,6 +34,12 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
             paramName: 'type',
             updateFilterFromParam: (param) => (this.type = this.convertParamToType(param)),
             clearFilter: () => (this.type = null)
+        });
+
+        this.registerParam({
+            paramName: 'statisticalOperation',
+            updateFilterFromParam: (param) => (this.statisticalOperation = param),
+            clearFilter: () => (this.statisticalOperation = null)
         });
 
         this.registerParam({
@@ -69,6 +76,9 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
         }
         if (this.type) {
             criterias.push(`TYPE EQ '${this.type}'`);
+        }
+        if (this.statisticalOperation) {
+            criterias.push(`STATISTICAL_OPERATION ILIKE '%${this.statisticalOperation}%'`);
         }
         if (this.isPlanned) {
             criterias.push(`IS_PLANNED EQ ${this.isPlanned}`);

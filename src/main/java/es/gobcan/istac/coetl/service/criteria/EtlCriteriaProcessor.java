@@ -34,7 +34,7 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        CODE, NAME, TYPE, ORGANIZATION_IN_CHARGE, IS_PLANNED
+        CODE, NAME, TYPE, ORGANIZATION_IN_CHARGE, IS_PLANNED, STATISTICAL_OPERATION
     }
 
     @Override
@@ -57,7 +57,7 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.ORGANIZATION_IN_CHARGE)
                 .withEntityProperty(ENTITY_FIELD_ORGANIZATION_IN_CHARGE)
                 .build());
-        
+
         // Restrictions
         registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.CODE)
@@ -79,6 +79,10 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.IS_PLANNED)
                 .withCriterionConverter(new IsPlannedCriterionBuilder())
                 .build());
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
+            .withQueryProperty(QueryProperty.STATISTICAL_OPERATION)
+            .withCriterionConverter(new StatisticalOperationCriterionBuilder())
+            .build());
         //@formatter:on
     }
 
@@ -129,5 +133,23 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
             String sql = "{alias}.execution_planning IS NULL";
             return Restrictions.sqlRestriction(sql);
         }
+    }
+
+    private static class StatisticalOperationCriterionBuilder implements CriterionConverter {
+
+        @Override
+        public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
+            if ("ILIKE".equals(property.getOperationType().name())) {
+                return buildEtlByExternalItem(property.getRightValue());
+            }
+            throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))
+                .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
+        }
+
+        private Criterion buildEtlByExternalItem(String value) {
+            String sql = String.format("{alias}.external_item_fk IN (SELECT ei.id FROM tb_external_items ei WHERE ei.code ILIKE '%s' OR ei.name ILIKE '%s')",value,value);
+            return Restrictions.sqlRestriction(sql);
+        }
+
     }
 }

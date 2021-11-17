@@ -20,4 +20,6 @@
   <include file="config/liquibase/changelog/20211013103010_added_entity_ExternalItem.xml" relativeToChangelogFile="false"/>
   <include file="config/liquibase/changelog/20211013110820_change_etl_add_column.xml" relativeToChangelogFile="false"/>
   <include file="config/liquibase/changelog/20211021063900_add_idExecution_tb_executions.xml" relativeToChangelogFile="false"/>
+  <include file="config/liquibase/changelog/20211110110820_change_externalitem_add_columns.xml" relativeToChangelogFile="false"/>
+
 </databaseChangeLog>

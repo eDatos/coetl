@@ -110,9 +110,9 @@
                 </dl>
                 <div class="form-group">
                     <label class="form-control-label" for="field_externalitem">
-                        <span jhiTranslate="coetlApp.etl.stadisticalOperations.label"></span>
-                        <span (click)="help()">
-                            <ac-help-tooltip [position]="'bottom'" [label]="'coetlApp.externalItem.help' | translate"></ac-help-tooltip>
+                        <span jhiTranslate="coetlApp.etl.statisticalOperation.label"></span>
+                        <span>
+                            <ac-help-tooltip [position]="'bottom'" [label]="'coetlApp.externalItem.statisticalOperation.help' | translate"></ac-help-tooltip>
                         </span>
                     </label>
 
@@ -121,8 +121,8 @@
                         [multiple]="false"
                         [(ngModel)]="etl.externalItem"
                         [suggestions]="externalItemsSuggestions"
-                        (completeMethod)="completeMethodStadisticalOperations($event)"
-                        [emptyMessage]="'coetlApp.externalItem.filters.emptyExternalItem' | translate"
+                        (completeMethod)="completeMethodStatisticalOperations($event)"
+                        [emptyMessage]="'coetlApp.externalItem.statisticalOperation.filters.emptyExternalItem' | translate"
                         [properties]="['code','name']"
                     ></ac-autocomplete-long-list>
                 </div>

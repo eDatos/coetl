@@ -68,6 +68,8 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         baseDto.setType(entity.getType());
         baseDto.setExecutionPlanning(entity.getExecutionPlanning());
 
+        baseDto.setExternalItem(externalItemMapper.toDto(entity.getExternalItem()));
+
         baseDto.setCreatedBy(entity.getCreatedBy());
         baseDto.setCreatedDate(entity.getCreatedDate());
         baseDto.setLastModifiedBy(entity.getLastModifiedBy());
