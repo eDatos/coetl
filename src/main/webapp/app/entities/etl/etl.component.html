@@ -22,23 +22,29 @@
                                 <span jhiTranslate="coetlApp.etl.code.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 25%" jhiSortBy="name">
+                            <th style="width: 20%" jhiSortBy="name">
                                 <span jhiTranslate="coetlApp.etl.name.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 30%" jhiSortBy="organization_in_charge">
+                            <th style="width: 20%" jhiSortBy="organization_in_charge">
                                 <span jhiTranslate="coetlApp.etl.organizationInCharge.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
                             <th style="width: 20%">
                                 <span jhiTranslate="coetlApp.etl.statisticalOperation.label"></span>
                             </th>
-                            <th style="width: 10%" jhiSortBy="type">
+                            <th style="width: 5%" jhiSortBy="type">
                                 <span jhiTranslate="coetlApp.etl.type.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
                             <th style="width: 10%">
                                 <span jhiTranslate="coetlApp.etl.planning.label"></span>
+                            </th>
+                            <th style="width: 5%">
+                                <span jhiTranslate="coetlApp.etl.lastExecution.label"></span>
+                            </th>
+                            <th style="width: 10%">
+                                <span jhiTranslate="coetlApp.etl.nextExecution.label"></span>
                             </th>
                         </tr>
                     </thead>
@@ -54,6 +60,8 @@
                             <td>
                                 <span class="badge" [ngClass]="{ 'badge-success': etl.isPlanning(), 'badge-warning': !etl.isPlanning() }">{{ getPlanningMessage(etl) }}</span>
                             </td>
+                            <td></td>
+                            <td>{{etl.nextExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                         </tr>
                     </tbody>
                 </table>
