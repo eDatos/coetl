@@ -13,7 +13,7 @@ import es.gobcan.istac.coetl.web.rest.dto.ExternalItemDTO;
 @Mapper(componentModel = "spring", uses = {})
 public abstract class ExternalItemMapper implements EntityMapper<ExternalItemDTO, ExternalItem> {
 
-    public static final String ES = "es";
+    public static final String LANGUAGE_ES = "es";
 
     @Autowired
     private ExternalItemRepository externalItemRepository;
@@ -57,7 +57,7 @@ public abstract class ExternalItemMapper implements EntityMapper<ExternalItemDTO
         externalItemDTO.setId(entity != null ? entity.getId() : null);
         externalItemDTO.setCode(resourceInternal.getId());
         String name = resourceInternal.getName().getTexts().stream()
-            .filter(localisedString -> ES.equalsIgnoreCase(localisedString.getLang()))
+            .filter(localisedString -> LANGUAGE_ES.equalsIgnoreCase(localisedString.getLang()))
             .map(localisedString -> localisedString.getValue()).findFirst().get();
         externalItemDTO.setUrn(resourceInternal.getUrn());
         externalItemDTO.setName(name);
