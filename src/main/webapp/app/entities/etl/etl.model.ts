@@ -16,7 +16,8 @@ export class EtlBase extends BaseVersionedAndAuditingWithDeletionEntity {
         public type?: Type,
         public executionPlanning?: string,
         public externalItem?: ExternalItem,
-        public nextExecution?: Date
+        public nextExecution?: Date,
+        public lastExecution?: Date
     ) {
         super();
     }

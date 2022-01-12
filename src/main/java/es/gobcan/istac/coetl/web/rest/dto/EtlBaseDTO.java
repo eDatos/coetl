@@ -16,7 +16,9 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
     private Type type;
     private String executionPlanning;
     private Instant nextExecution;
+    private Instant lastExecution;
     private ExternalItemDTO externalItem;
+
 
     public EtlBaseDTO() {
         super();
@@ -70,12 +72,20 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
         this.executionPlanning = executionPlanning;
     }
 
-    public Instant getNextExecution() {
-        return nextExecution;
+    public Instant getLastExecution() {
+        return lastExecution;
+    }
+
+    public void setLastExecution(Instant lastExecution) {
+        this.lastExecution = lastExecution;
     }
 
     public void setNextExecution(Instant nextExecution) {
         this.nextExecution = nextExecution;
+    }
+
+    public Instant getNextExecution() {
+        return nextExecution;
     }
 
     public ExternalItemDTO getExternalItem() {
@@ -86,3 +96,4 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
         this.externalItem = externalItem;
     }
 }
+

@@ -60,7 +60,8 @@
                             <td>
                                 <span class="badge" [ngClass]="{ 'badge-success': etl.isPlanning(), 'badge-warning': !etl.isPlanning() }">{{ getPlanningMessage(etl) }}</span>
                             </td>
-                            <td></td>
+
+                            <td>{{etl.lastExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                             <td>{{etl.nextExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                         </tr>
                     </tbody>
