@@ -14,7 +14,10 @@ export class EtlBase extends BaseVersionedAndAuditingWithDeletionEntity {
         public name?: string,
         public organizationInCharge?: string,
         public type?: Type,
-        public executionPlanning?: string
+        public executionPlanning?: string,
+        public externalItem?: ExternalItem,
+        public nextExecution?: Date,
+        public lastExecution?: Date
     ) {
         super();
     }
@@ -35,11 +38,9 @@ export class Etl extends EtlBase {
         public technicalInCharge?: string,
         public comments?: string,
         public executionDescription?: string,
-        public nextExecution?: Date,
         public etlDescriptionFile?: File,
         public uriRepository?: string,
-        public isAttachedFilesChanged?: boolean,
-        public externalItem?: ExternalItem
+        public isAttachedFilesChanged?: boolean
     ) {
         super();
     }

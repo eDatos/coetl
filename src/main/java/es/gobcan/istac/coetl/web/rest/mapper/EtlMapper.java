@@ -4,7 +4,9 @@ import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import es.gobcan.istac.coetl.domain.Etl;
+import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.repository.EtlRepository;
+import es.gobcan.istac.coetl.repository.ExecutionRepository;
 import es.gobcan.istac.coetl.web.rest.dto.EtlBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 
@@ -13,6 +15,9 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
 
     @Autowired
     private EtlRepository etlRepository;
+
+    @Autowired
+    private ExecutionRepository executionRepository;
 
     @Autowired
     private FileMapper fileMapper;
@@ -67,7 +72,9 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         baseDto.setOrganizationInCharge(entity.getOrganizationInCharge());
         baseDto.setType(entity.getType());
         baseDto.setExecutionPlanning(entity.getExecutionPlanning());
-
+        baseDto.setNextExecution(entity.getNextExecution());
+        setLastExecution(entity,baseDto);
+        baseDto.setExternalItem(externalItemMapper.toDto(entity.getExternalItem()));
         baseDto.setCreatedBy(entity.getCreatedBy());
         baseDto.setCreatedDate(entity.getCreatedDate());
         baseDto.setLastModifiedBy(entity.getLastModifiedBy());
@@ -78,5 +85,12 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         baseDto.setOptLock(entity.getOptLock());
 
         return baseDto;
+    }
+
+    private void setLastExecution(Etl entity, EtlBaseDTO baseDto){
+        Execution execution = executionRepository.findFirstByEtlId(entity.getId());
+        if(execution != null){
+            baseDto.setLastExecution(execution.getStartDate());
+        }
     }
 }

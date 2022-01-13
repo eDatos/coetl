@@ -13,6 +13,8 @@ import es.gobcan.istac.coetl.web.rest.dto.ExternalItemDTO;
 @Mapper(componentModel = "spring", uses = {})
 public abstract class ExternalItemMapper implements EntityMapper<ExternalItemDTO, ExternalItem> {
 
+    public static final String LANGUAGE_ES = "es";
+
     @Autowired
     private ExternalItemRepository externalItemRepository;
 
@@ -35,27 +37,32 @@ public abstract class ExternalItemMapper implements EntityMapper<ExternalItemDTO
         externalItemDTO.setCode(entity.getCode());
         externalItemDTO.setUrn(entity.getUrn());
         externalItemDTO.setName(entity.getName());
+        externalItemDTO.setUri(entity.getUri());
+        externalItemDTO.setUrnProvider(entity.getUrnProvider());
+        externalItemDTO.setManagementAppUrl(entity.getManagementAppUrl());
         externalItemDTO.setType(entity.getType());
 
         return externalItemDTO;
     }
 
-    public ExternalItemDTO toDtoFromOperation(ResourceInternal operation, TypeExternalArtefactsEnum type) {
-        if (operation == null) {
+    public ExternalItemDTO toDtoFromOperation(ResourceInternal resourceInternal, TypeExternalArtefactsEnum type) {
+        if (resourceInternal == null) {
             return null;
         }
 
-        ExternalItem entity = StringUtils.isNotEmpty(operation.getId()) ? fromCode(operation.getId()) : null;
+        ExternalItem entity = StringUtils.isNotEmpty(resourceInternal.getId()) ? fromCode(resourceInternal.getId()) : null;
 
         ExternalItemDTO externalItemDTO = new ExternalItemDTO();
 
         externalItemDTO.setId(entity != null ? entity.getId() : null);
-        externalItemDTO.setCode(operation.getId());
-        String name = operation.getName().getTexts().stream()
-            .filter(localisedString -> "es".equalsIgnoreCase(localisedString.getLang()))
+        externalItemDTO.setCode(resourceInternal.getId());
+        String name = resourceInternal.getName().getTexts().stream()
+            .filter(localisedString -> LANGUAGE_ES.equalsIgnoreCase(localisedString.getLang()))
             .map(localisedString -> localisedString.getValue()).findFirst().get();
-        externalItemDTO.setUrn(operation.getUrn());
+        externalItemDTO.setUrn(resourceInternal.getUrn());
         externalItemDTO.setName(name);
+        externalItemDTO.setUri(resourceInternal.getSelfLink().getHref());
+        externalItemDTO.setManagementAppUrl(resourceInternal.getManagementAppLink());
         externalItemDTO.setType(type);
 
         return externalItemDTO;
@@ -72,6 +79,9 @@ public abstract class ExternalItemMapper implements EntityMapper<ExternalItemDTO
         entity.setCode(dto.getCode());
         entity.setName(dto.getName());
         entity.setUrn(dto.getUrn());
+        entity.setUri(dto.getUri());
+        entity.setUrnProvider(dto.getUrnProvider());
+        entity.setManagementAppUrl(dto.getManagementAppUrl());
         entity.setType(dto.getType());
 
         return entity;

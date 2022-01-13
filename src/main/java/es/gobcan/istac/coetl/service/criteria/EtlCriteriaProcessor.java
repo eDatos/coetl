@@ -18,6 +18,7 @@ import es.gobcan.istac.coetl.domain.Etl.Type;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.service.criteria.util.CriteriaUtil;
+import es.gobcan.istac.coetl.util.StringUtils;
 
 public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
 
@@ -34,7 +35,7 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
     }
 
     public enum QueryProperty {
-        CODE, NAME, TYPE, ORGANIZATION_IN_CHARGE, IS_PLANNED
+        CODE, NAME, TYPE, ORGANIZATION_IN_CHARGE, IS_PLANNED, STATISTICAL_OPERATION, LAST_EXECUTION, NEXT_EXECUTION
     }
 
     @Override
@@ -57,7 +58,7 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.ORGANIZATION_IN_CHARGE)
                 .withEntityProperty(ENTITY_FIELD_ORGANIZATION_IN_CHARGE)
                 .build());
-        
+
         // Restrictions
         registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
                 .withQueryProperty(QueryProperty.CODE)
@@ -79,6 +80,18 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
                 .withQueryProperty(QueryProperty.IS_PLANNED)
                 .withCriterionConverter(new IsPlannedCriterionBuilder())
                 .build());
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
+            .withQueryProperty(QueryProperty.STATISTICAL_OPERATION)
+            .withCriterionConverter(new StatisticalOperationCriterionBuilder())
+            .build());
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
+            .withQueryProperty(QueryProperty.NEXT_EXECUTION)
+            .withCriterionConverter(new NextExecutionCriterionBuilder())
+            .build());
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.stringRestrictionProcessor()
+            .withQueryProperty(QueryProperty.LAST_EXECUTION)
+            .withCriterionConverter(new LastExecutionCriterionBuilder())
+            .build());
         //@formatter:on
     }
 
@@ -127,6 +140,60 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
 
         private Criterion buildEtlByIsNotPlanned() {
             String sql = "{alias}.execution_planning IS NULL";
+            return Restrictions.sqlRestriction(sql);
+        }
+    }
+
+    private static class StatisticalOperationCriterionBuilder implements CriterionConverter {
+
+        @Override
+        public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
+            if ("ILIKE".equals(property.getOperationType().name())) {
+                return buildEtlByExternalItem(property.getRightValue());
+            }
+            throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))
+                .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
+        }
+
+        private Criterion buildEtlByExternalItem(String value) {
+            String sql = String.format("{alias}.external_item_fk IN (SELECT ei.id FROM tb_external_items ei WHERE ei.code ILIKE '%s' OR ei.name ILIKE '%s')",value,value);
+            return Restrictions.sqlRestriction(sql);
+        }
+
+    }
+
+    private static class NextExecutionCriterionBuilder implements CriterionConverter {
+
+        @Override
+        public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
+            if ("EQ".equals(property.getOperationType().name())) {
+                return buildEtlByNextExecution(property.getRightExpression());
+            }
+            throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))
+                .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
+        }
+
+        private Criterion buildEtlByNextExecution(String value) {
+            String dateValue = StringUtils.changeFormatStringDate(value);
+            String sql = String.format("date({alias}.next_execution) = '%s'", dateValue);
+            return Restrictions.sqlRestriction(sql);
+        }
+    }
+
+    private static class LastExecutionCriterionBuilder implements CriterionConverter {
+
+        @Override
+        public Criterion convertToCriterion(QueryPropertyRestriction property, CriteriaProcessorContext context) {
+            if ("EQ".equals(property.getOperationType().name())) {
+                return buildEtlByLastExecution(property.getRightExpression());
+            }
+            throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))
+                .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
+        }
+
+        private Criterion buildEtlByLastExecution(String value) {
+            String dateValue = StringUtils.changeFormatStringDate(value);
+            String sql = String.format("{alias}.id IN (SELECT execution.etl_fk FROM tb_executions execution WHERE date(execution.start_date) = '%s')",dateValue);
             return Restrictions.sqlRestriction(sql);
         }
     }

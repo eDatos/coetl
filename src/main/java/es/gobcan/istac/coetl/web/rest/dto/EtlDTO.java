@@ -1,7 +1,6 @@
 package es.gobcan.istac.coetl.web.rest.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 
 public class EtlDTO extends EtlBaseDTO implements Serializable {
@@ -13,10 +12,8 @@ public class EtlDTO extends EtlBaseDTO implements Serializable {
     private String technicalInCharge;
     private String comments;
     private String executionDescription;
-    private Instant nextExecution;
     private FileDTO etlDescriptionFile;
     private String uriRepository;
-    private ExternalItemDTO externalItem;
 
 
     public String getPurpose() {
@@ -59,14 +56,6 @@ public class EtlDTO extends EtlBaseDTO implements Serializable {
         this.executionDescription = executionDescription;
     }
 
-    public Instant getNextExecution() {
-        return nextExecution;
-    }
-
-    public void setNextExecution(Instant nextExecution) {
-        this.nextExecution = nextExecution;
-    }
-
     public FileDTO getEtlDescriptionFile() {
         return etlDescriptionFile;
     }
@@ -81,14 +70,6 @@ public class EtlDTO extends EtlBaseDTO implements Serializable {
 
     public void setUriRepository(String uriRepository) {
         this.uriRepository = uriRepository;
-    }
-
-    public ExternalItemDTO getExternalItem() {
-        return externalItem;
-    }
-
-    public void setExternalItem(ExternalItemDTO externalItem) {
-        this.externalItem = externalItem;
     }
 
     @Override
