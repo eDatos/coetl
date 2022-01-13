@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { BaseEntityFilter, EntityFilter } from '../../../shared';
 import { Type } from '../etl.model';
 
@@ -10,9 +11,11 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
     public statisticalOperation: string;
     public organizationInCharge: string;
     public isPlanned: string;
+    public nextExecution: Date;
+    public lastExecution: Date;
     public includeDeleted = false;
 
-    constructor() {
+    constructor(public datePipe: DatePipe) {
         super();
         this.allTypes = Object.keys(Type);
     }
@@ -59,6 +62,18 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
             updateFilterFromParam: (param) => (this.includeDeleted = param === 'true'),
             clearFilter: () => (this.includeDeleted = false)
         });
+
+        this.registerParam({
+            paramName: 'nextExecution',
+            updateFilterFromParam: (param) => (this.nextExecution = param),
+            clearFilter: () => (this.nextExecution = null)
+        });
+
+        this.registerParam({
+            paramName: 'lastExecution',
+            updateFilterFromParam: (param) => (this.lastExecution = param),
+            clearFilter: () => (this.lastExecution = null)
+        });
     }
 
     private convertParamToType(param: any): Type {
@@ -85,6 +100,12 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
         }
         if (this.organizationInCharge) {
             criterias.push(`ORGANIZATION_IN_CHARGE ILIKE '%${this.organizationInCharge}%'`);
+        }
+        if (this.nextExecution) {
+            criterias.push(`NEXT_EXECUTION EQ '${this.nextExecution}'`);
+        }
+        if (this.lastExecution) {
+            criterias.push(`LAST_EXECUTION EQ '${this.lastExecution}'`);
         }
 
         return criterias;

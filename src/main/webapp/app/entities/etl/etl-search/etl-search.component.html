@@ -61,6 +61,15 @@
     </div>
 
     <div class="entity-search-field">
+        <label jhiTranslate="coetlApp.etl.lastExecution.label"></label>
+        <ac-calendar class="form-control" [(ngModel)]="filters.lastExecution" (onSelect)="filter()"></ac-calendar>
+    </div>
+    <div class="entity-search-field">
+        <label jhiTranslate="coetlApp.etl.nextExecution.label"></label>
+        <ac-calendar class="form-control" [(ngModel)]="filters.nextExecution" (onSelect)="filter()"></ac-calendar>
+    </div>
+
+    <div class="entity-search-field">
         <label jhiTranslate="coetlApp.etl.filters.includeDeleted"></label>
         <ac-tri-input-switch [(ngModel)]="filters.includeDeleted" (onChange)="filter()" [required]="true"></ac-tri-input-switch>
     </div>
