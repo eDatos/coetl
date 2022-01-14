@@ -21,13 +21,6 @@ export interface RolCAS {
 
 export class UserCAS {
     private readonly ACL_APP_NAME: string = 'GESTOR_CONSOLA_ETL';
-    constructor(public login: string, public roles: RolCAS[]) {}
-
-    public hasRole(rol: Rol): boolean {
-        return this.roles.some(
-            (userRol) => userRol.app === this.ACL_APP_NAME && userRol.role === rol
-        );
-    }
 
     public static fromJwt(token: string) {
         const payload: { sub: string; auth: string; exp: string } = jwtDecode(token);
@@ -36,5 +29,13 @@ export class UserCAS {
             return { app, role } as RolCAS;
         });
         return new UserCAS(payload.sub, rolesCas);
+    }
+
+    constructor(public login: string, public roles: RolCAS[]) {}
+
+    public hasRole(rol: Rol): boolean {
+        return this.roles.some(
+            (userRol) => userRol.app === this.ACL_APP_NAME && userRol.role === rol
+        );
     }
 }
