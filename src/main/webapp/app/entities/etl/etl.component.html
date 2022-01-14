@@ -53,7 +53,7 @@
                             <td>{{etl.code}}</td>
                             <td>{{etl.name}}</td>
                             <td>{{etl.organizationInCharge}}</td>
-                            <td>{{etl.externalItem.code}} {{etl.externalItem.name}}</td>
+                            <td>{{etl.externalItem?.code}} {{etl.externalItem?.name}}</td>
                             <td>
                                 <span class="badge badge-info">{{ getTypeName(etl) }}</span>
                             </td>
