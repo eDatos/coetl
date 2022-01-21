@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ExternalItem } from '../../../entities/external-item';
 import { Principal } from './principal.service';
 import { Rol } from './rol.model';
 
@@ -18,7 +19,10 @@ export class PermissionService {
         return this.principal.rolesRutaMatchesRolesUsuario(READ_ETL_ROLES);
     }
 
-    canManageEtl(): boolean {
-        return this.principal.rolesRutaMatchesRolesUsuario(MANAGE_ETL_ROLES);
+    canManageEtl(operation?: ExternalItem): boolean {
+        return this.principal.rolesRutaMatchesRolesUsuarioAllowedOperation(
+            MANAGE_ETL_ROLES,
+            operation
+        );
     }
 }

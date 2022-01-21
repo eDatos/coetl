@@ -17,6 +17,7 @@ export class Account {
 export interface RolCAS {
     app: string;
     role: string;
+    operation?: string;
 }
 
 export class UserCAS {
@@ -25,8 +26,8 @@ export class UserCAS {
     public static fromJwt(token: string) {
         const payload: { sub: string; auth: string; exp: string } = jwtDecode(token);
         const rolesCas = payload.auth.split(',').map((appRole) => {
-            const [app, role] = appRole.split('#', 2);
-            return { app, role } as RolCAS;
+            const [app, role, operation] = appRole.split('#', 3);
+            return { app, role, operation } as RolCAS;
         });
         return new UserCAS(payload.sub, rolesCas);
     }

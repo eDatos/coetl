@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { UserCAS } from '../user/account.model';
 import { Rol } from './rol.model';
 import { AuthServerProvider } from './auth-jwt.service';
+import { ExternalItem } from '../../../entities/external-item';
 
 @Injectable()
 export class Principal {
@@ -33,6 +34,33 @@ export class Principal {
             return false;
         }
         return rolesRuta.filter((rolRuta) => this.userIdentity.hasRole(rolRuta)).length >= 1;
+    }
+
+    rolesRutaMatchesRolesUsuarioAllowedOperation(rolesRuta: Rol[], operation?: ExternalItem) {
+        rolesRuta = rolesRuta || [];
+        if (rolesRuta.length === 0) {
+            return true;
+        }
+        if (!this.userIdentity || !this.userIdentity.roles) {
+            return false;
+        }
+        if (operation == null) {
+            return (
+                rolesRuta.filter(
+                    (rolRuta) =>
+                        this.userIdentity.hasRole(rolRuta) &&
+                        this.userIdentity.roles.find((rol) => rol.operation == null)
+                ).length >= 1
+            );
+        }
+
+        return (
+            rolesRuta.filter(
+                (rolRuta) =>
+                    this.userIdentity.hasRole(rolRuta) &&
+                    this.userIdentity.roles.find((rol) => rol.operation === operation.code)
+            ).length >= 1
+        );
     }
 
     identity(): Promise<any> {
