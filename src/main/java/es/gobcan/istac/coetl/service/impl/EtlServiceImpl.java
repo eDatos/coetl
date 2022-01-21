@@ -6,6 +6,8 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +42,7 @@ import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ExternalItemService;
 import es.gobcan.istac.coetl.service.validator.EtlValidator;
 import es.gobcan.istac.coetl.util.CronUtils;
+import es.gobcan.istac.coetl.web.rest.dto.EtlBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 import es.gobcan.istac.coetl.web.rest.util.QueryUtil;
 
@@ -141,6 +144,21 @@ public class EtlServiceImpl implements EtlService {
             return false;
         }
         return true;
+    }
+
+    public List<EtlBaseDTO> filteredListByRolOperationAllowed(List<EtlBaseDTO> etls){
+        List<EtlBaseDTO> filtered = new ArrayList<EtlBaseDTO>();
+        if(!es.gobcan.istac.coetl.security.SecurityUtils.isAdmin()) {
+            for (EtlBaseDTO etl : etls) {
+                if (etl.getExternalItem() == null ||
+                    es.gobcan.istac.coetl.security.SecurityUtils.haveAccessToOperationInRol(etl.getExternalItem().getCode())){
+                    filtered.add(etl);
+                }
+            }
+            return filtered;
+        }else{
+            return etls;
+        }
     }
 
     private Etl planifyAndSave(Etl etl) {

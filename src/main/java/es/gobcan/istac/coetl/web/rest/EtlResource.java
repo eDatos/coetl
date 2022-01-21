@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -13,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -192,7 +194,13 @@ public class EtlResource extends AbstractResource {
     @PreAuthorize("@secChecker.canReadEtl(authentication)")
     public ResponseEntity<List<EtlBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable) {
         LOG.debug("REST Request to find all ETLs by query : {} and including deleted : {}", query, includeDeleted);
-        Page<EtlBaseDTO> page = etlService.findAll(query, includeDeleted, pageable).map(etlMapper::toBaseDto);
+        Page<Etl> etls = etlService.findAll(query, includeDeleted, pageable);
+        List<EtlBaseDTO> etlBaseDto = etls.getContent().stream()
+            .map(etlMapper::toBaseDto)
+            .collect(Collectors.toList());
+
+        Page<EtlBaseDTO> page = new PageImpl<EtlBaseDTO>(etlService.filteredListByRolOperationAllowed(etlBaseDto));
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI);
 
         return ResponseEntity.ok().headers(headers).body(page.getContent());
