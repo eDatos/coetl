@@ -40,7 +40,6 @@ public final class SecurityUtils {
             String application = appRole[0];
             String roleName = appRole[1];
 
-
             return application.equals(ACL_APP_NAME) && Rol.ADMINISTRADOR.name().equalsIgnoreCase(roleName);
         });
     }
@@ -53,13 +52,9 @@ public final class SecurityUtils {
             String application = appRole[0];
             String roleName = appRole[1];
 
-            String operation = null;
             if (appRole.length == 3) {
-                operation = appRole[2];
-                if (operation.length() == 0) {
-                    operation = null;
-                }
-                String finalOperation = operation;
+                String finalOperation = appRole[2].length() == 0? null: appRole[2];
+
                 return application.equals(ACL_APP_NAME)
                     && Arrays.stream(Rol.values()).anyMatch(role -> Objects.equals(role.name(), roleName))
                     && finalOperation.equalsIgnoreCase(codeOperation);
