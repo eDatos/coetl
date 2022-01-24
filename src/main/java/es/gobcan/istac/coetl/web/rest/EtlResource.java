@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -14,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -94,7 +92,7 @@ public class EtlResource extends AbstractResource {
         }
 
         Etl createdEtl = etlService.create(etlMapper.toEntity(etlDTO));
-                
+
         if (StringUtils.isNoneBlank(etlDTO.getUriRepository())) {
             String repositoryPath = pentahoGitService.cloneRepository(createdEtl);
             if (repositoryPath == null) {
@@ -121,13 +119,13 @@ public class EtlResource extends AbstractResource {
         }
 
         boolean repositoryGoingToChange = etlService.goingToChangeRepository(etlDTO);
-        
+
         Etl currentEtl = etlMapper.toEntity(etlDTO);
         if (currentEtl.isDeleted()) {
             return ResponseEntity.badRequest()
                     .headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ENTITY_DELETED, String.format(ETL_IS_DELETED_MESSAGE, currentEtl.getId().toString()))).build();
         }
-        
+
         Etl updatedEtl = etlService.update(currentEtl);
 
         if (repositoryGoingToChange) {
@@ -136,7 +134,7 @@ public class EtlResource extends AbstractResource {
                 CustomExceptionUtil.throwCustomParameterizedException("An error ocurred updating repository", ErrorConstants.ETL_REPLACE_REPOSITORY);
             }
         }
-        
+
         EtlDTO result = etlMapper.toDto(updatedEtl);
         auditEventPublisher.publish(AuditConstants.ETL_UPDATED, result.getCode());
 
@@ -194,12 +192,7 @@ public class EtlResource extends AbstractResource {
     @PreAuthorize("@secChecker.canReadEtl(authentication)")
     public ResponseEntity<List<EtlBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable) {
         LOG.debug("REST Request to find all ETLs by query : {} and including deleted : {}", query, includeDeleted);
-        Page<Etl> etls = etlService.findAll(query, includeDeleted, pageable);
-        List<EtlBaseDTO> etlBaseDto = etls.getContent().stream()
-            .map(etlMapper::toBaseDto)
-            .collect(Collectors.toList());
-
-        Page<EtlBaseDTO> page = new PageImpl<EtlBaseDTO>(etlService.filteredListByRolOperationAllowed(etlBaseDto));
+        Page<EtlBaseDTO> page = etlService.findAll(query, includeDeleted, pageable).map(etlMapper::toBaseDto);
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI);
 
