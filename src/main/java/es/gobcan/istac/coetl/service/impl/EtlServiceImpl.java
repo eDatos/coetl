@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,6 @@ import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ExternalItemService;
 import es.gobcan.istac.coetl.service.validator.EtlValidator;
 import es.gobcan.istac.coetl.util.CronUtils;
-import es.gobcan.istac.coetl.web.rest.dto.EtlBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 import es.gobcan.istac.coetl.web.rest.util.QueryUtil;
 
@@ -122,7 +122,7 @@ public class EtlServiceImpl implements EtlService {
     public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable) {
         LOG.debug("Request to find all ETLs by query : {}", query);
         DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable);
-        return etlRepository.findAll(criteria, pageable);
+        return filteredListByRolOperationAllowed(etlRepository.findAll(criteria, pageable));
     }
 
     @Override
@@ -146,16 +146,16 @@ public class EtlServiceImpl implements EtlService {
         return true;
     }
 
-    public List<EtlBaseDTO> filteredListByRolOperationAllowed(List<EtlBaseDTO> etls){
-        List<EtlBaseDTO> filtered = new ArrayList<EtlBaseDTO>();
+    private Page<Etl> filteredListByRolOperationAllowed(Page<Etl> etls){
+        List<Etl> filtered = new ArrayList<Etl>();
         if(!es.gobcan.istac.coetl.security.SecurityUtils.isAdmin()) {
-            for (EtlBaseDTO etl : etls) {
+            for (Etl etl : etls.getContent()) {
                 if (etl.getExternalItem() == null ||
-                    es.gobcan.istac.coetl.security.SecurityUtils.haveAccessToOperationInRol(etl.getExternalItem().getCode())){
+                    SecurityUtils.haveAccessToOperationInRol(etl.getExternalItem().getCode())){
                     filtered.add(etl);
                 }
             }
-            return filtered;
+            return new PageImpl<>(filtered);
         }else{
             return etls;
         }
