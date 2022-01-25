@@ -20,9 +20,6 @@ export class PermissionService {
     }
 
     canManageEtl(operation?: ExternalItem): boolean {
-        return this.principal.rolesRutaMatchesRolesUsuarioAllowedOperation(
-            MANAGE_ETL_ROLES,
-            operation
-        );
+        return this.principal.rolesRutaMatchesRolesUsuario(MANAGE_ETL_ROLES, operation);
     }
 }

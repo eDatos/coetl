@@ -1,5 +1,6 @@
 import { Rol } from '../auth/rol.model';
 import * as jwtDecode from 'jwt-decode';
+import { ExternalItem } from '../../../entities/external-item';
 
 export class Account {
     constructor(
@@ -34,9 +35,24 @@ export class UserCAS {
 
     constructor(public login: string, public roles: RolCAS[]) {}
 
-    public hasRole(rol: Rol): boolean {
+    public hasRole(rol: Rol, operation?: ExternalItem): boolean {
+        if (operation != null && !this.isAdminRole(rol)) {
+            return this.roles.some(
+                (userRol) =>
+                    userRol.app === this.ACL_APP_NAME &&
+                    userRol.role === rol &&
+                    userRol.operation === operation.code
+            );
+        }
         return this.roles.some(
-            (userRol) => userRol.app === this.ACL_APP_NAME && userRol.role === rol
+            (userRol) =>
+                userRol.app === this.ACL_APP_NAME && userRol.role === rol && !userRol.operation
+        );
+    }
+
+    private isAdminRole(rol: Rol): boolean {
+        return this.roles.some(
+            (userRol) => userRol.app === this.ACL_APP_NAME && userRol.role === Rol.ADMINISTRADOR
         );
     }
 }
