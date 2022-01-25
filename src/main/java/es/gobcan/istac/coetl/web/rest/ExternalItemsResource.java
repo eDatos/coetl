@@ -1,9 +1,7 @@
 package es.gobcan.istac.coetl.web.rest;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.siemac.edatos.core.common.enume.TypeExternalArtefactsEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
-import es.gobcan.istac.coetl.invocation.facade.StatisticalOperationsRestInternalFacade;
+import es.gobcan.istac.coetl.service.ExternalItemService;
 import es.gobcan.istac.coetl.web.rest.dto.ExternalItemDTO;
-import es.gobcan.istac.coetl.web.rest.mapper.ExternalItemMapper;
 import io.swagger.annotations.ApiParam;
 
 @RestController
@@ -28,13 +25,10 @@ public class ExternalItemsResource extends AbstractResource {
     private static final Logger LOG = LoggerFactory.getLogger(ExternalItemsResource.class);
     public static final String BASE_URI = "/api/external-item";
 
+    private final ExternalItemService externalItemService;
 
-    private final StatisticalOperationsRestInternalFacade statisticalOperationsRestInternalFacade;
-    private final ExternalItemMapper externalItemMapper;
-
-    public ExternalItemsResource(StatisticalOperationsRestInternalFacade statisticalOperationsRestInternalFacade, ExternalItemMapper externalItemMapper) {
-        this.statisticalOperationsRestInternalFacade = statisticalOperationsRestInternalFacade;
-        this.externalItemMapper = externalItemMapper;
+    public ExternalItemsResource(ExternalItemService externalItemService) {
+        this.externalItemService = externalItemService;
     }
 
     @GetMapping("/statistical-operations")
@@ -42,10 +36,7 @@ public class ExternalItemsResource extends AbstractResource {
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
     public ResponseEntity<List<ExternalItemDTO>> getList(@ApiParam Pageable pageable, @RequestParam(required = false) String query) {
         LOG.debug("REST Request to find all statistical operations by query : {} and including deleted : {}");
-        List<ExternalItemDTO> result =  statisticalOperationsRestInternalFacade.findOperations(pageable.getPageSize(),pageable.getPageNumber(),query)
-            .getOperations().stream()
-            .map( operation -> externalItemMapper.toDtoFromOperation(operation, TypeExternalArtefactsEnum.STATISTICAL_OPERATION))
-            .collect(Collectors.toList());
+        List<ExternalItemDTO> result =  externalItemService.findOperations(pageable, query);
 
         return ResponseEntity.ok().body(result);
     }
