@@ -25,7 +25,8 @@ export class Principal {
         return Promise.resolve(this.rolesRutaMatchesRolesUsuario(rolesRuta));
     }
 
-    rolesRutaMatchesRolesUsuario(rolesRuta: Rol[]) {
+    rolesRutaMatchesRolesUsuario(rolesRuta: Rol[], operation?: ExternalItem) {
+        // Rol is determined by the statistical operation associated to ETL.
         rolesRuta = rolesRuta || [];
         if (rolesRuta.length === 0) {
             return true;
@@ -33,33 +34,8 @@ export class Principal {
         if (!this.userIdentity || !this.userIdentity.roles) {
             return false;
         }
-        return rolesRuta.filter((rolRuta) => this.userIdentity.hasRole(rolRuta)).length >= 1;
-    }
-
-    rolesRutaMatchesRolesUsuarioAllowedOperation(rolesRuta: Rol[], operation?: ExternalItem) {
-        rolesRuta = rolesRuta || [];
-        if (rolesRuta.length === 0) {
-            return true;
-        }
-        if (!this.userIdentity || !this.userIdentity.roles) {
-            return false;
-        }
-        if (operation == null) {
-            return (
-                rolesRuta.filter(
-                    (rolRuta) =>
-                        this.userIdentity.hasRole(rolRuta) &&
-                        this.userIdentity.roles.find((rol) => rol.operation == null)
-                ).length >= 1
-            );
-        }
-
         return (
-            rolesRuta.filter(
-                (rolRuta) =>
-                    this.userIdentity.hasRole(rolRuta) &&
-                    this.userIdentity.roles.find((rol) => rol.operation === operation.code)
-            ).length >= 1
+            rolesRuta.filter((rolRuta) => this.userIdentity.hasRole(rolRuta, operation)).length >= 1
         );
     }
 
