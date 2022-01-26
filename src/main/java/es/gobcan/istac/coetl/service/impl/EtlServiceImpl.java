@@ -148,7 +148,7 @@ public class EtlServiceImpl implements EtlService {
 
     private Page<Etl> filteredListByRolOperationAllowed(Page<Etl> etls){
         List<Etl> filtered = new ArrayList<Etl>();
-        if(!es.gobcan.istac.coetl.security.SecurityUtils.isAdmin()) {
+        if(!SecurityUtils.isAdmin()) {
             for (Etl etl : etls.getContent()) {
                 if (etl.getExternalItem() == null ||
                     SecurityUtils.haveAccessToOperationInRol(etl.getExternalItem().getCode())){
