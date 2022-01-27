@@ -52,6 +52,7 @@ import es.gobcan.istac.coetl.domain.Etl.Type;
 import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ExceptionTranslator;
+import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
 import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.repository.FileRepository;
@@ -114,7 +115,7 @@ public class EtlResourceIntTest {
 
     @Autowired
     FileRepository fileRepository;
-    
+
     @Mock
     PentahoGitService pentahoGitService;
 
@@ -139,6 +140,9 @@ public class EtlResourceIntTest {
     @Autowired
     private ExceptionTranslator exceptionTranslator;
 
+    @Autowired
+    private NotificationRestInternalFacade notificationRestInternalFacade;
+
     private MockMvc restEtlMockMvc;
 
     @Before
@@ -146,7 +150,7 @@ public class EtlResourceIntTest {
         MockitoAnnotations.initMocks(this);
         Mockito.when(pentahoGitService.cloneRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
         Mockito.when(pentahoGitService.replaceRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
-        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, pentahoGitService);
+        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, pentahoGitService, notificationRestInternalFacade);
         this.restEtlMockMvc = MockMvcBuilders.standaloneSetup(etlResource).setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
                 .setMessageConverters(jacksonMessageConverter).build();
     }
@@ -256,7 +260,7 @@ public class EtlResourceIntTest {
         doReturn(updatedEtlMocked).when(etlMapper).toEntity(updatedEtlDTOMocked);
 
         doReturn(updatedEtlMocked).when(etlService).update(any(Etl.class));
-        
+
         doReturn(false).when(etlService).goingToChangeRepository(any(EtlDTO.class));
 
         //@formatter:off
