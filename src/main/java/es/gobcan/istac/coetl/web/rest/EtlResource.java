@@ -34,6 +34,7 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
+import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
 import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
@@ -69,9 +70,10 @@ public class EtlResource extends AbstractResource {
     private final ParameterMapper parameterMapper;
     private final AuditEventPublisher auditEventPublisher;
     private final PentahoGitService pentahoGitService;
+    private final NotificationRestInternalFacade notificationRestInternalFacade;
 
     public EtlResource(EtlService etlService, EtlMapper etlMapper, ExecutionService executionService, ExecutionMapper executionMapper, ParameterService parameterService,
-            ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher, PentahoGitService pentahoGitService) {
+            ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher, PentahoGitService pentahoGitService, NotificationRestInternalFacade notificationRestInternalFacade) {
         this.etlService = etlService;
         this.etlMapper = etlMapper;
         this.executionService = executionService;
@@ -80,6 +82,7 @@ public class EtlResource extends AbstractResource {
         this.parameterMapper = parameterMapper;
         this.auditEventPublisher = auditEventPublisher;
         this.pentahoGitService = pentahoGitService;
+        this.notificationRestInternalFacade = notificationRestInternalFacade;
     }
 
     @PostMapping
@@ -216,16 +219,24 @@ public class EtlResource extends AbstractResource {
     public ResponseEntity<Void> execute(@PathVariable Long idEtl) {
         LOG.debug("REST Request to find an ETL : {}", idEtl);
         Etl etl = etlService.findOne(idEtl);
-        if (etl == null) {
-            return ResponseEntity.notFound().build();
+        try {
+            if (etl == null) {
+                return ResponseEntity.notFound().build();
+            }
+            if (!etl.isDeleted()) {
+                pentahoGitService.updateRepository(etl);
+                etlService.execute(etl);
+                auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
+            } else {
+                final String message = String.format("ETL %s can not be executed, it is deleted", etl.getCode());
+                final String code = ErrorConstants.ETL_CURRENTLY_DELETED;
+                CustomExceptionUtil.throwCustomParameterizedException(message, code);
+            }
         }
-        if (!etl.isDeleted()) {
-            pentahoGitService.updateRepository(etl);
-            etlService.execute(etl);
-            auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
-        } else {
-            final String message = String.format("ETL %s can not be executed, it is deleted", etl.getCode());
-            final String code = ErrorConstants.ETL_CURRENTLY_DELETED;
+        catch(Exception e){
+            notificationRestInternalFacade.sendExecutionErrorEtlNotice(etl);
+            final String message = String.format("Error occurred during the execution. ETL %s can not be executed", etl.getCode());
+            final String code = ErrorConstants.ETL_EXECUTE_ERROR;
             CustomExceptionUtil.throwCustomParameterizedException(message, code);
         }
 

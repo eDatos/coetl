@@ -36,7 +36,11 @@ export class UserCAS {
     constructor(public login: string, public roles: RolCAS[]) {}
 
     public hasRole(rol: Rol, operation?: ExternalItem): boolean {
-        if (operation != null && !this.isAdminRole(rol)) {
+        if (
+            operation != null &&
+            !this.isAdminRole(rol) &&
+            this.isThisRolOperation(rol, operation)
+        ) {
             return this.roles.some(
                 (userRol) =>
                     userRol.app === this.ACL_APP_NAME &&
@@ -47,6 +51,12 @@ export class UserCAS {
         return this.roles.some(
             (userRol) =>
                 userRol.app === this.ACL_APP_NAME && userRol.role === rol && !userRol.operation
+        );
+    }
+
+    private isThisRolOperation(rol: Rol, operation?: ExternalItem): boolean {
+        return this.roles.some(
+            (userRol) => userRol.app === this.ACL_APP_NAME && userRol.operation === operation.code
         );
     }
 

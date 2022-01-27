@@ -1,10 +1,8 @@
 package es.gobcan.istac.coetl.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.siemac.edatos.core.common.enume.TypeExternalArtefactsEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 import es.gobcan.istac.coetl.domain.ExternalItem;
 import es.gobcan.istac.coetl.invocation.facade.StatisticalOperationsRestInternalFacade;
 import es.gobcan.istac.coetl.repository.ExternalItemRepository;
-import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.ExternalItemService;
 import es.gobcan.istac.coetl.web.rest.dto.ExternalItemDTO;
 import es.gobcan.istac.coetl.web.rest.mapper.ExternalItemMapper;
@@ -45,19 +42,6 @@ public class ExternalItemServiceImpl implements ExternalItemService {
             .map( operation -> externalItemMapper.toDtoFromOperation(operation, TypeExternalArtefactsEnum.STATISTICAL_OPERATION))
             .collect(Collectors.toList());
 
-        return  filteredListAllowedOperations(result);
+        return  result;
     }
-
-    private List<ExternalItemDTO> filteredListAllowedOperations(List<ExternalItemDTO> result){
-        List<ExternalItemDTO> filtered = new ArrayList<>();
-        if(!SecurityUtils.isAdmin()) {
-            for (ExternalItemDTO op : result) {
-                if (SecurityUtils.haveAccessToOperationInRol(op.getCode())) {
-                    filtered.add(op);
-                }
-            }
-        }
-        return CollectionUtils.isNotEmpty(filtered) ? filtered : result;
-    }
-
 }
