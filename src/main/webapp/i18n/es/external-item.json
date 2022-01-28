@@ -23,7 +23,7 @@
                         "label": "Nombre"
                     }
                 },
-                "help": "La búsqueda necesitará mínimo 3 caracteres. Si desea encoentrar E30308A Encuesta de Población Activa. Por ejemplo, deberá indicar E30 ó Población/Pob."
+                "help": "La búsqueda necesitará mínimo 3 caracteres. Por ejemplo, si desea encontrar E30308A Encuesta de Población Activa, deberá indicar E30 ó Población/Pob."
             }
         }
     }

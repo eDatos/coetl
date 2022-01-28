@@ -51,6 +51,7 @@
         "query-no-soportada": "Parámetro de búsqueda {{0}} no soportado",
         "etl": {
             "currentlyDeleted": "Esta ETL se encuentra actualmente eliminada",
+            "executingError": "Ha ocurrido un error durante la ejecución de la ETL.",
             "currentlyNotDeleted": "Esta ETL se encuentra actualmente activa",
             "etlFileCurrentlyDeleted": "El fichero ETL ya ha sido eliminado",
             "etlDescriptionFileCurrentlyDeleted": "El fichero descriptivo ya ha sido eliminado",
