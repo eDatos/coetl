@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { EtlService } from '../etl.service';
-import { Parameter } from '../../parameter';
+import { Parameter, Typology } from '../../parameter';
 import { EtlParameterListComponent } from './etl-parameter-list.component';
 
 @Component({
@@ -14,6 +14,11 @@ import { EtlParameterListComponent } from './etl-parameter-list.component';
 })
 export class EtlParameterDialogComponent implements OnInit {
     public parameter: Parameter;
+    public isPassword: boolean;
+    public typologyEnum = Typology;
+    public keys = Object.keys;
+
+    private flag = false;
 
     constructor(
         private etlService: EtlService,
@@ -21,7 +26,24 @@ export class EtlParameterDialogComponent implements OnInit {
         private eventManager: JhiEventManager
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.isPassword = this.parameter.typology === Typology.PASSWORD ? true : false;
+        this.setTypologyDefault();
+    }
+
+    private setTypologyDefault() {
+        if (this.parameter.typology === undefined) {
+            this.parameter.typology = Typology.GENERIC;
+        }
+    }
+
+    public isPasswordTypology(event: any) {
+        if (this.parameter.typology === Typology.GENERIC && !this.flag) {
+            this.parameter.value = atob(this.parameter.value);
+            this.flag = true;
+        }
+        this.isPassword = this.parameter.typology === Typology.PASSWORD ? true : false;
+    }
 
     public save() {
         const parameterEditObservable = !!this.parameter.id

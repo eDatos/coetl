@@ -93,7 +93,8 @@ public class EtlResourceIntTest {
     private static final String DEFAULT_ETL_PARAMETER_VALUE = "DEFAULT_ETL_PARAMETER_VALUE";
     private static final String UPDATED_ETL_PARAMETER_VALUE = "UPDATED_ETL_PARAMETER_VALUE";
     private static final String DEFAULT_REPOSITORY_VALUE = "https://testing.com/default.git";
-    private static final es.gobcan.istac.coetl.domain.Parameter.Type DEFAULT_ETL_PARAMETER_TYPE = es.gobcan.istac.coetl.domain.Parameter.Type.MANUAL;
+    private static final Parameter.Type DEFAULT_ETL_PARAMETER_TYPE = Parameter.Type.MANUAL;
+    private static final Parameter.Typology DEFAULT_ETL_PARAMETER_TYPOLOGY = Parameter.Typology.GENERIC;
 
     @Autowired
     EntityManager entityManager;
@@ -188,6 +189,7 @@ public class EtlResourceIntTest {
         parameter.setKey(DEFAULT_ETL_PARAMETER_KEY);
         parameter.setValue(DEFAULT_ETL_PARAMETER_VALUE);
         parameter.setType(DEFAULT_ETL_PARAMETER_TYPE);
+        parameter.setTypology(DEFAULT_ETL_PARAMETER_TYPOLOGY);
         return parameter;
     }
 

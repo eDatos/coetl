@@ -1,8 +1,12 @@
 package es.gobcan.istac.coetl.security;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
 
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,10 +16,29 @@ import es.gobcan.istac.coetl.domain.enumeration.Rol;
 
 public final class SecurityUtils {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SecurityUtils.class);
+
     private static final String ACL_APP_NAME = "GESTOR_CONSOLA_ETL";
     private static final String SEPARATOR = "#";
 
     private SecurityUtils() {
+    }
+
+    public static String passwordEncoder(String password) {
+        byte[] encoder = Base64.encodeBase64(password.getBytes(StandardCharsets.UTF_8));
+
+        return new String(encoder);
+    }
+
+    public static String passwordDecode(String password) {
+        byte[] binaryPassword = Base64.decodeBase64(password);
+
+        try {
+            return new String(binaryPassword);
+        } catch (final Exception e) {
+            LOG.error("Unable to decompress password", e);
+            throw new RuntimeException(e);
+        }
     }
 
     public static String getCurrentUserLogin() {

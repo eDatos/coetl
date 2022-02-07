@@ -19,7 +19,10 @@
                 </thead>
                 <tr *ngFor="let parameter of parameters; let i = index">
                     <td>{{ parameter.key }}</td>
-                    <td>{{ parameter.value }}</td>
+                    <td>
+                        <span *ngIf="!isPasswordTypology(parameter)">{{ parameter.value }}</span>
+                        <input *ngIf="isPasswordTypology(parameter)" class="password-input" type="password" [disabled]="true" value="password" readonly />
+                    </td>
                     <td>
                         <span class="badge badge-info">{{ getTypeName(parameter) }}</span>
                     </td>

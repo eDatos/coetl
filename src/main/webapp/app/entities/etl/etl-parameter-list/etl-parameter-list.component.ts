@@ -5,14 +5,15 @@ import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Principal, ResponseWrapper, GenericModalService } from '../../../shared';
-import { Parameter, Type } from '../../parameter/parameter.model';
+import { Parameter, Type, Typology } from '../../parameter/parameter.model';
 import { EtlService } from '../etl.service';
 import { EtlParameterDialogComponent } from './etl-parameter-dialog.component';
 import { EtlParameterDeleteDialogComponent } from './etl-parameter-delete-dialog.component';
 
 @Component({
     selector: 'ac-etl-parameter-list',
-    templateUrl: 'etl-parameter-list.component.html'
+    templateUrl: 'etl-parameter-list.component.html',
+    styleUrls: ['etl-parameter-list.component.scss']
 })
 export class EtlParameterListComponent implements OnInit, OnDestroy {
     public static EVENT_NAME = 'etlParameterListModification';
@@ -78,6 +79,10 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
             { parameter: copy },
             { container: '.app' }
         );
+    }
+
+    public isPasswordTypology(parameter: Parameter): boolean {
+        return parameter.typology === Typology.PASSWORD ? true : false;
     }
 
     private loadAll() {

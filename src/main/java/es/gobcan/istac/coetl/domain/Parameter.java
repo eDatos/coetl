@@ -31,6 +31,10 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
         AUTO, MANUAL
     }
 
+    public enum Typology {
+        GENERIC, PASSWORD
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "parameter_id_seq")
     @SequenceGenerator(name = "parameter_id_seq", sequenceName = "parameter_id_seq", initialValue = 10)
@@ -48,6 +52,11 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private Type type;
+
+    @NotNull
+    @Column(name = "typology", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Typology typology;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "etl_fk")
@@ -84,6 +93,14 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Typology getTypology() {
+        return typology;
+    }
+
+    public void setTypology(Typology typology) {
+        this.typology = typology;
     }
 
     public Etl getEtl() {

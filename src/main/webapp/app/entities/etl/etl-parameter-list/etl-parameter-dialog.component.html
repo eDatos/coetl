@@ -15,7 +15,20 @@
                 </div>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.parameter.value" for="field_value"></label>
-                    <input type="text" class="form-control" name="value" id="field_value" [(ngModel)]="parameter.value" required maxlength="255" />
+                    <span *ngIf="!isPassword">
+                        <input type="text" class="form-control" name="value" id="field_value" [(ngModel)]="parameter.value" required maxlength="255" />
+                    </span>
+                    <span *ngIf="isPassword">
+                        <input type="password" class="form-control" name="value" id="field_value" value="password" [(ngModel)]="parameter.value" required maxlength="255" />
+                    </span>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="coetlApp.parameter.typology.label" for="field_typology"></label>
+                    <select name="typology" [(ngModel)]="parameter.typology" (change)="isPasswordTypology($event)">
+                        <option *ngFor="let typology of keys(typologyEnum)" [ngValue]="typology">{{typology}}</option>
+                    </select>
+
+                    <!--    <p-dropdown [options]="typologies" [(ngModel)]="parameter.typology" optionField="label"></p-dropdown>-->
                 </div>
             </div>
         </fieldset>

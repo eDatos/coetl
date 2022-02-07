@@ -10,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
+import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.web.rest.dto.ParameterDTO;
 
 @Component
@@ -33,12 +34,21 @@ public class ParameterMapper {
         Parameter entity = dto.getId() != null ? fromId(dto.getId()) : new Parameter();
 
         entity.setKey(dto.getKey());
-        entity.setValue(dto.getValue());
+        entity.setValue(setEncodeValueByTypology(dto.getTypology(),dto.getValue()));
         entity.setType(dto.getType());
+        entity.setTypology(dto.getTypology());
         entity.setEtl(etlMapper.fromId(dto.getEtlId()));
         entity.setOptLock(dto.getOptLock());
 
         return entity;
+    }
+
+    private String setEncodeValueByTypology(Parameter.Typology typology, String value){
+        if(Parameter.Typology.PASSWORD.equals(typology)){
+            String encodeValue = SecurityUtils.passwordEncoder(value);
+            return encodeValue;
+        }
+        return value;
     }
 
     public ParameterDTO toDto(Parameter entity) {
@@ -51,6 +61,7 @@ public class ParameterMapper {
         dto.setKey(entity.getKey());
         dto.setValue(entity.getValue());
         dto.setType(entity.getType());
+        dto.setTypology(entity.getTypology());
         dto.setEtlId(entity.getEtl().getId());
         dto.setOptLock(entity.getOptLock());
 
