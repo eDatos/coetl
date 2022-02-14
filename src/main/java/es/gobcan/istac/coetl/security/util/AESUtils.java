@@ -30,7 +30,7 @@ public final class AESUtils {
     public static final String SECRET_KEY_SALT= "474553544f525f434f4e534f4c415f45544c"; //GESTOR_CONSOLA_ETL
     public static final String SECRET_KEY_PASSWORD= "GESTOR_CONSOLA_ETL";
     public static final Integer ITERATIONS = 65536;
-    public static final Integer LENGTH = 256;
+    public static final Integer LENGTH = 128;
 
     public static String encrypt(String password) throws NoSuchPaddingException, NoSuchAlgorithmException,
         InvalidAlgorithmParameterException {
