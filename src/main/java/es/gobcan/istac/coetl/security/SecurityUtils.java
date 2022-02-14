@@ -1,10 +1,12 @@
 package es.gobcan.istac.coetl.security;
 
-import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Objects;
 
-import org.apache.commons.codec.binary.Base64;
+import javax.crypto.NoSuchPaddingException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -13,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import es.gobcan.istac.coetl.domain.enumeration.Rol;
+import es.gobcan.istac.coetl.security.util.AESUtils;
 
 public final class SecurityUtils {
 
@@ -24,21 +27,28 @@ public final class SecurityUtils {
     private SecurityUtils() {
     }
 
-    public static String passwordEncoder(String password) {
-        byte[] encoder = Base64.encodeBase64(password.getBytes(StandardCharsets.UTF_8));
-
-        return new String(encoder);
+    public static String passwordEncoder(String password){
+        String encodePassword = null;
+        try {
+            encodePassword = AESUtils.encrypt(password);
+        } catch (NoSuchPaddingException | InvalidAlgorithmParameterException e) {
+            LOG.error("Error encrypt password ", e);
+        } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
+                noSuchAlgorithmException.printStackTrace();
+        }
+        return encodePassword;
     }
 
     public static String passwordDecode(String password) {
-        byte[] binaryPassword = Base64.decodeBase64(password);
-
+        String decodePassword = null;
         try {
-            return new String(binaryPassword);
-        } catch (final Exception e) {
-            LOG.error("Unable to decompress password", e);
-            throw new RuntimeException(e);
+            decodePassword = AESUtils.decrypt(password);
+        } catch (NoSuchPaddingException | InvalidAlgorithmParameterException  e) {
+            LOG.error("Error decrypt password ", e);
+        } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
+            noSuchAlgorithmException.printStackTrace();
         }
+        return decodePassword;
     }
 
     public static String getCurrentUserLogin() {

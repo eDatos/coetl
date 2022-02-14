@@ -15,11 +15,29 @@
                 </div>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.parameter.value" for="field_value"></label>
-                    <span *ngIf="!isPassword">
-                        <input type="text" class="form-control" name="value" id="field_value" [(ngModel)]="parameter.value" required maxlength="255" />
+                    <span>
+                        <input
+                            [type]="!isPassword || fieldTextType ? 'text' : 'password'"
+                            class="form-control"
+                            name="value"
+                            id="field_value"
+                            [(ngModel)]="parameter.value"
+                            required
+                            maxlength="255"
+                        />
                     </span>
                     <span *ngIf="isPassword">
-                        <input type="password" class="form-control" name="value" id="field_value" value="password" [(ngModel)]="parameter.value" required maxlength="255" />
+                        <div class="form-group-append">
+                            <span class="input-group-text">
+                                <i
+                                    class="fa"
+                                    [ngClass]="{
+                                  'fa-eye-slash': !fieldTextType,
+                                  'fa-eye': fieldTextType }"
+                                    (click)="toggleFieldTextType()"
+                                ></i>
+                            </span>
+                        </div>
                     </span>
                 </div>
                 <div class="form-group full-width">
@@ -27,8 +45,6 @@
                     <select name="typology" [(ngModel)]="parameter.typology" (change)="isPasswordTypology($event)">
                         <option *ngFor="let typology of keys(typologyEnum)" [ngValue]="typology">{{typology}}</option>
                     </select>
-
-                    <!--    <p-dropdown [options]="typologies" [(ngModel)]="parameter.typology" optionField="label"></p-dropdown>-->
                 </div>
             </div>
         </fieldset>

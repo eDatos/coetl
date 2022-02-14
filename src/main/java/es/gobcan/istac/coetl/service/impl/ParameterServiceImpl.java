@@ -85,14 +85,15 @@ public class ParameterServiceImpl implements ParameterService {
     @Override
     public Map<String, String> findAllByEtlIdAsMap(Long etlId) {
         List<Parameter> parameters = findAllByEtlId(etlId);
-        return parameters.stream().collect(Collectors.toMap(Parameter::getKey, p -> bla(p.getValue(), p.getTypology())));
+        return parameters.stream().collect(Collectors.toMap(Parameter::getKey, p -> decodeValueByTypology(p)));
     }
 
-    private String bla(String value, Typology typology){
-        if(Typology.PASSWORD.equals(typology)){
-            return SecurityUtils.passwordDecode(value);
+    @Override
+    public String decodeValueByTypology(Parameter parameter){
+        if(Typology.PASSWORD.equals(parameter.getTypology())){
+            return SecurityUtils.passwordDecode(parameter.getValue());
         }
-        return value;
+        return parameter.getValue();
     }
 
     @Override

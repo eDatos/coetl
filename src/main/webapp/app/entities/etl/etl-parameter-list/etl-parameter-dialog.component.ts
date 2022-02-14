@@ -10,15 +10,17 @@ import { EtlParameterListComponent } from './etl-parameter-list.component';
 
 @Component({
     selector: 'ac-etl-parameter-dialog',
-    templateUrl: 'etl-parameter-dialog.component.html'
+    templateUrl: 'etl-parameter-dialog.component.html',
+    styleUrls: ['etl-parameter-dialog.component.scss']
 })
 export class EtlParameterDialogComponent implements OnInit {
     public parameter: Parameter;
     public isPassword: boolean;
     public typologyEnum = Typology;
     public keys = Object.keys;
+    public fieldTextType: boolean;
 
-    private flag = false;
+    public typology: Typology;
 
     constructor(
         private etlService: EtlService,
@@ -28,7 +30,12 @@ export class EtlParameterDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isPassword = this.parameter.typology === Typology.PASSWORD ? true : false;
+        this.typology = this.parameter.typology;
         this.setTypologyDefault();
+    }
+
+    public toggleFieldTextType() {
+        this.fieldTextType = !this.fieldTextType;
     }
 
     private setTypologyDefault() {
@@ -38,10 +45,6 @@ export class EtlParameterDialogComponent implements OnInit {
     }
 
     public isPasswordTypology(event: any) {
-        if (this.parameter.typology === Typology.GENERIC && !this.flag) {
-            this.parameter.value = atob(this.parameter.value);
-            this.flag = true;
-        }
         this.isPassword = this.parameter.typology === Typology.PASSWORD ? true : false;
     }
 

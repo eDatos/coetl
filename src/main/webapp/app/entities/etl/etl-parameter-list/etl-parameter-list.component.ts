@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { Principal, ResponseWrapper, GenericModalService } from '../../../shared';
+import { ResponseWrapper, GenericModalService } from '../../../shared';
 import { Parameter, Type, Typology } from '../../parameter/parameter.model';
 import { EtlService } from '../etl.service';
 import { EtlParameterDialogComponent } from './etl-parameter-dialog.component';
@@ -20,22 +20,17 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
 
     @Input() idEtl: number;
 
-    currentAccount: Account;
     parameters: Parameter[];
     eventSubscriber: Subscription;
 
     constructor(
         private eventManager: JhiEventManager,
         private etlService: EtlService,
-        private principal: Principal,
         private genericModalService: GenericModalService,
         private translateService: TranslateService
     ) {}
 
     ngOnInit() {
-        this.principal.identity().then((account) => {
-            this.currentAccount = account;
-        });
         this.loadAll();
         this.registerChangesInEtlParameter();
     }
@@ -60,14 +55,26 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
         let copy = new Parameter();
         if (!!parameter) {
             copy = Object.assign(copy, parameter);
+            if (Typology.PASSWORD === parameter.typology) {
+                this.etlService
+                    .decodeParameter(parameter.etlId, parameter.id)
+                    .subscribe((response) => {
+                        this.openEditParameterDialog(response);
+                    });
+            } else {
+                this.openEditParameterDialog(copy);
+            }
         } else {
             copy.etlId = this.idEtl;
             copy.type = Type.MANUAL;
+            this.openEditParameterDialog(copy);
         }
+    }
 
+    private openEditParameterDialog(parameter: Parameter) {
         this.genericModalService.open(
             EtlParameterDialogComponent as Component,
-            { parameter: copy },
+            { parameter },
             { container: '.app' }
         );
     }

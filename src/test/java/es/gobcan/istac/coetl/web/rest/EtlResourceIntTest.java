@@ -57,6 +57,7 @@ import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
+import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
@@ -719,5 +720,14 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.[*].etlId").value(hasItem(createdEtl.getId().intValue())))
             .andExpect(jsonPath("$.[*].optLock").value(hasItem(0)));
         //@formatter:on
+    }
+
+    @Test
+    public void givenParameterValuePassword_whenEncrypt_thenSuccess() {
+        String value = "password";
+
+        String cipherText = SecurityUtils.passwordEncoder(value);
+        String decryptedCipherText = SecurityUtils.passwordDecode(cipherText);
+       assertEquals(value, decryptedCipherText);
     }
 }
