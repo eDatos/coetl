@@ -4,9 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet author="arte" id="20220131131601-1">
+    <changeSet author="arte" id="20220131131601-2">
         <addColumn tableName="tb_parameters">
-            <column name="typology" type="varchar(255)">
+            <column name="typology" type="varchar(255)" defaultValue="GENERIC">
                 <constraints nullable="false" />
             </column>
         </addColumn>
