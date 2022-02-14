@@ -255,6 +255,7 @@ public class EtlResource extends AbstractResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+
     @PostMapping("/{idEtl}/parameters")
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
@@ -364,6 +365,19 @@ public class EtlResource extends AbstractResource {
 
         Parameter parameter = parameterService.findOneByIdAndEtlId(parameterId, idEtl);
         ParameterDTO result = parameterMapper.toDto(parameter);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    @GetMapping("/{idEtl}/parameters/{parameterId}/decode")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<ParameterDTO> decodeParameterByEtlIdAndId(@PathVariable Long idEtl, @PathVariable Long parameterId) {
+        LOG.debug("REST Request to decode value of Parameter: {} with ETL : {}", parameterId, idEtl);
+
+        Parameter parameter = parameterService.findOneByIdAndEtlId(parameterId, idEtl);
+        ParameterDTO result = parameterMapper.toDto(parameter);
+        result.setValue(parameterService.decodeValueByTypology(parameter));
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

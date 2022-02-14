@@ -1,0 +1,9 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+
+:host {
+    /deep/ .password-input {
+        border: none !important;
+        background: none;
+    }
+}

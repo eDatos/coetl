@@ -16,4 +16,5 @@ public interface ParameterService {
     public List<Parameter> findAllByEtlId(Long etlId);
     public Map<String, String> findAllByEtlIdAsMap(Long etlId);
     public Parameter findOneByIdAndEtlId(Long id, Long etlId);
+    public String decodeValueByTypology(Parameter parameter);
 }

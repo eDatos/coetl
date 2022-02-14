@@ -82,7 +82,13 @@ export class EtlService {
     public findParameter(idEtl: number, idParameter: number): Observable<Parameter> {
         return this.http
             .get(`${this.resourceUrl}/${idEtl}/parameters/${idParameter}`)
-            .map((response: Response) => this.convertItemToParameter(response));
+            .map((response: Response) => this.convertItemToParameter(response.json()));
+    }
+
+    public decodeParameter(idEtl: number, idParameter: number): Observable<Parameter> {
+        return this.http
+            .get(`${this.resourceUrl}/${idEtl}/parameters/${idParameter}/decode`)
+            .map((response: Response) => this.convertItemToParameter(response.json()));
     }
 
     public findAllParameters(idEtl: number): Observable<ResponseWrapper> {

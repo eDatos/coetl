@@ -57,6 +57,7 @@ import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
+import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
@@ -93,7 +94,8 @@ public class EtlResourceIntTest {
     private static final String DEFAULT_ETL_PARAMETER_VALUE = "DEFAULT_ETL_PARAMETER_VALUE";
     private static final String UPDATED_ETL_PARAMETER_VALUE = "UPDATED_ETL_PARAMETER_VALUE";
     private static final String DEFAULT_REPOSITORY_VALUE = "https://testing.com/default.git";
-    private static final es.gobcan.istac.coetl.domain.Parameter.Type DEFAULT_ETL_PARAMETER_TYPE = es.gobcan.istac.coetl.domain.Parameter.Type.MANUAL;
+    private static final Parameter.Type DEFAULT_ETL_PARAMETER_TYPE = Parameter.Type.MANUAL;
+    private static final Parameter.Typology DEFAULT_ETL_PARAMETER_TYPOLOGY = Parameter.Typology.GENERIC;
 
     @Autowired
     EntityManager entityManager;
@@ -188,6 +190,7 @@ public class EtlResourceIntTest {
         parameter.setKey(DEFAULT_ETL_PARAMETER_KEY);
         parameter.setValue(DEFAULT_ETL_PARAMETER_VALUE);
         parameter.setType(DEFAULT_ETL_PARAMETER_TYPE);
+        parameter.setTypology(DEFAULT_ETL_PARAMETER_TYPOLOGY);
         return parameter;
     }
 
@@ -717,5 +720,14 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.[*].etlId").value(hasItem(createdEtl.getId().intValue())))
             .andExpect(jsonPath("$.[*].optLock").value(hasItem(0)));
         //@formatter:on
+    }
+
+    @Test
+    public void givenParameterValuePassword_whenEncrypt_thenSuccess() {
+        String value = "password";
+
+        String cipherText = SecurityUtils.passwordEncoder(value);
+        String decryptedCipherText = SecurityUtils.passwordDecode(cipherText);
+       assertEquals(value, decryptedCipherText);
     }
 }

@@ -1,0 +1,9 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+
+:host {
+    .fa-eye-slash:hover,
+    .fa-eye:hover {
+        cursor: pointer;
+    }
+}
