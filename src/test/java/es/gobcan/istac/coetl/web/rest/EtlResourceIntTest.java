@@ -25,6 +25,7 @@ import java.util.Arrays;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -723,11 +724,12 @@ public class EtlResourceIntTest {
     }
 
     @Test
-    public void givenParameterValuePassword_whenEncrypt_thenSuccess() {
+    @Transactional
+    public void givenParameterValuePassword_whenEncrypt_thenSuccess() throws Exception {
         String value = "password";
 
         String cipherText = SecurityUtils.passwordEncoder(value);
         String decryptedCipherText = SecurityUtils.passwordDecode(cipherText);
-       assertEquals(value, decryptedCipherText);
+        Assert.assertEquals(value, decryptedCipherText);
     }
 }
