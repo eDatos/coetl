@@ -33,8 +33,8 @@ public final class SecurityUtils {
             encodePassword = AESUtils.encrypt(password);
         } catch (NoSuchPaddingException | InvalidAlgorithmParameterException e) {
             LOG.error("Error encrypt password ", e);
-        } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
-                noSuchAlgorithmException.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            LOG.error("Error encrypt password. Not souch algorithm  ", e);
         }
         return encodePassword;
     }
@@ -45,8 +45,8 @@ public final class SecurityUtils {
             decodePassword = AESUtils.decrypt(password);
         } catch (NoSuchPaddingException | InvalidAlgorithmParameterException  e) {
             LOG.error("Error decrypt password ", e);
-        } catch (NoSuchAlgorithmException noSuchAlgorithmException) {
-            noSuchAlgorithmException.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            LOG.error("Error decrypt password. Not souch algorithm  ", e);
         }
         return decodePassword;
     }
