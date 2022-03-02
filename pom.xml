@@ -136,7 +136,7 @@
         <bouncycastle-provider.version>1.64</bouncycastle-provider.version>
 
 		<!-- Metamac  -->
-		<edatos-core-common.version>0.0.1-SNAPSHOT</edatos-core-common.version>
+		<edatos-core-common.version>1.0.0</edatos-core-common.version>
 
         <!-- Internal apis -->
         <metamac-notifications-rest-internal-api.version>3.1.0</metamac-notifications-rest-internal-api.version>
