@@ -8,8 +8,11 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 1.2.2 a x.y.z
+## 1.2.2 a 2.0.0
 * Se ha integrado el acceso al common-metadata, por lo que es necesario añadirlo los parámetros de configuración *environment.edatos.configuration.db.[PARAM]* al application-env.yml (ver archivo *src\main\resources\config\application-env.yml*)
+* Se ha integrado complementos-apps como dependencia, con lo que la misma ha de estar instalada y configurada correctamente.
+    * Concretamente, se hace uso de la propiedad *metamac.app.style.favicon.url*
+* Se ha integrado con el access-control para obtener los roles desde el mismo en vez de desde la propia BD
 * Se ha de añadir los parámetros de acceso a la base de datos al common-metadata. Para ello, se ha de ejecutar el script *etc\changes-from-release\1.1.2\db\common-metadata\postgresql\20210830_coetl_common_metadata_conf.sql* sustituyendo los valores por los apropiados. Puede tomarse como referencia los establecidos en el archivo de configuración application-env.yml en los parámetros *spring.datasource*.
 * Se ha de añadir parámetros al common-metadata. Para ello, se ha de ejecutar el script *etc\changes-from-release\1.1.2\db\common-metadata\postgresql\20210913_add_properties_to_common_metadata.sql* sustituyendo los valores por los apropiados. Puede tomarse como referencia los establecidos en el archivo de configuración application-env.yml, atendiendo a los parámetros *application.cas.*\* y *pentaho.*\*.
 * Se ha de añadir parámetros relativos al git al common-metadata. Para ello, se ha de ejecutar el script *etc\changes-from-release\1.1.2\db\common-metadata\postgresql\20210920_add_git_properties.sql * sustituyendo los valores por los apropiados.
