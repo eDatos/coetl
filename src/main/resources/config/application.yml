@@ -183,4 +183,4 @@ application:
         type: FILL_INSTALLATION_TYPE # Required: Installation Type Context (EXTERNAL / INTERNAL)
     jobs:
         cron:
-            enabledTokens: FILL_CRON_EXPRESSION
+            enabledTokens: 0 0 4 * * *
