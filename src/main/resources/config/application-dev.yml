@@ -116,6 +116,3 @@ environment:
 application:
     installation:
         type: INTERNAL # Required: Installation Type Context (EXTERNAL / INTERNAL)
-    jobs:
-        cron:
-            enabledTokens: 0 0 4 * * *
