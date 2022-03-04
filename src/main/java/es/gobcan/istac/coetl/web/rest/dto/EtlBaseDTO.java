@@ -1,6 +1,7 @@
 package es.gobcan.istac.coetl.web.rest.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 import es.gobcan.istac.coetl.domain.Etl.Type;
 
@@ -14,6 +15,10 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
     private String organizationInCharge;
     private Type type;
     private String executionPlanning;
+    private Instant nextExecution;
+    private Instant lastExecution;
+    private ExternalItemDTO externalItem;
+
 
     public EtlBaseDTO() {
         super();
@@ -67,4 +72,28 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
         this.executionPlanning = executionPlanning;
     }
 
+    public Instant getLastExecution() {
+        return lastExecution;
+    }
+
+    public void setLastExecution(Instant lastExecution) {
+        this.lastExecution = lastExecution;
+    }
+
+    public void setNextExecution(Instant nextExecution) {
+        this.nextExecution = nextExecution;
+    }
+
+    public Instant getNextExecution() {
+        return nextExecution;
+    }
+
+    public ExternalItemDTO getExternalItem() {
+        return externalItem;
+    }
+
+    public void setExternalItem(ExternalItemDTO externalItem) {
+        this.externalItem = externalItem;
+    }
 }
+

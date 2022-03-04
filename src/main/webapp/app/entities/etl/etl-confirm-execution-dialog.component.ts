@@ -12,6 +12,7 @@ import { EtlExecutionListComponent } from './etl-execution-list/etl-execution-li
 })
 export class EtlConfirmExecutionDialogComponent implements OnInit {
     etl: Etl;
+    requestSended: boolean;
 
     constructor(
         private etlService: EtlService,
@@ -19,13 +20,16 @@ export class EtlConfirmExecutionDialogComponent implements OnInit {
         private eventManager: JhiEventManager
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.requestSended = false;
+    }
 
     clear() {
         this.activeModal.dismiss(false);
     }
 
     confirmExecution(idEtl: number) {
+        this.requestSended = true;
         this.etlService.execute(idEtl).subscribe(() => {
             this.eventManager.broadcast({
                 name: EtlExecutionListComponent.EVENT_NAME,

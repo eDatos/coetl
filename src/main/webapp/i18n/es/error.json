@@ -51,6 +51,7 @@
         "query-no-soportada": "Parámetro de búsqueda {{0}} no soportado",
         "etl": {
             "currentlyDeleted": "Esta ETL se encuentra actualmente eliminada",
+            "executingError": "Ha ocurrido un error durante la ejecución de la ETL.",
             "currentlyNotDeleted": "Esta ETL se encuentra actualmente activa",
             "etlFileCurrentlyDeleted": "El fichero ETL ya ha sido eliminado",
             "etlDescriptionFileCurrentlyDeleted": "El fichero descriptivo ya ha sido eliminado",
@@ -58,7 +59,9 @@
             "scheduleError": "Ha ocurrido un error en la creación de la planificación de ejecución de la ETL",
             "unscheduleError": "Ha ocurrido un error en el borrado de la planificación de ejecución de la ETL",
             "codeExists": "Ya existe otra ETL con el mismo código",
-            "attachedFilesUpload": "Ha ocurrido un error en la subida de los ficheros adjuntos de la ETL"
+            "attachedFilesUpload": "Ha ocurrido un error en la subida de los ficheros adjuntos de la ETL",
+            "cloneRepository": "Ha ocurrido un error clonando el repositorio",
+            "replacingRepository": "Ha ocurrido un error reemplazando el repositorio"
         },
         "health": {
             "serviceName": {

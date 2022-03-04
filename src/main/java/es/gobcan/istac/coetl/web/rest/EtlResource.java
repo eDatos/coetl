@@ -34,7 +34,8 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
-import es.gobcan.istac.coetl.pentaho.service.PentahoSftpService;
+import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
+import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
@@ -68,18 +69,20 @@ public class EtlResource extends AbstractResource {
     private final ParameterService parameterService;
     private final ParameterMapper parameterMapper;
     private final AuditEventPublisher auditEventPublisher;
-    private final PentahoSftpService pentahoSftpService;
+    private final PentahoGitService pentahoGitService;
+    private final NotificationRestInternalFacade notificationRestInternalFacade;
 
     public EtlResource(EtlService etlService, EtlMapper etlMapper, ExecutionService executionService, ExecutionMapper executionMapper, ParameterService parameterService,
-            ParameterMapper parameterMapper, PentahoSftpService pentahoSftpService, AuditEventPublisher auditEventPublisher) {
+            ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher, PentahoGitService pentahoGitService, NotificationRestInternalFacade notificationRestInternalFacade) {
         this.etlService = etlService;
         this.etlMapper = etlMapper;
         this.executionService = executionService;
         this.executionMapper = executionMapper;
         this.parameterService = parameterService;
         this.parameterMapper = parameterMapper;
-        this.pentahoSftpService = pentahoSftpService;
         this.auditEventPublisher = auditEventPublisher;
+        this.pentahoGitService = pentahoGitService;
+        this.notificationRestInternalFacade = notificationRestInternalFacade;
     }
 
     @PostMapping
@@ -92,10 +95,14 @@ public class EtlResource extends AbstractResource {
         }
 
         Etl createdEtl = etlService.create(etlMapper.toEntity(etlDTO));
-        String uploadedAttachedFilesPath = pentahoSftpService.uploadAttachedFiles(createdEtl);
-        if (StringUtils.isNoneBlank(uploadedAttachedFilesPath)) {
+
+        if (StringUtils.isNoneBlank(etlDTO.getUriRepository())) {
+            String repositoryPath = pentahoGitService.cloneRepository(createdEtl);
+            if (repositoryPath == null) {
+                CustomExceptionUtil.throwCustomParameterizedException("An error ocurred cloning repository", ErrorConstants.ETL_CLONE_REPOSITORY);
+            }
             Map<String, String> parameters = new HashMap<>();
-            parameters.put("ETL_RESOURCES", uploadedAttachedFilesPath);
+            parameters.put("ETL_RESOURCES", repositoryPath);
             parameterService.createDefaultParameters(createdEtl, parameters);
         }
 
@@ -108,11 +115,13 @@ public class EtlResource extends AbstractResource {
     @PutMapping
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
-    public ResponseEntity<EtlDTO> update(@Valid @RequestBody EtlDTO etlDTO, @ApiParam(required = true) boolean isAttachedFilesChanged) {
+    public ResponseEntity<EtlDTO> update(@Valid @RequestBody EtlDTO etlDTO) {
         LOG.debug("REST Request to update an ETL : {}", etlDTO);
         if (etlDTO.getId() == null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ID_FALTA, "An updated ETL must have an ID")).build();
         }
+
+        boolean repositoryGoingToChange = etlService.goingToChangeRepository(etlDTO);
 
         Etl currentEtl = etlMapper.toEntity(etlDTO);
         if (currentEtl.isDeleted()) {
@@ -121,13 +130,11 @@ public class EtlResource extends AbstractResource {
         }
 
         Etl updatedEtl = etlService.update(currentEtl);
-        if (isAttachedFilesChanged) {
-            parameterService.deleteDefaultParameters(updatedEtl);
-            String uploadedAttachedFilesPath = pentahoSftpService.uploadAttachedFiles(updatedEtl);
-            if (StringUtils.isNoneBlank(uploadedAttachedFilesPath)) {
-                Map<String, String> parameters = new HashMap<>();
-                parameters.put("ETL_RESOURCES", uploadedAttachedFilesPath);
-                parameterService.createDefaultParameters(updatedEtl, parameters);
+
+        if (repositoryGoingToChange) {
+            String repositoryPath = pentahoGitService.replaceRepository(updatedEtl);
+            if (repositoryPath == null) {
+                CustomExceptionUtil.throwCustomParameterizedException("An error ocurred updating repository", ErrorConstants.ETL_REPLACE_REPOSITORY);
             }
         }
 
@@ -189,6 +196,7 @@ public class EtlResource extends AbstractResource {
     public ResponseEntity<List<EtlBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable) {
         LOG.debug("REST Request to find all ETLs by query : {} and including deleted : {}", query, includeDeleted);
         Page<EtlBaseDTO> page = etlService.findAll(query, includeDeleted, pageable).map(etlMapper::toBaseDto);
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI);
 
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -211,15 +219,24 @@ public class EtlResource extends AbstractResource {
     public ResponseEntity<Void> execute(@PathVariable Long idEtl) {
         LOG.debug("REST Request to find an ETL : {}", idEtl);
         Etl etl = etlService.findOne(idEtl);
-        if (etl == null) {
-            return ResponseEntity.notFound().build();
+        try {
+            if (etl == null) {
+                return ResponseEntity.notFound().build();
+            }
+            if (!etl.isDeleted()) {
+                pentahoGitService.updateRepository(etl);
+                etlService.execute(etl);
+                auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
+            } else {
+                final String message = String.format("ETL %s can not be executed, it is deleted", etl.getCode());
+                final String code = ErrorConstants.ETL_CURRENTLY_DELETED;
+                CustomExceptionUtil.throwCustomParameterizedException(message, code);
+            }
         }
-        if (!etl.isDeleted()) {
-            etlService.execute(etl);
-            auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
-        } else {
-            final String message = String.format("ETL %s can not be executed, it is deleted", etl.getCode());
-            final String code = ErrorConstants.ETL_CURRENTLY_DELETED;
+        catch(Exception e){
+            notificationRestInternalFacade.sendExecutionErrorEtlNotice(etl);
+            final String message = String.format("Error occurred during the execution. ETL %s can not be executed", etl.getCode());
+            final String code = ErrorConstants.ETL_EXECUTE_ERROR;
             CustomExceptionUtil.throwCustomParameterizedException(message, code);
         }
 
@@ -237,6 +254,7 @@ public class EtlResource extends AbstractResource {
 
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
 
     @PostMapping("/{idEtl}/parameters")
     @Timed
@@ -347,6 +365,19 @@ public class EtlResource extends AbstractResource {
 
         Parameter parameter = parameterService.findOneByIdAndEtlId(parameterId, idEtl);
         ParameterDTO result = parameterMapper.toDto(parameter);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    @GetMapping("/{idEtl}/parameters/{parameterId}/decode")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<ParameterDTO> decodeParameterByEtlIdAndId(@PathVariable Long idEtl, @PathVariable Long parameterId) {
+        LOG.debug("REST Request to decode value of Parameter: {} with ETL : {}", parameterId, idEtl);
+
+        Parameter parameter = parameterService.findOneByIdAndEtlId(parameterId, idEtl);
+        ParameterDTO result = parameterMapper.toDto(parameter);
+        result.setValue(parameterService.decodeValueByTypology(parameter));
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

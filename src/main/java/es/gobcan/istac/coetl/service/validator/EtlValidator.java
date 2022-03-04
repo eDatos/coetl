@@ -1,5 +1,8 @@
 package es.gobcan.istac.coetl.service.validator;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +20,7 @@ public class EtlValidator extends AbstractValidator<Etl> {
     @Override
     public void validate(Etl entity) {
         checkCodeIsUnique(entity);
+        checkUriRepository(entity);
     }
 
     private void checkCodeIsUnique(Etl entity) {
@@ -30,4 +34,15 @@ public class EtlValidator extends AbstractValidator<Etl> {
         }
     }
 
+    private void checkUriRepository(Etl entity) {
+        if (entity.getUriRepository() == null) { 
+            CustomExceptionUtil.throwCustomParameterizedException(String.format("URL repository not found in Etl %s", entity.getCode()), ErrorConstants.ETL_URL_NOT_EXIST);
+        }
+        
+        try {
+            new URL(entity.getUriRepository());
+        } catch (MalformedURLException e) {
+            CustomExceptionUtil.throwCustomParameterizedException(String.format("URL repository '%s' is malformed", entity.getCode()), ErrorConstants.ETL_MALFORMED_URL);
+        }
+    }
 }

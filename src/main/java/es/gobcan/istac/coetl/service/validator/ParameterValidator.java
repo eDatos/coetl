@@ -29,6 +29,7 @@ public class ParameterValidator extends AbstractValidator<Parameter> {
         checkKeyIsNotBlank(entity);
         checkValueIsNotBlank(entity);
         checkTypeIsNotNull(entity);
+        checkTypologyIsNotNull(entity);
         checkEtlExists(entity);
         checkKeyIsNotDuplicated(entity);
     }
@@ -50,6 +51,13 @@ public class ParameterValidator extends AbstractValidator<Parameter> {
             throw new CustomParameterizedExceptionBuilder().message(String.format(FIELD_NULL_ERROR_MESSAGE, "type", entity.getId())).code(ErrorConstants.PARAMETER_EDIT).build();
         }
     }
+
+    private void checkTypologyIsNotNull(Parameter entity) {
+        if (entity.getTypology() == null) {
+            throw new CustomParameterizedExceptionBuilder().message(String.format(FIELD_NULL_ERROR_MESSAGE, "typology", entity.getId())).code(ErrorConstants.PARAMETER_EDIT).build();
+        }
+    }
+
 
     private void checkEtlExists(Parameter entity) {
         Etl etl = etlRepository.findByIdAndDeletionDateIsNull(entity.getEtl().getId());

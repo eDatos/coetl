@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +19,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import es.gobcan.istac.coetl.domain.EnabledTokenEntity;
+import es.gobcan.istac.coetl.security.util.SecurityCookiesUtil;
+import es.gobcan.istac.coetl.service.EnabledTokenService;
 import io.github.jhipster.config.JHipsterProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -40,9 +45,15 @@ public class TokenProvider {
     private long tokenValidityInMillisecondsForRememberMe;
 
     private final JHipsterProperties jHipsterProperties;
+    
+    private final EnabledTokenService enabledTokenService;
+    
+    private final HttpServletRequest httpServletRequest;
 
-    public TokenProvider(JHipsterProperties jHipsterProperties) {
+    public TokenProvider(JHipsterProperties jHipsterProperties, EnabledTokenService enabledTokenService, HttpServletRequest httpServletRequest) {
         this.jHipsterProperties = jHipsterProperties;
+        this.enabledTokenService = enabledTokenService;
+        this.httpServletRequest = httpServletRequest;
     }
 
     @PostConstruct
@@ -64,7 +75,12 @@ public class TokenProvider {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
 
-        return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities).signWith(SignatureAlgorithm.HS512, secretKey).setExpiration(validity).compact();
+        String token = Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities).signWith(SignatureAlgorithm.HS512, secretKey).setExpiration(validity).compact();
+        String serviceTicket = httpServletRequest.getAttribute(SecurityCookiesUtil.SERVICE_TICKET_COOKIE) == null 
+                ? SecurityCookiesUtil.getServiceTicketCookie(httpServletRequest.getCookies()) 
+                : httpServletRequest.getAttribute(SecurityCookiesUtil.SERVICE_TICKET_COOKIE).toString();
+        enabledTokenService.updateOrCreate(new EnabledTokenEntity(token, serviceTicket, validity.toInstant()));
+        return token;
     }
 
     public Authentication getAuthentication(String token) {
@@ -81,6 +97,9 @@ public class TokenProvider {
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
+            if(!enabledTokenService.existsByToken(authToken)) {
+                throw new CredentialsExpiredException("The authentication token is disabled. Login again.");
+            }
             return true;
         } catch (SignatureException e) {
             log.info("JWT: Firma no válida.");
@@ -97,6 +116,9 @@ public class TokenProvider {
         } catch (IllegalArgumentException e) {
             log.info("JWT: token del handler no es válido.");
             log.trace("JWT: token del handler no es válido trace: {}", e);
+        } catch (CredentialsExpiredException e) {
+            log.info("JWT: token deshabilitado.");
+            log.trace("JWT: token deshabilitado trace: {}", e);
         }
         return false;
     }

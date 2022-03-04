@@ -50,7 +50,7 @@ public class ExecutionServiceImpl implements ExecutionService {
     }
 
     @Override
-    public Execution getInRunningResult() {
+    public List<Execution> getInRunningResult() {
         LOG.debug("Request to get Execution in RUNNING");
         return executionRepository.findByResult(Result.RUNNING);
     }

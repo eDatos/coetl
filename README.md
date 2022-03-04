@@ -45,6 +45,8 @@ La plantilla consta de una aplicación con interfaz web y un servicio web REST.
 
 ## Procedimiento de instalación desde cero
 
+Para arrancar el proyecto en desarrollo (dev) ver: [Anexo. Desarrollo](#anexo-desarrollo).
+
 ### Paso 1. Configuración del entorno
 - Configuración del servidor de aplicaciones según los requisitos del entorno ya especificados.
 - Configuración de la base de datos. 
@@ -199,31 +201,84 @@ Por defecto, si no se especifica un perfil, la aplicación se compila con el per
 
 Hay que tener presente que si la aplicación se compila con el perfil de desarrollo, para terminar de construir la misma y poder ejecutarla es necesario seguir los pasos descritos en el [Anexo de desarrollo](#anexo-desarrollo).
 
-## Anexo. Desarrollo
+## Anexo. Desarrollo 
 
-A continuación se describen los pasos a seguir para configurar el entorno de desarrollo sobre el cual podamos arrancar y modificar la aplicación.
+A continuación se describen los pasos a seguir para configurar el **entorno de desarrollo** sobre el cual podamos arrancar y modificar la aplicación.
 
 En primer lugar, tal y como se describe en el [Anexo Perfiles de compilación](#anexo-perfiles-de-compilaci%C3%B3n), debemos compilar la aplicación con Maven.  Para trabajar en un entorno de desarrollo, basta que la compilemos con el perfil `dev`.
+### Servidor (BackEnd)
+1. Clonar el repositorio en local, ya sea línea de comandos o usando herramientas de gestión de git como Sourcetree o Fork.
+2. Importar el proyecto como proyecto Maven al IDE ( Eclipse o IntelliJ ).
+    1. En caso de usar el IDE IntelliJ quizás sea necesario realizar (**IMPORTANTE: primero arrancar sin esta línea**):
+   ```bash
+    Preferences >> Build,Execution, Deployment >> Compiler
+    ```
+   ```bash
+     User-local build process VM options (overrides Shared options): -Djps.track.ap.dependencies=false
+    ```
+3. Crear la base de datos en Docker.
+   ####Base de datos COETL
+   ```bash
+     docker container create --publish 5432:5432 --name coetl_dev -e "POSTGRES_USER=coetl" -e "POSTGRES_PASSWORD=coetl" -e "POSTGRES_DB=dev"  postgres:9.6.2
+   ```
+   ####Base de datos METADATA
+    1. Crear una nueva _base de datos_: `metadata`. Aquí se configurarán todas las propiedades de configuración.
+    2. [Scripts de creación](https://git.arte-consultores.com/istac/metamac-common-metadata/tree/develop/etc/db/common-metadata/postgresql/01-create)
+    3. [Inserts específicos de COETL](etc/db/common-metadata/postgresql/01-create/01-edatos-coetl-import-data.sql)
+    4. En la propiedad de metamac `metamac.coetl.db.password`, se debe encritpar la contraseña con `metamac-core-common-5.5.1-security.jar`
+    ```bash
+    java -jar metamac-core-common-5.5.1-security.jar [password = docker container property POSTGRES_PASSWORD=]
+    ```
+    5. En la propiedad de metamac `metamac.coetl.cas.service` = http://localhost:9000/login/cas
+4. Añadir configuración de la base de datos de metamac en el `application-dev.yml` *(**Los datos del puertos o nombre pueden variar**)
+   ```bash
+        environment:
+            edatos:
+                configuration:
+                    db:
+                        driverName: org.postgresql.Driver
+                        url: jdbc:postgresql://localhost:5432/metadata
+                        username: coetl
+                        password: [generated password with metamac-core-common-5.5.1-security.jar]
+    ```
+5.  Arrancar la parte servidora de la aplicación. Esto lo podemos hacer ejecutando la clase [CoetlApp](src/main/java/com/arte/application/template/CoetlApp.java).
 
+### Cliente (FrontEnd)
 A continuación, para terminar de construir la aplicación, es necesario instalar las siguientes dependencias:
 
 1. [Node.js][]: Lo usamos para levantar un servidor de desarrollo y construir el proyecto.
 
 2. [Yarn][]: Lo usamos para manejar las dependencias de Node.
 
-Estas herramientas nos permitirán trabajar de forma sencilla con los ficheros y las dependencias de la capa cliente de la aplicación (JavaScript). 
+****Nota** : Es importante comprobar la versión de node.js y yarn que es necesaria para este proyecto
 
-El siguiente paso es instalar las dependencias que se necesitan para trabajar con JavaScript en el proyecto. Para ello debe ejecutarse el comando:
+#### Instalación de Node.js y Yarn
+**Node**
+
+Para este caso puede ser de utilidad tener instalado [nvm](https://github.com/nvm-sh/nvm) para la gestión de versiones de node.js. 
+
+Instalación de nvm ver: [Artículo Medium usando nodejs con nvm](https://medium.com/@martinmuelas/usando-node-js-con-nvm-516062f4dcdb)
 
 ```bash
-yarn install
+nvm ls   --> Listado de las versiones de node que se tiene y cuál se está usando.
+```
+```bash
+nvm install 6.11.5   // ó //  nvm use 6.11.5
+```
+**Yarn**
+```bash
+npm install --global yarn@0.27.5
 ```
 
-Generalmente este comando sólo es necesario ejecutarlo cuando modifiquemos las dependencias especificadas en nuestro proyecto (fichero [package.json](package.json)). 
+Estas herramientas nos permitirán trabajar de forma sencilla con los ficheros y las dependencias de la capa cliente de la aplicación (JavaScript). 
+
+El siguiente paso es instalar las dependencias que se necesitan para trabajar con JavaScript en el proyecto. Para ello debe ejecutarse el comando [Yarn](#instalacin-de-nodejs-y-yarn)
+
+Generalmente este comando solo es necesario ejecutarlo cuando modifiquemos las dependencias especificadas en nuestro proyecto (fichero [package.json](package.json)). 
 
 Realizados los pasos anteriores, podemos proceder a arrancar la aplicación en "modo desarrollo".  Para ello necesitamos:
 
- 1. Arrancar la parte servidora de la aplicación. Esto lo podemos hacer ejecutando la clase [CoetlApp](src/main/java/com/arte/application/template/CoetlApp.java). Al ejecutar esta clase se estamos levantando un servidor Tomcat embebido. Este Tomcat embebido nos permite desarrollar de forma más rápida y eficiente. 
+ 1. Arrancar la parte servidora de la aplicación. Esto lo podemos hacer ejecutando la clase [CoetlApp](src/main/java/com/arte/application/template/CoetlApp.java). Al ejecutar esta clase estamos levantando un servidor Tomcat embebido. Este Tomcat embebido nos permite desarrollar de forma más rápida y eficiente. 
 
  2. Ejecutar el siguiente comando de `yarn`:
 

@@ -1,6 +1,7 @@
 package es.gobcan.istac.coetl.job;
 
 import java.time.Instant;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -20,6 +21,7 @@ import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.pentaho.enumeration.JobMethodsEnum;
 import es.gobcan.istac.coetl.pentaho.enumeration.TransMethodsEnum;
 import es.gobcan.istac.coetl.pentaho.service.PentahoExecutionService;
+import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.pentaho.service.util.PentahoUtil;
 import es.gobcan.istac.coetl.pentaho.web.rest.dto.EtlStatusDTO;
 import es.gobcan.istac.coetl.pentaho.web.rest.dto.JobStatusDTO;
@@ -35,44 +37,48 @@ public class PentahoWatchJob {
     private final ExecutionService executionService;
 
     private final PentahoExecutionService pentahoExecutionService;
+    
+    private final PentahoGitService pentahoGitService;
 
     private final String url;
     private final String user;
     private final String password;
 
-    public PentahoWatchJob(PentahoProperties pentahoProperties, ExecutionService executionService, PentahoExecutionService pentahoExecutionService) {
+    public PentahoWatchJob(PentahoProperties pentahoProperties, ExecutionService executionService, PentahoExecutionService pentahoExecutionService, PentahoGitService pentahoGitService) {
         this.executionService = executionService;
         this.pentahoExecutionService = pentahoExecutionService;
         this.url = PentahoUtil.getUrl(pentahoProperties);
         this.user = PentahoUtil.getUser(pentahoProperties);
         this.password = PentahoUtil.getPassword(pentahoProperties);
+        this.pentahoGitService = pentahoGitService;
     }
 
     @Scheduled(cron = Constants.DEFAULT_PENTAHO_WATCH_CRON)
     @Transactional
     public void run() {
         LOG.info("Init Pentaho watch job");
-        Execution runningExecution = executionService.getInRunningResult();
+        List<Execution> runningExecutions = executionService.getInRunningResult();
 
-        if (runningExecution != null) {
-            Etl runningEtl = runningExecution.getEtl();
-            LOG.info("Watching running ETL {}", runningEtl.getCode());
-            final String etlFilename = PentahoUtil.getFileBasename(runningEtl.getEtlFile().getName());
-            EtlStatusDTO etlStatusDTO;
-            if (runningEtl.isTransformation()) {
-                etlStatusDTO = executeStatusTrans(etlFilename);
-            } else {
-                etlStatusDTO = executeStatusJob(etlFilename);
-            }
+        if (runningExecutions != null && !runningExecutions.isEmpty()) {
+            for (Execution runningExecution : runningExecutions) {
+                Etl runningEtl = runningExecution.getEtl();
+                LOG.info("Watching running ETL {}", runningEtl.getCode());
+                final String etlFilename = pentahoGitService.getMainFileName(runningEtl);
+                EtlStatusDTO etlStatusDTO;
+                if (runningEtl.isTransformation()) {
+                    etlStatusDTO = executeStatusTrans(etlFilename, runningExecution.getIdExecution());
+                } else {
+                    etlStatusDTO = executeStatusJob(etlFilename, runningExecution.getIdExecution());
+                }
 
-            if (etlStatusDTO.isFinished()) {
-                LOG.info("ETL {} finished", runningEtl.getCode());
-                Execution finishedExecution = updateExecutionFromEtlStatus(runningExecution, etlStatusDTO);
-                executionService.update(finishedExecution);
-                pentahoExecutionService.removeEtl(runningEtl, etlFilename);
-            } else {
-                LOG.info("ETL {} not finished yet", runningEtl.getCode());
-                return;
+                if (etlStatusDTO.isFinished()) {
+                    LOG.info("ETL {} finished", runningEtl.getCode());
+                    Execution finishedExecution = updateExecutionFromEtlStatus(runningExecution, etlStatusDTO);
+                    executionService.update(finishedExecution);
+                    pentahoExecutionService.removeEtl(runningEtl, etlFilename, runningExecution.getIdExecution());
+                } else {
+                    LOG.info("ETL {} not finished yet", runningEtl.getCode());
+                }
             }
         }
 
@@ -83,13 +89,13 @@ public class PentahoWatchJob {
         }
 
         Etl nextEtl = nextExecution.getEtl();
-        final String etlFilename = PentahoUtil.getFileBasename(nextEtl.getEtlFile().getName());
-        WebResultDTO webResultDTO = pentahoExecutionService.runEtl(nextEtl, etlFilename);
+        final String etlFilename = pentahoGitService.getMainFileName(nextEtl);
+        WebResultDTO webResultDTO = pentahoExecutionService.runEtl(nextEtl, etlFilename, nextExecution.getIdExecution());
 
         Execution nextExecutionResult;
         if (!webResultDTO.isOk()) {
             LOG.error("Error executing next ETL {} - cause: {}", nextEtl.getCode(), webResultDTO.getMessage());
-            pentahoExecutionService.removeEtl(nextEtl, etlFilename);
+            pentahoExecutionService.removeEtl(nextEtl, etlFilename, nextExecution.getIdExecution());
             nextExecution.setStartDate(Instant.now());
             nextExecutionResult = updateExecutionFromResult(nextExecution, Result.FAILED, webResultDTO.getMessage());
         } else {
@@ -99,17 +105,19 @@ public class PentahoWatchJob {
         executionService.update(nextExecutionResult);
     }
 
-    private EtlStatusDTO executeStatusTrans(String etlFilename) {
+    private EtlStatusDTO executeStatusTrans(String etlFilename, String idExecution) {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("xml", "y");
         queryParams.add("name", etlFilename);
+        queryParams.add("id", idExecution);
         return PentahoUtil.execute(user, password, url, TransMethodsEnum.STATUS, HttpMethod.GET, null, queryParams, TransStatusDTO.class).getBody();
     }
 
-    private EtlStatusDTO executeStatusJob(String etlFilename) {
+    private EtlStatusDTO executeStatusJob(String etlFilename, String idExecution) {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("xml", "y");
         queryParams.add("name", etlFilename);
+        queryParams.add("id", idExecution);
         return PentahoUtil.execute(user, password, url, JobMethodsEnum.STATUS, HttpMethod.GET, null, queryParams, JobStatusDTO.class).getBody();
     }
 

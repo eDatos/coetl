@@ -19,9 +19,9 @@ export class EtlService {
             .map((response) => this.convertItemToEtl(response.json()));
     }
 
-    public update(etl: Etl, isAttachedFilesChanged: boolean): Observable<Etl> {
+    public update(etl: Etl): Observable<Etl> {
         return this.http
-            .put(this.resourceUrl, etl, { params: { isAttachedFilesChanged } })
+            .put(this.resourceUrl, etl)
             .map((response) => this.convertItemToEtl(response.json()));
     }
 
@@ -82,7 +82,13 @@ export class EtlService {
     public findParameter(idEtl: number, idParameter: number): Observable<Parameter> {
         return this.http
             .get(`${this.resourceUrl}/${idEtl}/parameters/${idParameter}`)
-            .map((response: Response) => this.convertItemToParameter(response));
+            .map((response: Response) => this.convertItemToParameter(response.json()));
+    }
+
+    public decodeParameter(idEtl: number, idParameter: number): Observable<Parameter> {
+        return this.http
+            .get(`${this.resourceUrl}/${idEtl}/parameters/${idParameter}/decode`)
+            .map((response: Response) => this.convertItemToParameter(response.json()));
     }
 
     public findAllParameters(idEtl: number): Observable<ResponseWrapper> {

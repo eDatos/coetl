@@ -47,6 +47,7 @@
         <commons-io.version>2.5</commons-io.version>
         <commons-lang.version>3.5</commons-lang.version>
         <docker-maven-plugin.version>0.4.13</docker-maven-plugin.version>
+
         <!-- Overridden to get metrics-jcache -->
         <dropwizard-metrics.version>3.2.2</dropwizard-metrics.version>
         <frontend-maven-plugin.version>1.4</frontend-maven-plugin.version>
@@ -134,10 +135,53 @@
         <overthere.version>5.0.2</overthere.version>
         <bouncycastle-provider.version>1.64</bouncycastle-provider.version>
 
+		<!-- Metamac  -->
+		<edatos-core-common.version>1.0.0</edatos-core-common.version>
+
+        <!-- Internal apis -->
+        <metamac-notifications-rest-internal-api.version>3.1.0</metamac-notifications-rest-internal-api.version>
+        <metamac-statistical-operations-rest-internal-api.version>2.2.0</metamac-statistical-operations-rest-internal-api.version>
+
+        <cxf.version>3.3.5</cxf.version>
+
+        <ojdbc6.version>11.2.0.3</ojdbc6.version>
     </properties>
 
 
     <dependencies>
+    	<dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>${ojdbc6.version}</version>
+        </dependency>
+        <!-- METAMAC -->
+        <dependency>
+            <groupId>org.siemac.metamac</groupId>
+            <artifactId>edatos-core-common</artifactId>
+            <version>${edatos-core-common.version}</version>
+        </dependency>
+        <!-- Internal apis integrations-->
+        <dependency>
+            <groupId>org.siemac.metamac.metamac-notifications</groupId>
+            <artifactId>metamac-notifications-rest-internal-api</artifactId>
+            <version>${metamac-notifications-rest-internal-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.siemac.metamac.metamac-statistical-operations</groupId>
+            <artifactId>metamac-statistical-operations-rest-internal-api</artifactId>
+            <version>${metamac-statistical-operations-rest-internal-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <!---->
         <dependency>
             <groupId>io.github.jhipster</groupId>
             <artifactId>jhipster</artifactId>
@@ -459,6 +503,7 @@
             <artifactId>bcprov-jdk15on</artifactId>
             <version>${bouncycastle-provider.version}</version>
         </dependency>
+
     </dependencies>
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>

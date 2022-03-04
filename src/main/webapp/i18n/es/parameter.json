@@ -15,6 +15,11 @@
                 "AUTO": "Automática",
                 "MANUAL": "Manual"
             },
+            "typology": {
+                "label": "Tipología",
+                "PASSWORD": "Contraseña",
+                "GENERIC": "Genérico"
+            },
             "emptyListMessage": "No existen parámetros para esta ETL"
         }
     }

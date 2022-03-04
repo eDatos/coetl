@@ -9,15 +9,13 @@ import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.CacheManagerBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.core.Ehcache;
-import org.jasig.cas.client.session.SingleSignOutFilter;
-import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
+import org.jasig.cas.client.validation.Cas30ServiceTicketValidator;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.cas.ServiceProperties;
-import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;
 import org.springframework.security.cas.authentication.CasAuthenticationProvider;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
@@ -29,9 +27,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
-import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
@@ -42,18 +37,21 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CorsFilter;
 
+import es.gobcan.istac.coetl.security.CasUserDetailsService;
 import es.gobcan.istac.coetl.security.jwt.CasEhCacheBasedTicketCache;
 import es.gobcan.istac.coetl.security.jwt.JWTAuthenticationSuccessHandler;
 import es.gobcan.istac.coetl.security.jwt.JWTFilter;
+import es.gobcan.istac.coetl.security.jwt.JWTSingleSignOutFilter;
+import es.gobcan.istac.coetl.security.jwt.JWTSingleSignOutHandler;
 import es.gobcan.istac.coetl.security.jwt.TokenProvider;
+import es.gobcan.istac.coetl.service.EnabledTokenService;
+import io.github.jhipster.config.JHipsterProperties;
 import io.github.jhipster.security.Http401UnauthorizedEntryPoint;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    private final UserDetailsService userDetailsService;
 
     private final TokenProvider tokenProvider;
 
@@ -62,18 +60,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     private ApplicationProperties applicationProperties;
+    
+    private MetadataProperties metadataProperties;
 
     private final Environment env;
+    
+    private final EnabledTokenService enabledTokenService;
+    
+    private JHipsterProperties jHipsterProperties;
 
-    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter,
-            ApplicationProperties applicationProperties, Environment env) {
+    public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, TokenProvider tokenProvider, CorsFilter corsFilter,
+            ApplicationProperties applicationProperties, MetadataProperties metadataProperties, Environment env, EnabledTokenService enabledTokenService, JHipsterProperties jHipsterProperties) {
 
         this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
         this.applicationProperties = applicationProperties;
+        this.metadataProperties = metadataProperties;
         this.env = env;
+        this.enabledTokenService = enabledTokenService;
+        this.jHipsterProperties = jHipsterProperties;
     }
 
     @PostConstruct
@@ -90,7 +96,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public ServiceProperties serviceProperties() {
         ServiceProperties serviceProperties = new ServiceProperties();
-        serviceProperties.setService(StringUtils.removeEnd(applicationProperties.getCas().getService(), "/"));
+        serviceProperties.setService(StringUtils.removeEnd(metadataProperties.getCasService(), "/"));
         serviceProperties.setSendRenew(false);
         return serviceProperties;
     }
@@ -113,19 +119,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
         casAuthenticationProvider.setAuthenticationUserDetailsService(authenticationUserDetailsService());
         casAuthenticationProvider.setServiceProperties(serviceProperties());
-        casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
+        casAuthenticationProvider.setTicketValidator(casServiceTicketValidator());
         casAuthenticationProvider.setKey("COETL_CAS");
         return casAuthenticationProvider;
     }
-
+    
     @Bean
-    public AuthenticationUserDetailsService<CasAssertionAuthenticationToken> authenticationUserDetailsService() {
-        return new UserDetailsByNameServiceWrapper<>(userDetailsService);
+    public CasUserDetailsService authenticationUserDetailsService() {
+        return new CasUserDetailsService();
     }
-
+    
     @Bean
-    public Cas20ServiceTicketValidator cas20ServiceTicketValidator() {
-        return new Cas20ServiceTicketValidator(applicationProperties.getCas().getValidate());
+    public Cas30ServiceTicketValidator casServiceTicketValidator() {
+        return new Cas30ServiceTicketValidator(metadataProperties.getMetamacCasPrefix());
     }
 
     @Bean
@@ -144,15 +150,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
         CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CasAuthenticationEntryPoint();
-        casAuthenticationEntryPoint.setLoginUrl(applicationProperties.getCas().getLogin());
+        casAuthenticationEntryPoint.setLoginUrl(metadataProperties.getMetamacCasLoginUrl());
         casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
         return casAuthenticationEntryPoint;
     }
 
-    public SingleSignOutFilter singleSignOutFilter() {
-        SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
-        singleSignOutFilter.setCasServerUrlPrefix(applicationProperties.getCas().getEndpoint());
+    public JWTSingleSignOutFilter singleSignOutFilter() {
+        JWTSingleSignOutFilter singleSignOutFilter = new JWTSingleSignOutFilter(singleSignOutHandler());
+        singleSignOutFilter.setCasServerUrlPrefix(metadataProperties.getMetamacCasPrefix());
         return singleSignOutFilter;
+    }
+    
+    public JWTSingleSignOutHandler singleSignOutHandler() {
+        return new JWTSingleSignOutHandler(jHipsterProperties, applicationProperties, env, enabledTokenService);
     }
 
     @Bean
@@ -165,7 +175,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public LogoutFilter requestCasGlobalLogoutFilter() {
-        LogoutFilter logoutFilter = new LogoutFilter(StringUtils.removeEnd(applicationProperties.getCas().getLogout(), "/"), casLogoutHandler());
+        LogoutFilter logoutFilter = new LogoutFilter(StringUtils.removeEnd(metadataProperties.getMetamacCasLogoutUrl(), "/"), casLogoutHandler());
         logoutFilter.setLogoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"));
         return logoutFilter;
     }
@@ -185,6 +195,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //@formatter:off
         web.ignoring()
             .antMatchers(HttpMethod.OPTIONS, "/**")
+            .antMatchers("/*")
             .antMatchers("/app/**/*.{js,html}")
             .antMatchers("/bower_components/**")
             .antMatchers("/i18n/**")
@@ -205,9 +216,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class)
 	    	.addFilterBefore(requestCasGlobalLogoutFilter(), LogoutFilter.class)
             .exceptionHandling()
-        	.authenticationEntryPoint(casAuthenticationEntryPoint())
+            .authenticationEntryPoint(http401UnauthorizedEntryPoint())
         .and() 
             .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .ignoringAntMatchers("/login/cas")
         .and()
             .headers()
             .frameOptions().sameOrigin()

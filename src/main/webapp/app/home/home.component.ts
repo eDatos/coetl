@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserRouteAccessService, Principal, Account } from '../shared';
-import { USER_MANAGEMENT_ROLES } from '../shared';
+import { HERRAMIENTAS_ROLES } from '../shared';
 
 export const DEFAULT_PATH = 'etl';
 
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
             if (account.deletionDate) {
                 this.router.navigate(['blocked']);
             }
-            this.userRouteAccessService.checkLogin(USER_MANAGEMENT_ROLES).then((canActivate) => {
+            this.userRouteAccessService.checkLogin(HERRAMIENTAS_ROLES).then((canActivate) => {
                 if (canActivate) {
                     this.router.navigate([DEFAULT_PATH]);
                 }

@@ -33,6 +33,10 @@
                 "label": "Nombre",
                 "placeholder": "Introduzca un nombre"
             },
+            "statisticalOperation": {
+                "label": "Operación estadística",
+                "placeholder": "Elija la operación estadística"
+            },
             "purpose": {
                 "label": "Finalidad",
                 "placeholder": "Introduzca una finalidad"
@@ -70,6 +74,9 @@
             "nextExecution": {
                 "label": "Próxima ejecución"
             },
+            "lastExecution": {
+                "label": "Última ejecución"
+            },
             "descriptionFile": {
                 "label": "Fichero descriptivo",
                 "help": "El documento descriptivo deberá ser un documento PDF elaborado por el técnico con la descripción del cometido de la ETL así como cualquier otra información que considere necesaria sobre su implementación."
@@ -80,6 +87,10 @@
             "attachedFiles": {
                 "label": "Ficheros adjuntos ETL",
                 "help": "Se toman como ficheros adjuntos aquellos recursos usados internamente por la ETL, ya sean otras ETLs, imágenes, CSVs, etcétera."
+            },
+            "uriRepository": {
+                "label": "Repositorio Git",
+                "placeholder": "https://repositoryServer.com/etlRepository.git"
             },
             "state": {
                 "label": "Estado",
@@ -96,7 +107,8 @@
                 "inCharge": "Responsables",
                 "etl": "ETL",
                 "planning": "Planificación",
-                "executions": "Ejecuciones"
+                "executions": "Ejecuciones",
+                "uriRepository": "Repositorio"
             },
             "filters": {
                 "code": {
@@ -114,6 +126,10 @@
                 "organizationInCharge": {
                     "placeholder": "Búsqueda por organismo responsable",
                     "label": "Organismo responsable"
+                },
+                "statisticalOperation": {
+                    "placeholder": "Búsqueda por operación estadística",
+                    "label": "Operación estadística"
                 },
                 "isPlanned": "Incluir planificados",
                 "includeDeleted": "Incluir eliminados"

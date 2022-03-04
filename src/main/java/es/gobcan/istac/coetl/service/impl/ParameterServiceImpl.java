@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.domain.Parameter.Type;
+import es.gobcan.istac.coetl.domain.Parameter.Typology;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
+import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.ParameterService;
 import es.gobcan.istac.coetl.service.validator.ParameterValidator;
 
@@ -38,6 +40,7 @@ public class ParameterServiceImpl implements ParameterService {
                     parameter.setKey(entry.getKey());
                     parameter.setValue(entry.getValue());
                     parameter.setType(Type.AUTO);
+                    parameter.setTypology(Typology.GENERIC);
                     return parameter;
                 })
                 .map(this::save)
@@ -82,7 +85,15 @@ public class ParameterServiceImpl implements ParameterService {
     @Override
     public Map<String, String> findAllByEtlIdAsMap(Long etlId) {
         List<Parameter> parameters = findAllByEtlId(etlId);
-        return parameters.stream().collect(Collectors.toMap(Parameter::getKey, Parameter::getValue));
+        return parameters.stream().collect(Collectors.toMap(Parameter::getKey, p -> decodeValueByTypology(p)));
+    }
+
+    @Override
+    public String decodeValueByTypology(Parameter parameter){
+        if(Typology.PASSWORD.equals(parameter.getTypology())){
+            return SecurityUtils.passwordDecode(parameter.getValue());
+        }
+        return parameter.getValue();
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import es.gobcan.istac.coetl.config.QuartzConstants;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
+import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
 import es.gobcan.istac.coetl.pentaho.service.PentahoExecutionService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.service.ExecutionService;
@@ -40,5 +41,9 @@ public abstract class AbstractCoetlQuartzJob extends QuartzJobBean {
 
     protected ExecutionService getExecutionService(JobExecutionContext context) {
         return getApplicationContext(context).getBean(ExecutionService.class);
+    }
+
+    protected NotificationRestInternalFacade getNotificationRestInternalFacade(JobExecutionContext context) {
+        return getApplicationContext(context).getBean(NotificationRestInternalFacade.class);
     }
 }

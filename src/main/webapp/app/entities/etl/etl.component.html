@@ -2,7 +2,7 @@
     <div class="entity-header">
         <h2>
             <span jhiTranslate="coetlApp.etl.home.title"></span>
-            <div>
+            <div *ngIf="canCreateEtl()">
                 <button class="btn btn-primary jh-create-entity create-etl" [routerLink]="['../etl-new']">
                     <span class="fa fa-plus"></span>
                     <span jhiTranslate="coetlApp.etl.home.createLabel"> </span>
@@ -18,24 +18,33 @@
                 <table class="table table-hover" acStickyTableHeader>
                     <thead>
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-                            <th style="width: 20%" jhiSortBy="code">
+                            <th style="width: 15%" jhiSortBy="code">
                                 <span jhiTranslate="coetlApp.etl.code.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 30%" jhiSortBy="name">
+                            <th style="width: 20%" jhiSortBy="name">
                                 <span jhiTranslate="coetlApp.etl.name.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 30%" jhiSortBy="organization_in_charge">
+                            <th style="width: 20%" jhiSortBy="organization_in_charge">
                                 <span jhiTranslate="coetlApp.etl.organizationInCharge.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 10%" jhiSortBy="type">
+                            <th style="width: 20%">
+                                <span jhiTranslate="coetlApp.etl.statisticalOperation.label"></span>
+                            </th>
+                            <th style="width: 5%" jhiSortBy="type">
                                 <span jhiTranslate="coetlApp.etl.type.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
                             <th style="width: 10%">
                                 <span jhiTranslate="coetlApp.etl.planning.label"></span>
+                            </th>
+                            <th style="width: 5%">
+                                <span jhiTranslate="coetlApp.etl.lastExecution.label"></span>
+                            </th>
+                            <th style="width: 10%">
+                                <span jhiTranslate="coetlApp.etl.nextExecution.label"></span>
                             </th>
                         </tr>
                     </thead>
@@ -44,12 +53,16 @@
                             <td>{{etl.code}}</td>
                             <td>{{etl.name}}</td>
                             <td>{{etl.organizationInCharge}}</td>
+                            <td>{{etl.externalItem?.code}} {{etl.externalItem?.name}}</td>
                             <td>
                                 <span class="badge badge-info">{{ getTypeName(etl) }}</span>
                             </td>
                             <td>
                                 <span class="badge" [ngClass]="{ 'badge-success': etl.isPlanning(), 'badge-warning': !etl.isPlanning() }">{{ getPlanningMessage(etl) }}</span>
                             </td>
+
+                            <td>{{etl.lastExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>{{etl.nextExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                         </tr>
                     </tbody>
                 </table>

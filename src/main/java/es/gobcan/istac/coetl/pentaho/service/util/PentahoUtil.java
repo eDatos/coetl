@@ -80,8 +80,8 @@ public final class PentahoUtil {
         return pentahoProperties.getAuth().getPassword();
     }
 
-    public static String getCarteWrappedCodeFromEtlFile(File etlFile, String prefixTagName) throws SQLException, ParserConfigurationException, SAXException, IOException, TransformerException {
-        Document documentXML = buildCarteWrappedDocumentXmlFromEtlFile(etlFile, prefixTagName);
+    public static String getCarteWrappedCodeFromEtlFile(String mainCode, String prefixTagName) throws SQLException, ParserConfigurationException, SAXException, IOException, TransformerException {
+        Document documentXML = buildCarteWrappedDocumentXmlFromEtlFile(mainCode, prefixTagName);
 
         StringWriter sw = new StringWriter();
         TransformerFactory tf = TransformerFactory.newInstance();
@@ -102,11 +102,11 @@ public final class PentahoUtil {
         return FilenameUtils.getBaseName(fileNameWithExtension);
     }
 
-    public static Execution buildExecution(Etl etl, Type type, Result result) {
-        return buildExecution(etl, type, result, null);
+    public static Execution buildExecution(Etl etl, Type type, Result result, String idExecution) {
+        return buildExecution(etl, type, result, idExecution, null);
     }
 
-    public static Execution buildExecution(Etl etl, Type type, Result result, String notes) {
+    public static Execution buildExecution(Etl etl, Type type, Result result, String idExecution, String notes) {
         Execution execution = new Execution();
         execution.setEtl(etl);
         execution.setType(type);
@@ -116,6 +116,7 @@ public final class PentahoUtil {
         if (Result.RUNNING.equals(result)) {
             execution.setStartDate(Instant.now());
         }
+        execution.setIdExecution(idExecution);
         return execution;
     }
 
@@ -132,8 +133,7 @@ public final class PentahoUtil {
         return headers;
     }
 
-    private static Document buildCarteWrappedDocumentXmlFromEtlFile(File etlFile, String prefixTagName) throws SQLException, ParserConfigurationException, SAXException, IOException {
-        String etlFileCode = convertBlobToString(etlFile.getData());
+    private static Document buildCarteWrappedDocumentXmlFromEtlFile(String etlFileCode, String prefixTagName) throws SQLException, ParserConfigurationException, SAXException, IOException {
         final String carteWrappedRootTag = prefixTagName + SUFFIX_CONFIGURATION_TAGNAME;
 
         Document etlFileDocument = getDocumentXmlFromEtlCode(etlFileCode);

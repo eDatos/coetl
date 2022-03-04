@@ -54,6 +54,7 @@ Navbar
 
 .internal-navbar {
     background-color: $main-internal;
+    top: $primary-navbar-height !important;
 }
 
 .navbar-title {

@@ -25,9 +25,12 @@ import java.util.Arrays;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,10 +53,12 @@ import es.gobcan.istac.coetl.domain.Etl.Type;
 import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ExceptionTranslator;
-import es.gobcan.istac.coetl.pentaho.service.PentahoSftpService;
+import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
+import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
+import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
@@ -89,7 +94,9 @@ public class EtlResourceIntTest {
     private static final String DEFAULT_ETL_PARAMETER_KEY = "DEFAULT_ETL_PARAMETER_KEY";
     private static final String DEFAULT_ETL_PARAMETER_VALUE = "DEFAULT_ETL_PARAMETER_VALUE";
     private static final String UPDATED_ETL_PARAMETER_VALUE = "UPDATED_ETL_PARAMETER_VALUE";
-    private static final es.gobcan.istac.coetl.domain.Parameter.Type DEFAULT_ETL_PARAMETER_TYPE = es.gobcan.istac.coetl.domain.Parameter.Type.MANUAL;
+    private static final String DEFAULT_REPOSITORY_VALUE = "https://testing.com/default.git";
+    private static final Parameter.Type DEFAULT_ETL_PARAMETER_TYPE = Parameter.Type.MANUAL;
+    private static final Parameter.Typology DEFAULT_ETL_PARAMETER_TYPOLOGY = Parameter.Typology.GENERIC;
 
     @Autowired
     EntityManager entityManager;
@@ -112,8 +119,8 @@ public class EtlResourceIntTest {
     @Autowired
     FileRepository fileRepository;
 
-    @Autowired
-    PentahoSftpService pentahoSftoService;
+    @Mock
+    PentahoGitService pentahoGitService;
 
     @Autowired
     ParameterRepository parameterRepository;
@@ -136,12 +143,17 @@ public class EtlResourceIntTest {
     @Autowired
     private ExceptionTranslator exceptionTranslator;
 
+    @Autowired
+    private NotificationRestInternalFacade notificationRestInternalFacade;
+
     private MockMvc restEtlMockMvc;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, pentahoSftoService, auditEventPublisher);
+        Mockito.when(pentahoGitService.cloneRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
+        Mockito.when(pentahoGitService.replaceRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
+        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, pentahoGitService, notificationRestInternalFacade);
         this.restEtlMockMvc = MockMvcBuilders.standaloneSetup(etlResource).setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
                 .setMessageConverters(jacksonMessageConverter).build();
     }
@@ -154,8 +166,7 @@ public class EtlResourceIntTest {
         etl.setFunctionalInCharge(DEFAULT_FUNCTIONAL_IN_CHARGE);
         etl.setTechnicalInCharge(DEFAULT_TECHNICAL_IN_CHARGE);
         etl.setType(DEFAULT_TYPE);
-        File etlFile = fileRepository.saveAndFlush(FileResourceIntTest.createEntity(PATH_CODE_FILE, entityManager));
-        etl.setEtlFile(etlFile);
+        etl.setUriRepository(DEFAULT_REPOSITORY_VALUE);
         File etlDescriptionFile = fileRepository.saveAndFlush(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
         etl.setEtlDescriptionFile(etlDescriptionFile);
         return etl;
@@ -180,6 +191,7 @@ public class EtlResourceIntTest {
         parameter.setKey(DEFAULT_ETL_PARAMETER_KEY);
         parameter.setValue(DEFAULT_ETL_PARAMETER_VALUE);
         parameter.setType(DEFAULT_ETL_PARAMETER_TYPE);
+        parameter.setTypology(DEFAULT_ETL_PARAMETER_TYPOLOGY);
         return parameter;
     }
 
@@ -212,9 +224,8 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.comments").value(is(nullValue())))
             .andExpect(jsonPath("$.executionDescription").value(is(nullValue())))
             .andExpect(jsonPath("$.executionPlanning").value(is(nullValue())))
-            .andExpect(jsonPath("$.etlFile").isNotEmpty())
+            .andExpect(jsonPath("$.uriRepository").isNotEmpty())
             .andExpect(jsonPath("$.etlDescriptionFile").isNotEmpty())
-            .andExpect(jsonPath("$.attachedFiles").value(is(empty())))
             .andExpect(jsonPath("$.deletionDate").value(is(nullValue())))
             .andExpect(jsonPath("$.deletedBy").value(is(nullValue())));
         //@formatter:on
@@ -254,8 +265,10 @@ public class EtlResourceIntTest {
 
         doReturn(updatedEtlMocked).when(etlService).update(any(Etl.class));
 
+        doReturn(false).when(etlService).goingToChangeRepository(any(EtlDTO.class));
+
         //@formatter:off
-        restEtlMockMvc.perform(put(BASE_URI.concat("?isAttachedFileChanged=\"false\""))
+        restEtlMockMvc.perform(put(BASE_URI)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(updatedEtlDTOMocked)))
             .andDo(print())
@@ -272,7 +285,6 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.comments").value(is(nullValue())))
             .andExpect(jsonPath("$.executionDescription").value(is(nullValue())))
             .andExpect(jsonPath("$.executionPlanning").value(is(nullValue())))
-            .andExpect(jsonPath("$.attachedFiles").value(is(empty())))
             .andExpect(jsonPath("$.deletionDate").value(is(nullValue())))
             .andExpect(jsonPath("$.deletedBy").value(is(nullValue())));
         //@formatter:on
@@ -709,5 +721,15 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.[*].etlId").value(hasItem(createdEtl.getId().intValue())))
             .andExpect(jsonPath("$.[*].optLock").value(hasItem(0)));
         //@formatter:on
+    }
+
+    @Test
+    @Transactional
+    public void givenParameterValuePassword_whenEncrypt_thenSuccess() throws Exception {
+        String value = "password";
+
+        String cipherText = SecurityUtils.passwordEncoder(value);
+        String decryptedCipherText = SecurityUtils.passwordDecode(cipherText);
+        Assert.assertEquals(value, decryptedCipherText);
     }
 }

@@ -8,7 +8,7 @@
     position: fixed;
     width: $side-menu-width;
     left: 0;
-    top: $navbar-height;
+    top: $navbar-height + $primary-navbar-height;
     bottom: 0;
 
     padding-top: $entity-header-height / 2;

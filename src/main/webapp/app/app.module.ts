@@ -14,6 +14,9 @@ import { CoetlEntityModule } from './entities/entity.module';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
+import { DEFAULT_LANG } from './app.constants';
+import { TranslateService } from '@ngx-translate/core';
+
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
 import { CoetlConfigModule, ConfigService } from './config';
@@ -22,6 +25,7 @@ import {
     JhiMainComponent,
     LayoutRoutingModule,
     NavbarComponent,
+    EdatosNavbarComponent,
     ErrorComponent,
     notFoundRoute
 } from './layouts';
@@ -43,6 +47,11 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
     };
 }
 
+export function initTranslations(translateService: TranslateService) {
+    translateService.setDefaultLang(DEFAULT_LANG);
+    return () => translateService.use(DEFAULT_LANG).toPromise();
+}
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -57,12 +66,18 @@ export function init(configService: ConfigService, authServerProvider: AuthServe
         CoetlConfigModule,
         RouterModule.forRoot(APP_ROUTES, { useHash: true })
     ],
-    declarations: [JhiMainComponent, NavbarComponent, ErrorComponent],
+    declarations: [JhiMainComponent, NavbarComponent, EdatosNavbarComponent, ErrorComponent],
     providers: [
         {
             provide: APP_INITIALIZER,
             useFactory: init,
             deps: [ConfigService, AuthServerProvider],
+            multi: true
+        },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initTranslations,
+            deps: [TranslateService],
             multi: true
         },
         customHttpProvider(),

@@ -1,4 +1,5 @@
 import { BaseVersionedAndAuditingWithDeletionEntity } from '../../shared/model/base-versioned-auditing-with-deletion-entity';
+import { ExternalItem } from '../external-item';
 import { File } from '../file/file.model';
 
 export enum Type {
@@ -13,7 +14,10 @@ export class EtlBase extends BaseVersionedAndAuditingWithDeletionEntity {
         public name?: string,
         public organizationInCharge?: string,
         public type?: Type,
-        public executionPlanning?: string
+        public executionPlanning?: string,
+        public externalItem?: ExternalItem,
+        public nextExecution?: Date,
+        public lastExecution?: Date
     ) {
         super();
     }
@@ -34,14 +38,10 @@ export class Etl extends EtlBase {
         public technicalInCharge?: string,
         public comments?: string,
         public executionDescription?: string,
-        public nextExecution?: Date,
-        public etlFile?: File,
         public etlDescriptionFile?: File,
-        public attachedFiles?: File[],
+        public uriRepository?: string,
         public isAttachedFilesChanged?: boolean
     ) {
         super();
-        this.attachedFiles = !!attachedFiles ? attachedFiles : [];
-        this.isAttachedFilesChanged = !!isAttachedFilesChanged;
     }
 }

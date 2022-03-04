@@ -11,10 +11,6 @@
 # ===================================================================
 
 spring:
-    datasource:
-        url: jdbc:postgresql://FILL_HOST:FILL_PORT/FILL_DATABASE
-        username: FILL_USER
-        password: FILL_PASS
     mail:
         host: FILL_HOST
         port: FILL_PORT
@@ -28,54 +24,28 @@ spring:
 # ===================================================================
 
 jhipster:
-    mail: 
+    mail:
         from: FILL_EMAIL
-        base-url: http://FILL_APPLICATION_URL 
-
-# ===================================================================
-# Pentaho specific properties
-# Add your own Pentaho properties here
-# ===================================================================
-
-pentaho:
-    endpoint: FILL_PENTAHO_ENDPOINT # Required: Pentaho Data Integration Server Endpoint
-    auth:
-        user: FILL_PENTAHO_USER # Required: Pentaho Data Integration Server User
-        password: FILL_PENTAHO_PASSWORD # Required: Pentaho Data Integration Server Password
-    host:
-        os: FILL_PENTAHO_HOST_OS # Required: Pentaho Host Operating System
-        address: FILL_PENTAHO_HOST_ADDRESS # Required: Pentaho Host Address
-        username: FILL_PENTAHO_HOST_USERNAME # Required: Pentaho Host Username
-        password: FILL_PENTAHO_HOST_PASSWORD # Required: Pentaho Host Password
-        sudoUsername: FILL_PENTAHO_HOST_SUDO_USERNAME # Required: Pentaho Host Sudo Username
-        sudoPassword: FILL_PENTAHO_HOST_SUDO_PASSWORD # Required: Pentaho Host Sudo Password
-        sudoPasswordPromptRegex: FILL_PENTAHO_HOST_SUDO_PASSWORD_PROMPT_REGEX # Required: Pentaho Host Sudo Password Prompt Regular Expression
-        sftpPath: FILL_PENTAHO_HOST_SFTP_PATH # Required: Pentaho Host SFTP Path
-        resourcesPath: FILL_PENTAHO_HOST_RESOURCES_PATH # Required: Pentaho Host Resources Path
-        ownerUserResourcesPath: FILL_PENTAHO_HOST_OWNER_USER_RESOURCES_PATH # Required: Pentaho Host Owner User Resources Path
-        ownerGroupResourcesPath: FILL_PENTAHO_HOST_OWNER_GROUP_RESOURCES_PATH # Required: Pentaho Host Owner Group Resources Path
+        base-url: http://FILL_APPLICATION_URL
 
 # ===================================================================
 # Application specific properties
 # Add your own application properties here.
 # ===================================================================
+environment:
+    edatos:
+        configuration:
+            db:
+                driverName: FILL_ME
+                url: FILL_ME
+                username: FILL_ME
+                password: FILL_ME
 
 application:
-    cas:
-        endpoint: FILL_CAS_ENDPOINT # Required: Cas Endpoint
-        service: FILL_SERVICE_URL # Required: Aplication service
-        login:  # Optional: Only change if needed (Leave empty for cas.enpoint + '/login')
-        logout: # Optional: Only change if needed(Leave empty for cas.enpoint + '/logout')
-    ldap:
-        url: FILL_URL # Ejemplo: ldap://ldap.miorganizacion.com
-        username: FILL_USERNAME # Ejemplo: cn=username,dc=miorganizacion,dc=com
-        password: FILL_PASSWORD # Ejemplo: mipassword
-        base: FILL_BASE # Ejemplo ou=usuarios,dc=miorganizacion,dc=com
-        searchUsersProperty: FILL_SEARCH_USERS_PROPERTY # Ejemplo: uid
     installation:
         type: FILL_INSTALLATION_TYPE # Required: Installation Type Context (EXTERNAL / INTERNAL)
 
-# ===================================================================        
+# ===================================================================
 # Application debug properties
 #
 # Uncomment if debug mode needed
