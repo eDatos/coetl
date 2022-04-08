@@ -2,6 +2,7 @@
     "global": {
         "title": "Consola de ETL",
         "internalTitle": "Consola de ETL - Gestión",
+        "coetlLabTitle": " - Lab ",
         "yes": "Sí",
         "no": "No",
         "browsehappy":

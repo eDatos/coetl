@@ -14,7 +14,7 @@ public class MetadataProperties {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private static final String METAMAC_KEY_CAS_SERVICE = "metamac.coetl.cas.service";
+    private static final String URL_BASE = "metamac.coetl.web.base";
 
     @Autowired
     private MetadataConfigurationService configurationService;
@@ -25,6 +25,8 @@ public class MetadataProperties {
     private String metamacCasLogoutUrl;
     private String casService;
 
+    private String appbaseUrl;
+
     @PostConstruct
     public void setValues() {
         try {
@@ -32,7 +34,8 @@ public class MetadataProperties {
             metamacCasPrefix = normalizeUrl(configurationService.retrieveSecurityCasServerUrlPrefix());
             metamacCasLoginUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLoginUrl());
             metamacCasLogoutUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLogoutUrl());
-            casService = normalizeUrl(configurationService.findProperty(METAMAC_KEY_CAS_SERVICE));
+            appbaseUrl = normalizeUrl(configurationService.retrieveProperty(URL_BASE));
+            casService = appbaseUrl + "/login/cas";
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
         }
@@ -60,6 +63,10 @@ public class MetadataProperties {
 
     public void setCasService(String casService) {
         this.casService = casService;
+    }
+
+    public String getAppbaseUrl() {
+        return appbaseUrl;
     }
 
     private String normalizeUrl(String url) {
