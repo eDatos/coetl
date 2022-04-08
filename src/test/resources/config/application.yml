@@ -115,6 +115,9 @@ environment:
                 password: tV8lk+6r+URVXobfg7zSrSIJsk+uWcy+D5kXs7V9LlQ=
 
 application:
+    installation:
+        type: INTERNAL
+        instance: COETL
     jobs:
         cron:
             enabledTokens: 0 0 4 * * *

@@ -44,6 +44,7 @@ environment:
 application:
     installation:
         type: FILL_INSTALLATION_TYPE # Required: Installation Type Context (EXTERNAL / INTERNAL)
+        instance: FILL_INSTALLATION_INSTANCE # Required: Installation Instance Context (COETL / COETLLAB)
 
 # ===================================================================
 # Application debug properties

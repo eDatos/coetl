@@ -116,3 +116,4 @@ environment:
 application:
     installation:
         type: INTERNAL # Required: Installation Type Context (EXTERNAL / INTERNAL)
+        instance: COETL # Required: Installation Instance Context (COETL / COETLLAB)
