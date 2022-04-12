@@ -28,9 +28,9 @@ public class GitProperties {
     @PostConstruct
     public void setValues() {
         try {
-            setUsername(configurationService.findProperty(instanceService.getMETAMAC_KEY_GIT_USER()));
-            setPassword(configurationService.findProperty(instanceService.getMETAMAC_KEY_GIT_PASSWORD()));
-            setBranch(configurationService.findProperty(instanceService.getMETAMAC_KEY_GIT_BRANCH()));
+            setUsername(configurationService.findProperty(instanceService.getMetamacKeyGitUser()));
+            setPassword(configurationService.findProperty(instanceService.getMetamacKeyGitPassword()));
+            setBranch(configurationService.findProperty(instanceService.getMetamacKeyGitBranch()));
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
         }

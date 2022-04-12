@@ -20,7 +20,7 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
 
     public DataConfigurationServiceImpl(ApplicationProperties applicationProperties) {
         this.applicationProperties = applicationProperties;
-        if(applicationProperties.getInstallation().getInstance().equalsIgnoreCase(INSTANCE_COETL_LAB)){
+        if(INSTANCE_COETL_LAB.equalsIgnoreCase(applicationProperties.getInstallation().getInstance())){
             this.prefixInstance = INSTANCE_METAMAC_COETL_LAB;
         } else {
             this.prefixInstance = INSTANCE_METAMAC_COETL;
@@ -30,50 +30,57 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
     private String getPrefixInstace(){
         return prefixInstance;
     }
-    public String getDB_URL(){
+
+    /*CAS*/
+    public String getCasService(){
+        return getPrefixInstace() + "cas.service";
+    }
+
+    /*DB*/
+    public String getDbUrl(){
         return getPrefixInstace() + "db.url";
     }
-    public String getDB_USERNAME(){
+    public String getDbUsername(){
         return getPrefixInstace() + "db.username";
     }
-    public String getDB_PASSWORD(){
+    public String getDbPassword(){
         return getPrefixInstace() + "db.password";
     }
-    public String getDB_DRIVER_NAME(){
+    public String getDdDriverName(){
         return getPrefixInstace() + "db.driver_name";
     }
 
     /*GIT*/
-    public String getMETAMAC_KEY_GIT_USER(){
+    public String getMetamacKeyGitUser(){
         return getPrefixInstace() + "git.username";
     }
 
-    public String getMETAMAC_KEY_GIT_PASSWORD(){
+    public String getMetamacKeyGitPassword(){
         return getPrefixInstace() + "git.password";
     }
 
-    public String getMETAMAC_KEY_GIT_BRANCH(){
+    public String getMetamacKeyGitBranch(){
         return getPrefixInstace() + "git.branch";
     }
 
 /*PENTAHO*/
-    public String getMETAMAC_KEY_PENTAHO_ENDPOINT(){
+    public String getMetamacKeyPentahoEndpoint(){
         return getPrefixInstace() + "pentaho.endpoint";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_AUTH_USER(){
+    public String getMetamacKeyPentahoAuthUser(){
         return getPrefixInstace() + "pentaho.auth.user";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_AUTH_PASSWORD(){
+    public String getMetamacKeyPentahoAuthPassword(){
         return getPrefixInstace() + "pentaho.auth.password";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_OS(){
+    public String getMetamacKeyPentahoHostOs(){
         return getPrefixInstace() + "pentaho.host.os";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_ADDRESS(){
+    public String getMetamacKeyPentahoHostAddress(){
         return getPrefixInstace() + "pentaho.host.address";
     }
 
@@ -81,39 +88,39 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
         return getPrefixInstace() + "pentaho.host.username";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_PASSWORD(){
+    public String getMetamacKeyPentahoHostPassword(){
         return getPrefixInstace() + "pentaho.host.password";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_SUDOUSERNAME(){
+    public String getMetamacKeyPentahoHostSudoUsername(){
         return getPrefixInstace() + "pentaho.host.sudo.username";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_SUDOPASSWORD(){
+    public String getMetamacKeyPentahoHostSudopassword(){
         return getPrefixInstace() + "pentaho.host.sudo.password";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_SUDOPASSWORD_PROMPTREGEX(){
+    public String getMetamacKeyPentahoHostSudoPasswordProptRegex(){
         return getPrefixInstace() + "pentaho.host.sudoPasswordPromptRegex";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_SFTPPATH(){
+    public String getMetamacKeyPentahoHostSftpPath(){
         return getPrefixInstace() + "pentaho.host.sftpPath";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_RESOURCESPATH(){
+    public String getMetamacKeyPentahoHostResourcesPath(){
         return getPrefixInstace() + "pentaho.host.resourcesPath";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_OWNERUSERRESOURCESPATH(){
+    public String getMetamacKeyPentahoHostOwnerUserResourcesPath(){
         return getPrefixInstace() + "pentaho.host.ownerUserResourcesPath";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_OWNERGROUPRESOURCESPATH(){
+    public String getMetamacKeyPentahoHostOwnerGroupResourcesPath(){
         return getPrefixInstace() + "pentaho.host.ownerGroupResourcesPath";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_MAIN_RESOURCE_PREFIX(){
+    public String getMetamacKeyPentahoMainResourcePrefix(){
         return getPrefixInstace() + "pentaho.host.mainResourcePrefix";
     }
 }

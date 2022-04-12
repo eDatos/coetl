@@ -50,10 +50,10 @@ public class DatabaseConfiguration {
     public DataSource dataSource(MetadataConfigurationService metadataConfigurationService) {
         // @formatter:off
         HikariDataSource hikariDataSource = (HikariDataSource) DataSourceBuilder.create().
-                url(metadataConfigurationService.retrieveProperty(dataService.getDB_URL())).
-                driverClassName(metadataConfigurationService.retrieveProperty(dataService.getDB_DRIVER_NAME())).
-                username(metadataConfigurationService.findProperty(dataService.getDB_USERNAME())).
-                password(metadataConfigurationService.findProperty(dataService.getDB_PASSWORD())).
+                url(metadataConfigurationService.retrieveProperty(dataService.getDbUrl())).
+                driverClassName(metadataConfigurationService.retrieveProperty(dataService.getDdDriverName())).
+                username(metadataConfigurationService.findProperty(dataService.getDbUsername())).
+                password(metadataConfigurationService.findProperty(dataService.getDbPassword())).
                 type(HikariDataSource.class).
                 build();
         // @formatter:on

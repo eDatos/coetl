@@ -29,21 +29,21 @@ public class PentahoProperties {
     @PostConstruct
     public void setValues() {
         try {
-            setEndpoint(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_ENDPOINT()));
-            setMainResourcePrefix(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_MAIN_RESOURCE_PREFIX()));
-            auth.setUser(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_AUTH_USER()));
-            auth.setPassword(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_AUTH_PASSWORD()));
-            host.setOs(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_OS()));
-            host.setAddress(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_ADDRESS()));
+            setEndpoint(configurationService.findProperty(instanceService.getMetamacKeyPentahoEndpoint()));
+            setMainResourcePrefix(configurationService.findProperty(instanceService.getMetamacKeyPentahoMainResourcePrefix()));
+            auth.setUser(configurationService.findProperty(instanceService.getMetamacKeyPentahoAuthUser()));
+            auth.setPassword(configurationService.findProperty(instanceService.getMetamacKeyPentahoAuthPassword()));
+            host.setOs(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostOs()));
+            host.setAddress(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostAddress()));
             host.setUsername(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_USERNAME()));
-            host.setPassword(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_PASSWORD()));
-            host.setSudoUsername(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_SUDOUSERNAME()));
-            host.setSudoPassword(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_SUDOPASSWORD()));
-            host.setSudoPasswordPromptRegex(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_SUDOPASSWORD_PROMPTREGEX()));
-            host.setSftpPath(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_SFTPPATH()));
-            host.setResourcesPath(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_RESOURCESPATH()));
-            host.setOwnerUserResourcesPath(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_OWNERUSERRESOURCESPATH()));
-            host.setOwnerGroupResourcesPath(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_OWNERGROUPRESOURCESPATH()));
+            host.setPassword(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostPassword()));
+            host.setSudoUsername(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostSudoUsername()));
+            host.setSudoPassword(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostSudopassword()));
+            host.setSudoPasswordPromptRegex(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostSudoPasswordProptRegex()));
+            host.setSftpPath(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostSftpPath()));
+            host.setResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostResourcesPath()));
+            host.setOwnerUserResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostOwnerUserResourcesPath()));
+            host.setOwnerGroupResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostOwnerGroupResourcesPath()));
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
         }
