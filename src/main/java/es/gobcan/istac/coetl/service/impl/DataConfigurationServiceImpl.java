@@ -84,7 +84,7 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
         return getPrefixInstace() + "pentaho.host.address";
     }
 
-    public String getMETAMAC_KEY_PENTAHO_HOST_USERNAME(){
+    public String getMetamacKeyPentahoHostUsername(){
         return getPrefixInstace() + "pentaho.host.username";
     }
 

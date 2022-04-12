@@ -35,7 +35,7 @@ public class PentahoProperties {
             auth.setPassword(configurationService.findProperty(instanceService.getMetamacKeyPentahoAuthPassword()));
             host.setOs(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostOs()));
             host.setAddress(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostAddress()));
-            host.setUsername(configurationService.findProperty(instanceService.getMETAMAC_KEY_PENTAHO_HOST_USERNAME()));
+            host.setUsername(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostUsername()));
             host.setPassword(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostPassword()));
             host.setSudoUsername(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostSudoUsername()));
             host.setSudoPassword(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostSudopassword()));

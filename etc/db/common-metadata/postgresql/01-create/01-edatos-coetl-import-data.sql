@@ -1,4 +1,4 @@
--- EDATOS-3584 . Para una instalación dual ( COETL y COETLLAB) también será neecsario añadir las propiedades de ambas instancias.
+-- EDATOS-3584 . Para una instalación dual ( COETL y COETLLAB) también será necesario añadir las propiedades de ambas instancias.
 
 --COETL
 insert into TB_DATA_CONFIGURATIONS (ID,VERSION,SYSTEM_PROPERTY,CONF_KEY,CONF_VALUE, EXTERNALLY_PUBLISHED) values (GET_NEXT_SEQUENCE_VALUE('DATA_CONFIGURATIONS'),1,true,'metamac.coetl.db.url','jdbc:postgresql://FILL_ME_WITH_HOST:FILL_ME_WITH_PORT/FILL_ME_WITH_DB', false);

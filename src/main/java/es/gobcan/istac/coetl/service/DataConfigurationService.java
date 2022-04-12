@@ -22,7 +22,7 @@ public interface DataConfigurationService {
     public String getMetamacKeyPentahoAuthPassword();
     public String getMetamacKeyPentahoHostOs();
     public String getMetamacKeyPentahoHostAddress();
-    public String getMETAMAC_KEY_PENTAHO_HOST_USERNAME();
+    public String getMetamacKeyPentahoHostUsername();
     public String getMetamacKeyPentahoHostPassword();
     public String getMetamacKeyPentahoHostSudoUsername();
     public String getMetamacKeyPentahoHostSudopassword();
