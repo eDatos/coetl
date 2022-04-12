@@ -181,6 +181,7 @@ logging:
 application:
     installation:
         type: FILL_INSTALLATION_TYPE # Required: Installation Type Context (EXTERNAL / INTERNAL)
+        instance: FILL_INSTALLATION_INSTANCE # Required: Installation Instance Context (COETL / COETLLAB)
     jobs:
         cron:
             enabledTokens: 0 0 4 * * *
