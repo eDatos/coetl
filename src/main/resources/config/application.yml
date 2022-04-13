@@ -28,7 +28,7 @@ management:
             enabled: false # When using the MailService, configure an SMTP server and set this to true
 spring:
     application:
-        name: coetl
+        name: ${application.installation.instance}
     devtools:
         restart:
             enabled: false
@@ -54,9 +54,9 @@ spring:
 # spring.jmx.default-domain y spring.hikari.pool-name evitan que al levantar dos aplicaciones con un spring boot similar al template
 # (con beans de jmx configurado) la primera registre sus beans impidiendo a las siguientes registrar los suyos
     jmx:
-      default-domain: istaccoetl
+      default-domain: ISTAC${application.installation.instance}
     hikari:
-        pool-name: istaccoetlpool
+        pool-name: ISTAC${application.installation.instance}POOL
     messages:
         basename: i18n/messages
     mvc:
