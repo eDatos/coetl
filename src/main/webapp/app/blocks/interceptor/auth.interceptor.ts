@@ -16,8 +16,8 @@ export class AuthInterceptor extends JhiHttpInterceptor {
 
     requestIntercept(options?: RequestOptionsArgs): RequestOptionsArgs {
         const token =
-            this.localStorage.retrieve(JHI_TOKEN_AUTH_NAME) ||
-            this.sessionStorage.retrieve(JHI_TOKEN_AUTH_NAME);
+            this.localStorage.retrieve(TOKEN_AUTH_NAME) ||
+            this.sessionStorage.retrieve(TOKEN_AUTH_NAME);
         if (!!token) {
             console.log(
                 'HEADER   TOKEN == TRUE localStore.retrive/sessionStore.retrive         ',
