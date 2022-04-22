@@ -16,8 +16,8 @@ export class AuthInterceptor extends JhiHttpInterceptor {
 
     requestIntercept(options?: RequestOptionsArgs): RequestOptionsArgs {
         const token =
-            this.localStorage.retrieve(TOKEN_AUTH_NAME) ||
-            this.sessionStorage.retrieve(TOKEN_AUTH_NAME);
+            this.localStorage.retrieve(JHI_TOKEN_AUTH_NAME) ||
+            this.sessionStorage.retrieve(JHI_TOKEN_AUTH_NAME);
         if (!!token) {
             console.log(
                 'HEADER   TOKEN == TRUE localStore.retrive/sessionStore.retrive         ',
@@ -25,7 +25,7 @@ export class AuthInterceptor extends JhiHttpInterceptor {
             );
             options.headers.append('Authorization', 'Bearer ' + token);
         } else {
-            const tokenFromCookie = this.cookieService.get(JHI_TOKEN_AUTH_NAME);
+            const tokenFromCookie = this.cookieService.get(TOKEN_AUTH_NAME);
             if (!!tokenFromCookie) {
                 console.log('tokenFromCookie     cookieService.GET       ', tokenFromCookie);
                 this.storeAuthenticationToken(tokenFromCookie, false);
