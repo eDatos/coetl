@@ -1,33 +1,6 @@
 package es.gobcan.istac.coetl.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.codahale.metrics.annotation.Timed;
-
 import es.gobcan.istac.coetl.config.AuditConstants;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.istac.coetl.domain.Etl;
@@ -50,6 +23,23 @@ import es.gobcan.istac.coetl.web.rest.util.HeaderUtil;
 import es.gobcan.istac.coetl.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(EtlResource.BASE_URI)
@@ -195,8 +185,16 @@ public class EtlResource extends AbstractResource {
     @PreAuthorize("@secChecker.canReadEtl(authentication)")
     public ResponseEntity<List<EtlBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable) {
         LOG.debug("REST Request to find all ETLs by query : {} and including deleted : {}", query, includeDeleted);
-        Page<EtlBaseDTO> page = etlService.findAll(query, includeDeleted, pageable).map(etlMapper::toBaseDto);
+        LOG.info("REST Request to find all ETLs by query : {} and including deleted : {}", query, includeDeleted);
 
+        Page<EtlBaseDTO> page = null;
+        try {
+            page = etlService.findAll(query, includeDeleted, pageable).map(etlMapper::toBaseDto);
+
+        } catch (Exception e) {
+            LOG.info("ACCES DENIED REST Request to find all ETLs by query : {} and including deleted : {}", e);
+        }
+        
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI);
 
         return ResponseEntity.ok().headers(headers).body(page.getContent());
