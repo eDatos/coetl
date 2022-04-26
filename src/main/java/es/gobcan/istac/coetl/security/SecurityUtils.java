@@ -66,6 +66,7 @@ public final class SecurityUtils {
 
     public static boolean isAdmin(){
         SecurityContext securityContext = SecurityContextHolder.getContext();
+        LOG.info("Es Admin?   SecurityContext ", SecurityContextHolder.getContext());
         return securityContext.getAuthentication().getAuthorities().stream().anyMatch(authority -> {
             String[] appRole = authority.getAuthority().split(SEPARATOR);
             String application = appRole[0];
