@@ -1,17 +1,16 @@
 package es.gobcan.istac.coetl.security;
 
-import java.util.Arrays;
-import java.util.Objects;
-
+import es.gobcan.istac.coetl.domain.enumeration.Rol;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import es.gobcan.istac.coetl.domain.enumeration.Rol;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Component("secChecker")
 public class SecurityChecker {
-    
+
     private static final String ACL_APP_NAME = "GESTOR_CONSOLA_ETL";
     private static final String SEPARATOR = "#";
 
@@ -23,7 +22,7 @@ public class SecurityChecker {
             return application.equals(ACL_APP_NAME) && Arrays.stream(userRoles).anyMatch(role -> Objects.equals(role.name(), roleName));
         });
     }
-    
+
     public boolean puedeConsultarAuditoria(Authentication authentication) {
         return this.isAdmin(authentication);
     }
@@ -78,10 +77,6 @@ public class SecurityChecker {
     }
 
     public boolean puedeConsultarConfig(Authentication authentication) {
-        return this.isAdmin(authentication);
-    }
-
-    public boolean puedeConsultarApi(Authentication authentication) {
         return this.isAdmin(authentication);
     }
 

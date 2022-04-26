@@ -121,6 +121,6 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
     }
 
     public String getMetamacKeyPentahoMainResourcePrefix(){
-        return getPrefixInstace() + "pentaho.host.mainResourcePrefix";
+        return getPrefixInstace() + "pentaho.mainResourcePrefix";
     }
 }
