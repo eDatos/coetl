@@ -115,7 +115,6 @@ public class EtlServiceImpl implements EtlService {
 
     @Override
     public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable) {
-        LOG.debug("Request to find all ETLs by query : {}", query);
         DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable);
         return filteredListByRolOperationAllowed(etlRepository.findAll(criteria, pageable));
     }
@@ -152,8 +151,6 @@ public class EtlServiceImpl implements EtlService {
             }
             return new PageImpl<>(filtered);
         }else{
-            boolean isAdmin = SecurityUtils.isAdmin();
-            LOG.debug("filtro por operaciones  ¿es Admin?", isAdmin);
             return etls;
         }
     }
