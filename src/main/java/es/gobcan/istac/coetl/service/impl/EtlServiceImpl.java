@@ -152,7 +152,8 @@ public class EtlServiceImpl implements EtlService {
             }
             return new PageImpl<>(filtered);
         }else{
-            LOG.debug("filtro por operaciones  ¿es Admin?", SecurityUtils.isAdmin());
+            boolean isAdmin = SecurityUtils.isAdmin();
+            LOG.debug("filtro por operaciones  ¿es Admin?", isAdmin);
             return etls;
         }
     }
