@@ -1,26 +1,22 @@
-import { JhiHttpInterceptor } from 'ng-jhipster';
-import { RequestOptionsArgs, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Injector } from '@angular/core';
 import { LoginService } from '../../shared';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
-export class AuthExpiredInterceptor extends JhiHttpInterceptor {
-    constructor(private injector: Injector) {
-        super();
-    }
+export class AuthExpiredInterceptor implements HttpInterceptor {
+    constructor(private injector: Injector) {}
 
-    requestIntercept(options?: RequestOptionsArgs): RequestOptionsArgs {
-        return options;
-    }
-
-    responseIntercept(observable: Observable<Response>): Observable<Response> {
-        return <Observable<Response>>observable.catch((error, source) => {
-            if (error.status === 401) {
-                const loginService: LoginService = this.injector.get(LoginService);
-                loginService.logout();
-                loginService.login();
-            }
-            return Observable.throw(error);
-        });
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return next.handle(req).pipe(
+            catchError((error) => {
+                if (error.status === 401) {
+                    const loginService: LoginService = this.injector.get(LoginService);
+                    loginService.logout();
+                    loginService.login();
+                }
+                return Observable.throw(error);
+            })
+        );
     }
 }
