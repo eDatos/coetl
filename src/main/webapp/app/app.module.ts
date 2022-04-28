@@ -11,7 +11,6 @@ import { CoetlAdminModule } from './admin/admin.module';
 import { CoetlAccountModule } from './account/account.module';
 import { CoetlEntityModule } from './entities/entity.module';
 
-import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 import { DEFAULT_LANG } from './app.constants';
@@ -29,6 +28,10 @@ import {
     ErrorComponent,
     notFoundRoute
 } from './layouts';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
+import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
+import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
 
 const APP_ROUTES = [notFoundRoute];
 
@@ -80,7 +83,21 @@ export function initTranslations(translateService: TranslateService) {
             deps: [TranslateService],
             multi: true
         },
-        customHttpProvider(),
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthExpiredInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorHandlerInterceptor,
+            multi: true
+        },
         PaginationConfig,
         UserRouteAccessService
     ],
