@@ -1,7 +1,10 @@
 package es.gobcan.istac.coetl.config;
 
-import javax.annotation.PostConstruct;
-
+import es.gobcan.istac.coetl.security.CasUserDetailsService;
+import es.gobcan.istac.coetl.security.jwt.*;
+import es.gobcan.istac.coetl.service.EnabledTokenService;
+import io.github.jhipster.config.JHipsterProperties;
+import io.github.jhipster.security.Http401UnauthorizedEntryPoint;
 import org.apache.commons.lang3.StringUtils;
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;
@@ -34,19 +37,11 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CorsFilter;
 
-import es.gobcan.istac.coetl.security.CasUserDetailsService;
-import es.gobcan.istac.coetl.security.jwt.CasEhCacheBasedTicketCache;
-import es.gobcan.istac.coetl.security.jwt.JWTAuthenticationSuccessHandler;
-import es.gobcan.istac.coetl.security.jwt.JWTFilter;
-import es.gobcan.istac.coetl.security.jwt.JWTSingleSignOutFilter;
-import es.gobcan.istac.coetl.security.jwt.JWTSingleSignOutHandler;
-import es.gobcan.istac.coetl.security.jwt.TokenProvider;
-import es.gobcan.istac.coetl.service.EnabledTokenService;
-import io.github.jhipster.config.JHipsterProperties;
-import io.github.jhipster.security.Http401UnauthorizedEntryPoint;
+import javax.annotation.PostConstruct;
 
 @Configuration
 @EnableWebSecurity
@@ -60,13 +55,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     private ApplicationProperties applicationProperties;
-    
+
     private MetadataProperties metadataProperties;
 
     private final Environment env;
-    
+
     private final EnabledTokenService enabledTokenService;
-    
+
     private JHipsterProperties jHipsterProperties;
 
     public SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder, TokenProvider tokenProvider, CorsFilter corsFilter,
@@ -123,12 +118,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         casAuthenticationProvider.setKey("COETL_CAS");
         return casAuthenticationProvider;
     }
-    
+
     @Bean
     public CasUserDetailsService authenticationUserDetailsService() {
         return new CasUserDetailsService();
     }
-    
+
     @Bean
     public Cas30ServiceTicketValidator casServiceTicketValidator() {
         return new Cas30ServiceTicketValidator(metadataProperties.getMetamacCasPrefix());
@@ -160,7 +155,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         singleSignOutFilter.setCasServerUrlPrefix(metadataProperties.getMetamacCasPrefix());
         return singleSignOutFilter;
     }
-    
+
     public JWTSingleSignOutHandler singleSignOutHandler() {
         return new JWTSingleSignOutHandler(jHipsterProperties, applicationProperties, env, enabledTokenService);
     }
@@ -190,6 +185,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    private CsrfTokenRepository getCsrfTokenRepository() {
+        CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        tokenRepository.setCookiePath("/");
+        return tokenRepository;
+    }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         //@formatter:off
@@ -217,8 +218,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	    	.addFilterBefore(requestCasGlobalLogoutFilter(), LogoutFilter.class)
             .exceptionHandling()
             .authenticationEntryPoint(http401UnauthorizedEntryPoint())
-        .and() 
-            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        .and()
+            .csrf().csrfTokenRepository(this.getCsrfTokenRepository())
             .ignoringAntMatchers("/login/cas")
         .and()
             .headers()
