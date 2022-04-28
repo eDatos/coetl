@@ -37,7 +37,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CorsFilter;
 
@@ -115,7 +114,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         casAuthenticationProvider.setAuthenticationUserDetailsService(authenticationUserDetailsService());
         casAuthenticationProvider.setServiceProperties(serviceProperties());
         casAuthenticationProvider.setTicketValidator(casServiceTicketValidator());
-        casAuthenticationProvider.setKey("COETL_CAS");
+        casAuthenticationProvider.setKey(metadataProperties.getKeyCas());
         return casAuthenticationProvider;
     }
 
@@ -185,12 +184,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    private CsrfTokenRepository getCsrfTokenRepository() {
-        CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        tokenRepository.setCookiePath("/");
-        return tokenRepository;
-    }
-
     @Override
     public void configure(WebSecurity web) throws Exception {
         //@formatter:off
@@ -219,7 +212,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .exceptionHandling()
             .authenticationEntryPoint(http401UnauthorizedEntryPoint())
         .and()
-            .csrf().csrfTokenRepository(this.getCsrfTokenRepository())
+            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             .ignoringAntMatchers("/login/cas")
         .and()
             .headers()

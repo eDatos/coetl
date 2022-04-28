@@ -4,6 +4,7 @@ public interface DataConfigurationService {
 
     /**CAS*/
     public String getCasService();
+    public String getKeyCas();
 
     /**DataBase*/
     public String getDbUrl();
