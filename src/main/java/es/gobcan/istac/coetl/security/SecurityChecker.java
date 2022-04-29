@@ -80,6 +80,10 @@ public class SecurityChecker {
         return this.isAdmin(authentication);
     }
 
+    public boolean puedeConsultarApi(Authentication authentication) {
+        return this.isAdmin(authentication);
+    }
+
     public boolean canReadEtl(Authentication authentication) {
         return this.isAdmin(authentication) || this.isTecnico(authentication) || this.isLector(authentication);
     }

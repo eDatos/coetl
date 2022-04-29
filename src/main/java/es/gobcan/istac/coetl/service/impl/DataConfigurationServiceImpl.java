@@ -17,8 +17,8 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
     public static final String INSTANCE_METAMAC_COETL = "metamac.coetl.";
     public static final String INSTANCE_METAMAC_COETL_LAB = "metamac.coetllab.";
 
-    public static String prefixInstance;
     public static String keyCas;
+    public static String prefixInstance;
 
     private final ApplicationProperties applicationProperties;
 

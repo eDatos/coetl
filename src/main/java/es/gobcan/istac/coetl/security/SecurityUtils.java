@@ -77,6 +77,7 @@ public final class SecurityUtils {
 
     public static boolean haveAccessToOperationInRol(String codeOperation) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
+
         return securityContext.getAuthentication().getAuthorities().stream().anyMatch(authority -> {
             String[] appRole = authority.getAuthority().split(SEPARATOR);
             String application = appRole[0];
