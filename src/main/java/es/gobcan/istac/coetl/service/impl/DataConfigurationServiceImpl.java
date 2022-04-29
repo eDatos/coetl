@@ -11,14 +11,10 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
     public static final String INSTANCE_COETL = "COETL";
     public static final String INSTANCE_COETL_LAB = "COETLLAB";
 
-    public static final String KAY_CAS_COETL = "COETL_CAS";
-    public static final String KAY_CAS_COETLLAB = "COETLLAB_CAS";
-
     public static final String INSTANCE_METAMAC_COETL = "metamac.coetl.";
     public static final String INSTANCE_METAMAC_COETL_LAB = "metamac.coetllab.";
 
     public static String prefixInstance;
-    public static String keyCas;
 
     private final ApplicationProperties applicationProperties;
 
@@ -26,10 +22,8 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
         this.applicationProperties = applicationProperties;
         if(INSTANCE_COETL_LAB.equalsIgnoreCase(applicationProperties.getInstallation().getInstance())){
             this.prefixInstance = INSTANCE_METAMAC_COETL_LAB;
-            this.keyCas = KAY_CAS_COETLLAB;
         } else {
             this.prefixInstance = INSTANCE_METAMAC_COETL;
-            this.keyCas = KAY_CAS_COETL;
         }
     }
 
@@ -40,10 +34,6 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
     /*CAS*/
     public String getCasService(){
         return getPrefixInstace() + "cas.service";
-    }
-
-    public String getKeyCas(){
-        return keyCas;
     }
 
     /*DB*/

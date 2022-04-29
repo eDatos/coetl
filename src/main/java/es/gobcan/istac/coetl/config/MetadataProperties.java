@@ -27,8 +27,6 @@ public class MetadataProperties {
     private String metamacCasLogoutUrl;
     private String casService;
 
-    private String keyCas;
-
     @PostConstruct
     public void setValues() {
         try {
@@ -37,7 +35,6 @@ public class MetadataProperties {
             metamacCasLoginUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLoginUrl());
             metamacCasLogoutUrl = normalizeUrl(configurationService.retrieveSecurityCasServiceLogoutUrl());
             casService = normalizeUrl(configurationService.findProperty(instanceService.getCasService()));
-            keyCas = instanceService.getKeyCas();
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
         }
@@ -63,8 +60,8 @@ public class MetadataProperties {
         return casService;
     }
 
-    public String getKeyCas() {
-        return keyCas;
+    public void setCasService(String casService) {
+        this.casService = casService;
     }
 
     private String normalizeUrl(String url) {
