@@ -19,21 +19,14 @@ export class AuthInterceptor extends JhiHttpInterceptor {
             this.localStorage.retrieve(TOKEN_AUTH_NAME) ||
             this.sessionStorage.retrieve(TOKEN_AUTH_NAME);
         if (!!token) {
-            console.log(
-                'HEADER   TOKEN == TRUE localStore.retrive/sessionStore.retrive         ',
-                token
-            );
             options.headers.append('Authorization', 'Bearer ' + token);
         } else {
             const tokenFromCookie = this.cookieService.get(TOKEN_AUTH_NAME);
             if (!!tokenFromCookie) {
-                console.log('tokenFromCookie     cookieService.GET       ', tokenFromCookie);
                 this.storeAuthenticationToken(tokenFromCookie, false);
                 options.headers.append('Authorization', 'Bearer ' + tokenFromCookie);
             }
-            console.log('tokenFromCookie == FALSE       ', tokenFromCookie);
         }
-        console.log('OPTIONS       ', options);
         return options;
     }
 
@@ -45,7 +38,6 @@ export class AuthInterceptor extends JhiHttpInterceptor {
         if (rememberMe) {
             this.localStorage.store(TOKEN_AUTH_NAME, jwt);
         } else {
-            console.log('SIEMPRE ENTRO PORQUE REMEMBERME==FALSE       ', jwt);
             this.sessionStorage.store(TOKEN_AUTH_NAME, jwt);
         }
     }
