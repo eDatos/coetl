@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 
-import { JHI_TOKEN_AUTH_NAME, TOKEN_AUTH_NAME } from '../../app.constants';
+import { InstallationService } from '../../shared';
 
 @Injectable()
 export class FileService {
@@ -9,7 +9,8 @@ export class FileService {
 
     constructor(
         private localStorage: LocalStorageService,
-        private sessionStorage: SessionStorageService
+        private sessionStorage: SessionStorageService,
+        private installationService: InstallationService
     ) {}
 
     download(id: number) {
@@ -18,8 +19,10 @@ export class FileService {
 
     private getAuthToken() {
         return (
-            this.localStorage.retrieve(TOKEN_AUTH_NAME) ||
-            this.sessionStorage.retrieve(TOKEN_AUTH_NAME)
+            this.localStorage.retrieve(
+                this.installationService.getAuthenticationTokenByInstace()
+            ) ||
+            this.sessionStorage.retrieve(this.installationService.getAuthenticationTokenByInstace())
         );
     }
 }

@@ -2,22 +2,29 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { CookieService } from 'ngx-cookie';
-import { TOKEN_AUTH_NAME } from '../../../app.constants';
+import { InstallationService } from '../internal-installation';
 
 @Injectable()
 export class AuthServerProvider {
     constructor(
         private $localStorage: LocalStorageService,
         private $sessionStorage: SessionStorageService,
-        private cookieService: CookieService
+        private cookieService: CookieService,
+        private installationService: InstallationService
     ) {}
 
     getToken() {
         const token =
-            this.$localStorage.retrieve(TOKEN_AUTH_NAME) ||
-            this.$sessionStorage.retrieve(TOKEN_AUTH_NAME);
+            this.$localStorage.retrieve(
+                this.installationService.getAuthenticationTokenByInstace()
+            ) ||
+            this.$sessionStorage.retrieve(
+                this.installationService.getAuthenticationTokenByInstace()
+            );
         if (!token) {
-            return this.cookieService.get(TOKEN_AUTH_NAME);
+            return this.cookieService.get(
+                this.installationService.getAuthenticationTokenByInstace()
+            );
         }
         return token;
     }
@@ -33,17 +40,23 @@ export class AuthServerProvider {
 
     storeAuthenticationToken(jwt, rememberMe) {
         if (rememberMe) {
-            this.$localStorage.store(TOKEN_AUTH_NAME, jwt);
+            this.$localStorage.store(
+                this.installationService.getAuthenticationTokenByInstace(),
+                jwt
+            );
         } else {
-            this.$sessionStorage.store(TOKEN_AUTH_NAME, jwt);
+            this.$sessionStorage.store(
+                this.installationService.getAuthenticationTokenByInstace(),
+                jwt
+            );
         }
     }
 
     logout(): Observable<any> {
         return new Observable((observer) => {
-            this.$localStorage.clear(TOKEN_AUTH_NAME);
-            this.$sessionStorage.clear(TOKEN_AUTH_NAME);
-            this.cookieService.remove(TOKEN_AUTH_NAME);
+            this.$localStorage.clear(this.installationService.getAuthenticationTokenByInstace());
+            this.$sessionStorage.clear(this.installationService.getAuthenticationTokenByInstace());
+            this.cookieService.remove(this.installationService.getAuthenticationTokenByInstace());
             observer.complete();
         });
     }
