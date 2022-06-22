@@ -1,7 +1,7 @@
 package es.gobcan.istac.coetl.security.jwt;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import es.gobcan.istac.coetl.config.ApplicationProperties;
+import io.github.jhipster.config.JHipsterProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
@@ -11,14 +11,13 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import es.gobcan.istac.coetl.security.jwt.JWTConfigurer;
-import es.gobcan.istac.coetl.security.jwt.JWTFilter;
-import es.gobcan.istac.coetl.security.jwt.TokenProvider;
-import io.github.jhipster.config.JHipsterProperties;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class JWTFilterTest {
 
     private TokenProvider tokenProvider;
+
+    private ApplicationProperties applicationProperties;
 
     private JWTFilter jwtFilter;
 
@@ -26,9 +25,10 @@ public class JWTFilterTest {
     public void setup() {
         JHipsterProperties jHipsterProperties = new JHipsterProperties();
         tokenProvider = new TokenProvider(jHipsterProperties, null, null);
+        applicationProperties = new ApplicationProperties();
         ReflectionTestUtils.setField(tokenProvider, "secretKey", "test secret");
         ReflectionTestUtils.setField(tokenProvider, "tokenValidityInMilliseconds", 60000);
-        jwtFilter = new JWTFilter(tokenProvider);
+        jwtFilter = new JWTFilter(tokenProvider, applicationProperties);
         SecurityContextHolder.getContext().setAuthentication(null);
     }
 

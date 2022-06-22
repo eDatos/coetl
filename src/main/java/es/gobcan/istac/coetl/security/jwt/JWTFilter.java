@@ -1,8 +1,10 @@
 package es.gobcan.istac.coetl.security.jwt;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Optional;
+import es.gobcan.istac.coetl.config.ApplicationProperties;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,11 +12,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * Filters incoming requests and installs a Spring Security principal if a
@@ -24,8 +24,11 @@ public class JWTFilter extends GenericFilterBean {
 
     private TokenProvider tokenProvider;
 
-    public JWTFilter(TokenProvider tokenProvider) {
+    private ApplicationProperties applicationProperties;
+
+    public JWTFilter(TokenProvider tokenProvider, ApplicationProperties applicationProperties) {
         this.tokenProvider = tokenProvider;
+        this.applicationProperties = applicationProperties;
     }
 
     @Override
@@ -54,5 +57,9 @@ public class JWTFilter extends GenericFilterBean {
         }
 
         return null;
+    }
+
+    private String getAuthenticationTokenByInstance(){
+        return  JWTAuthenticationSuccessHandler.JHI_AUTHENTICATIONTOKEN + "_" + applicationProperties.getInstallation().getInstance().toLowerCase();
     }
 }
