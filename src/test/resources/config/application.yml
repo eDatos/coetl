@@ -109,10 +109,10 @@ environment:
     edatos:
         configuration:
             db:
-                driverName: oracle.jdbc.OracleDriver
-                url: jdbc:oracle:thin:@teide.arte:1521:orcl
-                username: JENKINS_METAMAC_COMMON
-                password: tV8lk+6r+URVXobfg7zSrSIJsk+uWcy+D5kXs7V9LlQ=
+                driverName: org.postgresql.Driver
+                url: jdbc:postgresql://192.168.10.105:5432/metamac_common_metadata_bd
+                username: metamac_common_metadata_bd
+                password: zgF3JJFfdf6TnQCJjpISVFleQzWwjhFBOdWlyCVgSy71szGwMNmEgw==
 
 application:
     installation:
