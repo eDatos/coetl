@@ -50,7 +50,7 @@ public class JWTFilter extends GenericFilterBean {
         }
         // Cookie
         if (request.getCookies() != null) {
-            Optional<Cookie> tokenCookie = Arrays.stream(request.getCookies()).filter(c -> c.getName().equals(JWTAuthenticationSuccessHandler.JHI_AUTHENTICATIONTOKEN)).findFirst();
+            Optional<Cookie> tokenCookie = Arrays.stream(request.getCookies()).filter(c -> c.getName().equals(getAuthenticationTokenByInstance())).findFirst();
             if (tokenCookie.isPresent()) {
                 return tokenCookie.get().getValue();
             }
