@@ -17,7 +17,7 @@ export class AuthServerProvider {
         private injector: Injector
     ) {
         this.installationService = this.injector.get(InstallationService);
-        this.authenticationToken = this.installationService.getAuthenticationTokenByInstace();
+        this.authenticationToken = this.installationService.getAuthenticationTokenByInstance();
     }
 
     getToken() {

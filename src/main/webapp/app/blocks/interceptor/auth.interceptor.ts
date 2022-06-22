@@ -18,7 +18,7 @@ export class AuthInterceptor extends JhiHttpInterceptor {
     ) {
         super();
         this.installationService = this.injector.get(InstallationService);
-        this.authenticationToken = this.installationService.getAuthenticationTokenByInstace();
+        this.authenticationToken = this.installationService.getAuthenticationTokenByInstance();
     }
 
     requestIntercept(options?: RequestOptionsArgs): RequestOptionsArgs {

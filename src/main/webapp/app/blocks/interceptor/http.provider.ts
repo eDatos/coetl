@@ -7,7 +7,6 @@ import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { AuthExpiredInterceptor } from './auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './errorhandler.interceptor';
 import { CookieService } from 'ngx-cookie';
-import { InstallationService } from '../../shared/service/internal-installation/installation.service';
 
 export function interceptableFactory(
     backend: XHRBackend,

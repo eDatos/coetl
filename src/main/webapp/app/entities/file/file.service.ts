@@ -1,7 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 
-import { TOKEN_AUTH_NAME } from '../../app.constants';
 import { InstallationService } from '../../shared';
 
 @Injectable()
