@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TOKEN_AUTH_NAME } from '../../../app.constants';
 import { ConfigService } from '../../../config/config.service';
 
 @Injectable()
@@ -16,5 +17,9 @@ export class InstallationService {
 
     isCoetlLabInstance(): boolean {
         return this._instance.toUpperCase() === 'COETLLAB';
+    }
+
+    getAuthenticationTokenByInstace(): string {
+        return TOKEN_AUTH_NAME + '_' + this._instance.toLowerCase();
     }
 }
