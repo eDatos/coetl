@@ -1,17 +1,24 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 
+import { TOKEN_AUTH_NAME } from '../../app.constants';
 import { InstallationService } from '../../shared';
 
 @Injectable()
 export class FileService {
     public resourceUrl = 'api/files';
 
+    private authenticationToken: string;
+    private installationService;
+
     constructor(
         private localStorage: LocalStorageService,
         private sessionStorage: SessionStorageService,
-        private installationService: InstallationService
-    ) {}
+        private injector: Injector
+    ) {
+        this.installationService = this.injector.get(InstallationService);
+        this.authenticationToken = this.installationService.getAuthenticationTokenByInstace();
+    }
 
     download(id: number) {
         window.open(`${this.resourceUrl}/${id}/download?bearerToken=${this.getAuthToken()}`);
@@ -19,10 +26,8 @@ export class FileService {
 
     private getAuthToken() {
         return (
-            this.localStorage.retrieve(
-                this.installationService.getAuthenticationTokenByInstace()
-            ) ||
-            this.sessionStorage.retrieve(this.installationService.getAuthenticationTokenByInstace())
+            this.localStorage.retrieve(this.authenticationToken) ||
+            this.sessionStorage.retrieve(this.authenticationToken)
         );
     }
 }

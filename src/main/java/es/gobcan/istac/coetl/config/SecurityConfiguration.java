@@ -130,7 +130,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new JWTAuthenticationSuccessHandler(tokenProvider, env);
+        return new JWTAuthenticationSuccessHandler(tokenProvider, env, applicationProperties);
     }
 
     @Bean
@@ -201,7 +201,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        JWTFilter customFilter = new JWTFilter(tokenProvider);
+        JWTFilter customFilter = new JWTFilter(tokenProvider, applicationProperties);
         //@formatter:off
         http
         	.addFilter(casAuthenticationFilter())
