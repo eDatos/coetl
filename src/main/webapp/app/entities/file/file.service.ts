@@ -1,7 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 
-import { TOKEN_AUTH_NAME } from '../../app.constants';
 import { InstallationService } from '../../shared';
 
 @Injectable()
@@ -17,7 +16,7 @@ export class FileService {
         private injector: Injector
     ) {
         this.installationService = this.injector.get(InstallationService);
-        this.authenticationToken = this.installationService.getAuthenticationTokenByInstace();
+        this.authenticationToken = this.installationService.getAuthenticationTokenByInstance();
     }
 
     download(id: number) {

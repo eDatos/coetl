@@ -19,7 +19,7 @@ export class InstallationService {
         return this._instance.toUpperCase() === 'COETLLAB';
     }
 
-    getAuthenticationTokenByInstace(): string {
+    getAuthenticationTokenByInstance(): string {
         return TOKEN_AUTH_NAME + '_' + this._instance.toLowerCase();
     }
 }
