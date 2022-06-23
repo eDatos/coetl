@@ -1,25 +1,5 @@
 package es.gobcan.istac.coetl.pentaho.service.impl;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClientException;
-import org.xml.sax.SAXException;
-
 import es.gobcan.istac.coetl.config.Constants;
 import es.gobcan.istac.coetl.config.PentahoProperties;
 import es.gobcan.istac.coetl.domain.Etl;
@@ -37,6 +17,24 @@ import es.gobcan.istac.coetl.pentaho.web.rest.dto.ServerStatusDTO;
 import es.gobcan.istac.coetl.pentaho.web.rest.dto.WebResultDTO;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 @Service
 public class PentahoExecutionServiceImpl implements PentahoExecutionService {
@@ -52,7 +50,7 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
     private final ParameterService parameterService;
 
     private final MessageSource messageSource;
-    
+
     private final PentahoGitService pentahoGitService;
 
     private final String url;
@@ -83,7 +81,7 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
         if (!webResultDTO.isOk()) {
             return PentahoUtil.buildExecution(etl, type, Result.FAILED, null, webResultDTO.getMessage());
         }
-        
+
         String idExecution = webResultDTO.getId();
 
         if (etl.isTransformation()) {
@@ -97,7 +95,7 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
         ServerStatusDTO serverStatusDTO = executeServerStatus();
 
         if (!serverStatusDTO.isOnline()) {
-            String offlineServerMessage = messageSource.getMessage("execution.note.server.offline", null, Constants.DEFAULT_LOCALE);
+            String offlineServerMessage = messageSource.getMessage("execution.note.error.server.offline", null, Constants.DEFAULT_LOCALE);
             return PentahoUtil.buildExecution(etl, type, Result.FAILED, offlineServerMessage);
         }
 

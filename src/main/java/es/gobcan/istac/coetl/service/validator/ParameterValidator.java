@@ -30,8 +30,13 @@ public class ParameterValidator extends AbstractValidator<Parameter> {
         checkValueIsNotBlank(entity);
         checkTypeIsNotNull(entity);
         checkTypologyIsNotNull(entity);
-        checkEtlExists(entity);
-        checkKeyIsNotDuplicated(entity);
+        if(entity.getType() != Parameter.Type.GLOBAL){
+            checkEtlExists(entity);
+            checkKeyIsNotDuplicated(entity);
+            checkKeyIsNotDuplicatedInGlobalParameters(entity);
+        } else{
+            checkGlobalKeyIsNotDuplicated(entity);
+        }
     }
 
     private void checkKeyIsNotBlank(Parameter entity) {
@@ -80,4 +85,33 @@ public class ParameterValidator extends AbstractValidator<Parameter> {
             throw new CustomParameterizedExceptionBuilder().message(String.format(FIELD_DUPLICATED_ERROR_MESSAGE, "key", entity.getId())).code(ErrorConstants.PARAMETER_KEY_IS_DUPLICATED).build();
         }
     }
+
+    private void checkKeyIsNotDuplicatedInGlobalParameters(Parameter entity) {
+        //@formatter:off
+        Long currentEtlId = entity.getEtl().getId();
+        String currentKey = entity.getKey();
+        Parameter duplicatedParameterKey = parameterRepository.findByKeyAndType(currentKey, Parameter.Type.GLOBAL);
+        //@formatter:on
+
+        if (duplicatedParameterKey != null) {
+            throw new CustomParameterizedExceptionBuilder().message(String.format(FIELD_DUPLICATED_ERROR_MESSAGE, "key", entity.getId())).code(ErrorConstants.PARAMETER_KEY_IS_DUPLICATED_IN_GLOBAL_PARAMETER).build();
+        }
+    }
+
+    private void checkGlobalKeyIsNotDuplicated(Parameter entity) {
+        //@formatter:off
+        String currentKey = entity.getKey();
+        Parameter duplicatedParameterKey = getOriginalEntity(status -> entity.getId() == null
+            ? parameterRepository.findByKey(currentKey)
+            : parameterRepository.findByKeyAndIdNot(currentKey, entity.getId()));
+        //@formatter:on
+        Parameter duplicatedKey = parameterRepository.findByKey(currentKey);
+        if (duplicatedParameterKey != null && duplicatedKey.getEtl() == null) {
+                throw new CustomParameterizedExceptionBuilder().message(String.format(FIELD_DUPLICATED_ERROR_MESSAGE, "key", entity.getId())).code(ErrorConstants.PARAMETER_KEY_IS_DUPLICATED_IN_GLOBAL_PARAMETER).build();
+        }
+        if(duplicatedParameterKey != null && duplicatedKey.getEtl() != null){
+            throw new CustomParameterizedExceptionBuilder().message(String.format(FIELD_DUPLICATED_ERROR_MESSAGE, "key", entity.getId())).code(ErrorConstants.GLOBAL_PARAMETER_KEY_IS_DUPLICATED, duplicatedKey.getEtl().getCode()).build();
+        }
+    }
+
 }

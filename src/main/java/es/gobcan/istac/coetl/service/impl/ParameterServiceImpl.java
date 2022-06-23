@@ -1,14 +1,5 @@
 package es.gobcan.istac.coetl.service.impl;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.domain.Parameter.Type;
@@ -17,6 +8,16 @@ import es.gobcan.istac.coetl.repository.ParameterRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.ParameterService;
 import es.gobcan.istac.coetl.service.validator.ParameterValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ParameterServiceImpl implements ParameterService {
@@ -84,7 +85,7 @@ public class ParameterServiceImpl implements ParameterService {
 
     @Override
     public Map<String, String> findAllByEtlIdAsMap(Long etlId) {
-        List<Parameter> parameters = findAllByEtlId(etlId);
+        List<Parameter> parameters = parameterRepository.findAllByEtlIdOrEtlNullAndType(etlId, Type.GLOBAL);
         return parameters.stream().collect(Collectors.toMap(Parameter::getKey, p -> decodeValueByTypology(p)));
     }
 
@@ -105,5 +106,17 @@ public class ParameterServiceImpl implements ParameterService {
     private Parameter save(Parameter parameter) {
         LOGGER.debug("Request to save a Parameter : {}", parameter);
         return parameterRepository.saveAndFlush(parameter);
+    }
+
+    @Override
+    public Page<Parameter> findAllGlobalParameters(Pageable pageable) {
+        LOGGER.debug("Request to find all Global Parameters");
+        return parameterRepository.findAllByType(Type.GLOBAL, pageable);
+    }
+
+    @Override
+    public Parameter findOneById(Long id) {
+        LOGGER.debug("Request to get a Parameter : {}", id);
+        return parameterRepository.findOneById(id);
     }
 }
