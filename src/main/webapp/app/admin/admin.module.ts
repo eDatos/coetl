@@ -20,8 +20,13 @@ import {
     HealthService,
     JhiMetricsService,
     LogsService,
-    AuditsResolvePagingParams
+    AuditsResolvePagingParams,
+    GlobalParameterComponent
 } from '.';
+import { GloablParameterService } from './global-parameters/global-parameter.service';
+import { ParameterResolvePagingParams } from './global-parameters/global-parameter.route';
+import { GlobalParameterDialogComponent } from './global-parameters/gloabl-parameter-dialog/global-parameter-dialog.component';
+import { GlobalParameterDeleteDialogComponent } from './global-parameters/gloabl-parameter-dialog/global-parameter-delete-dialog.component';
 
 @NgModule({
     imports: [
@@ -38,13 +43,18 @@ import {
         HealthEditDialogComponent,
         HealthDeleteDialogComponent,
         JhiMetricsMonitoringComponent,
-        JhiMetricsMonitoringModalComponent
+        JhiMetricsMonitoringModalComponent,
+        GlobalParameterComponent,
+        GlobalParameterDialogComponent,
+        GlobalParameterDeleteDialogComponent
     ],
     entryComponents: [
         HealthDialogComponent,
         HealthEditDialogComponent,
         HealthDeleteDialogComponent,
-        JhiMetricsMonitoringModalComponent
+        JhiMetricsMonitoringModalComponent,
+        GlobalParameterDialogComponent,
+        GlobalParameterDeleteDialogComponent
     ],
     providers: [
         AuditsService,
@@ -52,7 +62,9 @@ import {
         HealthService,
         JhiMetricsService,
         LogsService,
-        AuditsResolvePagingParams
+        AuditsResolvePagingParams,
+        GloablParameterService,
+        ParameterResolvePagingParams
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

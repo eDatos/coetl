@@ -28,6 +28,14 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
                         <li>
+                            <a class="dropdown-item" routerLink="global-parameters" routerLinkActive="active" (click)="collapseNavbar()">
+                                <i class="fa fa-fw fa-bars" aria-hidden="true"></i>
+                                <span jhiTranslate="global.menu.admin.globalParameters"></span>
+                            </a>
+                        </li>
+
+                        <li class="dropdown-divider"></li>
+                        <li>
                             <a class="dropdown-item" routerLink="jhi-metrics" routerLinkActive="active" (click)="collapseNavbar()">
                                 <i class="fa fa-fw fa-tachometer" aria-hidden="true"></i>
                                 <span jhiTranslate="global.menu.admin.metrics"></span>
