@@ -22,12 +22,8 @@
                             <span jhiTranslate="coetlApp.parameter.key"></span>
                             <span class="fa fa-sort order-by-class"></span>
                         </th>
-                        <th style="width: 30%;" jhiSortBy="value">
+                        <th style="width: 40%;" jhiSortBy="value">
                             <span jhiTranslate="coetlApp.parameter.value"></span>
-                            <span class="fa fa-sort order-by-class"></span>
-                        </th>
-                        <th style="width: 10%;" jhiSortBy="type">
-                            <span jhiTranslate="coetlApp.parameter.type.label"></span>
                             <span class="fa fa-sort order-by-class"></span>
                         </th>
                         <th style="width: 30%;"></th>
@@ -38,9 +34,6 @@
                     <td>
                         <span *ngIf="!isPasswordTypology(parameter)">{{ parameter.value }}</span>
                         <input *ngIf="isPasswordTypology(parameter)" class="password-input" type="password" [disabled]="true" value="password" readonly />
-                    </td>
-                    <td>
-                        <span class="badge badge-info">{{ getTypeName(parameter) }}</span>
                     </td>
                     <td>
                         <button type="button" class="btn btn-warning btn-sm" (click)="editParameter(parameter)">

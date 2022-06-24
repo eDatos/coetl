@@ -3,11 +3,11 @@ package es.gobcan.istac.coetl.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import es.gobcan.istac.coetl.config.AuditConstants;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
-import es.gobcan.istac.coetl.domain.Parameter;
+import es.gobcan.istac.coetl.domain.GlobalParameter;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
-import es.gobcan.istac.coetl.service.ParameterService;
-import es.gobcan.istac.coetl.web.rest.dto.ParameterDTO;
-import es.gobcan.istac.coetl.web.rest.mapper.ParameterMapper;
+import es.gobcan.istac.coetl.service.GlobalParameterService;
+import es.gobcan.istac.coetl.web.rest.dto.GlobalParameterDTO;
+import es.gobcan.istac.coetl.web.rest.mapper.GlobalParameterMapper;
 import es.gobcan.istac.coetl.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
@@ -17,7 +17,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -28,36 +35,37 @@ import java.util.Optional;
 public class GlobalParameterResource extends AbstractResource {
 
     public static final String BASE_URI = "/api/global-parameters";
-    private static final String ENTITY_NAME = "parameter";
+    private static final String ENTITY_NAME = "global_parameter";
     private static final Logger LOG = LoggerFactory.getLogger(GlobalParameterResource.class);
 
-    private final ParameterService parameterService;
-    private final ParameterMapper parameterMapper;
+    private final GlobalParameterService globalParameterService;
+    private final GlobalParameterMapper globalParameterMapper;
     private final AuditEventPublisher auditEventPublisher;
 
-    public GlobalParameterResource(ParameterService parameterService, ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher) {
-        this.parameterService = parameterService;
-        this.parameterMapper = parameterMapper;
+
+    public GlobalParameterResource(GlobalParameterService globalParameterService, GlobalParameterMapper globalParameterMapper, AuditEventPublisher auditEventPublisher) {
+        this.globalParameterService = globalParameterService;
+        this.globalParameterMapper = globalParameterMapper;
         this.auditEventPublisher = auditEventPublisher;
     }
 
     @PostMapping()
     @Timed
     @PreAuthorize("@secChecker.canManageGlobalParameters(authentication)")
-    public ResponseEntity<ParameterDTO> createGlobalParameter(@RequestBody ParameterDTO parameterDTO) throws URISyntaxException {
-        LOG.debug("REST Request to create a Global Parameter: {} ", parameterDTO);
+    public ResponseEntity<GlobalParameterDTO> createGlobalParameter(@RequestBody GlobalParameterDTO globalParameterDTO) throws URISyntaxException {
+        LOG.debug("REST Request to create a Global Parameter: {} ", globalParameterDTO);
 
-        if (parameterDTO.getId() != null) {
+        if (globalParameterDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, ErrorConstants.ID_EXISTE, "A new parameter must not have an ID")).build();
         }
 
-        Parameter currentParameter = parameterMapper.toEntity(parameterDTO);
+        GlobalParameter currentParameter = globalParameterMapper.toEntity(globalParameterDTO);
         if (currentParameter == null) {
             return ResponseEntity.notFound().build();
         }
 
-        Parameter createdParameter = parameterService.create(currentParameter);
-        ParameterDTO result = parameterMapper.toDto(createdParameter);
+        GlobalParameter createdParameter = globalParameterService.create(currentParameter);
+        GlobalParameterDTO result = globalParameterMapper.toDto(createdParameter);
 
         auditEventPublisher.publish(AuditConstants.GLOBAL_PARAMETER_CREATED, createdParameter.getId().toString());
 
@@ -67,19 +75,19 @@ public class GlobalParameterResource extends AbstractResource {
     @PutMapping()
     @Timed
     @PreAuthorize("@secChecker.canManageGlobalParameters(authentication)")
-    public ResponseEntity<ParameterDTO> updateGlobalParameter(@RequestBody ParameterDTO parameterDTO) {
-        LOG.debug("REST Request to update a Global Parameter: {}", parameterDTO);
-        if (parameterDTO.getId() == null) {
+    public ResponseEntity<GlobalParameterDTO> updateGlobalParameter(@RequestBody GlobalParameterDTO gloablParameterDTO) {
+        LOG.debug("REST Request to update a Global Parameter: {}", gloablParameterDTO);
+        if (gloablParameterDTO.getId() == null) {
             return ResponseEntity.notFound().build();
         }
 
-        Parameter currentParameter = parameterMapper.toEntity(parameterDTO);
+        GlobalParameter currentParameter = globalParameterMapper.toEntity(gloablParameterDTO);
         if (currentParameter == null) {
             return ResponseEntity.notFound().build();
         }
 
-        Parameter updatedParameter = parameterService.update(currentParameter);
-        ParameterDTO result = parameterMapper.toDto(updatedParameter);
+        GlobalParameter updatedParameter = globalParameterService.update(currentParameter);
+        GlobalParameterDTO result = globalParameterMapper.toDto(updatedParameter);
         auditEventPublisher.publish(AuditConstants.GLOBAL_PARAMETER_UPDATED, updatedParameter.getId().toString());
 
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString())).body(result);
@@ -88,10 +96,10 @@ public class GlobalParameterResource extends AbstractResource {
     @GetMapping()
     @Timed
     @PreAuthorize("@secChecker.canManageGlobalParameters(authentication)")
-    public ResponseEntity<List<ParameterDTO>> findAllGlobalParameters(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<GlobalParameterDTO>> findAllGlobalParameters(@ApiParam Pageable pageable) {
         LOG.debug("REST Request to find all Global Parameter ");
 
-        Page<ParameterDTO> page = parameterService.findAllGlobalParameters(pageable).map(parameterMapper::toDto);
+        Page<GlobalParameterDTO> page = globalParameterService.findAll(pageable).map(globalParameterMapper::toDto);
 
         return ResponseEntity.ok().body(page.getContent());
     }
@@ -100,14 +108,14 @@ public class GlobalParameterResource extends AbstractResource {
     @Timed
     @PreAuthorize("@secChecker.canManageGlobalParameters(authentication)")
     public ResponseEntity<Void> deleteGlobalParameter(@PathVariable Long parameterId) {
-        LOG.debug("REST Request to delete a Parameter: {} with ETL : {}", parameterId);
+        LOG.debug("REST Request to delete a Global Parameter: {} with ETL : {}", parameterId);
 
-        Parameter currentParameter = parameterService.findOneById(parameterId);
+        GlobalParameter currentParameter = globalParameterService.findOneById(parameterId);
         if (currentParameter == null) {
             return ResponseEntity.notFound().build();
         }
 
-        parameterService.delete(currentParameter);
+        globalParameterService.delete(currentParameter);
         auditEventPublisher.publish(AuditConstants.GLOBAL_PARAMETER_DELETED, parameterId.toString());
 
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, parameterId.toString())).build();
@@ -117,12 +125,12 @@ public class GlobalParameterResource extends AbstractResource {
     @GetMapping("/{parameterId}/decode")
     @Timed
     @PreAuthorize("@secChecker.canManageGlobalParameters(authentication)")
-    public ResponseEntity<ParameterDTO> decodeGlobalParameter(@PathVariable Long parameterId) {
-        LOG.debug("REST Request to decode value of Parameter: {} ", parameterId);
+    public ResponseEntity<GlobalParameterDTO> decodeGlobalParameter(@PathVariable Long parameterId) {
+        LOG.debug("REST Request to decode value of Global Parameter: {} ", parameterId);
 
-        Parameter parameter = parameterService.findOneById(parameterId);
-        ParameterDTO result = parameterMapper.toDto(parameter);
-        result.setValue(parameterService.decodeValueByTypology(parameter));
+        GlobalParameter parameter = globalParameterService.findOneById(parameterId);
+        GlobalParameterDTO result = globalParameterMapper.toDto(parameter);
+        result.setValue(globalParameterService.decodeValueByTypology(parameter));
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

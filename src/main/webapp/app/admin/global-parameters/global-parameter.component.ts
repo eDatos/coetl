@@ -3,20 +3,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { GenericModalService, ResponseWrapper } from '../../shared';
-import { Parameter, Type, Typology } from '../../entities/parameter';
+import { Parameter, Typology } from '../../entities/parameter';
 
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { GloablParameterService } from './global-parameter.service';
-import { GlobalParameterDeleteDialogComponent } from './gloabl-parameter-dialog/global-parameter-delete-dialog.component';
-import { GlobalParameterDialogComponent } from './gloabl-parameter-dialog/global-parameter-dialog.component';
+import { GlobalParameterDeleteDialogComponent } from './global-parameter-dialog/global-parameter-delete-dialog.component';
+import { GlobalParameterDialogComponent } from './global-parameter-dialog/global-parameter-dialog.component';
 
 @Component({
     templateUrl: 'global-parameter.component.html',
     styleUrls: ['global-parameter.component.scss']
 })
 export class GlobalParameterComponent implements OnInit, OnDestroy {
-    public static EVENT_NAME = 'etlParameterListModification';
+    public static EVENT_NAME = 'etlGlobalParameterListModification';
     private page: number;
     private totalItems: number;
     private itemsPerPage: number;
@@ -115,7 +115,6 @@ export class GlobalParameterComponent implements OnInit, OnDestroy {
                 this.openEditParameterDialog(copy);
             }
         } else {
-            copy.type = Type.GLOBAL;
             this.openEditParameterDialog(copy);
         }
     }

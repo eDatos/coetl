@@ -25,8 +25,8 @@ import {
 } from '.';
 import { GloablParameterService } from './global-parameters/global-parameter.service';
 import { ParameterResolvePagingParams } from './global-parameters/global-parameter.route';
-import { GlobalParameterDialogComponent } from './global-parameters/gloabl-parameter-dialog/global-parameter-dialog.component';
-import { GlobalParameterDeleteDialogComponent } from './global-parameters/gloabl-parameter-dialog/global-parameter-delete-dialog.component';
+import { GlobalParameterDialogComponent } from './global-parameters/global-parameter-dialog/global-parameter-dialog.component';
+import { GlobalParameterDeleteDialogComponent } from './global-parameters/global-parameter-dialog/global-parameter-delete-dialog.component';
 
 @NgModule({
     imports: [

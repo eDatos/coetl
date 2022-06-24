@@ -13,8 +13,7 @@
             "type": {
                 "label": "Tipo",
                 "AUTO": "Automática",
-                "MANUAL": "Manual",
-                "GLOBAL": "Global"
+                "MANUAL": "Manual"
             },
             "typology": {
                 "label": "Tipología",

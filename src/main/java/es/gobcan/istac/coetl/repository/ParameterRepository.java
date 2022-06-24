@@ -18,10 +18,7 @@ public interface ParameterRepository extends JpaRepository<Parameter, Long> {
     Parameter findByKeyAndEtlIdAndIdNot(String key, Long etlId, Long id);
     List<Parameter> findAllByEtlIdAndType(Long eltId, Type auto);
 
-    Parameter findByKeyAndIdNot(String key, Long id);
     Page<Parameter> findAllByType(Type type, Pageable pageable);
-    Parameter findByKeyAndType(String key, Type type);
     Parameter findByKey(String key);
     Parameter findOneById(Long id);
-    List<Parameter> findAllByEtlIdOrEtlNullAndType(Long etlId, Type type);
 }

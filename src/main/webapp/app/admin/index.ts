@@ -23,6 +23,6 @@ export * from './metrics/metrics.route';
 export * from './global-parameters/global-parameter.service';
 export * from './global-parameters/global-parameter.component';
 export * from './global-parameters/global-parameter.route';
-export * from './global-parameters/gloabl-parameter-dialog/global-parameter-delete-dialog.component';
-export * from './global-parameters/gloabl-parameter-dialog/global-parameter-dialog.component';
+export * from './global-parameters/global-parameter-dialog/global-parameter-delete-dialog.component';
+export * from './global-parameters/global-parameter-dialog/global-parameter-dialog.component';
 export * from './admin.route';

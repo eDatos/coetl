@@ -6,6 +6,7 @@ import es.gobcan.istac.coetl.domain.Parameter.Type;
 import es.gobcan.istac.coetl.domain.Parameter.Typology;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
+import es.gobcan.istac.coetl.service.GlobalParameterService;
 import es.gobcan.istac.coetl.service.ParameterService;
 import es.gobcan.istac.coetl.service.validator.ParameterValidator;
 import org.slf4j.Logger;
@@ -29,6 +30,9 @@ public class ParameterServiceImpl implements ParameterService {
 
     @Autowired
     private ParameterValidator parameterValidator;
+
+    @Autowired
+    private GlobalParameterService globalParameterService;
 
     @Override
     public List<Parameter> createDefaultParameters(Etl etl, Map<String, String> parameters) {
@@ -85,8 +89,10 @@ public class ParameterServiceImpl implements ParameterService {
 
     @Override
     public Map<String, String> findAllByEtlIdAsMap(Long etlId) {
-        List<Parameter> parameters = parameterRepository.findAllByEtlIdOrEtlNullAndType(etlId, Type.GLOBAL);
-        return parameters.stream().collect(Collectors.toMap(Parameter::getKey, p -> decodeValueByTypology(p)));
+        List<Parameter> parameters = parameterRepository.findAllByEtlId(etlId);
+        Map<String, String> etlParameters = parameters.stream().collect(Collectors.toMap(Parameter::getKey, p -> decodeValueByTypology(p)));
+        etlParameters.putAll(globalParameterService.findAllGlobalParametersAsMap());
+        return etlParameters;
     }
 
     @Override

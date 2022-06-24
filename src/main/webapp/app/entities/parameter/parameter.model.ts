@@ -1,7 +1,6 @@
 export enum Type {
     AUTO = 'AUTO',
-    MANUAL = 'MANUAL',
-    GLOBAL = 'GLOBAL'
+    MANUAL = 'MANUAL'
 }
 
 export enum Typology {
