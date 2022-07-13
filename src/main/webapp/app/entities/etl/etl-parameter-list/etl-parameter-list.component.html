@@ -6,6 +6,29 @@
             <span jhiTranslate="coetlApp.parameter.home.createLabel"></span>
         </button>
     </div>
+    <ng-container>
+        <div class="entity-fields global-parameters-table">
+            <p-accordion>
+                <p-accordionTab header="Parámetros globales">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;" jhiTranslate="coetlApp.parameter.key"></th>
+                                <th style="width: 30%;" jhiTranslate="coetlApp.parameter.value"></th>
+                            </tr>
+                        </thead>
+                        <tr *ngFor="let parameter of globalParameters; let i = index">
+                            <td>{{ parameter.key }}</td>
+                            <td>
+                                <span *ngIf="!isPasswordTypology(parameter)">{{ parameter.value }}</span>
+                                <input *ngIf="isPasswordTypology(parameter)" class="password-input" type="password" [disabled]="true" value="password" readonly />
+                            </td>
+                        </tr>
+                    </table>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+    </ng-container>
     <ng-container *ngIf="existParameters(); else emptyList">
         <div class="entity-fields">
             <table class="table table-hover">

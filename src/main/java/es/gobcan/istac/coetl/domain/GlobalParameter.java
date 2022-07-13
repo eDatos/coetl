@@ -8,35 +8,28 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "tb_parameters")
+@Table(name = "tb_global_parameters")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Parameter extends AbstractVersionedEntity implements Serializable {
+public class GlobalParameter extends AbstractVersionedEntity implements Serializable {
 
-    private static final long serialVersionUID = 812078062087474781L;
-
-    public enum Type {
-        AUTO, MANUAL
-    }
+    private static final long serialVersionUID = 1L;
 
     public enum Typology {
         GENERIC, PASSWORD
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "parameter_id_seq")
-    @SequenceGenerator(name = "parameter_id_seq", sequenceName = "parameter_id_seq", initialValue = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_parameter_id_seq")
+    @SequenceGenerator(name = "global_parameter_id_seq", sequenceName = "global_parameter_id_seq", initialValue = 10)
     private Long id;
 
     @NotBlank
@@ -48,18 +41,9 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
     private String value;
 
     @NotNull
-    @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Type type;
-
-    @NotNull
     @Column(name = "typology", nullable = false)
     @Enumerated(EnumType.STRING)
     private Typology typology;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "etl_fk")
-    private Etl etl;
 
     @Override
     public Long getId() {
@@ -86,27 +70,11 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
         this.value = value;
     }
 
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
     public Typology getTypology() {
         return typology;
     }
 
     public void setTypology(Typology typology) {
         this.typology = typology;
-    }
-
-    public Etl getEtl() {
-        return etl;
-    }
-
-    public void setEtl(Etl etl) {
-        this.etl = etl;
     }
 }

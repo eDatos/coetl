@@ -9,6 +9,7 @@ import { Parameter, Type, Typology } from '../../parameter/parameter.model';
 import { EtlService } from '../etl.service';
 import { EtlParameterDialogComponent } from './etl-parameter-dialog.component';
 import { EtlParameterDeleteDialogComponent } from './etl-parameter-delete-dialog.component';
+import { GloablParameterService } from '../../../admin';
 
 @Component({
     selector: 'ac-etl-parameter-list',
@@ -20,18 +21,21 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
 
     @Input() idEtl: number;
 
-    parameters: Parameter[];
+    public parameters: Parameter[];
+    public globalParameters: Parameter[];
     eventSubscriber: Subscription;
 
     constructor(
         private eventManager: JhiEventManager,
         private etlService: EtlService,
         private genericModalService: GenericModalService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private globalParameterService: GloablParameterService
     ) {}
 
     ngOnInit() {
         this.loadAll();
+        this.loadAllGlobalParameters();
         this.registerChangesInEtlParameter();
     }
 
@@ -107,5 +111,17 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
 
     private onSuccess(data: Parameter[]) {
         this.parameters = data;
+    }
+
+    private loadAllGlobalParameters() {
+        this.globalParameterService
+            .findAllParameters()
+            .subscribe((response: ResponseWrapper) =>
+                this.onSuccessGlobalParameters(response.json)
+            );
+    }
+
+    private onSuccessGlobalParameters(data: Parameter[]) {
+        this.globalParameters = data;
     }
 }

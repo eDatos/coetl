@@ -74,12 +74,18 @@
         "parameter": {
             "key": {
                 "isDuplicated": "Ya existe un parámetro con la misma clave",
+                "isDuplicatedInGlobalParameter": "Ya existe un parámetro global con la misma clave",
                 "isBlank": "La clave del parámetro no puede estar vacía"
             },
             "value": {
                 "isBlank": "El valor del parámetro no puede estar vacío"
             },
-            "edit": "Ha ocurrido un error en la edición del parámetro"
+            "edit": "Ha ocurrido un error en la edición del parámetro",
+            "global": {
+                "key": {
+                    "isDuplicated": "Ya existe un parámetro en una con la misma clave en la ETL: <strong> {{0}} </strong> "
+                }
+            }
         },
         "quartz": {
             "jobExecutionError": "Ha ocurrido un error en la ejecución planificada de la ETL con código {{0}}"

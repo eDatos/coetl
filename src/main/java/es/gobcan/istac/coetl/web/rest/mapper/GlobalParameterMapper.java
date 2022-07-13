@@ -1,9 +1,10 @@
 package es.gobcan.istac.coetl.web.rest.mapper;
 
+import es.gobcan.istac.coetl.domain.GlobalParameter;
 import es.gobcan.istac.coetl.domain.Parameter;
-import es.gobcan.istac.coetl.repository.ParameterRepository;
+import es.gobcan.istac.coetl.repository.GlobalParameterRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
-import es.gobcan.istac.coetl.web.rest.dto.ParameterDTO;
+import es.gobcan.istac.coetl.web.rest.dto.GlobalParameterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -13,36 +14,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ParameterMapper {
+public class GlobalParameterMapper {
 
     @Autowired
-    private ParameterRepository parameterRepository;
+    private GlobalParameterRepository globalParameterRepository;
 
-    @Autowired
-    private EtlMapper etlMapper;
-
-    public Parameter fromId(Long id) {
-        return id != null ? parameterRepository.findOne(id) : null;
+    public GlobalParameter fromId(Long id) {
+        return id != null ? globalParameterRepository.findOne(id) : null;
     }
 
-    public Parameter toEntity(ParameterDTO dto) {
+    public GlobalParameter toEntity(GlobalParameterDTO dto) {
         if (dto == null) {
             return null;
         }
 
-        Parameter entity = dto.getId() != null ? fromId(dto.getId()) : new Parameter();
+        GlobalParameter entity = dto.getId() != null ? fromId(dto.getId()) : new GlobalParameter();
 
         entity.setKey(dto.getKey());
         entity.setValue(setEncodeValueByTypology(dto.getTypology(),dto.getValue()));
-        entity.setType(dto.getType());
         entity.setTypology(dto.getTypology());
-        entity.setEtl(etlMapper.fromId(dto.getEtlId()));
         entity.setOptLock(dto.getOptLock());
 
         return entity;
     }
 
-    private String setEncodeValueByTypology(Parameter.Typology typology, String value){
+    private String setEncodeValueByTypology(GlobalParameter.Typology typology, String value){
         if(Parameter.Typology.PASSWORD.equals(typology)){
             String encodeValue = SecurityUtils.passwordEncoder(value);
             return encodeValue;
@@ -50,25 +46,23 @@ public class ParameterMapper {
         return value;
     }
 
-    public ParameterDTO toDto(Parameter entity) {
+    public GlobalParameterDTO toDto(GlobalParameter entity) {
         if (entity == null) {
             return null;
         }
 
-        ParameterDTO dto = new ParameterDTO();
+        GlobalParameterDTO dto = new GlobalParameterDTO();
         dto.setId(entity.getId());
         dto.setKey(entity.getKey());
         dto.setValue(entity.getValue());
-        dto.setType(entity.getType());
         dto.setTypology(entity.getTypology());
-        dto.setEtlId(entity.getEtl().getId());
 
         dto.setOptLock(entity.getOptLock());
 
         return dto;
     }
 
-    public List<ParameterDTO> toDto(List<Parameter> entities) {
+    public List<GlobalParameterDTO> toDto(List<GlobalParameter> entities) {
         if (CollectionUtils.isEmpty(entities)) {
             return Collections.emptyList();
         }

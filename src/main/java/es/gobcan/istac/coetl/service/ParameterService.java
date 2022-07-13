@@ -1,10 +1,10 @@
 package es.gobcan.istac.coetl.service;
 
-import java.util.List;
-import java.util.Map;
-
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
+
+import java.util.List;
+import java.util.Map;
 
 public interface ParameterService {
 
@@ -17,4 +17,6 @@ public interface ParameterService {
     public Map<String, String> findAllByEtlIdAsMap(Long etlId);
     public Parameter findOneByIdAndEtlId(Long id, Long etlId);
     public String decodeValueByTypology(Parameter parameter);
+
+    public Parameter findOneById(Long etlId);
 }
