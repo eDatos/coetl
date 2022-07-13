@@ -2,8 +2,6 @@ package es.gobcan.istac.coetl.service;
 
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +18,5 @@ public interface ParameterService {
     public Parameter findOneByIdAndEtlId(Long id, Long etlId);
     public String decodeValueByTypology(Parameter parameter);
 
-    Page<Parameter> findAllGlobalParameters(Pageable pageable);
     public Parameter findOneById(Long etlId);
 }

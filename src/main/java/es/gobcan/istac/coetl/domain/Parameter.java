@@ -27,7 +27,7 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
     private static final long serialVersionUID = 812078062087474781L;
 
     public enum Type {
-        AUTO, MANUAL, GLOBAL
+        AUTO, MANUAL
     }
 
     public enum Typology {

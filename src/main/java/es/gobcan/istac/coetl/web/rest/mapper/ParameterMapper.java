@@ -36,9 +36,7 @@ public class ParameterMapper {
         entity.setValue(setEncodeValueByTypology(dto.getTypology(),dto.getValue()));
         entity.setType(dto.getType());
         entity.setTypology(dto.getTypology());
-        if(entity.getType() != Parameter.Type.GLOBAL) {
-            entity.setEtl(etlMapper.fromId(dto.getEtlId()));
-        }
+        entity.setEtl(etlMapper.fromId(dto.getEtlId()));
         entity.setOptLock(dto.getOptLock());
 
         return entity;
@@ -63,9 +61,8 @@ public class ParameterMapper {
         dto.setValue(entity.getValue());
         dto.setType(entity.getType());
         dto.setTypology(entity.getTypology());
-        if(entity.getType() != Parameter.Type.GLOBAL) {
-            dto.setEtlId(entity.getEtl().getId());
-        }
+        dto.setEtlId(entity.getEtl().getId());
+
         dto.setOptLock(entity.getOptLock());
 
         return dto;
