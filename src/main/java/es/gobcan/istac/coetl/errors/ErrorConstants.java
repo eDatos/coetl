@@ -27,6 +27,7 @@ public final class ErrorConstants {
     public static final String QUERY_NO_SOPORTADA = "error.query-no-soportada";
 
     // ETL
+    public static final String ETL_EXECUTE_ERROR = "error.etl.executingError";
     public static final String ETL_CURRENTLY_DELETED = "error.etl.currentlyDeleted";
     public static final String ETL_CURRENTLY_NOT_DELETED = "error.etl.currentlyNotDeleted";
     public static final String ETL_FILE_CURRENTLY_DELETED = "error.etl.etlFileCurrentlyDeleted";
@@ -50,6 +51,8 @@ public final class ErrorConstants {
     public static final String PARAMETER_KEY_IS_BLANK = "error.parameter.key.isBlank";
     public static final String PARAMETER_VALUE_IS_BLANK = "error.parameter.value.isBlank";
     public static final String PARAMETER_EDIT = "error.parameter.edit";
+    public static final String PARAMETER_KEY_IS_DUPLICATED_IN_GLOBAL_PARAMETER = "error.parameter.key.isDuplicatedInGlobalParameter";
+    public static final String GLOBAL_PARAMETER_KEY_IS_DUPLICATED = "error.parameter.global.key.isDuplicated";
 
     // QUARZT
     public static final String QUARTZ_JOB_EXECUTION_ERROR = "error.quartz.jobExecutionError";

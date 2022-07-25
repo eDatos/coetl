@@ -4,38 +4,38 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { Principal, ResponseWrapper, GenericModalService } from '../../../shared';
-import { Parameter, Type } from '../../parameter/parameter.model';
+import { ResponseWrapper, GenericModalService } from '../../../shared';
+import { Parameter, Type, Typology } from '../../parameter/parameter.model';
 import { EtlService } from '../etl.service';
 import { EtlParameterDialogComponent } from './etl-parameter-dialog.component';
 import { EtlParameterDeleteDialogComponent } from './etl-parameter-delete-dialog.component';
+import { GloablParameterService } from '../../../admin';
 
 @Component({
     selector: 'ac-etl-parameter-list',
-    templateUrl: 'etl-parameter-list.component.html'
+    templateUrl: 'etl-parameter-list.component.html',
+    styleUrls: ['etl-parameter-list.component.scss']
 })
 export class EtlParameterListComponent implements OnInit, OnDestroy {
     public static EVENT_NAME = 'etlParameterListModification';
 
     @Input() idEtl: number;
 
-    currentAccount: Account;
-    parameters: Parameter[];
+    public parameters: Parameter[];
+    public globalParameters: Parameter[];
     eventSubscriber: Subscription;
 
     constructor(
         private eventManager: JhiEventManager,
         private etlService: EtlService,
-        private principal: Principal,
         private genericModalService: GenericModalService,
-        private translateService: TranslateService
+        private translateService: TranslateService,
+        private globalParameterService: GloablParameterService
     ) {}
 
     ngOnInit() {
-        this.principal.identity().then((account) => {
-            this.currentAccount = account;
-        });
         this.loadAll();
+        this.loadAllGlobalParameters();
         this.registerChangesInEtlParameter();
     }
 
@@ -59,14 +59,26 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
         let copy = new Parameter();
         if (!!parameter) {
             copy = Object.assign(copy, parameter);
+            if (Typology.PASSWORD === parameter.typology) {
+                this.etlService
+                    .decodeParameter(parameter.etlId, parameter.id)
+                    .subscribe((response) => {
+                        this.openEditParameterDialog(response);
+                    });
+            } else {
+                this.openEditParameterDialog(copy);
+            }
         } else {
             copy.etlId = this.idEtl;
             copy.type = Type.MANUAL;
+            this.openEditParameterDialog(copy);
         }
+    }
 
+    private openEditParameterDialog(parameter: Parameter) {
         this.genericModalService.open(
             EtlParameterDialogComponent as Component,
-            { parameter: copy },
+            { parameter },
             { container: '.app' }
         );
     }
@@ -78,6 +90,10 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
             { parameter: copy },
             { container: '.app' }
         );
+    }
+
+    public isPasswordTypology(parameter: Parameter): boolean {
+        return parameter.typology === Typology.PASSWORD ? true : false;
     }
 
     private loadAll() {
@@ -95,5 +111,17 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
 
     private onSuccess(data: Parameter[]) {
         this.parameters = data;
+    }
+
+    private loadAllGlobalParameters() {
+        this.globalParameterService
+            .findAllParameters()
+            .subscribe((response: ResponseWrapper) =>
+                this.onSuccessGlobalParameters(response.json)
+            );
+    }
+
+    private onSuccessGlobalParameters(data: Parameter[]) {
+        this.globalParameters = data;
     }
 }

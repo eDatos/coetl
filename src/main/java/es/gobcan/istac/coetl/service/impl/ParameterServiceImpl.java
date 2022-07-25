@@ -1,20 +1,22 @@
 package es.gobcan.istac.coetl.service.impl;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import es.gobcan.istac.coetl.domain.Etl;
+import es.gobcan.istac.coetl.domain.Parameter;
+import es.gobcan.istac.coetl.domain.Parameter.Type;
+import es.gobcan.istac.coetl.domain.Parameter.Typology;
+import es.gobcan.istac.coetl.repository.ParameterRepository;
+import es.gobcan.istac.coetl.security.SecurityUtils;
+import es.gobcan.istac.coetl.service.GlobalParameterService;
+import es.gobcan.istac.coetl.service.ParameterService;
+import es.gobcan.istac.coetl.service.validator.ParameterValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.gobcan.istac.coetl.domain.Etl;
-import es.gobcan.istac.coetl.domain.Parameter;
-import es.gobcan.istac.coetl.domain.Parameter.Type;
-import es.gobcan.istac.coetl.repository.ParameterRepository;
-import es.gobcan.istac.coetl.service.ParameterService;
-import es.gobcan.istac.coetl.service.validator.ParameterValidator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ParameterServiceImpl implements ParameterService {
@@ -27,6 +29,9 @@ public class ParameterServiceImpl implements ParameterService {
     @Autowired
     private ParameterValidator parameterValidator;
 
+    @Autowired
+    private GlobalParameterService globalParameterService;
+
     @Override
     public List<Parameter> createDefaultParameters(Etl etl, Map<String, String> parameters) {
         LOGGER.debug("Request to create default Parameters : {} of ETL : {}", parameters, etl);
@@ -38,6 +43,7 @@ public class ParameterServiceImpl implements ParameterService {
                     parameter.setKey(entry.getKey());
                     parameter.setValue(entry.getValue());
                     parameter.setType(Type.AUTO);
+                    parameter.setTypology(Typology.GENERIC);
                     return parameter;
                 })
                 .map(this::save)
@@ -81,8 +87,18 @@ public class ParameterServiceImpl implements ParameterService {
 
     @Override
     public Map<String, String> findAllByEtlIdAsMap(Long etlId) {
-        List<Parameter> parameters = findAllByEtlId(etlId);
-        return parameters.stream().collect(Collectors.toMap(Parameter::getKey, Parameter::getValue));
+        List<Parameter> parameters = parameterRepository.findAllByEtlId(etlId);
+        Map<String, String> etlParameters = parameters.stream().collect(Collectors.toMap(Parameter::getKey, p -> decodeValueByTypology(p)));
+        etlParameters.putAll(globalParameterService.findAllGlobalParametersAsMap());
+        return etlParameters;
+    }
+
+    @Override
+    public String decodeValueByTypology(Parameter parameter){
+        if(Typology.PASSWORD.equals(parameter.getTypology())){
+            return SecurityUtils.passwordDecode(parameter.getValue());
+        }
+        return parameter.getValue();
     }
 
     @Override
@@ -94,5 +110,11 @@ public class ParameterServiceImpl implements ParameterService {
     private Parameter save(Parameter parameter) {
         LOGGER.debug("Request to save a Parameter : {}", parameter);
         return parameterRepository.saveAndFlush(parameter);
+    }
+
+    @Override
+    public Parameter findOneById(Long id) {
+        LOGGER.debug("Request to get a Parameter : {}", id);
+        return parameterRepository.findOneById(id);
     }
 }

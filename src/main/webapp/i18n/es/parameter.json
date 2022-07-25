@@ -15,7 +15,17 @@
                 "AUTO": "Automática",
                 "MANUAL": "Manual"
             },
-            "emptyListMessage": "No existen parámetros para esta ETL"
+            "typology": {
+                "label": "Tipología",
+                "PASSWORD": "Contraseña",
+                "GENERIC": "Genérico"
+            },
+            "emptyListMessage": "No existen parámetros para esta ETL",
+            "global": {
+                "title": "Parámetros Globales para las ETL",
+                "createLabel": "Añadir nuevo parámetro global",
+                "emptyListMessage": "No existen parámetros globales"
+            }
         }
     }
 }

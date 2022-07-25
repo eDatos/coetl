@@ -1,39 +1,13 @@
 package es.gobcan.istac.coetl.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.codahale.metrics.annotation.Timed;
-
 import es.gobcan.istac.coetl.config.AuditConstants;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
+import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
 import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
@@ -49,6 +23,23 @@ import es.gobcan.istac.coetl.web.rest.util.HeaderUtil;
 import es.gobcan.istac.coetl.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(EtlResource.BASE_URI)
@@ -69,9 +60,10 @@ public class EtlResource extends AbstractResource {
     private final ParameterMapper parameterMapper;
     private final AuditEventPublisher auditEventPublisher;
     private final PentahoGitService pentahoGitService;
+    private final NotificationRestInternalFacade notificationRestInternalFacade;
 
     public EtlResource(EtlService etlService, EtlMapper etlMapper, ExecutionService executionService, ExecutionMapper executionMapper, ParameterService parameterService,
-            ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher, PentahoGitService pentahoGitService) {
+            ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher, PentahoGitService pentahoGitService, NotificationRestInternalFacade notificationRestInternalFacade) {
         this.etlService = etlService;
         this.etlMapper = etlMapper;
         this.executionService = executionService;
@@ -80,6 +72,7 @@ public class EtlResource extends AbstractResource {
         this.parameterMapper = parameterMapper;
         this.auditEventPublisher = auditEventPublisher;
         this.pentahoGitService = pentahoGitService;
+        this.notificationRestInternalFacade = notificationRestInternalFacade;
     }
 
     @PostMapping
@@ -92,7 +85,7 @@ public class EtlResource extends AbstractResource {
         }
 
         Etl createdEtl = etlService.create(etlMapper.toEntity(etlDTO));
-                
+
         if (StringUtils.isNoneBlank(etlDTO.getUriRepository())) {
             String repositoryPath = pentahoGitService.cloneRepository(createdEtl);
             if (repositoryPath == null) {
@@ -119,13 +112,13 @@ public class EtlResource extends AbstractResource {
         }
 
         boolean repositoryGoingToChange = etlService.goingToChangeRepository(etlDTO);
-        
+
         Etl currentEtl = etlMapper.toEntity(etlDTO);
         if (currentEtl.isDeleted()) {
             return ResponseEntity.badRequest()
                     .headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ENTITY_DELETED, String.format(ETL_IS_DELETED_MESSAGE, currentEtl.getId().toString()))).build();
         }
-        
+
         Etl updatedEtl = etlService.update(currentEtl);
 
         if (repositoryGoingToChange) {
@@ -134,7 +127,7 @@ public class EtlResource extends AbstractResource {
                 CustomExceptionUtil.throwCustomParameterizedException("An error ocurred updating repository", ErrorConstants.ETL_REPLACE_REPOSITORY);
             }
         }
-        
+
         EtlDTO result = etlMapper.toDto(updatedEtl);
         auditEventPublisher.publish(AuditConstants.ETL_UPDATED, result.getCode());
 
@@ -189,10 +182,12 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping
     @Timed
-    @PreAuthorize("@secChecker.canReadEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
     public ResponseEntity<List<EtlBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable) {
         LOG.debug("REST Request to find all ETLs by query : {} and including deleted : {}", query, includeDeleted);
-        Page<EtlBaseDTO> page = etlService.findAll(query, includeDeleted, pageable).map(etlMapper::toBaseDto);
+
+        Page<EtlBaseDTO> page = page = etlService.findAll(query, includeDeleted, pageable).map(etlMapper::toBaseDto);
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI);
 
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -215,16 +210,24 @@ public class EtlResource extends AbstractResource {
     public ResponseEntity<Void> execute(@PathVariable Long idEtl) {
         LOG.debug("REST Request to find an ETL : {}", idEtl);
         Etl etl = etlService.findOne(idEtl);
-        if (etl == null) {
-            return ResponseEntity.notFound().build();
+        try {
+            if (etl == null) {
+                return ResponseEntity.notFound().build();
+            }
+            if (!etl.isDeleted()) {
+                pentahoGitService.updateRepository(etl);
+                etlService.execute(etl);
+                auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
+            } else {
+                final String message = String.format("ETL %s can not be executed, it is deleted", etl.getCode());
+                final String code = ErrorConstants.ETL_CURRENTLY_DELETED;
+                CustomExceptionUtil.throwCustomParameterizedException(message, code);
+            }
         }
-        if (!etl.isDeleted()) {
-            pentahoGitService.updateRepository(etl);
-            etlService.execute(etl);
-            auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
-        } else {
-            final String message = String.format("ETL %s can not be executed, it is deleted", etl.getCode());
-            final String code = ErrorConstants.ETL_CURRENTLY_DELETED;
+        catch(Exception e){
+            notificationRestInternalFacade.sendExecutionErrorEtlNotice(etl);
+            final String message = String.format("Error occurred during the execution. ETL %s can not be executed", etl.getCode());
+            final String code = ErrorConstants.ETL_EXECUTE_ERROR;
             CustomExceptionUtil.throwCustomParameterizedException(message, code);
         }
 
@@ -242,6 +245,7 @@ public class EtlResource extends AbstractResource {
 
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
 
     @PostMapping("/{idEtl}/parameters")
     @Timed
@@ -352,6 +356,19 @@ public class EtlResource extends AbstractResource {
 
         Parameter parameter = parameterService.findOneByIdAndEtlId(parameterId, idEtl);
         ParameterDTO result = parameterMapper.toDto(parameter);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
+    @GetMapping("/{idEtl}/parameters/{parameterId}/decode")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<ParameterDTO> decodeParameterByEtlIdAndId(@PathVariable Long idEtl, @PathVariable Long parameterId) {
+        LOG.debug("REST Request to decode value of Parameter: {} with ETL : {}", parameterId, idEtl);
+
+        Parameter parameter = parameterService.findOneByIdAndEtlId(parameterId, idEtl);
+        ParameterDTO result = parameterMapper.toDto(parameter);
+        result.setValue(parameterService.decodeValueByTypology(parameter));
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AccordionModule } from 'primeng/primeng';
 
 import {
     AcAlertService,
@@ -26,7 +27,7 @@ import {
 } from '.';
 
 @NgModule({
-    imports: [CoetlSharedLibsModule, CoetlSharedCommonModule, RouterModule],
+    imports: [CoetlSharedLibsModule, CoetlSharedCommonModule, RouterModule, AccordionModule],
     declarations: [
         EntityListEmptyComponent,
         AuditInfoComponent,
@@ -59,7 +60,8 @@ import {
         SplitButtonComponent,
         CalendarComponent,
         SideMenuComponent,
-        FileUploadComponent
+        FileUploadComponent,
+        AccordionModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

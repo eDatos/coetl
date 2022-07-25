@@ -1,5 +1,7 @@
 package es.gobcan.istac.coetl.service.validator;
 
+import es.gobcan.istac.coetl.domain.GlobalParameter;
+import es.gobcan.istac.coetl.repository.GlobalParameterRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +24,9 @@ public class ParameterValidator extends AbstractValidator<Parameter> {
     private ParameterRepository parameterRepository;
 
     @Autowired
+    private GlobalParameterRepository globalParameterRepository;
+
+    @Autowired
     private EtlRepository etlRepository;
 
     @Override
@@ -29,8 +34,10 @@ public class ParameterValidator extends AbstractValidator<Parameter> {
         checkKeyIsNotBlank(entity);
         checkValueIsNotBlank(entity);
         checkTypeIsNotNull(entity);
+        checkTypologyIsNotNull(entity);
         checkEtlExists(entity);
         checkKeyIsNotDuplicated(entity);
+        checkKeyIsNotDuplicatedInGlobalParameters(entity);
     }
 
     private void checkKeyIsNotBlank(Parameter entity) {
@@ -51,6 +58,13 @@ public class ParameterValidator extends AbstractValidator<Parameter> {
         }
     }
 
+    private void checkTypologyIsNotNull(Parameter entity) {
+        if (entity.getTypology() == null) {
+            throw new CustomParameterizedExceptionBuilder().message(String.format(FIELD_NULL_ERROR_MESSAGE, "typology", entity.getId())).code(ErrorConstants.PARAMETER_EDIT).build();
+        }
+    }
+
+
     private void checkEtlExists(Parameter entity) {
         Etl etl = etlRepository.findByIdAndDeletionDateIsNull(entity.getEtl().getId());
         if (etl == null) {
@@ -70,6 +84,17 @@ public class ParameterValidator extends AbstractValidator<Parameter> {
 
         if (duplicatedParameterKey != null) {
             throw new CustomParameterizedExceptionBuilder().message(String.format(FIELD_DUPLICATED_ERROR_MESSAGE, "key", entity.getId())).code(ErrorConstants.PARAMETER_KEY_IS_DUPLICATED).build();
+        }
+    }
+
+    private void checkKeyIsNotDuplicatedInGlobalParameters(Parameter entity) {
+        //@formatter:off
+        String currentKey = entity.getKey();
+        GlobalParameter duplicatedParameterKey = globalParameterRepository.findByKey(currentKey);
+        //@formatter:on
+
+        if (duplicatedParameterKey != null) {
+            throw new CustomParameterizedExceptionBuilder().message(String.format(FIELD_DUPLICATED_ERROR_MESSAGE, "key", entity.getId())).code(ErrorConstants.PARAMETER_KEY_IS_DUPLICATED_IN_GLOBAL_PARAMETER).build();
         }
     }
 }

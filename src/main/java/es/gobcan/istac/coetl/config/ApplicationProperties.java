@@ -19,6 +19,8 @@ public class ApplicationProperties {
 
         private String type;
 
+        private String instance;
+
         public String getType() {
             return type;
         }
@@ -26,17 +28,25 @@ public class ApplicationProperties {
         public void setType(String type) {
             this.type = type;
         }
+
+       public String getInstance() {
+            return instance;
+        }
+
+        public void setInstance(String instance) {
+            this.instance = instance;
+        }
     }
-    
+
     public Jobs getJobs() {
         return this.jobs;
     }
-    
+
     public static class Jobs {
-        
+
         private Cron cron = new Cron();
 
-        
+
         public Cron getCron() {
             return cron;
         }
@@ -45,15 +55,15 @@ public class ApplicationProperties {
             this.cron = cron;
         }
     }
-    
+
     public static class Cron {
-        
+
         private String enabledTokens;
-        
+
         public String getEnabledTokens() {
             return enabledTokens;
         }
-        
+
         public void setEnabledTokens(String enabledTokens) {
             this.enabledTokens = enabledTokens;
         }

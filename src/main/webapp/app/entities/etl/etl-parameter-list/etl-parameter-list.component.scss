@@ -1,0 +1,22 @@
+@import '~scss/variables';
+@import '~scss/mixins';
+
+:host {
+    /deep/ .password-input {
+        border: none !important;
+        background: none;
+    }
+
+    p-accordion {
+        width: 100%;
+    }
+
+    /deep/ div[class='ui-accordion-header ui-state-default ui-corner-all'] {
+        background: #f8f8f8;
+        color: black;
+    }
+
+    /deep/ a {
+        text-decoration: none !important;
+    }
+}

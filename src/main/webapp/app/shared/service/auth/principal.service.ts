@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { UserCAS } from '../user/account.model';
 import { Rol } from './rol.model';
 import { AuthServerProvider } from './auth-jwt.service';
+import { ExternalItem } from '../../../entities/external-item';
 
 @Injectable()
 export class Principal {
@@ -24,7 +25,8 @@ export class Principal {
         return Promise.resolve(this.rolesRutaMatchesRolesUsuario(rolesRuta));
     }
 
-    rolesRutaMatchesRolesUsuario(rolesRuta: Rol[]) {
+    rolesRutaMatchesRolesUsuario(rolesRuta: Rol[], operation?: ExternalItem) {
+        // Rol is determined by the statistical operation associated to ETL.
         rolesRuta = rolesRuta || [];
         if (rolesRuta.length === 0) {
             return true;
@@ -32,7 +34,9 @@ export class Principal {
         if (!this.userIdentity || !this.userIdentity.roles) {
             return false;
         }
-        return rolesRuta.filter((rolRuta) => this.userIdentity.hasRole(rolRuta)).length >= 1;
+        return (
+            rolesRuta.filter((rolRuta) => this.userIdentity.hasRole(rolRuta, operation)).length >= 1
+        );
     }
 
     identity(): Promise<any> {

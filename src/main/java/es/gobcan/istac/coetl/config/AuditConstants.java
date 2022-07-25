@@ -26,6 +26,10 @@ public final class AuditConstants {
     public static final String ETL_PARAMETER_UPDATED = "ETL_PARAMETER_UPDATED";
     public static final String ETL_PARAMETER_DELETED = "ETL_PARAMETER_DELETED";
 
+    public static final String GLOBAL_PARAMETER_CREATED = "GLOBAL_PARAMETER_CREATED";
+    public static final String GLOBAL_PARAMETER_UPDATED = "GLOBAL_PARAMETER_UPDATED";
+    public static final String GLOBAL_PARAMETER_DELETED = "GLOBAL_PARAMETER_DELETED";
+
     // Audits Health Type
     public static final String HEALTH_CREATED = "HEALTH_CREATED";
     public static final String HEALTH_UPDATED = "HEALTH_UPDATED";

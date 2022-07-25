@@ -1,6 +1,8 @@
 package es.gobcan.istac.coetl.domain;
 
-import java.io.Serializable;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,10 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.validator.constraints.NotBlank;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "tb_parameters")
@@ -29,6 +28,10 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
 
     public enum Type {
         AUTO, MANUAL
+    }
+
+    public enum Typology {
+        GENERIC, PASSWORD
     }
 
     @Id
@@ -48,6 +51,11 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private Type type;
+
+    @NotNull
+    @Column(name = "typology", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Typology typology;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "etl_fk")
@@ -84,6 +92,14 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Typology getTypology() {
+        return typology;
+    }
+
+    public void setTypology(Typology typology) {
+        this.typology = typology;
     }
 
     public Etl getEtl() {

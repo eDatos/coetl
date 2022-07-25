@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.siemac.edatos.core.common.enume.TypeExternalArtefactsEnum;
 
-
 public class ExternalItemDTO extends AbstractVersionedAndAuditingWithDeletionDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -13,6 +12,9 @@ public class ExternalItemDTO extends AbstractVersionedAndAuditingWithDeletionDTO
     private String code;
     private String name;
     private String urn;
+    private String urnProvider;
+    private String uri;
+    private String managementAppUrl;
     private TypeExternalArtefactsEnum type;
 
     public ExternalItemDTO() {
@@ -53,6 +55,30 @@ public class ExternalItemDTO extends AbstractVersionedAndAuditingWithDeletionDTO
 
     public TypeExternalArtefactsEnum getType() {
         return type;
+    }
+
+    public String getUrnProvider() {
+        return urnProvider;
+    }
+
+    public void setUrnProvider(String urnProvider) {
+        this.urnProvider = urnProvider;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getManagementAppUrl() {
+        return managementAppUrl;
+    }
+
+    public void setManagementAppUrl(String managementAppUrl) {
+        this.managementAppUrl = managementAppUrl;
     }
 
     public void setType(TypeExternalArtefactsEnum type) {

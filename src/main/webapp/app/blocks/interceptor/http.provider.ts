@@ -18,7 +18,7 @@ export function interceptableFactory(
     eventManager: JhiEventManager
 ) {
     return new JhiInterceptableHttp(backend, defaultOptions, [
-        new AuthInterceptor(localStorage, sessionStorage, cookieService),
+        new AuthInterceptor(localStorage, sessionStorage, cookieService, injector),
         new AuthExpiredInterceptor(injector),
         // Other interceptors can be added here
         new ErrorHandlerInterceptor(eventManager)

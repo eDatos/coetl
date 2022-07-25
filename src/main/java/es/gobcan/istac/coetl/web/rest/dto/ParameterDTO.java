@@ -3,6 +3,7 @@ package es.gobcan.istac.coetl.web.rest.dto;
 import java.io.Serializable;
 
 import es.gobcan.istac.coetl.domain.Parameter.Type;
+import es.gobcan.istac.coetl.domain.Parameter.Typology;
 
 public class ParameterDTO extends AbstractVersionedDTO implements Serializable {
 
@@ -12,6 +13,7 @@ public class ParameterDTO extends AbstractVersionedDTO implements Serializable {
     private String key;
     private String value;
     private Type type;
+    private Typology typology;
     private Long etlId;
 
     public Long getId() {
@@ -44,6 +46,14 @@ public class ParameterDTO extends AbstractVersionedDTO implements Serializable {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Typology getTypology() {
+        return typology;
+    }
+
+    public void setTypology(Typology typology) {
+        this.typology = typology;
     }
 
     public Long getEtlId() {

@@ -9,6 +9,7 @@ import { EtlBase } from './etl.model';
 import { EtlFilter } from './etl-search';
 import { EtlService } from './etl.service';
 import { EtlFormComponent } from './etl-form.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'ac-etl',
@@ -37,7 +38,8 @@ export class EtlComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private translateService: TranslateService,
-        private permissionService: PermissionService
+        private permissionService: PermissionService,
+        private datePipe: DatePipe
     ) {
         this.routeDataSubscription = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
@@ -46,7 +48,7 @@ export class EtlComponent implements OnInit, OnDestroy {
             this.itemsPerPage = data['pagingParams'].itemsPerPage;
         });
 
-        this.filters = new EtlFilter();
+        this.filters = new EtlFilter(this.datePipe);
     }
 
     ngOnInit() {

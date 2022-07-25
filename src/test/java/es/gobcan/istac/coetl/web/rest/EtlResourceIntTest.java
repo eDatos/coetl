@@ -25,6 +25,7 @@ import java.util.Arrays;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,10 +53,12 @@ import es.gobcan.istac.coetl.domain.Etl.Type;
 import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ExceptionTranslator;
+import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
 import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
+import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
@@ -92,7 +95,8 @@ public class EtlResourceIntTest {
     private static final String DEFAULT_ETL_PARAMETER_VALUE = "DEFAULT_ETL_PARAMETER_VALUE";
     private static final String UPDATED_ETL_PARAMETER_VALUE = "UPDATED_ETL_PARAMETER_VALUE";
     private static final String DEFAULT_REPOSITORY_VALUE = "https://testing.com/default.git";
-    private static final es.gobcan.istac.coetl.domain.Parameter.Type DEFAULT_ETL_PARAMETER_TYPE = es.gobcan.istac.coetl.domain.Parameter.Type.MANUAL;
+    private static final Parameter.Type DEFAULT_ETL_PARAMETER_TYPE = Parameter.Type.MANUAL;
+    private static final Parameter.Typology DEFAULT_ETL_PARAMETER_TYPOLOGY = Parameter.Typology.GENERIC;
 
     @Autowired
     EntityManager entityManager;
@@ -114,7 +118,7 @@ public class EtlResourceIntTest {
 
     @Autowired
     FileRepository fileRepository;
-    
+
     @Mock
     PentahoGitService pentahoGitService;
 
@@ -139,6 +143,9 @@ public class EtlResourceIntTest {
     @Autowired
     private ExceptionTranslator exceptionTranslator;
 
+    @Autowired
+    private NotificationRestInternalFacade notificationRestInternalFacade;
+
     private MockMvc restEtlMockMvc;
 
     @Before
@@ -146,7 +153,7 @@ public class EtlResourceIntTest {
         MockitoAnnotations.initMocks(this);
         Mockito.when(pentahoGitService.cloneRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
         Mockito.when(pentahoGitService.replaceRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
-        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, pentahoGitService);
+        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, pentahoGitService, notificationRestInternalFacade);
         this.restEtlMockMvc = MockMvcBuilders.standaloneSetup(etlResource).setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
                 .setMessageConverters(jacksonMessageConverter).build();
     }
@@ -184,6 +191,7 @@ public class EtlResourceIntTest {
         parameter.setKey(DEFAULT_ETL_PARAMETER_KEY);
         parameter.setValue(DEFAULT_ETL_PARAMETER_VALUE);
         parameter.setType(DEFAULT_ETL_PARAMETER_TYPE);
+        parameter.setTypology(DEFAULT_ETL_PARAMETER_TYPOLOGY);
         return parameter;
     }
 
@@ -256,7 +264,7 @@ public class EtlResourceIntTest {
         doReturn(updatedEtlMocked).when(etlMapper).toEntity(updatedEtlDTOMocked);
 
         doReturn(updatedEtlMocked).when(etlService).update(any(Etl.class));
-        
+
         doReturn(false).when(etlService).goingToChangeRepository(any(EtlDTO.class));
 
         //@formatter:off
@@ -713,5 +721,15 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.[*].etlId").value(hasItem(createdEtl.getId().intValue())))
             .andExpect(jsonPath("$.[*].optLock").value(hasItem(0)));
         //@formatter:on
+    }
+
+    @Test
+    @Transactional
+    public void givenParameterValuePassword_whenEncrypt_thenSuccess() throws Exception {
+        String value = "password";
+
+        String cipherText = SecurityUtils.passwordEncoder(value);
+        String decryptedCipherText = SecurityUtils.passwordDecode(cipherText);
+        Assert.assertEquals(value, decryptedCipherText);
     }
 }

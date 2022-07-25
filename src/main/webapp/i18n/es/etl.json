@@ -33,7 +33,7 @@
                 "label": "Nombre",
                 "placeholder": "Introduzca un nombre"
             },
-            "stadisticalOperations": {
+            "statisticalOperation": {
                 "label": "Operación estadística",
                 "placeholder": "Elija la operación estadística"
             },
@@ -73,6 +73,9 @@
             },
             "nextExecution": {
                 "label": "Próxima ejecución"
+            },
+            "lastExecution": {
+                "label": "Última ejecución"
             },
             "descriptionFile": {
                 "label": "Fichero descriptivo",
@@ -123,6 +126,10 @@
                 "organizationInCharge": {
                     "placeholder": "Búsqueda por organismo responsable",
                     "label": "Organismo responsable"
+                },
+                "statisticalOperation": {
+                    "placeholder": "Búsqueda por operación estadística",
+                    "label": "Operación estadística"
                 },
                 "isPlanned": "Incluir planificados",
                 "includeDeleted": "Incluir eliminados"
