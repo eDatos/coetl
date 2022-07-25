@@ -15,7 +15,17 @@
                 "AUTO": "Automàtica",
                 "MANUAL": "Manual"
             },
-            "emptyListMessage": "No existeixen paràmetres per a aquesta ETL"
+            "typology": {
+                "label": "Tipologia",
+                "PASSWORD": "Contrasenya",
+                "GENERIC": "Genèric"
+            },
+            "emptyListMessage": "No existeixen paràmetres per a aquesta ETL",
+            "global": {
+                "title": "Paràmetres Globals per a les ETL",
+                "createLabel": "Afegir nou paràmetre global",
+                "emptyListMessage": "No existeixen paràmetres globals"
+            }
         }
     }
 }

@@ -34,6 +34,7 @@
                 "configuration": "Configuració",
                 "logs": "Logs",
                 "audits": "Auditories",
+                "globalParameters": "Paràmetres globals",
                 "apidocs": "API",
                 "jhipster-needle-menu-add-admin-element":
                     "JHipster will add additional menu entries here (do not translate!)"
