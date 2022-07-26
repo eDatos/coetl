@@ -1,0 +1,39 @@
+{
+    "coetlApp": {
+        "operacion": {
+            "home": {
+                "title": "Operations",
+                "createLabel": "Create new operation",
+                "createOrEditLabel": "Create or edit operation"
+            },
+            "menu": {
+                "title": "Operations Management"
+            },
+            "created": "The operation  has been created{{ param}}",
+            "updated": "Operation has been updated {{ param}}",
+            "deleted": "Operation has been deleted {{ param}}",
+            "delete": {
+                "question": "Are you sure you want to delete {{ id }}?"
+            },
+            "detail": {
+                "title": "Operation"
+            },
+            "action": "action",
+            "subject": "subject",
+            "roles": {
+                "roles": "associated roles",
+                "empty": "No roles associated with this operation"
+            },
+            "filters": {
+                "subject": {
+                    "placeholder": "Subject",
+                    "label": "Subject"
+                },
+                "action": {
+                    "placeholder": "Action",
+                    "label": "Action"
+                }
+            }
+        }
+    }
+}

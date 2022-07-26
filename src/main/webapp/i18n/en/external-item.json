@@ -1,0 +1,30 @@
+{
+    "coetlApp": {
+        "externalItem": {
+            "statisticalOperation" : {
+                "home": {
+                    "title": "Statistical Operations"
+                },
+                "noSelected": "There is no statistical operation selected.",
+                "table": {
+                    "code": "Code",
+                    "name": "Name"
+                },
+                "filters": {
+                    "search": "Search",
+                    "noResourceFound": "No results found",
+                    "emptyExternalItem": "The list is empty",
+                    "code": {
+                        "placeholder": "Code",
+                        "label": "Code"
+                    },
+                    "name": {
+                        "placeholder": "Name",
+                        "label": "Name"
+                    }
+                },
+                "help": "The search will need at least 3 characters. For example, if you want to find E30308A Labour Force Survey, you must indicate E30 or Population/Pob."
+            }
+        }
+    }
+}

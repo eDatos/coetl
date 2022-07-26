@@ -1,0 +1,45 @@
+{
+    "health": {
+        "title": "Health check",
+        "action": {
+            "refresh": "Refresh",
+            "create": "Create a health indicator"
+        },
+        "details": {
+            "details": "Details",
+            "error": "Error",
+            "name": "First Name",
+            "properties": "Properties",
+            "value": "Value"
+        },
+        "indicator": {
+            "cas": "Cas",
+            "db": "Database",
+            "diskSpace": "Disc space",
+            "kafka": "Kafka",
+            "ldap": "LDAP",
+            "mail": "Email",
+            "noticesInternal": "Notices Manager",
+            "structuralResourcesExternal": "Structural Resources Manager"
+        },
+        "refresh.button": "Refresh",
+        "stacktrace": "Trace",
+        "status": {
+            "DOWN": "FALLEN",
+            "UP": "GOTTEN UP"
+        },
+        "table": {
+            "service": "Service name",
+            "status": "State"
+        },
+        "custom": {
+            "field": {
+                "serviceName": "Name of the service",
+                "endpoint": "URL"
+            }
+        },
+        "delete": {
+            "question": "Are you sure you want to remove the service indicator <b>{{ serviceName }}</b>?"
+        }
+    }
+}

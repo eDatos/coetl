@@ -1,0 +1,27 @@
+{
+    "coetlApp": {
+        "externalItem": {
+            "home": {
+                "title": "Operacions Estadístiques"
+            },
+            "noSelected": "No hi ha cap operació estadística seleccionada.",
+            "table": {
+                "code": "Codi",
+                "name": "Nom"
+            },
+            "filters": {
+                "search": "Cerca",
+                "noResourceFound": "No s'ha trobat cap resultat", 
+                "emptyExternalItem": "La llista està buida",
+                "code": {
+                    "placeholder": " Codi",
+                    "label": "Codi"
+                },
+                "name": {
+                    "placeholder": "Nom",
+                    "label": "Nom"
+                }
+            }
+        }
+    }
+}

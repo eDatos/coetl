@@ -1,0 +1,42 @@
+{
+    "health": {
+        "title": "Control de salut",
+        "action": {
+            "refresh": "Refrescar",
+            "create": "Crear indicador de salut"
+        },
+        "stacktrace": "Traça",
+        "details": {
+            "details": "Detalls",
+            "properties": "Propietats",
+            "name": "Nom",
+            "value": "Valor",
+            "error": "Error"
+        },
+        "indicator": {
+            "diskSpace": "Espai en disc",
+            "mail": "Email",
+            "db": "Base de dades",
+            "ldap": "LDAP",
+            "cas": "CAS",
+            "pentaho": "Pentaho Data Integration Server"
+        },
+        "table": {
+            "service": "Nom del servei",
+            "status": "Estat"
+        },
+        "status": {
+            "UP": "AIXECAT",
+            "DOWN": "CAIGUT"
+        },
+        "custom": {
+            "field": {
+                "serviceName": "Nom del servei",
+                "endpoint": "URL"
+            }
+        },
+        "delete": {
+            "question": "Segur que vol eliminar l'indicador del servei <b>{{ serviceName }}</b>?"
+        }
+    }
+}

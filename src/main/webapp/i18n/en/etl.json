@@ -1,0 +1,139 @@
+{
+    "coetlApp": {
+        "etl": {
+            "home": {
+                "title": "Registration of ETLs",
+                "createLabel": "Create new ETL",
+                "createOrEditLabel": "Create or edit ETL"
+            },
+            "menu": {
+                "title": "Registration of ETLs"
+            },
+            "created": "ETL has been created {{ param }}",
+            "updated": "The ETL has been updated {{ param }}",
+            "deleted": "The ETL has been deleted {{ param }}",
+            "delete": {
+                "question": "¿Are you sure you want to delete ETL <b>{{ code }}</b>?"
+            },
+            "restore": {
+                "question": "¿Are you sure you want to restore ETL <b>{{ code }}</b>?"
+            },
+            "execution": {
+                "title": "Confirm execution",
+                "question": "¿Are you sure you want to run ETL <b>{{ code }}</b>?"
+            },
+            "detail": {
+                "title": "ETL"
+            },
+            "code": {
+                "label": "Code",
+                "placeholder": "Enter a code"
+            },
+            "name": {
+                "label": "Name",
+                "placeholder": "Enter a name"
+            },
+            "statisticalOperation": {
+                "label": "Statistical operation",
+                "placeholder": "Choose the statistical operation"
+            },
+            "purpose": {
+                "label": "Purpose",
+                "placeholder": "Enter a purpose"
+            },
+            "organizationInCharge": {
+                "label": "Responsible agency",
+                "placeholder": "Enter a responsible agency"
+            },
+            "functionalInCharge": {
+                "label": "Functional manager",
+                "placeholder": "Enter a Functional manager"
+            },
+            "technicalInCharge": {
+                "label": "Technical manager",
+                "placeholder": "Enter a technical manager"
+            },
+            "type": {
+                "label": "Type",
+                "placeholder": "Enter a type",
+                "TRANSFORMATION": "Transformation",
+                "JOB": "Job"
+            },
+            "comments": {
+                "label": "Comments",
+                "placeholder": "Enter a comments"
+            },
+            "executionDescription": {
+                "label": "When to run",
+                "placeholder": "Enter a description of the execution"
+            },
+            "executionPlanning": {
+                "label": "Planning expression",
+                "placeholder": "Enter a planning expression"
+            },
+            "nextExecution": {
+                "label": "Next execution"
+            },
+            "lastExecution": {
+                "label": "Last execution"
+            },
+            "descriptionFile": {
+                "label": "Descriptive file",
+                "help": "The descriptive document should be a PDF document prepared by the technician with the description of the ETL’s task as well as any other information that it deems necessary on its implementation."
+            },
+            "codeFile": {
+                "label": "ETL file"
+            },
+            "attachedFiles": {
+                "label": "ETL attachments",
+                "help": "We take as attachments those resources used internally by the ETL, whether other ETLs, images, CSVs, etc."
+            },
+            "uriRepository": {
+                "label": "Git repository",
+                "placeholder": "https://repositoryServer.com/etlRepository.git"
+            },
+            "state": {
+                "label": "State",
+                "isDeleted": "Deleted",
+                "isNotDeleted": "Active"
+            },
+            "planning": {
+                "label": "Planning",
+                "isPlanning": "Planned",
+                "isNotPlanning": "Unplanned"
+            },
+            "sections": {
+                "identification": "Identification,"
+                "inCharge": "Responsible",
+                "etl": "ETL",
+                "planning": "Planning",
+                "executions": "Executions",
+                "uriRepository": "Repository"
+            },
+            "filters": {
+                "code": {
+                    "placeholder": "Search by code",
+                    "label": "Code"
+                },
+                "name": {
+                    "placeholder": "Search by name",
+                    "label": "Name"
+                },
+                "type": {
+                    "placeholder": "Search by type",
+                    "label": "Type"
+                },
+                "organizationInCharge": {
+                    "placeholder": "Search by organization in charge",
+                    "label": "Organization in charge"
+                },
+                "statisticalOperation": {
+                    "placeholder": "Search by statistical operation",
+                    "label": "Statistical operation"
+                },
+                "isPlanned": "Include planned ones",
+                "includeDeleted": "Include deleted"
+            }
+        }
+    }
+}

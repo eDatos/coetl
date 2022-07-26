@@ -1,0 +1,27 @@
+{
+    "coetlApp": {
+        "execution": {
+            "home": {
+                "title": "Executions"
+            },
+            "planningDate": "Planning date",
+            "startDate": "Start date",
+            "finishDate": "End date",
+            "type": {
+                "label": "Type",
+                "AUTO": "Automatic",
+                "MANUAL": "Manual"
+            },
+            "result": {
+                "label": "Result",
+                "SUCCESS": "Right",
+                "FAILED": "Failure",
+                "WAITING": "On hold",
+                "RUNNING": "Running",
+                "DUPLICATED": "Duplicate"
+            },
+            "notes": "Notes",
+            "emptyListMessage": "No runs for this ETL"
+        }
+    }
+}

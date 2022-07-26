@@ -1,0 +1,27 @@
+{
+    "coetlApp": {
+        "execution": {
+            "home": {
+                "title": "Execucions"
+            },
+            "planningDate": "Data de planificació",
+            "startDate": "Data d'inici",
+            "finishDate": "Data de finalització",
+            "type": {
+                "label": "Tipus",
+                "AUTO": "Automàtica",
+                "MANUAL": "Manual"
+            },
+            "result": {
+                "label": "Resultat",
+                "SUCCESS": "Correcte",
+                "FAILED": "Errada",
+                "WAITING": "En espera",
+                "RUNNING": "En execució",
+                "DUPLICATED": "Duplicat"
+            },
+            "notes": "Notes",
+            "emptyListMessage": "No hi ha execucions per a aquesta ETL"
+        }
+    }
+}

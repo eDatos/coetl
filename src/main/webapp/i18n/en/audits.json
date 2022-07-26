@@ -1,0 +1,28 @@
+{
+    "audits": {
+        "title": "Audit",
+        "filter": {
+            "title": "Filter by date",
+            "from": "Since",
+            "to": "Until",
+            "button": {
+                "weeks": "Weeks",
+                "today": "Today",
+                "clear": "Clean",
+                "close": "Close"
+            }
+        },
+        "table": {
+            "header": {
+                "principal": "User",
+                "date": "Date",
+                "status": "State",
+                "data": "Extra data"
+            },
+            "data": {
+                "remoteAddress": "Remote address:",
+                "code": "Code:"
+            }
+        }
+    }
+}

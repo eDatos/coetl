@@ -1,0 +1,11 @@
+{
+    "logs": {
+        "title": "Logs",
+        "nbloggers": "Hi han {{ total }} registres. Els registres marcats amb <i class='fa fa-asterisk'></i> no hereten el valor del seu pare.",
+        "filter": "Filtre",
+        "table": {
+            "name": "Nom",
+            "level": "Nivell"
+        }
+    }
+}

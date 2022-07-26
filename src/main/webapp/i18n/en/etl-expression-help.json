@@ -1,0 +1,8 @@
+{
+    "coetlApp": {
+        "etlExpressionHelp": {
+            "title": "Help Cron/Quartz expressions",
+            "tooltip": "Please click on this icon to show help."
+        }
+    }
+}

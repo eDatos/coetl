@@ -1,0 +1,31 @@
+
+    "coetlApp": {
+        "parameter": {
+            "home": {
+                "title": "Paràmetres ETL",
+                "createLabel": "Afagir nou paràmetre ETL"
+            },
+            "delete": {
+                "question": "Segur que vol eliminar el paràmetre <b>{{ key }}</b>?"
+            },
+            "key": "Clau",
+            "value": "Valor",
+            "type": {
+                "label": "Tipus",
+                "AUTO": "Automàtica",
+                "MANUAL": "Manual"
+            },
+            "typology": {
+                "label": "Tipologia",
+                "PASSWORD": "Contrasenya",
+                "GENERIC": "Genèric"
+            },
+            "emptyListMessage": "No existeixen paràmetres per a aquesta ETL",
+            "global": {
+                "title": "Paràmetres Globals per a les ETL",
+                "createLabel": "Afegir nou paràmetre global",
+                "emptyListMessage": "No existeixen paràmetres globals"
+            }
+        }
+    }
+}

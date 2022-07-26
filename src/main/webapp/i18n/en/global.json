@@ -1,0 +1,128 @@
+{
+    "global": {
+        "title": "ETL Console",
+        "internalTitle": "ETL Console - Management",
+        "coetlLabTitle": " - Lab ",
+        "yes": "Yes",
+        "no": "No",
+        "browsehappy": "You are using an <strong>outdated</strong> browset. Please, <a href=\"http://browsehappy.com/?locale=en\">update your browser</a> for better experience.",
+        "menu": {
+            "home": "home",
+            "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
+            "entities": {
+                "jhipster-needle-menu-add-entry":  "JHipster will add additional entities here (do not translate!)"
+            },
+            "etl": {
+                "main": "ETLs register"
+            },
+            "account": {
+                "main": "Main",
+                "settings": "Settings",
+                "sessions": "Sessions",
+                "login": "Log in",
+                "logout": "Log out",
+                "myAccount": "My account"
+            },
+            "admin": {
+                "main": "Administration",
+                "userManagement": "User management",
+                "rolManagement": "Role management",
+                "metrics": "Metrics",
+                "health": "Health",
+                "configuration": "Configuration",
+                "logs": "Logs",
+                "audits": "Audits",
+                "globalParameters": "Global parameters",
+                "apidocs": "API",
+                "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
+            }
+        },
+        "form": {
+            "email": "Email",
+            "email.placeholder": "Your email"
+        },
+        "messages": {
+            "validate": {
+                "email": {
+                    "required": "An email is required.",
+                    "invalid": "Your email is invalid.",
+                    "minlength": "Your email is required to have at least 5 characters",
+                    "maxlength": "Your email cannot be more than 50 characters"
+                }
+            }
+        },
+        "item-count": "{{first}} - {{second}} of {{total}}",
+        "pageSizeSelector": "Page size",
+        "loading": "Loading"
+    },
+    "entity": {
+        "action": {
+            "back": "Back",
+            "cancel": "Cancel",
+            "delete": "Delete",
+            "edit": "Edit",
+            "restore": "Restore",
+            "open": "Open",
+            "save": "Save",
+            "view": "View",
+            "filtersReset": "Filter reset",
+            "deactivate": "Deactivation",
+            "activate": "Activate",
+            "close": "Close",
+            "confirm": "Confirm",
+            "execute": "Execute",
+            "ok": "Ok",
+            "help": "Help"
+        },
+        "delete": {
+            "title": "Confirm operation of deletion"
+        },
+        "restore": {
+            "title": "Confirm restore"
+        },
+        "deactivate": {
+            "title": "Confirm deactivation"
+        },
+        "validation": {
+            "required": "This field is required."
+            "minlength": "This field requires at least {{min}} characters.",
+            "maxlength": "This field cannot exceed more than {{max}} characters.",
+            "min": "This field must be greater than {{min}}.",
+            "max": "This field cannot be greater than {{max}}.",
+            "minbytes": "This field must have at least {{min}} bytes.",
+            "maxbytes": "This field cannot have more than {{max}} bytes.",
+            "pattern": "This field must follow the pattern {{pattern}}.",
+            "number": "This field must be a number.",
+            "datetimelocal": "This field must be a date and time.",
+            "Instantlocal": "This field must be a date and time.",
+            "not-valid": "The value of this field is invalid"
+        },
+        "list": {
+            "empty": {
+                "sorry": "Sorry.",
+                "detail": "No results have been obtained that meet the search criteria.",
+                "createNewIitem": "(Add new)",
+                "writeForSuggestions": "Start typing to suggest results",
+                "selectOption": "Select one of the available options",
+                "multiInput": "Type the value and press enter to add it"
+            }
+        },
+        "audits": {
+            "title": "Audits",
+            "createdBy": "Created by",
+            "createdDate": "Date of creation",
+            "lastModifiedBy": "Modified by",
+            "lastModifiedDate": "Modification date",
+            "deletedBy": "Eliminated by",
+            "deletionDate": "Date of deletion"
+        },
+        "calendar": {
+            "placeholder": "Select the desired date in the calendar"
+        }
+    },
+    "home": {
+        "pageTitle": "Welcome",
+        "title": "Welcome, {{user}}",
+        "detail": "Access the desired section through the navigation menu"
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "userManagement": {
+        "personalData": "Dades personals",
+        "permissions": "Permisos",
+        "home": {
+            "title": "Usuaris",
+            "createLabel": "Crear un nou usuari",
+            "createOrEditLabel": "Crear o editar un usuari",
+            "includeDeleted": "Incloure desactivats"
+        },
+        "created": "S'ha creat l'usuari {{ param }}",
+        "updated": "S'ha actualizat l'usuari {{ param }}",
+        "deleted": "S'ha eliminat l'usuari {{ param }}",
+        "delete": {
+            "question": "Segur que vol eliminar l'usuari {{ login }}?"
+        },
+        "restore": {
+            "question": "Segur que vol restaurar l'usuari {{ login }}?"
+        },
+        "deactivate": {
+            "question": "Segur que desitja desactivar l'usuari {{ login }}"
+        },
+        "detail": {
+            "title": "Usuari"
+        },
+        "login": "Nom d'usuari",
+        "nombre": "Nom",
+        "apellido1": "Primer llinatge",
+        "apellido2": "Segon llinatge",
+        "email": "Email",
+        "activado": "Activat",
+        "desactivado": "Desactivat",
+        "profiles": "Rols",
+        "rol": "Rol",
+        "filters": {
+            "name": {
+                "label": "Cerca d'usuari",
+                "placeholder": "Introdueixi nom, usuari o llinatges"
+            },
+            "email": {
+                "label": "Cerca de correu electrònic",
+                "placeholder": "Introdueixi el correu electrònic"
+            },
+            "rol": {
+                "label": "Cerca pel rol",
+                "placeholder": "Seleccioni un rol"
+            }
+        }
+    }
+}
