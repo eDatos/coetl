@@ -1,0 +1,31 @@
+{
+    "coetlApp": {
+        "parameter": {
+            "home": {
+                "title": "ETL parameters",
+                "createLabel": "Add new ETL parameter"
+            },
+            "delete": {
+                "question": "¿Are you sure you want to delete the parameter <b>{{ key }}</b>?"
+            },
+            "key": "Key",
+                "value": "Value",
+            "type": {
+                "label": "Type",
+                "AUTO": "Automatic",
+                "MANUAL": "Manual"
+            },
+            "typology": {
+                "label": "Typology",
+                "PASSWORD": "Password",
+                "GENERIC": "Generic"
+            },
+            "emptyListMessage": "Doesn’t exist parameters for this ETL",
+            "global": {
+                "title": "Add new ETL global parameter",
+                "createLabel": "Add new global parameter",
+                "emptyListMessage": "Doesn’t exist global parameters"
+            }
+        }
+    }
+}

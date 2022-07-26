@@ -1,0 +1,39 @@
+{
+    "settings": {
+        "title": "My account",
+        "form": {
+            "nombre": "Name",
+            "nombre.placeholder": "Your name",
+            "apellido1": "Surname",
+            "apellido2": "Second surname",
+            "apellido1.placeholder": "Your first surname",
+            "apellido2.placeholder": "Your second sourname",
+            "idioma": "Language",
+            "button": "Save"
+        },
+        "messages": {
+            "error": {
+                "emailexists": "<strong>The email address already exists!</strong> Please choose another.",
+                "fail": "<strong>An error has occurred!</strong> The settings could not be saved."
+            },
+            "success": "<strong>Saved settings!</strong>",
+            "validate": {
+                "apellido1": {
+                    "maxlength": "Your first surname cannot have more than 50 characters",
+                    "minlength": "Your first surname is required to be at least 1 character",
+                    "required": "You are required to enter your first last name."
+                },
+                "apellido2": {
+                    "maxlength": "Your second last name cannot have more than 50 characters",
+                    "minlength": "Your second last name is required to be at least 1 character",
+                    "required": "You are required to enter your second last name."
+                },
+                "nombre": {
+                    "maxlength": "Your name cannot have more than 50 characters",
+                    "minlength": "Your name is required to be at least 1 character",
+                    "required": "You are required to enter your name."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "userManagement": {
+        "personalData": "Personal Information",
+        "permissions": "Permissions",
+        "home": {
+            "title": "Users",
+            "createLabel": "Add new user",
+            "createOrEditLabel": "Create or edit a user",
+            "includeDeleted": "Include deactivated"
+        },
+        "created": "The user {{ param }} has been created",
+        "updated": "The user {{ param }} has been updated",
+        "deleted": "The user {{ param }} has been deleted",
+        "delete": {
+            "question": "¿Are you sure you want to deleted user {{ login }}?"
+        },
+        "restore": {
+            "question": "¿Are you sure you want to restore user {{ login }}?"
+        },
+        "deactivate": {
+            "question": "¿Are you sure you want to deactivate user {{ login }}"
+        },
+        "detail": {
+            "title": "user"
+        },
+        "login": "Username",
+        "nombre": "Name",
+        "apellido1": "Surname",
+        "apellido2": "Second surname",
+        "email": "Email",
+        "activado": "Active",
+        "desactivado": "Deactivate",
+        "profiles": "Roles",
+        "rol": "Role",
+        "filters": {
+            "name": {
+                "label": "User search",
+                "placeholder": "Enter a name, username or surnames"
+            },
+            "email": {
+                "label": "Email search",
+                "placeholder": "Enter an email"
+            },
+            "rol": {
+                "label": "Role search",
+                "placeholder": "Select a role"
+            }
+        }
+    }
+}
