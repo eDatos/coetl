@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="arte" id="20220823100000-1">
+        <dropTable cascadeConstraints="true" tableName="tb_files"/>
+    </changeSet>
+
+    <changeSet author="arte" id="20220823100000-2">
+        <dropColumn columnName="etl_description_file_fk" tableName="tb_etls">
+        </dropColumn>
+    </changeSet>
+
+    <changeSet author="arte" id="20220823100000-3">
+        <dropTable cascadeConstraints="true" tableName="tb_etls_attached_files"/>
+    </changeSet>
+
+</databaseChangeLog>
