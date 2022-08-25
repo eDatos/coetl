@@ -53,7 +53,6 @@
             "currentlyDeleted": "Aquesta ETL es troba actualment eliminada",
             "currentlyNotDeleted": "Aquesta ETL es troba actualment activa",
             "etlFileCurrentlyDeleted": "El fixer ETL ja ha estat eliminat",
-            "etlDescriptionFileCurrentlyDeleted": "El fixer descriptiu ja ha estat eliminat",
             "cronExpressionNotValid": "La expresión cron {{0}} no es vàlida",
             "scheduleError": "Ha ocorregut un error en la creació de la planificació de execució de la ETL",
             "unscheduleError": "Ha ocorregut un error en l'esborrat de la planificació d'execució de la ETL",

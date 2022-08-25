@@ -31,7 +31,6 @@ public final class ErrorConstants {
     public static final String ETL_CURRENTLY_DELETED = "error.etl.currentlyDeleted";
     public static final String ETL_CURRENTLY_NOT_DELETED = "error.etl.currentlyNotDeleted";
     public static final String ETL_FILE_CURRENTLY_DELETED = "error.etl.etlFileCurrentlyDeleted";
-    public static final String ETL_DESCRIPTION_FILE_CURRENTLY_DELETED = "error.etl.etlDescriptionFileCurrentlyDeleted";
     public static final String ETL_CRON_EXPRESSION_NOT_VALID = "error.etl.cronExpressionNotValid";
     public static final String ETL_SCHEDULE_ERROR = "error.etl.scheduleError";
     public static final String ETL_UNSCHEDULE_ERROR = "error.etl.unscheduleError";

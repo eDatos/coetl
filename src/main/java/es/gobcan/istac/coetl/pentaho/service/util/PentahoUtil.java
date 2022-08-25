@@ -40,7 +40,6 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.domain.Execution.Type;
-import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.pentaho.enumeration.CarteMethodsEnum;
 import es.gobcan.istac.coetl.pentaho.web.rest.dto.PentahoResponseDTO;
 
