@@ -35,16 +35,6 @@
                 <span jhiTranslate="coetlApp.file.noUploadPending"></span>
             </div>
         </ng-template>
-        <ng-template let-file pTemplate="file">
-            <div class="ui-fileupload-row">
-                <div class="name-width">{{file.name}}</div>
-                <div class="actions-width table-actions">
-                    <button type="button" class="btn btn-sm" [title]="'coetlApp.file.delete.title' | translate" (click)="fileUpload.remove($event,i)">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        </ng-template>
     </p-fileUpload>
 </ng-container>
 

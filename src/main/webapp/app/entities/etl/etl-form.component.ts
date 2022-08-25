@@ -12,7 +12,6 @@ import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
 import { EtlConfirmExecutionDialogComponent } from './etl-confirm-execution-dialog.component';
 import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
-import { File } from '../file/file.model';
 import { ExternalItem, ExternalItemService } from '../external-item';
 
 @Component({

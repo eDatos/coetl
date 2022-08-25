@@ -186,12 +186,6 @@
                         [files]="etl.etlDescriptionFile"
                         [disabled]="!isEditMode()"
                     >
-                        <ng-template let-file="file">
-                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteDescriptionFile()">
-                                <i class="fa fa-trash"></i>
-                                <span jhiTranslate="entity.action.delete"></span>
-                            </button>
-                        </ng-template>
                     </ac-file-upload>
                 </div>
             </div>

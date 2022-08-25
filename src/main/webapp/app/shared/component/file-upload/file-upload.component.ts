@@ -39,8 +39,6 @@ export class FileUploadComponent implements OnInit, OnChanges {
 
     @Input() public files; // Puede ser un elemento o un array
 
-    @Input() public funcionDescargar;
-
     @Input() public showHelp = false;
 
     @Input() public helpTitle: string;
@@ -77,8 +75,6 @@ export class FileUploadComponent implements OnInit, OnChanges {
         this.helpTranslatedTitle = this.helpTitle
             ? this.translateService.instant(this.helpTitle)
             : '';
-
-        this.funcionDescargar = this.funcionDescargar;
     }
 
     ngOnChanges(changes) {
