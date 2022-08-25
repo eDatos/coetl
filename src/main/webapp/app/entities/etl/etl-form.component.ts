@@ -143,10 +143,6 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         return this.titlesContaner;
     }
 
-    deleteDescriptionFile() {
-        this.etl.etlDescriptionFile = undefined;
-    }
-
     canShowNextExecution(): boolean {
         return this.etl.isPlanning() && !!this.etl.id;
     }
