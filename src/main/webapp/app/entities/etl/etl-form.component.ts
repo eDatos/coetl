@@ -152,7 +152,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     }
 
     canSave(): boolean {
-        return !this.isSaving && !!this.etl.etlDescriptionFile && !!this.etl.uriRepository;
+        return !this.isSaving && !!this.etl.uriRepository;
     }
 
     private subscribeToSaveResponse(result: Observable<Etl>) {
