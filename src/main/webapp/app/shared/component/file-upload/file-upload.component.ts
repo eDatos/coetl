@@ -78,7 +78,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
             ? this.translateService.instant(this.helpTitle)
             : '';
 
-        this.funcionDescargar = this.funcionDescargar || this.download;
+        this.funcionDescargar = this.funcionDescargar;
     }
 
     ngOnChanges(changes) {
@@ -93,17 +93,6 @@ export class FileUploadComponent implements OnInit, OnChanges {
 
     onErrorMethod($event) {
         this.onError.emit($event);
-    }
-
-    download(file) {
-        this.fileService.download(file.id);
-    }
-
-    canUpload() {
-        return (
-            !this.limited ||
-            (this.limited > 0 && this.innerFiles && this.innerFiles.length < this.limited)
-        );
     }
 
     upload() {
