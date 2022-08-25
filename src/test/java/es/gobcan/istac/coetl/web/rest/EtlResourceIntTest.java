@@ -214,7 +214,6 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.executionDescription").value(is(nullValue())))
             .andExpect(jsonPath("$.executionPlanning").value(is(nullValue())))
             .andExpect(jsonPath("$.uriRepository").isNotEmpty())
-            .andExpect(jsonPath("$.etlDescriptionFile").isNotEmpty())
             .andExpect(jsonPath("$.deletionDate").value(is(nullValue())))
             .andExpect(jsonPath("$.deletedBy").value(is(nullValue())));
         //@formatter:on
