@@ -3,7 +3,6 @@ import {
     ContentChild,
     EventEmitter,
     Input,
-    OnChanges,
     OnInit,
     Output,
     TemplateRef,
@@ -20,7 +19,7 @@ import { CookieService } from 'ngx-cookie';
     templateUrl: 'file-upload.component.html',
     styleUrls: ['file-upload.component.scss']
 })
-export class FileUploadComponent implements OnInit, OnChanges {
+export class FileUploadComponent implements OnInit {
     @Input() public url: string;
 
     @Input() public title;
@@ -43,8 +42,6 @@ export class FileUploadComponent implements OnInit, OnChanges {
 
     @Input() public helpTitle: string;
 
-    public innerFiles;
-
     public mode;
 
     public helpTranslatedTitle: string;
@@ -62,9 +59,7 @@ export class FileUploadComponent implements OnInit, OnChanges {
         private fileService: FileService,
         private alertService: AcAlertService,
         private cookieService: CookieService
-    ) {
-        this.innerFiles = Array.isArray(this.files) ? this.files : this.files ? [this.files] : [];
-    }
+    ) {}
 
     ngOnInit() {
         if (this.auto) {
@@ -75,16 +70,6 @@ export class FileUploadComponent implements OnInit, OnChanges {
         this.helpTranslatedTitle = this.helpTitle
             ? this.translateService.instant(this.helpTitle)
             : '';
-    }
-
-    ngOnChanges(changes) {
-        if (changes.files && changes.files.currentValue !== changes.files.previousValue) {
-            this.innerFiles = Array.isArray(this.files)
-                ? this.files
-                : this.files
-                ? [this.files]
-                : [];
-        }
     }
 
     onErrorMethod($event) {

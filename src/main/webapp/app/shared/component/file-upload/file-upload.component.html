@@ -37,22 +37,3 @@
         </ng-template>
     </p-fileUpload>
 </ng-container>
-
-<ng-container *ngIf="innerFiles?.length > 0;else emptyFileList">
-    <table class="table">
-        <thead>
-            <tr>
-                <th jhiTranslate="coetlApp.file.filename" class="name-width"></th>
-                <th class="actions-width"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let file of innerFiles">
-                <td>{{file.name}}</td>
-            </tr>
-        </tbody>
-    </table>
-</ng-container>
-<ng-template #emptyFileList>
-    <div class="empty-file-list" jhiTranslate="coetlApp.file.emptyFileList"></div>
-</ng-template>
