@@ -174,21 +174,6 @@
                 </div>
             </div>
         </fieldset>
-        <fieldset>
-            <div class="entity-fields">
-                <div class="form-group full-width">
-                    <ac-file-upload
-                        [title]="'coetlApp.etl.descriptionFile.label' | translate"
-                        [url]="fileResourceUrl"
-                        [showHelp]="true"
-                        [helpTitle]="'coetlApp.etl.descriptionFile.help'"
-                        accept="application/pdf"
-                        [disabled]="!isEditMode()"
-                    >
-                    </ac-file-upload>
-                </div>
-            </div>
-        </fieldset>
         <fieldset *ngIf="etl.id">
             <ac-etl-parameter-list [idEtl]="etl.id"></ac-etl-parameter-list>
         </fieldset>

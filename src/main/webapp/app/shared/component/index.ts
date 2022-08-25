@@ -4,7 +4,6 @@ export * from './autocomplete';
 export * from './calendar';
 export * from './currency';
 export * from './entity-list-empty';
-export * from './file-upload';
 export * from './help-tooltip';
 export * from './items-per-page';
 export * from './multi-input';
