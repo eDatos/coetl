@@ -11,7 +11,6 @@ import {
     CalendarComponent,
     CSRFService,
     EntityListEmptyComponent,
-    FileUploadComponent,
     GenericModalService,
     AuditInfoComponent,
     LoginService,
@@ -33,8 +32,7 @@ import {
         AuditInfoComponent,
         SplitButtonComponent,
         CalendarComponent,
-        SideMenuComponent,
-        FileUploadComponent
+        SideMenuComponent
     ],
     providers: [
         LoginService,
@@ -60,7 +58,6 @@ import {
         SplitButtonComponent,
         CalendarComponent,
         SideMenuComponent,
-        FileUploadComponent,
         AccordionModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

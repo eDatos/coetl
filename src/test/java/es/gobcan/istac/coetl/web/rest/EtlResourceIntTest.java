@@ -1,6 +1,5 @@
 package es.gobcan.istac.coetl.web.rest;
 
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -50,13 +49,11 @@ import es.gobcan.istac.coetl.CoetlApp;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Etl.Type;
-import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ExceptionTranslator;
 import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
 import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
-import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.EtlService;
@@ -88,9 +85,6 @@ public class EtlResourceIntTest {
     private static final Type DEFAULT_TYPE = Type.TRANSFORMATION;
     private static final Type UPDATED_TYPE = Type.JOB;
 
-    private static final String PATH_CODE_FILE = "src/main/resources/banner.txt";
-    private static final String PATH_DESCRIPTION_FILE = "src/main/resources/config/data-location.properties";
-
     private static final String DEFAULT_ETL_PARAMETER_KEY = "DEFAULT_ETL_PARAMETER_KEY";
     private static final String DEFAULT_ETL_PARAMETER_VALUE = "DEFAULT_ETL_PARAMETER_VALUE";
     private static final String UPDATED_ETL_PARAMETER_VALUE = "UPDATED_ETL_PARAMETER_VALUE";
@@ -115,9 +109,6 @@ public class EtlResourceIntTest {
 
     @SpyBean
     ExecutionMapper executionMapper;
-
-    @Autowired
-    FileRepository fileRepository;
 
     @Mock
     PentahoGitService pentahoGitService;
@@ -167,8 +158,6 @@ public class EtlResourceIntTest {
         etl.setTechnicalInCharge(DEFAULT_TECHNICAL_IN_CHARGE);
         etl.setType(DEFAULT_TYPE);
         etl.setUriRepository(DEFAULT_REPOSITORY_VALUE);
-        File etlDescriptionFile = fileRepository.saveAndFlush(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
-        etl.setEtlDescriptionFile(etlDescriptionFile);
         return etl;
     }
 
@@ -225,7 +214,6 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.executionDescription").value(is(nullValue())))
             .andExpect(jsonPath("$.executionPlanning").value(is(nullValue())))
             .andExpect(jsonPath("$.uriRepository").isNotEmpty())
-            .andExpect(jsonPath("$.etlDescriptionFile").isNotEmpty())
             .andExpect(jsonPath("$.deletionDate").value(is(nullValue())))
             .andExpect(jsonPath("$.deletedBy").value(is(nullValue())));
         //@formatter:on

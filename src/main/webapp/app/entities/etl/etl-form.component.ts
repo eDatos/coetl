@@ -12,7 +12,6 @@ import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
 import { EtlConfirmExecutionDialogComponent } from './etl-confirm-execution-dialog.component';
 import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
-import { File } from '../file/file.model';
 import { ExternalItem, ExternalItemService } from '../external-item';
 
 @Component({
@@ -144,21 +143,12 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         return this.titlesContaner;
     }
 
-    onEtlDescriptionFileUpload(event) {
-        const etlDescriptionFile = JSON.parse(event.xhr.response);
-        this.etl.etlDescriptionFile = etlDescriptionFile;
-    }
-
-    deleteDescriptionFile() {
-        this.etl.etlDescriptionFile = undefined;
-    }
-
     canShowNextExecution(): boolean {
         return this.etl.isPlanning() && !!this.etl.id;
     }
 
     canSave(): boolean {
-        return !this.isSaving && !!this.etl.etlDescriptionFile && !!this.etl.uriRepository;
+        return !this.isSaving && !!this.etl.uriRepository;
     }
 
     private subscribeToSaveResponse(result: Observable<Etl>) {

@@ -174,29 +174,6 @@
                 </div>
             </div>
         </fieldset>
-        <fieldset>
-            <div class="entity-fields">
-                <div class="form-group full-width">
-                    <ac-file-upload
-                        [title]="'coetlApp.etl.descriptionFile.label' | translate"
-                        [url]="fileResourceUrl"
-                        [showHelp]="true"
-                        [helpTitle]="'coetlApp.etl.descriptionFile.help'"
-                        (onUpload)="onEtlDescriptionFileUpload($event)"
-                        accept="application/pdf"
-                        [files]="etl.etlDescriptionFile"
-                        [disabled]="!isEditMode()"
-                    >
-                        <ng-template let-file="file">
-                            <button *ngIf="isEditMode()" type="button" class="btn btn-sm" [title]="'entity.action.delete' | translate" (click)="deleteDescriptionFile()">
-                                <i class="fa fa-trash"></i>
-                                <span jhiTranslate="entity.action.delete"></span>
-                            </button>
-                        </ng-template>
-                    </ac-file-upload>
-                </div>
-            </div>
-        </fieldset>
         <fieldset *ngIf="etl.id">
             <ac-etl-parameter-list [idEtl]="etl.id"></ac-etl-parameter-list>
         </fieldset>

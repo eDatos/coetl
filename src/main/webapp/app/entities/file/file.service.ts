@@ -19,10 +19,6 @@ export class FileService {
         this.authenticationToken = this.installationService.getAuthenticationTokenByInstance();
     }
 
-    download(id: number) {
-        window.open(`${this.resourceUrl}/${id}/download?bearerToken=${this.getAuthToken()}`);
-    }
-
     private getAuthToken() {
         return (
             this.localStorage.retrieve(this.authenticationToken) ||

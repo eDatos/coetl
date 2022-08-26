@@ -47,7 +47,6 @@
             "executingError": "An error occurred during the execution of the ETL.",
             "currentlyNotDeleted": "This ETL is currently active",
             "etlFileCurrentlyDeleted": "The ETL file has already been deleted",
-            "etlDescriptionFileCurrentlyDeleted": "The descriptive file has already been deleted",
             "cronExpressionNotValid": "The expression cron {{0}} is invalid",
             "scheduleError": "An error has occurred in the creation of the ETL execution planning",
             "unscheduleError": "An error has occurred in the deletion of the ETL execution planning",

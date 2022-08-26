@@ -12,7 +12,6 @@ public class EtlDTO extends EtlBaseDTO implements Serializable {
     private String technicalInCharge;
     private String comments;
     private String executionDescription;
-    private FileDTO etlDescriptionFile;
     private String uriRepository;
 
 
@@ -54,14 +53,6 @@ public class EtlDTO extends EtlBaseDTO implements Serializable {
 
     public void setExecutionDescription(String executionDescription) {
         this.executionDescription = executionDescription;
-    }
-
-    public FileDTO getEtlDescriptionFile() {
-        return etlDescriptionFile;
-    }
-
-    public void setEtlDescriptionFile(FileDTO etlDescriptionFile) {
-        this.etlDescriptionFile = etlDescriptionFile;
     }
 
     public String getUriRepository() {
