@@ -23,6 +23,6 @@
   <include file="config/liquibase/changelog/20211110110820_change_externalitem_add_columns.xml" relativeToChangelogFile="false"/>
   <include file="config/liquibase/changelog/20220131131600_change_parameters_add_column.xml" relativeToChangelogFile="false"/>
   <include file="config/liquibase/changelog/20220624094000_added_entity_GlobalParameter.xml" relativeToChangelogFile="false"/>
-  <include file="config/liquibase/changelog/20220825100000_delete_tables.xml" relativeToChangelogFile="false" />
+  <include file="config/liquibase/changelog/20220825100000_delete_table_Files.xml" relativeToChangelogFile="false" />
 
 </databaseChangeLog>
