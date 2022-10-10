@@ -45,7 +45,12 @@ export class EtlParameterDialogComponent implements OnInit {
     }
 
     public isPasswordTypology(event: any) {
-        this.isPassword = this.parameter.typology === Typology.PASSWORD ? true : false;
+        if (this.parameter.typology === Typology.PASSWORD) {
+            this.isPassword = true;
+        } else {
+            this.isPassword = false;
+            this.parameter.value = '';
+        }
     }
 
     public save() {
