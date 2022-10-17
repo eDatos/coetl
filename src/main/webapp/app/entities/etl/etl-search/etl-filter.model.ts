@@ -14,6 +14,7 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
     public nextExecution: Date;
     public lastExecution: Date;
     public includeDeleted = false;
+    public lastExecutionByResult: string;
 
     constructor(public datePipe: DatePipe) {
         super();
@@ -74,6 +75,12 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
             updateFilterFromParam: (param) => (this.lastExecution = param),
             clearFilter: () => (this.lastExecution = null)
         });
+
+        this.registerParam({
+            paramName: 'lastExecutionByResult',
+            updateFilterFromParam: (param) => (this.lastExecutionByResult = param),
+            clearFilter: () => (this.lastExecutionByResult = null)
+        });
     }
 
     private convertParamToType(param: any): Type {
@@ -103,9 +110,6 @@ export class EtlFilter extends BaseEntityFilter implements EntityFilter {
         }
         if (this.nextExecution) {
             criterias.push(`NEXT_EXECUTION EQ '${this.nextExecution}'`);
-        }
-        if (this.lastExecution) {
-            criterias.push(`LAST_EXECUTION EQ '${this.lastExecution}'`);
         }
 
         return criterias;

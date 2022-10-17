@@ -27,4 +27,9 @@ public interface EtlStatusDTO {
     public boolean isFinished();
 
     public boolean isFinishedWithErrors();
+
+    public boolean isStoppedWithErrors();
+
+    public boolean isStopped();
+
 }

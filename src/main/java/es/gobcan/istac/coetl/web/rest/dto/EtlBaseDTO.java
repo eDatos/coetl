@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import es.gobcan.istac.coetl.domain.Etl.Type;
+import es.gobcan.istac.coetl.domain.Execution.Result;
 
 public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO implements Serializable {
 
@@ -18,6 +19,7 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
     private Instant nextExecution;
     private Instant lastExecution;
     private ExternalItemDTO externalItem;
+    private Result result;
 
 
     public EtlBaseDTO() {
@@ -95,5 +97,14 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
     public void setExternalItem(ExternalItemDTO externalItem) {
         this.externalItem = externalItem;
     }
+
+    public Result getResult() {
+        return this.result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
+    }
+
 }
 

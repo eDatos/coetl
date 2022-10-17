@@ -1,10 +1,12 @@
 package es.gobcan.istac.coetl.web.rest.mapper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
+import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.repository.ExecutionRepository;
 import es.gobcan.istac.coetl.web.rest.dto.EtlBaseDTO;
@@ -55,7 +57,7 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         return entity;
     }
 
-    public EtlBaseDTO toBaseDto(Etl entity) {
+    public EtlBaseDTO toBaseDto(Etl entity, Execution execution) {
         if (entity == null) {
             return null;
         }
@@ -69,7 +71,7 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         baseDto.setType(entity.getType());
         baseDto.setExecutionPlanning(entity.getExecutionPlanning());
         baseDto.setNextExecution(entity.getNextExecution());
-        setLastExecution(entity,baseDto);
+        setDataExecution(execution, baseDto);
         baseDto.setExternalItem(externalItemMapper.toDto(entity.getExternalItem()));
         baseDto.setCreatedBy(entity.getCreatedBy());
         baseDto.setCreatedDate(entity.getCreatedDate());
@@ -83,10 +85,25 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         return baseDto;
     }
 
-    private void setLastExecution(Etl entity, EtlBaseDTO baseDto){
-        Execution execution = executionRepository.findFirstByEtlId(entity.getId());
-        if(execution != null){
+    private void setDataExecution(Execution execution, EtlBaseDTO baseDto) {
+        if (execution != null) {
             baseDto.setLastExecution(execution.getStartDate());
+            baseDto.setResult(execution.getResult());
         }
     }
+
+    public EtlBaseDTO toBaseDto(Etl entity, String lastExecutionStartDate, String lastExecutionResult) {
+        Execution execution;
+        if (StringUtils.isNotBlank(lastExecutionResult) && StringUtils.isNotBlank(lastExecutionStartDate)) {
+            execution = executionRepository.findFirstByEtlIdAndStartDateAndResultOrderByIdDesc(entity.getId(), lastExecutionStartDate, lastExecutionResult);
+        } else if (StringUtils.isNotBlank(lastExecutionResult) && StringUtils.isBlank(lastExecutionStartDate)) {
+            execution = executionRepository.findFirstByEtlIdAndResultOrderByIdDesc(entity.getId(), Result.valueOf(lastExecutionResult));
+        } else if (StringUtils.isBlank(lastExecutionResult) && StringUtils.isNotBlank(lastExecutionStartDate)) {
+            execution = executionRepository.findFirstByEtlIdAndStartDateOrderByIdDesc(entity.getId(), lastExecutionStartDate);
+        } else {
+            execution = executionRepository.findFirstByEtlIdOrderByStartDateDesc(entity.getId());
+        }
+        return toBaseDto(entity, execution);
+    }
+
 }
