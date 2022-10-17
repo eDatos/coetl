@@ -122,7 +122,7 @@ public class PentahoWatchJob {
     }
 
     private Execution updateExecutionFromEtlStatus(Execution currentExecution, EtlStatusDTO etlStatusDTO) {
-        if (etlStatusDTO.isFinishedWithErrors()) {
+        if (etlStatusDTO.isFinishedWithErrors() || etlStatusDTO.isStoppedWithErrors() || etlStatusDTO.isStopped()) {
             return updateExecutionFromResult(currentExecution, Result.FAILED, etlStatusDTO.getErrorDescription());
         }
         return updateExecutionFromResult(currentExecution, Result.SUCCESS);

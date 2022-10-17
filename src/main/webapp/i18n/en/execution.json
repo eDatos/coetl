@@ -21,7 +21,10 @@
                 "DUPLICATED": "Duplicate"
             },
             "notes": "Notes",
-            "emptyListMessage": "No runs for this ETL"
+            "emptyListMessage": "No runs for this ETL",
+            "executionResult": {
+                "label": "Execution state"
+            }
         }
     }
 }

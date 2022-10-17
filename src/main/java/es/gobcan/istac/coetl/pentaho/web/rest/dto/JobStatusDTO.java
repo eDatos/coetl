@@ -60,10 +60,19 @@ public class JobStatusDTO implements PentahoResponseDTO, EtlStatusDTO {
     }
 
     public boolean isFinished() {
-        return Status.FINISHED.equals(status) || isFinishedWithErrors();
+        return Status.FINISHED.equals(status) || isFinishedWithErrors() || isStoppedWithErrors() || isStopped();
     }
 
     public boolean isFinishedWithErrors() {
         return Status.FINISHED_WITH_ERRORS.equals(status);
     }
+
+    public boolean isStoppedWithErrors() {
+        return Status.STOPPED_WITH_ERRORS.equals(status);
+    }
+
+    public boolean isStopped() {
+        return Status.STOPPED.equals(status);
+    }
+
 }

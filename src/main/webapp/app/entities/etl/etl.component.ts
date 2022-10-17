@@ -10,6 +10,7 @@ import { EtlFilter } from './etl-search';
 import { EtlService } from './etl.service';
 import { EtlFormComponent } from './etl-form.component';
 import { DatePipe } from '@angular/common';
+import { Execution, Result } from '../execution/execution.model';
 
 @Component({
     selector: 'ac-etl',
@@ -75,7 +76,13 @@ export class EtlComponent implements OnInit, OnDestroy {
                 size: this.itemsPerPage,
                 sort: this.sort(),
                 query: this.filters ? this.filters.toQuery() : '',
-                includeDeleted: this.filters ? this.filters.includeDeleted : false
+                includeDeleted: this.filters ? this.filters.includeDeleted : false,
+                lastExecution:
+                    this.filters && this.filters.lastExecution ? this.filters.lastExecution : '',
+                lastExecutionByResult:
+                    this.filters && this.filters.lastExecutionByResult
+                        ? this.filters.lastExecutionByResult
+                        : ''
             })
             .subscribe((res: ResponseWrapper) => this.onSuccess(res.json, res.headers));
     }
@@ -148,5 +155,25 @@ export class EtlComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.etls = data;
+    }
+
+    getResultBadgeClass(execution: Execution): any {
+        if (execution) {
+            return {
+                'badge-success': execution === Result.SUCCESS,
+                'badge-danger': execution === Result.FAILED,
+                'badge-warning': execution === Result.WAITING,
+                'badge-primary': execution === Result.RUNNING,
+                'badge-default': execution === Result.DUPLICATED
+            };
+        } else {
+            return '';
+        }
+    }
+
+    getResultName(execution: Execution): string {
+        return execution
+            ? this.translateService.instant(`coetlApp.execution.result.${execution}`)
+            : '';
     }
 }

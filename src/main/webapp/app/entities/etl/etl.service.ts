@@ -45,6 +45,8 @@ export class EtlService {
 
     public query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
+        options.params.set('lastExecution', req.lastExecution);
+        options.params.set('lastExecutionByResult', req.lastExecutionByResult);
         return this.http
             .get(this.resourceUrl, options)
             .map((response) => this.convertResponseToEtlBaseResponseWrapper(response));

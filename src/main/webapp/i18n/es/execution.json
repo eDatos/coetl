@@ -21,7 +21,10 @@
                 "DUPLICATED": "Duplicado"
             },
             "notes": "Notas",
-            "emptyListMessage": "No hay ejecuciones para esta ETL"
+            "emptyListMessage": "No hay ejecuciones para esta ETL",
+            "executionResult": {
+                "label": "Estado Ejecución"
+            }
         }
     }
 }

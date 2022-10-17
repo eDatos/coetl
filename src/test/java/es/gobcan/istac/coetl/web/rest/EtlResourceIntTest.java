@@ -382,13 +382,13 @@ public class EtlResourceIntTest {
     public void findAllEtl_isStatusOk() throws IOException, SQLException, Exception {
         Etl etlMocked = mockEntity();
 
-        EtlBaseDTO etlDTOMocked = etlMapper.toBaseDto(etlMocked);
+        EtlBaseDTO etlDTOMocked = etlMapper.toBaseDto(etlMocked, null, null);
 
         Page<Etl> etlMockPage = new PageImpl<>(new ArrayList<>(Arrays.asList(etlMocked)));
-        doReturn(etlMockPage).when(etlService).findAll(any(String.class), any(Boolean.class), any(Pageable.class));
+        doReturn(etlMockPage).when(etlService).findAll(any(String.class), any(Boolean.class), any(Pageable.class), any(String.class), any(String.class));
 
         //@formatter:off
-        restEtlMockMvc.perform(get(BASE_URI + "?sort=id,asc")
+        restEtlMockMvc.perform(get(BASE_URI + "?sort=id,asc").param("lastExecution", "").param("lastExecutionByResult", "")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
             .andDo(print())
             .andExpect(status().isOk())
