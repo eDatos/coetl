@@ -241,8 +241,9 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
         }
 
         private Criterion buildQueryLastExecutionEtlByResult(List<String> result) {
-            String sql = String.format(" {alias}.id IN (select etl_fk from tb_executions te where \"result\" = %s and date(start_date) = %s) "
-                    , result.get(0), result.get(1));
+            String dateValue = StringUtils.changeFormatStringDate(result.get(1));
+            String sql = String.format(" {alias}.id IN (select etl_fk from tb_executions te where \"result\" = %s and date(start_date) = '%s') "
+                    , result.get(0), dateValue);
             return Restrictions.sqlRestriction(sql);
         }
     }
