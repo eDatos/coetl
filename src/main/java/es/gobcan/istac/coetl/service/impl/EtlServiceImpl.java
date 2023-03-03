@@ -9,7 +9,7 @@ import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.istac.coetl.job.PentahoExecutionJob;
-import es.gobcan.istac.coetl.pentaho.service.PentahoExecutionService;
+import es.gobcan.istac.coetl.platform.pentaho.service.PentahoExecutionService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.EtlService;

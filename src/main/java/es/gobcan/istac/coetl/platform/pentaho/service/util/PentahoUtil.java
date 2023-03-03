@@ -1,4 +1,4 @@
-package es.gobcan.istac.coetl.pentaho.service.util;
+package es.gobcan.istac.coetl.platform.pentaho.service.util;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -40,8 +40,8 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.domain.Execution.Type;
-import es.gobcan.istac.coetl.pentaho.enumeration.CarteMethodsEnum;
-import es.gobcan.istac.coetl.pentaho.web.rest.dto.PentahoResponseDTO;
+import es.gobcan.istac.coetl.platform.pentaho.enumeration.CarteMethodsEnum;
+import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.PentahoResponseDTO;
 
 public final class PentahoUtil {
 

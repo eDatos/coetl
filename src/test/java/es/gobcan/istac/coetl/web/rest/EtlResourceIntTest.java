@@ -52,7 +52,7 @@ import es.gobcan.istac.coetl.domain.Etl.Type;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ExceptionTranslator;
 import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
-import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
+import es.gobcan.istac.coetl.platform.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;

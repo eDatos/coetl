@@ -1,4 +1,4 @@
-package es.gobcan.istac.coetl.pentaho.enumeration;
+package es.gobcan.istac.coetl.platform.pentaho.enumeration;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;

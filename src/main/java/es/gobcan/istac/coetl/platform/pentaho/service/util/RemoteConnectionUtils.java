@@ -1,4 +1,4 @@
-package es.gobcan.istac.coetl.pentaho.service.util;
+package es.gobcan.istac.coetl.platform.pentaho.service.util;
 
 import static com.xebialabs.overthere.ConnectionOptions.ADDRESS;
 import static com.xebialabs.overthere.ConnectionOptions.OPERATING_SYSTEM;

@@ -1,4 +1,4 @@
-package es.gobcan.istac.coetl.pentaho.enumeration;
+package es.gobcan.istac.coetl.platform.pentaho.enumeration;
 
 public interface CarteMethodsEnum {
 

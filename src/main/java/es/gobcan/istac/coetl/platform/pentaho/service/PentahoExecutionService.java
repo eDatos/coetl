@@ -1,9 +1,9 @@
-package es.gobcan.istac.coetl.pentaho.service;
+package es.gobcan.istac.coetl.platform.pentaho.service;
 
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Type;
-import es.gobcan.istac.coetl.pentaho.web.rest.dto.WebResultDTO;
+import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.WebResultDTO;
 
 public interface PentahoExecutionService {
 

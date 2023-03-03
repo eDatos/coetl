@@ -23,6 +23,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
+import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
+
 @Entity
 @Table(name = "tb_etls")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -96,6 +98,11 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @ManyToOne(targetEntity = ExternalItem.class)
     @JoinColumn(name = "external_item_fk")
     private ExternalItem externalItem;
+    
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "plataforma_ejecucion", nullable = false, length = 255)
+    private TipoPlataformaEjecucion plataformaEjecucion;
 
     @Override
     public Long getId() {
@@ -220,6 +227,14 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
 
     public void setExternalItem(ExternalItem externalItem) {
         this.externalItem = externalItem;
+    }
+    
+    public TipoPlataformaEjecucion getPlataformaEjecucion() {
+        return plataformaEjecucion;
+    }
+    
+    public void setPlataformaEjecucion(TipoPlataformaEjecucion plataformaEjecucion) {
+        this.plataformaEjecucion = plataformaEjecucion;
     }
 
     @Override

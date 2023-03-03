@@ -1,9 +1,9 @@
-package es.gobcan.istac.coetl.pentaho.web.rest.dto;
+package es.gobcan.istac.coetl.platform.pentaho.web.rest.dto;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import es.gobcan.istac.coetl.pentaho.enumeration.Status;
+import es.gobcan.istac.coetl.platform.pentaho.enumeration.Status;
 
 @XmlRootElement(name = "jobstatus")
 public class JobStatusDTO implements PentahoResponseDTO, EtlStatusDTO {

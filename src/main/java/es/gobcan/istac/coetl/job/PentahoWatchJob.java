@@ -18,15 +18,15 @@ import es.gobcan.istac.coetl.config.PentahoProperties;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Result;
-import es.gobcan.istac.coetl.pentaho.enumeration.JobMethodsEnum;
-import es.gobcan.istac.coetl.pentaho.enumeration.TransMethodsEnum;
-import es.gobcan.istac.coetl.pentaho.service.PentahoExecutionService;
-import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
-import es.gobcan.istac.coetl.pentaho.service.util.PentahoUtil;
-import es.gobcan.istac.coetl.pentaho.web.rest.dto.EtlStatusDTO;
-import es.gobcan.istac.coetl.pentaho.web.rest.dto.JobStatusDTO;
-import es.gobcan.istac.coetl.pentaho.web.rest.dto.TransStatusDTO;
-import es.gobcan.istac.coetl.pentaho.web.rest.dto.WebResultDTO;
+import es.gobcan.istac.coetl.platform.pentaho.enumeration.JobMethodsEnum;
+import es.gobcan.istac.coetl.platform.pentaho.enumeration.TransMethodsEnum;
+import es.gobcan.istac.coetl.platform.pentaho.service.PentahoExecutionService;
+import es.gobcan.istac.coetl.platform.pentaho.service.PentahoGitService;
+import es.gobcan.istac.coetl.platform.pentaho.service.util.PentahoUtil;
+import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.EtlStatusDTO;
+import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.JobStatusDTO;
+import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.TransStatusDTO;
+import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.WebResultDTO;
 import es.gobcan.istac.coetl.service.ExecutionService;
 
 @Component

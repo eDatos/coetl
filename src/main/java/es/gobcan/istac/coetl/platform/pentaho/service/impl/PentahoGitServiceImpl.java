@@ -1,4 +1,8 @@
-package es.gobcan.istac.coetl.pentaho.service.impl;
+package es.gobcan.istac.coetl.platform.pentaho.service.impl;
+
+import static es.gobcan.istac.coetl.platform.pentaho.service.util.RemoteConnectionUtils.SftpException;
+import static es.gobcan.istac.coetl.platform.pentaho.service.util.RemoteConnectionUtils.executeCommand;
+import static es.gobcan.istac.coetl.platform.pentaho.service.util.RemoteConnectionUtils.getSudoDestinationOptions;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,11 +27,7 @@ import com.xebialabs.overthere.util.CapturingOverthereExecutionOutputHandler;
 import es.gobcan.istac.coetl.config.GitProperties;
 import es.gobcan.istac.coetl.config.PentahoProperties;
 import es.gobcan.istac.coetl.domain.Etl;
-import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
-
-import static es.gobcan.istac.coetl.pentaho.service.util.RemoteConnectionUtils.getSudoDestinationOptions;
-import static es.gobcan.istac.coetl.pentaho.service.util.RemoteConnectionUtils.executeCommand;
-import static es.gobcan.istac.coetl.pentaho.service.util.RemoteConnectionUtils.SftpException;
+import es.gobcan.istac.coetl.platform.pentaho.service.PentahoGitService;
 
 @Service
 public class PentahoGitServiceImpl implements PentahoGitService {

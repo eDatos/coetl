@@ -133,4 +133,65 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
     public String getMetamacKeyPentahoMainResourcePrefix(){
         return getPrefixInstace() + "pentaho.mainResourcePrefix";
     }
+    
+    /* APACHE HOP */
+    public String getMetamacKeyApacheHopEndpoint(){
+        return getPrefixInstace() + "hop.endpoint";
+    }
+
+    public String getMetamacKeyApacheHopAuthUser(){
+        return getPrefixInstace() + "hop.auth.user";
+    }
+
+    public String getMetamacKeyApacheHopAuthPassword(){
+        return getPrefixInstace() + "hop.auth.password";
+    }
+
+    public String getMetamacKeyApacheHopHostOs(){
+        return getPrefixInstace() + "hop.host.os";
+    }
+
+    public String getMetamacKeyApacheHopHostAddress(){
+        return getPrefixInstace() + "hop.host.address";
+    }
+
+    public String getMetamacKeyApacheHopHostUsername(){
+        return getPrefixInstace() + "hop.host.username";
+    }
+
+    public String getMetamacKeyApacheHopHostPassword(){
+        return getPrefixInstace() + "hop.host.password";
+    }
+
+    public String getMetamacKeyApacheHopHostSudoUsername(){
+        return getPrefixInstace() + "hop.host.sudo.username";
+    }
+
+    public String getMetamacKeyApacheHopHostSudopassword(){
+        return getPrefixInstace() + "hop.host.sudo.password";
+    }
+
+    public String getMetamacKeyApacheHopHostSudoPasswordProptRegex(){
+        return getPrefixInstace() + "hop.host.sudoPasswordPromptRegex";
+    }
+
+    public String getMetamacKeyApacheHopHostSftpPath(){
+        return getPrefixInstace() + "hop.host.sftpPath";
+    }
+
+    public String getMetamacKeyApacheHopHostResourcesPath(){
+        return getPrefixInstace() + "hop.host.resourcesPath";
+    }
+
+    public String getMetamacKeyApacheHopHostOwnerUserResourcesPath(){
+        return getPrefixInstace() + "hop.host.ownerUserResourcesPath";
+    }
+
+    public String getMetamacKeyApacheHopHostOwnerGroupResourcesPath(){
+        return getPrefixInstace() + "hop.host.ownerGroupResourcesPath";
+    }
+
+    public String getMetamacKeyApacheHopMainResourcePrefix(){
+        return getPrefixInstace() + "hop.mainResourcePrefix";
+    }
 }

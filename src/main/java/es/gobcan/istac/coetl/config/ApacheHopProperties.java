@@ -1,0 +1,201 @@
+package es.gobcan.istac.coetl.config;
+
+import es.gobcan.istac.coetl.service.DataConfigurationService;
+import es.gobcan.istac.coetl.service.MetadataConfigurationService;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+
+@Component
+public class ApacheHopProperties {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+    private String endpoint = StringUtils.EMPTY;
+    private String mainResourcePrefix = StringUtils.EMPTY;
+    private final Auth auth = new Auth();
+    private final Host host = new Host();
+
+    @Autowired
+    private MetadataConfigurationService configurationService;
+
+    @Autowired
+    private DataConfigurationService instanceService;
+
+    @PostConstruct
+    public void setValues() {
+        try {
+            setEndpoint(configurationService.findProperty(instanceService.getMetamacKeyApacheHopEndpoint()));
+            setMainResourcePrefix(configurationService.findProperty(instanceService.getMetamacKeyApacheHopMainResourcePrefix()));
+            auth.setUser(configurationService.findProperty(instanceService.getMetamacKeyApacheHopAuthUser()));
+            auth.setPassword(configurationService.findProperty(instanceService.getMetamacKeyApacheHopAuthPassword()));
+            host.setOs(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostOs()));
+            host.setAddress(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostAddress()));
+            host.setUsername(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostUsername()));
+            host.setPassword(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostPassword()));
+            host.setSudoUsername(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostSudoUsername()));
+            host.setSudoPassword(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostSudopassword()));
+            host.setSudoPasswordPromptRegex(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostSudoPasswordProptRegex()));
+            host.setSftpPath(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostSftpPath()));
+            host.setResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostResourcesPath()));
+            host.setOwnerUserResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostOwnerUserResourcesPath()));
+            host.setOwnerGroupResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostOwnerGroupResourcesPath()));
+        } catch (Exception e) {
+            log.error("Error getting the value of a metadata {}", e);
+        }
+    }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    public String getMainResourcePrefix() {
+        return mainResourcePrefix;
+    }
+
+    public void setMainResourcePrefix(String mainResourcePrefix) {
+        this.mainResourcePrefix = mainResourcePrefix;
+    }
+
+    public Auth getAuth() {
+        return auth;
+    }
+
+    public Host getHost() {
+        return host;
+    }
+
+    public static class Auth {
+
+        private String user = StringUtils.EMPTY;
+        private String password = StringUtils.EMPTY;
+
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+    }
+
+    public static class Host {
+
+        private String address = StringUtils.EMPTY;
+        private String username = StringUtils.EMPTY;
+        private String password = StringUtils.EMPTY;
+        private String sudoUsername = StringUtils.EMPTY;
+        private String sudoPassword = StringUtils.EMPTY;
+        private String sudoPasswordPromptRegex = StringUtils.EMPTY;
+        private String os = StringUtils.EMPTY;
+        private String sftpPath = StringUtils.EMPTY;
+        private String resourcesPath = StringUtils.EMPTY;
+        private String ownerUserResourcesPath = StringUtils.EMPTY;
+        private String ownerGroupResourcesPath = StringUtils.EMPTY;
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getSudoUsername() {
+            return sudoUsername;
+        }
+
+        public void setSudoUsername(String sudoUsername) {
+            this.sudoUsername = sudoUsername;
+        }
+
+        public String getSudoPassword() {
+            return sudoPassword;
+        }
+
+        public void setSudoPassword(String sudoPassword) {
+            this.sudoPassword = sudoPassword;
+        }
+
+        public String getSudoPasswordPromptRegex() {
+            return sudoPasswordPromptRegex;
+        }
+
+        public void setSudoPasswordPromptRegex(String sudoPasswordPromptRegex) {
+            this.sudoPasswordPromptRegex = sudoPasswordPromptRegex;
+        }
+
+        public String getOs() {
+            return os;
+        }
+
+        public void setOs(String os) {
+            this.os = os;
+        }
+
+        public String getSftpPath() {
+            return sftpPath;
+        }
+
+        public void setSftpPath(String sftpPath) {
+            this.sftpPath = sftpPath;
+        }
+
+        public String getResourcesPath() {
+            return resourcesPath;
+        }
+
+        public void setResourcesPath(String resourcesPath) {
+            this.resourcesPath = resourcesPath;
+        }
+
+        public String getOwnerUserResourcesPath() {
+            return ownerUserResourcesPath;
+        }
+
+        public void setOwnerUserResourcesPath(String ownerUserResourcesPath) {
+            this.ownerUserResourcesPath = ownerUserResourcesPath;
+        }
+
+        public String getOwnerGroupResourcesPath() {
+            return ownerGroupResourcesPath;
+        }
+
+        public void setOwnerGroupResourcesPath(String ownerGroupResourcesPath) {
+            this.ownerGroupResourcesPath = ownerGroupResourcesPath;
+        }
+    }
+}

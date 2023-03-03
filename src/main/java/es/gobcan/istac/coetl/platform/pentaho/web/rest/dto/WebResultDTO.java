@@ -1,4 +1,4 @@
-package es.gobcan.istac.coetl.pentaho.web.rest.dto;
+package es.gobcan.istac.coetl.platform.pentaho.web.rest.dto;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlEnum;

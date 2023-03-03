@@ -8,7 +8,7 @@ import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
-import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
+import es.gobcan.istac.coetl.platform.pentaho.service.PentahoGitService;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;

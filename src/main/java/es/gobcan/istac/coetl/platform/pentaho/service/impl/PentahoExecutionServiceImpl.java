@@ -1,4 +1,4 @@
-package es.gobcan.istac.coetl.pentaho.service.impl;
+package es.gobcan.istac.coetl.platform.pentaho.service.impl;
 
 import es.gobcan.istac.coetl.config.Constants;
 import es.gobcan.istac.coetl.config.PentahoProperties;
@@ -6,15 +6,15 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.domain.Execution.Type;
-import es.gobcan.istac.coetl.pentaho.enumeration.JobMethodsEnum;
-import es.gobcan.istac.coetl.pentaho.enumeration.ServerMethodsEnum;
-import es.gobcan.istac.coetl.pentaho.enumeration.TransMethodsEnum;
-import es.gobcan.istac.coetl.pentaho.service.PentahoExecutionService;
-import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
-import es.gobcan.istac.coetl.pentaho.service.util.PentahoUtil;
-import es.gobcan.istac.coetl.pentaho.web.rest.dto.EtlStatusDTO;
-import es.gobcan.istac.coetl.pentaho.web.rest.dto.ServerStatusDTO;
-import es.gobcan.istac.coetl.pentaho.web.rest.dto.WebResultDTO;
+import es.gobcan.istac.coetl.platform.pentaho.enumeration.JobMethodsEnum;
+import es.gobcan.istac.coetl.platform.pentaho.enumeration.ServerMethodsEnum;
+import es.gobcan.istac.coetl.platform.pentaho.enumeration.TransMethodsEnum;
+import es.gobcan.istac.coetl.platform.pentaho.service.PentahoExecutionService;
+import es.gobcan.istac.coetl.platform.pentaho.service.PentahoGitService;
+import es.gobcan.istac.coetl.platform.pentaho.service.util.PentahoUtil;
+import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.EtlStatusDTO;
+import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.ServerStatusDTO;
+import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.WebResultDTO;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
 import org.slf4j.Logger;
@@ -181,14 +181,14 @@ public class PentahoExecutionServiceImpl implements PentahoExecutionService {
 
     private WebResultDTO buildErrorConnectionServerWebResult() {
         WebResultDTO errorWebResultDTO = new WebResultDTO();
-        errorWebResultDTO.setResult(es.gobcan.istac.coetl.pentaho.web.rest.dto.WebResultDTO.Result.ERROR);
+        errorWebResultDTO.setResult(es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.WebResultDTO.Result.ERROR);
         errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.server.connection", null, Constants.DEFAULT_LOCALE));
         return errorWebResultDTO;
     }
 
     private WebResultDTO buildErrorParseFileWebResult() {
         WebResultDTO errorWebResultDTO = new WebResultDTO();
-        errorWebResultDTO.setResult(es.gobcan.istac.coetl.pentaho.web.rest.dto.WebResultDTO.Result.ERROR);
+        errorWebResultDTO.setResult(es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.WebResultDTO.Result.ERROR);
         errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.parsingXML", null, Constants.DEFAULT_LOCALE));
         return errorWebResultDTO;
     }

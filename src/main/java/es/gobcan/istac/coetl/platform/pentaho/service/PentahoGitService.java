@@ -1,4 +1,4 @@
-package es.gobcan.istac.coetl.pentaho.service;
+package es.gobcan.istac.coetl.platform.pentaho.service;
 
 import es.gobcan.istac.coetl.domain.Etl;
 
