@@ -8,7 +8,7 @@ import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
-import es.gobcan.istac.coetl.platform.pentaho.service.PentahoGitService;
+import es.gobcan.istac.coetl.platform.common.service.GitService;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
@@ -59,11 +59,11 @@ public class EtlResource extends AbstractResource {
     private final ParameterService parameterService;
     private final ParameterMapper parameterMapper;
     private final AuditEventPublisher auditEventPublisher;
-    private final PentahoGitService pentahoGitService;
+    private final GitService gitService;
     private final NotificationRestInternalFacade notificationRestInternalFacade;
 
     public EtlResource(EtlService etlService, EtlMapper etlMapper, ExecutionService executionService, ExecutionMapper executionMapper, ParameterService parameterService,
-            ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher, PentahoGitService pentahoGitService, NotificationRestInternalFacade notificationRestInternalFacade) {
+            ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher, GitService gitService, NotificationRestInternalFacade notificationRestInternalFacade) {
         this.etlService = etlService;
         this.etlMapper = etlMapper;
         this.executionService = executionService;
@@ -71,7 +71,7 @@ public class EtlResource extends AbstractResource {
         this.parameterService = parameterService;
         this.parameterMapper = parameterMapper;
         this.auditEventPublisher = auditEventPublisher;
-        this.pentahoGitService = pentahoGitService;
+        this.gitService = gitService;
         this.notificationRestInternalFacade = notificationRestInternalFacade;
     }
 
@@ -87,7 +87,7 @@ public class EtlResource extends AbstractResource {
         Etl createdEtl = etlService.create(etlMapper.toEntity(etlDTO));
 
         if (StringUtils.isNoneBlank(etlDTO.getUriRepository())) {
-            String repositoryPath = pentahoGitService.cloneRepository(createdEtl);
+            String repositoryPath = gitService.cloneRepository(createdEtl);
             if (repositoryPath == null) {
                 CustomExceptionUtil.throwCustomParameterizedException("An error ocurred cloning repository", ErrorConstants.ETL_CLONE_REPOSITORY);
             }
@@ -122,7 +122,7 @@ public class EtlResource extends AbstractResource {
         Etl updatedEtl = etlService.update(currentEtl);
 
         if (repositoryGoingToChange) {
-            String repositoryPath = pentahoGitService.replaceRepository(updatedEtl);
+            String repositoryPath = gitService.replaceRepository(updatedEtl);
             if (repositoryPath == null) {
                 CustomExceptionUtil.throwCustomParameterizedException("An error ocurred updating repository", ErrorConstants.ETL_REPLACE_REPOSITORY);
             }
@@ -217,7 +217,7 @@ public class EtlResource extends AbstractResource {
                 return ResponseEntity.notFound().build();
             }
             if (!etl.isDeleted()) {
-                pentahoGitService.updateRepository(etl);
+                gitService.updateRepository(etl);
                 etlService.execute(etl);
                 auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
             } else {

@@ -63,6 +63,12 @@
                 "label": "Comments",
                 "placeholder": "Enter a comments"
             },
+            "executionPlatform": {
+                "label": "Execution platform",
+                "placeholder": "Select a execution platform",
+                "PENTAHO": "Pentaho (PDI)",
+                "APACHE_HOP": "Apache Hop"
+            },
             "executionDescription": {
                 "label": "When to run",
                 "placeholder": "Enter a description of the execution"
@@ -103,7 +109,7 @@
                 "isNotPlanning": "Unplanned"
             },
             "sections": {
-                "identification": "Identification,"
+                "identification": "Identification",
                 "inCharge": "Responsible",
                 "etl": "ETL",
                 "planning": "Planning",

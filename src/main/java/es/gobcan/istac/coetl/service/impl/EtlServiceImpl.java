@@ -9,7 +9,8 @@ import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.istac.coetl.job.PentahoExecutionJob;
-import es.gobcan.istac.coetl.platform.pentaho.service.PentahoExecutionService;
+import es.gobcan.istac.coetl.platform.hop.service.impl.HopExecutionServiceImpl;
+import es.gobcan.istac.coetl.platform.pentaho.service.impl.PentahoExecutionServiceImpl;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.EtlService;
@@ -61,7 +62,10 @@ public class EtlServiceImpl implements EtlService {
     private ExecutionService executionService;
 
     @Autowired
-    private PentahoExecutionService pentahoExecutionService;
+    private PentahoExecutionServiceImpl pentahoExecutionService;
+    
+    @Autowired
+    private HopExecutionServiceImpl hopExecutionService;
 
     @Autowired
     private ExternalItemService externalItemService;
@@ -122,9 +126,22 @@ public class EtlServiceImpl implements EtlService {
     @Override
     public void execute(Etl etl) {
         LOG.debug("Request to execute ETL : {}", etl);
-        Execution resultExecution = pentahoExecutionService.execute(etl, Type.MANUAL);
+        Execution resultExecution = null;
+        switch (etl.getExecutionPlatform()) {
+            case PENTAHO: {
+                resultExecution = pentahoExecutionService.execute(etl, Type.MANUAL);
+                break;
+            }
+            case APACHE_HOP: {
+                resultExecution = hopExecutionService.execute(etl, Type.MANUAL);
+                break;
+            }
+            default: {
+                throw new RuntimeException("Execution platform not defined");
+            }
+        }
+        
         executionService.create(resultExecution);
-
     }
 
     @Override

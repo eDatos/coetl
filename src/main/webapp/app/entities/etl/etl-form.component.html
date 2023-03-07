@@ -89,13 +89,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="coetlApp.etl.type.label" for="field_type"></label>
+                    <label for="executionPlatform" jhiTranslate="coetlApp.etl.executionPlatform.label"></label>
                     <ac-autocomplete-enum
-                        name="type"
-                        [(ngModel)]="etl.type"
-                        [suggestionsEnum]="typeEnum"
-                        [translationPath]="'coetlApp.etl.type.'"
-                        [required]="true"
+                        name="executionPlatform"
+                        [(ngModel)]="etl.executionPlatform"
+                        (ngModelChange)="updateType($event)"
+                        [suggestionsEnum]="executionPlatformEnum"
+                        [translationPath]="'coetlApp.etl.executionPlatform.'"
                     ></ac-autocomplete-enum>
                 </div>
                 <dl *ngIf="!!etl.id" class="jh-entity-details">
@@ -125,6 +125,16 @@
                         [emptyMessage]="'coetlApp.externalItem.statisticalOperation.filters.emptyExternalItem' | translate"
                         [properties]="['code','name']"
                     ></ac-autocomplete-long-list>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.type.label" for="field_type"></label>
+                    <ac-autocomplete-enum
+                        name="type"
+                        [(ngModel)]="etl.type"
+                        [suggestionsEnum]="suggestionType()"
+                        [translationPath]="'coetlApp.etl.type.'"
+                        [required]="true"
+                    ></ac-autocomplete-enum>
                 </div>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.purpose.label" for="field_purpose"></label>

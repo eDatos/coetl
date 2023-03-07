@@ -57,11 +57,19 @@
                 "label": "Tipo",
                 "placeholder": "Introduzca un tipo",
                 "TRANSFORMATION": "Transformation",
-                "JOB": "Job"
+                "JOB": "Job",
+                "WORKFLOW": "Workflow",
+                "PIPELINE": "Pipeline"
             },
             "comments": {
                 "label": "Comentarios",
                 "placeholder": "Introduzca comentarios"
+            },
+            "executionPlatform": {
+                "label": "Plataforma de ejecución",
+                "placeholder": "Seleccione plataforma de ejecución",
+                "PENTAHO": "Pentaho (PDI)",
+                "APACHE_HOP": "Apache Hop"
             },
             "executionDescription": {
                 "label": "Cuando debe ejecutarse",

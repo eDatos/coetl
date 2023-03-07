@@ -52,7 +52,7 @@ import es.gobcan.istac.coetl.domain.Etl.Type;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ExceptionTranslator;
 import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
-import es.gobcan.istac.coetl.platform.pentaho.service.PentahoGitService;
+import es.gobcan.istac.coetl.platform.common.service.GitService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
@@ -111,7 +111,7 @@ public class EtlResourceIntTest {
     ExecutionMapper executionMapper;
 
     @Mock
-    PentahoGitService pentahoGitService;
+    GitService gitService;
 
     @Autowired
     ParameterRepository parameterRepository;
@@ -142,9 +142,9 @@ public class EtlResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        Mockito.when(pentahoGitService.cloneRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
-        Mockito.when(pentahoGitService.replaceRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
-        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, pentahoGitService, notificationRestInternalFacade);
+        Mockito.when(gitService.cloneRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
+        Mockito.when(gitService.replaceRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
+        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, gitService, notificationRestInternalFacade);
         this.restEtlMockMvc = MockMvcBuilders.standaloneSetup(etlResource).setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
                 .setMessageConverters(jacksonMessageConverter).build();
     }

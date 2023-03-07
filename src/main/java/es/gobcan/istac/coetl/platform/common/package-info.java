@@ -1,1 +1,0 @@
-package es.gobcan.istac.coetl.platform.common;

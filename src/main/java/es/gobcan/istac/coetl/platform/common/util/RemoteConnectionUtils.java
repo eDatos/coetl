@@ -1,4 +1,4 @@
-package es.gobcan.istac.coetl.platform.pentaho.service.util;
+package es.gobcan.istac.coetl.platform.common.util;
 
 import static com.xebialabs.overthere.ConnectionOptions.ADDRESS;
 import static com.xebialabs.overthere.ConnectionOptions.OPERATING_SYSTEM;
@@ -20,7 +20,7 @@ import com.xebialabs.overthere.OperatingSystemFamily;
 import com.xebialabs.overthere.OverthereConnection;
 import com.xebialabs.overthere.OverthereExecutionOutputHandler;
 
-import es.gobcan.istac.coetl.config.PentahoProperties.Host;
+import es.gobcan.istac.coetl.config.common.PlatformHost;
 
 public class RemoteConnectionUtils {
 
@@ -34,7 +34,7 @@ public class RemoteConnectionUtils {
         return options;
     }
 
-    public static ConnectionOptions getDestinationOptions(Host host) {
+    public static ConnectionOptions getDestinationOptions(PlatformHost host) {
         ConnectionOptions options = new ConnectionOptions();
         options.set(CONNECTION_TYPE, SFTP);
         options.set(OPERATING_SYSTEM, getDestinationOperatingSystem(host.getOs()));
@@ -44,7 +44,7 @@ public class RemoteConnectionUtils {
         return options;
     }
 
-    public static ConnectionOptions getSudoDestinationOptions(Host host) {
+    public static ConnectionOptions getSudoDestinationOptions(PlatformHost host) {
         ConnectionOptions options = new ConnectionOptions(getDestinationOptions(host));
         options.set(CONNECTION_TYPE, INTERACTIVE_SUDO);
         options.set(SUDO_USERNAME, host.getSudoUsername());

@@ -10,7 +10,7 @@ import es.gobcan.istac.coetl.config.QuartzConstants;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
-import es.gobcan.istac.coetl.platform.pentaho.service.PentahoExecutionService;
+import es.gobcan.istac.coetl.platform.pentaho.service.impl.PentahoExecutionServiceImpl;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.service.ExecutionService;
 
@@ -31,8 +31,8 @@ public abstract class AbstractCoetlQuartzJob extends QuartzJobBean {
         }
     }
 
-    protected PentahoExecutionService getPentahoExecutionService(JobExecutionContext context) {
-        return getApplicationContext(context).getBean(PentahoExecutionService.class);
+    protected PentahoExecutionServiceImpl getPentahoExecutionService(JobExecutionContext context) {
+        return getApplicationContext(context).getBean(PentahoExecutionServiceImpl.class);
     }
 
     protected EtlRepository getEtlRepository(JobExecutionContext context) {

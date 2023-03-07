@@ -1,8 +1,8 @@
-package es.gobcan.istac.coetl.platform.pentaho.service.impl;
+package es.gobcan.istac.coetl.platform.common.service.impl;
 
-import static es.gobcan.istac.coetl.platform.pentaho.service.util.RemoteConnectionUtils.SftpException;
-import static es.gobcan.istac.coetl.platform.pentaho.service.util.RemoteConnectionUtils.executeCommand;
-import static es.gobcan.istac.coetl.platform.pentaho.service.util.RemoteConnectionUtils.getSudoDestinationOptions;
+import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.SftpException;
+import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.executeCommand;
+import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.getSudoDestinationOptions;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,8 +10,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -25,35 +23,35 @@ import com.xebialabs.overthere.OverthereFile;
 import com.xebialabs.overthere.util.CapturingOverthereExecutionOutputHandler;
 
 import es.gobcan.istac.coetl.config.GitProperties;
-import es.gobcan.istac.coetl.config.PentahoProperties;
 import es.gobcan.istac.coetl.domain.Etl;
-import es.gobcan.istac.coetl.platform.pentaho.service.PentahoGitService;
+import es.gobcan.istac.coetl.platform.common.PlatformPropertiesComponent;
+import es.gobcan.istac.coetl.platform.common.service.GitService;
 
 @Service
-public class PentahoGitServiceImpl implements PentahoGitService {
+public class GitServiceImpl implements GitService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PentahoGitServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GitServiceImpl.class);
     
     private static final String REPOSITORY_FOLDER_NAME = "repository";
     private static final String REPOSITORY_FOLDER_BACKUP_NAME = "repositoryBackup";
     
     @Autowired
-    private PentahoProperties pentahoProperties;
+    private PlatformPropertiesComponent platformProperties;
     
     @Autowired
     private GitProperties gitProperties;
     
     @Override
     public String cloneRepository(Etl etl) {
-        OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()));
-        String path = pentahoProperties.getHost().getResourcesPath().concat("/").concat(etl.getCode());
+        OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
+        String path = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode());
         
         try {
             executeCommand(sudoDestinationConnection, "mkdir", "-p", path);
             executeCommand(sudoDestinationConnection, "git", "-C", path, "clone", "--branch", gitProperties.getBranch(), getUrlRepositoryWithCredentials(etl.getUriRepository()));
             executeCommand(sudoDestinationConnection, "mv", path.concat("/").concat(getFolderRepositoryName(etl)), path.concat("/").concat(REPOSITORY_FOLDER_NAME));
             executeCommand(sudoDestinationConnection, "git", "-C", path.concat("/").concat(REPOSITORY_FOLDER_NAME), "remote", "set-url", "origin", etl.getUriRepository());
-            changeOwnerUnzippedFiles(sudoDestinationConnection, path);
+            changeOwnerUnzippedFiles(sudoDestinationConnection, path, etl);
         } catch (UnsupportedEncodingException e) {
             LOGGER.error("An error ocurred encoding git credentials", e);
             return null;
@@ -75,8 +73,8 @@ public class PentahoGitServiceImpl implements PentahoGitService {
 
     @Override
     public boolean updateRepository(Etl etl) {
-        OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()));
-        String path = pentahoProperties.getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/").concat(REPOSITORY_FOLDER_NAME);
+        OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
+        String path = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/").concat(REPOSITORY_FOLDER_NAME);
         try {
             executeCommand(sudoDestinationConnection, "git", "-C", path, "remote", "set-url", "origin", getUrlRepositoryWithCredentials(etl.getUriRepository()));
             executeCommand(sudoDestinationConnection, "git", "-C", path, "pull");
@@ -102,8 +100,8 @@ public class PentahoGitServiceImpl implements PentahoGitService {
     
     @Override
     public String replaceRepository(Etl etl) {
-        OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()));
-        String path = pentahoProperties.getHost().getResourcesPath().concat("/").concat(etl.getCode());
+        OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
+        String path = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode());
         String newRepository = null;
         
         try {
@@ -129,12 +127,12 @@ public class PentahoGitServiceImpl implements PentahoGitService {
     
     @Override
     public String getMainFileContent(Etl etl) {
-        OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()));
+        OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
 
         CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
-        String basePath = pentahoProperties.getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/" + REPOSITORY_FOLDER_NAME + "/");
+        String basePath = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/" + REPOSITORY_FOLDER_NAME + "/");
 
-        executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(pentahoProperties.getMainResourcePrefix() + "*"));
+        executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(platformProperties.determinePropertiesClass(etl).getMainResourcePrefix() + "*"));
 
         String mainFileNamePath = oh.getOutputLines().get(1).trim();
         
@@ -148,12 +146,12 @@ public class PentahoGitServiceImpl implements PentahoGitService {
     
     @Override
     public String getMainFileName(Etl etl) {
-        OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()));
+        OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
 
         CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
-        String basePath = pentahoProperties.getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/" + REPOSITORY_FOLDER_NAME + "/");
+        String basePath = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/" + REPOSITORY_FOLDER_NAME + "/");
 
-        executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(pentahoProperties.getMainResourcePrefix() + "*"));
+        executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(platformProperties.determinePropertiesClass(etl).getMainResourcePrefix() + "*"));
 
         String mainFileNamePath = oh.getOutputLines().get(1).trim();
 
@@ -179,8 +177,8 @@ public class PentahoGitServiceImpl implements PentahoGitService {
         return folder;
     }
     
-    private void changeOwnerUnzippedFiles(OverthereConnection sudoConnection, String path) {
-        String chownParameter = pentahoProperties.getHost().getOwnerUserResourcesPath().concat(":").concat(pentahoProperties.getHost().getOwnerGroupResourcesPath());
+    private void changeOwnerUnzippedFiles(OverthereConnection sudoConnection, String path, Etl etl) {
+        String chownParameter = platformProperties.determinePropertiesClass(etl).getHost().getOwnerUserResourcesPath().concat(":").concat(platformProperties.determinePropertiesClass(etl).getHost().getOwnerGroupResourcesPath());
         executeCommand(sudoConnection, "chown", chownParameter, "-R", path);
     }
        

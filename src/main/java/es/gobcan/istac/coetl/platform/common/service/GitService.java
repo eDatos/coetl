@@ -1,8 +1,8 @@
-package es.gobcan.istac.coetl.platform.pentaho.service;
+package es.gobcan.istac.coetl.platform.common.service;
 
 import es.gobcan.istac.coetl.domain.Etl;
 
-public interface PentahoGitService {
+public interface GitService {
     
     public String cloneRepository(Etl etl);
     

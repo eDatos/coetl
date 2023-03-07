@@ -18,10 +18,10 @@ import es.gobcan.istac.coetl.config.PentahoProperties;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Result;
+import es.gobcan.istac.coetl.platform.common.service.GitService;
 import es.gobcan.istac.coetl.platform.pentaho.enumeration.JobMethodsEnum;
 import es.gobcan.istac.coetl.platform.pentaho.enumeration.TransMethodsEnum;
-import es.gobcan.istac.coetl.platform.pentaho.service.PentahoExecutionService;
-import es.gobcan.istac.coetl.platform.pentaho.service.PentahoGitService;
+import es.gobcan.istac.coetl.platform.pentaho.service.impl.PentahoExecutionServiceImpl;
 import es.gobcan.istac.coetl.platform.pentaho.service.util.PentahoUtil;
 import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.EtlStatusDTO;
 import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.JobStatusDTO;
@@ -36,21 +36,21 @@ public class PentahoWatchJob {
 
     private final ExecutionService executionService;
 
-    private final PentahoExecutionService pentahoExecutionService;
+    private final PentahoExecutionServiceImpl pentahoExecutionService;
     
-    private final PentahoGitService pentahoGitService;
+    private final GitService gitService;
 
     private final String url;
     private final String user;
     private final String password;
 
-    public PentahoWatchJob(PentahoProperties pentahoProperties, ExecutionService executionService, PentahoExecutionService pentahoExecutionService, PentahoGitService pentahoGitService) {
+    public PentahoWatchJob(PentahoProperties pentahoProperties, ExecutionService executionService, PentahoExecutionServiceImpl pentahoExecutionService, GitService gitService) {
         this.executionService = executionService;
         this.pentahoExecutionService = pentahoExecutionService;
         this.url = PentahoUtil.getUrl(pentahoProperties);
         this.user = PentahoUtil.getUser(pentahoProperties);
         this.password = PentahoUtil.getPassword(pentahoProperties);
-        this.pentahoGitService = pentahoGitService;
+        this.gitService = gitService;
     }
 
     @Scheduled(cron = Constants.DEFAULT_PENTAHO_WATCH_CRON)
@@ -63,7 +63,7 @@ public class PentahoWatchJob {
             for (Execution runningExecution : runningExecutions) {
                 Etl runningEtl = runningExecution.getEtl();
                 LOG.info("Watching running ETL {}", runningEtl.getCode());
-                final String etlFilename = pentahoGitService.getMainFileName(runningEtl);
+                final String etlFilename = gitService.getMainFileName(runningEtl);
                 EtlStatusDTO etlStatusDTO;
                 if (runningEtl.isTransformation()) {
                     etlStatusDTO = executeStatusTrans(etlFilename, runningExecution.getIdExecution());
@@ -89,7 +89,7 @@ public class PentahoWatchJob {
         }
 
         Etl nextEtl = nextExecution.getEtl();
-        final String etlFilename = pentahoGitService.getMainFileName(nextEtl);
+        final String etlFilename = gitService.getMainFileName(nextEtl);
         WebResultDTO webResultDTO = pentahoExecutionService.runEtl(nextEtl, etlFilename, nextExecution.getIdExecution());
 
         Execution nextExecutionResult;

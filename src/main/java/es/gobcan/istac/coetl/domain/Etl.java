@@ -33,7 +33,7 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     private static final long serialVersionUID = 1L;
 
     public enum Type {
-        TRANSFORMATION, JOB
+        TRANSFORMATION, JOB, WORKFLOW, PIPELINE
     }
 
     @Id
@@ -101,8 +101,8 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "plataforma_ejecucion", nullable = false, length = 255)
-    private TipoPlataformaEjecucion plataformaEjecucion;
+    @Column(name = "execution_platform", nullable = false, length = 255)
+    private TipoPlataformaEjecucion executionPlatform;
 
     @Override
     public Long getId() {
@@ -170,11 +170,19 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     }
 
     public boolean isJob() {
-        return Type.JOB.equals(type);
+        return TipoPlataformaEjecucion.PENTAHO.equals(executionPlatform) && Type.JOB.equals(type);
     }
 
     public boolean isTransformation() {
-        return Type.TRANSFORMATION.equals(type);
+        return TipoPlataformaEjecucion.PENTAHO.equals(executionPlatform) && Type.TRANSFORMATION.equals(type);
+    }
+    
+    public boolean isWorkflow() {
+        return TipoPlataformaEjecucion.APACHE_HOP.equals(executionPlatform) && Type.WORKFLOW.equals(type);
+    }
+
+    public boolean isPipeline() {
+        return TipoPlataformaEjecucion.APACHE_HOP.equals(executionPlatform) && Type.PIPELINE.equals(type);
     }
 
     public String getComments() {
@@ -229,12 +237,12 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
         this.externalItem = externalItem;
     }
     
-    public TipoPlataformaEjecucion getPlataformaEjecucion() {
-        return plataformaEjecucion;
+    public TipoPlataformaEjecucion getExecutionPlatform() {
+        return executionPlatform;
     }
     
-    public void setPlataformaEjecucion(TipoPlataformaEjecucion plataformaEjecucion) {
-        this.plataformaEjecucion = plataformaEjecucion;
+    public void setExecutionPlatform(TipoPlataformaEjecucion executionPlatform) {
+        this.executionPlatform = executionPlatform;
     }
 
     @Override
