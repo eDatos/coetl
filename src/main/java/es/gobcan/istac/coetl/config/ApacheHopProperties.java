@@ -3,7 +3,6 @@ package es.gobcan.istac.coetl.config;
 import es.gobcan.istac.coetl.config.common.PlatformAuth;
 import es.gobcan.istac.coetl.config.common.PlatformHost;
 import es.gobcan.istac.coetl.config.common.PlatformProperties;
-import es.gobcan.istac.coetl.service.DataConfigurationService;
 import es.gobcan.istac.coetl.service.MetadataConfigurationService;
 import es.gobcan.istac.coetl.util.GzipUtils;
 
@@ -29,28 +28,25 @@ public class ApacheHopProperties implements PlatformProperties {
     @Autowired
     private MetadataConfigurationService configurationService;
 
-    @Autowired
-    private DataConfigurationService instanceService;
-
     @PostConstruct
     public void setValues() {
         try {
-            setEndpoint(configurationService.findProperty(instanceService.getMetamacKeyApacheHopEndpoint()));
-            setMainResourcePrefix(configurationService.findProperty(instanceService.getMetamacKeyApacheHopMainResourcePrefix()));
-            setJsonMetadata(configurationService.findProperty(instanceService.getMetamacKeyApacheHopJsonMetadata()));
-            auth.setUser(configurationService.findProperty(instanceService.getMetamacKeyApacheHopAuthUser()));
-            auth.setPassword(configurationService.findProperty(instanceService.getMetamacKeyApacheHopAuthPassword()));
-            host.setOs(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostOs()));
-            host.setAddress(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostAddress()));
-            host.setUsername(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostUsername()));
-            host.setPassword(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostPassword()));
-            host.setSudoUsername(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostSudoUsername()));
-            host.setSudoPassword(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostSudopassword()));
-            host.setSudoPasswordPromptRegex(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostSudoPasswordProptRegex()));
-            host.setSftpPath(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostSftpPath()));
-            host.setResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostResourcesPath()));
-            host.setOwnerUserResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostOwnerUserResourcesPath()));
-            host.setOwnerGroupResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyApacheHopHostOwnerGroupResourcesPath()));
+            setEndpoint(configurationService.retrieveApacheHopEndpoint());
+            setMainResourcePrefix(configurationService.retrieveApacheHopMainResourcePrefix());
+            setJsonMetadata(configurationService.retrieveApacheHopJsonMetadata());
+            auth.setUser(configurationService.retrieveApacheHopAuthUser());
+            auth.setPassword(configurationService.retrieveApacheHopAuthPassword());
+            host.setOs(configurationService.retrieveApacheHopHostOs());
+            host.setAddress(configurationService.retrieveApacheHopHostAddress());
+            host.setUsername(configurationService.retrieveApacheHopHostUsername());
+            host.setPassword(configurationService.retrieveApacheHopHostPassword());
+            host.setSudoUsername(configurationService.retrieveApacheHopHostSudoUsername());
+            host.setSudoPassword(configurationService.retrieveApacheHopHostSudopassword());
+            host.setSudoPasswordPromptRegex(configurationService.retrieveApacheHopHostSudoPasswordProptRegex());
+            host.setSftpPath(configurationService.retrieveApacheHopHostSftpPath());
+            host.setResourcesPath(configurationService.retrieveApacheHopHostResourcesPath());
+            host.setOwnerUserResourcesPath(configurationService.retrieveApacheHopHostOwnerUserResourcesPath());
+            host.setOwnerGroupResourcesPath(configurationService.retrieveApacheHopHostOwnerGroupResourcesPath());
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
         }

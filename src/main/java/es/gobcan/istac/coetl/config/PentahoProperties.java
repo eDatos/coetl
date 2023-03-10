@@ -3,7 +3,6 @@ package es.gobcan.istac.coetl.config;
 import es.gobcan.istac.coetl.config.common.PlatformAuth;
 import es.gobcan.istac.coetl.config.common.PlatformHost;
 import es.gobcan.istac.coetl.config.common.PlatformProperties;
-import es.gobcan.istac.coetl.service.DataConfigurationService;
 import es.gobcan.istac.coetl.service.MetadataConfigurationService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -26,27 +25,24 @@ public class PentahoProperties implements PlatformProperties {
     @Autowired
     private MetadataConfigurationService configurationService;
 
-    @Autowired
-    private DataConfigurationService instanceService;
-
     @PostConstruct
     public void setValues() {
         try {
-            setEndpoint(configurationService.findProperty(instanceService.getMetamacKeyPentahoEndpoint()));
-            setMainResourcePrefix(configurationService.findProperty(instanceService.getMetamacKeyPentahoMainResourcePrefix()));
-            auth.setUser(configurationService.findProperty(instanceService.getMetamacKeyPentahoAuthUser()));
-            auth.setPassword(configurationService.findProperty(instanceService.getMetamacKeyPentahoAuthPassword()));
-            host.setOs(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostOs()));
-            host.setAddress(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostAddress()));
-            host.setUsername(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostUsername()));
-            host.setPassword(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostPassword()));
-            host.setSudoUsername(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostSudoUsername()));
-            host.setSudoPassword(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostSudopassword()));
-            host.setSudoPasswordPromptRegex(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostSudoPasswordProptRegex()));
-            host.setSftpPath(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostSftpPath()));
-            host.setResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostResourcesPath()));
-            host.setOwnerUserResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostOwnerUserResourcesPath()));
-            host.setOwnerGroupResourcesPath(configurationService.findProperty(instanceService.getMetamacKeyPentahoHostOwnerGroupResourcesPath()));
+            setEndpoint(configurationService.retrievePentahoEndpoint());
+            setMainResourcePrefix(configurationService.retrievePentahoMainResourcePrefix());
+            auth.setUser(configurationService.retrievePentahoAuthUser());
+            auth.setPassword(configurationService.retrievePentahoAuthPassword());
+            host.setOs(configurationService.retrievePentahoHostOs());
+            host.setAddress(configurationService.retrievePentahoHostAddress());
+            host.setUsername(configurationService.retrievePentahoHostUsername());
+            host.setPassword(configurationService.retrievePentahoHostPassword());
+            host.setSudoUsername(configurationService.retrievePentahoHostSudoUsername());
+            host.setSudoPassword(configurationService.retrievePentahoHostSudopassword());
+            host.setSudoPasswordPromptRegex(configurationService.retrievePentahoHostSudoPasswordProptRegex());
+            host.setSftpPath(configurationService.retrievePentahoHostSftpPath());
+            host.setResourcesPath(configurationService.retrievePentahoHostResourcesPath());
+            host.setOwnerUserResourcesPath(configurationService.retrievePentahoHostOwnerUserResourcesPath());
+            host.setOwnerGroupResourcesPath(configurationService.retrievePentahoHostOwnerGroupResourcesPath());
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
         }
