@@ -71,7 +71,7 @@
             },
             "executionDescription": {
                 "label": "Quan ha d'executar-se",
-                "placeholder": "Introdueixi una descripció relativa a la execució"
+                "placeholder": "Introdueixi una descripció relativa a l'execució"
             },
             "executionPlanning": {
                 "label": "Expressión de planificació",
