@@ -5,8 +5,8 @@ import es.gobcan.istac.coetl.config.common.PlatformHost;
 import es.gobcan.istac.coetl.config.common.PlatformProperties;
 import es.gobcan.istac.coetl.service.DataConfigurationService;
 import es.gobcan.istac.coetl.service.MetadataConfigurationService;
+import es.gobcan.istac.coetl.util.GzipUtils;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,15 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Base64;
-import java.util.zip.GZIPOutputStream;
 
 @Component
 public class ApacheHopProperties implements PlatformProperties {
@@ -70,7 +61,7 @@ public class ApacheHopProperties implements PlatformProperties {
     }
 
     public void setJsonMetadata(String jsonMetadata) {
-        this.jsonMetadata = toGzipBase64File(jsonMetadata);
+        this.jsonMetadata = GzipUtils.toGzipBase64File(jsonMetadata);
     }
 
     public String getEndpoint() {
@@ -97,38 +88,4 @@ public class ApacheHopProperties implements PlatformProperties {
         return host;
     }
 
-    
-    private String toGzipBase64File(String data) {
-        String gzipB64 = null;
-        try {
-            Path tempFile = Files.createTempFile(null, null);
-            Path tempGzipFile = Files.createTempFile("application", ".gz");
-
-            
-            FileWriter fw = new FileWriter(tempFile.toFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(data);
-            bw.flush();
-            bw.close();
-            fw.close();
-
-            compressGZip(tempFile, tempGzipFile);
-            
-            byte[] encoded = Base64.getEncoder().encode(FileUtils.readFileToByteArray(tempGzipFile.toFile()));
-            gzipB64 = new String(encoded, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException("Error has occured while creating GZIP json_metadata for Apache Hop properties", e);
-        }
-
-        return gzipB64;
-    }
-    
-    private void compressGZip(Path fileToCompress, Path outputFile) throws IOException {
-        try (GZIPOutputStream gzipOutputStream = 
-             new GZIPOutputStream(Files.newOutputStream(outputFile))) {
-     
-            byte[] allBytes = Files.readAllBytes(fileToCompress);
-            gzipOutputStream.write(allBytes);
-        }
-    }
 }

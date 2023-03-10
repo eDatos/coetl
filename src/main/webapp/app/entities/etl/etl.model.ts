@@ -13,13 +13,6 @@ export enum HopType {
 
 export const Type = { ...PentahoType, ...HopType };
 export type Type = typeof Type;
-//export type Type = (typeof PentahoType) & (typeof HopType);
-/*export enum Type {
-    TRANSFORMATION = 'TRANSFORMATION',
-    JOB = 'JOB',
-    WORKFLOW = 'WORKFLOW',
-    PIPELINE = 'PIPELINE'
-}*/
 
 export enum ExecutionPlatform {
     PENTAHO = 'PENTAHO',
