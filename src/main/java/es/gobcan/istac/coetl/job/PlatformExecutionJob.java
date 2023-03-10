@@ -14,14 +14,15 @@ import es.gobcan.istac.coetl.config.QuartzConstants;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Type;
+import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.istac.coetl.util.CronUtils;
 
 @Component
-public class PentahoExecutionJob extends AbstractCoetlQuartzJob {
+public class PlatformExecutionJob extends AbstractCoetlQuartzJob {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PentahoExecutionJob.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PlatformExecutionJob.class);
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
@@ -40,7 +41,12 @@ public class PentahoExecutionJob extends AbstractCoetlQuartzJob {
                 Instant nextExecution = CronUtils.getNextExecutionFromJobContext(context);
                 currentEtl.setNextExecution(nextExecution);
                 getEtlRepository(context).save(currentEtl);
-                Execution resultExecution = getPentahoExecutionService(context).execute(currentEtl, Type.AUTO);
+                Execution resultExecution = null;
+                if (TipoPlataformaEjecucion.PENTAHO.equals(currentEtl.getExecutionPlatform())) {
+                    resultExecution = getPentahoExecutionService(context).execute(currentEtl, Type.AUTO);
+                } else if (TipoPlataformaEjecucion.APACHE_HOP.equals(currentEtl.getExecutionPlatform())) {
+                    resultExecution = getHopExecutionService(context).execute(currentEtl, Type.AUTO);
+                }
                 getExecutionService(context).create(resultExecution);
                 return true;
             });

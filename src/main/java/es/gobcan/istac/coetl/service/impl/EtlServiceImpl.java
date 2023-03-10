@@ -8,7 +8,7 @@ import es.gobcan.istac.coetl.domain.ExternalItem;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
-import es.gobcan.istac.coetl.job.PentahoExecutionJob;
+import es.gobcan.istac.coetl.job.PlatformExecutionJob;
 import es.gobcan.istac.coetl.platform.hop.service.impl.HopExecutionServiceImpl;
 import es.gobcan.istac.coetl.platform.pentaho.service.impl.PentahoExecutionServiceImpl;
 import es.gobcan.istac.coetl.repository.EtlRepository;
@@ -180,7 +180,7 @@ public class EtlServiceImpl implements EtlService {
         CronExpression cronExpression = buildCronExpression(executionPlanning);
         Instant nextExecution = CronUtils.getNextExecutionFromCronExpression(cronExpression);
         etl.setNextExecution(nextExecution);
-        schedulePentahoExecutionJob(jobKey, cronExpression, etl);
+        schedulePlatformExecutionJob(jobKey, cronExpression, etl);
 
         return save(etl);
     }
@@ -208,10 +208,10 @@ public class EtlServiceImpl implements EtlService {
         return etlRepository.saveAndFlush(etl);
     }
 
-    private void schedulePentahoExecutionJob(JobKey jobKey, CronExpression cronExpression, Etl etl) {
+    private void schedulePlatformExecutionJob(JobKey jobKey, CronExpression cronExpression, Etl etl) {
         LOG.debug("Request to scheduled a new Quartz job : {}", jobKey.getName());
         //@formatter:off
-        JobDetail job = newJob(PentahoExecutionJob.class)
+        JobDetail job = newJob(PlatformExecutionJob.class)
                 .withIdentity(jobKey)
                 .usingJobData(QuartzConstants.ETL_CODE_JOB_DATA, etl.getCode())
                 .build();

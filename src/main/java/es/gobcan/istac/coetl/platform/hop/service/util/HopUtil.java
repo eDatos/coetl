@@ -42,12 +42,14 @@ import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.domain.Execution.Type;
 import es.gobcan.istac.coetl.platform.hop.enumeration.HopMethodsEnum;
 import es.gobcan.istac.coetl.platform.hop.web.rest.dto.HopResponseDTO;
+import es.gobcan.istac.coetl.platform.web.rest.converter.CustomJaxb2RootElementHttpMessageConverter;
 
 public final class HopUtil {
 
     // Node XML Constants
     private static final String SUFFIX_CONFIGURATION_TAGNAME = "_configuration";
     private static final String SUFFIX_EXEC_CONFIGURATION_TAGNAME = "_execution_configuration";
+    private static final String RUN_CONFIGURATION_TAGNAME = "run_configuration";
     private static final String LOG_LEVEL_TAGNAME = "log_level";
     private static final String SAFE_MODE_TAGNAME = "safe_mode";
     private static final String METASTORE_JSON = "metastore_json";
@@ -55,6 +57,8 @@ public final class HopUtil {
     // Node values XML Constants
     private static final String LOG_LEVEL_VALUE = "DEBUG";
     private static final String SAFE_MODE_VALUE = "Y";
+
+    private static final String RUN_CONFIGURATION_VALUE = "local";
 
     private HopUtil() {
     }
@@ -65,23 +69,28 @@ public final class HopUtil {
         String uriWithQueryParameters = UriComponentsBuilder.fromHttpUrl(uri).queryParams(queryParams).toUriString();
         HttpEntity<String> httpEntity = new HttpEntity<>(body, createHeaders(user, password));
         RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new CustomJaxb2RootElementHttpMessageConverter());
         return restTemplate.exchange(uriWithQueryParameters, httpMethod, httpEntity, clazz);
     }
 
-    public static String getUrl(ApacheHopProperties pentahoProperties) {
-        return pentahoProperties.getEndpoint().endsWith("/") ? pentahoProperties.getEndpoint() : pentahoProperties.getEndpoint() + "/";
+    public static String getUrl(ApacheHopProperties hopProperties) {
+        return hopProperties.getEndpoint().endsWith("/") ? hopProperties.getEndpoint() : hopProperties.getEndpoint() + "/";
     }
 
-    public static String getUser(ApacheHopProperties pentahoProperties) {
-        return pentahoProperties.getAuth().getUser();
+    public static String getUser(ApacheHopProperties hopProperties) {
+        return hopProperties.getAuth().getUser();
     }
 
-    public static String getPassword(ApacheHopProperties pentahoProperties) {
-        return pentahoProperties.getAuth().getPassword();
+    public static String getPassword(ApacheHopProperties hopProperties) {
+        return hopProperties.getAuth().getPassword();
+    }
+    
+    public static String getJsonMetadata(ApacheHopProperties hopProperties) {
+        return hopProperties.getJsonMetadata();
     }
 
-    public static String getApacheHopWrappedCodeFromEtlFile(String mainCode, String prefixTagName) throws SQLException, ParserConfigurationException, SAXException, IOException, TransformerException {
-        Document documentXML = buildApacheHopWrappedDocumentXmlFromEtlFile(mainCode, prefixTagName);
+    public static String getApacheHopWrappedCodeFromEtlFile(String mainCode, String prefixTagName, String jsonMetadata) throws SQLException, ParserConfigurationException, SAXException, IOException, TransformerException {
+        Document documentXML = buildApacheHopWrappedDocumentXmlFromEtlFile(mainCode, prefixTagName, jsonMetadata);
 
         StringWriter sw = new StringWriter();
         TransformerFactory tf = TransformerFactory.newInstance();
@@ -133,7 +142,7 @@ public final class HopUtil {
         return headers;
     }
 
-    private static Document buildApacheHopWrappedDocumentXmlFromEtlFile(String etlFileCode, String prefixTagName) throws SQLException, ParserConfigurationException, SAXException, IOException {
+    private static Document buildApacheHopWrappedDocumentXmlFromEtlFile(String etlFileCode, String prefixTagName, String jsonMetadata) throws SQLException, ParserConfigurationException, SAXException, IOException {
         final String hopWrappedRootTag = prefixTagName + SUFFIX_CONFIGURATION_TAGNAME;
 
         Document etlFileDocument = getDocumentXmlFromEtlCode(etlFileCode);
@@ -156,6 +165,10 @@ public final class HopUtil {
         Element hopConfigurationElement = hopWrappedDocument.createElement(prefixTagName + SUFFIX_EXEC_CONFIGURATION_TAGNAME);
         hopWrappedRootElement.appendChild(hopConfigurationElement);
 
+        Element runConfigurationElement = hopWrappedDocument.createElement(RUN_CONFIGURATION_TAGNAME);
+        runConfigurationElement.setTextContent(RUN_CONFIGURATION_VALUE);
+        hopConfigurationElement.appendChild(runConfigurationElement);
+        
         Element logLevelConfigurationElement = hopWrappedDocument.createElement(LOG_LEVEL_TAGNAME);
         logLevelConfigurationElement.setTextContent(LOG_LEVEL_VALUE);
         hopConfigurationElement.appendChild(logLevelConfigurationElement);
@@ -165,8 +178,8 @@ public final class HopUtil {
         hopConfigurationElement.appendChild(safeModeConfigurationElement);
         
         Element metastoreConfigurationElement = hopWrappedDocument.createElement(METASTORE_JSON);
-        //FIXME
-        metastoreConfigurationElement.setTextContent("H4sICMUY9mMEAGFwcGxpY2F0aW9uAO1X224TMRD9lWifQCLkQmkCbyHZQiFNQrKAEEErZ9e7MfHaxvY2DRX/ztjeSy4UKBJvtFITj2fGx3M54956CstrLL3nn269LV4NhJigDHvPPe+RpxQdcpaQ1HvOckqt4IrHsJsgqvAjT0h+s5txqZ3+mivNnHWn23vcht8OiAVSastlDGIUZ4SBiHE2M7avwEI5Yw4oJImxf0OUJiyFfYGlJljVx1WiK6Q0lgZpCU04FP1O3xxZoGB4a84vT2LVzXK4tVlVkL5/Bj0iMCUMN8FgBVufQJYzopsaK+2WMl5lysSq/HbrLSbTDxfjwRvfLGKk0QopXMdQ0Dwl7BIuX2uCmLAY3wRoRbESKKpusUUSr3munLF1d6qEoggrFewESNoHUT8Mts8iuRMaxw2vjE+NqEC4YHybULTBsOEqAVzVJ2ktySrX2N303Ww2nQeLMLi88hfB4GoWjgbBIAw+znxw9RFcvH03DfxwMB6HF5f+eLQA8QTEleWL6XTsDyYndhfT+dAPL0f+JLgEyzmcMQ3H0w/+fDhY+IWX2dxf+PP3flh8jsIP0/koLDQ+mnPejsPhdDLxhwFI7vILYI79XvjzOfhbDF/5V4NwMrgye973R16GWI7oO0kP68buwnbxPcUMSxJ1wWKvMmbTRfBy7gOon5SGgKylEqvDEqlN7qqR+xcF5RGiZn1XdXRX+FkfJVH/HKFe0sVn0ar3LMKddnz+7AnqRM/q8nl69qR7XEIzdxPA/L+G7llDa8TUfh2J1BIRZGiTUL5tUp463okgb4jFEjUjzhiONOHM7TDMz740U4nEupkBN1MrNlTeNLkgEbZ0pSUclXCZFUkb5Vm2azyIeYNxvQa6fQjIEkJxgWTZegfmatkCiPDXMOCyZSpv4Zw+XgtqLTCNC5fXiOaGRqjj74VGOq+5u/CrUCYoDgGeQ2cM4EoaM+1q10NCUBIhc8Nl64viZlxgZuodqlbLHB9QtcxZM7IzKpfWxtwW9FPYnOdseLh1673AKBsRCRGcFS58q2v2NM7EmEeFro3G82XL/F4juWwlnMY2JNdtCMuX7Hwj0rjd7p2zKN6IpC/TJ/G2DT8pAA+WLdMNWsJ5EIxXXARlBtSLPEmwXJBvBWWzPFthGfIkNImHI5w4Qfo1knXNDIBlTA+CrztdX9BcrS8hnBKyYU3rzM9s0w4plBJW+6NABRySlRZobsSxoq3QgyC/R5JYBjLFVuXWFIkZWlhFkgij5xrgV/mY44xrG318YzgmBErkuQQuc8l+5FWCUCOZYh26PBjX+5vus96suCgUnNKQHMQEqiZ0Fyr50b5eROhM3MvhyAO0Ftr9Nhq3VSt3TkPxyPaILXLT56WqtDG4b+TGBrb5kmAcr1C0CZWrqKemBsGba7VS2tmXaWg1CEmY5gS2xsjmTfKtwrrSr7wkOMz2H31qzbdheWgl1VzwUEEGK0mK9BqCl2ENo7EkgqIekWUwRAvpHxaYzdRJnCA4qrGD9DdKVlANq0l3jS3R6wbAaCgN9Ilk7HYa0DSVdsPF2Ptesukhx5Yv5KNJurLhksXjt3fWOwPh4Yx33ry9AVBcB+WaZ3DPqLhmNStzBQ3tBrM5vYqZ5Lmh1GJ9nzG+irtP4rjfTiKg2pMD6vM9C/MmqJMzh7ztAlK+K+uYjMk1hhir4RpHG6MA4I517hAPoq85UeREAzpd6QGlQ/O6Twz7Y3WCbbiHIMG6QFYF50C/DvFxDGccpsvOKa041WUCz/u9O4BUHqAIFJx+VjIT28vyMcQZ57Rg+Hrk19q1sz3YtgIzzlIer07mvECAqF4itWNR83DK783F8uVQvyXuPSlLfqkZ4LctvN+m3V/0aYnpz/q01C769E9p8e9g/zvUn937qhnjhDCyl4CIcpVLg+DgH9cTJOVza1Q5KOhEYYEgAFyWNaRgrrON2XSUBLRuFt9/ACFOblHtDwAA");
+        
+        metastoreConfigurationElement.setTextContent(jsonMetadata);
         hopWrappedRootElement.appendChild(metastoreConfigurationElement);
 
         return hopWrappedDocument;

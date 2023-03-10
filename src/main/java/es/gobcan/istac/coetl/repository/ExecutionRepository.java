@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Result;
+import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
 
 @Repository
 public interface ExecutionRepository extends JpaRepository<Execution, Long> {
@@ -19,8 +20,10 @@ public interface ExecutionRepository extends JpaRepository<Execution, Long> {
     boolean existsByResultInAndEtlId(List<Result> results, Long idEtl);
 
     List<Execution> findByResult(Result running);
+    
+    List<Execution> findByResultAndEtlExecutionPlatform(Result running, TipoPlataformaEjecucion platform);
 
-    Execution findFirstByResultOrderByPlanningDateAsc(Result waiting);
+    Execution findFirstByResultAndEtlExecutionPlatformOrderByPlanningDateAsc(Result waiting, TipoPlataformaEjecucion platform);
 
     Execution findFirstByEtlIdOrderByStartDateDesc(Long idEtl);
 

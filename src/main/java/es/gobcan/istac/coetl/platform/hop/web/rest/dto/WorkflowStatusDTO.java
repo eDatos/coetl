@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import es.gobcan.istac.coetl.platform.pentaho.enumeration.Status;
 
-@XmlRootElement(name = "workflowstatus")
+@XmlRootElement(name = "workflow-status")
 public class WorkflowStatusDTO implements HopResponseDTO, EtlStatusDTO {
 
     private static final long serialVersionUID = 1L;
@@ -15,7 +15,7 @@ public class WorkflowStatusDTO implements HopResponseDTO, EtlStatusDTO {
     private Status status;
     private String errorDescription;
 
-    @XmlElement(name = "jobname")
+    @XmlElement(name = "workflowname")
     public String getName() {
         return name;
     }

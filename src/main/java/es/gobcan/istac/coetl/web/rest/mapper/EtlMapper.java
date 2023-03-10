@@ -42,6 +42,7 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         entity.setOrganizationInCharge(dto.getOrganizationInCharge());
         entity.setFunctionalInCharge(dto.getFunctionalInCharge());
         entity.setTechnicalInCharge(dto.getTechnicalInCharge());
+        entity.setExecutionPlatform(dto.getExecutionPlatform());
         entity.setType(dto.getType());
         entity.setComments(dto.getComments());
         entity.setExecutionDescription(dto.getExecutionDescription());
@@ -68,6 +69,7 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         baseDto.setCode(entity.getCode());
         baseDto.setName(entity.getName());
         baseDto.setOrganizationInCharge(entity.getOrganizationInCharge());
+        baseDto.setExecutionPlatform(entity.getExecutionPlatform());
         baseDto.setType(entity.getType());
         baseDto.setExecutionPlanning(entity.getExecutionPlanning());
         baseDto.setNextExecution(entity.getNextExecution());

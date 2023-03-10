@@ -194,4 +194,8 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
     public String getMetamacKeyApacheHopMainResourcePrefix(){
         return getPrefixInstace() + "hop.mainResourcePrefix";
     }
+
+    public String getMetamacKeyApacheHopJsonMetadata() {
+        return getPrefixInstace() + "hop.jsonMetadata";
+    }
 }

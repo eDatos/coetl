@@ -50,5 +50,6 @@ public interface DataConfigurationService {
     public String getMetamacKeyApacheHopHostOwnerUserResourcesPath();
     public String getMetamacKeyApacheHopHostOwnerGroupResourcesPath();
     public String getMetamacKeyApacheHopMainResourcePrefix();
+    public String getMetamacKeyApacheHopJsonMetadata();
     
 }

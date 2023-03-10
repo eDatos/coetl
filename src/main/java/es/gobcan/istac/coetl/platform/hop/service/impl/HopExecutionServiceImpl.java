@@ -56,6 +56,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     private final String url;
     private final String user;
     private final String password;
+    private final String jsonMetadata;
 
     public HopExecutionServiceImpl(ApacheHopProperties hopProperties, ExecutionService executionService, ParameterService parameterService, MessageSource messageSource, GitService gitService) {
         this.executionService = executionService;
@@ -64,6 +65,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         this.url = HopUtil.getUrl(hopProperties);
         this.user = HopUtil.getUser(hopProperties);
         this.password = HopUtil.getPassword(hopProperties);
+        this.jsonMetadata = HopUtil.getJsonMetadata(hopProperties);
         this.gitService = gitService;
     }
 
@@ -150,7 +152,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     private WebResultDTO registerPipeline(Etl etl) {
         try {
             String mainCode = gitService.getMainFileContent(etl);
-            String pipelineCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, PIPELINE_PREFIX_TAG_NAME);
+            String pipelineCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, PIPELINE_PREFIX_TAG_NAME, jsonMetadata);
             String replacedPipelineCode = replaceEtlCodeVariables(etl, pipelineCode);
             return executeRegisterPipeline(replacedPipelineCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {
@@ -166,7 +168,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     private WebResultDTO registerWorkflow(Etl etl) {
         try {
             String mainCode = gitService.getMainFileContent(etl);
-            String workflowCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, WORKFLOW_PREFIX_TAG_NAME);
+            String workflowCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, WORKFLOW_PREFIX_TAG_NAME, jsonMetadata);
             String replacedWorkflowCode = replaceEtlCodeVariables(etl, workflowCode);
             return executeRegisterWorkflow(replacedWorkflowCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {

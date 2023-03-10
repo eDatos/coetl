@@ -139,19 +139,19 @@ public class ServerStatusDTO implements HopResponseDTO {
         this.osArchitecture = osArchitecture;
     }
 
-    @XmlElementWrapper(name = "transstatuslist")
-    @XmlElement(name = "transstatus")
-    public List<PipelineStatusDTO> getTransStatusList() {
+    @XmlElementWrapper(name = "pipeline_status_list")
+    @XmlElement(name = "pipeline-status")
+    public List<PipelineStatusDTO> getPipelineStatusList() {
         return pipelineStatusList;
     }
 
-    public void setTransStatusList(List<PipelineStatusDTO> transStatusList) {
-        this.pipelineStatusList = transStatusList;
+    public void setPipelineStatusList(List<PipelineStatusDTO> pipelineStatusList) {
+        this.pipelineStatusList = pipelineStatusList;
     }
 
-    @XmlElementWrapper(name = "jobstatuslist")
-    @XmlElement(name = "jobstatus")
-    public List<WorkflowStatusDTO> getJobStatusList() {
+    @XmlElementWrapper(name = "job_status_list")
+    @XmlElement(name = "workflow-status")
+    public List<WorkflowStatusDTO> getWorkflowStatusList() {
         return workflowStatusList;
     }
 

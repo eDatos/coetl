@@ -96,6 +96,7 @@
                         (ngModelChange)="updateType($event)"
                         [suggestionsEnum]="executionPlatformEnum"
                         [translationPath]="'coetlApp.etl.executionPlatform.'"
+                        required
                     ></ac-autocomplete-enum>
                 </div>
                 <dl *ngIf="!!etl.id" class="jh-entity-details">

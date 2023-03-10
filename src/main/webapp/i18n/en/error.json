@@ -53,7 +53,8 @@
             "codeExists": "There is already another ETL with the same code",
             "attachedFilesUpload": "An error occurred in the upload of the ETL attachments",
             "cloneRepository": "An error has occurred cloning the repository",
-            "replacingRepository": "An error has occurred replacing the repository"
+            "replacingRepository": "An error has occurred replacing the repository",
+            "typeNotSupported": "Type is not supported for the selected execution platform"
         },
         "health": {
             "serviceName": {

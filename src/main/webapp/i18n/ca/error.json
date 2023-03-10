@@ -59,7 +59,8 @@
             "codeExists": "Ja existeix una altra amb el mateix codi",
             "attachedFilesUpload": "Ha ocorregut un error en la pujada dels fixers adjunts de la ETL",
             "cloneRepository": "Ha ocorregut un error clonant el repositori",
-            "replacingRepository": "Ha ocorregut un error reemplaçant el repositori"
+            "replacingRepository": "Ha ocorregut un error reemplaçant el repositori",
+            "typeNotSupported": "El tipus no és compatible amb la plataforma d'execució seleccionada"
         },
         "health": {
             "serviceName": {

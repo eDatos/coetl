@@ -40,6 +40,7 @@ public final class ErrorConstants {
     public static final String ETL_URL_NOT_EXIST = "error.etl.urlNotExist";
     public static final String ETL_CLONE_REPOSITORY = "error.etl.cloneRepository";
     public static final String ETL_REPLACE_REPOSITORY = "error.etl.replacingRepository";
+    public static final String ETL_TYPE_NOT_SUPPORTED = "error.etl.typeNotSupported";
 
     // HEALTH
     public static final String HEALTH_SERVICE_NAME_IS_BLANK = "error.health.serviceName.isBlank";
