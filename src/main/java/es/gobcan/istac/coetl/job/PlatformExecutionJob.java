@@ -50,7 +50,7 @@ public class PlatformExecutionJob extends AbstractCoetlQuartzJob {
                 getExecutionService(context).create(resultExecution);
                 return true;
             });
-        }catch(Exception e){
+        } catch(Exception e) {
             Etl currentEtl = getEtlRepository(context).findOneByCode(etlCode);
             getNotificationRestInternalFacade(context).sendExecutionErrorEtlNotice(currentEtl);
             final String message = String.format("Error occurred during the execution. ETL %s can not be executed", etlCode);
