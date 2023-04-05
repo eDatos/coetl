@@ -57,7 +57,9 @@
                 "label": "Tipo",
                 "placeholder": "Introdueixi un tipus",
                 "TRANSFORMATION": "Transformation",
-                "JOB": "Job"
+                "JOB": "Job",
+                "WORKFLOW": "Workflow",
+                "PIPELINE": "Pipeline"
             },
             "comments": {
                 "label": "Comentaris",
