@@ -44,6 +44,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     private static final String WORKFLOW_PREFIX_TAG_NAME = "workflow";
     private static final String ERROR_PARSING_APACHE_HOP_WRAPPED_XML_TO_STRING_MESSAGE = "Error parsing Apache Hop wrapped XML to string";
     private static final String ERROR_CONNECTING_APACHE_HOP_SERVER_MESSAGE = "Error connecting to Apache Hop server";
+    private static final String[] HOP_MESSAGE_PARAMETER = {"Hop"};
 
     private final ExecutionService executionService;
 
@@ -97,7 +98,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         ServerStatusDTO serverStatusDTO = executeServerStatus();
 
         if (!serverStatusDTO.isOnline()) {
-            String offlineServerMessage = messageSource.getMessage("execution.note.error.server.offline", null, Constants.DEFAULT_LOCALE);
+            String offlineServerMessage = messageSource.getMessage("execution.note.error.server.offline", HOP_MESSAGE_PARAMETER, Constants.DEFAULT_LOCALE);
             return HopUtil.buildExecution(etl, type, Result.FAILED, offlineServerMessage);
         }
 
@@ -184,14 +185,14 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     private WebResultDTO buildErrorConnectionServerWebResult() {
         WebResultDTO errorWebResultDTO = new WebResultDTO();
         errorWebResultDTO.setResult(es.gobcan.istac.coetl.platform.hop.web.rest.dto.WebResultDTO.Result.ERROR);
-        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.server.connection", null, Constants.DEFAULT_LOCALE));
+        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.server.connection", HOP_MESSAGE_PARAMETER, Constants.DEFAULT_LOCALE));
         return errorWebResultDTO;
     }
 
     private WebResultDTO buildErrorParseFileWebResult() {
         WebResultDTO errorWebResultDTO = new WebResultDTO();
         errorWebResultDTO.setResult(es.gobcan.istac.coetl.platform.hop.web.rest.dto.WebResultDTO.Result.ERROR);
-        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.parsingXML", null, Constants.DEFAULT_LOCALE));
+        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.parsingXML", HOP_MESSAGE_PARAMETER, Constants.DEFAULT_LOCALE));
         return errorWebResultDTO;
     }
 
