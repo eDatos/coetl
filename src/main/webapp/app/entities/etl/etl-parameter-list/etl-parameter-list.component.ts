@@ -24,6 +24,7 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
     public parameters: Parameter[];
     public globalParameters: Parameter[];
     eventSubscriber: Subscription;
+    public styleCase = false;
 
     constructor(
         private eventManager: JhiEventManager,
@@ -93,7 +94,12 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
     }
 
     public isPasswordTypology(parameter: Parameter): boolean {
+        this.isOverflow(parameter);
         return parameter.typology === Typology.PASSWORD ? true : false;
+    }
+
+    public isOverflow(parameter: Parameter) {
+        this.styleCase = parameter.value.length > 255;
     }
 
     private loadAll() {
