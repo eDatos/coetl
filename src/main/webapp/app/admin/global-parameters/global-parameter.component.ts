@@ -27,7 +27,7 @@ export class GlobalParameterComponent implements OnInit, OnDestroy {
     private routeDataSubscription: any;
     private predicate: any;
     private reverse: any;
-    public styleCase = false;
+
     private eventSubscriber: Subscription;
 
     constructor(
@@ -143,12 +143,7 @@ export class GlobalParameterComponent implements OnInit, OnDestroy {
     }
 
     public isPasswordTypology(parameter: Parameter): boolean {
-        this.isOverflow(parameter);
         return parameter.typology === Typology.PASSWORD ? true : false;
-    }
-
-    public isOverflow(parameter: Parameter) {
-        this.styleCase = parameter.value.length > 255;
     }
 
     public getTypeName(parameter: Parameter): string {
