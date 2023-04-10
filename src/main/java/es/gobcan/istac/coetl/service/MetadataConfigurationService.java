@@ -47,7 +47,6 @@ public interface MetadataConfigurationService extends ConfigurationService {
     public String retrieveApacheHopHostSudoUsername();
     public String retrieveApacheHopHostSudopassword();
     public String retrieveApacheHopHostSudoPasswordProptRegex();
-    public String retrieveApacheHopHostSftpPath();
     public String retrieveApacheHopHostResourcesPath();
     public String retrieveApacheHopHostOwnerUserResourcesPath();
     public String retrieveApacheHopHostOwnerGroupResourcesPath();

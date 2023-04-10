@@ -43,7 +43,6 @@ public class ApacheHopProperties implements PlatformProperties {
             host.setSudoUsername(configurationService.retrieveApacheHopHostSudoUsername());
             host.setSudoPassword(configurationService.retrieveApacheHopHostSudopassword());
             host.setSudoPasswordPromptRegex(configurationService.retrieveApacheHopHostSudoPasswordProptRegex());
-            host.setSftpPath(configurationService.retrieveApacheHopHostSftpPath());
             host.setResourcesPath(configurationService.retrieveApacheHopHostResourcesPath());
             host.setOwnerUserResourcesPath(configurationService.retrieveApacheHopHostOwnerUserResourcesPath());
             host.setOwnerGroupResourcesPath(configurationService.retrieveApacheHopHostOwnerGroupResourcesPath());

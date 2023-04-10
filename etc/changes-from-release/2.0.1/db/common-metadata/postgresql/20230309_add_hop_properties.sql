@@ -103,6 +103,13 @@ VALUES(GET_NEXT_SEQUENCE_VALUE('DATA_CONFIGURATIONS'), 'metamac.coetl.hop.jsonMe
 
 UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'DATA_CONFIGURATIONS';
 
+INSERT INTO tb_data_configurations (id, conf_key, conf_value, system_property, externally_published, update_date_tz, update_date, created_date_tz, created_date, created_by, last_updated_tz, last_updated, last_updated_by, "version")
+VALUES(GET_NEXT_SEQUENCE_VALUE('DATA_CONFIGURATIONS'), 'metamac.coetl.pentaho.host.sudoPasswordPromptRegex', 'FILL_WITH_PASSWORD_REGEX', true, false, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+-- Ejemplo DEMO: INSERT INTO tb_data_configurations (id, conf_key, conf_value, system_property, externally_published, update_date_tz, update_date, created_date_tz, created_date, created_by, last_updated_tz, last_updated, last_updated_by, "version")
+-- VALUES(GET_NEXT_SEQUENCE_VALUE('DATA_CONFIGURATIONS'), 'metamac.coetl.hop.host.sudoPasswordPromptRegex', '.*[Pp]assword.*', true, false, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+
+UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'DATA_CONFIGURATIONS';
+
 
 -- CoETL LAB
 
@@ -204,5 +211,13 @@ VALUES(GET_NEXT_SEQUENCE_VALUE('DATA_CONFIGURATIONS'), 'metamac.coetllab.hop.jso
 -- VALUES(GET_NEXT_SEQUENCE_VALUE('DATA_CONFIGURATIONS'), 'metamac.coetllab.hop.jsonMetadata', '{"server":[{"webAppName":"","sslConfig":null,"sslMode":false,"proxyPort":"","hostname":"127.0.0.1","password":"admin","nonProxyHosts":"","overrideExistingProperties":false,"propertiesMasterName":null,"port":"8081","name":"new","proxyHostname":"","username":"admin"}],"pipeline-probe":[],"unit-test":[],"rdbms":[],"workflow-log":[],"cassandra-connection":[],"neo4j-graph-model":[],"web-service":[{"transformName":"Dummy (do nothing)","filename":"\/Users\/hans\/test\/dataService.hpl","fieldName":"value","listingStatus":false,"name":"sample_webservice","contentType":"application\/json","enabled":true}],"pipeline-run-configuration":[{"engineRunConfiguration":{"Local":{"feedback_size":"50000","sample_size":"100","sample_type_in_gui":"Last","rowset_size":"10000","safe_mode":false,"show_feedback":false,"topo_sort":false,"gather_metrics":false,"transactional":false}},"configurationVariables":[],"name":"local","description":"Runs your pipelines locally with the standard local Hop pipeline engine"}],"neo4j-connection":[],"mongodb-connection":[],"partition":[],"async-web-service":[],"pipeline-log":[],"workflow-run-configuration":[{"engineRunConfiguration":{"Local":{"safe_mode":false,"transactional":false}},"name":"local2","description":"Runs your workflows locally with the standard local Hop workflow engine"},{"engineRunConfiguration":{"Local":{"safe_mode":false,"transactional":false}},"name":"local","description":"Runs your workflows locally with the standard local Hop workflow engine"}],"file-definition":[{"enclosure":"","name":"new","description":"","fieldDefinitions":[],"separator":""}],"splunk":[],"dataset":[]}', true, false, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'DATA_CONFIGURATIONS';
+
+INSERT INTO tb_data_configurations (id, conf_key, conf_value, system_property, externally_published, update_date_tz, update_date, created_date_tz, created_date, created_by, last_updated_tz, last_updated, last_updated_by, "version")
+VALUES(GET_NEXT_SEQUENCE_VALUE('DATA_CONFIGURATIONS'), 'metamac.coetl.pentaho.host.sudoPasswordPromptRegex', 'FILL_WITH_PASSWORD_REGEX', true, false, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+-- Ejemplo DEMO: INSERT INTO tb_data_configurations (id, conf_key, conf_value, system_property, externally_published, update_date_tz, update_date, created_date_tz, created_date, created_by, last_updated_tz, last_updated, last_updated_by, "version")
+-- VALUES(GET_NEXT_SEQUENCE_VALUE('DATA_CONFIGURATIONS'), 'metamac.coetllab.hop.host.sudoPasswordPromptRegex', '.*[Pp]assword.*', true, false, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+
+UPDATE TB_SEQUENCES SET SEQUENCE_NEXT_VALUE = SEQUENCE_NEXT_VALUE + 1 WHERE SEQUENCE_NAME = 'DATA_CONFIGURATIONS';
+
 
 COMMIT;

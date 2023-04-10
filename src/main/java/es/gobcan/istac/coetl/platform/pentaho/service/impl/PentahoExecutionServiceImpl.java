@@ -44,6 +44,7 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
     private static final String JOB_PREFIX_TAG_NAME = "job";
     private static final String ERROR_PARSING_CARTE_WRAPPED_XML_TO_STRING_MESSAGE = "Error parsing Carte-wrapped XML to string";
     private static final String ERROR_CONNECTING_PENTAHO_SERVER_MESSAGE = "Error connecting to Pentaho server";
+    private static final String[] PENTAHO_MESSAGE_PARAMETER = {"Pentaho"};
 
     private final ExecutionService executionService;
 
@@ -95,7 +96,7 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
         ServerStatusDTO serverStatusDTO = executeServerStatus();
 
         if (!serverStatusDTO.isOnline()) {
-            String offlineServerMessage = messageSource.getMessage("execution.note.error.server.offline", null, Constants.DEFAULT_LOCALE);
+            String offlineServerMessage = messageSource.getMessage("execution.note.error.server.offline", PENTAHO_MESSAGE_PARAMETER, Constants.DEFAULT_LOCALE);
             return PentahoUtil.buildExecution(etl, type, Result.FAILED, offlineServerMessage);
         }
 
@@ -182,14 +183,14 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
     private WebResultDTO buildErrorConnectionServerWebResult() {
         WebResultDTO errorWebResultDTO = new WebResultDTO();
         errorWebResultDTO.setResult(es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.WebResultDTO.Result.ERROR);
-        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.server.connection", null, Constants.DEFAULT_LOCALE));
+        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.server.connection", PENTAHO_MESSAGE_PARAMETER, Constants.DEFAULT_LOCALE));
         return errorWebResultDTO;
     }
 
     private WebResultDTO buildErrorParseFileWebResult() {
         WebResultDTO errorWebResultDTO = new WebResultDTO();
         errorWebResultDTO.setResult(es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.WebResultDTO.Result.ERROR);
-        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.parsingXML", null, Constants.DEFAULT_LOCALE));
+        errorWebResultDTO.setMessage(messageSource.getMessage("execution.note.error.parsingXML", PENTAHO_MESSAGE_PARAMETER, Constants.DEFAULT_LOCALE));
         return errorWebResultDTO;
     }
 
