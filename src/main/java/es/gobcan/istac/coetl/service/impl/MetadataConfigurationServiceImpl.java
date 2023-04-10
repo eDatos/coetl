@@ -215,12 +215,6 @@ public class MetadataConfigurationServiceImpl extends ConfigurationServiceImpl i
     }
 
     @Override
-    public String retrieveApacheHopHostSftpPath() {
-        return retrieveProperty(instanceService.getMetamacKeyApacheHopHostSftpPath());
-        
-    }
-
-    @Override
     public String retrieveApacheHopHostResourcesPath() {
         return retrieveProperty(instanceService.getMetamacKeyApacheHopHostResourcesPath());
         
