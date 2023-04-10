@@ -33,4 +33,23 @@ public interface DataConfigurationService {
     public String getMetamacKeyPentahoHostOwnerUserResourcesPath();
     public String getMetamacKeyPentahoHostOwnerGroupResourcesPath();
     public String getMetamacKeyPentahoMainResourcePrefix();
+    
+    /** APACHE HOP */
+    public String getMetamacKeyApacheHopEndpoint();
+    public String getMetamacKeyApacheHopAuthUser();
+    public String getMetamacKeyApacheHopAuthPassword();
+    public String getMetamacKeyApacheHopHostOs();
+    public String getMetamacKeyApacheHopHostAddress();
+    public String getMetamacKeyApacheHopHostUsername();
+    public String getMetamacKeyApacheHopHostPassword();
+    public String getMetamacKeyApacheHopHostSudoUsername();
+    public String getMetamacKeyApacheHopHostSudopassword();
+    public String getMetamacKeyApacheHopHostSudoPasswordProptRegex();
+    public String getMetamacKeyApacheHopHostSftpPath();
+    public String getMetamacKeyApacheHopHostResourcesPath();
+    public String getMetamacKeyApacheHopHostOwnerUserResourcesPath();
+    public String getMetamacKeyApacheHopHostOwnerGroupResourcesPath();
+    public String getMetamacKeyApacheHopMainResourcePrefix();
+    public String getMetamacKeyApacheHopJsonMetadata();
+    
 }

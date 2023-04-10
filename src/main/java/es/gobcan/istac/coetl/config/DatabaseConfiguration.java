@@ -3,14 +3,12 @@ package es.gobcan.istac.coetl.config;
 import com.arte.libs.grammar.repository.support.ArteJpaRepositoryFactoryBean;
 import com.zaxxer.hikari.HikariDataSource;
 import es.gobcan.istac.coetl.config.annotations.ConditionalOnMissingProperty;
-import es.gobcan.istac.coetl.service.DataConfigurationService;
 import es.gobcan.istac.coetl.service.MetadataConfigurationService;
 import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
 import liquibase.integration.spring.SpringLiquibase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
@@ -36,9 +34,6 @@ public class DatabaseConfiguration {
 
     private final Environment env;
 
-    @Autowired
-    private DataConfigurationService dataService;
-
     public DatabaseConfiguration(Environment env) {
         this.env = env;
     }
@@ -50,10 +45,10 @@ public class DatabaseConfiguration {
     public DataSource dataSource(MetadataConfigurationService metadataConfigurationService) {
         // @formatter:off
         HikariDataSource hikariDataSource = (HikariDataSource) DataSourceBuilder.create().
-                url(metadataConfigurationService.retrieveProperty(dataService.getDbUrl())).
-                driverClassName(metadataConfigurationService.retrieveProperty(dataService.getDdDriverName())).
-                username(metadataConfigurationService.findProperty(dataService.getDbUsername())).
-                password(metadataConfigurationService.findProperty(dataService.getDbPassword())).
+                url(metadataConfigurationService.retrieveDbUrl()).
+                driverClassName(metadataConfigurationService.retrieveDdDriverName()).
+                username(metadataConfigurationService.retrieveDbUsername()).
+                password(metadataConfigurationService.retrieveDbPassword()).
                 type(HikariDataSource.class).
                 build();
         // @formatter:on

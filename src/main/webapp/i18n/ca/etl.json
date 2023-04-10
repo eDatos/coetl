@@ -57,15 +57,23 @@
                 "label": "Tipo",
                 "placeholder": "Introdueixi un tipus",
                 "TRANSFORMATION": "Transformation",
-                "JOB": "Job"
+                "JOB": "Job",
+                "WORKFLOW": "Workflow",
+                "PIPELINE": "Pipeline"
             },
             "comments": {
                 "label": "Comentaris",
                 "placeholder": "Introdueixi comentaris"
             },
+            "executionPlatform": {
+                "label": "Plataforma d'execució",
+                "placeholder": "Seleccioneu plataforma d'execució",
+                "PENTAHO": "Pentaho (PDI)",
+                "APACHE_HOP": "Apache Hop"
+            },
             "executionDescription": {
                 "label": "Quan ha d'executar-se",
-                "placeholder": "Introdueixi una descripció relativa a la execució"
+                "placeholder": "Introdueixi una descripció relativa a l'execució"
             },
             "executionPlanning": {
                 "label": "Expressión de planificació",

@@ -1,6 +1,5 @@
 package es.gobcan.istac.coetl.config;
 
-import es.gobcan.istac.coetl.service.DataConfigurationService;
 import es.gobcan.istac.coetl.service.MetadataConfigurationService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -22,15 +21,12 @@ public class GitProperties {
     @Autowired
     private MetadataConfigurationService configurationService;
 
-    @Autowired
-    private DataConfigurationService instanceService;
-
     @PostConstruct
     public void setValues() {
         try {
-            setUsername(configurationService.findProperty(instanceService.getMetamacKeyGitUser()));
-            setPassword(configurationService.findProperty(instanceService.getMetamacKeyGitPassword()));
-            setBranch(configurationService.findProperty(instanceService.getMetamacKeyGitBranch()));
+            setUsername(configurationService.retrieveGitUser());
+            setPassword(configurationService.retrieveGitPassword());
+            setBranch(configurationService.retrieveGitBranch());
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
         }

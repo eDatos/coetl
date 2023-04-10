@@ -23,6 +23,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
+import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
+
 @Entity
 @Table(name = "tb_etls")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -31,7 +33,7 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     private static final long serialVersionUID = 1L;
 
     public enum Type {
-        TRANSFORMATION, JOB
+        TRANSFORMATION, JOB, WORKFLOW, PIPELINE
     }
 
     @Id
@@ -96,6 +98,11 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @ManyToOne(targetEntity = ExternalItem.class)
     @JoinColumn(name = "external_item_fk")
     private ExternalItem externalItem;
+    
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "execution_platform", nullable = false, length = 255)
+    private TipoPlataformaEjecucion executionPlatform;
 
     @Override
     public Long getId() {
@@ -163,11 +170,19 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     }
 
     public boolean isJob() {
-        return Type.JOB.equals(type);
+        return TipoPlataformaEjecucion.PENTAHO.equals(executionPlatform) && Type.JOB.equals(type);
     }
 
     public boolean isTransformation() {
-        return Type.TRANSFORMATION.equals(type);
+        return TipoPlataformaEjecucion.PENTAHO.equals(executionPlatform) && Type.TRANSFORMATION.equals(type);
+    }
+    
+    public boolean isWorkflow() {
+        return TipoPlataformaEjecucion.APACHE_HOP.equals(executionPlatform) && Type.WORKFLOW.equals(type);
+    }
+
+    public boolean isPipeline() {
+        return TipoPlataformaEjecucion.APACHE_HOP.equals(executionPlatform) && Type.PIPELINE.equals(type);
     }
 
     public String getComments() {
@@ -220,6 +235,14 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
 
     public void setExternalItem(ExternalItem externalItem) {
         this.externalItem = externalItem;
+    }
+    
+    public TipoPlataformaEjecucion getExecutionPlatform() {
+        return executionPlatform;
+    }
+    
+    public void setExecutionPlatform(TipoPlataformaEjecucion executionPlatform) {
+        this.executionPlatform = executionPlatform;
     }
 
     @Override

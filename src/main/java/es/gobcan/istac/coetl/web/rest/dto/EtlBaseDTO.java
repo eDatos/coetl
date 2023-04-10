@@ -5,6 +5,7 @@ import java.time.Instant;
 
 import es.gobcan.istac.coetl.domain.Etl.Type;
 import es.gobcan.istac.coetl.domain.Execution.Result;
+import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
 
 public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO implements Serializable {
 
@@ -15,6 +16,7 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
     private String name;
     private String organizationInCharge;
     private Type type;
+    private TipoPlataformaEjecucion executionPlatform;
     private String executionPlanning;
     private Instant nextExecution;
     private Instant lastExecution;
@@ -64,6 +66,14 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
 
     public void setType(Type type) {
         this.type = type;
+    }
+    
+    public TipoPlataformaEjecucion getExecutionPlatform() {
+        return executionPlatform;
+    }
+    
+    public void setExecutionPlatform(TipoPlataformaEjecucion executionPlatform) {
+        this.executionPlatform = executionPlatform;
     }
 
     public String getExecutionPlanning() {

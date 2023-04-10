@@ -57,11 +57,19 @@
                 "label": "Type",
                 "placeholder": "Enter a type",
                 "TRANSFORMATION": "Transformation",
-                "JOB": "Job"
+                "JOB": "Job",
+                "WORKFLOW": "Workflow",
+                "PIPELINE": "Pipeline"
             },
             "comments": {
                 "label": "Comments",
                 "placeholder": "Enter a comments"
+            },
+            "executionPlatform": {
+                "label": "Execution platform",
+                "placeholder": "Select a execution platform",
+                "PENTAHO": "Pentaho (PDI)",
+                "APACHE_HOP": "Apache Hop"
             },
             "executionDescription": {
                 "label": "When to run",
@@ -103,7 +111,7 @@
                 "isNotPlanning": "Unplanned"
             },
             "sections": {
-                "identification": "Identification,"
+                "identification": "Identification",
                 "inCharge": "Responsible",
                 "etl": "ETL",
                 "planning": "Planning",
