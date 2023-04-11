@@ -1,0 +1,15 @@
+<form name="helpForm" (ngSubmit)="accept()">
+    <div class="modal-header">
+        <h4 class="modal-title" jhiTranslate="coetlApp.parameter.parameterHelp.title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <markdown [src]="'templates/parameter-help.md'"> </markdown>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">
+            <span class="fa fa-thumbs-up"></span>&nbsp;
+            <span jhiTranslate="entity.action.ok"></span>
+        </button>
+    </div>
+</form>

@@ -1,4 +1,4 @@
-
+{
     "coetlApp": {
         "parameter": {
             "home": {
@@ -21,6 +21,10 @@
                 "GENERIC": "Genèric"
             },
             "emptyListMessage": "No existeixen paràmetres per a aquesta ETL",
+            "parameterHelp": {
+                "title": "Ajuda",
+                "tooltip": "Si us plau, faci clic en aquesta icona per a mostrar l'ajuda"
+            },
             "global": {
                 "title": "Paràmetres Globals per a les ETL",
                 "createLabel": "Afegir nou paràmetre global",

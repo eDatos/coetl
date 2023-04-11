@@ -10,6 +10,7 @@ import { EtlService } from '../etl.service';
 import { EtlParameterDialogComponent } from './etl-parameter-dialog.component';
 import { EtlParameterDeleteDialogComponent } from './etl-parameter-delete-dialog.component';
 import { GloablParameterService } from '../../../admin';
+import { EtlParameterHelpDialogComponent } from '../etl-parameter-help-dialog';
 
 @Component({
     selector: 'ac-etl-parameter-list',
@@ -73,6 +74,14 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
             copy.type = Type.MANUAL;
             this.openEditParameterDialog(copy);
         }
+    }
+
+    help() {
+        this.genericModalService.open(
+            <any>EtlParameterHelpDialogComponent,
+            {},
+            { container: '.app' }
+        );
     }
 
     private openEditParameterDialog(parameter: Parameter) {
