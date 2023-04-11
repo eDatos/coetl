@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -126,7 +127,7 @@ public class GitServiceImpl implements GitService {
     }
     
     @Override
-    public String getMainFileContent(Etl etl) {
+    public String getMainFileContent(Etl etl) throws UnsupportedEncodingException {
         OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
 
         CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
@@ -137,7 +138,7 @@ public class GitServiceImpl implements GitService {
         String mainFileNamePath = oh.getOutputLines().get(1).trim();
         
         OverthereFile sourceMainFile = sudoSourceConnection.getFile(mainFileNamePath);
-        String result = new BufferedReader(new InputStreamReader(sourceMainFile.getInputStream()))
+        String result = new BufferedReader(new InputStreamReader(sourceMainFile.getInputStream(), StandardCharsets.UTF_8))
                 .lines().collect(Collectors.joining("\n"));
 
         sudoSourceConnection.close();

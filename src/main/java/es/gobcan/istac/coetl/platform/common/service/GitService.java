@@ -1,5 +1,7 @@
 package es.gobcan.istac.coetl.platform.common.service;
 
+import java.io.UnsupportedEncodingException;
+
 import es.gobcan.istac.coetl.domain.Etl;
 
 public interface GitService {
@@ -10,7 +12,7 @@ public interface GitService {
     
     public boolean updateRepository(Etl etl);
     
-    public String getMainFileContent(Etl etl);
+    public String getMainFileContent(Etl etl) throws UnsupportedEncodingException;;
     
     public String getMainFileName(Etl etl);
 }
