@@ -1,5 +1,8 @@
 <div class="entity">
     <h3 jhiTranslate="coetlApp.parameter.home.title"></h3>
+    <span class="help-label" (click)="help()">
+        <ac-help-tooltip [position]="'bottom'" [label]="'coetlApp.parameter.parameterHelp.tooltip' | translate"></ac-help-tooltip>
+    </span>
     <div class="section-buttons">
         <button type="button" class="btn btn-primary btn-sm" (click)="editParameter()">
             <span class="fa fa-plus"></span>&nbsp;

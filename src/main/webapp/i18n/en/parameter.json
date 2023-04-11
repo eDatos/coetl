@@ -21,6 +21,10 @@
                 "GENERIC": "Generic"
             },
             "emptyListMessage": "Doesn’t exist parameters for this ETL",
+            "parameterHelp": {
+                "title": "Help",
+                "tooltip": "Please, click on this icon to show help."
+            },
             "global": {
                 "title": "Add new ETL global parameter",
                 "createLabel": "Add new global parameter",
