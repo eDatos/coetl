@@ -18,6 +18,7 @@ public class ExecutionDTO implements Serializable {
     private Type type;
     private Result result;
     private String notes;
+    private String executor;
 
     private Long idEtl;
 
@@ -84,6 +85,14 @@ public class ExecutionDTO implements Serializable {
     public void setIdEtl(Long idEtl) {
         this.idEtl = idEtl;
     }
+    
+    public String getExecutor() {
+        return executor;
+    }
+    
+    public void setExecutor(String executor) {
+        this.executor = executor;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -111,6 +120,7 @@ public class ExecutionDTO implements Serializable {
                     ", dateTime = " + getPlanningDate() + 
                     ", type = " + getType() + 
                     ", result = " + getResult() + 
+                    ", executor = " + getExecutor() + 
                     ", notes = " + getNotes() + 
                 ")";
         //@formatter:on

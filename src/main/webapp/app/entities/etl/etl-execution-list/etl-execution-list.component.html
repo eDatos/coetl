@@ -10,7 +10,8 @@
                         <th style="width: 15%;" jhiTranslate="coetlApp.execution.startDate"></th>
                         <th style="width: 15%;" jhiTranslate="coetlApp.execution.finishDate"></th>
                         <th style="width: 15%;" jhiTranslate="coetlApp.execution.result.label"></th>
-                        <th style="width: 55%;" jhiTranslate="coetlApp.execution.notes"></th>
+                        <th style="width: 15%;" jhiTranslate="coetlApp.execution.executor"></th>
+                        <th style="width: 40%;" jhiTranslate="coetlApp.execution.notes"></th>
                     </tr>
                 </thead>
                 <tr *ngFor="let execution of executions; let i=index;">
@@ -23,7 +24,8 @@
                     <td>
                         <span class="badge" [ngClass]="getResultBadgeClass(execution)">{{ getResultName(execution) }}</span>
                     </td>
-                    <td>{{execution.notes}}</td>
+                    <td>{{ execution.executor }}</td>
+                    <td>{{ execution.notes }}</td>
                 </tr>
             </table>
         </div>

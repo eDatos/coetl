@@ -73,6 +73,10 @@ public class Execution implements Serializable {
     
     @Column(name = "id_execution", length = 250, nullable = true)
     private String idExecution;
+    
+    @Column(name = "executor", length = 250, nullable = true)
+    private String executor;
+
 
     public Long getId() {
         return id;
@@ -144,6 +148,16 @@ public class Execution implements Serializable {
     
     public void setIdExecution(String idExecution) {
         this.idExecution = idExecution;
+    }
+    
+    
+    public String getExecutor() {
+        return executor;
+    }
+
+    
+    public void setExecutor(String executor) {
+        this.executor = executor;
     }
 
     @Override

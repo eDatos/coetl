@@ -73,18 +73,18 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
     }
 
     @Override
-    public Execution execute(Etl etl, Type type) {
+    public Execution execute(Etl etl, Type type, String executor) {
         LOG.debug("Executing ETL : {}", etl.getCode());
         if (executionService.existsRunnnigOrWaitingByEtl(etl.getId())) {
             String duplicateEtlMessage = messageSource.getMessage("execution.note.duplicated", null, Constants.DEFAULT_LOCALE);
-            return PentahoUtil.buildExecution(etl, type, Result.DUPLICATED, duplicateEtlMessage);
+            return PentahoUtil.buildExecution(etl, type, executor, Result.DUPLICATED, duplicateEtlMessage);
         }
 
         final String etlFilename = gitService.getMainFileName(etl);
 
         WebResultDTO webResultDTO = registerETL(etl);
         if (!webResultDTO.isOk()) {
-            return PentahoUtil.buildExecution(etl, type, Result.FAILED, null, webResultDTO.getMessage());
+            return PentahoUtil.buildExecution(etl, type, executor, Result.FAILED, null, webResultDTO.getMessage());
         }
 
         String idExecution = webResultDTO.getId();
@@ -93,7 +93,7 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
             webResultDTO = executePrepareTrans(etlFilename, idExecution);
             if (!webResultDTO.isOk()) {
                 executeRemoveTrans(etlFilename, idExecution);
-                return PentahoUtil.buildExecution(etl, type, Result.FAILED, idExecution, webResultDTO.getMessage());
+                return PentahoUtil.buildExecution(etl, type, executor, Result.FAILED, idExecution, webResultDTO.getMessage());
             }
         }
 
@@ -102,7 +102,7 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
         if (!serverStatusDTO.isOnline()) {
             notifyExecutionError(etl);
             String offlineServerMessage = messageSource.getMessage("execution.note.error.server.offline", PENTAHO_MESSAGE_PARAMETER, Constants.DEFAULT_LOCALE);
-            return PentahoUtil.buildExecution(etl, type, Result.FAILED, offlineServerMessage);
+            return PentahoUtil.buildExecution(etl, type, executor, Result.FAILED, offlineServerMessage);
         }
 
         //@formatter:off
@@ -114,7 +114,7 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
        //@formatter:on
 
         if (!transAndJobsRunningOrWaitingList.isEmpty()) {
-            return PentahoUtil.buildExecution(etl, type, Result.WAITING, idExecution);
+            return PentahoUtil.buildExecution(etl, type, executor, Result.WAITING, idExecution);
         }
 
         webResultDTO = runEtl(etl, etlFilename, idExecution);
@@ -122,10 +122,10 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
         if (!webResultDTO.isOk()) {
             notifyExecutionError(etl);
             removeEtl(etl, etlFilename, idExecution);
-            return PentahoUtil.buildExecution(etl, type, Result.FAILED, null, webResultDTO.getMessage());
+            return PentahoUtil.buildExecution(etl, type, executor, Result.FAILED, null, webResultDTO.getMessage());
         }
 
-        return PentahoUtil.buildExecution(etl, type, Result.RUNNING, idExecution);
+        return PentahoUtil.buildExecution(etl, type, executor, Result.RUNNING, idExecution);
     }
 
     @Override
