@@ -75,18 +75,18 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     }
 
     @Override
-    public Execution execute(Etl etl, Type type) {
+    public Execution execute(Etl etl, Type type, String executor) {
         LOG.debug("Executing ETL : {}", etl.getCode());
         if (executionService.existsRunnnigOrWaitingByEtl(etl.getId())) {
             String duplicateEtlMessage = messageSource.getMessage("execution.note.duplicated", null, Constants.DEFAULT_LOCALE);
-            return HopUtil.buildExecution(etl, type, Result.DUPLICATED, duplicateEtlMessage);
+            return HopUtil.buildExecution(etl, type, executor, Result.DUPLICATED, duplicateEtlMessage);
         }
 
         final String etlFilename = gitService.getMainFileName(etl);
 
         WebResultDTO webResultDTO = registerETL(etl);
         if (!webResultDTO.isOk()) {
-            return HopUtil.buildExecution(etl, type, Result.FAILED, null, webResultDTO.getMessage());
+            return HopUtil.buildExecution(etl, type, executor, Result.FAILED, null, webResultDTO.getMessage());
         }
 
         String idExecution = webResultDTO.getId();
@@ -95,7 +95,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
             webResultDTO = executePreparePipeline(etlFilename, idExecution);
             if (!webResultDTO.isOk()) {
                 executeRemovePipeline(etlFilename, idExecution);
-                return HopUtil.buildExecution(etl, type, Result.FAILED, idExecution, webResultDTO.getMessage());
+                return HopUtil.buildExecution(etl, type, executor, Result.FAILED, idExecution, webResultDTO.getMessage());
             }
         }
 
@@ -104,7 +104,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         if (!serverStatusDTO.isOnline()) {
             notifyExecutionError(etl);
             String offlineServerMessage = messageSource.getMessage("execution.note.error.server.offline", HOP_MESSAGE_PARAMETER, Constants.DEFAULT_LOCALE);
-            return HopUtil.buildExecution(etl, type, Result.FAILED, offlineServerMessage);
+            return HopUtil.buildExecution(etl, type, executor, Result.FAILED, offlineServerMessage);
         }
 
         //@formatter:off
@@ -116,7 +116,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
        //@formatter:on
 
         if (!pipelineAndWorkflowRunningOrWaitingList.isEmpty()) {
-            return HopUtil.buildExecution(etl, type, Result.WAITING, idExecution);
+            return HopUtil.buildExecution(etl, type, executor, Result.WAITING, idExecution);
         }
 
         webResultDTO = runEtl(etl, etlFilename, idExecution);
@@ -124,10 +124,10 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         if (!webResultDTO.isOk()) {
             notifyExecutionError(etl);
             removeEtl(etl, etlFilename, idExecution);
-            return HopUtil.buildExecution(etl, type, Result.FAILED, null, webResultDTO.getMessage());
+            return HopUtil.buildExecution(etl, type, executor, Result.FAILED, null, webResultDTO.getMessage());
         }
 
-        return HopUtil.buildExecution(etl, type, Result.RUNNING, idExecution);
+        return HopUtil.buildExecution(etl, type, executor, Result.RUNNING, idExecution);
     }
 
     @Override

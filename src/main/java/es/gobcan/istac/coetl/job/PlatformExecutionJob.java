@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import es.gobcan.istac.coetl.config.Constants;
 import es.gobcan.istac.coetl.config.QuartzConstants;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
@@ -43,9 +44,9 @@ public class PlatformExecutionJob extends AbstractCoetlQuartzJob {
                 getEtlRepository(context).save(currentEtl);
                 Execution resultExecution = null;
                 if (TipoPlataformaEjecucion.PENTAHO.equals(currentEtl.getExecutionPlatform())) {
-                    resultExecution = getPentahoExecutionService(context).execute(currentEtl, Type.AUTO);
+                    resultExecution = getPentahoExecutionService(context).execute(currentEtl, Type.AUTO, Constants.CRON_EXECUTOR_USER);
                 } else if (TipoPlataformaEjecucion.APACHE_HOP.equals(currentEtl.getExecutionPlatform())) {
-                    resultExecution = getHopExecutionService(context).execute(currentEtl, Type.AUTO);
+                    resultExecution = getHopExecutionService(context).execute(currentEtl, Type.AUTO, Constants.CRON_EXECUTOR_USER);
                 }
                 getExecutionService(context).create(resultExecution);
                 return true;

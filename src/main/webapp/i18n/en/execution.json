@@ -24,7 +24,8 @@
             "emptyListMessage": "No runs for this ETL",
             "executionResult": {
                 "label": "Execution state"
-            }
+            },
+            "executor": "User"
         }
     }
 }

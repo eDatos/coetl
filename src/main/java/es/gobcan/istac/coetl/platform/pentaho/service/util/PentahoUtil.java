@@ -104,14 +104,15 @@ public final class PentahoUtil {
         return FilenameUtils.getBaseName(fileNameWithExtension);
     }
 
-    public static Execution buildExecution(Etl etl, Type type, Result result, String idExecution) {
-        return buildExecution(etl, type, result, idExecution, null);
+    public static Execution buildExecution(Etl etl, Type type, String executor, Result result, String idExecution) {
+        return buildExecution(etl, type, executor, result, idExecution, null);
     }
 
-    public static Execution buildExecution(Etl etl, Type type, Result result, String idExecution, String notes) {
+    public static Execution buildExecution(Etl etl, Type type, String executor, Result result, String idExecution, String notes) {
         Execution execution = new Execution();
         execution.setEtl(etl);
         execution.setType(type);
+        execution.setExecutor(executor);
         execution.setResult(result);
         execution.setPlanningDate(Instant.now());
         execution.setNotes(notes);

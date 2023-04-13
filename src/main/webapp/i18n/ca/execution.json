@@ -21,7 +21,11 @@
                 "DUPLICATED": "Duplicat"
             },
             "notes": "Notes",
-            "emptyListMessage": "No hi ha execucions per a aquesta ETL"
+            "emptyListMessage": "No hi ha execucions per a aquesta ETL",
+            "executionResult": {
+                "label": "Estat d'execució"
+            },
+            "executor": "Usuari"
         }
     }
 }
