@@ -13,6 +13,8 @@ public final class Constants {
     public static final Locale DEFAULT_LOCALE = Locale.forLanguageTag("es");
 
     public static final String DEFAULT_PLATFORM_WATCH_CRON = "0 * * * * *";
+    
+    public static final String CRON_EXECUTOR_USER = "SYSTEM";
 
     private Constants() {
     }

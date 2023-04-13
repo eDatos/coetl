@@ -31,6 +31,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -129,11 +130,11 @@ public class EtlServiceImpl implements EtlService {
         Execution resultExecution = null;
         switch (etl.getExecutionPlatform()) {
             case PENTAHO: {
-                resultExecution = pentahoExecutionService.execute(etl, Type.MANUAL);
+                resultExecution = pentahoExecutionService.execute(etl, Type.MANUAL, SecurityContextHolder.getContext().getAuthentication().getName());
                 break;
             }
             case APACHE_HOP: {
-                resultExecution = hopExecutionService.execute(etl, Type.MANUAL);
+                resultExecution = hopExecutionService.execute(etl, Type.MANUAL, SecurityContextHolder.getContext().getAuthentication().getName());
                 break;
             }
             default: {
