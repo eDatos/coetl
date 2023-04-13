@@ -6,6 +6,7 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.domain.Execution.Type;
+import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
 import es.gobcan.istac.coetl.platform.common.service.GitService;
 import es.gobcan.istac.coetl.platform.common.service.PlatformExecutionService;
 import es.gobcan.istac.coetl.platform.hop.enumeration.WorkflowMethodsEnum;
@@ -58,8 +59,10 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     private final String user;
     private final String password;
     private final String jsonMetadata;
+    
+    private final NotificationRestInternalFacade notificationRestInternalFacade;
 
-    public HopExecutionServiceImpl(ApacheHopProperties hopProperties, ExecutionService executionService, ParameterService parameterService, MessageSource messageSource, GitService gitService) {
+    public HopExecutionServiceImpl(ApacheHopProperties hopProperties, ExecutionService executionService, ParameterService parameterService, MessageSource messageSource, GitService gitService, NotificationRestInternalFacade notificationRestInternalFacade) {
         this.executionService = executionService;
         this.parameterService = parameterService;
         this.messageSource = messageSource;
@@ -68,6 +71,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         this.password = HopUtil.getPassword(hopProperties);
         this.jsonMetadata = HopUtil.getJsonMetadata(hopProperties);
         this.gitService = gitService;
+        this.notificationRestInternalFacade = notificationRestInternalFacade;
     }
 
     @Override
@@ -98,6 +102,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         ServerStatusDTO serverStatusDTO = executeServerStatus();
 
         if (!serverStatusDTO.isOnline()) {
+            notifyExecutionError(etl);
             String offlineServerMessage = messageSource.getMessage("execution.note.error.server.offline", HOP_MESSAGE_PARAMETER, Constants.DEFAULT_LOCALE);
             return HopUtil.buildExecution(etl, type, Result.FAILED, offlineServerMessage);
         }
@@ -117,6 +122,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         webResultDTO = runEtl(etl, etlFilename, idExecution);
 
         if (!webResultDTO.isOk()) {
+            notifyExecutionError(etl);
             removeEtl(etl, etlFilename, idExecution);
             return HopUtil.buildExecution(etl, type, Result.FAILED, null, webResultDTO.getMessage());
         }
@@ -263,5 +269,10 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
             replacedTransCode = replacedTransCode.replace("${".concat(parameter.getKey()).concat("}"), parameter.getValue());
         }
         return replacedTransCode;
+    }
+
+    @Override
+    public void notifyExecutionError(Etl etl) {
+        notificationRestInternalFacade.sendExecutionErrorEtlNotice(etl);
     }
 }

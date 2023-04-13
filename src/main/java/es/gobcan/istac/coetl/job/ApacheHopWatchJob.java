@@ -96,6 +96,7 @@ public class ApacheHopWatchJob {
         Execution nextExecutionResult;
         if (!webResultDTO.isOk()) {
             LOG.error("Error executing next HOP ETL {} - cause: {}", nextEtl.getCode(), webResultDTO.getMessage());
+            hopExecutionService.notifyExecutionError(nextEtl);
             hopExecutionService.removeEtl(nextEtl, etlFilename, nextExecution.getIdExecution());
             nextExecution.setStartDate(Instant.now());
             nextExecutionResult = updateExecutionFromResult(nextExecution, Result.FAILED, webResultDTO.getMessage());
