@@ -26,6 +26,7 @@ import es.gobcan.istac.coetl.platform.hop.enumeration.PipelineMethodsEnum;
 import es.gobcan.istac.coetl.platform.hop.service.util.HopUtil;
 import es.gobcan.istac.coetl.platform.hop.web.rest.dto.EtlStatusDTO;
 import es.gobcan.istac.coetl.platform.hop.web.rest.dto.WorkflowStatusDTO;
+import es.gobcan.istac.coetl.platform.hop.enumeration.Status;
 import es.gobcan.istac.coetl.platform.hop.web.rest.dto.PipelineStatusDTO;
 import es.gobcan.istac.coetl.platform.hop.web.rest.dto.WebResultDTO;
 import es.gobcan.istac.coetl.service.ExecutionService;
@@ -67,16 +68,16 @@ public class ApacheHopWatchJob {
                 final String etlFilename = gitService.getMainFileName(runningEtl);
                 EtlStatusDTO etlStatusDTO;
                 if (runningEtl.isPipeline()) {
-                    etlStatusDTO = executeStatusPipeline(etlFilename, runningExecution.getIdExecution());
+                    etlStatusDTO = runExecuteStatusPipeline(etlFilename, runningExecution, runningEtl);
                 } else {
-                    etlStatusDTO = executeStatusWorkflow(etlFilename, runningExecution.getIdExecution());
+                    etlStatusDTO = runExecuteStatusWorkflow(etlFilename, runningExecution, runningEtl);
                 }
 
                 if (etlStatusDTO.isFinished()) {
                     LOG.info("HOP ETL {} finished", runningEtl.getCode());
                     Execution finishedExecution = updateExecutionFromEtlStatus(runningExecution, etlStatusDTO);
                     executionService.update(finishedExecution);
-                    hopExecutionService.removeEtl(runningEtl, etlFilename, runningExecution.getIdExecution());
+                    runExecuteRemoveEtl(runningEtl, etlFilename, runningExecution);
                 } else {
                     LOG.info("HOP ETL {} not finished yet", runningEtl.getCode());
                 }
@@ -97,7 +98,7 @@ public class ApacheHopWatchJob {
         if (!webResultDTO.isOk()) {
             LOG.error("Error executing next HOP ETL {} - cause: {}", nextEtl.getCode(), webResultDTO.getMessage());
             hopExecutionService.notifyExecutionError(nextEtl);
-            hopExecutionService.removeEtl(nextEtl, etlFilename, nextExecution.getIdExecution());
+            runExecuteRemoveEtl(nextEtl, etlFilename, nextExecution);
             nextExecution.setStartDate(Instant.now());
             nextExecutionResult = updateExecutionFromResult(nextExecution, Result.FAILED, webResultDTO.getMessage());
         } else {
@@ -106,6 +107,28 @@ public class ApacheHopWatchJob {
         }
         executionService.update(nextExecutionResult);
     }
+    
+    private void runExecuteRemoveEtl(Etl runningEtl, String etlFilename, Execution runningExecution) {
+        try {
+            hopExecutionService.removeEtl(runningEtl, etlFilename, runningExecution.getIdExecution());
+        } catch (Exception e) {
+            LOG.error("An unexpected error occurred removing hop execution ({}): {}", runningEtl.getName(), e.getMessage());
+        }
+    }
+
+    
+    private EtlStatusDTO runExecuteStatusPipeline(String etlFilename, Execution runningExecution, Etl runningEtl) {
+        EtlStatusDTO etlStatusDTO;
+        try {
+            etlStatusDTO = executeStatusPipeline(etlFilename, runningExecution.getIdExecution());
+        } catch (Exception e) {
+            LOG.error("An unexpected error occurred checking pipeline execution ({}): {}", runningEtl.getName(), e.getMessage());
+            etlStatusDTO = new PipelineStatusDTO();
+            etlStatusDTO.setErrorDescription(e.getMessage());
+            etlStatusDTO.setStatus(Status.FINISHED_WITH_ERRORS);
+        }
+        return etlStatusDTO;
+    }
 
     private EtlStatusDTO executeStatusPipeline(String etlFilename, String idExecution) {
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -113,6 +136,19 @@ public class ApacheHopWatchJob {
         queryParams.add("name", etlFilename);
         queryParams.add("id", idExecution);
         return HopUtil.execute(user, password, url, PipelineMethodsEnum.STATUS, HttpMethod.GET, null, queryParams, PipelineStatusDTO.class).getBody();
+    }
+    
+    private EtlStatusDTO runExecuteStatusWorkflow(String etlFilename, Execution runningExecution, Etl runningEtl) {
+        EtlStatusDTO etlStatusDTO;
+        try {
+            etlStatusDTO = executeStatusWorkflow(etlFilename, runningExecution.getIdExecution());
+        } catch (Exception e) {
+            LOG.error("An unexpected error occurred checking workflow execution ({}): {}", runningEtl.getName(), e.getMessage());
+            etlStatusDTO = new WorkflowStatusDTO();
+            etlStatusDTO.setErrorDescription(e.getMessage());
+            etlStatusDTO.setStatus(Status.FINISHED_WITH_ERRORS);
+        }
+        return etlStatusDTO;
     }
 
     private EtlStatusDTO executeStatusWorkflow(String etlFilename, String idExecution) {

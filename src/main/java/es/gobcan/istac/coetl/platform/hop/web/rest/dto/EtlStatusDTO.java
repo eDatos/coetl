@@ -1,6 +1,6 @@
 package es.gobcan.istac.coetl.platform.hop.web.rest.dto;
 
-import es.gobcan.istac.coetl.platform.pentaho.enumeration.Status;
+import es.gobcan.istac.coetl.platform.hop.enumeration.Status;
 
 public interface EtlStatusDTO {
 

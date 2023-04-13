@@ -3,7 +3,7 @@ package es.gobcan.istac.coetl.platform.hop.web.rest.dto;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import es.gobcan.istac.coetl.platform.pentaho.enumeration.Status;
+import es.gobcan.istac.coetl.platform.hop.enumeration.Status;
 
 @XmlRootElement(name = "pipeline-status")
 public class PipelineStatusDTO implements HopResponseDTO, EtlStatusDTO {
