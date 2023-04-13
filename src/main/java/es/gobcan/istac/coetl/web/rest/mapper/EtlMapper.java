@@ -97,13 +97,13 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
     public EtlBaseDTO toBaseDto(Etl entity, String lastExecutionStartDate, String lastExecutionResult) {
         Execution execution;
         if (StringUtils.isNotBlank(lastExecutionResult) && StringUtils.isNotBlank(lastExecutionStartDate)) {
-            execution = executionRepository.findFirstByEtlIdAndStartDateAndResultOrderByIdDesc(entity.getId(), lastExecutionStartDate, lastExecutionResult);
+            execution = executionRepository.findFirstByEtlIdAndPlanningDateAndResultOrderByIdDesc(entity.getId(), lastExecutionStartDate, lastExecutionResult);
         } else if (StringUtils.isNotBlank(lastExecutionResult) && StringUtils.isBlank(lastExecutionStartDate)) {
             execution = executionRepository.findFirstByEtlIdAndResultOrderByIdDesc(entity.getId(), Result.valueOf(lastExecutionResult));
         } else if (StringUtils.isBlank(lastExecutionResult) && StringUtils.isNotBlank(lastExecutionStartDate)) {
-            execution = executionRepository.findFirstByEtlIdAndStartDateOrderByIdDesc(entity.getId(), lastExecutionStartDate);
+            execution = executionRepository.findFirstByEtlIdAndPlanningDateOrderByIdDesc(entity.getId(), lastExecutionStartDate);
         } else {
-            execution = executionRepository.findFirstByEtlIdOrderByStartDateDesc(entity.getId());
+            execution = executionRepository.findFirstByEtlIdOrderByPlanningDateDesc(entity.getId());
         }
         return toBaseDto(entity, execution);
     }
