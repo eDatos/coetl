@@ -96,6 +96,7 @@ public class PentahoWatchJob {
         Execution nextExecutionResult;
         if (!webResultDTO.isOk()) {
             LOG.error("Error executing next PENTAHO ETL {} - cause: {}", nextEtl.getCode(), webResultDTO.getMessage());
+            pentahoExecutionService.notifyExecutionError(nextEtl);
             pentahoExecutionService.removeEtl(nextEtl, etlFilename, nextExecution.getIdExecution());
             nextExecution.setStartDate(Instant.now());
             nextExecutionResult = updateExecutionFromResult(nextExecution, Result.FAILED, webResultDTO.getMessage());
