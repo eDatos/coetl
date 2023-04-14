@@ -243,6 +243,4 @@ public class MetadataConfigurationServiceImpl extends ConfigurationServiceImpl i
         return retrieveProperty(instanceService.getMetamacKeyApacheHopJsonMetadata());
         
     }
-    
-
 }
