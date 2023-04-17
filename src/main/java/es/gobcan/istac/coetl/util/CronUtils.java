@@ -20,6 +20,6 @@ public final class CronUtils {
 
     public static Instant getNextExecutionFromJobContext(JobExecutionContext context) {
         Date nextFireDate = context.getNextFireTime();
-        return nextFireDate.toInstant();
+        return (nextFireDate != null) ? nextFireDate.toInstant() : null;
     }
 }
