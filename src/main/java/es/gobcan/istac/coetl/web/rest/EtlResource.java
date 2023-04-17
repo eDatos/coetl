@@ -217,7 +217,6 @@ public class EtlResource extends AbstractResource {
                 return ResponseEntity.notFound().build();
             }
             if (!etl.isDeleted()) {
-                gitService.updateRepository(etl);
                 etlService.execute(etl);
                 auditEventPublisher.publish(AuditConstants.ETL_EXECUTED, etl.getCode());
             } else {

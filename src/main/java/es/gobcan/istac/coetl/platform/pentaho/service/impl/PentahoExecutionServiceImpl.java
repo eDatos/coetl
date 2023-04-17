@@ -79,6 +79,8 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
             String duplicateEtlMessage = messageSource.getMessage("execution.note.duplicated", null, Constants.DEFAULT_LOCALE);
             return PentahoUtil.buildExecution(etl, type, executor, Result.DUPLICATED, duplicateEtlMessage);
         }
+        
+        gitService.updateRepository(etl);
 
         final String etlFilename = gitService.getMainFileName(etl);
 
