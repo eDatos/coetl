@@ -26,7 +26,6 @@ public class MetadataProperties {
     private String metamacCasLoginUrl;
     private String metamacCasLogoutUrl;
     private String casService;
-
     private String keyCas;
 
     @PostConstruct
@@ -66,7 +65,7 @@ public class MetadataProperties {
     public String getKeyCas() {
         return keyCas;
     }
-
+    
     private String normalizeUrl(String url) {
         url = StringUtils.removeEnd(url, "/");
         if(!url.startsWith("http://") && !url.startsWith("https://")) {

@@ -24,6 +24,13 @@ public class EtlValidator extends AbstractValidator<Etl> {
         checkCodeIsUnique(entity);
         checkUriRepository(entity);
         checkTypeInPlatform(entity);
+        checkStatisticalOperationNotNull(entity);
+    }
+    
+    private void checkStatisticalOperationNotNull(Etl entity) {
+        if (entity.getExternalItem() == null) {
+            CustomExceptionUtil.throwCustomParameterizedException(String.format("Statistical Operation is blank in Etl %s", entity.getCode()), ErrorConstants.ETL_STATISTICAL_OPERATION_IS_BLANK);
+        }
     }
 
     private void checkCodeIsUnique(Etl entity) {

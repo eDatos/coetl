@@ -161,6 +161,7 @@ public class ApacheHopWatchJob {
 
     private Execution updateExecutionFromEtlStatus(Execution currentExecution, EtlStatusDTO etlStatusDTO) {
         if (etlStatusDTO.isFinishedWithErrors() || etlStatusDTO.isStoppedWithErrors() || etlStatusDTO.isStopped()) {
+            hopExecutionService.notifyExecutionError(currentExecution.getEtl());
             return updateExecutionFromResult(currentExecution, Result.FAILED, etlStatusDTO.getErrorDescription());
         }
         return updateExecutionFromResult(currentExecution, Result.SUCCESS);
