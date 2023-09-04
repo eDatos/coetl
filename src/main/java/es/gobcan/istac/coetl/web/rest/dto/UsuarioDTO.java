@@ -1,7 +1,6 @@
 package es.gobcan.istac.coetl.web.rest.dto;
 
 import java.time.Instant;
-import java.time.Instant;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;

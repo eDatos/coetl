@@ -86,7 +86,8 @@ module.exports = (options) => {
                 { from: './src/main/webapp/favicon.ico', to: 'favicon.ico' },
                 { from: './src/main/webapp/manifest.webapp', to: 'manifest.webapp' },
                 { from: './src/main/webapp/robots.txt', to: 'robots.txt' },
-                { from: './src/main/webapp/content/templates/expression-help.md', to: 'templates/expression-help.md' }
+                { from: './src/main/webapp/content/templates/expression-help.md', to: 'templates/expression-help.md' },
+                { from: './src/main/webapp/content/templates/parameter-help.md', to: 'templates/parameter-help.md' }
             ]),
             new webpack.ProvidePlugin({
                 $: "jquery",

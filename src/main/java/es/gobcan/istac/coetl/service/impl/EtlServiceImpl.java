@@ -1,31 +1,5 @@
 package es.gobcan.istac.coetl.service.impl;
 
-import static org.quartz.CronScheduleBuilder.cronSchedule;
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
-
-import java.text.ParseException;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.criterion.DetachedCriteria;
-import org.quartz.CronExpression;
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.SchedulerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-import org.springframework.stereotype.Service;
-
 import es.gobcan.istac.coetl.config.QuartzConstants;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
@@ -34,8 +8,9 @@ import es.gobcan.istac.coetl.domain.ExternalItem;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
-import es.gobcan.istac.coetl.job.PentahoExecutionJob;
-import es.gobcan.istac.coetl.pentaho.service.PentahoExecutionService;
+import es.gobcan.istac.coetl.job.PlatformExecutionJob;
+import es.gobcan.istac.coetl.platform.hop.service.impl.HopExecutionServiceImpl;
+import es.gobcan.istac.coetl.platform.pentaho.service.impl.PentahoExecutionServiceImpl;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.EtlService;
@@ -45,6 +20,28 @@ import es.gobcan.istac.coetl.service.validator.EtlValidator;
 import es.gobcan.istac.coetl.util.CronUtils;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 import es.gobcan.istac.coetl.web.rest.util.QueryUtil;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.DetachedCriteria;
+import org.quartz.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 @Service
 public class EtlServiceImpl implements EtlService {
@@ -66,7 +63,10 @@ public class EtlServiceImpl implements EtlService {
     private ExecutionService executionService;
 
     @Autowired
-    private PentahoExecutionService pentahoExecutionService;
+    private PentahoExecutionServiceImpl pentahoExecutionService;
+    
+    @Autowired
+    private HopExecutionServiceImpl hopExecutionService;
 
     @Autowired
     private ExternalItemService externalItemService;
@@ -119,18 +119,30 @@ public class EtlServiceImpl implements EtlService {
     }
 
     @Override
-    public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable) {
-        LOG.debug("Request to find all ETLs by query : {}", query);
-        DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable);
+    public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult) {
+        DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult);
         return filteredListByRolOperationAllowed(etlRepository.findAll(criteria, pageable));
     }
 
     @Override
     public void execute(Etl etl) {
         LOG.debug("Request to execute ETL : {}", etl);
-        Execution resultExecution = pentahoExecutionService.execute(etl, Type.MANUAL);
+        Execution resultExecution = null;
+        switch (etl.getExecutionPlatform()) {
+            case PENTAHO: {
+                resultExecution = pentahoExecutionService.execute(etl, Type.MANUAL, SecurityContextHolder.getContext().getAuthentication().getName());
+                break;
+            }
+            case APACHE_HOP: {
+                resultExecution = hopExecutionService.execute(etl, Type.MANUAL, SecurityContextHolder.getContext().getAuthentication().getName());
+                break;
+            }
+            default: {
+                throw new RuntimeException("Execution platform not defined");
+            }
+        }
+        
         executionService.create(resultExecution);
-
     }
 
     @Override
@@ -169,7 +181,7 @@ public class EtlServiceImpl implements EtlService {
         CronExpression cronExpression = buildCronExpression(executionPlanning);
         Instant nextExecution = CronUtils.getNextExecutionFromCronExpression(cronExpression);
         etl.setNextExecution(nextExecution);
-        schedulePentahoExecutionJob(jobKey, cronExpression, etl);
+        schedulePlatformExecutionJob(jobKey, cronExpression, etl);
 
         return save(etl);
     }
@@ -197,10 +209,10 @@ public class EtlServiceImpl implements EtlService {
         return etlRepository.saveAndFlush(etl);
     }
 
-    private void schedulePentahoExecutionJob(JobKey jobKey, CronExpression cronExpression, Etl etl) {
+    private void schedulePlatformExecutionJob(JobKey jobKey, CronExpression cronExpression, Etl etl) {
         LOG.debug("Request to scheduled a new Quartz job : {}", jobKey.getName());
         //@formatter:off
-        JobDetail job = newJob(PentahoExecutionJob.class)
+        JobDetail job = newJob(PlatformExecutionJob.class)
                 .withIdentity(jobKey)
                 .usingJobData(QuartzConstants.ETL_CODE_JOB_DATA, etl.getCode())
                 .build();
@@ -239,11 +251,13 @@ public class EtlServiceImpl implements EtlService {
         }
     }
 
-    private DetachedCriteria buildEtlCriteria(String query, boolean includeDeleted, Pageable pageable) {
+    private DetachedCriteria buildEtlCriteria(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate,
+            String lastExecutionResult) {
         StringBuilder queryBuilder = new StringBuilder();
         if (StringUtils.isNotBlank(query)) {
             queryBuilder.append(query);
         }
+        queryBuilder.append(queryUtil.getQueryByLastExecution(lastExecutionStartDate, lastExecutionResult, queryBuilder));
         String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
         return queryUtil.queryToEtlCriteria(pageable, finalQuery);
     }

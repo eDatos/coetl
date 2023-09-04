@@ -8,6 +8,14 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 2.0.1 a 3.0.0-SNAPSHOT
+* Se ha integrado una nueva instancia de aplicación por lo que es necesario añadirlo los parámetros de configuración *application.installation.instance = [COETL/COETLLAB]* en application-env.yml. Esta nueva propiedad permitirá crear dos instancias de COETL. Según el tipo de instancia que se añada en el application-env.yml se obtendrán unas propiedades u otras del common-metadata.
+* Con la nueva instancia se han creado nuevas variables ( duplicadas del las variables de COETL) en el common-metadata.
+* Se ha de añadir parámetros al common-metadata. Para ello, se ha de ejecutar el script *etc\changes-from-release\2.0.1\db\common-metadata\postgresql\20220406_add_coetllab_properties.sql* sustituyendo los valores por los apropiados. Puede tomarse como referencia los establecidos en el archivo de configuración application-env.yml, atendiendo a los parámetros *application.cas.*\* y *pentaho.*\*.
+* La ruta de los recursos (ver variable *metamac.coetllab.pentaho.host.resourcesPath*) debe existir. El usuario:grupo con el que se va a establecer conexión (ver variables *metamac.coetllab.pentaho.host.ownerUserResourcesPath* y *metamac.coetllab.pentaho.host.ownerGroupResourcesPath*) debe tener permisos de escritura y lectura sobre dicha ruta.
+* Con la nueva versión se requiere de que la infraestructura tenga habilitada un servidor de Apache Hop para la ejecución de ETLs con esta plataforma.
+* Se ha de añadir parámetros al common-metadata. Para ello, se ha de ejecutar el script *etc\changes-from-release\2.0.1\db\common-metadata\postgresql\20230309_add_hop_properties.sql* sustituyendo los valores por los apropiados, siendo la mayoría valores equivalentes a los establecidos para pentaho.
+ 
 ## 1.2.2 a 2.0.0
 * Se ha integrado el acceso al common-metadata, por lo que es necesario añadirlo los parámetros de configuración *environment.edatos.configuration.db.[PARAM]* al application-env.yml (ver archivo *src\main\resources\config\application-env.yml*)
 * Se ha integrado complementos-apps como dependencia, con lo que la misma ha de estar instalada y configurada correctamente.

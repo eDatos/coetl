@@ -5,6 +5,7 @@ import { Subject, Subscription } from 'rxjs';
 
 import { EtlFilter } from './etl-filter.model';
 import { Type } from '../etl.model';
+import { Result } from '../../execution/execution.model';
 
 @Component({
     selector: 'ac-etl-search',
@@ -15,6 +16,7 @@ export class EtlSearchComponent implements OnInit, OnDestroy {
     susbcription: Subscription;
     typeEnum = Type;
     options: any;
+    public resultExecutionEnum = Result;
 
     private filterChangesSubject: Subject<any>;
 

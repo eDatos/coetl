@@ -4,18 +4,15 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,6 +23,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
+import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
+
 @Entity
 @Table(name = "tb_etls")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -34,7 +33,7 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     private static final long serialVersionUID = 1L;
 
     public enum Type {
-        TRANSFORMATION, JOB
+        TRANSFORMATION, JOB, WORKFLOW, PIPELINE
     }
 
     @Id
@@ -92,11 +91,6 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     private Instant nextExecution;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
-    @JoinColumn(name = "etl_description_file_fk")
-    private File etlDescriptionFile;
-
-    @NotNull
     @Size(max = 255)
     @Column(name = "uri_repository", length = 255)
     private String uriRepository;
@@ -104,6 +98,11 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @ManyToOne(targetEntity = ExternalItem.class)
     @JoinColumn(name = "external_item_fk")
     private ExternalItem externalItem;
+    
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "execution_platform", nullable = false, length = 255)
+    private TipoPlataformaEjecucion executionPlatform;
 
     @Override
     public Long getId() {
@@ -171,11 +170,19 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     }
 
     public boolean isJob() {
-        return Type.JOB.equals(type);
+        return TipoPlataformaEjecucion.PENTAHO.equals(executionPlatform) && Type.JOB.equals(type);
     }
 
     public boolean isTransformation() {
-        return Type.TRANSFORMATION.equals(type);
+        return TipoPlataformaEjecucion.PENTAHO.equals(executionPlatform) && Type.TRANSFORMATION.equals(type);
+    }
+    
+    public boolean isWorkflow() {
+        return TipoPlataformaEjecucion.APACHE_HOP.equals(executionPlatform) && Type.WORKFLOW.equals(type);
+    }
+
+    public boolean isPipeline() {
+        return TipoPlataformaEjecucion.APACHE_HOP.equals(executionPlatform) && Type.PIPELINE.equals(type);
     }
 
     public String getComments() {
@@ -214,14 +221,6 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
         this.nextExecution = nextExecution;
     }
 
-    public File getEtlDescriptionFile() {
-        return etlDescriptionFile;
-    }
-
-    public void setEtlDescriptionFile(File etlDescriptionFile) {
-        this.etlDescriptionFile = etlDescriptionFile;
-    }
-
     public String getUriRepository() {
         return uriRepository;
     }
@@ -236,6 +235,14 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
 
     public void setExternalItem(ExternalItem externalItem) {
         this.externalItem = externalItem;
+    }
+    
+    public TipoPlataformaEjecucion getExecutionPlatform() {
+        return executionPlatform;
+    }
+    
+    public void setExecutionPlatform(TipoPlataformaEjecucion executionPlatform) {
+        this.executionPlatform = executionPlatform;
     }
 
     @Override

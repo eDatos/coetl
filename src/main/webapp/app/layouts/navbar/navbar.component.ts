@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
     modalRef: NgbModalRef;
     version: string;
     isInternalApp: boolean;
+    isCoetlLabInstance: boolean;
     title: string;
 
     constructor(
@@ -41,10 +42,16 @@ export class NavbarComponent implements OnInit {
         this.profileService.getProfileInfo().subscribe((profileInfo) => {
             this.inProduction = profileInfo.inProduction;
         });
+
         this.isInternalApp = this.internalInstallationService.isInternalType();
         this.title = this.isInternalApp
             ? this.translateService.instant('global.internalTitle')
             : this.translateService.instant('global.title');
+
+        this.isCoetlLabInstance = this.internalInstallationService.isCoetlLabInstance();
+        this.title = this.internalInstallationService.isCoetlLabInstance()
+            ? this.title + this.translateService.instant('global.coetlLabTitle')
+            : this.title;
     }
 
     collapseNavbar() {

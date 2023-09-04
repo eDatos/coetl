@@ -1,7 +1,12 @@
 package es.gobcan.istac.coetl.config;
 
-import javax.sql.DataSource;
-
+import com.arte.libs.grammar.repository.support.ArteJpaRepositoryFactoryBean;
+import com.zaxxer.hikari.HikariDataSource;
+import es.gobcan.istac.coetl.config.annotations.ConditionalOnMissingProperty;
+import es.gobcan.istac.coetl.service.MetadataConfigurationService;
+import io.github.jhipster.config.JHipsterConstants;
+import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
+import liquibase.integration.spring.SpringLiquibase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,14 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.arte.libs.grammar.repository.support.ArteJpaRepositoryFactoryBean;
-import com.zaxxer.hikari.HikariDataSource;
-
-import es.gobcan.istac.coetl.config.annotations.ConditionalOnMissingProperty;
-import es.gobcan.istac.coetl.service.MetadataConfigurationService;
-import io.github.jhipster.config.JHipsterConstants;
-import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
-import liquibase.integration.spring.SpringLiquibase;
+import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "es.gobcan.istac.coetl.repository", repositoryFactoryBeanClass = ArteJpaRepositoryFactoryBean.class)
@@ -39,7 +37,7 @@ public class DatabaseConfiguration {
     public DatabaseConfiguration(Environment env) {
         this.env = env;
     }
-    
+
     @ConditionalOnMissingProperty(prefix="spring.datasource", value={"url", "username", "password"})
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean(destroyMethod = "close")
@@ -47,10 +45,10 @@ public class DatabaseConfiguration {
     public DataSource dataSource(MetadataConfigurationService metadataConfigurationService) {
         // @formatter:off
         HikariDataSource hikariDataSource = (HikariDataSource) DataSourceBuilder.create().
-                driverClassName(metadataConfigurationService.retrieveProperty(DataConfigurationConstants.DB_DRIVER_NAME)).
-                url(metadataConfigurationService.retrieveProperty(DataConfigurationConstants.DB_URL)).
-                username(metadataConfigurationService.findProperty(DataConfigurationConstants.DB_USERNAME)).
-                password(metadataConfigurationService.findProperty(DataConfigurationConstants.DB_PASSWORD)).
+                url(metadataConfigurationService.retrieveDbUrl()).
+                driverClassName(metadataConfigurationService.retrieveDdDriverName()).
+                username(metadataConfigurationService.retrieveDbUsername()).
+                password(metadataConfigurationService.retrieveDbPassword()).
                 type(HikariDataSource.class).
                 build();
         // @formatter:on

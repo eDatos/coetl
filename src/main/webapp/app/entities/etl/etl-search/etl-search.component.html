@@ -68,6 +68,17 @@
         <label jhiTranslate="coetlApp.etl.nextExecution.label"></label>
         <ac-calendar class="form-control" [(ngModel)]="filters.nextExecution" (onSelect)="filter()"></ac-calendar>
     </div>
+    <div class="entity-search-field">
+        <label jhiTranslate="coetlApp.execution.executionResult.label"></label>
+        <ac-autocomplete-enum
+            name="lastExecutionByResult"
+            [(ngModel)]="filters.lastExecutionByResult"
+            [suggestionsEnum]="resultExecutionEnum"
+            [translationPath]="'coetlApp.execution.result.'"
+            (onSelect)="filter()"
+            (onUnselect)="filter()"
+        ></ac-autocomplete-enum>
+    </div>
 
     <div class="entity-search-field">
         <label jhiTranslate="coetlApp.etl.filters.includeDeleted"></label>

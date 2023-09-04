@@ -6,4 +6,26 @@
         border: none !important;
         background: none;
     }
+
+    p-accordion {
+        width: 100%;
+    }
+
+    /deep/ div[class='ui-accordion-header ui-state-default ui-corner-all'] {
+        background: #f8f8f8;
+        color: black;
+    }
+
+    /deep/ a {
+        text-decoration: none !important;
+    }
+}
+
+.word-break-all {
+    word-break: break-all;
+}
+
+.help-label {
+    font-size: 1.26rem;
+    margin-left: 8px;
 }

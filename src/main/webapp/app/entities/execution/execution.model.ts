@@ -20,6 +20,7 @@ export class Execution {
         public type?: Type,
         public result?: Result,
         public notes?: string,
-        public idEtl?: number
+        public idEtl?: number,
+        public executor?: string
     ) {}
 }

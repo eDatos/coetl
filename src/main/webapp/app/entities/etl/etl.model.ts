@@ -1,10 +1,22 @@
 import { BaseVersionedAndAuditingWithDeletionEntity } from '../../shared/model/base-versioned-auditing-with-deletion-entity';
 import { ExternalItem } from '../external-item';
-import { File } from '../file/file.model';
 
-export enum Type {
+export enum PentahoType {
     TRANSFORMATION = 'TRANSFORMATION',
     JOB = 'JOB'
+}
+
+export enum HopType {
+    WORKFLOW = 'WORKFLOW',
+    PIPELINE = 'PIPELINE'
+}
+
+export const Type = { ...PentahoType, ...HopType };
+export type Type = typeof Type;
+
+export enum ExecutionPlatform {
+    PENTAHO = 'PENTAHO',
+    APACHE_HOP = 'APACHE_HOP'
 }
 
 export class EtlBase extends BaseVersionedAndAuditingWithDeletionEntity {
@@ -17,7 +29,8 @@ export class EtlBase extends BaseVersionedAndAuditingWithDeletionEntity {
         public executionPlanning?: string,
         public externalItem?: ExternalItem,
         public nextExecution?: Date,
-        public lastExecution?: Date
+        public lastExecution?: Date,
+        public executionPlatform?: ExecutionPlatform
     ) {
         super();
     }
@@ -38,7 +51,6 @@ export class Etl extends EtlBase {
         public technicalInCharge?: string,
         public comments?: string,
         public executionDescription?: string,
-        public etlDescriptionFile?: File,
         public uriRepository?: string,
         public isAttachedFilesChanged?: boolean
     ) {

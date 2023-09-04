@@ -1,0 +1,39 @@
+{
+    "coetlApp": {
+        "operacion": {
+            "home": {
+                "title": "Operacions",
+                "createLabel": "Crear nova operació",
+                "createOrEditLabel": "Crear o editar operació"
+            },
+            "menu": {
+                "title": "Gestió d'operacions"
+            },
+            "created": "S'ha creat la operació {{ param }}",
+            "updated": "S'ha actualizat l'operació {{ param }}",
+            "deleted": "S'ha eliminat l'operació {{ param }}",
+            "delete": {
+                "question": "Segur que vol eliminar l'operació {{ id }}?"
+            },
+            "detail": {
+                "title": "Operació"
+            },
+            "accion": "Acció",
+            "sujeto": "Subjete",
+            "roles": {
+                "roles": "Rols associats",
+                "empty": "No hi ha rols associats a aquesta operació"
+            },
+            "filters": {
+                "sujeto": {
+                    "placeholder": "Subjecte",
+                    "label": "Subjecte"
+                },
+                "accion": {
+                    "placeholder": "Acció",
+                    "label": "Acció"
+                }
+            }
+        }
+    }
+}

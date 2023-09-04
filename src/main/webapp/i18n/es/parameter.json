@@ -20,7 +20,16 @@
                 "PASSWORD": "Contraseña",
                 "GENERIC": "Genérico"
             },
-            "emptyListMessage": "No existen parámetros para esta ETL"
+            "emptyListMessage": "No existen parámetros para esta ETL",
+            "parameterHelp": {
+                "title": "Ayuda",
+                "tooltip": "Por favor, haga click en este icono para mostrar la ayuda."
+            },
+            "global": {
+                "title": "Parámetros Globales para las ETL",
+                "createLabel": "Añadir nuevo parámetro global",
+                "emptyListMessage": "No existen parámetros globales"
+            }
         }
     }
 }

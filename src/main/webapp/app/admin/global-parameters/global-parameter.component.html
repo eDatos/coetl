@@ -1,0 +1,57 @@
+<div class="entity" acMakeFixedRoom>
+    <div class="entity-header">
+        <h2>
+            <span jhiTranslate="coetlApp.parameter.global.title"></span>
+            <div>
+                <button type="button" class="btn btn-primary btn-sm" (click)="editParameter()">
+                    <span class="fa fa-plus"></span>&nbsp;
+                    <span jhiTranslate="coetlApp.parameter.global.createLabel"></span>
+                </button>
+            </div>
+        </h2>
+    </div>
+
+    <ac-spinner *ngIf="!parameters"></ac-spinner>
+
+    <ng-container *ngIf="existParameters(); else emptyList">
+        <div class="table-responsive">
+            <table class="table table-hover" acStickyTableHeader>
+                <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                        <th style="width: 30%;" jhiSortBy="key">
+                            <span jhiTranslate="coetlApp.parameter.key"></span>
+                            <span class="fa fa-sort order-by-class"></span>
+                        </th>
+                        <th style="width: 40%;" jhiSortBy="value">
+                            <span jhiTranslate="coetlApp.parameter.value"></span>
+                            <span class="fa fa-sort order-by-class"></span>
+                        </th>
+                        <th style="width: 30%;"></th>
+                    </tr>
+                </thead>
+                <tr *ngFor="let parameter of parameters; let i = index">
+                    <td>{{ parameter.key }}</td>
+                    <td>
+                        <span *ngIf="!isPasswordTypology(parameter)" class="word-break-all">{{ parameter.value }}</span>
+                        <input *ngIf="isPasswordTypology(parameter)" class="password-input" type="password" [disabled]="true" value="password" readonly />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-warning btn-sm" (click)="editParameter(parameter)">
+                            <span class="fa fa-pencil"></span>&nbsp;
+                            <span jhiTranslate="entity.action.edit"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteParameter(parameter)">
+                            <span class="fa fa-remove"></span>&nbsp;
+                            <span jhiTranslate="entity.action.delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </ng-container>
+</div>
+<ng-template #emptyList>
+    <div class="empty-list">
+        <span jhiTranslate="coetlApp.parameter.global.emptyListMessage"></span>
+    </div>
+</ng-template>

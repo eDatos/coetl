@@ -1,0 +1,87 @@
+{
+    "error": {
+        "title": "¡Ups, ha ocorregut un error!",
+        "403": {
+            "title": "Error 403",
+            "detail": "Ho sentim, no té permisos per accedir a la pàgina."
+        },
+        "accessDenied": "Ho sentim, no té permisos per accedir a la pàgina.",
+        "404": {
+            "title": "Error 404",
+            "detail": "Ho sentim, la pàgina que cerca no existeix."
+        },
+        "blockedUser": {
+            "title": "Error d'usuari",
+            "detail": "Ho sentim, l'usuari amb el qual intenta accedir està bloquejat."
+        },
+        "nonExistingUser": {
+            "title": "Error d'usuari",
+            "detail": "Ho sentim, l'usuari amb el qual intenta accedir no s'ha donat d'alta."
+        },
+        "internalServerError": "Error intern del servidor",
+        "field": {
+            "value": "El valor d'un dels camps és incorrecte",
+            "validation": "Existeixen errors de validació en els camps següents:",
+            "constraint": "{{fieldName}}, {{causeMessage}}"
+        },
+        "server.not.reachable": "Servidor no accessible",
+        "url.not.found": "No trobat",
+        "NotNull": "¡El camp {{0}} no pot estar buit!",
+        "Size": "¡El camp {{0}} no compleix amb els requisits de grandària mínima/màxima!",
+        "usuario-existe": "El nom d'usuari introduït ja està sent usat",
+        "id-existe": "Un nou {{0}} no pot tenir prèviament un ID",
+        "entidad-no-encontrada": "Resultat de {{0}} no trobat",
+        "userManagement": {
+            "usuario-ldap-no-encontrado": "No s'ha trobat l'usuari especificat"
+        },
+        "entity": {
+            "deleted": "El resultat de {{0}} es troba eliminat"
+        },
+        "file": {
+            "single": {
+                "empty": "El fixer <strong>{{0}}</strong> està buit"
+            },
+            "multi": {
+                "empty": "Els fixers<strong>{{0}}</strong> estan buits"
+            }
+        },
+        "rol": {
+            "users-has-role": "No es pot eliminar un rol que està assignat a alguns usuaris"
+        },
+        "query-no-soportada": "Paràmetre de cerca {{0}} no suportat",
+        "etl": {
+            "currentlyDeleted": "Aquesta ETL es troba actualment eliminada",
+            "currentlyNotDeleted": "Aquesta ETL es troba actualment activa",
+            "etlFileCurrentlyDeleted": "El fixer ETL ja ha estat eliminat",
+            "cronExpressionNotValid": "La expresión cron {{0}} no es vàlida",
+            "scheduleError": "Ha ocorregut un error en la creació de la planificació de execució de la ETL",
+            "unscheduleError": "Ha ocorregut un error en l'esborrat de la planificació d'execució de la ETL",
+            "codeExists": "Ja existeix una altra amb el mateix codi",
+            "attachedFilesUpload": "Ha ocorregut un error en la pujada dels fixers adjunts de la ETL",
+            "cloneRepository": "Ha ocorregut un error clonant el repositori",
+            "replacingRepository": "Ha ocorregut un error reemplaçant el repositori",
+            "typeNotSupported": "El tipus no és compatible amb la plataforma d'execució seleccionada"
+        },
+        "health": {
+            "serviceName": {
+                "isBlank": "El nom del servei no pot estar buit"
+            },
+            "endpoint": {
+                "isBlank": "La URL no pot estar buida"
+            }
+        },
+        "parameter": {
+            "key": {
+                "isDuplicated": "Ja existeix un paràmetre amb la mateixa clau",
+                "isBlank": "La clau del paràmetre no pot estar buida"
+            },
+            "value": {
+                "isBlank": "El valor del paràmetre no pot estar buit"
+            },
+            "edit": "Ha ocorregut un error en la edició del paràmetre"
+        },
+        "quartz": {
+            "jobExecutionError": "Ha ocorregut  un error en l'execució planificada de la ETL amb codi {{0}}"
+        }
+    }
+}

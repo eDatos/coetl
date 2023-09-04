@@ -99,16 +99,20 @@ export class HealthComponent implements OnInit, OnDestroy {
                   serviceName: health.name,
                   endpoint: health.details.endpoint
               };
-        this.genericModalService.open(HealthEditDialogComponent as Component, {
-            currentHealth: customHealth
-        });
+        this.genericModalService.open(
+            HealthEditDialogComponent as Component,
+            { currentHealth: customHealth },
+            { container: '.app' }
+        );
         event.stopPropagation();
     }
 
     deleteCustomHealth(health: any) {
-        this.genericModalService.open(HealthDeleteDialogComponent as Component, {
-            currentHealth: health
-        });
+        this.genericModalService.open(
+            HealthDeleteDialogComponent as Component,
+            { currentHealth: health },
+            { container: '.app' }
+        );
         event.stopPropagation();
     }
 

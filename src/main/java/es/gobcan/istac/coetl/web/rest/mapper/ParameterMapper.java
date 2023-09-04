@@ -1,17 +1,16 @@
 package es.gobcan.istac.coetl.web.rest.mapper;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.web.rest.dto.ParameterDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ParameterMapper {
@@ -63,6 +62,7 @@ public class ParameterMapper {
         dto.setType(entity.getType());
         dto.setTypology(entity.getTypology());
         dto.setEtlId(entity.getEtl().getId());
+
         dto.setOptLock(entity.getOptLock());
 
         return dto;

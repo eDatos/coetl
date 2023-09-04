@@ -26,11 +26,11 @@
                                 <span jhiTranslate="coetlApp.etl.name.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 20%" jhiSortBy="organization_in_charge">
+                            <th style="width: 15%" jhiSortBy="organization_in_charge">
                                 <span jhiTranslate="coetlApp.etl.organizationInCharge.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
-                            <th style="width: 20%">
+                            <th style="width: 15%">
                                 <span jhiTranslate="coetlApp.etl.statisticalOperation.label"></span>
                             </th>
                             <th style="width: 5%" jhiSortBy="type">
@@ -45,6 +45,9 @@
                             </th>
                             <th style="width: 10%">
                                 <span jhiTranslate="coetlApp.etl.nextExecution.label"></span>
+                            </th>
+                            <th style="width: 10%">
+                                <span jhiTranslate="coetlApp.execution.executionResult.label"></span>
                             </th>
                         </tr>
                     </thead>
@@ -63,6 +66,9 @@
 
                             <td>{{etl.lastExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                             <td>{{etl.nextExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>
+                                <span class="badge" [ngClass]="getResultBadgeClass(etl.result)">{{ getResultName(etl.result) }}</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

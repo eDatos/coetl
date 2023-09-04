@@ -31,7 +31,6 @@ public final class ErrorConstants {
     public static final String ETL_CURRENTLY_DELETED = "error.etl.currentlyDeleted";
     public static final String ETL_CURRENTLY_NOT_DELETED = "error.etl.currentlyNotDeleted";
     public static final String ETL_FILE_CURRENTLY_DELETED = "error.etl.etlFileCurrentlyDeleted";
-    public static final String ETL_DESCRIPTION_FILE_CURRENTLY_DELETED = "error.etl.etlDescriptionFileCurrentlyDeleted";
     public static final String ETL_CRON_EXPRESSION_NOT_VALID = "error.etl.cronExpressionNotValid";
     public static final String ETL_SCHEDULE_ERROR = "error.etl.scheduleError";
     public static final String ETL_UNSCHEDULE_ERROR = "error.etl.unscheduleError";
@@ -41,6 +40,8 @@ public final class ErrorConstants {
     public static final String ETL_URL_NOT_EXIST = "error.etl.urlNotExist";
     public static final String ETL_CLONE_REPOSITORY = "error.etl.cloneRepository";
     public static final String ETL_REPLACE_REPOSITORY = "error.etl.replacingRepository";
+    public static final String ETL_TYPE_NOT_SUPPORTED = "error.etl.typeNotSupported";
+    public static final String ETL_STATISTICAL_OPERATION_IS_BLANK = "error.etl.statisticalOperation.isBlank";
 
     // HEALTH
     public static final String HEALTH_SERVICE_NAME_IS_BLANK = "error.health.serviceName.isBlank";
@@ -51,6 +52,8 @@ public final class ErrorConstants {
     public static final String PARAMETER_KEY_IS_BLANK = "error.parameter.key.isBlank";
     public static final String PARAMETER_VALUE_IS_BLANK = "error.parameter.value.isBlank";
     public static final String PARAMETER_EDIT = "error.parameter.edit";
+    public static final String PARAMETER_KEY_IS_DUPLICATED_IN_GLOBAL_PARAMETER = "error.parameter.key.isDuplicatedInGlobalParameter";
+    public static final String GLOBAL_PARAMETER_KEY_IS_DUPLICATED = "error.parameter.global.key.isDuplicated";
 
     // QUARZT
     public static final String QUARTZ_JOB_EXECUTION_ERROR = "error.quartz.jobExecutionError";

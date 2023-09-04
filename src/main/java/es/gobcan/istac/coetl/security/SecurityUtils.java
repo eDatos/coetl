@@ -1,12 +1,7 @@
 package es.gobcan.istac.coetl.security;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Objects;
-
-import javax.crypto.NoSuchPaddingException;
-
+import es.gobcan.istac.coetl.domain.enumeration.Rol;
+import es.gobcan.istac.coetl.security.util.AESUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -14,8 +9,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import es.gobcan.istac.coetl.domain.enumeration.Rol;
-import es.gobcan.istac.coetl.security.util.AESUtils;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Objects;
 
 public final class SecurityUtils {
 

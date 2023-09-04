@@ -22,7 +22,7 @@ public abstract class ExecutionMapper {
         dto.setResult(entity.getResult());
         dto.setNotes(entity.getNotes());
         dto.setIdEtl(entity.getEtl().getId());
-
+        dto.setExecutor(entity.getExecutor());
         return dto;
     }
 }

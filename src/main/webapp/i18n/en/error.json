@@ -1,0 +1,84 @@
+{
+    "error": {
+        "403": {
+            "detail": "Sorry, you do not have permissions to access the page.",
+            "title": "Error 403"
+        },
+        "404": {
+            "detail": "Sorry, the page you are looking for does not exist.",
+            "title": "Error 404"
+        },
+        "NotNull": "Field {{0}} cannot be empty!",
+        "Size": "Field {{0}} does not meet the minimum / maximum size requirements!",
+        "accessDenied": "Sorry, you do not have permissions to access the page.",
+        "blockedUser": {
+            "detail": "Sorry, the user you are trying to access with is blocked.",
+            "title": "User error"
+        },
+        "entidad-no-encontrada": "Result of {{0}} not found",
+        "file": {
+            "empty": "Empty file.",
+            "maxFileSize": "Files larger than {{0}} MB cannot be attached.",
+            "notFound": "File not found."
+        },
+        "file-empty": "The file is empty",
+        "id-existe": "A new {{0}} cannot previously have an ID",
+        "internalServerError": "Internal server error",
+        "nonExistingUser": {
+            "detail": "Sorry, the user you are trying to access with has not registered.",
+            "title": "User error"
+        },
+        "query-no-soportada": "Search parameter {{0}} not supported",
+        "rol": {
+            "users-has-role": "Cannot delete a role that is assigned to some users"
+        },
+        "server.not.reachable": "Server not accessible",
+        "title": "Oops, an error occurred!",
+        "url.not.found": "Not found",
+        "userManagement": {
+            "usuario-ldap-no-encontrado": "The specified user was not found"
+        },
+        "usuario-existe": "The username entered is already in use",
+        "quartz": {
+            "jobExecutionError": "Error while running a job Quartz"
+        },
+        "etl": {
+            "currentlyDeleted": "This ETL is currently deleted",
+            "executingError": "An error occurred during the execution of the ETL.",
+            "currentlyNotDeleted": "This ETL is currently active",
+            "etlFileCurrentlyDeleted": "The ETL file has already been deleted",
+            "cronExpressionNotValid": "The expression cron {{0}} is invalid",
+            "scheduleError": "An error has occurred in the creation of the ETL execution planning",
+            "unscheduleError": "An error has occurred in the deletion of the ETL execution planning",
+            "codeExists": "There is already another ETL with the same code",
+            "attachedFilesUpload": "An error occurred in the upload of the ETL attachments",
+            "cloneRepository": "An error has occurred cloning the repository",
+            "replacingRepository": "An error has occurred replacing the repository",
+            "typeNotSupported": "Type is not supported for the selected execution platform"
+        },
+        "health": {
+            "serviceName": {
+                "isBlank": "The service name cannot be empty"
+            },
+            "endpoint": {
+                "isBlank": "The URL cannot be empty"
+            }
+        },
+        "parameter": {
+            "key": {
+                "isDuplicated": "A parameter with the same key already exists",
+                "isDuplicatedInGlobalParameter": "There is already a global parameter with the same key",
+                "isBlank": "The parameter key cannot be empty"
+            },
+            "value": {
+                "isBlank": "The value of the parameter cannot be empty"
+            },
+            "edit": "An error occurred in the parameter editing",
+            "global": {
+                "key": {
+                    "isDuplicated": "There is already a parameter in one with the same key in the ETL: <strong> {{0}} </strong> "
+                }
+            }
+        }
+    }
+}

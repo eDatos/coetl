@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2" />
+
+    <property name="now" value="current_timestamp" dbms="postgresql" />
+
+    <property name="floatType" value="float4" dbms="postgresql, h2" />
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql" />
+
+    <changeSet id="20220624094000-0" author="arte">
+        <createSequence sequenceName="global_parameter_id_seq" startValue="10" incrementBy="50" />
+    </changeSet>
+
+    <changeSet id="20220624094000-1" author="arte">
+        <createTable tableName="tb_global_parameters">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="key" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="value" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="typology" type="varchar(255)" defaultValue="GENERIC">
+                <constraints nullable="false" />
+            </column>
+            <column name="opt_lock" type="bigint" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20220624094000-2" author="arte">
+        <addUniqueConstraint columnNames="key" tableName="tb_global_parameters" constraintName="uk_tb_global_parameters_key"/>
+    </changeSet>
+
+</databaseChangeLog>

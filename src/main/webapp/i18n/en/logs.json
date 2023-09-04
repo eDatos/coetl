@@ -1,0 +1,16 @@
+{
+    "logs": {
+        "filter": "Filter",
+        "nbloggers": "There are {{ total }} records. Records marked with <i class='fa fa-asterisk'></i> do not inherit the value from their parent.",
+        "table": {
+            "button": {
+                "ERROR": "Error",
+                "INFO": "info",
+                "WARN": "warn"
+            },
+            "level": "Level",
+            "name": "First Name"
+        },
+        "title": "Logs"
+    }
+}

@@ -1,26 +1,52 @@
 <div class="entity">
     <h3 jhiTranslate="coetlApp.parameter.home.title"></h3>
+    <span class="help-label" (click)="help()">
+        <ac-help-tooltip [position]="'bottom'" [label]="'coetlApp.parameter.parameterHelp.tooltip' | translate"></ac-help-tooltip>
+    </span>
     <div class="section-buttons">
         <button type="button" class="btn btn-primary btn-sm" (click)="editParameter()">
             <span class="fa fa-plus"></span>&nbsp;
             <span jhiTranslate="coetlApp.parameter.home.createLabel"></span>
         </button>
     </div>
+    <ng-container>
+        <div class="entity-fields global-parameters-table">
+            <p-accordion>
+                <p-accordionTab header="Parámetros globales">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;" jhiTranslate="coetlApp.parameter.key"></th>
+                                <th style="width: 30%;" jhiTranslate="coetlApp.parameter.value"></th>
+                            </tr>
+                        </thead>
+                        <tr *ngFor="let parameter of globalParameters; let i = index">
+                            <td>{{ parameter.key }}</td>
+                            <td>
+                                <span *ngIf="!isPasswordTypology(parameter)">{{ parameter.value }}</span>
+                                <input *ngIf="isPasswordTypology(parameter)" class="password-input" type="password" [disabled]="true" value="password" readonly />
+                            </td>
+                        </tr>
+                    </table>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+    </ng-container>
     <ng-container *ngIf="existParameters(); else emptyList">
         <div class="entity-fields">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th style="width: 30%;" jhiTranslate="coetlApp.parameter.key"></th>
-                        <th style="width: 30%;" jhiTranslate="coetlApp.parameter.value"></th>
+                        <th style="width: 20%;" jhiTranslate="coetlApp.parameter.key"></th>
+                        <th style="width: 50%;" jhiTranslate="coetlApp.parameter.value"></th>
                         <th style="width: 10%;" jhiTranslate="coetlApp.parameter.type.label"></th>
-                        <th style="width: 30%;"></th>
+                        <th style="width: 20%;"></th>
                     </tr>
                 </thead>
                 <tr *ngFor="let parameter of parameters; let i = index">
                     <td>{{ parameter.key }}</td>
                     <td>
-                        <span *ngIf="!isPasswordTypology(parameter)">{{ parameter.value }}</span>
+                        <span *ngIf="!isPasswordTypology(parameter)" class="word-break-all">{{ parameter.value }}</span>
                         <input *ngIf="isPasswordTypology(parameter)" class="password-input" type="password" [disabled]="true" value="password" readonly />
                     </td>
                     <td>

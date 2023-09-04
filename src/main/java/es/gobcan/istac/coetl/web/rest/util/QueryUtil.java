@@ -19,12 +19,15 @@ import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.service.criteria.EtlCriteriaProcessor;
+import es.gobcan.istac.coetl.service.criteria.EtlCriteriaProcessor.QueryProperty;
 
 @Component
 public class QueryUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(QueryUtil.class);
     private static final String INCLUDE_DELETED_HINT = "HINT INCLUDE_DELETED SET 'true'";
+    private static final String AND = " AND ";
+    private static final String EQ = " EQ ";
     private QueryExprCompiler queryExprCompiler = new QueryExprCompiler();
 
     public DetachedCriteria queryToEtlCriteria(Pageable pageable, String query) {
@@ -103,4 +106,22 @@ public class QueryUtil {
         Matcher matcher = pattern.matcher(query);
         return !matcher.matches();
     }
+
+    public String getQueryByLastExecution(String lastExecutionStartDate, String lastExecutionResult, StringBuilder queryBuilder) {
+        StringBuilder query = new StringBuilder();
+        String and = StringUtils.isNotBlank(queryBuilder) ? AND : "";
+        if (StringUtils.isNotBlank(lastExecutionResult) && StringUtils.isNotBlank(lastExecutionStartDate)) {
+            query.append(and).append(QueryProperty.LAST_EXECUTION_CUSTOM).append(" IN ( ").append(String.format("'%s'", lastExecutionResult)).append(", ")
+            .append(String.format("'%s'", lastExecutionStartDate)).append(")");
+
+        } else if (StringUtils.isNotBlank(lastExecutionResult) && StringUtils.isBlank(lastExecutionStartDate)) {
+            query.append(and).append(QueryProperty.LAST_EXECUTION_BY_RESULT).append(EQ).append(String.format("'%s'", lastExecutionResult)).toString();
+
+        } else if (StringUtils.isBlank(lastExecutionResult) && StringUtils.isNotBlank(lastExecutionStartDate)) {
+            query.append(and).append(QueryProperty.LAST_EXECUTION).append(EQ).append(String.format("'%s'", lastExecutionStartDate)).toString();
+        }
+
+        return query.toString();
+    }
+
 }

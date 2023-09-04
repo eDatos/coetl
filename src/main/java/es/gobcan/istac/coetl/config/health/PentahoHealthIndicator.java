@@ -13,9 +13,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import es.gobcan.istac.coetl.config.PentahoProperties;
-import es.gobcan.istac.coetl.pentaho.enumeration.ServerMethodsEnum;
-import es.gobcan.istac.coetl.pentaho.service.util.PentahoUtil;
-import es.gobcan.istac.coetl.pentaho.web.rest.dto.ServerStatusDTO;
+import es.gobcan.istac.coetl.platform.pentaho.enumeration.ServerMethodsEnum;
+import es.gobcan.istac.coetl.platform.pentaho.service.util.PentahoUtil;
+import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.ServerStatusDTO;
 
 @Component
 public class PentahoHealthIndicator extends AbstractHealthIndicator {

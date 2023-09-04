@@ -1,6 +1,5 @@
 package es.gobcan.istac.coetl.web.rest;
 
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -32,6 +31,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.siemac.edatos.core.common.enume.TypeExternalArtefactsEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -50,13 +50,13 @@ import es.gobcan.istac.coetl.CoetlApp;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Etl.Type;
-import es.gobcan.istac.coetl.domain.File;
+import es.gobcan.istac.coetl.domain.ExternalItem;
 import es.gobcan.istac.coetl.domain.Parameter;
+import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
 import es.gobcan.istac.coetl.errors.ExceptionTranslator;
 import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
-import es.gobcan.istac.coetl.pentaho.service.PentahoGitService;
+import es.gobcan.istac.coetl.platform.common.service.GitService;
 import es.gobcan.istac.coetl.repository.EtlRepository;
-import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.repository.ParameterRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.EtlService;
@@ -85,11 +85,12 @@ public class EtlResourceIntTest {
     private static final String UPDATED_FUNCTIONAL_IN_CHARGE = "UPDATED_FUNCTIONAL_IN_CHARGE";
     private static final String DEFAULT_TECHNICAL_IN_CHARGE = "DEFAULT_TECHNICAL_IN_CHARGE";
     private static final String UPDATED_TECHNICAL_IN_CHARGE = "UPDATED_TECHNICAL_IN_CHARGE";
-    private static final Type DEFAULT_TYPE = Type.TRANSFORMATION;
-    private static final Type UPDATED_TYPE = Type.JOB;
-
-    private static final String PATH_CODE_FILE = "src/main/resources/banner.txt";
-    private static final String PATH_DESCRIPTION_FILE = "src/main/resources/config/data-location.properties";
+    private static final Type DEFAULT_PENTAHO_TYPE = Type.TRANSFORMATION;
+    private static final Type UPDATED_PENTAHO_TYPE = Type.JOB;
+    private static final Type DEFAULT_HOP_TYPE = Type.PIPELINE;
+    private static final Type UPDATED_HOP_TYPE = Type.WORKFLOW;
+    private static final TipoPlataformaEjecucion PENTAHO_PLATFORM = TipoPlataformaEjecucion.PENTAHO;
+    private static final TipoPlataformaEjecucion APACHE_HOP_PLATFORM = TipoPlataformaEjecucion.APACHE_HOP;
 
     private static final String DEFAULT_ETL_PARAMETER_KEY = "DEFAULT_ETL_PARAMETER_KEY";
     private static final String DEFAULT_ETL_PARAMETER_VALUE = "DEFAULT_ETL_PARAMETER_VALUE";
@@ -116,11 +117,8 @@ public class EtlResourceIntTest {
     @SpyBean
     ExecutionMapper executionMapper;
 
-    @Autowired
-    FileRepository fileRepository;
-
     @Mock
-    PentahoGitService pentahoGitService;
+    GitService gitService;
 
     @Autowired
     ParameterRepository parameterRepository;
@@ -151,35 +149,65 @@ public class EtlResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        Mockito.when(pentahoGitService.cloneRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
-        Mockito.when(pentahoGitService.replaceRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
-        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, pentahoGitService, notificationRestInternalFacade);
+        Mockito.when(gitService.cloneRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
+        Mockito.when(gitService.replaceRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
+        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, gitService, notificationRestInternalFacade);
         this.restEtlMockMvc = MockMvcBuilders.standaloneSetup(etlResource).setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
                 .setMessageConverters(jacksonMessageConverter).build();
+        
+    }
+    
+    private ExternalItem mockExternalItem() {
+        ExternalItem externalItem = new ExternalItem();
+        externalItem.setCode("CODEMOCK");
+        externalItem.setName("NAMEMOCK");
+        externalItem.setUri("http://mock");
+        externalItem.setUrn("urn:mock");
+        externalItem.setType(TypeExternalArtefactsEnum.CODE);
+        return externalItem;
     }
 
-    private Etl mockEntityWithoutId() throws IOException, SQLException {
+    private Etl mockEntityForPentahoWithoutId() throws IOException, SQLException {
         Etl etl = new Etl();
         etl.setCode(DEFAULT_CODE);
         etl.setName(DEFAULT_NAME);
         etl.setOrganizationInCharge(DEFAULT_ORGANIZATION_IN_CHARGE);
         etl.setFunctionalInCharge(DEFAULT_FUNCTIONAL_IN_CHARGE);
         etl.setTechnicalInCharge(DEFAULT_TECHNICAL_IN_CHARGE);
-        etl.setType(DEFAULT_TYPE);
+        etl.setExecutionPlatform(PENTAHO_PLATFORM);
+        etl.setType(DEFAULT_PENTAHO_TYPE);
         etl.setUriRepository(DEFAULT_REPOSITORY_VALUE);
-        File etlDescriptionFile = fileRepository.saveAndFlush(FileResourceIntTest.createEntity(PATH_DESCRIPTION_FILE, entityManager));
-        etl.setEtlDescriptionFile(etlDescriptionFile);
+        etl.setExternalItem(mockExternalItem());
         return etl;
     }
 
-    private Etl mockEntity() throws IOException, SQLException {
-        Etl etl = mockEntityWithoutId();
+    private Etl mockEntityForPentaho() throws IOException, SQLException {
+        Etl etl = mockEntityForPentahoWithoutId();
+        etl.setId(1L);
+        return etl;
+    }
+    
+    private Etl mockEntityForHopWithoutId() throws IOException, SQLException {
+        Etl etl = new Etl();
+        etl.setCode(DEFAULT_CODE);
+        etl.setName(DEFAULT_NAME);
+        etl.setOrganizationInCharge(DEFAULT_ORGANIZATION_IN_CHARGE);
+        etl.setFunctionalInCharge(DEFAULT_FUNCTIONAL_IN_CHARGE);
+        etl.setTechnicalInCharge(DEFAULT_TECHNICAL_IN_CHARGE);
+        etl.setExecutionPlatform(APACHE_HOP_PLATFORM);
+        etl.setType(DEFAULT_HOP_TYPE);
+        etl.setUriRepository(DEFAULT_REPOSITORY_VALUE);
+        return etl;
+    }
+
+    private Etl mockEntityForHop() throws IOException, SQLException {
+        Etl etl = mockEntityForHopWithoutId();
         etl.setId(1L);
         return etl;
     }
 
     private Etl mockDeletedEntity() throws IOException, SQLException {
-        Etl etl = mockEntity();
+        Etl etl = mockEntityForPentahoWithoutId();
         etl.setDeletionDate(Instant.now());
         etl.setDeletedBy("TEST_USER");
         return etl;
@@ -204,7 +232,7 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void createEtl_isStatusOk() throws IOException, SQLException, Exception {
-        EtlDTO createdEtlDTOMocked = etlMapper.toDto(mockEntityWithoutId());
+        EtlDTO createdEtlDTOMocked = etlMapper.toDto(mockEntityForPentahoWithoutId());
 
         //@formatter:off
         restEtlMockMvc.perform(post(BASE_URI)
@@ -220,12 +248,12 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.organizationInCharge").value(createdEtlDTOMocked.getOrganizationInCharge()))
             .andExpect(jsonPath("$.functionalInCharge").value(createdEtlDTOMocked.getFunctionalInCharge()))
             .andExpect(jsonPath("$.technicalInCharge").value(createdEtlDTOMocked.getTechnicalInCharge()))
+            .andExpect(jsonPath("$.executionPlatform").value(createdEtlDTOMocked.getExecutionPlatform().name()))
             .andExpect(jsonPath("$.type").value(createdEtlDTOMocked.getType().name()))
             .andExpect(jsonPath("$.comments").value(is(nullValue())))
             .andExpect(jsonPath("$.executionDescription").value(is(nullValue())))
             .andExpect(jsonPath("$.executionPlanning").value(is(nullValue())))
             .andExpect(jsonPath("$.uriRepository").isNotEmpty())
-            .andExpect(jsonPath("$.etlDescriptionFile").isNotEmpty())
             .andExpect(jsonPath("$.deletionDate").value(is(nullValue())))
             .andExpect(jsonPath("$.deletedBy").value(is(nullValue())));
         //@formatter:on
@@ -234,7 +262,7 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void createEtl_isStatusBadRequest_ifExistingId() throws IOException, SQLException, Exception {
-        Etl createdEtlMocked = mockEntity();
+        Etl createdEtlMocked = mockEntityForPentaho();
         EtlDTO createdEtlDTOMocked = etlMapper.toDto(createdEtlMocked);
 
         //@formatter:off
@@ -251,13 +279,13 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void updateEtl_isStatusOk() throws IOException, SQLException, Exception {
-        Etl updatedEtlMocked = mockEntity();
+        Etl updatedEtlMocked = mockEntityForPentaho();
         updatedEtlMocked.setCode(UPDATED_CODE);
         updatedEtlMocked.setName(UPDATED_NAME);
         updatedEtlMocked.setOrganizationInCharge(UPDATED_ORGANIZATION_IN_CHARGE);
         updatedEtlMocked.setFunctionalInCharge(UPDATED_FUNCTIONAL_IN_CHARGE);
         updatedEtlMocked.setTechnicalInCharge(UPDATED_TECHNICAL_IN_CHARGE);
-        updatedEtlMocked.setType(UPDATED_TYPE);
+        updatedEtlMocked.setType(UPDATED_PENTAHO_TYPE);
 
         EtlDTO updatedEtlDTOMocked = etlMapper.toDto(updatedEtlMocked);
 
@@ -281,6 +309,7 @@ public class EtlResourceIntTest {
             .andExpect(jsonPath("$.organizationInCharge").value(updatedEtlDTOMocked.getOrganizationInCharge()))
             .andExpect(jsonPath("$.functionalInCharge").value(updatedEtlDTOMocked.getFunctionalInCharge()))
             .andExpect(jsonPath("$.technicalInCharge").value(updatedEtlDTOMocked.getTechnicalInCharge()))
+            .andExpect(jsonPath("$.executionPlatform").value(updatedEtlDTOMocked.getExecutionPlatform().name()))
             .andExpect(jsonPath("$.type").value(updatedEtlDTOMocked.getType().name()))
             .andExpect(jsonPath("$.comments").value(is(nullValue())))
             .andExpect(jsonPath("$.executionDescription").value(is(nullValue())))
@@ -293,13 +322,13 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void updateEtl_isStatusBadRequest_ifNotExistingId() throws IOException, SQLException, Exception {
-        Etl updatedEtlMocked = mockEntityWithoutId();
+        Etl updatedEtlMocked = mockEntityForPentahoWithoutId();
         updatedEtlMocked.setCode(UPDATED_CODE);
         updatedEtlMocked.setName(UPDATED_NAME);
         updatedEtlMocked.setOrganizationInCharge(UPDATED_ORGANIZATION_IN_CHARGE);
         updatedEtlMocked.setFunctionalInCharge(UPDATED_FUNCTIONAL_IN_CHARGE);
         updatedEtlMocked.setTechnicalInCharge(UPDATED_TECHNICAL_IN_CHARGE);
-        updatedEtlMocked.setType(UPDATED_TYPE);
+        updatedEtlMocked.setType(UPDATED_PENTAHO_TYPE);
 
         EtlDTO updatedEtlDTOMocked = etlMapper.toDto(updatedEtlMocked);
 
@@ -313,16 +342,70 @@ public class EtlResourceIntTest {
             .andExpect(header().string("X-coetl-params", "etl"));
         //@formatter:on
     }
+    
+    @Test
+    @Transactional
+    public void updateEtl_isStatusBadRequest_ifTypeNotSupported() throws IOException, SQLException, Exception {
+        Etl updatedEtlMocked = mockEntityForPentaho();
+        updatedEtlMocked.setCode(UPDATED_CODE);
+        updatedEtlMocked.setName(UPDATED_NAME);
+        updatedEtlMocked.setOrganizationInCharge(UPDATED_ORGANIZATION_IN_CHARGE);
+        updatedEtlMocked.setFunctionalInCharge(UPDATED_FUNCTIONAL_IN_CHARGE);
+        updatedEtlMocked.setTechnicalInCharge(UPDATED_TECHNICAL_IN_CHARGE);
+        updatedEtlMocked.setType(UPDATED_HOP_TYPE);
+
+        EtlDTO updatedEtlDTOMocked = etlMapper.toDto(updatedEtlMocked);
+
+        doReturn(updatedEtlMocked).when(etlMapper).toEntity(updatedEtlDTOMocked);
+
+        doReturn(false).when(etlService).goingToChangeRepository(any(EtlDTO.class));
+
+        //@formatter:off
+        restEtlMockMvc.perform(put(BASE_URI.concat("?isAttachedFileChanged=\"false\""))
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedEtlDTOMocked)))
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value("error.etl.typeNotSupported"));
+        //@formatter:on
+    }
+    
+    @Test
+    @Transactional
+    public void updateEtl_isStatusBadRequest_ifTypeNotSupported2() throws IOException, SQLException, Exception {
+        Etl updatedEtlMocked = mockEntityForHop();
+        updatedEtlMocked.setCode(UPDATED_CODE);
+        updatedEtlMocked.setName(UPDATED_NAME);
+        updatedEtlMocked.setOrganizationInCharge(UPDATED_ORGANIZATION_IN_CHARGE);
+        updatedEtlMocked.setFunctionalInCharge(UPDATED_FUNCTIONAL_IN_CHARGE);
+        updatedEtlMocked.setTechnicalInCharge(UPDATED_TECHNICAL_IN_CHARGE);
+        updatedEtlMocked.setType(UPDATED_PENTAHO_TYPE);
+
+        EtlDTO updatedEtlDTOMocked = etlMapper.toDto(updatedEtlMocked);
+
+        doReturn(updatedEtlMocked).when(etlMapper).toEntity(updatedEtlDTOMocked);
+
+        doReturn(false).when(etlService).goingToChangeRepository(any(EtlDTO.class));
+
+        //@formatter:off
+        restEtlMockMvc.perform(put(BASE_URI.concat("?isAttachedFileChanged=\"false\""))
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(updatedEtlDTOMocked)))
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value("error.etl.typeNotSupported"));
+        //@formatter:on
+    }
 
     @Test
     @Transactional
     public void deleteEtl_isStatusOk() throws IOException, SQLException, Exception {
-        Etl etlToDeleteMocked = mockEntity();
+        Etl etlToDeleteMocked = mockEntityForPentaho();
         EtlDTO etlToDeleteDTOMocked = etlMapper.toDto(etlToDeleteMocked);
 
         doReturn(etlToDeleteMocked).when(etlService).findOne(etlToDeleteDTOMocked.getId());
 
-        Etl deletedEtlMocked = mockEntity();
+        Etl deletedEtlMocked = mockEntityForPentaho();
         deletedEtlMocked.setDeletionDate(Instant.now());
         deletedEtlMocked.setDeletedBy("test");
 
@@ -342,7 +425,7 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void deleteEtl_isStatusBadRequest_ifEtlIsAlreadyDeleted() throws IOException, SQLException, Exception {
-        Etl currentlyDeletedEtlMocked = mockEntity();
+        Etl currentlyDeletedEtlMocked = mockEntityForPentaho();
         currentlyDeletedEtlMocked.setDeletionDate(Instant.now());
         currentlyDeletedEtlMocked.setDeletedBy("test");
         EtlDTO deletedEtlDTOMocked = etlMapper.toDto(currentlyDeletedEtlMocked);
@@ -361,7 +444,7 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void findOneEtl_isStatusOk() throws IOException, SQLException, Exception {
-        Etl etlMocked = mockEntity();
+        Etl etlMocked = mockEntityForPentaho();
 
         EtlDTO etlDTOMocked = etlMapper.toDto(etlMocked);
 
@@ -392,15 +475,15 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void findAllEtl_isStatusOk() throws IOException, SQLException, Exception {
-        Etl etlMocked = mockEntity();
+        Etl etlMocked = mockEntityForPentaho();
 
-        EtlBaseDTO etlDTOMocked = etlMapper.toBaseDto(etlMocked);
+        EtlBaseDTO etlDTOMocked = etlMapper.toBaseDto(etlMocked, null, null);
 
         Page<Etl> etlMockPage = new PageImpl<>(new ArrayList<>(Arrays.asList(etlMocked)));
-        doReturn(etlMockPage).when(etlService).findAll(any(String.class), any(Boolean.class), any(Pageable.class));
+        doReturn(etlMockPage).when(etlService).findAll(any(String.class), any(Boolean.class), any(Pageable.class), any(String.class), any(String.class));
 
         //@formatter:off
-        restEtlMockMvc.perform(get(BASE_URI + "?sort=id,asc")
+        restEtlMockMvc.perform(get(BASE_URI + "?sort=id,asc").param("lastExecution", "").param("lastExecutionByResult", "")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
             .andDo(print())
             .andExpect(status().isOk())
@@ -419,8 +502,8 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void createParameter_isStatusOk() throws IOException, SQLException, Exception {
-        Etl mockedEtl = mockEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl mockedEtl = mockEntityForPentahoWithoutId();
+        Etl createdEtl = etlService.create(mockedEtl);
         Parameter mockedParameter = mockParameterEntityWithoutId(createdEtl);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(mockedParameter);
 
@@ -443,8 +526,8 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void createParameter_isStatusBadRequest_ifExistingId() throws IOException, SQLException, Exception {
-        Etl mockedEtl = mockEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl mockedEtl = mockEntityForPentahoWithoutId();
+        Etl createdEtl = etlService.create(mockedEtl);
         Parameter mockedParameter = mockParameterEntity(createdEtl);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(mockedParameter);
 
@@ -462,12 +545,12 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void createParameter_isStatusNotFound_ifReferencesAnotherEtl() throws IOException, SQLException, Exception {
-        Etl mockedEtl = mockEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl mockedEtl = mockEntityForPentahoWithoutId();
+        Etl createdEtl = etlService.create(mockedEtl);
 
-        Etl anotherMockedEtl = mockEntity();
+        Etl anotherMockedEtl = mockEntityForPentahoWithoutId();
         anotherMockedEtl.setCode(UPDATED_CODE);
-        Etl anotherCreatedEtl = etlRepository.saveAndFlush(anotherMockedEtl);
+        Etl anotherCreatedEtl = etlService.create(anotherMockedEtl);
 
         Parameter mockedParameter = mockParameterEntityWithoutId(createdEtl);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(mockedParameter);
@@ -485,7 +568,7 @@ public class EtlResourceIntTest {
     @Transactional
     public void createParameter_fail_ifEtlIsDeleted() throws IOException, SQLException, Exception {
         Etl mockedEtl = mockDeletedEntity();
-        Etl deletedEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl deletedEtl = etlService.create(mockedEtl);
 
         Parameter mockedParameter = mockParameterEntityWithoutId(deletedEtl);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(mockedParameter);
@@ -504,8 +587,8 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void updateParameter_isStatusOk() throws IOException, SQLException, Exception {
-        Etl mockedEtl = mockEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl mockedEtl = mockEntityForPentahoWithoutId();
+        Etl createdEtl = etlService.create(mockedEtl);
 
         Parameter mockedParameter = mockParameterEntity(createdEtl);
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
@@ -531,8 +614,8 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void updateParameter_isStatusBadRequest_ifNotExistingId() throws IOException, SQLException, Exception {
-        Etl mockedEtl = mockEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl mockedEtl = mockEntityForPentahoWithoutId();
+        Etl createdEtl = etlService.create(mockedEtl);
 
         Parameter mockedParameter = mockParameterEntityWithoutId(createdEtl);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(mockedParameter);
@@ -552,12 +635,12 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void updateParameter_isStatusNotFound_ifReferencesAnotherEtl() throws IOException, SQLException, Exception {
-        Etl mockedEtl = mockEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl mockedEtl = mockEntityForPentahoWithoutId();
+        Etl createdEtl = etlService.create(mockedEtl);
 
-        Etl anotherMockedEtl = mockEntity();
+        Etl anotherMockedEtl = mockEntityForPentahoWithoutId();
         anotherMockedEtl.setCode(UPDATED_CODE);
-        Etl anotherCreatedEtl = etlRepository.saveAndFlush(anotherMockedEtl);
+        Etl anotherCreatedEtl = etlService.create(anotherMockedEtl);
 
         Parameter mockedParameter = mockParameterEntity(createdEtl);
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
@@ -577,7 +660,7 @@ public class EtlResourceIntTest {
     @Transactional
     public void updateParameter_isStatusBadRequest_ifEtlIsDeleted() throws IOException, SQLException, Exception {
         Etl mockedEtl = mockDeletedEntity();
-        Etl deletedEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl deletedEtl = etlService.create(mockedEtl);
 
         Parameter mockedParameter = mockParameterEntity(deletedEtl);
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
@@ -598,8 +681,8 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void deleteParameter_isStatusOk() throws IOException, SQLException, Exception {
-        Etl mockedEtl = mockEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl mockedEtl = mockEntityForPentahoWithoutId();
+        Etl createdEtl = etlService.create(mockedEtl);
 
         Parameter mockedParameter = mockParameterEntity(createdEtl);
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
@@ -618,7 +701,7 @@ public class EtlResourceIntTest {
     @Transactional
     public void deleteParameter_isStatusBadRequest_ifEtlIsDeleted() throws IOException, SQLException, Exception {
         Etl mockedEtl = mockDeletedEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl createdEtl = etlService.create(mockedEtl);
 
         Parameter mockedParameter = mockParameterEntity(createdEtl);
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
@@ -637,11 +720,11 @@ public class EtlResourceIntTest {
     @Transactional
     public void deleteParameter_isStatusNotFound_ifReferencesAnotherEtl() throws IOException, SQLException, Exception {
         Etl mockedEtl = mockDeletedEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl createdEtl = etlService.create(mockedEtl);
 
-        Etl anotherMockedEtl = mockEntity();
+        Etl anotherMockedEtl = mockEntityForPentahoWithoutId();
         anotherMockedEtl.setCode(UPDATED_CODE);
-        Etl anotherCreatedEtl = etlRepository.saveAndFlush(anotherMockedEtl);
+        Etl anotherCreatedEtl = etlService.create(anotherMockedEtl);
 
         Parameter mockedParameter = mockParameterEntity(createdEtl);
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
@@ -657,8 +740,8 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void getParameter_isStatusOk() throws IOException, SQLException, Exception {
-        Etl mockedEtl = mockEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl mockedEtl = mockEntityForPentahoWithoutId();
+        Etl createdEtl = etlService.create(mockedEtl);
 
         Parameter mockedParameter = mockParameterEntity(createdEtl);
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
@@ -681,12 +764,12 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void getParameter_isStatusNotFound_ifReferencesAnotherEtl() throws IOException, SQLException, Exception {
-        Etl mockedEtl = mockEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl mockedEtl = mockEntityForPentahoWithoutId();
+        Etl createdEtl = etlService.create(mockedEtl);
 
-        Etl anotherMockedEtl = mockEntity();
+        Etl anotherMockedEtl = mockEntityForPentahoWithoutId();
         anotherMockedEtl.setCode(UPDATED_CODE);
-        Etl anotherCreatedEtl = etlRepository.saveAndFlush(anotherMockedEtl);
+        Etl anotherCreatedEtl = etlService.create(anotherMockedEtl);
 
         Parameter mockedParameter = mockParameterEntity(createdEtl);
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
@@ -702,8 +785,8 @@ public class EtlResourceIntTest {
     @Test
     @Transactional
     public void findParameters_isStatusOk() throws IOException, SQLException, Exception {
-        Etl mockedEtl = mockEntity();
-        Etl createdEtl = etlRepository.saveAndFlush(mockedEtl);
+        Etl mockedEtl = mockEntityForPentahoWithoutId();
+        Etl createdEtl = etlService.create(mockedEtl);
 
         Parameter mockedParameter = mockParameterEntity(createdEtl);
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
