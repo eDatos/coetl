@@ -23,7 +23,11 @@ La aplicación está basada en tecnologías web estándar (HTML5, CSS3, Javascri
 En este apartado se especifican los requisitos necesarios, referidos al entorno, para que la aplicación funcione adecuadamente:
 - Apache Tomcat.  8.5
 - Java. 1.8.x
-- PostgreSQL.  **TODO**
+- PostgreSQL.  
+- Git 2.x
+- Apache Hop
+- Pentaho
+- **TODO**
 
 
 #### Dependencias
