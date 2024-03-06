@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CoetlFileModule } from './file/file.module';
 import { CoetlEtlModule } from './etl/etl.module';
 import { CoetlExternalItemModule } from './external-item/external-item.module';
+import { CoetlComputationalThreadModule } from './computational-thread/computational-thread.module';
 
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
@@ -10,7 +11,8 @@ import { CoetlExternalItemModule } from './external-item/external-item.module';
     imports: [
         CoetlFileModule,
         CoetlEtlModule,
-        CoetlExternalItemModule
+        CoetlExternalItemModule,
+        CoetlComputationalThreadModule
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

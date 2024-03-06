@@ -18,6 +18,9 @@
             "etl": {
                 "main": "Registro de ETLs"
             },
+            "computational-threads": {
+                "main": "Hilos computacionales"
+            },
             "account": {
                 "main": "Cuenta",
                 "settings": "Ajustes",
