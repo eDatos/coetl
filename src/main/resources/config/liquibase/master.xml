@@ -28,5 +28,6 @@
   <include file="config/liquibase/changelog/20230410080000_alter_table_Parameter.xml" relativeToChangelogFile="false" />
   <include file="config/liquibase/changelog/20230413081500_add_executor_tb_executions.xml" relativeToChangelogFile="false" />
   <include file="config/liquibase/changelog/20230703131200_delete_duplicate_index.xml" relativeToChangelogFile="false" />
+    <include file="config/liquibase/changelog/20240307100000_added_entity_Computational_Thread.xml" relativeToChangelogFile="false" />
 
 </databaseChangeLog>
