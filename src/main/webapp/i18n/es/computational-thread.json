@@ -1,5 +1,12 @@
 {
     "computationalThread": {
-        "title": "Hilos computacionales"
+        "pageTitle": "Hilos computacionales", 
+        "threads": {
+            "home": {
+                "title": "Registro de hilos computacionales",
+                "createLabel": "Crear nuevo hilo computacional",
+                "createOrEditLabel": "Crear o editar hilo computacional"
+            }
+        }
     }
 }

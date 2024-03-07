@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PermissionService } from '../../shared';
+import { PermissionService } from '../../../shared';
 
 @Component({
-    selector: 'computational-thread',
-    templateUrl: './computational-thread.component.html'
+    selector: 'ac-computational-thread-form',
+    templateUrl: 'computational-thread-form.component.html'
 })
-export class ComputationalThreadComponent implements OnInit, OnDestroy {
-    public static EVENT_NAME = 'computationalThreadEvent';
+export class ComputationalThreadFormComponent implements OnInit, OnDestroy {
+    public static EVENT_NAME = 'computationalThreadFormEvent';
 
     constructor(private permissionService: PermissionService) {}
 

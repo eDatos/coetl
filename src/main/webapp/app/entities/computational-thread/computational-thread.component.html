@@ -1,5 +1,14 @@
 <div class="entity" acMakeFixedRoom>
     <div class="entity-header">
-        crear
+        <h2>
+            <span jhiTranslate="computationalThread.threads.home.title"></span>
+            <div *ngIf="canCreateComputationalThread()">
+                <button class="btn btn-primary jh-create-entity" [routerLink]="['../computational-threads-new']">
+                    <span class="fa fa-plus"></span>
+                    <span jhiTranslate="computationalThread.threads.home.createLabel"> </span>
+                </button>
+            </div>
+        </h2>
+        <!--<ac-etl-search [filters]="filters"></ac-etl-search>-->
     </div>
 </div>
