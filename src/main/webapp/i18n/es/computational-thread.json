@@ -6,6 +6,40 @@
                 "title": "Registro de hilos computacionales",
                 "createLabel": "Crear nuevo hilo computacional",
                 "createOrEditLabel": "Crear o editar hilo computacional"
+            },
+            "sections": {
+                "identification": "Identificación",
+                "inCharge": "Responsables",
+                "planning": "Planificación",
+                "executions": "Ejecuciones"
+            },
+            "code": {
+                "label": "Código",
+                "placeholder": "Introduzca un código"
+            },
+            "name": {
+                "label": "Nombre",
+                "placeholder": "Introduzca un nombre"
+            },
+            "purpose": {
+                "label": "Finalidad",
+                "placeholder": "Introduzca una finalidad"
+            },
+            "comments": {
+                "label": "Comentarios",
+                "placeholder": "Introduzca comentarios"
+            },
+            "organizationInCharge": {
+                "label": "Organismo responsable ",
+                "placeholder": "Introduzca un organismo responsable"
+            },
+            "functionalInCharge": {
+                "label": "Responsable funcional",
+                "placeholder": "Introduzca un responsable funcional"
+            },
+            "technicalInCharge": {
+                "label": "Responsable técnico",
+                "placeholder": "Introduzca un responsable técnico"
             }
         }
     }

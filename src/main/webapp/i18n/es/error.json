@@ -89,6 +89,11 @@
         },
         "quartz": {
             "jobExecutionError": "Ha ocurrido un error en la ejecución planificada de la ETL con código {{0}}"
+        },
+        "computationalThread": {
+            "cronExpressionNotValid": "La expresión cron {{0}} no es válida",
+            "scheduleError": "Ha ocurrido un error en la creación de la planificación de ejecución del hilo computacional",
+            "unscheduleError": "Ha ocurrido un error en el borrado de la planificación de ejecución del hilo computacional"
         }
     }
 }

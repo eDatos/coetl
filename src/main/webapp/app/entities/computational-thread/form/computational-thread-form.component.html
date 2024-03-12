@@ -1,1 +1,176 @@
-FORMULARIO
+<ac-side-menu [parent]="instance"></ac-side-menu>
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="entity" #titlesContainer>
+        <div>
+            <h2>
+                <div>
+                    <button
+                        *ngIf="!isEditMode()"
+                        [routerLink]="['../../../computational-threads']"
+                        type="button"
+                        class="btn btn-secondary btn-frameless back-arrow"
+                        [attr.aria-label]="'entity.action.back' | translate"
+                    >
+                        <span class="fa fa-arrow-left"></span>
+                    </button>
+                    <span class="fa fa-file-code-o"></span>&nbsp;
+                    <span *ngIf="!computationalThreads.id" jhiTranslate="computationalThread.threads.home.createLabel"></span>
+                    <span *ngIf="computationalThreads.id">{{computationalThreads.name}}</span>
+                </div>
+                <div *ngIf="canEdit()">
+                    <ng-container *ngIf="isEditMode()">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+                            <span class="fa fa-ban"></span>&nbsp;
+                            <span jhiTranslate="entity.action.cancel"></span>
+                        </button>
+                        <button type="submit" [disabled]="editForm.form.invalid || !canSave()" class="btn btn-primary">
+                            <span class="fa fa-save"></span>&nbsp;
+                            <span jhiTranslate="entity.action.save"></span>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="computationalThreads.id && !isEditMode()">
+                        <ng-container *ngIf="!computationalThreads.isDeleted()">
+                            <button class="btn btn-primary" type="button" (click)="execute()">
+                                <span class="fa fa-play"></span>&nbsp;
+                                <span jhiTranslate="entity.action.execute"></span>
+                            </button>
+                            <button class="btn btn-secondary jh-create-entity" [routerLink]="['../../', computationalThreads.id, 'edit']" type="button">
+                                <span class="fa fa-pencil"></span>&nbsp;
+                                <span jhiTranslate="entity.action.edit"></span>
+                            </button>
+                            <button type="button" (click)="delete()" replaceUrl="true" class="btn btn-danger">
+                                <span class="fa fa-remove"></span>&nbsp;
+                                <span class="hidden-md-down" jhiTranslate="entity.action.delete"></span>
+                            </button>
+                        </ng-container>
+                        <ng-container *ngIf="computationalThreads.isDeleted()">
+                            <button type="button" (click)="restore()" replaceUrl="true" class="btn btn-warning">
+                                <span class="fa fa-repeat"></span>&nbsp;
+                                <span class="hidden-md-down" jhiTranslate="entity.action.restore"></span>
+                            </button>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </h2>
+        </div>
+
+        <fieldset [disabled]="!isEditMode()">
+            <h3 jhiTranslate="computationalThread.threads.sections.identification"></h3>
+            <div class="entity-fields">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="computationalThread.threads.code.label" for="field_code"></label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="code"
+                        id="field_code"
+                        [(ngModel)]="computationalThreads.code"
+                        required
+                        acAutofocus
+                        [placeholder]="'computationalThread.threads.code.placeholder' | translate"
+                        [disabled]="computationalThreads.id"
+                    />
+                    <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.code?.errors?.required" jhiTranslate="entity.validation.required"> </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="computationalThread.threads.name.label" for="field_name"></label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="name"
+                        id="field_name"
+                        [(ngModel)]="computationalThreads.name"
+                        required
+                        [placeholder]="'computationalThread.threads.name.placeholder' | translate"
+                    />
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required"> </small>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="computationalThread.threads.purpose.label" for="field_purpose"></label>
+                    <textarea
+                        [disabled]="!isEditMode()"
+                        class="form-control"
+                        name="purpose"
+                        id="field_purpose"
+                        [(ngModel)]="computationalThreads.purpose"
+                        maxlength="4000"
+                        autosize
+                        [placeholder]="'computationalThread.threads.purpose.placeholder' | translate"
+                        #purposeContainer
+                    ></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="computationalThread.threads.comments.label" for="field_comments"></label>
+                    <textarea
+                        [disabled]="!isEditMode()"
+                        class="form-control"
+                        name="comments"
+                        id="field_comments"
+                        [(ngModel)]="computationalThreads.comments"
+                        maxlength="4000"
+                        [placeholder]="'computationalThread.threads.comments.placeholder' | translate"
+                        autosize
+                        #commentsContainer
+                    ></textarea>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset [disabled]="!isEditMode()">
+            <h3 jhiTranslate="computationalThread.threads.sections.inCharge"></h3>
+            <div class="entity-fields">
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="computationalThread.threads.organizationInCharge.label" for="field_organizationInCharge"></label>
+                    <textarea
+                        [disabled]="!isEditMode()"
+                        class="form-control"
+                        name="organizationInCharge"
+                        id="field_organizationInCharge"
+                        [(ngModel)]="computationalThreads.organizationInCharge"
+                        maxlength="4000"
+                        [placeholder]="'computationalThread.threads.organizationInCharge.placeholder' | translate"
+                        required
+                        autosize
+                        #organizationInChargeContainer
+                    ></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="computationalThread.threads.functionalInCharge.label" for="field_functionalInCharge"></label>
+                    <textarea
+                        [disabled]="!isEditMode()"
+                        class="form-control"
+                        name="functionalInCharge"
+                        id="field_functionalInCharge"
+                        [(ngModel)]="computationalThreads.functionalInCharge"
+                        maxlength="4000"
+                        [placeholder]="'computationalThread.threads.functionalInCharge.placeholder' | translate"
+                        required
+                        autosize
+                        #functionalInChargeContainer
+                    ></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="computationalThread.threads.technicalInCharge.label" for="field_technicalInCharge"></label>
+                    <textarea
+                        [disabled]="!isEditMode()"
+                        class="form-control"
+                        name="technicalInCharge"
+                        id="field_technicalInCharge"
+                        [(ngModel)]="computationalThreads.technicalInCharge"
+                        maxlength="4000"
+                        [placeholder]="'computationalThread.threads.technicalInCharge.placeholder' | translate"
+                        required
+                        autosize
+                        #technicalInChargeContainer
+                    ></textarea>
+                </div>
+            </div>
+        </fieldset>
+
+        <ac-audit-info [entity]="computationalThreads"></ac-audit-info>
+    </div>
+</form>

@@ -58,6 +58,11 @@ public final class ErrorConstants {
     // QUARZT
     public static final String QUARTZ_JOB_EXECUTION_ERROR = "error.quartz.jobExecutionError";
 
+    // COMPUTATIONAL THREAD
+    public static final String COMPUTATIONAL_THREAD_CRON_EXPRESSION_NOT_VALID = "error.computationalThread.cronExpressionNotValid";
+    public static final String COMPUTATIONAL_THREAD_SCHEDULE_ERROR = "error.computationalThread.scheduleError";
+    public static final String COMPUTATIONAL_THREAD_UNSCHEDULE_ERROR = "error.computationalThread.unscheduleError";
+
     private ErrorConstants() {
     }
 
