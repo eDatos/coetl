@@ -64,5 +64,17 @@ export const computationalThreadRoute: Routes = [
             pageTitle: 'computationalThread.pageTitle'
         },
         canActivate: [UserRouteAccessService]
+    },
+    {
+        path: 'computational-threads/:idThread/edit',
+        component: ComputationalThreadFormComponent,
+        resolve: {
+            computationalThread: ComputationalThreadResolve
+        },
+        data: {
+            roles: MANAGE_ETL_ROLES,
+            pageTitle: 'computationalThread.pageTitle'
+        },
+        canActivate: [UserRouteAccessService]
     }
 ];
