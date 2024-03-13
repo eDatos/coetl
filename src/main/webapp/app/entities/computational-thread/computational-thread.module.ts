@@ -10,13 +10,22 @@ import { ComputationalThreadService } from './computational-thread.service';
 import { ComputationalThreadComponent } from './computational-thread.component';
 import { ComputationalThreadFormComponent } from './form/computational-thread-form.component';
 import { ComputationalThreadResolve } from './computational-thread-resolve.service';
+import { ComputationalThreadSearchComponent } from './search';
 
 const ENTITY_STATES = [...computationalThreadRoute];
 
 @NgModule({
     imports: [CoetlSharedModule, RouterModule.forRoot(ENTITY_STATES, { useHash: true })],
-    declarations: [ComputationalThreadComponent, ComputationalThreadFormComponent],
+    declarations: [
+        ComputationalThreadComponent,
+        ComputationalThreadFormComponent,
+        ComputationalThreadSearchComponent
+    ],
     entryComponents: [],
-    providers: [ComputationalThreadService, ComputationalThreadResolve]
+    providers: [
+        ComputationalThreadService,
+        ComputationalThreadResolve,
+        ComputationalThreadResolvePagingParams
+    ]
 })
 export class CoetlComputationalThreadModule {}

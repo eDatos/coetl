@@ -35,9 +35,9 @@ export const computationalThreadRoute: Routes = [
     {
         path: 'computational-threads',
         component: ComputationalThreadComponent,
-        /*resolve: {
+        resolve: {
             pagingParams: ComputationalThreadResolvePagingParams
-        },*/
+        },
         data: {
             pageTitle: 'computationalThread.pageTitle',
             roles: READ_ETL_ROLES

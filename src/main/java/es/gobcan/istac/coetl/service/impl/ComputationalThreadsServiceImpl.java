@@ -1,34 +1,27 @@
 package es.gobcan.istac.coetl.service.impl;
 
-import static org.quartz.CronScheduleBuilder.cronSchedule;
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
-
 import java.text.ParseException;
 import java.time.Instant;
 
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.DetachedCriteria;
 import org.quartz.CronExpression;
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import es.gobcan.istac.coetl.config.QuartzConstants;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
-import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
-import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
-import es.gobcan.istac.coetl.job.PlatformExecutionJob;
 import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
 import es.gobcan.istac.coetl.service.ComputationalThreadsService;
 import es.gobcan.istac.coetl.service.validator.ComputationalThreadsValidator;
 import es.gobcan.istac.coetl.util.CronUtils;
+import es.gobcan.istac.coetl.web.rest.util.QueryUtil;
 
 @Service
 public class ComputationalThreadsServiceImpl implements ComputationalThreadsService {
@@ -42,6 +35,9 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
 
     @Autowired
     private ComputationalThreadsValidator computationalThreadsValidator;
+
+    @Autowired
+    private QueryUtil queryUtil;
 
     //@Autowired
     //private SchedulerFactoryBean schedulerAccessorBean;
@@ -93,6 +89,32 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     public ComputationalThreads findOne(Long id) {
         LOGGER.debug("Request to find an Computational Thread : {}", id);
         return computationalThreadsRepository.findOne(id);
+    }
+
+    @Override
+    public Page<ComputationalThreads> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult) {
+        DetachedCriteria criteria = buildComputationalThreadCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult);
+        //return filteredListByRolOperationAllowed(etlRepository.findAll(criteria, pageable));
+        return computationalThreadsRepository.findAll(criteria, pageable);
+    }
+
+    private DetachedCriteria buildComputationalThreadCriteria(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate,
+            String lastExecutionResult) {
+        StringBuilder queryBuilder = new StringBuilder();
+        if (StringUtils.isNotBlank(query)) {
+            queryBuilder.append(query);
+        }
+        queryBuilder.append(queryUtil.getQueryByLastExecution(lastExecutionStartDate, lastExecutionResult, queryBuilder));
+        String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
+        return queryUtil.queryToComputationalThreadCriteria(pageable, finalQuery);
+    }
+
+    private String getFinalQuery(boolean includeDeleted, StringBuilder queryBuilder) {
+        String finalQuery = queryBuilder.toString();
+        if (BooleanUtils.isTrue(includeDeleted)) {
+            finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
+        }
+        return finalQuery;
     }
 
     /*

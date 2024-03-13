@@ -41,6 +41,16 @@
                 "label": "Responsable técnico",
                 "placeholder": "Introduzca un responsable técnico"
             }
+        },
+        "filters": {
+            "code": {
+                "placeholder": "Búsqueda por código",
+                "label": "Código"
+            },
+            "name": {
+                "placeholder": "Búsqueda por nombre",
+                "label": "Nombre"
+            }
         }
     }
 }

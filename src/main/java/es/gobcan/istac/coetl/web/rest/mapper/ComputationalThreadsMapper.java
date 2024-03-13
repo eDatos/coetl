@@ -4,7 +4,9 @@ import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
+import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
+import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadsBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadsDTO;
 
 @Mapper(componentModel = "spring")
@@ -68,6 +70,26 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
         dto.setOptLock(entity.getOptLock());
 
         return dto;
+    }
+
+    public ComputationalThreadsBaseDTO toBaseDto(ComputationalThreads entity, Execution execution) {
+        if (entity == null) {
+            return null;
+        }
+
+        ComputationalThreadsBaseDTO baseDto = new ComputationalThreadsBaseDTO();
+
+        baseDto.setId(entity.getId());
+        baseDto.setCode(entity.getCode());
+        baseDto.setName(entity.getName());
+        baseDto.setDeletedBy(entity.getDeletedBy());
+        baseDto.setDeletionDate(entity.getDeletionDate());
+
+        return baseDto;
+    }
+
+    public ComputationalThreadsBaseDTO toBaseDto(ComputationalThreads entity, String lastExecutionStartDate, String lastExecutionResult) {
+        return toBaseDto(entity, null);
     }
 
 }

@@ -18,6 +18,7 @@ import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
+import es.gobcan.istac.coetl.service.criteria.ComputationalThreadCriteriaProcessor;
 import es.gobcan.istac.coetl.service.criteria.EtlCriteriaProcessor;
 import es.gobcan.istac.coetl.service.criteria.EtlCriteriaProcessor.QueryProperty;
 
@@ -32,6 +33,10 @@ public class QueryUtil {
 
     public DetachedCriteria queryToEtlCriteria(Pageable pageable, String query) {
         return queryToCriteria(pageable, query, new EtlCriteriaProcessor());
+    }
+
+    public DetachedCriteria queryToComputationalThreadCriteria(Pageable pageable, String query) {
+        return queryToCriteria(pageable, query, new ComputationalThreadCriteriaProcessor());
     }
 
     public String queryIncludingDeleted(String query) {

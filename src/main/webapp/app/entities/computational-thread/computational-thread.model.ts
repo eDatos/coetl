@@ -12,7 +12,7 @@ export class ComputationalThreadsBase extends BaseVersionedAndAuditingWithDeleti
         super();
     }
 
-    isDeleted(): boolean {
+    public isDeleted(): boolean {
         return !!this.deletionDate;
     }
 
