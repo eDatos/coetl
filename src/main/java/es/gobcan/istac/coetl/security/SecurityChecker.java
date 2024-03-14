@@ -66,7 +66,15 @@ public class SecurityChecker {
         return this.isAdmin(authentication) || this.isTecnico(authentication) || this.isLector(authentication);
     }
 
+    public boolean canReadComputationalThread(Authentication authentication) {
+        return this.isAdmin(authentication) || this.isTecnico(authentication) || this.isLector(authentication);
+    }
+
     public boolean canManageEtl(Authentication authentication) {
+        return this.isAdmin(authentication) || this.isTecnico(authentication);
+    }
+
+    public boolean canManageComputationalThread(Authentication authentication) {
         return this.isAdmin(authentication) || this.isTecnico(authentication);
     }
 

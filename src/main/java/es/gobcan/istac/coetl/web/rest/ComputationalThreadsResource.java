@@ -59,7 +59,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @PostMapping
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
     public ResponseEntity<ComputationalThreadsDTO> create(@Valid @RequestBody ComputationalThreadsDTO computationalThreadsDTO) throws URISyntaxException {
         LOGGGER.debug("REST Request to create an Computational Thread : {}", computationalThreadsDTO);
         if (computationalThreadsDTO.getId() != null) {
@@ -78,7 +78,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @GetMapping("/{idThread}")
     @Timed
-    @PreAuthorize("@secChecker.canReadEtl(authentication)")
+    @PreAuthorize("@secChecker.canReadComputationalThread(authentication)")
     public ResponseEntity<ComputationalThreadsDTO> findOne(@PathVariable Long idThread) {
         LOGGGER.debug("REST Request to find an Computational Thread : {}", idThread);
         ComputationalThreads computationalThread = computationalThreadsService.findOne(idThread);
@@ -89,7 +89,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @GetMapping
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
     public ResponseEntity<List<ComputationalThreadsBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable,
             @RequestParam("lastExecution") String lastExecutionStartDate, @RequestParam("lastExecutionByResult") String lastExecutionResult) {
         LOGGGER.debug("REST Request to find all Computational Threads by query : {} and including deleted : {}", query, includeDeleted);

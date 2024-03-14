@@ -120,18 +120,15 @@ export class ComputationalThreadFormComponent
     }
 
     // VERIFICACIONES
-    public canCreateComputationalThread(): boolean {
-        return this.permissionService.canManageEtl();
-    }
-
     public isEditMode(): Boolean {
         const lastPath = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
         return lastPath === 'edit' || lastPath === 'computational-threads-new';
     }
 
     public canEdit(): boolean {
-        return true;
-        // return this.permissionService.canManageEtl(this.etl.externalItem);
+        return this.permissionService.canManageComputationalThread(
+            this.computationalThreads.externalItem
+        );
     }
 
     public canSave(): boolean {

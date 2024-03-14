@@ -96,7 +96,7 @@ export class ComputationalThreadComponent implements OnInit, OnDestroy {
 
     // VALIDATIONS
     public canCreateComputationalThread(): boolean {
-        return this.permissionService.canManageEtl();
+        return this.permissionService.canManageComputationalThread();
     }
 
     // FILTERS
