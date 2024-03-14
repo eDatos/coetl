@@ -91,6 +91,14 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
         return (computationalThreads.isPlanned()) ? planifyAndSave(computationalThreads) : save(computationalThreads);
     }
 
+    @Override
+    public ComputationalThreads update(ComputationalThreads computationalThreads) {
+        LOGGER.debug("Request to update an Computational Thread : {}", computationalThreads);
+        computationalThreadsValidator.validate(computationalThreads);
+        createExternalItem(computationalThreads.getExternalItem());
+        return (computationalThreads.isPlanned()) ? planifyAndSave(computationalThreads) : unplanifyAndSave(computationalThreads);
+    }
+
     private CronExpression buildCronExpression(final String executionPlanning) {
         try {
             return new CronExpression(executionPlanning);

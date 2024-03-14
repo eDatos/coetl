@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +45,7 @@ public class ComputationalThreadsResource extends AbstractResource {
     public static final String BASE_URI = "/api/computational-threads";
     private static final String SLASH = "/";
     private static final String COMPUTATIONAL_THREAD_ENTITY_NAME = "computational-threads";
+    private static final String COMPUTATIONAL_THREAD_IS_DELETED_MESSAGE = "Computational Thread %s is deleted";
     private static final Logger LOGGGER = LoggerFactory.getLogger(ComputationalThreadsResource.class);
 
     private final ComputationalThreadsService computationalThreadsService;
@@ -74,6 +76,29 @@ public class ComputationalThreadsResource extends AbstractResource {
 
         return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, result.getId().toString())).body(result);
+    }
+
+    @PutMapping
+    @Timed
+    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
+    public ResponseEntity<ComputationalThreadsDTO> update(@Valid @RequestBody ComputationalThreadsDTO computationalThreadsDTO) {
+        LOGGGER.debug("REST Request to update an Computational Thread : {}", computationalThreadsDTO);
+        if (computationalThreadsDTO.getId() == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, ErrorConstants.ID_FALTA, "An updated ETL must have an ID")).build();
+        }
+
+        ComputationalThreads currentComputationalThread = computationalThreadsMapper.toEntity(computationalThreadsDTO);
+        if (currentComputationalThread.isDeleted()) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, ErrorConstants.ENTITY_DELETED,
+                    String.format(COMPUTATIONAL_THREAD_IS_DELETED_MESSAGE, currentComputationalThread.getId().toString()))).build();
+        }
+
+        ComputationalThreads updatedEtl = computationalThreadsService.update(currentComputationalThread);
+
+        ComputationalThreadsDTO result = computationalThreadsMapper.toDto(updatedEtl);
+        auditEventPublisher.publish(AuditConstants.ETL_UPDATED, result.getCode());
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result), HeaderUtil.createEntityUpdateAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, result.getCode()));
     }
 
     @GetMapping("/{idThread}")
