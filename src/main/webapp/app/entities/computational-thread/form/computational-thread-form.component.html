@@ -90,83 +90,37 @@
                     </div>
                 </div>
                 <div class="form-group full-width">
-                    <label class="form-control-label" jhiTranslate="computationalThread.threads.purpose.label" for="field_purpose"></label>
+                    <label class="form-control-label" jhiTranslate="computationalThread.threads.description.label" for="field_description"></label>
                     <textarea
                         [disabled]="!isEditMode()"
                         class="form-control"
-                        name="purpose"
-                        id="field_purpose"
-                        [(ngModel)]="computationalThreads.purpose"
+                        name="description"
+                        id="field_description"
+                        [(ngModel)]="computationalThreads.description"
                         maxlength="4000"
                         autosize
-                        [placeholder]="'computationalThread.threads.purpose.placeholder' | translate"
-                        #purposeContainer
+                        [placeholder]="'computationalThread.threads.description.placeholder' | translate"
+                        #descriptionContainer
                     ></textarea>
                 </div>
-                <div class="form-group full-width">
-                    <label class="form-control-label" jhiTranslate="computationalThread.threads.comments.label" for="field_comments"></label>
-                    <textarea
-                        [disabled]="!isEditMode()"
-                        class="form-control"
-                        name="comments"
-                        id="field_comments"
-                        [(ngModel)]="computationalThreads.comments"
-                        maxlength="4000"
-                        [placeholder]="'computationalThread.threads.comments.placeholder' | translate"
-                        autosize
-                        #commentsContainer
-                    ></textarea>
-                </div>
-            </div>
-        </fieldset>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_externalitem">
+                        <span jhiTranslate="computationalThread.threads.statisticalOperation.label"></span>
+                        <span>
+                            <ac-help-tooltip [position]="'bottom'" [label]="'coetlApp.externalItem.statisticalOperation.help' | translate"></ac-help-tooltip>
+                        </span>
+                    </label>
 
-        <fieldset [disabled]="!isEditMode()">
-            <h3 jhiTranslate="computationalThread.threads.sections.inCharge"></h3>
-            <div class="entity-fields">
-                <div class="form-group full-width">
-                    <label class="form-control-label" jhiTranslate="computationalThread.threads.organizationInCharge.label" for="field_organizationInCharge"></label>
-                    <textarea
-                        [disabled]="!isEditMode()"
-                        class="form-control"
-                        name="organizationInCharge"
-                        id="field_organizationInCharge"
-                        [(ngModel)]="computationalThreads.organizationInCharge"
-                        maxlength="4000"
-                        [placeholder]="'computationalThread.threads.organizationInCharge.placeholder' | translate"
-                        required
-                        autosize
-                        #organizationInChargeContainer
-                    ></textarea>
-                </div>
-                <div class="form-group full-width">
-                    <label class="form-control-label" jhiTranslate="computationalThread.threads.functionalInCharge.label" for="field_functionalInCharge"></label>
-                    <textarea
-                        [disabled]="!isEditMode()"
-                        class="form-control"
-                        name="functionalInCharge"
-                        id="field_functionalInCharge"
-                        [(ngModel)]="computationalThreads.functionalInCharge"
-                        maxlength="4000"
-                        [placeholder]="'computationalThread.threads.functionalInCharge.placeholder' | translate"
-                        required
-                        autosize
-                        #functionalInChargeContainer
-                    ></textarea>
-                </div>
-                <div class="form-group full-width">
-                    <label class="form-control-label" jhiTranslate="computationalThread.threads.technicalInCharge.label" for="field_technicalInCharge"></label>
-                    <textarea
-                        [disabled]="!isEditMode()"
-                        class="form-control"
-                        name="technicalInCharge"
-                        id="field_technicalInCharge"
-                        [(ngModel)]="computationalThreads.technicalInCharge"
-                        maxlength="4000"
-                        [placeholder]="'computationalThread.threads.technicalInCharge.placeholder' | translate"
-                        required
-                        autosize
-                        #technicalInChargeContainer
-                    ></textarea>
+                    <ac-autocomplete-long-list
+                        name="externalItem"
+                        [multiple]="false"
+                        [(ngModel)]="computationalThreads.externalItem"
+                        [suggestions]="externalItemsSuggestions"
+                        (completeMethod)="completeMethodStatisticalOperations($event)"
+                        [emptyMessage]="'coetlApp.externalItem.statisticalOperation.filters.emptyExternalItem' | translate"
+                        [properties]="['code','name']"
+                        [required]="true"
+                    ></ac-autocomplete-long-list>
                 </div>
             </div>
         </fieldset>

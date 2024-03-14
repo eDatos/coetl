@@ -25,10 +25,7 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="purpose" type="varchar(4000)">
-                <constraints nullable="true" />
-            </column>
-            <column name="comments" type="varchar(4000)">
+            <column name="description" type="varchar(4000)">
                 <constraints nullable="true" />
             </column>
             <column name="created_by" type="varchar(255)">
@@ -52,17 +49,11 @@
             <column name="next_execution" type="timestamp">
                 <constraints nullable="true" />
             </column>
-            <column name="organization_in_charge" type="varchar(4000)">
-                <constraints nullable="false" />
-            </column>
-            <column name="functional_in_charge" type="varchar(4000)">
-                <constraints nullable="false" />
-            </column>
-            <column name="technical_in_charge" type="varchar(4000)">
-                <constraints nullable="false" />
-            </column>
             <column name="opt_lock" type="bigint">
                 <constraints nullable="true" />
+            </column>
+            <column name="external_item_fk" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_computational_thread_external_item_id" referencedTableName="tb_external_items" referencedColumnNames="id" />
             </column>
         </createTable>
     </changeSet>

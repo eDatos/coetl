@@ -31,7 +31,6 @@ import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.service.ComputationalThreadsService;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadsBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadsDTO;
-import es.gobcan.istac.coetl.web.rest.dto.EtlBaseDTO;
 import es.gobcan.istac.coetl.web.rest.mapper.ComputationalThreadsMapper;
 import es.gobcan.istac.coetl.web.rest.util.HeaderUtil;
 import es.gobcan.istac.coetl.web.rest.util.PaginationUtil;
@@ -82,8 +81,8 @@ public class ComputationalThreadsResource extends AbstractResource {
     @PreAuthorize("@secChecker.canReadEtl(authentication)")
     public ResponseEntity<ComputationalThreadsDTO> findOne(@PathVariable Long idThread) {
         LOGGGER.debug("REST Request to find an Computational Thread : {}", idThread);
-        ComputationalThreads etl = computationalThreadsService.findOne(idThread);
-        ComputationalThreadsDTO result = computationalThreadsMapper.toDto(etl);
+        ComputationalThreads computationalThread = computationalThreadsService.findOne(idThread);
+        ComputationalThreadsDTO result = computationalThreadsMapper.toDto(computationalThread);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }

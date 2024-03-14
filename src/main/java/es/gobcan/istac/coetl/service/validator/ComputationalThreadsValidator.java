@@ -17,6 +17,7 @@ public class ComputationalThreadsValidator extends AbstractValidator<Computation
     @Override
     public void validate(ComputationalThreads entity) {
         checkCodeIsUnique(entity);
+        checkStatisticalOperationNotNull(entity);
     }
 
     private void checkCodeIsUnique(ComputationalThreads entity) {
@@ -26,7 +27,13 @@ public class ComputationalThreadsValidator extends AbstractValidator<Computation
 
         ComputationalThreads foundThread = computationalThreadsRepository.findOneByCode(entity.getCode());
         if (foundThread != null) {
-            CustomExceptionUtil.throwCustomParameterizedException(String.format("Computational Thread code %s exists", entity.getCode()), ErrorConstants.ETL_CODE_EXISTS);
+            CustomExceptionUtil.throwCustomParameterizedException(String.format("Computational Thread code %s exists", entity.getCode()), ErrorConstants.COMPUTATIONAL_THREAD_CODE_EXISTS);
+        }
+    }
+
+    private void checkStatisticalOperationNotNull(ComputationalThreads entity) {
+        if (entity.getExternalItem() == null) {
+            CustomExceptionUtil.throwCustomParameterizedException(String.format("Statistical Operation is blank in Computational Thread %s", entity.getCode()), ErrorConstants.COMPUTATIONAL_THREAD_STATISTICAL_OPERATION_IS_BLANK);
         }
     }
 

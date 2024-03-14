@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -41,27 +43,8 @@ public class ComputationalThreads extends AbstractVersionedAndAuditingWithDeleti
     private String name;
 
     @Size(max = 4000)
-    @Column(name = "purpose", length = 4000)
-    private String purpose;
-
-    @NotBlank
-    @Size(min = 1, max = 4000)
-    @Column(name = "organization_in_charge", nullable = false, length = 4000)
-    private String organizationInCharge;
-
-    @NotBlank
-    @Size(min = 1, max = 4000)
-    @Column(name = "functional_in_charge", nullable = false, length = 4000)
-    private String functionalInCharge;
-
-    @NotBlank
-    @Size(min = 1, max = 4000)
-    @Column(name = "technical_in_charge", nullable = false, length = 4000)
-    private String technicalInCharge;
-
-    @Size(max = 4000)
-    @Column(name = "comments", length = 4000)
-    private String comments;
+    @Column(name = "description", length = 4000)
+    private String description;
 
     @Size(max = 4000)
     @Column(name = "execution_description", length = 4000)
@@ -73,6 +56,10 @@ public class ComputationalThreads extends AbstractVersionedAndAuditingWithDeleti
 
     @Column(name = "next_execution")
     private Instant nextExecution;
+
+    @ManyToOne(targetEntity = ExternalItem.class)
+    @JoinColumn(name = "external_item_fk")
+    private ExternalItem externalItem;
 
     @Override
     public Long getId() {
@@ -99,44 +86,12 @@ public class ComputationalThreads extends AbstractVersionedAndAuditingWithDeleti
         this.name = name;
     }
 
-    public String getPurpose() {
-        return purpose;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
-
-    public String getOrganizationInCharge() {
-        return organizationInCharge;
-    }
-
-    public void setOrganizationInCharge(String organizationInCharge) {
-        this.organizationInCharge = organizationInCharge;
-    }
-
-    public String getFunctionalInCharge() {
-        return functionalInCharge;
-    }
-
-    public void setFunctionalInCharge(String functionalInCharge) {
-        this.functionalInCharge = functionalInCharge;
-    }
-
-    public String getTechnicalInCharge() {
-        return technicalInCharge;
-    }
-
-    public void setTechnicalInCharge(String technicalInCharge) {
-        this.technicalInCharge = technicalInCharge;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getExecutionDescription() {
@@ -167,6 +122,14 @@ public class ComputationalThreads extends AbstractVersionedAndAuditingWithDeleti
         this.nextExecution = nextExecution;
     }
 
+    public ExternalItem getExternalItem() {
+        return externalItem;
+    }
+
+    public void setExternalItem(ExternalItem externalItem) {
+        this.externalItem = externalItem;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -176,8 +139,8 @@ public class ComputationalThreads extends AbstractVersionedAndAuditingWithDeleti
             return false;
         }
 
-        ComputationalThreads etl = (ComputationalThreads) o;
-        return !(etl.getId() == null || getId() == null) && Objects.equals(getId(), etl.getId());
+        ComputationalThreads computationalThread = (ComputationalThreads) o;
+        return !(computationalThread.getId() == null || getId() == null) && Objects.equals(getId(), computationalThread.getId());
     }
 
     @Override
@@ -188,7 +151,7 @@ public class ComputationalThreads extends AbstractVersionedAndAuditingWithDeleti
     @Override
     public String toString() {
         //@formatter:off
-        return "Etl (" +
+        return "ComputationalThreads (" +
                     "id = " + getId() +
                     ", code = " + getCode() +
                     ", name = " + getName() +

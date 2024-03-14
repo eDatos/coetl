@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { Autosize } from 'ng-autosize';
 import { ComputationalThreadService } from '../computational-thread.service';
+import { ExternalItem, ExternalItemService } from '../../external-item';
 
 @Component({
     selector: 'ac-computational-thread-form',
@@ -19,6 +20,7 @@ export class ComputationalThreadFormComponent
     public computationalThreads: ComputationalThreads;
     public isSaving: boolean;
     private updatesSubscription: Subscription;
+    public externalItemsSuggestions: ExternalItem[] = [];
 
     // VISTAS
     @ViewChild('titlesContainer') titlesContaner: ElementRef;
@@ -28,7 +30,8 @@ export class ComputationalThreadFormComponent
         private router: Router,
         private eventManager: JhiEventManager,
         private permissionService: PermissionService,
-        private computationalThreadService: ComputationalThreadService
+        private computationalThreadService: ComputationalThreadService,
+        private externalItemService: ExternalItemService
     ) {
         this.instance = this;
     }
@@ -105,6 +108,15 @@ export class ComputationalThreadFormComponent
 
     private load(entity: any) {
         this.computationalThreads = Object.assign(new ComputationalThreads(), entity);
+    }
+
+    public completeMethodStatisticalOperations(event) {
+        this.externalItemService
+            .findAll({
+                query: event.query
+            })
+            .map((res) => res.json)
+            .subscribe((operaciones) => (this.externalItemsSuggestions = operaciones));
     }
 
     // VERIFICACIONES

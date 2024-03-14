@@ -93,7 +93,11 @@
         "computationalThread": {
             "cronExpressionNotValid": "La expresión cron {{0}} no es válida",
             "scheduleError": "Ha ocurrido un error en la creación de la planificación de ejecución del hilo computacional",
-            "unscheduleError": "Ha ocurrido un error en el borrado de la planificación de ejecución del hilo computacional"
+            "unscheduleError": "Ha ocurrido un error en el borrado de la planificación de ejecución del hilo computacional",
+            "codeExists": "Ya existe un hilo computacional con el mismo código",
+            "statisticalOperation": {
+                "isBlank": "La operación estadística no puede estar vacía"
+            }
         }
     }
 }

@@ -1,13 +1,15 @@
 import { BaseVersionedAndAuditingWithDeletionEntity } from '../../shared/model/base-versioned-auditing-with-deletion-entity';
+import { ExternalItem } from '../external-item';
 
 export class ComputationalThreadsBase extends BaseVersionedAndAuditingWithDeletionEntity {
     constructor(
         public id?: number,
         public code?: string,
         public name?: string,
-        public organizationInCharge?: string,
         public executionPlanning?: string,
-        public nextExecution?: Date
+        public nextExecution?: Date,
+        public lastExecution?: Date,
+        public externalItem?: ExternalItem
     ) {
         super();
     }
@@ -16,19 +18,13 @@ export class ComputationalThreadsBase extends BaseVersionedAndAuditingWithDeleti
         return !!this.deletionDate;
     }
 
-    isPlanning(): boolean {
+    public isPlanning(): boolean {
         return !!this.executionPlanning;
     }
 }
 
 export class ComputationalThreads extends ComputationalThreadsBase {
-    constructor(
-        public purpose?: string,
-        public functionalInCharge?: string,
-        public technicalInCharge?: string,
-        public comments?: string,
-        public executionDescription?: string
-    ) {
+    constructor(public description?: string) {
         super();
     }
 }

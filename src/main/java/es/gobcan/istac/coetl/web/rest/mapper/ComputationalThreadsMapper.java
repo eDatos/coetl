@@ -9,11 +9,14 @@ import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadsBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadsDTO;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ExternalItemMapper.class})
 public abstract class ComputationalThreadsMapper implements EntityMapper<ComputationalThreadsDTO, ComputationalThreads> {
 
     @Autowired
     private ComputationalThreadsRepository computationalThreadsRepository;
+
+    @Autowired
+    private ExternalItemMapper externalItemMapper;
 
     public ComputationalThreads fromId(Long id) {
         return computationalThreadsRepository.findOne(id);
@@ -29,20 +32,18 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
 
         entity.setCode(dto.getCode());
         entity.setName(dto.getName());
-        entity.setPurpose(dto.getPurpose());
-        entity.setOrganizationInCharge(dto.getOrganizationInCharge());
-        entity.setFunctionalInCharge(dto.getFunctionalInCharge());
-        entity.setTechnicalInCharge(dto.getTechnicalInCharge());
-        entity.setComments(dto.getComments());
+        entity.setDescription(dto.getDescription());
         entity.setExecutionDescription(dto.getExecutionDescription());
         entity.setExecutionPlanning(dto.getExecutionPlanning());
         entity.setNextExecution(dto.getNextExecution());
         entity.setOptLock(dto.getOptLock());
 
+        entity.setExternalItem(externalItemMapper.toEntity(dto.getExternalItem()));
+
         return entity;
     }
 
-    public ComputationalThreadsDTO toDto(ComputationalThreads entity) {
+    /*public ComputationalThreadsDTO toDto(ComputationalThreads entity) {
         if (entity == null) {
             return null;
         }
@@ -52,11 +53,7 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
         dto.setId(entity.getId());
         dto.setCode(entity.getCode());
         dto.setName(entity.getName());
-        dto.setPurpose(entity.getPurpose());
-        dto.setOrganizationInCharge(entity.getOrganizationInCharge());
-        dto.setFunctionalInCharge(entity.getFunctionalInCharge());
-        dto.setTechnicalInCharge(entity.getTechnicalInCharge());
-        dto.setComments(entity.getComments());
+        dto.setDescription(entity.getDescription());
         dto.setExecutionDescription(entity.getExecutionDescription());
         dto.setExecutionPlanning(entity.getExecutionPlanning());
         dto.setNextExecution(entity.getNextExecution());
@@ -69,8 +66,10 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
 
         dto.setOptLock(entity.getOptLock());
 
+        dto.setExternalItem(externalItemMapper.toDto(entity.getExternalItem()));
+
         return dto;
-    }
+    }*/
 
     public ComputationalThreadsBaseDTO toBaseDto(ComputationalThreads entity, Execution execution) {
         if (entity == null) {
@@ -82,8 +81,19 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
         baseDto.setId(entity.getId());
         baseDto.setCode(entity.getCode());
         baseDto.setName(entity.getName());
+        baseDto.setExecutionDescription(entity.getExecutionDescription());
+        baseDto.setExecutionPlanning(entity.getExecutionPlanning());
+        baseDto.setNextExecution(entity.getNextExecution());
+        baseDto.setCreatedBy(entity.getCreatedBy());
+        baseDto.setCreatedDate(entity.getCreatedDate());
+        baseDto.setLastModifiedBy(entity.getLastModifiedBy());
+        baseDto.setLastModifiedDate(entity.getLastModifiedDate());
         baseDto.setDeletedBy(entity.getDeletedBy());
         baseDto.setDeletionDate(entity.getDeletionDate());
+
+        baseDto.setOptLock(entity.getOptLock());
+
+        baseDto.setExternalItem(externalItemMapper.toDto(entity.getExternalItem()));
 
         return baseDto;
     }

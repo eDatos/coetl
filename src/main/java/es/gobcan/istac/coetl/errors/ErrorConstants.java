@@ -62,6 +62,8 @@ public final class ErrorConstants {
     public static final String COMPUTATIONAL_THREAD_CRON_EXPRESSION_NOT_VALID = "error.computationalThread.cronExpressionNotValid";
     public static final String COMPUTATIONAL_THREAD_SCHEDULE_ERROR = "error.computationalThread.scheduleError";
     public static final String COMPUTATIONAL_THREAD_UNSCHEDULE_ERROR = "error.computationalThread.unscheduleError";
+    public static final String COMPUTATIONAL_THREAD_CODE_EXISTS = "error.computationalThread.codeExists";
+    public static final String COMPUTATIONAL_THREAD_STATISTICAL_OPERATION_IS_BLANK = "error.computationalThread.statisticalOperation.isBlank";
 
     private ErrorConstants() {
     }

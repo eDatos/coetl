@@ -21,25 +21,13 @@
                 "label": "Nombre",
                 "placeholder": "Introduzca un nombre"
             },
-            "purpose": {
-                "label": "Finalidad",
-                "placeholder": "Introduzca una finalidad"
+            "description": {
+                "label": "Descripción",
+                "placeholder": "Introduzca una descripción"
             },
-            "comments": {
-                "label": "Comentarios",
-                "placeholder": "Introduzca comentarios"
-            },
-            "organizationInCharge": {
-                "label": "Organismo responsable ",
-                "placeholder": "Introduzca un organismo responsable"
-            },
-            "functionalInCharge": {
-                "label": "Responsable funcional",
-                "placeholder": "Introduzca un responsable funcional"
-            },
-            "technicalInCharge": {
-                "label": "Responsable técnico",
-                "placeholder": "Introduzca un responsable técnico"
+            "statisticalOperation": {
+                "label": "Operación estadística",
+                "placeholder": "Elija la operación estadística"
             }
         },
         "filters": {

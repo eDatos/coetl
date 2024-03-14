@@ -2,6 +2,8 @@ package es.gobcan.istac.coetl.service.impl;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,14 +13,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
+import es.gobcan.istac.coetl.domain.ExternalItem;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
+import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.ComputationalThreadsService;
+import es.gobcan.istac.coetl.service.ExternalItemService;
 import es.gobcan.istac.coetl.service.validator.ComputationalThreadsValidator;
 import es.gobcan.istac.coetl.util.CronUtils;
 import es.gobcan.istac.coetl.web.rest.util.QueryUtil;
@@ -38,6 +44,9 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
 
     @Autowired
     private QueryUtil queryUtil;
+
+    @Autowired
+    private ExternalItemService externalItemService;
 
     //@Autowired
     //private SchedulerFactoryBean schedulerAccessorBean;
@@ -68,10 +77,17 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
         return computationalThreadsRepository.saveAndFlush(computationalThreads);
     }
 
+    private void createExternalItem(ExternalItem externalItem){
+        if(externalItem != null) {
+            externalItemService.save(externalItem);
+        }
+    }
+
     @Override
     public ComputationalThreads create(ComputationalThreads computationalThreads) {
         LOGGER.debug("Request to create an Computational Thread : {}", computationalThreads);
         computationalThreadsValidator.validate(computationalThreads);
+        createExternalItem(computationalThreads.getExternalItem());
         return (computationalThreads.isPlanned()) ? planifyAndSave(computationalThreads) : save(computationalThreads);
     }
 
@@ -94,8 +110,21 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     @Override
     public Page<ComputationalThreads> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult) {
         DetachedCriteria criteria = buildComputationalThreadCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult);
-        //return filteredListByRolOperationAllowed(etlRepository.findAll(criteria, pageable));
-        return computationalThreadsRepository.findAll(criteria, pageable);
+        return filteredListByRolOperationAllowed(computationalThreadsRepository.findAll(criteria, pageable));
+    }
+
+    private Page<ComputationalThreads> filteredListByRolOperationAllowed(Page<ComputationalThreads> computationalThreads) {
+        List<ComputationalThreads> filtered = new ArrayList<>();
+        if (!SecurityUtils.isAdmin()) {
+            for (ComputationalThreads computationalThread : computationalThreads.getContent()) {
+                if (computationalThread.getExternalItem() == null || SecurityUtils.haveAccessToOperationInRol(computationalThread.getExternalItem().getCode())) {
+                    filtered.add(computationalThread);
+                }
+            }
+            return new PageImpl<>(filtered);
+        } else {
+            return computationalThreads;
+        }
     }
 
     private DetachedCriteria buildComputationalThreadCriteria(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate,
