@@ -1,0 +1,57 @@
+<div class="entity">
+    <h3 jhiTranslate="computationalThread.threadList.home.title"></h3>
+
+    <fieldset>
+        <div class="entity-fields">
+            <div class="form-group minWidthClass">
+                <div class="card xl:flex xl:justify-content-center ulList" style="width: 100%;">
+                    <p-listbox
+                        class="form-control"
+                        [options]="etlList"
+                        [(ngModel)]="selectedEtls"
+                        optionLabel="name"
+                        [style]="{'max-width':'100%', 'width':'100%', 'padding-top': '0'}"
+                        [listStyle]="{'max-height': '10rem'}"
+                        [multiple]="true"
+                        [filter]="true"
+                        [checkbox]="true"
+                        (onChange)="onChange($event)"
+                        [metaKeySelection]="false"
+                    >
+                    </p-listbox>
+                </div>
+            </div>
+            <div class="form-group minWidthClass">
+                <div class="card xl:flex xl:justify-content-center ulList" style="width: 100%;">
+                    <p-orderList
+                        [value]="selectedEtls"
+                        header="ETLs"
+                        dragdrop="true"
+                        class="form-control"
+                        [style]="{'max-width':'100%', 'width':'100%', 'padding-top': '0'}"
+                        [listStyle]="{'max-height': '10.3rem'}"
+                    >
+                        <ng-template let-etl pTemplate="item">
+                            <div class="flex flex-wrap p-2 align-items-center gap-3">
+                                <div class="flex-1 flex flex-column gap-2">
+                                    <span class="font-bold">{{ etl.name }}</span>
+                                    <div class="flex align-items-center gap-2">
+                                        <i class="pi pi-tag text-sm"></i>
+                                        <span>{{ etl.code }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-orderList>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <!-- <ng-container *ngIf="existParameters(); else emptyList"> -->
+
+    <ng-template #emptyList>
+        <div class="empty-list">
+            <span jhiTranslate="computationalThread.list.emptyListMessage"></span>
+        </div>
+    </ng-template>
+</div>

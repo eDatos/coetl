@@ -11,6 +11,7 @@ import { ComputationalThreadComponent } from './computational-thread.component';
 import { ComputationalThreadFormComponent } from './form/computational-thread-form.component';
 import { ComputationalThreadResolve } from './computational-thread-resolve.service';
 import { ComputationalThreadSearchComponent } from './search';
+import { ComputationalThreadEtlListComponent } from './list/computational-thread-etl-list.component';
 
 const ENTITY_STATES = [...computationalThreadRoute];
 
@@ -19,7 +20,8 @@ const ENTITY_STATES = [...computationalThreadRoute];
     declarations: [
         ComputationalThreadComponent,
         ComputationalThreadFormComponent,
-        ComputationalThreadSearchComponent
+        ComputationalThreadSearchComponent,
+        ComputationalThreadEtlListComponent
     ],
     entryComponents: [],
     providers: [

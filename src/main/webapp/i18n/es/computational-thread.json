@@ -28,6 +28,9 @@
             "statisticalOperation": {
                 "label": "Operación estadística",
                 "placeholder": "Elija la operación estadística"
+            },
+            "order": {
+                "label": "Orden de ejecución"
             }
         },
         "filters": {
@@ -39,6 +42,14 @@
                 "placeholder": "Búsqueda por nombre",
                 "label": "Nombre"
             }
+        },
+        "threadList": {
+            "home": {
+                "title": "Etls"
+            }
+        },
+        "list": {
+            "emptyListMessage": "No existen parámetros para esta ETL"
         }
     }
 }

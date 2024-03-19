@@ -1,0 +1,15 @@
+.ulList {
+    border: 0;
+}
+
+p-orderList /deep/ {
+    max-width: 100% !important;
+}
+
+p-listbox /deep/ {
+    max-width: 100% !important;
+}
+
+.minWidthClass {
+    min-width: 20em;
+}

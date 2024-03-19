@@ -75,7 +75,7 @@ export class ComputationalThreadFormComponent
         this.isSaving = false;
     }
 
-    public clear() {
+    public cancel() {
         if (this.computationalThreads.id) {
             this.router.navigate(['/computational-threads', this.computationalThreads.id]);
         } else {

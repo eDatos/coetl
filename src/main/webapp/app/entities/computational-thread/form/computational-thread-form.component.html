@@ -19,7 +19,7 @@
                 </div>
                 <div *ngIf="canEdit()">
                     <ng-container *ngIf="isEditMode()">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cancel()">
                             <span class="fa fa-ban"></span>&nbsp;
                             <span jhiTranslate="entity.action.cancel"></span>
                         </button>
@@ -123,6 +123,10 @@
                     ></ac-autocomplete-long-list>
                 </div>
             </div>
+        </fieldset>
+
+        <fieldset *ngIf="computationalThreads.id">
+            <ac-computational-thread-etl-list [idThread]="computationalThreads.id"></ac-computational-thread-etl-list>
         </fieldset>
 
         <ac-audit-info [entity]="computationalThreads"></ac-audit-info>
