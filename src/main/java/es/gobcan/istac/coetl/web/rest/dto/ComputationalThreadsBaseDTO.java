@@ -2,6 +2,7 @@ package es.gobcan.istac.coetl.web.rest.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 public class ComputationalThreadsBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO implements Serializable  {
 
@@ -13,7 +14,9 @@ public class ComputationalThreadsBaseDTO extends AbstractVersionedAndAuditingWit
     private String executionDescription;
     private String executionPlanning;
     private Instant nextExecution;
+    private Instant lastExecution;
     private ExternalItemDTO externalItem;
+    private List<ComputationalThreadsEtlDTO> computationalThreadsEtl;
 
     public ComputationalThreadsBaseDTO() {
         super();
@@ -73,6 +76,22 @@ public class ComputationalThreadsBaseDTO extends AbstractVersionedAndAuditingWit
 
     public void setExternalItem(ExternalItemDTO externalItem) {
         this.externalItem = externalItem;
+    }
+
+    public List<ComputationalThreadsEtlDTO> getComputationalThreadsEtl() {
+        return computationalThreadsEtl;
+    }
+
+    public void setComputationalThreadsEtl(List<ComputationalThreadsEtlDTO> computationalThreadsEtl) {
+        this.computationalThreadsEtl = computationalThreadsEtl;
+    }
+
+    public Instant getLastExecution() {
+        return lastExecution;
+    }
+
+    public void setLastExecution(Instant lastExecution) {
+        this.lastExecution = lastExecution;
     }
 
 }

@@ -18,10 +18,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
-import es.gobcan.istac.coetl.domain.ExternalItem;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
+import es.gobcan.istac.coetl.repository.ComputationalThreadsEtlRepository;
 import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
+import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.ComputationalThreadsService;
 import es.gobcan.istac.coetl.service.ExternalItemService;
@@ -48,6 +49,11 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     @Autowired
     private ExternalItemService externalItemService;
 
+    @Autowired
+    private EtlRepository etlRepository;
+    
+    @Autowired
+    private ComputationalThreadsEtlRepository computationalThreadsEtlRepository;
     //@Autowired
     //private SchedulerFactoryBean schedulerAccessorBean;
 
@@ -77,17 +83,10 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
         return computationalThreadsRepository.saveAndFlush(computationalThreads);
     }
 
-    private void createExternalItem(ExternalItem externalItem){
-        if(externalItem != null) {
-            externalItemService.save(externalItem);
-        }
-    }
-
     @Override
     public ComputationalThreads create(ComputationalThreads computationalThreads) {
         LOGGER.debug("Request to create an Computational Thread : {}", computationalThreads);
         computationalThreadsValidator.validate(computationalThreads);
-        createExternalItem(computationalThreads.getExternalItem());
         return (computationalThreads.isPlanned()) ? planifyAndSave(computationalThreads) : save(computationalThreads);
     }
 
@@ -95,7 +94,6 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     public ComputationalThreads update(ComputationalThreads computationalThreads) {
         LOGGER.debug("Request to update an Computational Thread : {}", computationalThreads);
         computationalThreadsValidator.validate(computationalThreads);
-        createExternalItem(computationalThreads.getExternalItem());
         return (computationalThreads.isPlanned()) ? planifyAndSave(computationalThreads) : unplanifyAndSave(computationalThreads);
     }
 

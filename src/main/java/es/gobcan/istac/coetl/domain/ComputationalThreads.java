@@ -2,15 +2,20 @@ package es.gobcan.istac.coetl.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -18,7 +23,12 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.collection.internal.PersistentList;
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "computational_threads")
@@ -57,9 +67,16 @@ public class ComputationalThreads extends AbstractVersionedAndAuditingWithDeleti
     @Column(name = "next_execution")
     private Instant nextExecution;
 
-    @ManyToOne(targetEntity = ExternalItem.class)
+    @ManyToOne(targetEntity = ExternalItem.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "external_item_fk")
     private ExternalItem externalItem;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = ComputationalThreadsEtl.class, mappedBy = "computationalThread",
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
+    private List<ComputationalThreadsEtl> computationalThreadsEtl;
 
     @Override
     public Long getId() {
@@ -128,6 +145,19 @@ public class ComputationalThreads extends AbstractVersionedAndAuditingWithDeleti
 
     public void setExternalItem(ExternalItem externalItem) {
         this.externalItem = externalItem;
+    }
+
+    public List<ComputationalThreadsEtl> getComputationalThreadsEtl() {
+        return computationalThreadsEtl;
+    }
+
+    public void setComputationalThreadsEtl(List<ComputationalThreadsEtl> computationalThreadsEtl) {
+        if (computationalThreadsEtl instanceof PersistentList) {
+            this.computationalThreadsEtl = computationalThreadsEtl;
+        } else {
+            this.computationalThreadsEtl.clear();
+            this.computationalThreadsEtl.addAll(computationalThreadsEtl);
+        }
     }
 
     @Override
