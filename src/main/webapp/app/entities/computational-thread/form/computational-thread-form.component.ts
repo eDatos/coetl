@@ -7,6 +7,8 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Autosize } from 'ng-autosize';
 import { ComputationalThreadService } from '../computational-thread.service';
 import { ExternalItem, ExternalItemService } from '../../external-item';
+import { Etl } from '../../etl/etl.model';
+import { ComputationalThreadsEtl } from '../computational-threads-etl-model';
 
 @Component({
     selector: 'ac-computational-thread-form',
@@ -21,6 +23,8 @@ export class ComputationalThreadFormComponent
     public isSaving: boolean;
     private updatesSubscription: Subscription;
     public externalItemsSuggestions: ExternalItem[] = [];
+    public selectedEtls: Etl[];
+    public etlList: Etl[];
 
     // VISTAS
     @ViewChild('titlesContainer') titlesContaner: ElementRef;
@@ -34,9 +38,12 @@ export class ComputationalThreadFormComponent
         private externalItemService: ExternalItemService
     ) {
         this.instance = this;
+        this.computationalThreads = new ComputationalThreads();
     }
 
     ngOnInit() {
+        this.selectedEtls = [];
+        this.etlList = [];
         this.isSaving = false;
         this.computationalThreads = !!this.route.snapshot.data['computationalThread']
             ? this.route.snapshot.data['computationalThread']
@@ -48,6 +55,7 @@ export class ComputationalThreadFormComponent
 
     // EVENTOS
     public save() {
+        this.etlBaseToComputationalThreadEtl();
         this.isSaving = true;
         const etlEditObservable = !!this.computationalThreads.id
             ? this.computationalThreadService.update(this.computationalThreads)
@@ -145,4 +153,33 @@ export class ComputationalThreadFormComponent
     }
 
     private adjustAllContainers() {}
+
+    // CHILD ETLS
+    private etlBaseToComputationalThreadEtl() {
+        let tmpEtlThread = [];
+        this.selectedEtls.forEach((selectedEtl, index) => {
+            tmpEtlThread.push(
+                this.setComputationalThreadEtl(
+                    selectedEtl,
+                    this.computationalThreads.computationalThreadsEtl.find(
+                        (etlThread) => etlThread.etl.id == selectedEtl.id
+                    ),
+                    index
+                )
+            );
+        });
+        this.computationalThreads.computationalThreadsEtl = [];
+        this.computationalThreads.computationalThreadsEtl = tmpEtlThread;
+    }
+
+    private setComputationalThreadEtl(etlBase: Etl, etlThreadExistente: any, order: number) {
+        if (etlThreadExistente && etlThreadExistente.id !== null) {
+            etlThreadExistente.executionOrder = order;
+            return etlThreadExistente;
+        }
+        const tmpThread: ComputationalThreadsEtl = new ComputationalThreadsEtl();
+        tmpThread.etl = etlBase;
+        tmpThread.executionOrder = order;
+        return tmpThread;
+    }
 }

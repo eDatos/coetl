@@ -3,7 +3,6 @@ package es.gobcan.istac.coetl.web.rest.mapper;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
     @Autowired
     private EtlService etlService;
 
-    public ComputationalThreads fromId(Long id) {
+    private ComputationalThreads fromId(Long id) {
         return computationalThreadsRepository.findOne(id);
     }
 
@@ -55,31 +54,30 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
 
         entity.setOptLock(dto.getOptLock());
 
-        entity.setComputationalThreadsEtl(computationalThreadEtlDTOsToEntity(dto.getComputationalThreadsEtl()));
+        entity.setComputationalThreadsEtl(computationalThreadEtlDTOsToEntity(dto.getComputationalThreadsEtl(), dto.getId()));
 
         return entity;
     }
 
-    public List<ComputationalThreadsEtl> computationalThreadEtlDTOsToEntity(List<ComputationalThreadsEtlDTO> computationalThreadsDTOs) {
-        return computationalThreadsDTOs.stream().filter(Objects::nonNull).map(this::computationalThreadEtlDTOToEntity).collect(Collectors.toList());
+    public List<ComputationalThreadsEtl> computationalThreadEtlDTOsToEntity(List<ComputationalThreadsEtlDTO> computationalThreadsEtlDTOs, Long idThread) {
+        return computationalThreadsEtlDTOs.stream().filter(Objects::nonNull)
+                .map(computationalThreadsEtlDTO -> computationalThreadEtlDTOToEntity(computationalThreadsEtlDTO, idThread)).collect(Collectors.toList());
     }
 
-    public ComputationalThreadsEtl computationalThreadEtlDTOToEntity(ComputationalThreadsEtlDTO computationalThreadsDTO) {
-        if (computationalThreadsDTO == null) {
+    public ComputationalThreadsEtl computationalThreadEtlDTOToEntity(ComputationalThreadsEtlDTO computationalThreadsEtlDTO, Long idThread) {
+        if (computationalThreadsEtlDTO == null) {
             return null;
-        } else if (computationalThreadsDTO.getId() == null) {
-            ComputationalThreadsEtl user = new ComputationalThreadsEtl();
-            user.setComputationalThread(computationalThreadsRepository.findOne(computationalThreadsDTO.getComputationalThread().getId()));
-            user.setEtl(etlService.findOne(computationalThreadsDTO.getEtl().getId()));
-            user.setExecutionOrder(computationalThreadsDTO.getExecutionOrder());
-            return user;
+        } else if (computationalThreadsEtlDTO.getId() == null) {
+            ComputationalThreadsEtl computationalThreadEtltmp = new ComputationalThreadsEtl();
+            computationalThreadEtltmp.setComputationalThread(computationalThreadsRepository.findOne(idThread));
+            computationalThreadEtltmp.setEtl(etlService.findOne(computationalThreadsEtlDTO.getEtl().getId()));
+            computationalThreadEtltmp.setExecutionOrder(computationalThreadsEtlDTO.getExecutionOrder());
+            return computationalThreadEtltmp;
         } else {
-            return computationalThreadsEtlMapper.toEntity(computationalThreadsDTO);
+            ComputationalThreadsEtl computationalThreadEtltmp = computationalThreadsEtlMapper.toEntity(computationalThreadsEtlDTO);
+            computationalThreadEtltmp.setComputationalThread(computationalThreadsRepository.findOne(idThread));
+            return computationalThreadEtltmp;
         }
-    }
-
-    public List<ComputationalThreadsEtlDTO> getStatusList(List<ComputationalThreadsEtlDTO> prueba) {
-        return Stream.of(prueba).flatMap(statusList -> statusList.stream()).collect(Collectors.toList());
     }
 
     public ComputationalThreadsBaseDTO toBaseDto(ComputationalThreads entity, Execution execution) {

@@ -1,8 +1,8 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ComputationalThreads } from '../computational-thread.model';
-import { EtlBase, EtlService } from '../../etl';
+import { Etl, EtlBase, EtlService } from '../../etl/';
 import { ResponseWrapper } from '../../../shared';
-import { EmbeddedTemplateAst } from '@angular/compiler';
+import { ComputationalThreadsEtl } from '../computational-threads-etl-model';
 
 @Component({
     selector: 'ac-computational-thread-etl-list',
@@ -13,11 +13,13 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
     public static EVENT_NAME = 'ComputationalThreadEtlList';
 
     @Input() idThread: number;
+    @Input() etlsThread: ComputationalThreadsEtl[];
 
-    public etlList: EtlBase[];
-    public etlListv2: EtlBase[];
-    public selectedEtls: EtlBase[];
-    selectAll = false;
+    @Input() etlList: Etl[];
+
+    @Input() selectedEtls: Etl[];
+    @Output() selectedEtlsChange = new EventEmitter<Etl[]>();
+
     public query: string = '';
 
     public computationalThreads: ComputationalThreads[];
@@ -45,21 +47,42 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
     }
 
     private onSuccess(data: EtlBase[]) {
-        this.etlList = data;
+        this.etlList = this.etlBaseToEtl(data);
         let final = [];
         data.forEach((element, index) => {
             final.push({ name: element.name, code: element.code });
         });
-        this.etlListv2 = final;
-        console.log(this.etlListv2);
+        this.initSelectedEtls();
     }
 
-    onChange(etlListtmp: any) {
-        let idList: number[] = [];
-        console.log(etlListtmp.value);
-        etlListtmp.value.forEach((element, index) => {
-            idList.push(element.id);
+    private initSelectedEtls() {
+        this.etlsThread.forEach((element, index) => {
+            this.selectedEtls[element.executionOrder] = this.etlList.find(
+                (etl) => etl.id == element.etl.id
+            );
         });
-        console.log(idList);
+    }
+
+    onChange() {
+        this.selectedEtlsChange.emit(this.selectedEtls);
+    }
+
+    private etlBaseToEtl(data: EtlBase[]) {
+        return data.map((etlBase) => this.setEtl(etlBase));
+    }
+
+    private setEtl(data: EtlBase) {
+        let etl: Etl = new Etl();
+        etl.id = data.id;
+        etl.code = data.code;
+        etl.name = data.name;
+        etl.organizationInCharge = data.organizationInCharge;
+        etl.type = data.type;
+        etl.executionPlanning = data.executionPlanning;
+        etl.externalItem = data.externalItem;
+        etl.nextExecution = data.nextExecution;
+        etl.lastExecution = data.lastExecution;
+        etl.executionPlatform = data.executionPlatform;
+        return etl;
     }
 }

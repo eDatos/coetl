@@ -2,7 +2,6 @@ package es.gobcan.istac.coetl.web.rest.dto;
 
 import java.io.Serializable;
 
-import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.domain.Etl;
 
 public class ComputationalThreadsEtlDTO implements Serializable {
@@ -10,7 +9,6 @@ public class ComputationalThreadsEtlDTO implements Serializable {
     private static final long serialVersionUID = 2699211247543833580L;
 
     private Long id;
-    private ComputationalThreads computationalThread;
     private Etl etl;
     private Long executionOrder;
 
@@ -24,14 +22,6 @@ public class ComputationalThreadsEtlDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public ComputationalThreads getComputationalThread() {
-        return computationalThread;
-    }
-
-    public void setComputationalThread(ComputationalThreads computationalThread) {
-        this.computationalThread = computationalThread;
     }
 
     public Etl getEtl() {

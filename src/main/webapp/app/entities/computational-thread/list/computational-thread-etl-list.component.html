@@ -12,10 +12,11 @@
                         optionLabel="name"
                         [style]="{'max-width':'100%', 'width':'100%', 'padding-top': '0'}"
                         [listStyle]="{'max-height': '10rem'}"
+                        [dataKey]="id"
                         [multiple]="true"
                         [filter]="true"
                         [checkbox]="true"
-                        (onChange)="onChange($event)"
+                        (onChange)="onChange()"
                         [metaKeySelection]="false"
                     >
                     </p-listbox>
@@ -48,7 +49,6 @@
         </div>
     </fieldset>
     <!-- <ng-container *ngIf="existParameters(); else emptyList"> -->
-
     <ng-template #emptyList>
         <div class="empty-list">
             <span jhiTranslate="computationalThread.list.emptyListMessage"></span>

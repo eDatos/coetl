@@ -126,7 +126,12 @@
         </fieldset>
 
         <fieldset *ngIf="computationalThreads.id">
-            <ac-computational-thread-etl-list [idThread]="computationalThreads.id"></ac-computational-thread-etl-list>
+            <ac-computational-thread-etl-list
+                [idThread]="computationalThreads.id"
+                [etlsThread]="computationalThreads.computationalThreadsEtl"
+                [(selectedEtls)]="selectedEtls"
+                [etlList]="etlList"
+            ></ac-computational-thread-etl-list>
         </fieldset>
 
         <ac-audit-info [entity]="computationalThreads"></ac-audit-info>

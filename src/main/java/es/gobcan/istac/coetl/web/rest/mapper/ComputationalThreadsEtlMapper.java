@@ -13,13 +13,11 @@ public interface ComputationalThreadsEtlMapper {
     ComputationalThreadsEtlMapper INSTANCIA= Mappers.getMapper(ComputationalThreadsEtlMapper.class);
     
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "computationalThread", target = "computationalThread")
     @Mapping(source = "etl", target = "etl")
     @Mapping(source = "executionOrder", target = "executionOrder")
     ComputationalThreadsEtlDTO toDto(ComputationalThreadsEtl entity);
     
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "computationalThread", target = "computationalThread")
     @Mapping(source = "etl", target = "etl")
     @Mapping(source = "executionOrder", target = "executionOrder")
     ComputationalThreadsEtl toEntity(ComputationalThreadsEtlDTO entity);

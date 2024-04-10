@@ -52,7 +52,7 @@ export class ComputationalThreadService {
         return new ResponseWrapper(response.headers, jsonResponse, response.status);
     }
 
-    private convertItemToBaseComputationalThread(entity: any): ComputationalThreads {
+    private convertItemToBaseComputationalThread(entity: any): ComputationalThreadsBase {
         return Object.assign(new ComputationalThreadsBase(), entity);
     }
 }
