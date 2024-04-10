@@ -1,7 +1,7 @@
 <div class="entity">
     <h3 jhiTranslate="computationalThread.threadList.home.title"></h3>
 
-    <fieldset>
+    <fieldset *ngIf="isEdit">
         <div class="entity-fields">
             <div class="form-group minWidthClass">
                 <div class="card xl:flex xl:justify-content-center ulList" style="width: 100%;">
@@ -48,7 +48,22 @@
             </div>
         </div>
     </fieldset>
-    <!-- <ng-container *ngIf="existParameters(); else emptyList"> -->
+    <ng-container *ngIf="!isEdit && !hasEtls() else emptyList">
+        <div class="entity-fields">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;" jhiTranslate="coetlApp.etl.name.label"></th>
+                        <th style="width: 20%;" jhiTranslate="computationalThread.threads.order.label"></th>
+                    </tr>
+                </thead>
+                <tr *ngFor="let etl of etlsThread; let i = index">
+                    <td>{{ etl.etl.name }}</td>
+                    <td>{{ etl.executionOrder }}</td>
+                </tr>
+            </table>
+        </div>
+    </ng-container>
     <ng-template #emptyList>
         <div class="empty-list">
             <span jhiTranslate="computationalThread.list.emptyListMessage"></span>

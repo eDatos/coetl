@@ -49,7 +49,7 @@
             }
         },
         "list": {
-            "emptyListMessage": "No existen parámetros para esta ETL"
+            "emptyListMessage": "No existen ETLs seleccionadas para este hilo computacional"
         }
     }
 }

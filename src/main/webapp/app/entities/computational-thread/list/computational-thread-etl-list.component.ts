@@ -20,6 +20,8 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
     @Input() selectedEtls: Etl[];
     @Output() selectedEtlsChange = new EventEmitter<Etl[]>();
 
+    @Input() isEdit: boolean;
+
     public query: string = '';
 
     public computationalThreads: ComputationalThreads[];
@@ -84,5 +86,9 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
         etl.lastExecution = data.lastExecution;
         etl.executionPlatform = data.executionPlatform;
         return etl;
+    }
+
+    public hasEtls() {
+        return !this.selectedEtls || this.selectedEtls.length === 0;
     }
 }
