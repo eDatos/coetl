@@ -97,7 +97,10 @@
             "codeExists": "Ya existe un hilo computacional con el mismo código",
             "statisticalOperation": {
                 "isBlank": "La operación estadística no puede estar vacía"
-            }
+            },
+            "executionFailedError": "No se puede seguir con la ejecución del hilo computacional, se ha producido un error en la ETL '{{0}}'",
+            "unexpectedExecutionError": "Error inesperado en la ejecución de la ETL '{{0}}'",
+            "interruptedExecutionError": "Error inesperado en la ejecución del hilo computacional '{{0}}'"
         }
     }
 }

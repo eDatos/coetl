@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { ComputationalThreads, ComputationalThreadsBase } from './computational-thread.model';
 import { Observable } from 'rxjs';
 import { ResponseWrapper, createRequestOption } from '../../shared';
+import { ComputationalThreadExecution } from './computational-thread-execution.model';
 
 @Injectable()
 export class ComputationalThreadService {
@@ -54,5 +55,35 @@ export class ComputationalThreadService {
 
     private convertItemToBaseComputationalThread(entity: any): ComputationalThreadsBase {
         return Object.assign(new ComputationalThreadsBase(), entity);
+    }
+
+    // EXECUTIONS
+    public createExecution(
+        idThread: Number,
+        computationalThreadExecution: ComputationalThreadExecution
+    ): Observable<ComputationalThreadExecution> {
+        return this.http
+            .post(`${this.resourceUrl}/${idThread}/create-execution`, computationalThreadExecution)
+            .map((response: Response) =>
+                this.convertItemToComputationalThreadExecution(response.json())
+            );
+    }
+
+    public findAllExecutions(idThread: number, req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http
+            .get(`${this.resourceUrl}/${idThread}/executions`, options)
+            .map((response) => this.convertResponseToExecutionResponseWrapper(response));
+    }
+
+    private convertResponseToExecutionResponseWrapper(response: Response): ResponseWrapper {
+        const jsonResponse = response
+            .json()
+            .map((element: any) => this.convertItemToComputationalThreadExecution(element));
+        return new ResponseWrapper(response.headers, jsonResponse, response.status);
+    }
+
+    private convertItemToComputationalThreadExecution(entity: any): ComputationalThreadExecution {
+        return Object.assign(new ComputationalThreadExecution(), entity);
     }
 }

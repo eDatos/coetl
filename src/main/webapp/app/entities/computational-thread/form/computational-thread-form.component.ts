@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { HasTitlesContainer, PermissionService } from '../../../shared';
+import { GenericModalService, HasTitlesContainer, PermissionService } from '../../../shared';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComputationalThreads } from '../computational-thread.model';
 import { Observable, Subscription } from 'rxjs';
@@ -9,6 +9,12 @@ import { ComputationalThreadService } from '../computational-thread.service';
 import { ExternalItem, ExternalItemService } from '../../external-item';
 import { Etl } from '../../etl/etl.model';
 import { ComputationalThreadsEtl } from '../computational-threads-etl-model';
+import {
+    ComputationalThreadExecution,
+    Result,
+    Type
+} from '../computational-thread-execution.model';
+import { ComputationalThreadConfirmExecutionDialogComponent } from '../execution/dialog/computational-thread-confirm-execution-dialog.component';
 
 @Component({
     selector: 'ac-computational-thread-form',
@@ -35,7 +41,8 @@ export class ComputationalThreadFormComponent
         private eventManager: JhiEventManager,
         private permissionService: PermissionService,
         private computationalThreadService: ComputationalThreadService,
-        private externalItemService: ExternalItemService
+        private externalItemService: ExternalItemService,
+        private genericModalService: GenericModalService
     ) {
         this.instance = this;
         this.computationalThreads = new ComputationalThreads();
@@ -99,8 +106,37 @@ export class ComputationalThreadFormComponent
         const copy = Object.assign(new ComputationalThreads(), this.computationalThreads);
     }
 
+    private initializeExecutionDTO() {
+        const newExecution = new ComputationalThreadExecution();
+        newExecution.idThread = this.computationalThreads.id;
+        newExecution.type = Type.MANUAL;
+        newExecution.result = Result.RUNNING;
+        return newExecution;
+    }
+
     public execute() {
         const copy = Object.assign(new ComputationalThreads(), this.computationalThreads);
+        this.genericModalService.open(
+            <any>ComputationalThreadConfirmExecutionDialogComponent,
+            { thread: copy },
+            { container: '.app' }
+        );
+    }
+
+    private subscribeToPreExecuteResponse(result: Observable<ComputationalThreadExecution>) {
+        result.subscribe(
+            (res: ComputationalThreadExecution) => this.onPreSaveSuccess(res),
+            () => this.onSaveError()
+        );
+    }
+
+    private onPreSaveSuccess(result: ComputationalThreadExecution) {
+        this.isSaving = false;
+        this.eventManager.broadcast({
+            name: ComputationalThreadFormComponent.EVENT_NAME,
+            content: 'executed'
+        });
+        this.router.navigate(['computational-threads', result.idThread]);
     }
 
     private registerChangesOnEtl() {

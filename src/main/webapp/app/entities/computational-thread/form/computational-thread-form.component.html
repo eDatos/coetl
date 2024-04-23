@@ -135,6 +135,9 @@
             ></ac-computational-thread-etl-list>
         </fieldset>
 
+        <fieldset *ngIf="computationalThreads.id">
+            <ac-computational-threads-execution-list [idThread]="computationalThreads.id"></ac-computational-threads-execution-list>
+        </fieldset>
         <ac-audit-info [entity]="computationalThreads"></ac-audit-info>
     </div>
 </form>

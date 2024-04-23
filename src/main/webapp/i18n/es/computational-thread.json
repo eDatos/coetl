@@ -31,6 +31,10 @@
             },
             "order": {
                 "label": "Orden de ejecución"
+            },
+            "execution": {
+                "title": "Confirmar ejecución",
+                "question": "¿Seguro que quiere ejecutar el Hilo Computacional <b>{{ code }}</b>?"
             }
         },
         "filters": {
@@ -50,6 +54,33 @@
         },
         "list": {
             "emptyListMessage": "No existen ETLs seleccionadas para este hilo computacional"
+        },
+        "execution": {
+            "home": {
+                "title": "Ejecuciones"
+            },
+            "planningDate": "Fecha de planificación",
+            "startDate": "Fecha de inicio",
+            "finishDate": "Fecha de finalización",
+            "type": {
+                "label": "Tipo",
+                "AUTO": "Automática",
+                "MANUAL": "Manual"
+            },
+            "result": {
+                "label": "Resultado",
+                "SUCCESS": "Correcto",
+                "FAILED": "Fallo",
+                "WAITING": "En espera",
+                "RUNNING": "En ejecución",
+                "DUPLICATED": "Duplicado"
+            },
+            "notes": "Notas",
+            "emptyListMessage": "No hay ejecuciones para esta este hilo computacional",
+            "executionResult": {
+                "label": "Estado Ejecución"
+            },
+            "executor": "Usuario"
         }
     }
 }
