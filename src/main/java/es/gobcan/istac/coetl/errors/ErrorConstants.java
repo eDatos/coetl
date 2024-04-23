@@ -64,6 +64,9 @@ public final class ErrorConstants {
     public static final String COMPUTATIONAL_THREAD_UNSCHEDULE_ERROR = "error.computationalThread.unscheduleError";
     public static final String COMPUTATIONAL_THREAD_CODE_EXISTS = "error.computationalThread.codeExists";
     public static final String COMPUTATIONAL_THREAD_STATISTICAL_OPERATION_IS_BLANK = "error.computationalThread.statisticalOperation.isBlank";
+    public static final String COMPUTATIONAL_THREAD_EXECUTION_FAILED_ERROR = "error.computationalThread.executionFailedError";
+    public static final String COMPUTATIONAL_THREAD_UNEXPECTED_EXECUTION_ERROR = "error.computationalThread.unexpectedExecutionError";
+    public static final String COMPUTATIONAL_THREAD_INTERRUPTED_EXECUTION_ERROR = "error.computationalThread.interruptedExecutionError";
 
     private ErrorConstants() {
     }

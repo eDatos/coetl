@@ -27,11 +27,15 @@ import com.codahale.metrics.annotation.Timed;
 
 import es.gobcan.istac.coetl.config.AuditConstants;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
+import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
+import es.gobcan.istac.coetl.service.ComputationalThreadExecutionService;
 import es.gobcan.istac.coetl.service.ComputationalThreadsService;
+import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadExecutionDTO;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadsBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadsDTO;
+import es.gobcan.istac.coetl.web.rest.mapper.ComputationalThreadsExecutionMapper;
 import es.gobcan.istac.coetl.web.rest.mapper.ComputationalThreadsMapper;
 import es.gobcan.istac.coetl.web.rest.util.HeaderUtil;
 import es.gobcan.istac.coetl.web.rest.util.PaginationUtil;
@@ -49,14 +53,19 @@ public class ComputationalThreadsResource extends AbstractResource {
     private static final Logger LOGGGER = LoggerFactory.getLogger(ComputationalThreadsResource.class);
 
     private final ComputationalThreadsService computationalThreadsService;
+    private final ComputationalThreadExecutionService computationalThreadExecutionService;
     private final ComputationalThreadsMapper computationalThreadsMapper;
     private final AuditEventPublisher auditEventPublisher;
+    private final ComputationalThreadsExecutionMapper computationalThreadsExecutionMapper;
 
     public ComputationalThreadsResource(ComputationalThreadsService computationalThreadsService, ComputationalThreadsMapper computationalThreadsMapper,
-            AuditEventPublisher auditEventPublisher) {
+            AuditEventPublisher auditEventPublisher, ComputationalThreadsExecutionMapper computationalThreadsExecutionMapper,
+            ComputationalThreadExecutionService computationalThreadExecutionService) {
         this.computationalThreadsService = computationalThreadsService;
         this.computationalThreadsMapper = computationalThreadsMapper;
         this.auditEventPublisher = auditEventPublisher;
+        this.computationalThreadsExecutionMapper = computationalThreadsExecutionMapper;
+        this.computationalThreadExecutionService = computationalThreadExecutionService;
     }
 
     @PostMapping
@@ -123,6 +132,39 @@ public class ComputationalThreadsResource extends AbstractResource {
                 .map(e -> computationalThreadsMapper.toBaseDto(e, lastExecutionStartDate, lastExecutionResult));
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI);
+
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @PostMapping("/{idThread}/create-execution")
+    @Timed
+    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
+    public ResponseEntity<ComputationalThreadExecutionDTO> createExecution(@PathVariable Long idThread, @RequestBody ComputationalThreadExecutionDTO computationalThreadExecutionDTO)
+            throws URISyntaxException {
+        LOGGGER.debug("REST Request to create a new Computational Thread Execution to thread: {}", idThread);
+        if (idThread == null) {
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, ErrorConstants.ID_FALTA, "A new Computational Thread Execution must have an ID of thread"))
+                    .build();
+        }
+
+        ComputationalThreadExecution newThreadExecutionToEntity = computationalThreadsExecutionMapper.toEntity(computationalThreadExecutionDTO);
+        ComputationalThreadExecution newThreadExecution = computationalThreadsService.createThreadExecution(newThreadExecutionToEntity);
+        ComputationalThreadExecutionDTO result = computationalThreadsExecutionMapper.toDto(newThreadExecution);
+
+        return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getIdThread() + SLASH + "create-execution" + SLASH + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, result.getId().toString())).body(result);
+    }
+
+    @GetMapping("/{idThread}/executions")
+    @Timed
+    @PreAuthorize("@secChecker.canReadEtl(authentication)")
+    public ResponseEntity<List<ComputationalThreadExecutionDTO>> findAllExecutions(@PathVariable Long idThread, @ApiParam Pageable pageable) {
+        LOGGGER.debug("REST Request to find a page of Executions by Computational Thread : {}", idThread);
+        Page<ComputationalThreadExecutionDTO> page = computationalThreadExecutionService.findAllByComputationalThreadId(idThread, pageable)
+                .map(computationalThreadsExecutionMapper::toDto);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI + SLASH + idThread + SLASH + "executions");
 
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

@@ -17,14 +17,19 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
+import es.gobcan.istac.coetl.platform.hop.service.impl.HopExecutionServiceImpl;
 import es.gobcan.istac.coetl.repository.ComputationalThreadsEtlRepository;
 import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
-import es.gobcan.istac.coetl.repository.EtlRepository;
+import es.gobcan.istac.coetl.repository.ExecutionRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
+import es.gobcan.istac.coetl.service.ComputationalThreadExecutionService;
 import es.gobcan.istac.coetl.service.ComputationalThreadsService;
+import es.gobcan.istac.coetl.service.EtlService;
+import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ExternalItemService;
 import es.gobcan.istac.coetl.service.validator.ComputationalThreadsValidator;
 import es.gobcan.istac.coetl.util.CronUtils;
@@ -50,10 +55,23 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     private ExternalItemService externalItemService;
 
     @Autowired
-    private EtlRepository etlRepository;
+    private EtlService etlService;
     
     @Autowired
     private ComputationalThreadsEtlRepository computationalThreadsEtlRepository;
+    
+    @Autowired
+    private ExecutionService executionService;
+    
+    @Autowired
+    private HopExecutionServiceImpl hopExecutionService;
+    
+    @Autowired
+    private ExecutionRepository executionRepository;
+    
+    @Autowired
+    private ComputationalThreadExecutionService computationalThreadExecutionService;
+    
     //@Autowired
     //private SchedulerFactoryBean schedulerAccessorBean;
 
@@ -95,6 +113,24 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
         LOGGER.debug("Request to update an Computational Thread : {}", computationalThreads);
         computationalThreadsValidator.validate(computationalThreads);
         return (computationalThreads.isPlanned()) ? planifyAndSave(computationalThreads) : unplanifyAndSave(computationalThreads);
+    }
+
+    // EXECUTIONS
+    @Override
+    public ComputationalThreadExecution createThreadExecution(ComputationalThreadExecution computationalThreadExecution) {
+        return computationalThreadExecutionService.create(computationalThreadExecution);
+    }
+
+    @Override
+    public ComputationalThreadExecution updateThreadExecution(ComputationalThreadExecution computationalThreadExecution) {
+        return computationalThreadExecutionService.update(computationalThreadExecution);
+    }
+
+    private void setFailedExecutionThread(ComputationalThreadExecution.Result result, Long idThread, Long idExecutionThread) {
+        ComputationalThreadExecution test = computationalThreadExecutionService.findByResultAndId(result, idExecutionThread);
+        test.setResult(result.FAILED);
+        test.setFinishDate(Instant.now());
+        updateThreadExecution(test);
     }
 
     private CronExpression buildCronExpression(final String executionPlanning) {

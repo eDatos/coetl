@@ -27,6 +27,8 @@ public interface ExecutionRepository extends JpaRepository<Execution, Long> {
 
     Execution findFirstByEtlIdOrderByPlanningDateDesc(Long idEtl);
 
+    Execution findByIdExecution(String idExecution);
+
     @Query(value = "select e.id, e.planning_date, e.start_date, e.finish_date, e.\"type\", e.\"result\", e.notes, e.etl_fk, e.id_execution, e.executor "
             + "from tb_executions e where e.etl_fk = ?1 and to_char(e.planning_date, 'DD/MM/YYYY') = ?2 and e.\"result\" = ?3 order by e.id desc limit 1", nativeQuery = true)
     Execution findFirstByEtlIdAndPlanningDateAndResultOrderByIdDesc(Long idEtl, String planningExecutionDate, String running);

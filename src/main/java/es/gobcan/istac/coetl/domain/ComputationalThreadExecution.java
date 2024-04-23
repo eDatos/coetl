@@ -2,17 +2,23 @@ package es.gobcan.istac.coetl.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -20,13 +26,17 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "tb_executions")
+@Table(name = "computational_threads_executions")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Execution implements Serializable {
+public class ComputationalThreadExecution implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -3898759537343270416L;
 
     public enum Type {
         AUTO, MANUAL
@@ -37,8 +47,8 @@ public class Execution implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "execution_id_seq")
-    @SequenceGenerator(name = "execution_id_seq", sequenceName = "execution_id_seq", initialValue = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "computational_threads_execution_id_seq")
+    @SequenceGenerator(name = "computational_threads_execution_id_seq", sequenceName = "computational_threads_execution_id_seq", initialValue = 10)
     private Long id;
 
     @NotNull
@@ -65,16 +75,20 @@ public class Execution implements Serializable {
     @Column(name = "notes", length = 4000, nullable = true)
     private String notes;
 
-    @ManyToOne(optional = false, targetEntity = Etl.class)
-    @JoinColumn(name = "etl_fk")
-    private Etl etl;
-    
-    @Column(name = "id_execution", length = 250, nullable = true)
-    private String idExecution;
-    
+    @ManyToOne(optional = false, targetEntity = ComputationalThreads.class)
+    @JoinColumn(name = "computational_thread_fk")
+    private ComputationalThreads computationalThread;
+
     @Column(name = "executor", length = 250, nullable = true)
     private String executor;
 
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = ComputationalThreadExecutionEtl.class, mappedBy = "computationalThreadExecution",
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
+    @OrderBy("id ASC")
+    private List<ComputationalThreadExecutionEtl> computationalThreadExecutionEtl;
 
     public Long getId() {
         return id;
@@ -132,30 +146,28 @@ public class Execution implements Serializable {
         this.notes = notes;
     }
 
-    public Etl getEtl() {
-        return etl;
+    public ComputationalThreads getComputationalThread() {
+        return computationalThread;
     }
 
-    public void setEtl(Etl etl) {
-        this.etl = etl;
+    public void setComputationalThread(ComputationalThreads computationalThread) {
+        this.computationalThread = computationalThread;
     }
-    
-    public String getIdExecution() {
-        return idExecution;
-    }
-    
-    public void setIdExecution(String idExecution) {
-        this.idExecution = idExecution;
-    }
-    
-    
+
     public String getExecutor() {
         return executor;
     }
 
-    
     public void setExecutor(String executor) {
         this.executor = executor;
+    }
+
+    public List<ComputationalThreadExecutionEtl> getComputationalThreadExecutionEtl() {
+        return computationalThreadExecutionEtl;
+    }
+
+    public void setComputationalThreadExecutionEtl(List<ComputationalThreadExecutionEtl> computationalThreadExecutionEtl) {
+        this.computationalThreadExecutionEtl = computationalThreadExecutionEtl;
     }
 
     @Override
@@ -167,8 +179,8 @@ public class Execution implements Serializable {
             return false;
         }
 
-        Execution execution = (Execution) o;
-        return !(execution.getId() == null || getId() == null) && Objects.equals(getId(), execution.getId());
+        ComputationalThreadExecution computationalThreadExecution = (ComputationalThreadExecution) o;
+        return !(computationalThreadExecution.getId() == null || getId() == null) && Objects.equals(getId(), computationalThreadExecution.getId());
     }
 
     @Override
@@ -179,8 +191,8 @@ public class Execution implements Serializable {
     @Override
     public String toString() {
         //@formatter:off
-        return "Execution (" +
-                    "id = " + getId() + 
+        return "ComputationalThreadExecution (" +
+                    "id = " + getId() +
                     ", planningDate = " + getPlanningDate() + 
                     ", type = " + getType() + 
                     ", result = " + getResult() + 
@@ -188,4 +200,5 @@ public class Execution implements Serializable {
                 ")";
         //@formatter:on
     }
+
 }
