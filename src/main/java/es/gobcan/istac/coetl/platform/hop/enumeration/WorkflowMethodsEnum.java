@@ -2,7 +2,7 @@ package es.gobcan.istac.coetl.platform.hop.enumeration;
 
 public enum WorkflowMethodsEnum implements HopMethodsEnum {
 
-    STATUS("workflowStatus/"), REGISTER("registerWorkflow/"), START("startWorkflow/"), REMOVE("stopWorkflow/");
+    STATUS("workflowStatus/"), REGISTER("registerWorkflow/"), START("startWorkflow/"), REMOVE("removeWorkflow/");
 
     private final String resource;
 

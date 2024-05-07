@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -148,10 +149,10 @@ public class ComputationalThreadsResource extends AbstractResource {
                     .build();
         }
 
-        ComputationalThreadExecution newThreadExecutionToEntity = computationalThreadsExecutionMapper.toEntity(computationalThreadExecutionDTO);
-        ComputationalThreadExecution newThreadExecution = computationalThreadsService.createThreadExecution(newThreadExecutionToEntity);
+        ComputationalThreadExecution threadExecutionToEntity = computationalThreadsExecutionMapper.toEntity(computationalThreadExecutionDTO);
+        ComputationalThreadExecution newThreadExecution = computationalThreadsService.createThreadExecution(threadExecutionToEntity);
+        computationalThreadsService.executeThread(newThreadExecution, SecurityContextHolder.getContext().getAuthentication().getName());
         ComputationalThreadExecutionDTO result = computationalThreadsExecutionMapper.toDto(newThreadExecution);
-
         return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getIdThread() + SLASH + "create-execution" + SLASH + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, result.getId().toString())).body(result);
     }

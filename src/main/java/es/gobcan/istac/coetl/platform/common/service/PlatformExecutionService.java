@@ -10,5 +10,6 @@ public interface PlatformExecutionService {
     Execution execute(Etl etl, Type type, String executor);
     Object runEtl(Etl etl, final String etlFilename, final String idExecution);
     Object removeEtl(Etl etl, final String etlFilename, final String idExecution);
+    Object registerETL(Etl etl);
     void notifyExecutionError(Etl etl);
 }

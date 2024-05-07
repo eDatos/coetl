@@ -157,6 +157,9 @@ public class ComputationalThreads extends AbstractVersionedAndAuditingWithDeleti
         if (computationalThreadsEtl instanceof PersistentList) {
             this.computationalThreadsEtl = computationalThreadsEtl;
         } else {
+            if (this.computationalThreadsEtl == null) {
+                this.computationalThreadsEtl = computationalThreadsEtl;
+            }
             this.computationalThreadsEtl.clear();
             this.computationalThreadsEtl.addAll(computationalThreadsEtl);
         }

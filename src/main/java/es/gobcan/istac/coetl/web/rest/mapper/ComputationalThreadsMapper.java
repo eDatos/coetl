@@ -1,5 +1,6 @@
 package es.gobcan.istac.coetl.web.rest.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -54,7 +55,11 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
 
         entity.setOptLock(dto.getOptLock());
 
-        entity.setComputationalThreadsEtl(computationalThreadEtlDTOsToEntity(dto.getComputationalThreadsEtl(), dto.getId()));
+        if (dto.getComputationalThreadsEtl().isEmpty()) {
+            entity.setComputationalThreadsEtl(new ArrayList<ComputationalThreadsEtl>());
+        } else {
+            entity.setComputationalThreadsEtl(computationalThreadEtlDTOsToEntity(dto.getComputationalThreadsEtl(), dto.getId()));
+        }
 
         return entity;
     }

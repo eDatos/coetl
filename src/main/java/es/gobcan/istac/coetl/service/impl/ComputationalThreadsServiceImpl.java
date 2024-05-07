@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,10 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
+import es.gobcan.istac.coetl.domain.ComputationalThreadExecution.Result;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
+import es.gobcan.istac.coetl.domain.Etl;
+import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.platform.hop.service.impl.HopExecutionServiceImpl;
@@ -39,6 +45,9 @@ import es.gobcan.istac.coetl.web.rest.util.QueryUtil;
 public class ComputationalThreadsServiceImpl implements ComputationalThreadsService {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputationalThreadsService.class);
+    private static final int MAX_LENGHT_NOTES = 4000;
+    private static final String MSG_ERROR_REGISTER_THREAD_ETLS_IN_HOP = "Error inesperado al registrar las ETLs del hilo computacional en Apache Hop: \n ";
+    private static final String MSG_ERROR_REGISTER_THREAD_ETLS_EXECUTION = "Error inesperado al registrar la ejecución de las ETLs del hilo computacional";
     //private static final String IDENTITY_JOB_PREFIX = "pentahoExecutionJob_";
     //private static final String IDENTITY_TRIGGER_PREFIX = "pentahoExectionTrigger_";
 
@@ -118,19 +127,51 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     // EXECUTIONS
     @Override
     public ComputationalThreadExecution createThreadExecution(ComputationalThreadExecution computationalThreadExecution) {
+        computationalThreadExecution.setPlanningDate(Instant.now());
+        computationalThreadExecution.setExecutor(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (Result.RUNNING.equals(computationalThreadExecution.getResult())) {
+            computationalThreadExecution.setStartDate(Instant.now());
+        }
         return computationalThreadExecutionService.create(computationalThreadExecution);
     }
 
-    @Override
-    public ComputationalThreadExecution updateThreadExecution(ComputationalThreadExecution computationalThreadExecution) {
-        return computationalThreadExecutionService.update(computationalThreadExecution);
+    private String getRegisterErrorMsg(Execution resultExecution) {
+        if (resultExecution.getResult().equals(Execution.Result.FAILED)) {
+            return resultExecution.getNotes();
+        }
+        return StringUtils.EMPTY;
     }
 
-    private void setFailedExecutionThread(ComputationalThreadExecution.Result result, Long idThread, Long idExecutionThread) {
-        ComputationalThreadExecution test = computationalThreadExecutionService.findByResultAndId(result, idExecutionThread);
-        test.setResult(result.FAILED);
-        test.setFinishDate(Instant.now());
-        updateThreadExecution(test);
+    @Override
+    public void executeThread(ComputationalThreadExecution computationalThreadExecution, String executor) {
+        List<Long> etlIds = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl().stream().filter(Objects::nonNull)
+                .map(etl -> etl.getEtl().getId()).collect(Collectors.toList());
+        List<Etl> etls = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl().stream().filter(Objects::nonNull)
+                .map(etl -> etl.getEtl()).collect(Collectors.toList());
+        if (executionService.existsRunnnigOrWaitingByEtlIdIn(etlIds)) {
+            computationalThreadExecution.setResult(Result.WAITING);
+        } else {
+            List<Execution> registerExecutions = computationalThreadExecutionService.registerHopETL(etls, executor);
+            if (registerExecutions.size() != etls.size() || registerExecutions.stream().filter(exec -> Execution.Result.FAILED.equals(exec.getResult())).count() > 0) {
+                StringBuilder msgError = new StringBuilder();
+                for (Execution resultExecution : registerExecutions) {
+                    msgError.append(getRegisterErrorMsg(resultExecution));
+                    resultExecution.setResult(Execution.Result.FAILED);
+                }
+                computationalThreadExecutionService.unRegisterHopETL(registerExecutions);
+                computationalThreadExecutionService.setThreadExecutionFailed(computationalThreadExecution,
+                        StringUtils.substring(MSG_ERROR_REGISTER_THREAD_ETLS_IN_HOP.concat(msgError.toString()), 0, MAX_LENGHT_NOTES));
+            } else {
+                boolean purgateRegisterEtls = computationalThreadExecutionService.createAllThreadETLExecutions(computationalThreadExecution, registerExecutions);
+                if (purgateRegisterEtls) {
+                    computationalThreadExecutionService.unRegisterHopETL(registerExecutions);
+                    computationalThreadExecutionService.setThreadExecutionFailed(computationalThreadExecution, MSG_ERROR_REGISTER_THREAD_ETLS_EXECUTION);
+                } else {
+                    computationalThreadExecutionService.executeThread(registerExecutions, computationalThreadExecution);
+                }
+            }
+        }
+        computationalThreadExecutionService.update(computationalThreadExecution);
     }
 
     private CronExpression buildCronExpression(final String executionPlanning) {

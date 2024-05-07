@@ -148,7 +148,8 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
         }
     }
 
-    private WebResultDTO registerETL(Etl etl) {
+    @Override
+    public WebResultDTO registerETL(Etl etl) {
         if (etl.isTransformation()) {
             return registerTrans(etl);
         } else {

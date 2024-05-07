@@ -150,7 +150,8 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         }
     }
 
-    private WebResultDTO registerETL(Etl etl) {
+    @Override
+    public WebResultDTO registerETL(Etl etl) {
         if (etl.isPipeline()) {
             return registerPipeline(etl);
         } else {

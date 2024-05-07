@@ -15,6 +15,6 @@ public interface ComputationalThreadsService {
 
     // Executions
     public ComputationalThreadExecution createThreadExecution(ComputationalThreadExecution computationalThreadExecution);
-    public ComputationalThreadExecution updateThreadExecution(ComputationalThreadExecution computationalThreadExecution);
+    public void executeThread(ComputationalThreadExecution computationalThreadExecution, String executor);
 
 }

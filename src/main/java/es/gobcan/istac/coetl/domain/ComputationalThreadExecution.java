@@ -28,6 +28,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.collection.internal.PersistentList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -167,7 +168,15 @@ public class ComputationalThreadExecution implements Serializable {
     }
 
     public void setComputationalThreadExecutionEtl(List<ComputationalThreadExecutionEtl> computationalThreadExecutionEtl) {
-        this.computationalThreadExecutionEtl = computationalThreadExecutionEtl;
+        if (computationalThreadExecutionEtl instanceof PersistentList) {
+            this.computationalThreadExecutionEtl = computationalThreadExecutionEtl;
+        } else {
+            if (this.computationalThreadExecutionEtl == null) {
+                this.computationalThreadExecutionEtl = computationalThreadExecutionEtl;
+            }
+            this.computationalThreadExecutionEtl.clear();
+            this.computationalThreadExecutionEtl.addAll(computationalThreadExecutionEtl);
+        }
     }
 
     @Override

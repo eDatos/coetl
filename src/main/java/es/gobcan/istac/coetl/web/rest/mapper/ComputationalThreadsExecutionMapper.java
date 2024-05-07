@@ -1,13 +1,18 @@
 package es.gobcan.istac.coetl.web.rest.mapper;
 
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
-import es.gobcan.istac.coetl.domain.ComputationalThreadExecution.Result;
+import es.gobcan.istac.coetl.domain.ComputationalThreadExecutionEtl;
+import es.gobcan.istac.coetl.domain.ComputationalThreads;
+import es.gobcan.istac.coetl.domain.ComputationalThreadsEtl;
+import es.gobcan.istac.coetl.repository.ComputationalThreadExecutionEtlRepository;
 import es.gobcan.istac.coetl.repository.ComputationalThreadExecutionRepository;
 import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadExecutionDTO;
@@ -17,9 +22,12 @@ public abstract class ComputationalThreadsExecutionMapper {
 
     @Autowired
     private ComputationalThreadsRepository computationalThreadsRepository;
-    
+
     @Autowired
     ComputationalThreadExecutionRepository computationalThreadExecutionRepository;
+
+    @Autowired
+    ComputationalThreadExecutionEtlRepository computationalThreadExecutionEtlRepository;
 
     public ComputationalThreadExecutionDTO toDto(ComputationalThreadExecution entity) {
         if (entity == null) {
@@ -39,25 +47,41 @@ public abstract class ComputationalThreadsExecutionMapper {
         return dto;
     }
 
-    private Result getResult(Long idThread, Result result) {
-        if (!computationalThreadExecutionRepository.findAllByComputationalThreadIdAndResult(idThread, result).isEmpty()) {
-            return Result.DUPLICATED;
-        }
-        return result;
+    public ComputationalThreadExecution fromId(Long id) {
+        return computationalThreadExecutionRepository.findOne(id);
+    }
+
+    public ComputationalThreadExecutionEtl fromExecutionId(Long id) {
+        return computationalThreadExecutionEtlRepository.findOne(id);
+    }
+
+    public List<ComputationalThreadExecutionEtl> initializeThreadExecutionEtl(List<ComputationalThreadsEtl> computationalThreadsEtls) {
+        return computationalThreadsEtls.stream().filter(Objects::nonNull).map(thread -> setNewThreadExecutionEtl()).collect(Collectors.toList());
+    }
+
+    public ComputationalThreadExecutionEtl setNewThreadExecutionEtl() {
+        return new ComputationalThreadExecutionEtl();
     }
 
     public ComputationalThreadExecution toEntity(ComputationalThreadExecutionDTO computationalThreadExecutionDTO) {
-        ComputationalThreadExecution computationalThreadExecution = new ComputationalThreadExecution();
-        computationalThreadExecution.setComputationalThread(computationalThreadsRepository.findOne(computationalThreadExecutionDTO.getIdThread()));
-        computationalThreadExecution.setType(computationalThreadExecutionDTO.getType());
-        computationalThreadExecution.setExecutor(SecurityContextHolder.getContext().getAuthentication().getName());
-        computationalThreadExecution.setResult(getResult(computationalThreadExecutionDTO.getIdThread(), computationalThreadExecutionDTO.getResult()));
-        computationalThreadExecution.setPlanningDate(Instant.now());
-        computationalThreadExecution.setNotes(computationalThreadExecutionDTO.getNotes());
-        if (Result.RUNNING.equals(computationalThreadExecutionDTO.getResult())) {
-            computationalThreadExecution.setStartDate(Instant.now());
+        if (computationalThreadExecutionDTO == null) {
+            return null;
         }
-        return computationalThreadExecution;
+
+        ComputationalThreadExecution entity = (computationalThreadExecutionDTO.getId() != null) ? fromId(computationalThreadExecutionDTO.getId())
+                : new ComputationalThreadExecution();
+        ComputationalThreads thread = computationalThreadsRepository.findOne(computationalThreadExecutionDTO.getIdThread());
+        entity.setComputationalThread(thread);
+        entity.setComputationalThreadExecutionEtl(
+                entity.getComputationalThreadExecutionEtl() == null ? new ArrayList<ComputationalThreadExecutionEtl>() : entity.getComputationalThreadExecutionEtl());
+        entity.setType(computationalThreadExecutionDTO.getType());
+        entity.setExecutor(computationalThreadExecutionDTO.getExecutor());
+        entity.setResult(computationalThreadExecutionDTO.getResult());
+        entity.setPlanningDate(computationalThreadExecutionDTO.getPlanningDate());
+        entity.setNotes(computationalThreadExecutionDTO.getNotes());
+        entity.setStartDate(computationalThreadExecutionDTO.getStartDate());
+        entity.setFinishDate(computationalThreadExecutionDTO.getFinishDate());
+        return entity;
     }
 
 }

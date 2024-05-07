@@ -14,6 +14,7 @@ public interface ExecutionService {
     public Execution update(Execution execution);
     public Page<Execution> findAllByEtlId(Long idEtl, Pageable pageable);
     public boolean existsRunnnigOrWaitingByEtl(Long idEtl);
+    public boolean existsRunnnigOrWaitingByEtlIdIn(List<Long> etlsId);
     public List<Execution> getInRunningResultAndEtlExecutionPlatform(TipoPlataformaEjecucion platform);
     public Execution getOldestInWaitingResultAndEtlExecutionPlatform(TipoPlataformaEjecucion platform);
 }

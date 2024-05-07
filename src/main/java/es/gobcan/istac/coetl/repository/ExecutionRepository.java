@@ -19,6 +19,8 @@ public interface ExecutionRepository extends JpaRepository<Execution, Long> {
 
     boolean existsByResultInAndEtlId(List<Result> results, Long idEtl);
 
+    boolean existsByResultInAndEtlIdIn(List<Result> results, List<Long> etlsId);
+
     List<Execution> findByResult(Result running);
     
     List<Execution> findByResultAndEtlExecutionPlatform(Result running, TipoPlataformaEjecucion platform);
