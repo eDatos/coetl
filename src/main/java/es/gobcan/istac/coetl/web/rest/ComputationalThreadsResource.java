@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,7 @@ import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
+import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.istac.coetl.service.ComputationalThreadExecutionService;
 import es.gobcan.istac.coetl.service.ComputationalThreadsService;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadExecutionDTO;
@@ -82,7 +84,7 @@ public class ComputationalThreadsResource extends AbstractResource {
         ComputationalThreads createdComputationalThread = computationalThreadsService.create(computationalThreadsMapper.toEntity(computationalThreadsDTO));
 
         ComputationalThreadsDTO result = computationalThreadsMapper.toDto(createdComputationalThread);
-        auditEventPublisher.publish(AuditConstants.ETL_CREATED, result.getCode());
+        auditEventPublisher.publish(AuditConstants.COMPUTATIONAL_THREAD_CREATED, result.getCode());
 
         return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, result.getId().toString())).body(result);
@@ -106,9 +108,62 @@ public class ComputationalThreadsResource extends AbstractResource {
         ComputationalThreads updatedEtl = computationalThreadsService.update(currentComputationalThread);
 
         ComputationalThreadsDTO result = computationalThreadsMapper.toDto(updatedEtl);
-        auditEventPublisher.publish(AuditConstants.ETL_UPDATED, result.getCode());
+        auditEventPublisher.publish(AuditConstants.COMPUTATIONAL_THREAD_UPDATED, result.getCode());
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result), HeaderUtil.createEntityUpdateAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, result.getCode()));
+    }
+
+    @DeleteMapping("/{idThread}")
+    @Timed
+    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
+    public ResponseEntity<ComputationalThreadsDTO> delete(@PathVariable Long idThread) {
+        LOGGGER.debug("REST Request to delete an Computational Thread : {}", idThread);
+        if (idThread == null) {
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, ErrorConstants.ID_FALTA, "Cannot delete a Computational Thread ID not found"))
+                    .build();
+        }
+        ComputationalThreads computationalThread = computationalThreadsService.findOne(idThread);
+        if (computationalThread == null) {
+            return ResponseEntity.notFound().build();
+        }
+        if (computationalThread.isDeleted()) {
+            final String message = String.format("Computational Thread %s is currently deleted, so can not be deleted twice", computationalThread.getCode());
+            final String code = ErrorConstants.COMPUTATIONAL_THREAD_CURRENTLY_DELETED;
+            CustomExceptionUtil.throwCustomParameterizedException(message, code);
+        }
+        ComputationalThreads deletedThread = computationalThreadsService.delete(computationalThread);
+        ComputationalThreadsDTO result = computationalThreadsMapper.toDto(deletedThread);
+        auditEventPublisher.publish(AuditConstants.COMPUTATIONAL_THREAD_DELETED, result.getCode());
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, result.getCode())).body(result);
+    }
+
+    @PutMapping("/{idThread}/restore")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<ComputationalThreadsDTO> restore(@PathVariable Long idThread) {
+        LOGGGER.debug("REST Request to restore an Computational Thread : {}", idThread);
+        if (idThread == null) {
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, ErrorConstants.ID_FALTA, "Cannot delete a Computational Thread ID not found"))
+                    .build();
+        }
+        ComputationalThreads computationalThread = computationalThreadsService.findOne(idThread);
+        if (computationalThread == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (!computationalThread.isDeleted()) {
+            final String message = String.format("Computational thread %s is not currently deleted, so you do not have anything to restore", computationalThread.getCode());
+            final String code = ErrorConstants.COMPUTATIONAL_THREAD_CURRENTLY_NOT_DELETED;
+            CustomExceptionUtil.throwCustomParameterizedException(message, code);
+        }
+
+        ComputationalThreads recoveredEtl = computationalThreadsService.restore(computationalThread);
+        ComputationalThreadsDTO result = computationalThreadsMapper.toDto(recoveredEtl);
+        auditEventPublisher.publish(AuditConstants.COMPUTATIONAL_THREAD_RECOVERED, result.getCode());
+
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, result.getCode())).body(result);
     }
 
     @GetMapping("/{idThread}")
@@ -152,6 +207,7 @@ public class ComputationalThreadsResource extends AbstractResource {
         ComputationalThreadExecution threadExecutionToEntity = computationalThreadsExecutionMapper.toEntity(computationalThreadExecutionDTO);
         ComputationalThreadExecution newThreadExecution = computationalThreadsService.createThreadExecution(threadExecutionToEntity);
         computationalThreadsService.executeThread(newThreadExecution, SecurityContextHolder.getContext().getAuthentication().getName());
+        auditEventPublisher.publish(AuditConstants.COMPUTATIONAL_THREAD_EXECUTED, newThreadExecution.getComputationalThread().getCode());
         ComputationalThreadExecutionDTO result = computationalThreadsExecutionMapper.toDto(newThreadExecution);
         return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getIdThread() + SLASH + "create-execution" + SLASH + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, result.getId().toString())).body(result);

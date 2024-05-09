@@ -64,8 +64,9 @@
             </table>
         </div>
     </ng-container>
+
     <ng-template #emptyList>
-        <div class="empty-list">
+        <div class="empty-list" *ngIf="!isEdit">
             <span jhiTranslate="computationalThread.list.emptyListMessage"></span>
         </div>
     </ng-template>

@@ -19,5 +19,6 @@ public interface ComputationalThreadExecutionRepository extends JpaRepository<Co
     List<ComputationalThreadExecution> findAllByComputationalThreadIdAndResult(Long idThread, Result result);
     ComputationalThreadExecution findByResultAndId(Result result, Long idExecutionThread);
     List<ComputationalThreadExecution> findByResult(Result result);
+    boolean existsByResultAndComputationalThreadId(Result result, Long id);
 
 }

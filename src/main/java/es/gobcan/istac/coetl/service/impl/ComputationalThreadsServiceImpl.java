@@ -124,12 +124,33 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
         return (computationalThreads.isPlanned()) ? planifyAndSave(computationalThreads) : unplanifyAndSave(computationalThreads);
     }
 
+    @Override
+    public ComputationalThreads delete(ComputationalThreads computationalThreads) {
+        LOGGER.debug("Request to delete an Computational Thread : {}", computationalThreads);
+        computationalThreads.setDeletedBy(SecurityUtils.getCurrentUserLogin());
+        computationalThreads.setDeletionDate(Instant.now());
+
+        return (computationalThreads.isPlanned()) ? unplanifyAndSave(computationalThreads) : save(computationalThreads);
+    }
+
+    @Override
+    public ComputationalThreads restore(ComputationalThreads computationalThreads) {
+        LOGGER.debug("Request to recover an Computational Thread : {}", computationalThreads);
+        computationalThreads.setDeletedBy(null);
+        computationalThreads.setDeletionDate(null);
+        return (computationalThreads.isPlanned()) ? planifyAndSave(computationalThreads) : save(computationalThreads);
+    }
+
     // EXECUTIONS
     @Override
     public ComputationalThreadExecution createThreadExecution(ComputationalThreadExecution computationalThreadExecution) {
         computationalThreadExecution.setPlanningDate(Instant.now());
         computationalThreadExecution.setExecutor(SecurityContextHolder.getContext().getAuthentication().getName());
-        if (Result.RUNNING.equals(computationalThreadExecution.getResult())) {
+        if (computationalThreadExecutionService.existsComputationalThreadExecutionByResultAndId(ComputationalThreadExecution.Result.RUNNING,
+                computationalThreadExecution.getComputationalThread().getId())) {
+            computationalThreadExecution.setResult(Result.DUPLICATED);
+            computationalThreadExecution.setStartDate(null);
+        } else if (Result.RUNNING.equals(computationalThreadExecution.getResult())) {
             computationalThreadExecution.setStartDate(Instant.now());
         }
         return computationalThreadExecutionService.create(computationalThreadExecution);
@@ -148,30 +169,32 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
                 .map(etl -> etl.getEtl().getId()).collect(Collectors.toList());
         List<Etl> etls = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl().stream().filter(Objects::nonNull)
                 .map(etl -> etl.getEtl()).collect(Collectors.toList());
-        if (executionService.existsRunnnigOrWaitingByEtlIdIn(etlIds)) {
-            computationalThreadExecution.setResult(Result.WAITING);
-        } else {
-            List<Execution> registerExecutions = computationalThreadExecutionService.registerHopETL(etls, executor);
-            if (registerExecutions.size() != etls.size() || registerExecutions.stream().filter(exec -> Execution.Result.FAILED.equals(exec.getResult())).count() > 0) {
-                StringBuilder msgError = new StringBuilder();
-                for (Execution resultExecution : registerExecutions) {
-                    msgError.append(getRegisterErrorMsg(resultExecution));
-                    resultExecution.setResult(Execution.Result.FAILED);
-                }
-                computationalThreadExecutionService.unRegisterHopETL(registerExecutions);
-                computationalThreadExecutionService.setThreadExecutionFailed(computationalThreadExecution,
-                        StringUtils.substring(MSG_ERROR_REGISTER_THREAD_ETLS_IN_HOP.concat(msgError.toString()), 0, MAX_LENGHT_NOTES));
+        if (!computationalThreadExecution.getResult().equals(Result.DUPLICATED)) {
+            if (executionService.existsRunnnigOrWaitingByEtlIdIn(etlIds)) {
+                computationalThreadExecution.setResult(Result.WAITING);
             } else {
-                boolean purgateRegisterEtls = computationalThreadExecutionService.createAllThreadETLExecutions(computationalThreadExecution, registerExecutions);
-                if (purgateRegisterEtls) {
+                List<Execution> registerExecutions = computationalThreadExecutionService.registerHopETL(etls, executor);
+                if (registerExecutions.size() != etls.size() || registerExecutions.stream().filter(exec -> Execution.Result.FAILED.equals(exec.getResult())).count() > 0) {
+                    StringBuilder msgError = new StringBuilder();
+                    for (Execution resultExecution : registerExecutions) {
+                        msgError.append(getRegisterErrorMsg(resultExecution));
+                        resultExecution.setResult(Execution.Result.FAILED);
+                    }
                     computationalThreadExecutionService.unRegisterHopETL(registerExecutions);
-                    computationalThreadExecutionService.setThreadExecutionFailed(computationalThreadExecution, MSG_ERROR_REGISTER_THREAD_ETLS_EXECUTION);
+                    computationalThreadExecutionService.setThreadExecutionFailed(computationalThreadExecution,
+                            StringUtils.substring(MSG_ERROR_REGISTER_THREAD_ETLS_IN_HOP.concat(msgError.toString()), 0, MAX_LENGHT_NOTES));
                 } else {
-                    computationalThreadExecutionService.executeThread(registerExecutions, computationalThreadExecution);
+                    boolean purgateRegisterEtls = computationalThreadExecutionService.createAllThreadETLExecutions(computationalThreadExecution, registerExecutions);
+                    if (purgateRegisterEtls) {
+                        computationalThreadExecutionService.unRegisterHopETL(registerExecutions);
+                        computationalThreadExecutionService.setThreadExecutionFailed(computationalThreadExecution, MSG_ERROR_REGISTER_THREAD_ETLS_EXECUTION);
+                    } else {
+                        computationalThreadExecutionService.executeThread(registerExecutions, computationalThreadExecution);
+                    }
                 }
             }
+            computationalThreadExecutionService.update(computationalThreadExecution);
         }
-        computationalThreadExecutionService.update(computationalThreadExecution);
     }
 
     private CronExpression buildCronExpression(final String executionPlanning) {

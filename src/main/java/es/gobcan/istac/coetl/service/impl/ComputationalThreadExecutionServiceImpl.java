@@ -83,18 +83,26 @@ public class ComputationalThreadExecutionServiceImpl implements ComputationalThr
 
     @Override
     public List<ComputationalThreadExecution> getThreadsExecutionByResult(Result result) {
-        LOG.debug("Request to get Thread Execution by Result");
+        LOG.debug("Request to get Thread Execution by Result {}", result);
         return computationalThreadExecutionRepository.findByResult(result);
     }
 
     @Override
     public ComputationalThreadExecutionEtl findByExecutionId(Long id) {
+        LOG.debug("Request to get Thread Execution Etl by id {}", id);
         return computationalThreadExecutionEtlRepository.findByExecutionId(id);
     }
 
     @Override
     public List<ComputationalThreadExecutionEtl> findAllByComputationalThreadExecutionId(Long id) {
+        LOG.debug("Request to get All Thread Execution Etl by id {}", id);
         return computationalThreadExecutionEtlRepository.findAllByComputationalThreadExecutionId(id);
+    }
+
+    @Override
+    public boolean existsComputationalThreadExecutionByResultAndId(Result result, Long id) {
+        LOG.debug("Request to check if exists a Thread Execution by Result {} and id {}", result, id);
+        return computationalThreadExecutionRepository.existsByResultAndComputationalThreadId(result, id);
     }
 
     @Transactional
