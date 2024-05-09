@@ -15,6 +15,8 @@ import {
     Type
 } from '../computational-thread-execution.model';
 import { ComputationalThreadConfirmExecutionDialogComponent } from '../execution/dialog/computational-thread-confirm-execution-dialog.component';
+import { ComputationalThreadDeleteDialogComponent } from '../delete-dialog/computational-thread-delete-dialog.component';
+import { ComputationalThreadRestoreDialogComponent } from '../restore-dialog/computational-thread-restore-dialog.component';
 
 @Component({
     selector: 'ac-computational-thread-form',
@@ -100,10 +102,20 @@ export class ComputationalThreadFormComponent
 
     public delete() {
         const copy = Object.assign(new ComputationalThreads(), this.computationalThreads);
+        this.genericModalService.open(
+            <any>ComputationalThreadDeleteDialogComponent,
+            { thread: copy },
+            { container: '.app' }
+        );
     }
 
     public restore() {
         const copy = Object.assign(new ComputationalThreads(), this.computationalThreads);
+        this.genericModalService.open(
+            <any>ComputationalThreadRestoreDialogComponent,
+            { thread: copy },
+            { container: '.app' }
+        );
     }
 
     private initializeExecutionDTO() {

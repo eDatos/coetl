@@ -81,6 +81,12 @@
                 "label": "Estado Ejecución"
             },
             "executor": "Usuario"
+        },
+        "delete": {
+            "question": "¿Seguro que quiere eliminar el Hilo Computacional <b>{{ code }}</b>?"
+        },
+        "restore": {
+            "question": "¿Seguro que quiere resturar el Hilo Computacional <b>{{ code }}</b>?"
         }
     }
 }

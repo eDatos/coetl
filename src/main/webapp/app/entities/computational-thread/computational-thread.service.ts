@@ -29,6 +29,18 @@ export class ComputationalThreadService {
             .map((response) => this.convertItemToComputationalThread(response.json()));
     }
 
+    public delete(idThread: number): Observable<ComputationalThreads> {
+        return this.http
+            .delete(`${this.resourceUrl}/${idThread}`)
+            .map((response) => this.convertItemToComputationalThread(response.json()));
+    }
+
+    public restore(idThread: number): Observable<ComputationalThreads> {
+        return this.http
+            .put(`${this.resourceUrl}/${idThread}/restore`, null)
+            .map((response) => this.convertItemToComputationalThread(response.json()));
+    }
+
     private convertItemToComputationalThread(entity: any): ComputationalThreads {
         return Object.assign(new ComputationalThreads(), entity);
     }
