@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
+import es.gobcan.istac.coetl.domain.ComputationalThreadExecution.Result;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.domain.ComputationalThreadsEtl;
-import es.gobcan.istac.coetl.domain.Execution;
+import es.gobcan.istac.coetl.repository.ComputationalThreadExecutionRepository;
 import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadsBaseDTO;
@@ -31,6 +34,9 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
 
     @Autowired
     private EtlService etlService;
+
+    @Autowired
+    private ComputationalThreadExecutionRepository computationalThreadExecutionRepository;
 
     private ComputationalThreads fromId(Long id) {
         return computationalThreadsRepository.findOne(id);
@@ -85,7 +91,14 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
         }
     }
 
-    public ComputationalThreadsBaseDTO toBaseDto(ComputationalThreads entity, Execution execution) {
+    private void setDataExecution(ComputationalThreadExecution execution, ComputationalThreadsBaseDTO baseDto) {
+        if (execution != null) {
+            baseDto.setLastExecution(execution.getStartDate());
+            baseDto.setResult(execution.getResult());
+        }
+    }
+
+    public ComputationalThreadsBaseDTO toBaseDto(ComputationalThreads entity, ComputationalThreadExecution execution) {
         if (entity == null) {
             return null;
         }
@@ -105,6 +118,8 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
         baseDto.setDeletedBy(entity.getDeletedBy());
         baseDto.setDeletionDate(entity.getDeletionDate());
 
+        setDataExecution(execution, baseDto);
+
         baseDto.setOptLock(entity.getOptLock());
 
         baseDto.setExternalItem(externalItemMapper.toDto(entity.getExternalItem()));
@@ -115,7 +130,17 @@ public abstract class ComputationalThreadsMapper implements EntityMapper<Computa
     }
 
     public ComputationalThreadsBaseDTO toBaseDto(ComputationalThreads entity, String lastExecutionStartDate, String lastExecutionResult) {
-        return toBaseDto(entity, null);
+        ComputationalThreadExecution execution;
+        if (StringUtils.isNotBlank(lastExecutionResult) && StringUtils.isNotBlank(lastExecutionStartDate)) {
+            execution = computationalThreadExecutionRepository.findFirstByComputationalThreadIdAndPlanningDateAndResultOrderByIdDesc(entity.getId(), lastExecutionStartDate, lastExecutionResult);
+        } else if (StringUtils.isNotBlank(lastExecutionResult) && StringUtils.isBlank(lastExecutionStartDate)) {
+            execution = computationalThreadExecutionRepository.findFirstByComputationalThreadIdAndResultOrderByIdDesc(entity.getId(), Result.valueOf(lastExecutionResult));
+        } else if (StringUtils.isBlank(lastExecutionResult) && StringUtils.isNotBlank(lastExecutionStartDate)) {
+            execution = computationalThreadExecutionRepository.findFirstByComputationalThreadIdAndPlanningDateOrderByIdDesc(entity.getId(), lastExecutionStartDate);
+        } else {
+            execution = computationalThreadExecutionRepository.findFirstByComputationalThreadIdOrderByPlanningDateDesc(entity.getId());
+        }
+        return toBaseDto(entity, execution);
     }
 
 }

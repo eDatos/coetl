@@ -90,19 +90,24 @@ export class ComputationalThreadExecutionListComponent implements OnInit, OnDest
     }
 
     public getResultName(execution: ComputationalThreadExecution): string {
-        return this.translateService.instant(
-            `computationalThread.execution.result.${execution.result}`
-        );
+        return execution
+            ? this.translateService.instant(
+                  `computationalThread.execution.result.${execution.result}`
+              )
+            : '';
     }
 
     public getResultBadgeClass(execution: ComputationalThreadExecution): any {
-        return {
-            'badge-success': execution.result === Result.SUCCESS,
-            'badge-danger': execution.result === Result.FAILED,
-            'badge-warning': execution.result === Result.WAITING,
-            'badge-primary': execution.result === Result.RUNNING,
-            'badge-default': execution.result === Result.DUPLICATED
-        };
+        if (execution) {
+            return {
+                'badge-success': execution.result === Result.SUCCESS,
+                'badge-danger': execution.result === Result.FAILED,
+                'badge-warning': execution.result === Result.WAITING,
+                'badge-primary': execution.result === Result.RUNNING,
+                'badge-default': execution.result === Result.DUPLICATED
+            };
+        }
+        return '';
     }
 
     // VALIDATIONS

@@ -12,8 +12,8 @@
         <ac-computational-thread-search [filters]="filters"></ac-computational-thread-search>
     </div>
 
-    <ng-container *ngIf="computationalThreadsBase">
-        <ng-container *ngIf="computationalThreadsBase.length > 0;else emptyList">
+    <ng-container *ngIf="computationalThreadList">
+        <ng-container *ngIf="computationalThreadList.length > 0;else emptyList">
             <div class="table-responsive">
                 <table class="table table-hover" acStickyTableHeader>
                     <thead>
@@ -26,16 +26,30 @@
                                 <span jhiTranslate="computationalThread.threads.name.label"></span>
                                 <span class="fa fa-sort order-by-class"></span>
                             </th>
+                            <th style="width: 15%">
+                                <span jhiTranslate="computationalThread.threads.statisticalOperation.label"></span>
+                            </th>
+                            <th style="width: 5%">
+                                <span jhiTranslate="computationalThread.threads.lastExecution.label"></span>
+                            </th>
+                            <th style="width: 10%">
+                                <span jhiTranslate="computationalThread.threads.executionResult.label"></span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr
                             [ngClass]="{ 'entity-deleted': thread.isDeleted() }"
-                            *ngFor="let thread of computationalThreadsBase ;trackBy: trackId"
+                            *ngFor="let thread of computationalThreadList ;trackBy: trackId"
                             [routerLink]="['../computational-threads', thread.id ]"
                         >
                             <td>{{thread.code}}</td>
                             <td>{{thread.name}}</td>
+                            <td>{{thread.externalItem?.code}} {{thread.externalItem?.name}}</td>
+                            <td>{{thread.lastExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>
+                                <span class="badge" [ngClass]="getResultBadgeClass(thread.result)">{{ getResultName(thread.result) }}</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

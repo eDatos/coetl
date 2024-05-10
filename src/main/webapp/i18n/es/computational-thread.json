@@ -35,6 +35,12 @@
             "execution": {
                 "title": "Confirmar ejecución",
                 "question": "¿Seguro que quiere ejecutar el Hilo Computacional <b>{{ code }}</b>?"
+            },
+            "lastExecution": {
+                "label": "Última ejecución"
+            },
+            "executionResult": {
+                "label": "Estado Ejecución"
             }
         },
         "filters": {
@@ -45,7 +51,26 @@
             "name": {
                 "placeholder": "Búsqueda por nombre",
                 "label": "Nombre"
-            }
+            },
+            "statisticalOperation": {
+                "placeholder": "Búsqueda por operación estadística",
+                "label": "Operación estadística"
+            },
+            "executionResult": {
+                "label": "Estado Ejecución"
+            },
+            "lastExecution": {
+                "label": "Última ejecución"
+            },
+            "result": {
+                "label": "Resultado",
+                "SUCCESS": "Correcto",
+                "FAILED": "Fallo",
+                "WAITING": "En espera",
+                "RUNNING": "En ejecución",
+                "DUPLICATED": "Duplicado"
+            },
+            "includeDeleted": "Incluir eliminados"
         },
         "threadList": {
             "home": {

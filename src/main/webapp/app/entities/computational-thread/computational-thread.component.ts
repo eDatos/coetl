@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { PermissionService, ResponseWrapper } from '../../shared';
 import { ComputationalThreadsBase } from './computational-thread.model';
 import { ComputationalThreadService } from './computational-thread.service';
@@ -8,13 +9,14 @@ import { ComputationalThreadFilter, ComputationalThreadSearchComponent } from '.
 import { DatePipe } from '@angular/common';
 import { ComputationalThreadFormComponent } from './form/computational-thread-form.component';
 import { Subscription } from 'rxjs';
+import { ComputationalThreadExecution, Result } from './computational-thread-execution.model';
 
 @Component({
     selector: 'ac-computational-thread',
     templateUrl: './computational-thread.component.html'
 })
 export class ComputationalThreadComponent implements OnInit, OnDestroy {
-    public computationalThreadsBase: ComputationalThreadsBase[];
+    public computationalThreadList: ComputationalThreadsBase[];
     public page: number;
     public totalItems: number;
     public itemsPerPage: number;
@@ -34,7 +36,8 @@ export class ComputationalThreadComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private datePipe: DatePipe,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private translateService: TranslateService
     ) {
         this.routeDataSubscription = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
@@ -67,16 +70,13 @@ export class ComputationalThreadComponent implements OnInit, OnDestroy {
                 size: this.itemsPerPage,
                 sort: this.sort(),
                 query: this.filters ? this.filters.toQuery() : '',
-                includeDeleted: false,
-                lastExecution: '',
-                lastExecutionByResult: ''
-                //includeDeleted: this.filters ? this.filters.includeDeleted : false,
-                //lastExecution:
-                //    this.filters && this.filters.lastExecution ? this.filters.lastExecution : '',
-                //lastExecutionByResult:
-                //    this.filters && this.filters.lastExecutionByResult
-                //        ? this.filters.lastExecutionByResult
-                //        : ''
+                includeDeleted: this.filters ? this.filters.includeDeleted : false,
+                lastExecution:
+                    this.filters && this.filters.lastExecution ? this.filters.lastExecution : '',
+                lastExecutionByResult:
+                    this.filters && this.filters.lastExecutionByResult
+                        ? this.filters.lastExecutionByResult
+                        : ''
             })
             .subscribe((res: ResponseWrapper) => this.onSuccess(res.json, res.headers));
     }
@@ -84,7 +84,7 @@ export class ComputationalThreadComponent implements OnInit, OnDestroy {
     private onSuccess(data: ComputationalThreadsBase[], headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
-        this.computationalThreadsBase = data;
+        this.computationalThreadList = data;
     }
 
     private registerChangesInComputationalThreads() {
@@ -132,5 +132,24 @@ export class ComputationalThreadComponent implements OnInit, OnDestroy {
                 this.router.navigate(['computational-threads'], { queryParams });
             }
         );
+    }
+
+    public getResultBadgeClass(execution: string): any {
+        if (execution) {
+            return {
+                'badge-success': execution === Result.SUCCESS,
+                'badge-danger': execution === Result.FAILED,
+                'badge-warning': execution === Result.WAITING,
+                'badge-primary': execution === Result.RUNNING,
+                'badge-default': execution === Result.DUPLICATED
+            };
+        }
+        return '';
+    }
+
+    getResultName(execution: string): string {
+        return execution
+            ? this.translateService.instant(`computationalThread.execution.result.${execution}`)
+            : '';
     }
 }

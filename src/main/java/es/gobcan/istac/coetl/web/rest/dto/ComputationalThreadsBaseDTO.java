@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
+import es.gobcan.istac.coetl.domain.ComputationalThreadExecution.Result;
+
 public class ComputationalThreadsBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO implements Serializable  {
 
     private static final long serialVersionUID = 7581847502743845396L;
@@ -15,6 +17,7 @@ public class ComputationalThreadsBaseDTO extends AbstractVersionedAndAuditingWit
     private String executionPlanning;
     private Instant nextExecution;
     private Instant lastExecution;
+    private Result result;
     private ExternalItemDTO externalItem;
     private List<ComputationalThreadsEtlDTO> computationalThreadsEtl;
 
@@ -92,6 +95,14 @@ public class ComputationalThreadsBaseDTO extends AbstractVersionedAndAuditingWit
 
     public void setLastExecution(Instant lastExecution) {
         this.lastExecution = lastExecution;
+    }
+
+    public Result getResult() {
+        return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
     }
 
 }

@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ComputationalThreadFilter } from './computational-thread-search-filter.model';
 import { JhiEventManager } from 'ng-jhipster';
 import { Subject, Subscription } from 'rxjs';
+import { Result } from '../computational-thread-execution.model';
 
 @Component({
     selector: 'ac-computational-thread-search',
@@ -16,6 +17,7 @@ export class ComputationalThreadSearchComponent implements OnInit, OnDestroy {
     private filterChangesSubject: Subject<any>;
     public options: any;
     private susbcription: Subscription;
+    public resultExecutionEnum = Result;
 
     constructor(private eventManager: JhiEventManager, private translateService: TranslateService) {
         this.filterChangesSubject = new Subject<any>();
@@ -26,14 +28,12 @@ export class ComputationalThreadSearchComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.susbcription = this.filterChangesSubject
-            .debounceTime(300)
-            .subscribe(() =>
-                this.eventManager.broadcast({
-                    name: ComputationalThreadSearchComponent.EVENT_NAME,
-                    content: this.filters
-                })
-            );
+        this.susbcription = this.filterChangesSubject.debounceTime(300).subscribe(() =>
+            this.eventManager.broadcast({
+                name: ComputationalThreadSearchComponent.EVENT_NAME,
+                content: this.filters
+            })
+        );
     }
 
     ngOnDestroy() {
