@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
 import es.gobcan.istac.coetl.domain.ComputationalThreadExecution.Result;
+import es.gobcan.istac.coetl.domain.ComputationalThreadExecution.Type;
 import es.gobcan.istac.coetl.domain.ComputationalThreadExecutionEtl;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
@@ -231,6 +232,14 @@ public class ComputationalThreadExecutionServiceImpl implements ComputationalThr
             }
         }
         return false;
+    }
+
+    @Override
+    public ComputationalThreadExecution initDefaultExecutionCronJob() {
+        ComputationalThreadExecution newExecution = new ComputationalThreadExecution();
+        newExecution.setType(Type.AUTO);
+        newExecution.setResult(Result.RUNNING);
+        return newExecution;
     }
 
 }

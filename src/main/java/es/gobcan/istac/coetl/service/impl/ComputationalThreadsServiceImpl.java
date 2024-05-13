@@ -1,5 +1,9 @@
 package es.gobcan.istac.coetl.service.impl;
 
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
+
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -11,15 +15,20 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.quartz.CronExpression;
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
+import es.gobcan.istac.coetl.config.QuartzConstants;
 import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
 import es.gobcan.istac.coetl.domain.ComputationalThreadExecution.Result;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
@@ -27,16 +36,13 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
-import es.gobcan.istac.coetl.platform.hop.service.impl.HopExecutionServiceImpl;
-import es.gobcan.istac.coetl.repository.ComputationalThreadsEtlRepository;
+import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
+import es.gobcan.istac.coetl.job.PlatformThreadExecutionJob;
 import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
-import es.gobcan.istac.coetl.repository.ExecutionRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.ComputationalThreadExecutionService;
 import es.gobcan.istac.coetl.service.ComputationalThreadsService;
-import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
-import es.gobcan.istac.coetl.service.ExternalItemService;
 import es.gobcan.istac.coetl.service.validator.ComputationalThreadsValidator;
 import es.gobcan.istac.coetl.util.CronUtils;
 import es.gobcan.istac.coetl.web.rest.util.QueryUtil;
@@ -48,8 +54,8 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     private static final int MAX_LENGHT_NOTES = 4000;
     private static final String MSG_ERROR_REGISTER_THREAD_ETLS_IN_HOP = "Error inesperado al registrar las ETLs del hilo computacional en Apache Hop: \n ";
     private static final String MSG_ERROR_REGISTER_THREAD_ETLS_EXECUTION = "Error inesperado al registrar la ejecución de las ETLs del hilo computacional";
-    //private static final String IDENTITY_JOB_PREFIX = "pentahoExecutionJob_";
-    //private static final String IDENTITY_TRIGGER_PREFIX = "pentahoExectionTrigger_";
+    private static final String IDENTITY_JOB_PREFIX = "hopThreadExecutionJob_";
+    private static final String IDENTITY_TRIGGER_PREFIX = "hopThreadExecutionTrigger_";
 
     @Autowired
     private ComputationalThreadsRepository computationalThreadsRepository;
@@ -61,55 +67,20 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     private QueryUtil queryUtil;
 
     @Autowired
-    private ExternalItemService externalItemService;
-
-    @Autowired
-    private EtlService etlService;
-    
-    @Autowired
-    private ComputationalThreadsEtlRepository computationalThreadsEtlRepository;
-    
-    @Autowired
     private ExecutionService executionService;
-    
-    @Autowired
-    private HopExecutionServiceImpl hopExecutionService;
-    
-    @Autowired
-    private ExecutionRepository executionRepository;
-    
+
     @Autowired
     private ComputationalThreadExecutionService computationalThreadExecutionService;
-    
-    //@Autowired
-    //private SchedulerFactoryBean schedulerAccessorBean;
 
-    private ComputationalThreads planifyAndSave(ComputationalThreads computationalThreads) {
-        LOGGER.debug("Request to planify and save an Computational Thread : {}", computationalThreads);
-        //JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + computationalThreads.getCode());
-        final String executionPlanning = computationalThreads.getExecutionPlanning();
-
-        CronExpression cronExpression = buildCronExpression(executionPlanning);
-        Instant nextExecution = CronUtils.getNextExecutionFromCronExpression(cronExpression);
-        computationalThreads.setNextExecution(nextExecution);
-        //schedulePlatformExecutionJob(jobKey, cronExpression, computationalThreads);
-
-        return save(computationalThreads);
-    }
-    
-    private ComputationalThreads unplanifyAndSave(ComputationalThreads computationalThreads) {
-        LOGGER.debug("Request to unplanify and save an Computational Thread : {}", computationalThreads);
-        //JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + computationalThreads.getCode());
-        //unschedulePentahoExecutionJob(jobKey);
-        computationalThreads.setNextExecution(null);
-        return save(computationalThreads);
-    }
+    @Autowired
+    private SchedulerFactoryBean schedulerAccessorBean;
 
     private ComputationalThreads save(ComputationalThreads computationalThreads) {
         LOGGER.debug("Request to save an Computational Thread : {}", computationalThreads);
         return computationalThreadsRepository.saveAndFlush(computationalThreads);
     }
 
+    // ACTIONS
     @Override
     public ComputationalThreads create(ComputationalThreads computationalThreads) {
         LOGGER.debug("Request to create an Computational Thread : {}", computationalThreads);
@@ -141,11 +112,56 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
         return (computationalThreads.isPlanned()) ? planifyAndSave(computationalThreads) : save(computationalThreads);
     }
 
+    @Override
+    public ComputationalThreads findOne(Long id) {
+        LOGGER.debug("Request to find an Computational Thread : {}", id);
+        return computationalThreadsRepository.findOne(id);
+    }
+
+    @Override
+    public Page<ComputationalThreads> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult) {
+        DetachedCriteria criteria = buildComputationalThreadCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult);
+        return filteredListByRolOperationAllowed(computationalThreadsRepository.findAll(criteria, pageable));
+    }
+
+    private DetachedCriteria buildComputationalThreadCriteria(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate,
+            String lastExecutionResult) {
+        StringBuilder queryBuilder = new StringBuilder();
+        if (StringUtils.isNotBlank(query)) {
+            queryBuilder.append(query);
+        }
+        queryBuilder.append(queryUtil.getQueryByLastExecution(lastExecutionStartDate, lastExecutionResult, queryBuilder));
+        String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
+        return queryUtil.queryToComputationalThreadCriteria(pageable, finalQuery);
+    }
+
+    private String getFinalQuery(boolean includeDeleted, StringBuilder queryBuilder) {
+        String finalQuery = queryBuilder.toString();
+        if (BooleanUtils.isTrue(includeDeleted)) {
+            finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
+        }
+        return finalQuery;
+    }
+
+    private Page<ComputationalThreads> filteredListByRolOperationAllowed(Page<ComputationalThreads> computationalThreads) {
+        List<ComputationalThreads> filtered = new ArrayList<>();
+        if (!SecurityUtils.isAdmin()) {
+            for (ComputationalThreads computationalThread : computationalThreads.getContent()) {
+                if (computationalThread.getExternalItem() == null || SecurityUtils.haveAccessToOperationInRol(computationalThread.getExternalItem().getCode())) {
+                    filtered.add(computationalThread);
+                }
+            }
+            return new PageImpl<>(filtered);
+        } else {
+            return computationalThreads;
+        }
+    }
+
     // EXECUTIONS
     @Override
-    public ComputationalThreadExecution createThreadExecution(ComputationalThreadExecution computationalThreadExecution) {
+    public ComputationalThreadExecution createThreadExecution(ComputationalThreadExecution computationalThreadExecution, String executor) {
         computationalThreadExecution.setPlanningDate(Instant.now());
-        computationalThreadExecution.setExecutor(SecurityContextHolder.getContext().getAuthentication().getName());
+        computationalThreadExecution.setExecutor(executor);
         if (computationalThreadExecutionService.existsComputationalThreadExecutionByResultAndId(ComputationalThreadExecution.Result.RUNNING,
                 computationalThreadExecution.getComputationalThread().getId())) {
             computationalThreadExecution.setResult(Result.DUPLICATED);
@@ -197,6 +213,28 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
         }
     }
 
+    // CRON
+    private ComputationalThreads planifyAndSave(ComputationalThreads computationalThreads) {
+        LOGGER.debug("Request to planify and save an Computational Thread : {}", computationalThreads);
+        JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + computationalThreads.getCode());
+        final String executionPlanning = computationalThreads.getExecutionPlanning();
+
+        CronExpression cronExpression = buildCronExpression(executionPlanning);
+        Instant nextExecution = CronUtils.getNextExecutionFromCronExpression(cronExpression);
+        computationalThreads.setNextExecution(nextExecution);
+        schedulePlatformExecutionJob(jobKey, cronExpression, computationalThreads);
+
+        return save(computationalThreads);
+    }
+
+    private ComputationalThreads unplanifyAndSave(ComputationalThreads computationalThreads) {
+        LOGGER.debug("Request to unplanify and save an Computational Thread : {}", computationalThreads);
+        JobKey jobKey = new JobKey(IDENTITY_JOB_PREFIX + computationalThreads.getCode());
+        unschedulePentahoExecutionJob(jobKey);
+        computationalThreads.setNextExecution(null);
+        return save(computationalThreads);
+    }
+
     private CronExpression buildCronExpression(final String executionPlanning) {
         try {
             return new CronExpression(executionPlanning);
@@ -207,56 +245,10 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
         }
     }
 
-    @Override
-    public ComputationalThreads findOne(Long id) {
-        LOGGER.debug("Request to find an Computational Thread : {}", id);
-        return computationalThreadsRepository.findOne(id);
-    }
-
-    @Override
-    public Page<ComputationalThreads> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult) {
-        DetachedCriteria criteria = buildComputationalThreadCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult);
-        return filteredListByRolOperationAllowed(computationalThreadsRepository.findAll(criteria, pageable));
-    }
-
-    private Page<ComputationalThreads> filteredListByRolOperationAllowed(Page<ComputationalThreads> computationalThreads) {
-        List<ComputationalThreads> filtered = new ArrayList<>();
-        if (!SecurityUtils.isAdmin()) {
-            for (ComputationalThreads computationalThread : computationalThreads.getContent()) {
-                if (computationalThread.getExternalItem() == null || SecurityUtils.haveAccessToOperationInRol(computationalThread.getExternalItem().getCode())) {
-                    filtered.add(computationalThread);
-                }
-            }
-            return new PageImpl<>(filtered);
-        } else {
-            return computationalThreads;
-        }
-    }
-
-    private DetachedCriteria buildComputationalThreadCriteria(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate,
-            String lastExecutionResult) {
-        StringBuilder queryBuilder = new StringBuilder();
-        if (StringUtils.isNotBlank(query)) {
-            queryBuilder.append(query);
-        }
-        queryBuilder.append(queryUtil.getQueryByLastExecution(lastExecutionStartDate, lastExecutionResult, queryBuilder));
-        String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
-        return queryUtil.queryToComputationalThreadCriteria(pageable, finalQuery);
-    }
-
-    private String getFinalQuery(boolean includeDeleted, StringBuilder queryBuilder) {
-        String finalQuery = queryBuilder.toString();
-        if (BooleanUtils.isTrue(includeDeleted)) {
-            finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
-        }
-        return finalQuery;
-    }
-
-    /*
     private void schedulePlatformExecutionJob(JobKey jobKey, CronExpression cronExpression, ComputationalThreads computationalThreads) {
         LOGGER.debug("Request to scheduled a new Quartz job : {}", jobKey.getName());
         //@formatter:off
-        JobDetail job = newJob(PlatformExecutionJob.class)
+        JobDetail job = newJob(PlatformThreadExecutionJob.class)
                 .withIdentity(jobKey)
                 .usingJobData(QuartzConstants.COMPUTATIONAL_THREAD_CODE_JOB_DATA, computationalThreads.getCode())
                 .build();
@@ -294,6 +286,13 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
             schedulerAccessorBean.getScheduler().deleteJob(jobKey);
         }
     }
-    */
+
+    @Override
+    public ComputationalThreadExecution initDefaultExecutionCronJob(ComputationalThreads currentThread) {
+        ComputationalThreadExecution newExecution = computationalThreadExecutionService.initDefaultExecutionCronJob();
+        newExecution.setComputationalThread(currentThread);
+
+        return newExecution;
+    }
 
 }

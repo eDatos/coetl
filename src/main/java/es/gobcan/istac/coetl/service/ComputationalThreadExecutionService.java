@@ -28,5 +28,6 @@ public interface ComputationalThreadExecutionService {
     public List<ComputationalThreadExecutionEtl> findAllByComputationalThreadExecutionId(Long id);
     public ComputationalThreadExecution findOne(Long id);
     public boolean existsComputationalThreadExecutionByResultAndId(Result result, Long id);
+    public ComputationalThreadExecution initDefaultExecutionCronJob();
 
 }

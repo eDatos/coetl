@@ -16,7 +16,8 @@ public interface ComputationalThreadsService {
     public Page<ComputationalThreads> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult);
 
     // Executions
-    public ComputationalThreadExecution createThreadExecution(ComputationalThreadExecution computationalThreadExecution);
+    public ComputationalThreadExecution createThreadExecution(ComputationalThreadExecution computationalThreadExecution, String executor);
     public void executeThread(ComputationalThreadExecution computationalThreadExecution, String executor);
+    public ComputationalThreadExecution initDefaultExecutionCronJob(ComputationalThreads currentThread);
 
 }

@@ -17,6 +17,7 @@ import {
 import { ComputationalThreadConfirmExecutionDialogComponent } from '../execution/dialog/computational-thread-confirm-execution-dialog.component';
 import { ComputationalThreadDeleteDialogComponent } from '../delete-dialog/computational-thread-delete-dialog.component';
 import { ComputationalThreadRestoreDialogComponent } from '../restore-dialog/computational-thread-restore-dialog.component';
+import { EtlExpressionHelpDialogComponent } from '../../etl/etl-expression-help-dialog/etl-expression-help-dialog.component';
 
 @Component({
     selector: 'ac-computational-thread-form',
@@ -36,6 +37,8 @@ export class ComputationalThreadFormComponent
 
     // VISTAS
     @ViewChild('titlesContainer') titlesContaner: ElementRef;
+    @ViewChild(Autosize) executionDescriptionContainer: Autosize;
+    @ViewChild(Autosize) descriptionContainer: Autosize;
 
     constructor(
         private route: ActivatedRoute,
@@ -175,6 +178,18 @@ export class ComputationalThreadFormComponent
             .subscribe((operaciones) => (this.externalItemsSuggestions = operaciones));
     }
 
+    public help() {
+        this.genericModalService.open(
+            <any>EtlExpressionHelpDialogComponent,
+            {},
+            { container: '.app' }
+        );
+    }
+
+    public canShowNextExecution(): boolean {
+        return this.computationalThreads.isPlanning() && !!this.computationalThreads.id;
+    }
+
     // VERIFICACIONES
     public isEditMode(): Boolean {
         const lastPath = this.route.snapshot.url[this.route.snapshot.url.length - 1].path;
@@ -200,7 +215,10 @@ export class ComputationalThreadFormComponent
         setTimeout(() => this.adjustAllContainers(), null);
     }
 
-    private adjustAllContainers() {}
+    private adjustAllContainers() {
+        this.executionDescriptionContainer.adjust();
+        this.descriptionContainer.adjust();
+    }
 
     // CHILD ETLS
     private etlBaseToComputationalThreadEtl() {

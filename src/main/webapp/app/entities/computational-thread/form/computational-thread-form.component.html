@@ -135,6 +135,48 @@
             ></ac-computational-thread-etl-list>
         </fieldset>
 
+        <fieldset [disabled]="!isEditMode()">
+            <h3 jhiTranslate="computationalThread.threads.sections.planning"></h3>
+            <div class="entity-fields">
+                <div class="form-group">
+                    <label class="form-control-label" for="field_executionPlanning">
+                        <span jhiTranslate="computationalThread.threads.executionPlanning.label"></span>
+                        <span (click)="help()">
+                            <ac-help-tooltip [position]="'bottom'" [label]="'coetlApp.etlExpressionHelp.tooltip' | translate"></ac-help-tooltip>
+                        </span>
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="executionPlanning"
+                        id="field_executionPlanning"
+                        [(ngModel)]="computationalThreads.executionPlanning"
+                        [placeholder]="'computationalThread.threads.executionPlanning.placeholder' | translate"
+                    />
+                </div>
+                <dl *ngIf="canShowNextExecution()" class="jh-entity-details">
+                    <dt>
+                        <label jhiTranslate="computationalThread.threads.nextExecution.label"></label>
+                    </dt>
+                    <dd>{{ computationalThreads.nextExecution | acDate: 'datetime' }}</dd>
+                </dl>
+                <div class="form-group full-width">
+                    <label class="form-control-label" jhiTranslate="computationalThread.threads.executionDescription.label" for="field_executionDescription"></label>
+                    <textarea
+                        [disabled]="!isEditMode()"
+                        class="form-control"
+                        name="executionDescription"
+                        id="field_executionDescription"
+                        [(ngModel)]="computationalThreads.executionDescription"
+                        maxlength="4000"
+                        [placeholder]="'computationalThread.threads.executionDescription.placeholder' | translate"
+                        autosize
+                        #executionDescriptionContainer
+                    ></textarea>
+                </div>
+            </div>
+        </fieldset>
+
         <fieldset *ngIf="computationalThreads.id">
             <ac-computational-threads-execution-list [idThread]="computationalThreads.id"></ac-computational-threads-execution-list>
         </fieldset>

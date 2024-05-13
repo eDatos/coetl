@@ -41,6 +41,17 @@
             },
             "executionResult": {
                 "label": "Estado Ejecución"
+            },
+            "executionDescription": {
+                "label": "Cuando debe ejecutarse",
+                "placeholder": "Introduzca una descripción relativa a la ejecución"
+            },
+            "executionPlanning": {
+                "label": "Expresión de planificación",
+                "placeholder": "Introduzca una expresión de planificación"
+            },
+            "nextExecution": {
+                "label": "Próxima ejecución"
             }
         },
         "filters": {
