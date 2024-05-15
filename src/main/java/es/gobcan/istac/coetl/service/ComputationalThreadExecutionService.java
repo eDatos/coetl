@@ -21,7 +21,7 @@ public interface ComputationalThreadExecutionService {
     public boolean createAllThreadETLExecutions(ComputationalThreadExecution computationalThreadExecution, List<Execution> registerExecutions);
     public void unRegisterHopETL(List<Execution> executions);
     public Execution runHopETL(Etl etl, Execution execution);
-    public void executeThread(List<Execution> registerExecutions, ComputationalThreadExecution computationalThreadExecution);
+    public void executeFirstEtlInThread(List<Execution> registerExecutions, ComputationalThreadExecution computationalThreadExecution);
     public void setThreadExecutionFailed(ComputationalThreadExecution computationalThreadExecution, String notes);
     public List<ComputationalThreadExecution> getThreadsExecutionByResult(Result result);
     public ComputationalThreadExecutionEtl findByExecutionId(Long id);

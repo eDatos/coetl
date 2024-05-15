@@ -180,37 +180,48 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     }
 
     @Override
-    public void executeThread(ComputationalThreadExecution computationalThreadExecution, String executor) {
+    public void executeComputationalThread(ComputationalThreadExecution computationalThreadExecution, String executor) {
         List<Long> etlIds = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl().stream().filter(Objects::nonNull)
                 .map(etl -> etl.getEtl().getId()).collect(Collectors.toList());
-        List<Etl> etls = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl().stream().filter(Objects::nonNull)
-                .map(etl -> etl.getEtl()).collect(Collectors.toList());
         if (!computationalThreadExecution.getResult().equals(Result.DUPLICATED)) {
             if (executionService.existsRunnnigOrWaitingByEtlIdIn(etlIds)) {
                 computationalThreadExecution.setResult(Result.WAITING);
             } else {
+                List<Etl> etls = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl().stream().filter(Objects::nonNull)
+                        .map(etl -> etl.getEtl()).collect(Collectors.toList());
                 List<Execution> registerExecutions = computationalThreadExecutionService.registerHopETL(etls, executor);
-                if (registerExecutions.size() != etls.size() || registerExecutions.stream().filter(exec -> Execution.Result.FAILED.equals(exec.getResult())).count() > 0) {
-                    StringBuilder msgError = new StringBuilder();
-                    for (Execution resultExecution : registerExecutions) {
-                        msgError.append(getRegisterErrorMsg(resultExecution));
-                        resultExecution.setResult(Execution.Result.FAILED);
-                    }
-                    computationalThreadExecutionService.unRegisterHopETL(registerExecutions);
-                    computationalThreadExecutionService.setThreadExecutionFailed(computationalThreadExecution,
-                            StringUtils.substring(MSG_ERROR_REGISTER_THREAD_ETLS_IN_HOP.concat(msgError.toString()), 0, MAX_LENGHT_NOTES));
-                } else {
-                    boolean purgateRegisterEtls = computationalThreadExecutionService.createAllThreadETLExecutions(computationalThreadExecution, registerExecutions);
-                    if (purgateRegisterEtls) {
-                        computationalThreadExecutionService.unRegisterHopETL(registerExecutions);
-                        computationalThreadExecutionService.setThreadExecutionFailed(computationalThreadExecution, MSG_ERROR_REGISTER_THREAD_ETLS_EXECUTION);
-                    } else {
-                        computationalThreadExecutionService.executeThread(registerExecutions, computationalThreadExecution);
-                    }
-                }
+                execute(registerExecutions, etls, computationalThreadExecution);
             }
             computationalThreadExecutionService.update(computationalThreadExecution);
         }
+    }
+
+    private void execute(List<Execution> registerExecutions, List<Etl> etls, ComputationalThreadExecution computationalThreadExecution) {
+        if (registerExecutions.size() != etls.size() || registerExecutions.stream().filter(exec -> Execution.Result.FAILED.equals(exec.getResult())).count() > 0) {
+            StringBuilder msgError = new StringBuilder();
+            for (Execution resultExecution : registerExecutions) {
+                msgError.append(getRegisterErrorMsg(resultExecution));
+                resultExecution.setResult(Execution.Result.FAILED);
+            }
+            computationalThreadExecutionFailed(registerExecutions, computationalThreadExecution,
+                    StringUtils.substring(MSG_ERROR_REGISTER_THREAD_ETLS_IN_HOP.concat(msgError.toString()), 0, MAX_LENGHT_NOTES));
+        } else {
+            executeFirstETLInComputationalThread(computationalThreadExecution, registerExecutions);
+        }
+    }
+
+    private void executeFirstETLInComputationalThread(ComputationalThreadExecution computationalThreadExecution, List<Execution> registerExecutions) {
+        boolean isCreateIncorrect = computationalThreadExecutionService.createAllThreadETLExecutions(computationalThreadExecution, registerExecutions);
+        if (isCreateIncorrect) {
+            computationalThreadExecutionFailed(registerExecutions, computationalThreadExecution, MSG_ERROR_REGISTER_THREAD_ETLS_EXECUTION);
+        } else {
+            computationalThreadExecutionService.executeFirstEtlInThread(registerExecutions, computationalThreadExecution);
+        }
+    }
+
+    private void computationalThreadExecutionFailed(List<Execution> registerExecutions, ComputationalThreadExecution computationalThreadExecution, String errorMessage) {
+        computationalThreadExecutionService.unRegisterHopETL(registerExecutions);
+        computationalThreadExecutionService.setThreadExecutionFailed(computationalThreadExecution, errorMessage);
     }
 
     // CRON

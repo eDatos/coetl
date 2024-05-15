@@ -207,7 +207,7 @@ public class ComputationalThreadsResource extends AbstractResource {
         String executor = SecurityContextHolder.getContext().getAuthentication().getName();
         ComputationalThreadExecution threadExecutionToEntity = computationalThreadsExecutionMapper.toEntity(computationalThreadExecutionDTO);
         ComputationalThreadExecution newThreadExecution = computationalThreadsService.createThreadExecution(threadExecutionToEntity, executor);
-        computationalThreadsService.executeThread(newThreadExecution, executor);
+        computationalThreadsService.executeComputationalThread(newThreadExecution, executor);
         auditEventPublisher.publish(AuditConstants.COMPUTATIONAL_THREAD_EXECUTED, newThreadExecution.getComputationalThread().getCode());
         ComputationalThreadExecutionDTO result = computationalThreadsExecutionMapper.toDto(newThreadExecution);
         return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getIdThread() + SLASH + "create-execution" + SLASH + result.getId()))

@@ -198,11 +198,11 @@ public class ComputationalThreadExecutionServiceImpl implements ComputationalThr
     }
 
     @Override
-    public void executeThread(List<Execution> registerExecutions, ComputationalThreadExecution computationalThreadExecution) {
+    public void executeFirstEtlInThread(List<Execution> registerExecutions, ComputationalThreadExecution computationalThreadExecution) {
         Etl executionFirstEtl = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl()
                 .stream().filter(comp -> comp.getExecutionOrder() == 0).findFirst().get().getEtl();
-        Execution firstExecution = registerExecutions.stream().filter(ex -> ex.getEtl().getId().equals(executionFirstEtl.getId())).findFirst().get();
         if (executionService.existsRunnnigOrWaitingByEtl(executionFirstEtl.getId())) {
+            Execution firstExecution = registerExecutions.stream().filter(ex -> ex.getEtl().getId().equals(executionFirstEtl.getId())).findFirst().get();
             Execution nextExecutionResult = runHopETL(executionFirstEtl, firstExecution);
             if (nextExecutionResult.getResult().equals(Execution.Result.FAILED)) {
                 unRegisterHopETL(registerExecutions);

@@ -17,7 +17,7 @@ public interface ComputationalThreadsService {
 
     // Executions
     public ComputationalThreadExecution createThreadExecution(ComputationalThreadExecution computationalThreadExecution, String executor);
-    public void executeThread(ComputationalThreadExecution computationalThreadExecution, String executor);
+    public void executeComputationalThread(ComputationalThreadExecution computationalThreadExecution, String executor);
     public ComputationalThreadExecution initDefaultExecutionCronJob(ComputationalThreads currentThread);
 
 }

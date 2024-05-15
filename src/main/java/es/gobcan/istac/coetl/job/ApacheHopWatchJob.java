@@ -129,7 +129,7 @@ public class ApacheHopWatchJob {
             for (ComputationalThreadExecution waitingThreads : waitingThreadExecutions) {
                 waitingThreads.setResult(ComputationalThreadExecution.Result.RUNNING);
                 waitingThreads.setStartDate(Instant.now());
-                this.computationalThreadsService.executeThread(waitingThreads, waitingThreads.getExecutor());
+                this.computationalThreadsService.executeComputationalThread(waitingThreads, waitingThreads.getExecutor());
                 changeWaiting = true;
             }
         }
