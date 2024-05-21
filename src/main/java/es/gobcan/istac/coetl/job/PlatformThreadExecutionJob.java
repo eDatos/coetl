@@ -47,7 +47,7 @@ public class PlatformThreadExecutionJob extends AbstractCoetlQuartzJob {
             });
         } catch(Exception e) {
             ComputationalThreads currentThread = getComputationalThreadsRepository(context).findOneByCode(threadCode);
-            //getNotificationRestInternalFacade(context).sendExecutionErrorEtlNotice(currentThread);
+            getNotificationRestInternalFacade(context).sendExecutionErrorComputationalThreadNotice(currentThread);
             final String message = String.format("Error occurred during the execution. Computational Thread %s can not be executed", threadCode);
             final String code = ErrorConstants.ETL_EXECUTE_ERROR;
             CustomExceptionUtil.throwCustomParameterizedException(message, code);

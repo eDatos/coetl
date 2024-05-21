@@ -152,7 +152,7 @@ public class ComputationalThreadExecutionServiceImpl implements ComputationalThr
         Execution nextExecutionResult;
         if (!webResultDTO.isOk()) {
             LOG.error("Error executing next HOP ETL {} - cause: {}", etl.getCode(), webResultDTO.getMessage());
-            //hopExecutionService.notifyExecutionError(etl);
+            hopExecutionService.notifyExecutionError(etl);
             execution.setStartDate(Instant.now());
             nextExecutionResult = updateExecutionFromResult(execution, Execution.Result.FAILED, webResultDTO.getMessage());
         } else {

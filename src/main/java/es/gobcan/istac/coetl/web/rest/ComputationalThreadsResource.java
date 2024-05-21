@@ -140,7 +140,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @PutMapping("/{idThread}/restore")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
     public ResponseEntity<ComputationalThreadsDTO> restore(@PathVariable Long idThread) {
         LOGGGER.debug("REST Request to restore an Computational Thread : {}", idThread);
         if (idThread == null) {
@@ -216,7 +216,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @GetMapping("/{idThread}/executions")
     @Timed
-    @PreAuthorize("@secChecker.canReadEtl(authentication)")
+    @PreAuthorize("@secChecker.canReadComputationalThread(authentication)")
     public ResponseEntity<List<ComputationalThreadExecutionDTO>> findAllExecutions(@PathVariable Long idThread, @ApiParam Pageable pageable) {
         LOGGGER.debug("REST Request to find a page of Executions by Computational Thread : {}", idThread);
         Page<ComputationalThreadExecutionDTO> page = computationalThreadExecutionService.findAllByComputationalThreadId(idThread, pageable)

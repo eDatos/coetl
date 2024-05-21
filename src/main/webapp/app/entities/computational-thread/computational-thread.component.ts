@@ -9,7 +9,7 @@ import { ComputationalThreadFilter, ComputationalThreadSearchComponent } from '.
 import { DatePipe } from '@angular/common';
 import { ComputationalThreadFormComponent } from './form/computational-thread-form.component';
 import { Subscription } from 'rxjs';
-import { ComputationalThreadExecution, Result } from './computational-thread-execution.model';
+import { Result } from './computational-thread-execution.model';
 
 @Component({
     selector: 'ac-computational-thread',
@@ -147,7 +147,7 @@ export class ComputationalThreadComponent implements OnInit, OnDestroy {
         return '';
     }
 
-    getResultName(execution: string): string {
+    public getResultName(execution: string): string {
         return execution
             ? this.translateService.instant(`computationalThread.execution.result.${execution}`)
             : '';
