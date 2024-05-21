@@ -73,12 +73,10 @@ export class ComputationalThreadService {
     public createExecution(
         idThread: Number,
         computationalThreadExecution: ComputationalThreadExecution
-    ): Observable<ComputationalThreadExecution> {
+    ): Observable<string> {
         return this.http
             .post(`${this.resourceUrl}/${idThread}/create-execution`, computationalThreadExecution)
-            .map((response: Response) =>
-                this.convertItemToComputationalThreadExecution(response.json())
-            );
+            .map((response) => response.text());
     }
 
     public findAllExecutions(idThread: number, req?: any): Observable<ResponseWrapper> {

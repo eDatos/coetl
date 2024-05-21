@@ -158,20 +158,6 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     }
 
     // EXECUTIONS
-    @Override
-    public ComputationalThreadExecution createThreadExecution(ComputationalThreadExecution computationalThreadExecution, String executor) {
-        computationalThreadExecution.setPlanningDate(Instant.now());
-        computationalThreadExecution.setExecutor(executor);
-        if (computationalThreadExecutionService.existsComputationalThreadExecutionByResultAndId(ComputationalThreadExecution.Result.RUNNING,
-                computationalThreadExecution.getComputationalThread().getId())) {
-            computationalThreadExecution.setResult(Result.DUPLICATED);
-            computationalThreadExecution.setStartDate(null);
-        } else if (Result.RUNNING.equals(computationalThreadExecution.getResult())) {
-            computationalThreadExecution.setStartDate(Instant.now());
-        }
-        return computationalThreadExecutionService.create(computationalThreadExecution);
-    }
-
     private String getRegisterErrorMsg(Execution resultExecution) {
         if (resultExecution.getResult().equals(Execution.Result.FAILED)) {
             return resultExecution.getNotes();
@@ -181,19 +167,25 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
 
     @Override
     public void executeComputationalThread(ComputationalThreadExecution computationalThreadExecution, String executor) {
-        List<Long> etlIds = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl().stream().filter(Objects::nonNull)
-                .map(etl -> etl.getEtl().getId()).collect(Collectors.toList());
-        if (!computationalThreadExecution.getResult().equals(Result.DUPLICATED)) {
-            if (executionService.existsRunnnigOrWaitingByEtlIdIn(etlIds)) {
-                computationalThreadExecution.setResult(Result.WAITING);
-            } else {
-                List<Etl> etls = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl().stream().filter(Objects::nonNull)
-                        .map(etl -> etl.getEtl()).collect(Collectors.toList());
-                List<Execution> registerExecutions = computationalThreadExecutionService.registerHopETL(etls, executor);
-                execute(registerExecutions, etls, computationalThreadExecution);
-            }
-            computationalThreadExecutionService.update(computationalThreadExecution);
+        List<Long> etlIds = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl().stream().filter(Objects::nonNull).map(etl -> etl.getEtl().getId())
+                .collect(Collectors.toList());
+        computationalThreadExecution.setPlanningDate(Instant.now());
+        computationalThreadExecution.setExecutor(executor);
+        if (computationalThreadExecutionService.existsComputationalThreadExecutionByResultAndId(ComputationalThreadExecution.Result.RUNNING,
+                computationalThreadExecution.getComputationalThread().getId())) {
+            computationalThreadExecution.setResult(Result.DUPLICATED);
+            computationalThreadExecution.setStartDate(null);
+        } else if (executionService.existsRunnnigOrWaitingByEtlIdIn(etlIds)) {
+            computationalThreadExecution.setResult(Result.WAITING);
+        } else {
+            computationalThreadExecution.setResult(Result.RUNNING);
+            computationalThreadExecution.setStartDate(Instant.now());
+            List<Etl> etls = computationalThreadExecution.getComputationalThread().getComputationalThreadsEtl().stream().filter(Objects::nonNull).map(etl -> etl.getEtl())
+                    .collect(Collectors.toList());
+            List<Execution> registerExecutions = computationalThreadExecutionService.registerHopETL(etls, executor);
+            execute(registerExecutions, etls, computationalThreadExecution);
         }
+        computationalThreadExecutionService.create(computationalThreadExecution);
     }
 
     private void execute(List<Execution> registerExecutions, List<Etl> etls, ComputationalThreadExecution computationalThreadExecution) {

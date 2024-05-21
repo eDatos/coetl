@@ -31,11 +31,15 @@ export class ComputationalThreadConfirmExecutionDialogComponent implements OnIni
 
     confirmExecution(idThread: number) {
         this.requestSended = true;
-        const etlEditObservable = this.computationalThreadService.createExecution(
-            idThread,
-            this.initializeExecutionDTO(idThread)
-        );
-        this.subscribeToPreExecuteResponse(etlEditObservable);
+        this.computationalThreadService
+            .createExecution(idThread, this.initializeExecutionDTO(idThread))
+            .subscribe(() => {
+                this.eventManager.broadcast({
+                    name: ComputationalThreadExecutionListComponent.EVENT_NAME,
+                    content: 'executed'
+                });
+                this.activeModal.close(true);
+            });
     }
 
     private initializeExecutionDTO(idThread: number) {
@@ -44,18 +48,6 @@ export class ComputationalThreadConfirmExecutionDialogComponent implements OnIni
         newExecution.type = Type.MANUAL;
         newExecution.result = Result.RUNNING;
         return newExecution;
-    }
-
-    private subscribeToPreExecuteResponse(result: Observable<ComputationalThreadExecution>) {
-        result.subscribe((result) => this.onPreSaveSuccess(result));
-    }
-
-    private onPreSaveSuccess(threadExecution: ComputationalThreadExecution) {
-        this.eventManager.broadcast({
-            name: ComputationalThreadExecutionListComponent.EVENT_NAME,
-            content: 'executed'
-        });
-        this.activeModal.close(true);
     }
 
     clear() {

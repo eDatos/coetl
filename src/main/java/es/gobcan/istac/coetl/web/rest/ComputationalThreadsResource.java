@@ -33,6 +33,7 @@ import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
+import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
 import es.gobcan.istac.coetl.service.ComputationalThreadExecutionService;
 import es.gobcan.istac.coetl.service.ComputationalThreadsService;
 import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadExecutionDTO;
@@ -60,15 +61,17 @@ public class ComputationalThreadsResource extends AbstractResource {
     private final ComputationalThreadsMapper computationalThreadsMapper;
     private final AuditEventPublisher auditEventPublisher;
     private final ComputationalThreadsExecutionMapper computationalThreadsExecutionMapper;
+    private final NotificationRestInternalFacade notificationRestInternalFacade;
 
     public ComputationalThreadsResource(ComputationalThreadsService computationalThreadsService, ComputationalThreadsMapper computationalThreadsMapper,
             AuditEventPublisher auditEventPublisher, ComputationalThreadsExecutionMapper computationalThreadsExecutionMapper,
-            ComputationalThreadExecutionService computationalThreadExecutionService) {
+            ComputationalThreadExecutionService computationalThreadExecutionService, NotificationRestInternalFacade notificationRestInternalFacade) {
         this.computationalThreadsService = computationalThreadsService;
         this.computationalThreadsMapper = computationalThreadsMapper;
         this.auditEventPublisher = auditEventPublisher;
         this.computationalThreadsExecutionMapper = computationalThreadsExecutionMapper;
         this.computationalThreadExecutionService = computationalThreadExecutionService;
+        this.notificationRestInternalFacade = notificationRestInternalFacade;
     }
 
     @PostMapping
@@ -195,8 +198,7 @@ public class ComputationalThreadsResource extends AbstractResource {
     @PostMapping("/{idThread}/create-execution")
     @Timed
     @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
-    public ResponseEntity<ComputationalThreadExecutionDTO> createExecution(@PathVariable Long idThread, @RequestBody ComputationalThreadExecutionDTO computationalThreadExecutionDTO)
-            throws URISyntaxException {
+    public ResponseEntity<Void> createExecution(@PathVariable Long idThread, @RequestBody ComputationalThreadExecutionDTO computationalThreadExecutionDTO) {
         LOGGGER.debug("REST Request to create a new Computational Thread Execution to thread: {}", idThread);
         if (idThread == null) {
             return ResponseEntity.badRequest().headers(
@@ -206,12 +208,17 @@ public class ComputationalThreadsResource extends AbstractResource {
 
         String executor = SecurityContextHolder.getContext().getAuthentication().getName();
         ComputationalThreadExecution threadExecutionToEntity = computationalThreadsExecutionMapper.toEntity(computationalThreadExecutionDTO);
-        ComputationalThreadExecution newThreadExecution = computationalThreadsService.createThreadExecution(threadExecutionToEntity, executor);
-        computationalThreadsService.executeComputationalThread(newThreadExecution, executor);
-        auditEventPublisher.publish(AuditConstants.COMPUTATIONAL_THREAD_EXECUTED, newThreadExecution.getComputationalThread().getCode());
-        ComputationalThreadExecutionDTO result = computationalThreadsExecutionMapper.toDto(newThreadExecution);
-        return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getIdThread() + SLASH + "create-execution" + SLASH + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert(COMPUTATIONAL_THREAD_ENTITY_NAME, result.getId().toString())).body(result);
+        try {
+            computationalThreadsService.executeComputationalThread(threadExecutionToEntity, executor);
+            auditEventPublisher.publish(AuditConstants.COMPUTATIONAL_THREAD_EXECUTED, threadExecutionToEntity.getComputationalThread().getCode());
+        } catch (Exception e) {
+            notificationRestInternalFacade.sendExecutionErrorComputationalThreadNotice(threadExecutionToEntity.getComputationalThread());
+            final String message = String.format("Error occurred during the execution. Computational Thread %s can not be executed", threadExecutionToEntity.getComputationalThread().getCode());
+            final String code = ErrorConstants.COMPUTATIONAL_THREAD_EXECUTION_ERROR;
+            CustomExceptionUtil.throwCustomParameterizedException(message, code);
+        }
+
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{idThread}/executions")

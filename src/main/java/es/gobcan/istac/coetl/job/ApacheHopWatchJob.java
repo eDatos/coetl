@@ -127,8 +127,6 @@ public class ApacheHopWatchJob {
                 .stream().map(etl -> etl.getEtl().getId()).collect(Collectors.toList()) : new ArrayList<>();
         if (!executionService.existsRunnnigOrWaitingByEtlIdIn(etlIds)) {
             for (ComputationalThreadExecution waitingThreads : waitingThreadExecutions) {
-                waitingThreads.setResult(ComputationalThreadExecution.Result.RUNNING);
-                waitingThreads.setStartDate(Instant.now());
                 this.computationalThreadsService.executeComputationalThread(waitingThreads, waitingThreads.getExecutor());
                 changeWaiting = true;
             }

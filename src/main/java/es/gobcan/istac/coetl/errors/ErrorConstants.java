@@ -69,6 +69,7 @@ public final class ErrorConstants {
 
     // COMPUTATIONAL THREAD EXECUTION
     public static final String COMPUTATIONAL_THREAD_EXECUTION_REGISTER_ETL_ERROR = "error.computationalThread.registerEtlError";
+    public static final String COMPUTATIONAL_THREAD_EXECUTION_ERROR = "error.computationalThread.executingError";
 
     private ErrorConstants() {
     }

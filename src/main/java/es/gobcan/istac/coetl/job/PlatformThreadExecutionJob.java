@@ -41,8 +41,7 @@ public class PlatformThreadExecutionJob extends AbstractCoetlQuartzJob {
                 currentThread.setNextExecution(nextExecution);
                 getComputationalThreadsRepository(context).save(currentThread);
                 ComputationalThreadExecution newExecution = getComputationalThreadsService(context).initDefaultExecutionCronJob(currentThread);
-                ComputationalThreadExecution threadExecution = getComputationalThreadsService(context).createThreadExecution(newExecution, Constants.CRON_EXECUTOR_USER);
-                getComputationalThreadsService(context).executeComputationalThread(threadExecution, Constants.CRON_EXECUTOR_USER);
+                getComputationalThreadsService(context).executeComputationalThread(newExecution, Constants.CRON_EXECUTOR_USER);
                 return true;
             });
         } catch(Exception e) {

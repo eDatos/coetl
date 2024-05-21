@@ -93,7 +93,8 @@
             },
             "registerEtlError": "An error has occurred in the register of all ETL from computational thread in Apache Hop",
             "currentlyDeleted": "This Computational Thread is currently deleted",
-            "currentlyNotDeleted": "This Computational Thread is currently active"
+            "currentlyNotDeleted": "This Computational Thread is currently active",
+            "executingError": "An error occurred during the execution of the Computational Thread."
         }
     }
 }
