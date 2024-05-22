@@ -22,7 +22,7 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
 
     @Input() isEdit: boolean;
 
-    public query: string = '';
+    public query = '';
 
     public computationalThreads: ComputationalThreads[];
 
@@ -50,7 +50,7 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
 
     private onSuccess(data: EtlBase[]) {
         this.etlList = this.etlBaseToEtl(data);
-        let final = [];
+        const final = [];
         data.forEach((element, index) => {
             final.push({ name: element.name, code: element.code });
         });
@@ -74,7 +74,7 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
     }
 
     private setEtl(data: EtlBase) {
-        let etl: Etl = new Etl();
+        const etl: Etl = new Etl();
         etl.id = data.id;
         etl.code = data.code;
         etl.name = data.name;

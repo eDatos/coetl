@@ -193,7 +193,7 @@ export class ComputationalThreadFormComponent
 
     // CHILD ETLS
     private etlBaseToComputationalThreadEtl() {
-        let tmpEtlThread = [];
+        const tmpEtlThread = [];
         this.selectedEtls.forEach((selectedEtl, index) => {
             tmpEtlThread.push(
                 this.setComputationalThreadEtl(
