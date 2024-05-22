@@ -152,4 +152,11 @@ export class ComputationalThreadComponent implements OnInit, OnDestroy {
             ? this.translateService.instant(`computationalThread.execution.result.${execution}`)
             : '';
     }
+
+    public getPlanningMessage(thread: ComputationalThreadsBase): string {
+        const messageCode = thread.isPlanning()
+            ? 'computationalThread.threads.planning.isPlanning'
+            : 'computationalThread.threads.planning.isNotPlanning';
+        return this.translateService.instant(messageCode);
+    }
 }

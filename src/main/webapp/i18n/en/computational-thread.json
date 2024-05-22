@@ -52,6 +52,11 @@
             },
             "nextExecution": {
                 "label": "Next execution"
+            },
+            "planning": {
+                "label": "Planning",
+                "isPlanning": "Planned",
+                "isNotPlanning": "Unplanned"
             }
         },
         "filters": {

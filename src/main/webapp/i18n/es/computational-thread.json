@@ -52,6 +52,11 @@
             },
             "nextExecution": {
                 "label": "Próxima ejecución"
+            },
+            "planning": {
+                "label": "Planificación",
+                "isPlanning": "Planificado",
+                "isNotPlanning": "No planificado"
             }
         },
         "filters": {

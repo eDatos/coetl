@@ -29,6 +29,12 @@
                             <th style="width: 15%">
                                 <span jhiTranslate="computationalThread.threads.statisticalOperation.label"></span>
                             </th>
+                            <th style="width: 10%">
+                                <span jhiTranslate="computationalThread.threads.planning.label"></span>
+                            </th>
+                            <th style="width: 10%">
+                                <span jhiTranslate="computationalThread.threads.nextExecution.label"></span>
+                            </th>
                             <th style="width: 5%">
                                 <span jhiTranslate="computationalThread.threads.lastExecution.label"></span>
                             </th>
@@ -46,6 +52,12 @@
                             <td>{{thread.code}}</td>
                             <td>{{thread.name}}</td>
                             <td>{{thread.externalItem?.code}} {{thread.externalItem?.name}}</td>
+                            <td>
+                                <span class="badge" [ngClass]="{ 'badge-success': thread.isPlanning(), 'badge-warning': !thread.isPlanning() }"
+                                    >{{ getPlanningMessage(thread) }}</span
+                                >
+                            </td>
+                            <td>{{thread.nextExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                             <td>{{thread.lastExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
                             <td>
                                 <span class="badge" [ngClass]="getResultBadgeClass(thread.result)">{{ getResultName(thread.result) }}</span>
