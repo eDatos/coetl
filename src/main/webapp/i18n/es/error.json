@@ -30,6 +30,7 @@
         "Size": "¡El campo {{0}} no cumple con los requisitos de tamaño mínimo/máximo!",
         "usuario-existe": "El nombre de usuario introducido ya está siendo usado",
         "id-existe": "Un nuevo {{0}} no puede tener previamente un ID",
+        "id-falta": "ID no encontrado",
         "entidad-no-encontrada": "Resultado de {{0}} no encontrado",
         "userManagement": {
             "usuario-ldap-no-encontrado": "No se ha encontrado el usuario especificado"
@@ -89,6 +90,19 @@
         },
         "quartz": {
             "jobExecutionError": "Ha ocurrido un error en la ejecución planificada de la ETL con código {{0}}"
+        },
+        "computationalThread": {
+            "cronExpressionNotValid": "La expresión cron {{0}} no es válida",
+            "scheduleError": "Ha ocurrido un error en la creación de la planificación de ejecución del hilo computacional",
+            "unscheduleError": "Ha ocurrido un error en el borrado de la planificación de ejecución del hilo computacional",
+            "codeExists": "Ya existe un hilo computacional con el mismo código",
+            "statisticalOperation": {
+                "isBlank": "La operación estadística no puede estar vacía"
+            },
+            "registerEtlError": "Se ha producido un error al registrar las ETLs del hilo computacional en Apache Hop",
+            "currentlyDeleted": "El hilo computacional se encuentra actualmente eliminado",
+            "currentlyNotDeleted": "Este hilo computacional se encuentra actualmente activo",
+            "executingError": "Ha ocurrido un error durante la ejecución del hilo computacional."
         }
     }
 }

@@ -51,6 +51,13 @@ public class ExecutionServiceImpl implements ExecutionService {
     }
 
     @Override
+    public boolean existsRunnnigOrWaitingByEtlIdIn(List<Long> etlsId) {
+        LOG.debug("Request to get if exists an Execution in RUNNING or WAITING by Etl : {}", etlsId);
+        List<Result> results = new LinkedList<>(Arrays.asList(Result.RUNNING, Result.WAITING));
+        return executionRepository.existsByResultInAndEtlIdIn(results, etlsId);
+    }
+
+    @Override
     public List<Execution> getInRunningResultAndEtlExecutionPlatform(TipoPlataformaEjecucion platform) {
         LOG.debug("Request to get Execution in RUNNING");
         return executionRepository.findByResultAndEtlExecutionPlatform(Result.RUNNING, platform);

@@ -12,7 +12,9 @@ import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
 import es.gobcan.istac.coetl.platform.hop.service.impl.HopExecutionServiceImpl;
 import es.gobcan.istac.coetl.platform.pentaho.service.impl.PentahoExecutionServiceImpl;
+import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
 import es.gobcan.istac.coetl.repository.EtlRepository;
+import es.gobcan.istac.coetl.service.ComputationalThreadsService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 
 public abstract class AbstractCoetlQuartzJob extends QuartzJobBean {
@@ -40,8 +42,16 @@ public abstract class AbstractCoetlQuartzJob extends QuartzJobBean {
         return getApplicationContext(context).getBean(HopExecutionServiceImpl.class);
     }
 
+    protected ComputationalThreadsService getComputationalThreadsService(JobExecutionContext context) {
+        return getApplicationContext(context).getBean(ComputationalThreadsService.class);
+    }
+
     protected EtlRepository getEtlRepository(JobExecutionContext context) {
         return getApplicationContext(context).getBean(EtlRepository.class);
+    }
+
+    protected ComputationalThreadsRepository getComputationalThreadsRepository(JobExecutionContext context) {
+        return getApplicationContext(context).getBean(ComputationalThreadsRepository.class);
     }
 
     protected ExecutionService getExecutionService(JobExecutionContext context) {

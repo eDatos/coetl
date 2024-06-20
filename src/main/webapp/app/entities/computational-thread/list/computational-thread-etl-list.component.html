@@ -1,0 +1,73 @@
+<div class="entity">
+    <h3 jhiTranslate="computationalThread.threadList.home.title"></h3>
+
+    <fieldset *ngIf="isEdit">
+        <div class="entity-fields">
+            <div class="form-group minWidthClass">
+                <div class="card xl:flex xl:justify-content-center ulList" style="width: 100%;">
+                    <p-listbox
+                        class="form-control"
+                        [options]="etlList"
+                        [(ngModel)]="selectedEtls"
+                        optionLabel="name"
+                        [style]="{'max-width':'100%', 'width':'100%', 'padding-top': '0'}"
+                        [listStyle]="{'max-height': '10rem'}"
+                        [dataKey]="id"
+                        [multiple]="true"
+                        [filter]="true"
+                        [checkbox]="true"
+                        (onChange)="onChange()"
+                        [metaKeySelection]="false"
+                    >
+                    </p-listbox>
+                </div>
+            </div>
+            <div class="form-group minWidthClass">
+                <div class="card xl:flex xl:justify-content-center ulList" style="width: 100%;">
+                    <p-orderList
+                        [value]="selectedEtls"
+                        header="ETLs"
+                        dragdrop="true"
+                        class="form-control"
+                        [style]="{'max-width':'100%', 'width':'100%', 'padding-top': '0'}"
+                        [listStyle]="{'max-height': '10.3rem'}"
+                    >
+                        <ng-template let-etl pTemplate="item">
+                            <div class="flex flex-wrap p-2 align-items-center gap-3">
+                                <div class="flex-1 flex flex-column gap-2">
+                                    <span class="font-bold">{{ etl.name }}</span>
+                                    <div class="flex align-items-center gap-2">
+                                        <i class="pi pi-tag text-sm"></i>
+                                        <span>{{ etl.code }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-orderList>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <ng-container *ngIf="!isEdit && !hasEtls() else emptyList">
+        <div class="entity-fields">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 50%;" jhiTranslate="coetlApp.etl.name.label"></th>
+                        <th style="width: 20%;" jhiTranslate="computationalThread.threads.order.label"></th>
+                    </tr>
+                </thead>
+                <tr *ngFor="let etl of etlsThread; let i = index">
+                    <td>{{ etl.etl.name }}</td>
+                    <td>{{ etl.executionOrder }}</td>
+                </tr>
+            </table>
+        </div>
+    </ng-container>
+
+    <ng-template #emptyList>
+        <div class="empty-list" *ngIf="!isEdit">
+            <span jhiTranslate="computationalThread.list.emptyListMessage"></span>
+        </div>
+    </ng-template>
+</div>

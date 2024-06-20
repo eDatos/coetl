@@ -54,7 +54,10 @@
             "attachedFilesUpload": "An error occurred in the upload of the ETL attachments",
             "cloneRepository": "An error has occurred cloning the repository",
             "replacingRepository": "An error has occurred replacing the repository",
-            "typeNotSupported": "Type is not supported for the selected execution platform"
+            "typeNotSupported": "Type is not supported for the selected execution platform",
+            "statisticalOperation": {
+                "isBlank": "The statistical operation cannot be empty"
+            }
         },
         "health": {
             "serviceName": {
@@ -79,6 +82,19 @@
                     "isDuplicated": "There is already a parameter in one with the same key in the ETL: <strong> {{0}} </strong> "
                 }
             }
+        },
+        "computationalThread": {
+            "cronExpressionNotValid": "The expression cron {{0}} is invalid",
+            "scheduleError": "An error has occurred in the creation of the Computational Thread execution planning",
+            "unscheduleError": "An error has occurred in the deletion of the Computational Thread execution planning",
+            "codeExists": "There is already another Computational Thread with the same code",
+            "statisticalOperation": {
+                "isBlank": "The statistical operation cannot be empty"
+            },
+            "registerEtlError": "An error has occurred in the register of all ETL from computational thread in Apache Hop",
+            "currentlyDeleted": "This Computational Thread is currently deleted",
+            "currentlyNotDeleted": "This Computational Thread is currently active",
+            "executingError": "An error occurred during the execution of the Computational Thread."
         }
     }
 }

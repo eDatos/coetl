@@ -58,6 +58,19 @@ public final class ErrorConstants {
     // QUARZT
     public static final String QUARTZ_JOB_EXECUTION_ERROR = "error.quartz.jobExecutionError";
 
+    // COMPUTATIONAL THREAD
+    public static final String COMPUTATIONAL_THREAD_CRON_EXPRESSION_NOT_VALID = "error.computationalThread.cronExpressionNotValid";
+    public static final String COMPUTATIONAL_THREAD_SCHEDULE_ERROR = "error.computationalThread.scheduleError";
+    public static final String COMPUTATIONAL_THREAD_UNSCHEDULE_ERROR = "error.computationalThread.unscheduleError";
+    public static final String COMPUTATIONAL_THREAD_CODE_EXISTS = "error.computationalThread.codeExists";
+    public static final String COMPUTATIONAL_THREAD_STATISTICAL_OPERATION_IS_BLANK = "error.computationalThread.statisticalOperation.isBlank";
+    public static final String COMPUTATIONAL_THREAD_CURRENTLY_DELETED = "error.computationalThread.currentlyDeleted";
+    public static final String COMPUTATIONAL_THREAD_CURRENTLY_NOT_DELETED = "error.computationalThread.currentlyNotDeleted";
+
+    // COMPUTATIONAL THREAD EXECUTION
+    public static final String COMPUTATIONAL_THREAD_EXECUTION_REGISTER_ETL_ERROR = "error.computationalThread.registerEtlError";
+    public static final String COMPUTATIONAL_THREAD_EXECUTION_ERROR = "error.computationalThread.executingError";
+
     private ErrorConstants() {
     }
 

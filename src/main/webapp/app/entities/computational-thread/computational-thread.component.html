@@ -1,0 +1,75 @@
+<div class="entity" acMakeFixedRoom>
+    <div class="entity-header">
+        <h2>
+            <span jhiTranslate="computationalThread.threads.home.title"></span>
+            <div *ngIf="canCreateComputationalThread()">
+                <button class="btn btn-primary jh-create-entity" [routerLink]="['../computational-threads-new']">
+                    <span class="fa fa-plus"></span>
+                    <span jhiTranslate="computationalThread.threads.home.createLabel"> </span>
+                </button>
+            </div>
+        </h2>
+        <ac-computational-thread-search [filters]="filters"></ac-computational-thread-search>
+    </div>
+
+    <ng-container *ngIf="computationalThreadList">
+        <ng-container *ngIf="computationalThreadList.length > 0;else emptyList">
+            <div class="table-responsive">
+                <table class="table table-hover" acStickyTableHeader>
+                    <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                            <th style="width: 15%" jhiSortBy="code">
+                                <span jhiTranslate="computationalThread.threads.code.label"></span>
+                                <span class="fa fa-sort order-by-class"></span>
+                            </th>
+                            <th style="width: 20%" jhiSortBy="name">
+                                <span jhiTranslate="computationalThread.threads.name.label"></span>
+                                <span class="fa fa-sort order-by-class"></span>
+                            </th>
+                            <th style="width: 15%">
+                                <span jhiTranslate="computationalThread.threads.statisticalOperation.label"></span>
+                            </th>
+                            <th style="width: 10%">
+                                <span jhiTranslate="computationalThread.threads.planning.label"></span>
+                            </th>
+                            <th style="width: 10%">
+                                <span jhiTranslate="computationalThread.threads.nextExecution.label"></span>
+                            </th>
+                            <th style="width: 5%">
+                                <span jhiTranslate="computationalThread.threads.lastExecution.label"></span>
+                            </th>
+                            <th style="width: 10%">
+                                <span jhiTranslate="computationalThread.threads.executionResult.label"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            [ngClass]="{ 'entity-deleted': thread.isDeleted() }"
+                            *ngFor="let thread of computationalThreadList ;trackBy: trackId"
+                            [routerLink]="['../computational-threads', thread.id ]"
+                        >
+                            <td>{{thread.code}}</td>
+                            <td>{{thread.name}}</td>
+                            <td>{{thread.externalItem?.code}} {{thread.externalItem?.name}}</td>
+                            <td>
+                                <span class="badge" [ngClass]="{ 'badge-success': thread.isPlanning(), 'badge-warning': !thread.isPlanning() }"
+                                    >{{ getPlanningMessage(thread) }}</span
+                                >
+                            </td>
+                            <td>{{thread.nextExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>{{thread.lastExecution | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>
+                                <span class="badge" [ngClass]="getResultBadgeClass(thread.result)">{{ getResultName(thread.result) }}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ac-pagination [(page)]="page" [(totalItems)]="totalItems" [(itemsPerPage)]="itemsPerPage" (onTransition)="transition()"></ac-pagination>
+        </ng-container>
+        <ng-template #emptyList>
+            <ac-entity-list-empty></ac-entity-list-empty>
+        </ng-template>
+    </ng-container>
+</div>

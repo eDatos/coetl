@@ -39,6 +39,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -204,6 +206,7 @@ public class EtlServiceImpl implements EtlService {
         return save(etl);
     }
 
+    @Transactional
     private Etl save(Etl etl) {
         LOG.debug("Request to save an ETL : {}", etl);
         return etlRepository.saveAndFlush(etl);

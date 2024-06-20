@@ -13,6 +13,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
+import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.invocation.service.MetamacApisLocator;
 
@@ -38,6 +39,22 @@ public class NotificationRestInternalFacadeImpl implements NotificationRestInter
 
         try {
             Notice notice = createNotice(subjectCode, messageCode, args, etl.getExternalItem().getCode());
+
+            restApiLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
+        } catch (Exception e) {
+            log.debug("Error al enviar notificacion : {}", e);
+        }
+    }
+
+    @Override
+    public void sendExecutionErrorComputationalThreadNotice(ComputationalThreads computationalThread) {
+        String subjectCode = "notice.thread.execution.error.subject";
+        String messageCode = "notice.thread.execution.error.message";
+
+        String[] args = {computationalThread.getName(), computationalThread.getCode()};
+
+        try {
+            Notice notice = createNotice(subjectCode, messageCode, args, computationalThread.getExternalItem().getCode());
 
             restApiLocator.getNoticesRestInternalFacadeV10().createNotice(notice);
         } catch (Exception e) {

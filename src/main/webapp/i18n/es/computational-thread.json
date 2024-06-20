@@ -1,0 +1,133 @@
+{
+    "computationalThread": {
+        "pageTitle": "Hilos computacionales", 
+        "threads": {
+            "home": {
+                "title": "Registro de hilos computacionales",
+                "createLabel": "Crear nuevo hilo computacional",
+                "createOrEditLabel": "Crear o editar hilo computacional"
+            },
+            "sections": {
+                "identification": "Identificación",
+                "inCharge": "Responsables",
+                "planning": "Planificación",
+                "executions": "Ejecuciones"
+            },
+            "code": {
+                "label": "Código",
+                "placeholder": "Introduzca un código"
+            },
+            "name": {
+                "label": "Nombre",
+                "placeholder": "Introduzca un nombre"
+            },
+            "description": {
+                "label": "Descripción",
+                "placeholder": "Introduzca una descripción"
+            },
+            "statisticalOperation": {
+                "label": "Operación estadística",
+                "placeholder": "Elija la operación estadística"
+            },
+            "order": {
+                "label": "Orden de ejecución"
+            },
+            "execution": {
+                "title": "Confirmar ejecución",
+                "question": "¿Seguro que quiere ejecutar el Hilo Computacional <b>{{ code }}</b>?"
+            },
+            "lastExecution": {
+                "label": "Última ejecución"
+            },
+            "executionResult": {
+                "label": "Estado Ejecución"
+            },
+            "executionDescription": {
+                "label": "Cuando debe ejecutarse",
+                "placeholder": "Introduzca una descripción relativa a la ejecución"
+            },
+            "executionPlanning": {
+                "label": "Expresión de planificación",
+                "placeholder": "Introduzca una expresión de planificación"
+            },
+            "nextExecution": {
+                "label": "Próxima ejecución"
+            },
+            "planning": {
+                "label": "Planificación",
+                "isPlanning": "Planificado",
+                "isNotPlanning": "No planificado"
+            }
+        },
+        "filters": {
+            "code": {
+                "placeholder": "Búsqueda por código",
+                "label": "Código"
+            },
+            "name": {
+                "placeholder": "Búsqueda por nombre",
+                "label": "Nombre"
+            },
+            "statisticalOperation": {
+                "placeholder": "Búsqueda por operación estadística",
+                "label": "Operación estadística"
+            },
+            "executionResult": {
+                "label": "Estado Ejecución"
+            },
+            "lastExecution": {
+                "label": "Última ejecución"
+            },
+            "result": {
+                "label": "Resultado",
+                "SUCCESS": "Correcto",
+                "FAILED": "Fallo",
+                "WAITING": "En espera",
+                "RUNNING": "En ejecución",
+                "DUPLICATED": "Duplicado"
+            },
+            "includeDeleted": "Incluir eliminados"
+        },
+        "threadList": {
+            "home": {
+                "title": "Etls"
+            }
+        },
+        "list": {
+            "emptyListMessage": "No existen ETLs seleccionadas para este hilo computacional"
+        },
+        "execution": {
+            "home": {
+                "title": "Ejecuciones"
+            },
+            "planningDate": "Fecha de planificación",
+            "startDate": "Fecha de inicio",
+            "finishDate": "Fecha de finalización",
+            "type": {
+                "label": "Tipo",
+                "AUTO": "Automática",
+                "MANUAL": "Manual"
+            },
+            "result": {
+                "label": "Resultado",
+                "SUCCESS": "Correcto",
+                "FAILED": "Fallo",
+                "WAITING": "En espera",
+                "RUNNING": "En ejecución",
+                "DUPLICATED": "Duplicado"
+            },
+            "notes": "Notas",
+            "emptyListMessage": "No hay ejecuciones para esta este hilo computacional",
+            "executionResult": {
+                "label": "Estado Ejecución"
+            },
+            "executor": "Usuario"
+        },
+        "delete": {
+            "question": "¿Seguro que quiere eliminar el Hilo Computacional <b>{{ code }}</b>?"
+        },
+        "restore": {
+            "question": "¿Seguro que quiere resturar el Hilo Computacional <b>{{ code }}</b>?"
+        }
+    }
+}

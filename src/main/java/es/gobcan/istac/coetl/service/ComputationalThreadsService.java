@@ -1,0 +1,22 @@
+package es.gobcan.istac.coetl.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
+import es.gobcan.istac.coetl.domain.ComputationalThreads;
+
+public interface ComputationalThreadsService {
+
+    public ComputationalThreads create(ComputationalThreads computationalThreads);
+    public ComputationalThreads update(ComputationalThreads computationalThreads);
+    public ComputationalThreads delete(ComputationalThreads computationalThreads);
+    public ComputationalThreads restore(ComputationalThreads computationalThreads);
+    public ComputationalThreads findOne(Long id);
+    public Page<ComputationalThreads> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult);
+
+    // Executions
+    public void executeComputationalThread(ComputationalThreadExecution computationalThreadExecution, String executor);
+    public ComputationalThreadExecution initDefaultExecutionCronJob(ComputationalThreads currentThread);
+
+}
