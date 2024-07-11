@@ -33,7 +33,7 @@ import org.hibernate.collection.internal.PersistentList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "computational_threads_executions")
+@Table(name = "tb_threads_executions")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class ComputationalThreadExecution implements Serializable {
 
@@ -48,8 +48,8 @@ public class ComputationalThreadExecution implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "computational_threads_execution_id_seq")
-    @SequenceGenerator(name = "computational_threads_execution_id_seq", sequenceName = "computational_threads_execution_id_seq", initialValue = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "threads_execution_id_seq")
+    @SequenceGenerator(name = "threads_execution_id_seq", sequenceName = "threads_execution_id_seq", initialValue = 10)
     private Long id;
 
     @NotNull

@@ -5,22 +5,22 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 	<changeSet author="arte" id="20240416080000-0">
-		<createSequence sequenceName="computational_threads_execution_etls_id_seq"
+		<createSequence sequenceName="threads_execution_etls_id_seq"
 			startValue="10" incrementBy="50" />
 	</changeSet>
 
 	<changeSet author="arte" id="20240416080000-1">
-		<createTable tableName="computational_threads_execution_etls">
+		<createTable tableName="tb_threads_execution_etls">
 			<column name="id" type="bigint" remarks="Clave primaria de la tabla">
 				<constraints primaryKey="true" />
 			</column>
 			<column name="id_computational_thread_execution" type="bigint"
 				remarks="Clave foránea de la tabla de ejecuciones de los hilos computacionales">
-				<constraints nullable="false" foreignKeyName="fk_computational_threads_execution_id"
-					references="computational_threads_executions(id)" />
+				<constraints nullable="false" foreignKeyName="fk_threads_execution_id"
+					references="tb_threads_executions(id)" />
 			</column>
 			<column name="id_etl_execution" type="bigint" remarks="Clave foránea de la tabla de ejecuciones de las etls">
-				<constraints nullable="false" foreignKeyName="fk_computational_thread_etl_execution_id"
+				<constraints nullable="false" foreignKeyName="fk_thread_etl_execution_id"
 					references="tb_executions(id)" />
 			</column>
 		</createTable>
@@ -28,6 +28,6 @@
 
 	<changeSet author="arte" id="20240416080000-2">
 		<addUniqueConstraint columnNames="id_computational_thread_execution, id_etl_execution"
-			constraintName="unique_thread_execution_etl" tableName="computational_threads_execution_etls" />
+			constraintName="unique_thread_execution_etl" tableName="tb_threads_execution_etls" />
 	</changeSet>
 </databaseChangeLog>
