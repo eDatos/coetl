@@ -184,10 +184,11 @@ public class EtlResource extends AbstractResource {
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
     public ResponseEntity<List<EtlBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable,
-            @RequestParam("lastExecution") String lastExecutionStartDate, @RequestParam("lastExecutionByResult") String lastExecutionResult) {
+            @RequestParam("lastExecution") String lastExecutionStartDate, @RequestParam("lastExecutionByResult") String lastExecutionResult,
+            @RequestParam(value = "executionPlatform", required = false) String executionPlatform) {
         LOG.debug("REST Request to find all ETLs by query : {} and including deleted : {}", query, includeDeleted);
 
-        Page<EtlBaseDTO> page = etlService.findAll(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult)
+        Page<EtlBaseDTO> page = etlService.findAll(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult, executionPlatform)
                 .map(e -> etlMapper.toBaseDto(e, lastExecutionStartDate, lastExecutionResult));
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI);

@@ -34,7 +34,7 @@
                                 <span class="fa fa-play"></span>&nbsp;
                                 <span jhiTranslate="entity.action.execute"></span>
                             </button>
-                            <button class="btn btn-secondary jh-create-entity" [routerLink]="['../', computationalThreads.id, 'edit']" type="button">
+                            <button class="btn btn-secondary jh-create-entity" (click)="edit()" type="button">
                                 <span class="fa fa-pencil"></span>&nbsp;
                                 <span jhiTranslate="entity.action.edit"></span>
                             </button>

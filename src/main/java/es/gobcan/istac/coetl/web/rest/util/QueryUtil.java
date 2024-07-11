@@ -129,4 +129,13 @@ public class QueryUtil {
         return query.toString();
     }
 
+    public String getQueryByExecutionPlatform(String executionPlatform, StringBuilder queryBuilder) {
+        StringBuilder query = new StringBuilder();
+        String and = StringUtils.isNotBlank(queryBuilder) ? AND : "";
+        if (executionPlatform != null && !executionPlatform.isEmpty()) {
+            return query.append(and).append(QueryProperty.EXECUTION_PLATFORM).append(EQ).append("'").append(executionPlatform).append("'").toString();
+        }
+        return query.toString();
+    }
+
 }

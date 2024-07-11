@@ -37,6 +37,10 @@ public class PlatformThreadExecutionJob extends AbstractCoetlQuartzJob {
         try {
             transactionTemplate.execute(status -> {
                 ComputationalThreads currentThread = getComputationalThreadsRepository(context).findOneByCode(threadCode);
+                if (currentThread.getComputationalThreadsEtl().isEmpty()) {
+                    CustomExceptionUtil.throwCustomParameterizedException("A Computational Thread Execution must have at least an ETL to execute",
+                            ErrorConstants.COMPUTATIONAL_THREAD_NOT_ETL_CONFIGURED);
+                }
                 Instant nextExecution = CronUtils.getNextExecutionFromJobContext(context);
                 currentThread.setNextExecution(nextExecution);
                 getComputationalThreadsRepository(context).save(currentThread);

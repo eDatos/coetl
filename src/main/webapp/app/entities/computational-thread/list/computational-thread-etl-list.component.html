@@ -36,10 +36,6 @@
                             <div class="flex flex-wrap p-2 align-items-center gap-3">
                                 <div class="flex-1 flex flex-column gap-2">
                                     <span class="font-bold">{{ etl.name }}</span>
-                                    <div class="flex align-items-center gap-2">
-                                        <i class="pi pi-tag text-sm"></i>
-                                        <span>{{ etl.code }}</span>
-                                    </div>
                                 </div>
                             </div>
                         </ng-template>
@@ -59,7 +55,7 @@
                 </thead>
                 <tr *ngFor="let etl of etlsThread; let i = index">
                     <td>{{ etl.etl.name }}</td>
-                    <td>{{ etl.executionOrder }}</td>
+                    <td>{{ etl.executionOrder + 1 }}</td>
                 </tr>
             </table>
         </div>

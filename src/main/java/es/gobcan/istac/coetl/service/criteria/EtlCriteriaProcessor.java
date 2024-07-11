@@ -16,6 +16,7 @@ import com.arte.libs.grammar.orm.jpa.criteria.converter.CriterionConverter;
 
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Etl.Type;
+import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.service.criteria.util.CriteriaUtil;
@@ -30,6 +31,7 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
     private static final String ENTITY_FIELD_NAME = "name";
     private static final String ENTITY_FIELD_TYPE = "type";
     private static final String ENTITY_FIELD_ORGANIZATION_IN_CHARGE = "organizationInCharge";
+    private static final String ENTITY_FIELD_EXECUTION_PLATFORM = "executionPlatform";
 
     public EtlCriteriaProcessor() {
         super(Etl.class);
@@ -37,7 +39,7 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
 
     public enum QueryProperty {
         CODE, NAME, TYPE, ORGANIZATION_IN_CHARGE, IS_PLANNED, STATISTICAL_OPERATION, LAST_EXECUTION, NEXT_EXECUTION, LAST_EXECUTION_BY_RESULT,
-        LAST_EXECUTION_CUSTOM
+        LAST_EXECUTION_CUSTOM, EXECUTION_PLATFORM
     }
 
     @Override
@@ -102,6 +104,10 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
                 RestrictionProcessorBuilder.restrictionProcessor()
                     .withQueryProperty(QueryProperty.LAST_EXECUTION_CUSTOM)
                     .withCriterionConverter(new LastExecutionCustomCriterionBuilder())
+                .build());
+        registerProcessorsWithLogicalDeletionPolicy(RestrictionProcessorBuilder.enumRestrictionProcessor(TipoPlataformaEjecucion.class)
+                .withQueryProperty(QueryProperty.EXECUTION_PLATFORM)
+                .withEntityProperty(ENTITY_FIELD_EXECUTION_PLATFORM)
                 .build());
         //@formatter:on
     }

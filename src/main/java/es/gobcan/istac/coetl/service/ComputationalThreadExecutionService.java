@@ -29,5 +29,6 @@ public interface ComputationalThreadExecutionService {
     public ComputationalThreadExecution findOne(Long id);
     public boolean existsComputationalThreadExecutionByResultAndId(Result result, Long id);
     public ComputationalThreadExecution initDefaultExecutionCronJob();
+    public Boolean existsComputationalThreadExecutionByResultsAndId(List<Result> results, Long idThread);
 
 }

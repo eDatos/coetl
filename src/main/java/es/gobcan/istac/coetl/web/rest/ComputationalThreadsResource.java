@@ -30,6 +30,7 @@ import com.codahale.metrics.annotation.Timed;
 import es.gobcan.istac.coetl.config.AuditConstants;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.istac.coetl.domain.ComputationalThreadExecution;
+import es.gobcan.istac.coetl.domain.ComputationalThreadExecution.Result;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
@@ -208,6 +209,12 @@ public class ComputationalThreadsResource extends AbstractResource {
 
         String executor = SecurityContextHolder.getContext().getAuthentication().getName();
         ComputationalThreadExecution threadExecutionToEntity = computationalThreadsExecutionMapper.toEntity(computationalThreadExecutionDTO);
+
+        if (threadExecutionToEntity.getComputationalThread().getComputationalThreadsEtl().isEmpty()) {
+            CustomExceptionUtil.throwCustomParameterizedException("A Computational Thread Execution must have at least an ETL to execute",
+                    ErrorConstants.COMPUTATIONAL_THREAD_NOT_ETL_CONFIGURED);
+        }
+
         try {
             computationalThreadsService.executeComputationalThread(threadExecutionToEntity, executor);
             auditEventPublisher.publish(AuditConstants.COMPUTATIONAL_THREAD_EXECUTED, threadExecutionToEntity.getComputationalThread().getCode());
@@ -232,6 +239,16 @@ public class ComputationalThreadsResource extends AbstractResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, BASE_URI + SLASH + idThread + SLASH + "executions");
 
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/{idThread}/existExecution")
+    @Timed
+    @PreAuthorize("@secChecker.canReadComputationalThread(authentication)")
+    public ResponseEntity<Boolean> existExecution(@PathVariable Long idThread, @RequestParam("stateExecution") List<Result> stateExecution) {
+        LOGGGER.debug("REST Request to find a page of Executions by Computational Thread : {}", idThread);
+        Boolean existsExecution = computationalThreadExecutionService.existsComputationalThreadExecutionByResultsAndId(
+                stateExecution, idThread);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(existsExecution));
     }
 
 }

@@ -14,6 +14,14 @@ export const createRequestOption = (req?: any): BaseRequestOptions => {
             params.set('includeDeleted', 'true');
         }
 
+        if (req.executionPlatform) {
+            params.set('executionPlatform', req.executionPlatform);
+        }
+
+        if (req.stateExecution) {
+            params.set('stateExecution', req.stateExecution);
+        }
+
         options.params = params;
     }
     return options;

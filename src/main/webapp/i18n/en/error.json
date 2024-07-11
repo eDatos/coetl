@@ -84,7 +84,7 @@
             }
         },
         "computationalThread": {
-            "cronExpressionNotValid": "The expression cron {{0}} is invalid",
+            "cronExpressionNotValid": "The expression cron \"{{0}}\" is invalid",
             "scheduleError": "An error has occurred in the creation of the Computational Thread execution planning",
             "unscheduleError": "An error has occurred in the deletion of the Computational Thread execution planning",
             "codeExists": "There is already another Computational Thread with the same code",
@@ -94,7 +94,12 @@
             "registerEtlError": "An error has occurred in the register of all ETL from computational thread in Apache Hop",
             "currentlyDeleted": "This Computational Thread is currently deleted",
             "currentlyNotDeleted": "This Computational Thread is currently active",
-            "executingError": "An error occurred during the execution of the Computational Thread."
+            "executingError": "An error occurred during the execution of the Computational Thread.",
+            "limitExceedError": "\"{{0}}\" field can not exceed \"{{1}}\" characters",
+            "etlNotConfigured": "A Computational Thread Execution must have at least an ETL to execute",
+            "etlNotAllowed": "The following ETL do not belong to the statistical operation configured in the current computational thread:",
+            "canNotEdit": "The computational thread cannot be edited since exists a current execution in Running or Waiting state",
+            "canNotDelete": "The computational thread cannot be deleted since exists a current execution in Running or Waiting state"
         }
     }
 }
