@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="20241807080000-0" author="arte">
+		<renameSequence newSequenceName="threads_id_seq"
+			oldSequenceName="computational_threads_id_seq" />
+	</changeSet>
+
+	<changeSet id="20241807080000-1" author="arte">
+		<renameTable newTableName="tb_threads" oldTableName="computational_threads" />
+	</changeSet>
+
+	<changeSet id="20241807080000-2" author="arte">
+		<dropForeignKeyConstraint baseTableName="tb_threads"
+			constraintName="fk_computational_thread_external_item_id" />
+	</changeSet>
+
+	<changeSet id="20241807080000-3" author="arte">
+		<addForeignKeyConstraint baseColumnNames="external_item_fk"
+			baseTableName="tb_threads" constraintName="fk_thread_external_item_id"
+			referencedColumnNames="id" referencedTableName="tb_external_items" />
+	</changeSet>
+
+</databaseChangeLog>

@@ -12,11 +12,11 @@
 	<property name="floatType" value="float" dbms="mysql, oracle, mssql" />
 
 	<changeSet author="arte" id="20240415150000-0">
-		<createSequence sequenceName="threads_execution_id_seq"
+		<createSequence sequenceName="computational_threads_execution_id_seq"
 			startValue="10" incrementBy="50" />
 	</changeSet>
 	<changeSet id="20240415150000-1" author="arte">
-		<createTable tableName="tb_threads_executions">
+		<createTable tableName="computational_threads_executions">
 			<column name="id" type="bigint" autoIncrement="${autoIncrement}">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -40,8 +40,8 @@
 			</column>
 			<column name="computational_thread_fk" type="bigint">
 				<constraints nullable="false"
-					foreignKeyName="fk_execution_thread_id"
-					referencedTableName="tb_threads" referencedColumnNames="id" />
+					foreignKeyName="fk_execution_computational_thread_id"
+					referencedTableName="computational_threads" referencedColumnNames="id" />
 			</column>
 			<column name="executor" type="varchar(250)">
 				<constraints nullable="true" />

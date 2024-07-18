@@ -5,22 +5,22 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 	<changeSet author="arte" id="20240319140000-0">
-		<createSequence sequenceName="threads_etls_id_seq"
+		<createSequence sequenceName="computational_threads_etls_id_seq"
 			startValue="10" incrementBy="50" />
 	</changeSet>
 
 	<changeSet author="arte" id="20240319140000-1">
-		<createTable tableName="tb_threads_etls">
+		<createTable tableName="computational_threads_etls">
 			<column name="id" type="bigint" remarks="Clave primaria de la tabla">
 				<constraints primaryKey="true" />
 			</column>
 			<column name="id_computational_thread" type="bigint"
 				remarks="Clave foránea de la tabla hilos computacionales">
-				<constraints nullable="false" foreignKeyName="fk_threads_id"
-					references="tb_threads(id)" />
+				<constraints nullable="false" foreignKeyName="fk_computational_threads_id"
+					references="computational_threads(id)" />
 			</column>
 			<column name="id_etl" type="bigint" remarks="Clave foránea de la tabla etls">
-				<constraints nullable="false" foreignKeyName="fk_thread_etl_id"
+				<constraints nullable="false" foreignKeyName="fk_computational_thread_etl_id"
 					references="tb_etls(id)" />
 			</column>
 			<column name="execution_order" type="bigint"
@@ -32,6 +32,6 @@
 
 	<changeSet author="arte" id="20240319140000-2">
 		<addUniqueConstraint columnNames="id_computational_thread, id_etl"
-			constraintName="unique_thread_etl" tableName="tb_threads_etls" />
+			constraintName="unique_computational_thread_etl" tableName="computational_threads_etls" />
 	</changeSet>
 </databaseChangeLog>
