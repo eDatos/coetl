@@ -68,13 +68,11 @@ export class ComputationalThreadFormComponent
     // EVENTOS
     public save() {
         this.etlBaseToComputationalThreadEtl();
-        if (this.checkIfETLIsAllowed()) {
-            this.isSaving = true;
-            const etlEditObservable = !!this.computationalThreads.id
-                ? this.computationalThreadService.update(this.computationalThreads)
-                : this.computationalThreadService.create(this.computationalThreads);
-            this.subscribeToSaveResponse(etlEditObservable);
-        }
+        this.isSaving = true;
+        const etlEditObservable = !!this.computationalThreads.id
+            ? this.computationalThreadService.update(this.computationalThreads)
+            : this.computationalThreadService.create(this.computationalThreads);
+        this.subscribeToSaveResponse(etlEditObservable);
     }
 
     private subscribeToSaveResponse(result: Observable<ComputationalThreads>) {
@@ -231,42 +229,6 @@ export class ComputationalThreadFormComponent
             return false;
         }
         return true;
-    }
-
-    private checkIfETLIsAllowed() {
-        let isValid = true;
-        let etlNotAllowed: string[] = [];
-        this.computationalThreads.computationalThreadsEtl.forEach((etl, index) => {
-            if (
-                this.computationalThreads &&
-                this.computationalThreads.externalItem &&
-                etl.etl.externalItem.id != this.computationalThreads.externalItem.id
-            ) {
-                isValid = false;
-                etlNotAllowed.push(etl.etl.name);
-            }
-        });
-        if (!isValid) {
-            this.acAlertService.error(this.parseErrorListResponse(etlNotAllowed));
-            return isValid;
-        }
-        return isValid;
-    }
-
-    private parseErrorListResponse(etlNotAllowed: string[]): string {
-        let formattedText = '<div class="alerts-list">';
-        const translatedMessage = this.translateService.instant(
-            `error.computationalThread.etlNotAllowed`
-        );
-        formattedText += `<h4>${translatedMessage}</h4>`;
-
-        formattedText += `<ul>`;
-        etlNotAllowed.forEach((error) => {
-            formattedText += `<li>${error}</li>`;
-        });
-        formattedText += `</ul>`;
-        formattedText += `</div>`;
-        return formattedText;
     }
 
     // VIEW
