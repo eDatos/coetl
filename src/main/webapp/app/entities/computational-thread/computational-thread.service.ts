@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { ComputationalThreads, ComputationalThreadsBase } from './computational-thread.model';
 import { Observable } from 'rxjs';
 import { ResponseWrapper, createRequestOption } from '../../shared';
-import { ComputationalThreadExecution } from './computational-thread-execution.model';
+import { ComputationalThreadExecution, Result } from './computational-thread-execution.model';
 
 @Injectable()
 export class ComputationalThreadService {
@@ -84,6 +84,13 @@ export class ComputationalThreadService {
         return this.http
             .get(`${this.resourceUrl}/${idThread}/executions`, options)
             .map((response) => this.convertResponseToExecutionResponseWrapper(response));
+    }
+
+    public existExecutionByResult(idThread: Number, stateExecution: Result[]): Observable<boolean> {
+        const options = createRequestOption({ stateExecution: stateExecution });
+        return this.http
+            .get(`${this.resourceUrl}/${idThread}/existExecution`, options)
+            .map((response) => response.json());
     }
 
     private convertResponseToExecutionResponseWrapper(response: Response): ResponseWrapper {

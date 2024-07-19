@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="20241807092000-0" author="arte">
+		<createSequence sequenceName="threads_execution_etls_id_seq" startValue="10" incrementBy="50" />
+	</changeSet>
+
+	<changeSet id="20241807092000-1" author="arte">
+		<renameTable newTableName="tb_threads_execution_etls" oldTableName="computational_threads_execution_etls" />
+	</changeSet>
+
+	<changeSet id="20241807092000-2" author="arte">
+		<dropForeignKeyConstraint baseTableName="tb_threads_execution_etls"
+			constraintName="fk_computational_threads_execution_id" />
+	</changeSet>
+
+	<changeSet id="20241807092000-3" author="arte">
+		<addForeignKeyConstraint baseColumnNames="id_computational_thread_execution"
+			baseTableName="tb_threads_execution_etls" constraintName="fk_threads_execution_id"
+			referencedColumnNames="id" referencedTableName="tb_threads_executions" />
+	</changeSet>
+
+	<changeSet id="20241807092000-4" author="arte">
+		<dropForeignKeyConstraint baseTableName="tb_threads_execution_etls"
+			constraintName="fk_computational_thread_etl_execution_id" />
+	</changeSet>
+
+	<changeSet id="20241807092000-5" author="arte">
+		<addForeignKeyConstraint baseColumnNames="id_etl_execution"
+			baseTableName="tb_threads_execution_etls" constraintName="fk_thread_etl_execution_id"
+			referencedColumnNames="id" referencedTableName="tb_executions" />
+	</changeSet>
+
+	<changeSet id="20241807092000-6" author="arte">
+		<dropUniqueConstraint constraintName="unique_thread_execution_etl"
+			tableName="tb_threads_execution_etls" />
+	</changeSet>
+
+	<changeSet id="20241807090000-7" author="arte">
+		<addUniqueConstraint columnNames="id_computational_thread_execution, id_etl_execution"
+			constraintName="unique_thread_execution_etl" tableName="tb_threads_execution_etls" />
+	</changeSet>
+
+</databaseChangeLog>

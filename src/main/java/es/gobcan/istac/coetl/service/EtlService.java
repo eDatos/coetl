@@ -13,7 +13,7 @@ public interface EtlService {
     public Etl delete(Etl etl);
     public Etl restore(Etl etl);
     public Etl findOne(Long id);
-    public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult);
+    public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult, String executionPlatform, Long restriction);
     public void execute(Etl etl);
 
     public boolean goingToChangeRepository(EtlDTO etlDto);

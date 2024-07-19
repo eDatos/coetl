@@ -129,4 +129,22 @@ public class QueryUtil {
         return query.toString();
     }
 
+    public String getQueryByExecutionPlatform(String executionPlatform, StringBuilder queryBuilder) {
+        StringBuilder query = new StringBuilder();
+        String and = StringUtils.isNotBlank(queryBuilder) ? AND : "";
+        if (executionPlatform != null && !executionPlatform.isEmpty()) {
+            return query.append(and).append(QueryProperty.EXECUTION_PLATFORM).append(EQ).append("'").append(executionPlatform).append("'").toString();
+        }
+        return query.toString();
+    }
+
+    public String getQueryByExternalItemRestriction(Long restriction, StringBuilder queryBuilder) {
+        StringBuilder query = new StringBuilder();
+        String and = StringUtils.isNotBlank(queryBuilder) ? AND : "";
+        if (restriction != null) {
+            return query.append(and).append(QueryProperty.STATISTICAL_OPERATION).append(EQ).append(restriction).toString();
+        }
+        return query.toString();
+    }
+
 }

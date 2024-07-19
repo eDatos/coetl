@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { GenericModalService, HasTitlesContainer, PermissionService } from '../../../shared';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ComputationalThreads } from '../computational-thread.model';
 import { Observable, Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
@@ -13,6 +14,8 @@ import { ComputationalThreadConfirmExecutionDialogComponent } from '../execution
 import { ComputationalThreadDeleteDialogComponent } from '../delete-dialog/computational-thread-delete-dialog.component';
 import { ComputationalThreadRestoreDialogComponent } from '../restore-dialog/computational-thread-restore-dialog.component';
 import { EtlExpressionHelpDialogComponent } from '../../etl/etl-expression-help-dialog/etl-expression-help-dialog.component';
+import { AcAlertService } from '../../../shared/component/alert/alert.service';
+import { Result } from '../computational-thread-execution.model';
 
 @Component({
     selector: 'ac-computational-thread-form',
@@ -42,7 +45,9 @@ export class ComputationalThreadFormComponent
         private permissionService: PermissionService,
         private computationalThreadService: ComputationalThreadService,
         private externalItemService: ExternalItemService,
-        private genericModalService: GenericModalService
+        private genericModalService: GenericModalService,
+        public acAlertService: AcAlertService,
+        private translateService: TranslateService
     ) {
         this.instance = this;
         this.computationalThreads = new ComputationalThreads();
@@ -99,12 +104,26 @@ export class ComputationalThreadFormComponent
     }
 
     public delete() {
-        const copy = Object.assign(new ComputationalThreads(), this.computationalThreads);
-        this.genericModalService.open(
-            <any>ComputationalThreadDeleteDialogComponent,
-            { thread: copy },
-            { container: '.app' }
-        );
+        const stateExecution: Result[] = [Result.RUNNING, Result.WAITING];
+        this.computationalThreadService
+            .existExecutionByResult(this.computationalThreads.id, stateExecution)
+            .subscribe((exist) => {
+                if (!exist) {
+                    const copy = Object.assign(
+                        new ComputationalThreads(),
+                        this.computationalThreads
+                    );
+                    this.genericModalService.open(
+                        <any>ComputationalThreadDeleteDialogComponent,
+                        { thread: copy },
+                        { container: '.app' }
+                    );
+                } else {
+                    this.acAlertService.error(
+                        this.getTranslationName(`error.computationalThread.canNotDelete`)
+                    );
+                }
+            });
     }
 
     public restore() {
@@ -117,12 +136,33 @@ export class ComputationalThreadFormComponent
     }
 
     public execute() {
-        const copy = Object.assign(new ComputationalThreads(), this.computationalThreads);
-        this.genericModalService.open(
-            <any>ComputationalThreadConfirmExecutionDialogComponent,
-            { thread: copy },
-            { container: '.app' }
-        );
+        if (this.checkThreadHasEtlSeleted()) {
+            const copy = Object.assign(new ComputationalThreads(), this.computationalThreads);
+            this.genericModalService.open(
+                <any>ComputationalThreadConfirmExecutionDialogComponent,
+                { thread: copy },
+                { container: '.app' }
+            );
+        }
+    }
+
+    public edit() {
+        const stateExecution: Result[] = [Result.RUNNING, Result.WAITING];
+        this.computationalThreadService
+            .existExecutionByResult(this.computationalThreads.id, stateExecution)
+            .subscribe((exist) => {
+                if (!exist) {
+                    this.router.navigate([
+                        '/computational-threads',
+                        this.computationalThreads.id,
+                        'edit'
+                    ]);
+                } else {
+                    this.acAlertService.error(
+                        this.getTranslationName(`error.computationalThread.canNotEdit`)
+                    );
+                }
+            });
     }
 
     private registerChangesOnEtl() {
@@ -175,6 +215,20 @@ export class ComputationalThreadFormComponent
 
     public canSave(): boolean {
         return !this.isSaving;
+    }
+
+    private getTranslationName(jsonToTranslate: string): string {
+        return this.translateService.instant(jsonToTranslate);
+    }
+
+    private checkThreadHasEtlSeleted() {
+        if (this.selectedEtls.length === 0) {
+            this.acAlertService.error(
+                this.getTranslationName(`error.computationalThread.etlNotConfigured`)
+            );
+            return false;
+        }
+        return true;
     }
 
     // VIEW

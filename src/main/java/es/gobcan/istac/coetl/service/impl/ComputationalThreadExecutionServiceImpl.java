@@ -106,6 +106,11 @@ public class ComputationalThreadExecutionServiceImpl implements ComputationalThr
         return computationalThreadExecutionRepository.existsByResultAndComputationalThreadId(result, id);
     }
 
+    @Override
+    public Boolean existsComputationalThreadExecutionByResultsAndId(List<Result> results, Long idThread) {
+        return computationalThreadExecutionRepository.existsComputationalThreadExecutionByResultInAndComputationalThreadId(results, idThread);
+    }
+
     @Transactional
     private ComputationalThreadExecution save(ComputationalThreadExecution computationalThreadExecution) {
         LOG.debug("Request to create an Computational Thread Execution : {}", computationalThreadExecution);

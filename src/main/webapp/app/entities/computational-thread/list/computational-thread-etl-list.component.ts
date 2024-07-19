@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { ComputationalThreads } from '../computational-thread.model';
-import { Etl, EtlBase, EtlService } from '../../etl/';
+import { Etl, EtlBase, EtlService, ExecutionPlatform } from '../../etl/';
 import { ResponseWrapper } from '../../../shared';
 import { ComputationalThreadsEtl } from '../computational-threads-etl-model';
 
@@ -22,9 +21,9 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
 
     @Input() isEdit: boolean;
 
-    public query = '';
+    @Input() statisticalOperationId: number;
 
-    public computationalThreads: ComputationalThreads[];
+    public query = '';
 
     public propertiesToQuery;
     public itemTemplate: Function;
@@ -41,9 +40,11 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
         this.etlService
             .query({
                 query: this.query,
-                includeDeleted: false,
+                includeDeleted: true,
                 lastExecution: '',
-                lastExecutionByResult: ''
+                lastExecutionByResult: '',
+                executionPlatform: ExecutionPlatform.APACHE_HOP,
+                restriction: this.statisticalOperationId
             })
             .subscribe((res: ResponseWrapper) => this.onSuccess(res.json));
     }

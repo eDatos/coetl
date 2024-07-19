@@ -19,15 +19,15 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Table(name = "computational_threads_etls")
+@Table(name = "tb_threads_etls")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class ComputationalThreadsEtl implements Serializable {
 
     private static final long serialVersionUID = -3681983017374260686L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "computational_threads_etls_id_seq")
-    @SequenceGenerator(name = "computational_threads_etls_id_seq", sequenceName = "computational_threads_etls_id_seq", initialValue = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "threads_etls_id_seq")
+    @SequenceGenerator(name = "threads_etls_id_seq", sequenceName = "threads_etls_id_seq", initialValue = 10)
     private Long id;
 
     @ManyToOne(optional = false, targetEntity = ComputationalThreads.class)

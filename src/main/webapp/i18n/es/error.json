@@ -92,7 +92,7 @@
             "jobExecutionError": "Ha ocurrido un error en la ejecución planificada de la ETL con código {{0}}"
         },
         "computationalThread": {
-            "cronExpressionNotValid": "La expresión cron {{0}} no es válida",
+            "cronExpressionNotValid": "La expresión cron \"{{0}}\" no es válida",
             "scheduleError": "Ha ocurrido un error en la creación de la planificación de ejecución del hilo computacional",
             "unscheduleError": "Ha ocurrido un error en el borrado de la planificación de ejecución del hilo computacional",
             "codeExists": "Ya existe un hilo computacional con el mismo código",
@@ -102,7 +102,11 @@
             "registerEtlError": "Se ha producido un error al registrar las ETLs del hilo computacional en Apache Hop",
             "currentlyDeleted": "El hilo computacional se encuentra actualmente eliminado",
             "currentlyNotDeleted": "Este hilo computacional se encuentra actualmente activo",
-            "executingError": "Ha ocurrido un error durante la ejecución del hilo computacional."
+            "executingError": "Ha ocurrido un error durante la ejecución del hilo computacional.",
+            "limitExceedError": "El campo \"{{0}}\" no puede exceder de los \"{{1}}\" caracteres",
+            "etlNotConfigured": "Un hilo computacional debe tener al menos configurada 1 ETL para poder ejecutarse",
+            "canNotEdit": "No se puede editar el hilo computacional ya que se encuentra en estado de Ejecución o Espera",
+            "canNotDelete": "No se puede eliminar el hilo computacional ya que se encuentra en estado de Ejecución o Espera"
         }
     }
 }

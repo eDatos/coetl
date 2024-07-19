@@ -32,15 +32,15 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "computational_threads")
+@Table(name = "tb_threads")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class ComputationalThreads extends AbstractVersionedAndAuditingWithDeletionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "computational_threads_id_seq")
-    @SequenceGenerator(name = "computational_threads_id_seq", sequenceName = "computational_threads_id_seq", initialValue = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "threads_id_seq")
+    @SequenceGenerator(name = "threads_id_seq", sequenceName = "threads_id_seq", initialValue = 10)
     private Long id;
 
     @NotBlank
