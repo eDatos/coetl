@@ -168,12 +168,20 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
             if ("ILIKE".equals(property.getOperationType().name())) {
                 return buildEtlByExternalItem(property.getRightValue());
             }
+            if ("EQ".equals(property.getOperationType().name())) {
+                return buildComputationalThreadByExternalItemEq(property.getRightValue());
+            }
             throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))
                 .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
         }
 
         private Criterion buildEtlByExternalItem(String value) {
             String sql = String.format("{alias}.external_item_fk IN (SELECT ei.id FROM tb_external_items ei WHERE ei.code ILIKE '%s' OR ei.name ILIKE '%s')",value,value);
+            return Restrictions.sqlRestriction(sql);
+        }
+
+        private Criterion buildComputationalThreadByExternalItemEq(String value) {
+            String sql = String.format(" {alias}.external_item_fk = %s ", value);
             return Restrictions.sqlRestriction(sql);
         }
 

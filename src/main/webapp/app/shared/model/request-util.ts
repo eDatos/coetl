@@ -22,6 +22,10 @@ export const createRequestOption = (req?: any): BaseRequestOptions => {
             params.set('stateExecution', req.stateExecution);
         }
 
+        if (req.restriction) {
+            params.set('restriction', req.restriction);
+        }
+
         options.params = params;
     }
     return options;

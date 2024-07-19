@@ -138,4 +138,13 @@ public class QueryUtil {
         return query.toString();
     }
 
+    public String getQueryByExternalItemRestriction(Long restriction, StringBuilder queryBuilder) {
+        StringBuilder query = new StringBuilder();
+        String and = StringUtils.isNotBlank(queryBuilder) ? AND : "";
+        if (restriction != null) {
+            return query.append(and).append(QueryProperty.STATISTICAL_OPERATION).append(EQ).append(restriction).toString();
+        }
+        return query.toString();
+    }
+
 }

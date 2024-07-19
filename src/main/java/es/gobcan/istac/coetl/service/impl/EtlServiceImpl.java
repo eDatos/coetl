@@ -121,8 +121,9 @@ public class EtlServiceImpl implements EtlService {
     }
 
     @Override
-    public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult, String executionPlatform) {
-        DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult, executionPlatform);
+    public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult, String executionPlatform,
+            Long restriction) {
+        DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult, executionPlatform, restriction);
         return filteredListByRolOperationAllowed(etlRepository.findAll(criteria, pageable));
     }
 
@@ -255,13 +256,14 @@ public class EtlServiceImpl implements EtlService {
     }
 
     private DetachedCriteria buildEtlCriteria(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate,
-            String lastExecutionResult, String executionPlatform) {
+            String lastExecutionResult, String executionPlatform, Long restriction) {
         StringBuilder queryBuilder = new StringBuilder();
         if (StringUtils.isNotBlank(query)) {
             queryBuilder.append(query);
         }
         queryBuilder.append(queryUtil.getQueryByLastExecution(lastExecutionStartDate, lastExecutionResult, queryBuilder));
         queryBuilder.append(queryUtil.getQueryByExecutionPlatform(executionPlatform, queryBuilder));
+        queryBuilder.append(queryUtil.getQueryByExternalItemRestriction(restriction, queryBuilder));
         String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
         return queryUtil.queryToEtlCriteria(pageable, finalQuery);
     }
