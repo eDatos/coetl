@@ -5,8 +5,7 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 	<changeSet id="20241807092000-0" author="arte">
-		<renameSequence newSequenceName="threads_execution_etls_id_seq"
-			oldSequenceName="computational_threads_execution_etls_id_seq" />
+		<createSequence sequenceName="threads_execution_etls_id_seq" startValue="10" incrementBy="50" />
 	</changeSet>
 
 	<changeSet id="20241807092000-1" author="arte">

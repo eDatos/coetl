@@ -480,7 +480,8 @@ public class EtlResourceIntTest {
         EtlBaseDTO etlDTOMocked = etlMapper.toBaseDto(etlMocked, null, null);
 
         Page<Etl> etlMockPage = new PageImpl<>(new ArrayList<>(Arrays.asList(etlMocked)));
-        doReturn(etlMockPage).when(etlService).findAll(any(String.class), any(Boolean.class), any(Pageable.class), any(String.class), any(String.class), any(String.class));
+        doReturn(etlMockPage).when(etlService).findAll(any(String.class), any(Boolean.class), any(Pageable.class), any(String.class), any(String.class), any(String.class),
+                any(Long.class));
 
         //@formatter:off
         restEtlMockMvc.perform(get(BASE_URI + "?sort=id,asc").param("lastExecution", "").param("lastExecutionByResult", "")

@@ -36,5 +36,6 @@
     <include file="config/liquibase/changelog/20241807090000_alter_entity_Thread_Etl.xml" relativeToChangelogFile="false" />
     <include file="config/liquibase/changelog/20241807090100_alter_entity_Thread_Execution.xml" relativeToChangelogFile="false" />
     <include file="config/liquibase/changelog/20241807092000_alter_entity_Thread_Execution_Etl.xml" relativeToChangelogFile="false" />
+    <include file="config/liquibase/changelog/20241807093000_rename_Threads_Sequences.xml" relativeToChangelogFile="false" />
 
 </databaseChangeLog>
