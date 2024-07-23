@@ -104,7 +104,7 @@
             "currentlyNotDeleted": "Este hilo computacional se encuentra actualmente activo",
             "executingError": "Ha ocurrido un error durante la ejecución del hilo computacional.",
             "limitExceedError": "El campo \"{{0}}\" no puede exceder de los \"{{1}}\" caracteres",
-            "etlNotConfigured": "Un hilo computacional debe tener al menos configurada 1 ETL para poder ejecutarse",
+            "etlNotConfigured": "Un hilo computacional debe tener al menos configurada una ETL para poder ejecutarse",
             "canNotEdit": "No se puede editar el hilo computacional ya que se encuentra en estado de Ejecución o Espera",
             "canNotDelete": "No se puede eliminar el hilo computacional ya que se encuentra en estado de Ejecución o Espera"
         }
