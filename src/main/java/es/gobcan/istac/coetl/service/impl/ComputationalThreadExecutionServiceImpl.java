@@ -126,7 +126,7 @@ public class ComputationalThreadExecutionServiceImpl implements ComputationalThr
             return HopUtil.buildExecution(etl, Execution.Type.MANUAL, executor, Execution.Result.FAILED, null, webResultDTO.getMessage());
         }
         String idExecution = webResultDTO.getId();
-        return HopUtil.buildExecution(etl, Execution.Type.MANUAL, executor, Execution.Result.WAITING, idExecution, webResultDTO.getMessage());
+        return HopUtil.buildExecution(etl, Execution.Type.MANUAL, executor, Execution.Result.WAITING, idExecution, null);
     }
 
     private void unRegisterExecutionEtl(Execution execution) {
