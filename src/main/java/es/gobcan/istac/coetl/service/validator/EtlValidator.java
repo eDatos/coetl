@@ -16,17 +16,23 @@ import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.istac.coetl.repository.ComputationalThreadsRepository;
 import es.gobcan.istac.coetl.repository.EtlRepository;
+import es.gobcan.istac.coetl.service.ExecutionService;
 
 @Component
 public class EtlValidator extends AbstractValidator<Etl> {
 
     public static final String ETL_HAS_THREADS_CONFIGURED_ERROR = "ETL \"%s\" cannot be deleted as it has been set in the following computational threads: %s";
-    
+    public static final String ETL_UPDATE_EXISTS_RUNNING = "ETL \"%s\" cannot be updated because is Running or Waiting";
+    public static final String ETL_DELETE_EXISTS_RUNNING = "ETL \"%s\" cannot be deleted because is Running or Waiting";
+
     @Autowired
     private EtlRepository etlRepository;
 
     @Autowired
     private ComputationalThreadsRepository computationalThreadsRepository;
+
+    @Autowired
+    private ExecutionService executionService;
 
     @Override
     public void validate(Etl entity) {
@@ -35,6 +41,7 @@ public class EtlValidator extends AbstractValidator<Etl> {
         checkTypeInPlatform(entity);
         checkStatisticalOperationNotNull(entity);
         checkIfCanDeleteEtl(entity);
+        checkIfCurrentEtlIsExecuting(entity);
     }
     
     private void checkStatisticalOperationNotNull(Etl entity) {
@@ -97,6 +104,20 @@ public class EtlValidator extends AbstractValidator<Etl> {
         StringBuilder queryBuilder = new StringBuilder();
         threadsName.forEach(name -> queryBuilder.append("<li>").append(name).append("</li>"));
         return queryBuilder.toString();
+    }
+
+    private void checkIfCurrentEtlIsExecuting(Etl entity) {
+        if (entity.getId() != null) {
+            Boolean existsExecution = executionService.existsRunnnigOrWaitingByEtl(entity.getId());
+            if (existsExecution && entity.getDeletionDate() == null) {
+                CustomExceptionUtil.throwCustomParameterizedException(String.format(ETL_UPDATE_EXISTS_RUNNING, entity.getName()), ErrorConstants.ETL_UPDATE_EXISTS_RUNNING_ERROR,
+                        entity.getName());
+            }
+            if (existsExecution && entity.getDeletionDate() != null) {
+                CustomExceptionUtil.throwCustomParameterizedException(String.format(ETL_DELETE_EXISTS_RUNNING, entity.getName()), ErrorConstants.ETL_DELETE_EXISTS_RUNNING_ERROR,
+                        entity.getName());
+            }
+        }
     }
 
 }

@@ -58,7 +58,9 @@
             "statisticalOperation": {
                 "isBlank": "The statistical operation cannot be empty"
             },
-            "hasThreadsConfigured": "ETL \"{{0}}\" cannot be deleted as it has been set in the following computational threads: {{1}}"
+            "hasThreadsConfigured": "ETL \"{{0}}\" cannot be deleted as it has been set in the following computational threads: {{1}}",
+            "updateExistsRunning": "ETL \"{{0}}\" cannot be updated because is Running or Waiting",
+            "deleteExistsRunning": "ETL \"{{0}}\" cannot be deleted because is Running or Waiting"
         },
         "health": {
             "serviceName": {

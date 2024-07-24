@@ -135,4 +135,10 @@ export class EtlService {
     private convertItemToParameter(entity: any): Parameter {
         return Object.assign(new Parameter(), entity);
     }
+
+    public existExecutionRunningOrWaiting(idEtl: Number): Observable<boolean> {
+        return this.http
+            .get(`${this.resourceUrl}/${idEtl}/existExecution`)
+            .map((response) => response.json());
+    }
 }

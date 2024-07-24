@@ -66,7 +66,9 @@
             "statisticalOperation": {
                 "isBlank": "La operación estadística no puede estar vacía"
             },
-            "hasThreadsConfigured": "La ETL \"{{0}}\" no puede ser eliminada ya que se ha configurado en los siguientes hilos computacionales: {{1}}"
+            "hasThreadsConfigured": "La ETL \"{{0}}\" no puede ser eliminada ya que se ha configurado en los siguientes hilos computacionales: {{1}}",
+            "updateExistsRunning": "No se puede editar la ETL \"{{0}}\" porque se encuentra en ejecución o en espera",
+            "deleteExistsRunning": "No se puede eliminar la ETL \"{{0}}\" porque se encuentra en ejecución o en espera"
         },
         "health": {
             "serviceName": {
