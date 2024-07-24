@@ -62,7 +62,11 @@
             "attachedFilesUpload": "Ha ocurrido un error en la subida de los ficheros adjuntos de la ETL",
             "cloneRepository": "Ha ocurrido un error clonando el repositorio",
             "replacingRepository": "Ha ocurrido un error reemplazando el repositorio",
-            "typeNotSupported": "Tipo no soportado para la plataforma de ejecución"
+            "typeNotSupported": "Tipo no soportado para la plataforma de ejecución",
+            "statisticalOperation": {
+                "isBlank": "La operación estadística no puede estar vacía"
+            },
+            "hasThreadsConfigured": "La ETL \"{{0}}\" no puede ser eliminada ya que se ha configurado en los siguientes hilos computacionales: {{1}}"
         },
         "health": {
             "serviceName": {

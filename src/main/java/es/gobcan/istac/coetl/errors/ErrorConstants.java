@@ -42,6 +42,7 @@ public final class ErrorConstants {
     public static final String ETL_REPLACE_REPOSITORY = "error.etl.replacingRepository";
     public static final String ETL_TYPE_NOT_SUPPORTED = "error.etl.typeNotSupported";
     public static final String ETL_STATISTICAL_OPERATION_IS_BLANK = "error.etl.statisticalOperation.isBlank";
+    public static final String ETL_HAS_THREADS_CONFIGURED = "error.etl.hasThreadsConfigured";
 
     // HEALTH
     public static final String HEALTH_SERVICE_NAME_IS_BLANK = "error.health.serviceName.isBlank";

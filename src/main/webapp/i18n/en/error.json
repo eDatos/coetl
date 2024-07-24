@@ -57,7 +57,8 @@
             "typeNotSupported": "Type is not supported for the selected execution platform",
             "statisticalOperation": {
                 "isBlank": "The statistical operation cannot be empty"
-            }
+            },
+            "hasThreadsConfigured": "ETL \"{{0}}\" cannot be deleted as it has been set in the following computational threads: {{1}}"
         },
         "health": {
             "serviceName": {
