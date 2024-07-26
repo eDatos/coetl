@@ -5,7 +5,13 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Autosize } from 'ng-autosize';
 import { Subscription, Observable } from 'rxjs';
 
-import { GenericModalService, PermissionService, HasTitlesContainer } from '../../shared';
+import {
+    GenericModalService,
+    PermissionService,
+    HasTitlesContainer,
+    AcAlertService,
+    ResponseWrapper
+} from '../../shared';
 import { Etl, PentahoType, HopType, Type, ExecutionPlatform } from './etl.model';
 import { EtlService } from './etl.service';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
@@ -13,6 +19,7 @@ import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
 import { EtlConfirmExecutionDialogComponent } from './etl-confirm-execution-dialog.component';
 import { EtlExpressionHelpDialogComponent } from './etl-expression-help-dialog/etl-expression-help-dialog.component';
 import { ExternalItem, ExternalItemService } from '../external-item';
+import { ComputationalThreadsBase } from '../computational-thread/computational-thread.model';
 
 @Component({
     selector: 'ac-etl-form',
@@ -29,6 +36,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     typeEnum = Type;
     executionPlatformEnum = ExecutionPlatform;
     isSaving: boolean;
+    public threads: ComputationalThreadsBase[];
+    private previousExecutionPlatform: string;
 
     updatesSubscription: Subscription;
 
@@ -56,7 +65,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         private eventManager: JhiEventManager,
         private permissionService: PermissionService,
         private translateService: TranslateService,
-        private externalItemService: ExternalItemService
+        private externalItemService: ExternalItemService,
+        public acAlertService: AcAlertService
     ) {
         this.instance = this;
         this.fileResourceUrl = 'api/files';
@@ -65,7 +75,12 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     ngOnInit() {
         this.isSaving = false;
         this.etl = !!this.route.snapshot.data['etl'] ? this.route.snapshot.data['etl'] : new Etl();
+        this.threads = [];
         this.registerChangesOnEtl();
+        this.previousExecutionPlatform = this.etl.id ? this.etl.executionPlatform : '';
+        if (this.etl.id) {
+            this.loadAllThreads();
+        }
     }
 
     ngAfterViewInit() {
@@ -81,12 +96,19 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
             this.router.navigate(['/etl']);
         }
     }
+
     save() {
-        this.isSaving = true;
-        const etlEditObservable = !!this.etl.id
-            ? this.etlService.update(this.etl)
-            : this.etlService.create(this.etl);
-        this.subscribeToSaveResponse(etlEditObservable);
+        if (this.validateIfCanEditExecutionPlatform()) {
+            this.isSaving = true;
+            const etlEditObservable = !!this.etl.id
+                ? this.etlService.update(this.etl)
+                : this.etlService.create(this.etl);
+            this.subscribeToSaveResponse(etlEditObservable);
+        } else {
+            this.acAlertService.error(
+                this.getTranslationName(`error.etl.canNotEditExecutionPlatform`)
+            );
+        }
     }
 
     delete() {
@@ -96,6 +118,16 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
             { etl: copy },
             { container: '.app' }
         );
+    }
+
+    public edit() {
+        this.etlService.existExecutionRunningOrWaiting(this.etl.id).subscribe((exist) => {
+            if (!exist) {
+                this.router.navigate(['/etl', this.etl.id, 'edit']);
+            } else {
+                this.acAlertService.error(this.getTranslationName(`error.etl.canNotEdit`));
+            }
+        });
     }
 
     restore() {
@@ -131,6 +163,10 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
 
     canEdit(): boolean {
         return this.permissionService.canManageEtl(this.etl.externalItem);
+    }
+
+    private getTranslationName(jsonToTranslate: string): string {
+        return this.translateService.instant(jsonToTranslate);
     }
 
     getDeletedMessage(etl: Etl): string {
@@ -210,5 +246,25 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
 
     updateType(event) {
         this.etl.type = undefined;
+    }
+
+    private loadAllThreads() {
+        this.etlService.findThreadsByEtl(this.etl.id).subscribe((result: ResponseWrapper) => {
+            this.threads = result.json;
+        });
+    }
+
+    private validateIfCanEditExecutionPlatform(): boolean {
+        if (!!this.etl.id) {
+            this.loadAllThreads();
+            if (
+                this.threads.length > 0 &&
+                this.previousExecutionPlatform != '' &&
+                this.etl.executionPlatform != this.executionPlatformEnum.APACHE_HOP
+            ) {
+                return false;
+            }
+        }
+        return true;
     }
 }

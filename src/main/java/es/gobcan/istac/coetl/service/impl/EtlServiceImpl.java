@@ -30,6 +30,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import es.gobcan.istac.coetl.config.QuartzConstants;
+import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Type;
@@ -42,6 +43,7 @@ import es.gobcan.istac.coetl.platform.hop.service.impl.HopExecutionServiceImpl;
 import es.gobcan.istac.coetl.platform.pentaho.service.impl.PentahoExecutionServiceImpl;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
+import es.gobcan.istac.coetl.service.ComputationalThreadsService;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ExternalItemService;
@@ -80,6 +82,9 @@ public class EtlServiceImpl implements EtlService {
 
     @Autowired
     private SchedulerFactoryBean schedulerAccessorBean;
+
+    @Autowired
+    private ComputationalThreadsService computationalThreadsService;
 
     @Override
     public Etl create(Etl etl) {
@@ -128,7 +133,7 @@ public class EtlServiceImpl implements EtlService {
 
     @Override
     public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult, String executionPlatform,
-            Long restriction) {
+            String restriction) {
         DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult, executionPlatform, restriction);
         return filteredListByRolOperationAllowed(etlRepository.findAll(criteria, pageable));
     }
@@ -262,7 +267,7 @@ public class EtlServiceImpl implements EtlService {
     }
 
     private DetachedCriteria buildEtlCriteria(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate,
-            String lastExecutionResult, String executionPlatform, Long restriction) {
+            String lastExecutionResult, String executionPlatform, String restriction) {
         StringBuilder queryBuilder = new StringBuilder();
         if (StringUtils.isNotBlank(query)) {
             queryBuilder.append(query);
@@ -280,6 +285,17 @@ public class EtlServiceImpl implements EtlService {
             finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
         }
         return finalQuery;
+    }
+
+    @Override
+    public List<ComputationalThreads> getThreadsByEtlId(Long idEtl) {
+        if (idEtl != null) {
+            List<ComputationalThreads> threads = computationalThreadsService.getThreadsByEtlId(idEtl);
+            if (!threads.isEmpty()) {
+                return threads;
+            }
+        }
+        return new ArrayList<>();
     }
 
 }

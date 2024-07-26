@@ -45,6 +45,7 @@ public final class ErrorConstants {
     public static final String ETL_HAS_THREADS_CONFIGURED = "error.etl.hasThreadsConfigured";
     public static final String ETL_UPDATE_EXISTS_RUNNING_ERROR = "error.etl.updateExistsRunning";
     public static final String ETL_DELETE_EXISTS_RUNNING_ERROR = "error.etl.deleteExistsRunning";
+    public static final String ETL_STATISTICAL_HAS_THREADS_CONFIGURED = "error.etl.hasStatisticalThreadsConfigured";
 
     // HEALTH
     public static final String HEALTH_SERVICE_NAME_IS_BLANK = "error.health.serviceName.isBlank";

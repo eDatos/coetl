@@ -94,7 +94,8 @@
             }
         },
         "list": {
-            "emptyListMessage": "No existen ETLs seleccionadas para este hilo computacional"
+            "emptyListMessage": "No existen ETL seleccionadas para este hilo computacional",
+            "emptyEtlListMessage": "Actualmente no existe ninguna ETL configurada para la operación estadística seleccionada"
         },
         "execution": {
             "home": {

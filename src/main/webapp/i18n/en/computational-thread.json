@@ -94,7 +94,8 @@
             }
         },
         "list": {
-            "emptyListMessage": "Doesn’t exist ETL selected for this Computational Thread"
+            "emptyListMessage": "Doesn’t exist ETL selected for this Computational Thread",
+            "emptyEtlListMessage": "Doesn’t exist ETL configured for current selected statistical operation"
         },
         "execution": {
             "home": {

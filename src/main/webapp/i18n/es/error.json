@@ -68,7 +68,10 @@
             },
             "hasThreadsConfigured": "La ETL \"{{0}}\" no puede ser eliminada ya que se ha configurado en los siguientes hilos computacionales: {{1}}",
             "updateExistsRunning": "No se puede editar la ETL \"{{0}}\" porque se encuentra en ejecución o en espera",
-            "deleteExistsRunning": "No se puede eliminar la ETL \"{{0}}\" porque se encuentra en ejecución o en espera"
+            "deleteExistsRunning": "No se puede eliminar la ETL \"{{0}}\" porque se encuentra en ejecución o en espera",
+            "hasStatisticalThreadsConfigured": "La ETL \"{{0}}\" no puede ser editada ya que se ha configurado en los siguientes hilos computacionales una operación estadísticia diferente: {{1}}",
+            "canNotEdit": "No se puede editar la ETL ya que se encuentra en estado de Ejecución o Espera",
+            "canNotEditExecutionPlatform": "La plataforma de ejecución no puede ser modificada ya que se ha configurado en un hilo computacional (ver sección \"Hilos Computacionales\")"
         },
         "health": {
             "serviceName": {

@@ -60,7 +60,10 @@
             },
             "hasThreadsConfigured": "ETL \"{{0}}\" cannot be deleted as it has been set in the following computational threads: {{1}}",
             "updateExistsRunning": "ETL \"{{0}}\" cannot be updated because is Running or Waiting",
-            "deleteExistsRunning": "ETL \"{{0}}\" cannot be deleted because is Running or Waiting"
+            "deleteExistsRunning": "ETL \"{{0}}\" cannot be deleted because is Running or Waiting",
+            "hasStatisticalThreadsConfigured": "ETL \"{{0}}\" cannot be updated as it has been set in the following computational threads with a different statistical operation code: {{1}}",
+            "canNotEdit": "ETL cannot be edited since exists a current execution in Running or Waiting state",
+            "canNotEditExecutionPlatform": "Execution platform cannot edited as it has been set in the computational threads (check section \"Computational Threads\")"
         },
         "health": {
             "serviceName": {

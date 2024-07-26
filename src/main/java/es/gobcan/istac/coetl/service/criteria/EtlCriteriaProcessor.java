@@ -181,7 +181,7 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
         }
 
         private Criterion buildComputationalThreadByExternalItemEq(String value) {
-            String sql = String.format(" {alias}.external_item_fk = %s ", value);
+            String sql = String.format(" {alias}.external_item_fk IN (SELECT ei.id FROM tb_external_items ei WHERE ei.code = '%s')", value);
             return Restrictions.sqlRestriction(sql);
         }
 

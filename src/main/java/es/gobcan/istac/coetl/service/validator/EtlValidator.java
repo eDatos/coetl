@@ -24,6 +24,7 @@ public class EtlValidator extends AbstractValidator<Etl> {
     public static final String ETL_HAS_THREADS_CONFIGURED_ERROR = "ETL \"%s\" cannot be deleted as it has been set in the following computational threads: %s";
     public static final String ETL_UPDATE_EXISTS_RUNNING = "ETL \"%s\" cannot be updated because is Running or Waiting";
     public static final String ETL_DELETE_EXISTS_RUNNING = "ETL \"%s\" cannot be deleted because is Running or Waiting";
+    public static final String ETL_STATISTICAL_HAS_THREADS_CONFIGURED_ERROR = "ETL \"%s\" cannot be update as it has been set in the following computational threads with a different statistical operation code: %s";
 
     @Autowired
     private EtlRepository etlRepository;
@@ -42,6 +43,7 @@ public class EtlValidator extends AbstractValidator<Etl> {
         checkStatisticalOperationNotNull(entity);
         checkIfCanDeleteEtl(entity);
         checkIfCurrentEtlIsExecuting(entity);
+        checkIfCanEditEtlStatisticalOperation(entity);
     }
     
     private void checkStatisticalOperationNotNull(Etl entity) {
@@ -96,6 +98,18 @@ public class EtlValidator extends AbstractValidator<Etl> {
                 List<String> threadsName = threads.stream().map(thread -> thread.getName()).collect(Collectors.toList());
                 CustomExceptionUtil.throwCustomParameterizedException(String.format(ETL_HAS_THREADS_CONFIGURED_ERROR, entity.getName(), threadsName),
                         ErrorConstants.ETL_HAS_THREADS_CONFIGURED, entity.getName(), getErrorMessagge(threadsName));
+            }
+        }
+    }
+
+    private void checkIfCanEditEtlStatisticalOperation(Etl entity) {
+        if (entity.getId() != null) {
+            List<ComputationalThreads> threads = computationalThreadsRepository.findAllByExternalItemCodeNotAndComputationalThreadsEtlEtlId(entity.getExternalItem().getCode(),
+                    entity.getId());
+            if (!threads.isEmpty()) {
+                List<String> threadsName = threads.stream().map(thread -> thread.getName()).collect(Collectors.toList());
+                CustomExceptionUtil.throwCustomParameterizedException(String.format(ETL_STATISTICAL_HAS_THREADS_CONFIGURED_ERROR, entity.getName(), threadsName),
+                        ErrorConstants.ETL_STATISTICAL_HAS_THREADS_CONFIGURED, entity.getName(), getErrorMessagge(threadsName));
             }
         }
     }
