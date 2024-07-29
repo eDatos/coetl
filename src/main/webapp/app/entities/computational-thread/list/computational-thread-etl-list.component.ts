@@ -57,9 +57,9 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
 
     private initSelectedEtls() {
         this.etlsThread.forEach((element, index) => {
-            let test = null;
-            if ((test = this.etlList.find((etl) => etl.id == element.etl.id))) {
-                this.selectedEtls[element.executionOrder] = test;
+            let tmp = null;
+            if ((tmp = this.etlList.find((etl) => etl.id == element.etl.id))) {
+                this.selectedEtls[element.executionOrder] = tmp;
             }
         });
     }
