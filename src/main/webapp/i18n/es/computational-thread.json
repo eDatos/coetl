@@ -129,6 +129,15 @@
         },
         "restore": {
             "question": "¿Seguro que quiere resturar el Hilo Computacional <b>{{ code }}</b>?"
+        },
+        "etl": {
+            "list": {
+                "title": "Hilos computacionales",
+                "name": "Nombre",
+                "emptyListMessage": "Esta ETL no se ha configurado en ningún hilo computacional",
+                "link": "URL",
+                "navigate": "Ver"
+            }
         }
     }
 }

@@ -280,6 +280,11 @@
                 </div>
             </div>
         </fieldset>
+
+        <fieldset>
+            <ac-etl-thread-list [threads]="threads" [isEdit]="isEditMode()"></ac-etl-thread-list>
+        </fieldset>
+
         <fieldset *ngIf="etl.id">
             <ac-etl-execution-list [idEtl]="etl.id"></ac-etl-execution-list>
         </fieldset>

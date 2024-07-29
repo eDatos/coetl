@@ -129,6 +129,16 @@
         },
         "restore": {
             "question": "¿Are you sure you want to restore Computational Thread <b>{{ code }}</b>?"
+        },
+        "etl": {
+            "list": {
+                "title": "Computational Thread List",
+                "name": "Name",
+                "emptyListMessage": "This ETL has not been set up in any computational thread",
+                "link": "URL",
+                "navigate": "See"
+            }
+            
         }
     }
 }

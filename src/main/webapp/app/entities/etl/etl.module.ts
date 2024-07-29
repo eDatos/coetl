@@ -17,6 +17,7 @@ import { EtlParameterListComponent } from './etl-parameter-list/etl-parameter-li
 import { EtlParameterDialogComponent } from './etl-parameter-list/etl-parameter-dialog.component';
 import { EtlParameterDeleteDialogComponent } from './etl-parameter-list/etl-parameter-delete-dialog.component';
 import { EtlParameterHelpDialogComponent } from './etl-parameter-help-dialog';
+import { EtlThreadListComponent } from './etl-thread-list/etl-thread-list.component';
 
 const ENTITY_STATES = [...etlRoute];
 
@@ -34,7 +35,8 @@ const ENTITY_STATES = [...etlRoute];
         EtlParameterListComponent,
         EtlParameterDialogComponent,
         EtlParameterDeleteDialogComponent,
-        EtlParameterHelpDialogComponent
+        EtlParameterHelpDialogComponent,
+        EtlThreadListComponent
     ],
     entryComponents: [
         EtlDeleteDialogComponent,
