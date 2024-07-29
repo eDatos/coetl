@@ -6,6 +6,7 @@ import { createRequestOption, ResponseWrapper } from '../../shared';
 import { Etl, EtlBase } from './etl.model';
 import { Execution } from '../execution/execution.model';
 import { Parameter } from '../parameter';
+import { ComputationalThreadsBase } from '../computational-thread/computational-thread.model';
 
 @Injectable()
 export class EtlService {
@@ -134,5 +135,32 @@ export class EtlService {
 
     private convertItemToParameter(entity: any): Parameter {
         return Object.assign(new Parameter(), entity);
+    }
+
+    public existExecutionRunningOrWaiting(idEtl: Number): Observable<boolean> {
+        return this.http
+            .get(`${this.resourceUrl}/${idEtl}/existExecution`)
+            .map((response) => response.json());
+    }
+
+    public findThreadsByEtl(idEtl: number): Observable<ResponseWrapper> {
+        return this.http
+            .get(`${this.resourceUrl}/${idEtl}/threads`)
+            .map((response) =>
+                this.convertResponseToComputationalThreadBaseResponseWrapper(response)
+            );
+    }
+
+    private convertResponseToComputationalThreadBaseResponseWrapper(
+        response: Response
+    ): ResponseWrapper {
+        const jsonResponse = response
+            .json()
+            .map((element: any) => this.convertItemToBaseComputationalThread(element));
+        return new ResponseWrapper(response.headers, jsonResponse, response.status);
+    }
+
+    private convertItemToBaseComputationalThread(entity: any): ComputationalThreadsBase {
+        return Object.assign(new ComputationalThreadsBase(), entity);
     }
 }

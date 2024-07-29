@@ -2,7 +2,7 @@
     <h3 jhiTranslate="computationalThread.threadList.home.title"></h3>
 
     <fieldset *ngIf="isEdit">
-        <div class="entity-fields">
+        <div class="entity-fields" *ngIf="etlList && etlList.length > 0 else emptyListEtl">
             <div class="form-group minWidthClass">
                 <div class="card xl:flex xl:justify-content-center ulList" style="width: 100%;">
                     <p-listbox
@@ -64,6 +64,11 @@
     <ng-template #emptyList>
         <div class="empty-list" *ngIf="!isEdit">
             <span jhiTranslate="computationalThread.list.emptyListMessage"></span>
+        </div>
+    </ng-template>
+    <ng-template #emptyListEtl>
+        <div class="empty-list">
+            <span jhiTranslate="computationalThread.list.emptyEtlListMessage"></span>
         </div>
     </ng-template>
 </div>

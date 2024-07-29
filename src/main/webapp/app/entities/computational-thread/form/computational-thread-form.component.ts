@@ -16,6 +16,7 @@ import { ComputationalThreadRestoreDialogComponent } from '../restore-dialog/com
 import { EtlExpressionHelpDialogComponent } from '../../etl/etl-expression-help-dialog/etl-expression-help-dialog.component';
 import { AcAlertService } from '../../../shared/component/alert/alert.service';
 import { Result } from '../computational-thread-execution.model';
+import { ComputationalThreadEtlListComponent } from '../list/computational-thread-etl-list.component';
 
 @Component({
     selector: 'ac-computational-thread-form',
@@ -37,6 +38,7 @@ export class ComputationalThreadFormComponent
     @ViewChild('titlesContainer') titlesContaner: ElementRef;
     @ViewChild(Autosize) executionDescriptionContainer: Autosize;
     @ViewChild(Autosize) descriptionContainer: Autosize;
+    @ViewChild(ComputationalThreadEtlListComponent) loadAllEtl: ComputationalThreadEtlListComponent;
 
     constructor(
         private route: ActivatedRoute,
@@ -187,6 +189,15 @@ export class ComputationalThreadFormComponent
             })
             .map((res) => res.json)
             .subscribe((operaciones) => (this.externalItemsSuggestions = operaciones));
+    }
+
+    public onSelectMethod(event: ExternalItem) {
+        this.selectedEtls = [];
+        this.etlList = [];
+        this.computationalThreads.externalItem = event;
+        if (this.loadAllEtl) {
+            this.loadAllEtl.loadAll(this.computationalThreads.externalItem.code);
+        }
     }
 
     public help() {

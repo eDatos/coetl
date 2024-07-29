@@ -1,5 +1,7 @@
 package es.gobcan.istac.coetl.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,6 +16,7 @@ public interface ComputationalThreadsService {
     public ComputationalThreads restore(ComputationalThreads computationalThreads);
     public ComputationalThreads findOne(Long id);
     public Page<ComputationalThreads> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult);
+    public List<ComputationalThreads> getThreadsByEtlId(Long idEtl);
 
     // Executions
     public void executeComputationalThread(ComputationalThreadExecution computationalThreadExecution, String executor);

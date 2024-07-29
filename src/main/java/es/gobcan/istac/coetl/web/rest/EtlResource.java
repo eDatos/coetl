@@ -1,8 +1,37 @@
 package es.gobcan.istac.coetl.web.rest;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.codahale.metrics.annotation.Timed;
+
 import es.gobcan.istac.coetl.config.AuditConstants;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
+import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
@@ -12,10 +41,12 @@ import es.gobcan.istac.coetl.platform.common.service.GitService;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
+import es.gobcan.istac.coetl.web.rest.dto.ComputationalThreadsDTO;
 import es.gobcan.istac.coetl.web.rest.dto.EtlBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 import es.gobcan.istac.coetl.web.rest.dto.ExecutionDTO;
 import es.gobcan.istac.coetl.web.rest.dto.ParameterDTO;
+import es.gobcan.istac.coetl.web.rest.mapper.ComputationalThreadsMapper;
 import es.gobcan.istac.coetl.web.rest.mapper.EtlMapper;
 import es.gobcan.istac.coetl.web.rest.mapper.ExecutionMapper;
 import es.gobcan.istac.coetl.web.rest.mapper.ParameterMapper;
@@ -23,23 +54,6 @@ import es.gobcan.istac.coetl.web.rest.util.HeaderUtil;
 import es.gobcan.istac.coetl.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import io.swagger.annotations.ApiParam;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(EtlResource.BASE_URI)
@@ -61,9 +75,11 @@ public class EtlResource extends AbstractResource {
     private final AuditEventPublisher auditEventPublisher;
     private final GitService gitService;
     private final NotificationRestInternalFacade notificationRestInternalFacade;
+    private final ComputationalThreadsMapper computationalThreadsMapper;
 
     public EtlResource(EtlService etlService, EtlMapper etlMapper, ExecutionService executionService, ExecutionMapper executionMapper, ParameterService parameterService,
-            ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher, GitService gitService, NotificationRestInternalFacade notificationRestInternalFacade) {
+            ParameterMapper parameterMapper, AuditEventPublisher auditEventPublisher, GitService gitService, NotificationRestInternalFacade notificationRestInternalFacade,
+            ComputationalThreadsMapper computationalThreadsMapper) {
         this.etlService = etlService;
         this.etlMapper = etlMapper;
         this.executionService = executionService;
@@ -73,6 +89,7 @@ public class EtlResource extends AbstractResource {
         this.auditEventPublisher = auditEventPublisher;
         this.gitService = gitService;
         this.notificationRestInternalFacade = notificationRestInternalFacade;
+        this.computationalThreadsMapper = computationalThreadsMapper;
     }
 
     @PostMapping
@@ -185,7 +202,7 @@ public class EtlResource extends AbstractResource {
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
     public ResponseEntity<List<EtlBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable,
             @RequestParam("lastExecution") String lastExecutionStartDate, @RequestParam("lastExecutionByResult") String lastExecutionResult,
-            @RequestParam(value = "executionPlatform", required = false) String executionPlatform, @RequestParam(value = "restriction", required = false) Long restriction) {
+            @RequestParam(value = "executionPlatform", required = false) String executionPlatform, @RequestParam(value = "restriction", required = false) String restriction) {
         LOG.debug("REST Request to find all ETLs by query : {} and including deleted : {}", query, includeDeleted);
 
         Page<EtlBaseDTO> page = etlService.findAll(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult, executionPlatform, restriction)
@@ -374,4 +391,28 @@ public class EtlResource extends AbstractResource {
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
     }
+
+    @GetMapping("/{idEtl}/existExecution")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<Boolean> existExecution(@PathVariable Long idEtl) {
+        LOG.debug("REST Request to find a page of Executions by Computational Thread : {}", idEtl);
+        Boolean existsExecution = executionService.existsRunnnigOrWaitingByEtl(idEtl);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(existsExecution));
+    }
+
+    @GetMapping("/{idEtl}/threads")
+    @Timed
+    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    public ResponseEntity<List<ComputationalThreadsDTO>> findAllThreads(@PathVariable Long idEtl) {
+        LOG.debug("REST Request to find all Threads of an ETL : {}", idEtl);
+        if (idEtl == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ID_FALTA, "ID is required to find threads")).build();
+        }
+        List<ComputationalThreads> threads = etlService.getThreadsByEtlId(idEtl);
+        List<ComputationalThreadsDTO> result = computationalThreadsMapper.toDto(threads);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(result));
+    }
+
 }

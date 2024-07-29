@@ -138,7 +138,7 @@ public class QueryUtil {
         return query.toString();
     }
 
-    public String getQueryByExternalItemRestriction(Long restriction, StringBuilder queryBuilder) {
+    public String getQueryByExternalItemRestriction(String restriction, StringBuilder queryBuilder) {
         StringBuilder query = new StringBuilder();
         String and = StringUtils.isNotBlank(queryBuilder) ? AND : "";
         if (restriction != null) {

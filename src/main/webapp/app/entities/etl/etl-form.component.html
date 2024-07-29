@@ -34,7 +34,7 @@
                                 <span class="fa fa-play"></span>&nbsp;
                                 <span jhiTranslate="entity.action.execute"></span>
                             </button>
-                            <button class="btn btn-secondary jh-create-entity" [routerLink]="['../', etl.id, 'edit']" type="button">
+                            <button class="btn btn-secondary jh-create-entity" (click)="edit()" type="button">
                                 <span class="fa fa-pencil"></span>&nbsp;
                                 <span jhiTranslate="entity.action.edit"></span>
                             </button>
@@ -280,6 +280,11 @@
                 </div>
             </div>
         </fieldset>
+
+        <fieldset>
+            <ac-etl-thread-list [threads]="threads" [isEdit]="isEditMode()"></ac-etl-thread-list>
+        </fieldset>
+
         <fieldset *ngIf="etl.id">
             <ac-etl-execution-list [idEtl]="etl.id"></ac-etl-execution-list>
         </fieldset>

@@ -298,4 +298,9 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
         return newExecution;
     }
 
+    @Override
+    public List<ComputationalThreads> getThreadsByEtlId(Long idEtl) {
+        return computationalThreadsRepository.findAllByComputationalThreadsEtlEtlId(idEtl);
+    }
+
 }

@@ -120,6 +120,7 @@
                         [emptyMessage]="'coetlApp.externalItem.statisticalOperation.filters.emptyExternalItem' | translate"
                         [properties]="['code','name']"
                         [required]="true"
+                        (onSelect)="onSelectMethod($event)"
                     ></ac-autocomplete-long-list>
                 </div>
             </div>
@@ -132,7 +133,7 @@
                 [(selectedEtls)]="selectedEtls"
                 [etlList]="etlList"
                 [isEdit]="isEditMode()"
-                [statisticalOperationId]="computationalThreads.externalItem.id"
+                [(selectedStatistical)]="computationalThreads.externalItem"
             ></ac-computational-thread-etl-list>
         </fieldset>
 

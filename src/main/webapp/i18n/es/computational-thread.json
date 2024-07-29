@@ -90,11 +90,12 @@
         },
         "threadList": {
             "home": {
-                "title": "ETLs"
+                "title": "ETL"
             }
         },
         "list": {
-            "emptyListMessage": "No existen ETLs seleccionadas para este hilo computacional"
+            "emptyListMessage": "No existen ETL seleccionadas para este hilo computacional",
+            "emptyEtlListMessage": "Actualmente no existe ninguna ETL configurada para la operación estadística seleccionada"
         },
         "execution": {
             "home": {
@@ -128,6 +129,15 @@
         },
         "restore": {
             "question": "¿Seguro que quiere resturar el Hilo Computacional <b>{{ code }}</b>?"
+        },
+        "etl": {
+            "list": {
+                "title": "Hilos computacionales",
+                "name": "Nombre",
+                "emptyListMessage": "Esta ETL no se ha configurado en ningún hilo computacional",
+                "link": "URL",
+                "navigate": "Ver"
+            }
         }
     }
 }

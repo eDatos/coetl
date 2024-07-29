@@ -84,7 +84,7 @@
             "title": "Confirm deactivation"
         },
         "validation": {
-            "required": "This field is required."
+            "required": "This field is required.",
             "minlength": "This field requires at least {{min}} characters.",
             "maxlength": "This field cannot exceed more than {{max}} characters.",
             "min": "This field must be greater than {{min}}.",

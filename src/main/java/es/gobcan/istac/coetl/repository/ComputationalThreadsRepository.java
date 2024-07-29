@@ -1,5 +1,7 @@
 package es.gobcan.istac.coetl.repository;
 
+import java.util.List;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,4 +15,7 @@ public interface ComputationalThreadsRepository extends JpaRepository<Computatio
 
     ComputationalThreads findOneByCode(String code);
     Page<ComputationalThreads> findAll(DetachedCriteria criteria, Pageable pageable);
+    List<ComputationalThreads> findAllByComputationalThreadsEtlEtlId(Long idEtl);
+    List<ComputationalThreads> findAllByExternalItemCodeNotAndComputationalThreadsEtlEtlId(String code, Long idEtl);
+
 }
