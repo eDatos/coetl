@@ -289,11 +289,9 @@ public class EtlServiceImpl implements EtlService {
 
     @Override
     public List<ComputationalThreads> getThreadsByEtlId(Long idEtl) {
-        if (idEtl != null) {
-            List<ComputationalThreads> threads = computationalThreadsService.getThreadsByEtlId(idEtl);
-            if (!threads.isEmpty()) {
-                return threads;
-            }
+        List<ComputationalThreads> threads = computationalThreadsService.getThreadsByEtlId(idEtl);
+        if (!threads.isEmpty()) {
+            return threads;
         }
         return new ArrayList<>();
     }

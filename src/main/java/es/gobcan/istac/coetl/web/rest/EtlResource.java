@@ -406,6 +406,9 @@ public class EtlResource extends AbstractResource {
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
     public ResponseEntity<List<ComputationalThreadsDTO>> findAllThreads(@PathVariable Long idEtl) {
         LOG.debug("REST Request to find all Threads of an ETL : {}", idEtl);
+        if (idEtl == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ID_FALTA, "ID is required to find threads")).build();
+        }
         List<ComputationalThreads> threads = etlService.getThreadsByEtlId(idEtl);
         List<ComputationalThreadsDTO> result = computationalThreadsMapper.toDto(threads);
 
