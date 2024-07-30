@@ -3,20 +3,14 @@
 
     <div class="form-group mb-3">
         <ng-container *ngIf="!isEdit && !hasThreads() else emptyList">
-            <table class="table table-hover">
+            <table class="table table-hover" acStickyTableHeader>
                 <thead>
                     <tr>
                         <th style="width: 50%;" jhiTranslate="computationalThread.etl.list.name"></th>
-                        <th style="width: 10%;" jhiTranslate="computationalThread.etl.list.link"></th>
                     </tr>
                 </thead>
-                <tr *ngFor="let thread of threads; let i = index">
+                <tr *ngFor="let thread of threads; let i = index" [routerLink]="['../../computational-threads', thread.id ]" class="cursor">
                     <td>{{ thread.name }}</td>
-                    <td ngbDropdown [routerLink]="['../../computational-threads', thread.id ]">
-                        <a class="nav-link" href="javascript:void(0);">
-                            <span jhiTranslate="computationalThread.etl.list.navigate"></span>
-                        </a>
-                    </td>
                 </tr>
             </table>
         </ng-container>

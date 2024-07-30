@@ -3,7 +3,8 @@ import { ComputationalThreadsBase } from '../../computational-thread/computation
 
 @Component({
     selector: 'ac-etl-thread-list',
-    templateUrl: 'etl-thread-list.component.html'
+    templateUrl: 'etl-thread-list.component.html',
+    styleUrls: ['etl-thread-list.component.scss']
 })
 export class EtlThreadListComponent implements OnInit, OnDestroy {
     public static EVENT_NAME = 'EtlThreadList';
