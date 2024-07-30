@@ -15,7 +15,7 @@ public interface ComputationalThreadsRepository extends JpaRepository<Computatio
 
     ComputationalThreads findOneByCode(String code);
     Page<ComputationalThreads> findAll(DetachedCriteria criteria, Pageable pageable);
-    List<ComputationalThreads> findAllByComputationalThreadsEtlEtlId(Long idEtl);
+    List<ComputationalThreads> findAllByComputationalThreadsEtlEtlIdOrderByName(Long idEtl);
     List<ComputationalThreads> findAllByExternalItemCodeNotAndComputationalThreadsEtlEtlId(String code, Long idEtl);
 
 }
