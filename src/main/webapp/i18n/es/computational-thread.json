@@ -135,7 +135,7 @@
                 "title": "Hilos computacionales",
                 "name": "Nombre",
                 "emptyListMessage": "Esta ETL no se ha configurado en ningún hilo computacional",
-                "link": "URL",
+                "link": "Enlace",
                 "navigate": "Ver"
             }
         }

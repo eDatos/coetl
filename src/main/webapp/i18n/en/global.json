@@ -13,7 +13,7 @@
                 "jhipster-needle-menu-add-entry":  "JHipster will add additional entities here (do not translate!)"
             },
             "etl": {
-                "main": "ETLs register"
+                "main": "ETL register"
             },
             "account": {
                 "main": "Main",
