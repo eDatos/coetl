@@ -4,12 +4,10 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -67,7 +65,7 @@ public class Execution implements Serializable {
     @Column(name = "notes", length = 4000, nullable = true)
     private String notes;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, targetEntity = Etl.class)
     @JoinColumn(name = "etl_fk")
     private Etl etl;
     

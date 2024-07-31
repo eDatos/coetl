@@ -2,12 +2,12 @@
     "coetlApp": {
         "etl": {
             "home": {
-                "title": "Registration of ETLs",
+                "title": "Registration of ETL",
                 "createLabel": "Create new ETL",
                 "createOrEditLabel": "Create or edit ETL"
             },
             "menu": {
-                "title": "Registration of ETLs"
+                "title": "Registration of ETL"
             },
             "created": "ETL has been created {{ param }}",
             "updated": "The ETL has been updated {{ param }}",
@@ -94,7 +94,7 @@
             },
             "attachedFiles": {
                 "label": "ETL attachments",
-                "help": "We take as attachments those resources used internally by the ETL, whether other ETLs, images, CSVs, etc."
+                "help": "We take as attachments those resources used internally by the ETL, whether other ETL, images, CSVs, etc."
             },
             "uriRepository": {
                 "label": "Git repository",

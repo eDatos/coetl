@@ -1,0 +1,142 @@
+{
+    "computationalThread": {
+        "pageTitle": "Computational Thread", 
+        "threads": {
+            "home": {
+                "title": "Registration of Computational Thread",
+                "createLabel": "Create new Computational Thread",
+                "createOrEditLabel": "Create or edit Computational Thread"
+            },
+            "sections": {
+                "identification": "Identification",
+                "inCharge": "Responsible",
+                "planning": "Planning",
+                "executions": "Executions"
+            },
+            "code": {
+                "label": "Code",
+                "placeholder": "Enter a code"
+            },
+            "name": {
+                "label": "Name",
+                "placeholder": "Enter a name"
+            },
+            "description": {
+                "label": "Description",
+                "placeholder": "Enter a description"
+            },
+            "statisticalOperation": {
+                "label": "Statistical operation",
+                "placeholder": "Choose the statistical operation"
+            },
+            "order": {
+                "label": "Execution Order"
+            },
+            "execution": {
+                "title": "Confirm execution",
+                "question": "¿Are you sure you want to run the Computational Thread <b>{{ code }}</b>?"
+            },
+            "lastExecution": {
+                "label": "Last execution"
+            },
+            "executionResult": {
+                "label": "Execution state"
+            },
+            "executionDescription": {
+                "label": "When to run",
+                "placeholder": "Enter a description of the execution"
+            },
+            "executionPlanning": {
+                "label": "Planning expression",
+                "placeholder": "Enter a planning expression"
+            },
+            "nextExecution": {
+                "label": "Next execution"
+            },
+            "planning": {
+                "label": "Planning",
+                "isPlanning": "Planned",
+                "isNotPlanning": "Unplanned"
+            }
+        },
+        "filters": {
+            "code": {
+                "placeholder": "Search by code",
+                "label": "Code"
+            },
+            "name": {
+                "placeholder": "Search by name",
+                "label": "Name"
+            },
+            "statisticalOperation": {
+                "placeholder": "Search by statistical operation",
+                "label": "Statistical operation"
+            },
+            "executionResult": {
+                "label": "Execution state"
+            },
+            "lastExecution": {
+                "label": "Last execution"
+            },
+            "result": {
+                "label": "Result",
+                "SUCCESS": "Right",
+                "FAILED": "Failure",
+                "WAITING": "On hold",
+                "RUNNING": "Running",
+                "DUPLICATED": "Duplicate"
+            },
+            "includeDeleted": "Include deleted"
+        },
+        "threadList": {
+            "home": {
+                "title": "ETL List"
+            }
+        },
+        "list": {
+            "emptyListMessage": "Doesn’t exist ETL selected for this Computational Thread",
+            "emptyEtlListMessage": "Doesn’t exist ETL configured for current selected statistical operation"
+        },
+        "execution": {
+            "home": {
+                "title": "Executions"
+            },
+            "planningDate": "Planning date",
+            "startDate": "Start date",
+            "finishDate": "End date",
+            "type": {
+                "label": "Type",
+                "AUTO": "Automatic",
+                "MANUAL": "Manual"
+            },
+            "result": {
+                "label": "Result",
+                "SUCCESS": "Right",
+                "FAILED": "Failure",
+                "WAITING": "On hold",
+                "RUNNING": "Running",
+                "DUPLICATED": "Duplicate"
+            },
+            "notes": "Notes",
+            "emptyListMessage": "No runs for this Computational Thread",
+            "executionResult": {
+                "label": "Execution state"
+            },
+            "executor": "User"
+        },
+        "delete": {
+            "question": "¿Are you sure you want to delete Computational Thread <b>{{ code }}</b>?"
+        },
+        "restore": {
+            "question": "¿Are you sure you want to restore Computational Thread <b>{{ code }}</b>?"
+        },
+        "etl": {
+            "list": {
+                "title": "Computational Thread List",
+                "name": "Name",
+                "emptyListMessage": "This ETL has not been set up in any computational thread"
+            }
+            
+        }
+    }
+}

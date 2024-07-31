@@ -65,6 +65,7 @@ import es.gobcan.istac.coetl.service.ParameterService;
 import es.gobcan.istac.coetl.web.rest.dto.EtlBaseDTO;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 import es.gobcan.istac.coetl.web.rest.dto.ParameterDTO;
+import es.gobcan.istac.coetl.web.rest.mapper.ComputationalThreadsMapper;
 import es.gobcan.istac.coetl.web.rest.mapper.EtlMapper;
 import es.gobcan.istac.coetl.web.rest.mapper.ExecutionMapper;
 import es.gobcan.istac.coetl.web.rest.mapper.ParameterMapper;
@@ -146,17 +147,21 @@ public class EtlResourceIntTest {
 
     private MockMvc restEtlMockMvc;
 
+    @Autowired
+    private ComputationalThreadsMapper computationalThreadsMapper;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         Mockito.when(gitService.cloneRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
         Mockito.when(gitService.replaceRepository(any(Etl.class))).thenReturn("/path/to/mocking/repository");
-        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, gitService, notificationRestInternalFacade);
+        EtlResource etlResource = new EtlResource(etlService, etlMapper, executionService, executionMapper, parameterServie, parameterMapper, auditEventPublisher, gitService,
+                notificationRestInternalFacade, computationalThreadsMapper);
         this.restEtlMockMvc = MockMvcBuilders.standaloneSetup(etlResource).setCustomArgumentResolvers(pageableArgumentResolver).setControllerAdvice(exceptionTranslator)
                 .setMessageConverters(jacksonMessageConverter).build();
-        
+
     }
-    
+
     private ExternalItem mockExternalItem() {
         ExternalItem externalItem = new ExternalItem();
         externalItem.setCode("CODEMOCK");
@@ -480,7 +485,8 @@ public class EtlResourceIntTest {
         EtlBaseDTO etlDTOMocked = etlMapper.toBaseDto(etlMocked, null, null);
 
         Page<Etl> etlMockPage = new PageImpl<>(new ArrayList<>(Arrays.asList(etlMocked)));
-        doReturn(etlMockPage).when(etlService).findAll(any(String.class), any(Boolean.class), any(Pageable.class), any(String.class), any(String.class));
+        doReturn(etlMockPage).when(etlService).findAll(any(String.class), any(Boolean.class), any(Pageable.class), any(String.class), any(String.class), any(String.class),
+                any(String.class));
 
         //@formatter:off
         restEtlMockMvc.perform(get(BASE_URI + "?sort=id,asc").param("lastExecution", "").param("lastExecutionByResult", "")

@@ -18,6 +18,7 @@ import com.arte.libs.grammar.orm.jpa.criteria.AbstractCriteriaProcessor;
 
 import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
+import es.gobcan.istac.coetl.service.criteria.ComputationalThreadCriteriaProcessor;
 import es.gobcan.istac.coetl.service.criteria.EtlCriteriaProcessor;
 import es.gobcan.istac.coetl.service.criteria.EtlCriteriaProcessor.QueryProperty;
 
@@ -32,6 +33,10 @@ public class QueryUtil {
 
     public DetachedCriteria queryToEtlCriteria(Pageable pageable, String query) {
         return queryToCriteria(pageable, query, new EtlCriteriaProcessor());
+    }
+
+    public DetachedCriteria queryToComputationalThreadCriteria(Pageable pageable, String query) {
+        return queryToCriteria(pageable, query, new ComputationalThreadCriteriaProcessor());
     }
 
     public String queryIncludingDeleted(String query) {
@@ -121,6 +126,24 @@ public class QueryUtil {
             query.append(and).append(QueryProperty.LAST_EXECUTION).append(EQ).append(String.format("'%s'", lastExecutionStartDate)).toString();
         }
 
+        return query.toString();
+    }
+
+    public String getQueryByExecutionPlatform(String executionPlatform, StringBuilder queryBuilder) {
+        StringBuilder query = new StringBuilder();
+        String and = StringUtils.isNotBlank(queryBuilder) ? AND : "";
+        if (executionPlatform != null && !executionPlatform.isEmpty()) {
+            return query.append(and).append(QueryProperty.EXECUTION_PLATFORM).append(EQ).append("'").append(executionPlatform).append("'").toString();
+        }
+        return query.toString();
+    }
+
+    public String getQueryByExternalItemRestriction(String restriction, StringBuilder queryBuilder) {
+        StringBuilder query = new StringBuilder();
+        String and = StringUtils.isNotBlank(queryBuilder) ? AND : "";
+        if (restriction != null) {
+            return query.append(and).append(QueryProperty.STATISTICAL_OPERATION).append(EQ).append(restriction).toString();
+        }
         return query.toString();
     }
 

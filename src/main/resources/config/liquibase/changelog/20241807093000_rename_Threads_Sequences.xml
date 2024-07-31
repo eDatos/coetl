@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet author="arte" id="20241807093000-0">
+		<sqlFile dbms="postgresql"
+			path="config/liquibase/postgresql/alter_sequences_threads.sql" />
+	</changeSet>
+	
+	<changeSet author="arte" id="20241807093000-1">
+		<dropSequence sequenceName="computational_threads_id_seq"/>
+	</changeSet>
+	
+	<changeSet author="arte" id="20241807093000-2">
+		<dropSequence sequenceName="computational_threads_etls_id_seq"/>
+	</changeSet>
+	
+	<changeSet author="arte" id="20241807093000-3">
+		<dropSequence sequenceName="computational_threads_execution_id_seq"/>
+	</changeSet>
+	
+	<changeSet author="arte" id="20241807093000-4">
+		<dropSequence sequenceName="computational_threads_execution_etls_id_seq"/>
+	</changeSet>
+
+</databaseChangeLog>

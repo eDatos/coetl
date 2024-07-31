@@ -30,6 +30,7 @@
         "Size": "¡El campo {{0}} no cumple con los requisitos de tamaño mínimo/máximo!",
         "usuario-existe": "El nombre de usuario introducido ya está siendo usado",
         "id-existe": "Un nuevo {{0}} no puede tener previamente un ID",
+        "id-falta": "ID no encontrado",
         "entidad-no-encontrada": "Resultado de {{0}} no encontrado",
         "userManagement": {
             "usuario-ldap-no-encontrado": "No se ha encontrado el usuario especificado"
@@ -61,7 +62,16 @@
             "attachedFilesUpload": "Ha ocurrido un error en la subida de los ficheros adjuntos de la ETL",
             "cloneRepository": "Ha ocurrido un error clonando el repositorio",
             "replacingRepository": "Ha ocurrido un error reemplazando el repositorio",
-            "typeNotSupported": "Tipo no soportado para la plataforma de ejecución"
+            "typeNotSupported": "Tipo no soportado para la plataforma de ejecución",
+            "statisticalOperation": {
+                "isBlank": "La operación estadística no puede estar vacía"
+            },
+            "hasThreadsConfigured": "La ETL \"{{0}}\" no puede ser eliminada ya que se ha configurado en los siguientes hilos computacionales: {{1}}",
+            "updateExistsRunning": "No se puede editar la ETL \"{{0}}\" porque se encuentra en ejecución o en espera",
+            "deleteExistsRunning": "No se puede eliminar la ETL \"{{0}}\" porque se encuentra en ejecución o en espera",
+            "hasStatisticalThreadsConfigured": "La ETL \"{{0}}\" no puede ser editada ya que se ha configurado en los siguientes hilos computacionales una operación estadísticia diferente: {{1}}",
+            "canNotEdit": "No se puede editar la ETL ya que se encuentra en estado de Ejecución o Espera",
+            "canNotEditExecutionPlatform": "La plataforma de ejecución no puede ser modificada ya que se ha configurado en un hilo computacional (ver sección \"Hilos Computacionales\")"
         },
         "health": {
             "serviceName": {
@@ -89,6 +99,23 @@
         },
         "quartz": {
             "jobExecutionError": "Ha ocurrido un error en la ejecución planificada de la ETL con código {{0}}"
+        },
+        "computationalThread": {
+            "cronExpressionNotValid": "La expresión cron \"{{0}}\" no es válida",
+            "scheduleError": "Ha ocurrido un error en la creación de la planificación de ejecución del hilo computacional",
+            "unscheduleError": "Ha ocurrido un error en el borrado de la planificación de ejecución del hilo computacional",
+            "codeExists": "Ya existe un hilo computacional con el mismo código",
+            "statisticalOperation": {
+                "isBlank": "La operación estadística no puede estar vacía"
+            },
+            "registerEtlError": "Se ha producido un error al registrar las ETL del hilo computacional en Apache Hop",
+            "currentlyDeleted": "El hilo computacional se encuentra actualmente eliminado",
+            "currentlyNotDeleted": "Este hilo computacional se encuentra actualmente activo",
+            "executingError": "Ha ocurrido un error durante la ejecución del hilo computacional.",
+            "limitExceedError": "El campo \"{{0}}\" no puede exceder de los \"{{1}}\" caracteres",
+            "etlNotConfigured": "Un hilo computacional debe tener al menos configurada una ETL para poder ejecutarse",
+            "canNotEdit": "No se puede editar el hilo computacional ya que se encuentra en estado de Ejecución o Espera",
+            "canNotDelete": "No se puede eliminar el hilo computacional ya que se encuentra en estado de Ejecución o Espera"
         }
     }
 }

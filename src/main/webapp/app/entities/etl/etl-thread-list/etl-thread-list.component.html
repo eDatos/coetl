@@ -1,0 +1,24 @@
+<div class="entity" *ngIf="!isEdit">
+    <h3 jhiTranslate="computationalThread.etl.list.title"></h3>
+
+    <div class="form-group mb-3">
+        <ng-container *ngIf="!isEdit && !hasThreads() else emptyList">
+            <table class="table table-hover" acStickyTableHeader>
+                <thead>
+                    <tr>
+                        <th style="width: 50%;" jhiTranslate="computationalThread.etl.list.name"></th>
+                    </tr>
+                </thead>
+                <tr *ngFor="let thread of threads; let i = index" [routerLink]="['../../computational-threads', thread.id ]" class="cursor">
+                    <td>{{ thread.name }}</td>
+                </tr>
+            </table>
+        </ng-container>
+    </div>
+
+    <ng-template #emptyList>
+        <div class="empty-list" *ngIf="!isEdit">
+            <span jhiTranslate="computationalThread.etl.list.emptyListMessage"></span>
+        </div>
+    </ng-template>
+</div>

@@ -15,7 +15,7 @@
                     "JHipster will add additional entities here (do not translate!)"
             },
             "etl": {
-                "main": "Registre de ETLs"
+                "main": "Registre de ETL"
             },
             "account": {
                 "main": "Compte",

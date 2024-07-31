@@ -1,6 +1,36 @@
 package es.gobcan.istac.coetl.service.impl;
 
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
+
+import java.text.ParseException;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.DetachedCriteria;
+import org.quartz.CronExpression;
+import org.quartz.CronTrigger;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import es.gobcan.istac.coetl.config.QuartzConstants;
+import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Type;
@@ -13,6 +43,7 @@ import es.gobcan.istac.coetl.platform.hop.service.impl.HopExecutionServiceImpl;
 import es.gobcan.istac.coetl.platform.pentaho.service.impl.PentahoExecutionServiceImpl;
 import es.gobcan.istac.coetl.repository.EtlRepository;
 import es.gobcan.istac.coetl.security.SecurityUtils;
+import es.gobcan.istac.coetl.service.ComputationalThreadsService;
 import es.gobcan.istac.coetl.service.EtlService;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ExternalItemService;
@@ -20,28 +51,6 @@ import es.gobcan.istac.coetl.service.validator.EtlValidator;
 import es.gobcan.istac.coetl.util.CronUtils;
 import es.gobcan.istac.coetl.web.rest.dto.EtlDTO;
 import es.gobcan.istac.coetl.web.rest.util.QueryUtil;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.criterion.DetachedCriteria;
-import org.quartz.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.quartz.CronScheduleBuilder.cronSchedule;
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
 
 @Service
 public class EtlServiceImpl implements EtlService {
@@ -74,6 +83,9 @@ public class EtlServiceImpl implements EtlService {
     @Autowired
     private SchedulerFactoryBean schedulerAccessorBean;
 
+    @Autowired
+    private ComputationalThreadsService computationalThreadsService;
+
     @Override
     public Etl create(Etl etl) {
         LOG.debug("Request to create an ETL : {}", etl);
@@ -101,6 +113,7 @@ public class EtlServiceImpl implements EtlService {
         etl.setDeletedBy(SecurityUtils.getCurrentUserLogin());
         etl.setDeletionDate(Instant.now());
 
+        etlValidator.validate(etl);
         return (etl.isPlanned()) ? unplanifyAndSave(etl) : save(etl);
     }
 
@@ -119,8 +132,9 @@ public class EtlServiceImpl implements EtlService {
     }
 
     @Override
-    public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult) {
-        DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult);
+    public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult, String executionPlatform,
+            String restriction) {
+        DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult, executionPlatform, restriction);
         return filteredListByRolOperationAllowed(etlRepository.findAll(criteria, pageable));
     }
 
@@ -204,6 +218,7 @@ public class EtlServiceImpl implements EtlService {
         return save(etl);
     }
 
+    @Transactional
     private Etl save(Etl etl) {
         LOG.debug("Request to save an ETL : {}", etl);
         return etlRepository.saveAndFlush(etl);
@@ -252,12 +267,14 @@ public class EtlServiceImpl implements EtlService {
     }
 
     private DetachedCriteria buildEtlCriteria(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate,
-            String lastExecutionResult) {
+            String lastExecutionResult, String executionPlatform, String restriction) {
         StringBuilder queryBuilder = new StringBuilder();
         if (StringUtils.isNotBlank(query)) {
             queryBuilder.append(query);
         }
         queryBuilder.append(queryUtil.getQueryByLastExecution(lastExecutionStartDate, lastExecutionResult, queryBuilder));
+        queryBuilder.append(queryUtil.getQueryByExecutionPlatform(executionPlatform, queryBuilder));
+        queryBuilder.append(queryUtil.getQueryByExternalItemRestriction(restriction, queryBuilder));
         String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
         return queryUtil.queryToEtlCriteria(pageable, finalQuery);
     }
@@ -268,6 +285,15 @@ public class EtlServiceImpl implements EtlService {
             finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
         }
         return finalQuery;
+    }
+
+    @Override
+    public List<ComputationalThreads> getThreadsByEtlId(Long idEtl) {
+        List<ComputationalThreads> threads = computationalThreadsService.getThreadsByEtlId(idEtl);
+        if (!threads.isEmpty()) {
+            return threads;
+        }
+        return new ArrayList<>();
     }
 
 }

@@ -8,6 +8,8 @@ public final class QuartzConstants {
 
     public static final String ETL_CODE_JOB_DATA = "etlCode";
 
+    public static final String COMPUTATIONAL_THREAD_CODE_JOB_DATA = "computationalThreadsCode";
+
     private QuartzConstants() {
     }
 

@@ -35,6 +35,13 @@ public final class AuditConstants {
     public static final String HEALTH_UPDATED = "HEALTH_UPDATED";
     public static final String HEALTH_DELETED = "HEALTH_DELETED";
 
+    // Audits Computational Thread Type
+    public static final String COMPUTATIONAL_THREAD_CREATED = "COMPUTATIONAL_THREAD_CREATED";
+    public static final String COMPUTATIONAL_THREAD_UPDATED = "COMPUTATIONAL_THREAD_UPDATED";
+    public static final String COMPUTATIONAL_THREAD_DELETED = "COMPUTATIONAL_THREAD_DELETED";
+    public static final String COMPUTATIONAL_THREAD_RECOVERED = "COMPUTATIONAL_THREAD_RECOVERED";
+    public static final String COMPUTATIONAL_THREAD_EXECUTED = "COMPUTATIONAL_THREAD_EXECUTED";
+
     private AuditConstants() {
     }
 }

@@ -6,6 +6,12 @@ import { Rol } from './rol.model';
 export const HERRAMIENTAS_ROLES = [Rol.ADMINISTRADOR];
 export const READ_ETL_ROLES = [Rol.ADMINISTRADOR, Rol.TECNICO_PRODUCCION, Rol.LECTOR];
 export const MANAGE_ETL_ROLES = [Rol.ADMINISTRADOR, Rol.TECNICO_PRODUCCION];
+export const READ_COMPUTATIONAL_THREAD_ROLES = [
+    Rol.ADMINISTRADOR,
+    Rol.TECNICO_PRODUCCION,
+    Rol.LECTOR
+];
+export const MANAGE_COMPUTATIONAL_THREAD_ROLES = [Rol.ADMINISTRADOR, Rol.TECNICO_PRODUCCION];
 
 @Injectable()
 export class PermissionService {
@@ -21,5 +27,16 @@ export class PermissionService {
 
     canManageEtl(operation?: ExternalItem): boolean {
         return this.principal.rolesRutaMatchesRolesUsuario(MANAGE_ETL_ROLES, operation);
+    }
+
+    public canReadComputationalThread(): boolean {
+        return this.principal.rolesRutaMatchesRolesUsuario(READ_COMPUTATIONAL_THREAD_ROLES);
+    }
+
+    public canManageComputationalThread(operation?: ExternalItem): boolean {
+        return this.principal.rolesRutaMatchesRolesUsuario(
+            MANAGE_COMPUTATIONAL_THREAD_ROLES,
+            operation
+        );
     }
 }

@@ -42,6 +42,10 @@ public final class ErrorConstants {
     public static final String ETL_REPLACE_REPOSITORY = "error.etl.replacingRepository";
     public static final String ETL_TYPE_NOT_SUPPORTED = "error.etl.typeNotSupported";
     public static final String ETL_STATISTICAL_OPERATION_IS_BLANK = "error.etl.statisticalOperation.isBlank";
+    public static final String ETL_HAS_THREADS_CONFIGURED = "error.etl.hasThreadsConfigured";
+    public static final String ETL_UPDATE_EXISTS_RUNNING_ERROR = "error.etl.updateExistsRunning";
+    public static final String ETL_DELETE_EXISTS_RUNNING_ERROR = "error.etl.deleteExistsRunning";
+    public static final String ETL_STATISTICAL_HAS_THREADS_CONFIGURED = "error.etl.hasStatisticalThreadsConfigured";
 
     // HEALTH
     public static final String HEALTH_SERVICE_NAME_IS_BLANK = "error.health.serviceName.isBlank";
@@ -57,6 +61,21 @@ public final class ErrorConstants {
 
     // QUARZT
     public static final String QUARTZ_JOB_EXECUTION_ERROR = "error.quartz.jobExecutionError";
+
+    // COMPUTATIONAL THREAD
+    public static final String COMPUTATIONAL_THREAD_CRON_EXPRESSION_NOT_VALID = "error.computationalThread.cronExpressionNotValid";
+    public static final String COMPUTATIONAL_THREAD_SCHEDULE_ERROR = "error.computationalThread.scheduleError";
+    public static final String COMPUTATIONAL_THREAD_UNSCHEDULE_ERROR = "error.computationalThread.unscheduleError";
+    public static final String COMPUTATIONAL_THREAD_CODE_EXISTS = "error.computationalThread.codeExists";
+    public static final String COMPUTATIONAL_THREAD_STATISTICAL_OPERATION_IS_BLANK = "error.computationalThread.statisticalOperation.isBlank";
+    public static final String COMPUTATIONAL_THREAD_CURRENTLY_DELETED = "error.computationalThread.currentlyDeleted";
+    public static final String COMPUTATIONAL_THREAD_CURRENTLY_NOT_DELETED = "error.computationalThread.currentlyNotDeleted";
+    public static final String COMPUTATIONAL_THREAD_FIELD_LIMIT_EXCEED_ERROR = "error.computationalThread.limitExceedError";
+    public static final String COMPUTATIONAL_THREAD_NOT_ETL_CONFIGURED = "error.computationalThread.etlNotConfigured";
+
+    // COMPUTATIONAL THREAD EXECUTION
+    public static final String COMPUTATIONAL_THREAD_EXECUTION_REGISTER_ETL_ERROR = "error.computationalThread.registerEtlError";
+    public static final String COMPUTATIONAL_THREAD_EXECUTION_ERROR = "error.computationalThread.executingError";
 
     private ErrorConstants() {
     }
