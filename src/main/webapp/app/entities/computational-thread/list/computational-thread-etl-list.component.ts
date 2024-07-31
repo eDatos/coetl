@@ -41,7 +41,7 @@ export class ComputationalThreadEtlListComponent implements OnInit, OnDestroy {
         this.etlService
             .query({
                 query: this.query,
-                includeDeleted: true,
+                includeDeleted: false,
                 lastExecution: '',
                 lastExecutionByResult: '',
                 executionPlatform: ExecutionPlatform.APACHE_HOP,

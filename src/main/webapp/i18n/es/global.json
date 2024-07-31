@@ -16,7 +16,7 @@
                     "JHipster will add additional entities here (do not translate!)"
             },
             "etl": {
-                "main": "Registro de ETLs"
+                "main": "Registro de ETL"
             },
             "computational-threads": {
                 "main": "Hilos computacionales"

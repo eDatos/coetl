@@ -108,7 +108,7 @@
             "statisticalOperation": {
                 "isBlank": "La operación estadística no puede estar vacía"
             },
-            "registerEtlError": "Se ha producido un error al registrar las ETLs del hilo computacional en Apache Hop",
+            "registerEtlError": "Se ha producido un error al registrar las ETL del hilo computacional en Apache Hop",
             "currentlyDeleted": "El hilo computacional se encuentra actualmente eliminado",
             "currentlyNotDeleted": "Este hilo computacional se encuentra actualmente activo",
             "executingError": "Ha ocurrido un error durante la ejecución del hilo computacional.",

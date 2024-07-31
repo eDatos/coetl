@@ -300,7 +300,7 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
 
     @Override
     public List<ComputationalThreads> getThreadsByEtlId(Long idEtl) {
-        return computationalThreadsRepository.findAllByComputationalThreadsEtlEtlId(idEtl);
+        return computationalThreadsRepository.findAllByComputationalThreadsEtlEtlIdOrderByName(idEtl);
     }
 
 }

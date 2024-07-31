@@ -2,12 +2,12 @@
     "coetlApp": {
         "etl": {
             "home": {
-                "title": "Registre d'ETLs",
+                "title": "Registre d'ETL",
                 "createLabel": "Crear nova ETL",
                 "createOrEditLabel": "Crear o editar ETL"
             },
             "menu": {
-                "title": "Registre d'ETLs"
+                "title": "Registre d'ETL"
             },
             "created": "S'ha creat la ETL {{ param }}",
             "updated": "S'ha actualizat la ETL {{ param }}",
@@ -91,7 +91,7 @@
             },
             "attachedFiles": {
                 "label": "Fixers adjunts ETL",
-                "help": "Es prenen com a fixers adjunts aquells recursos usats internament per la ETL, ja siguin unes altres ETLs, imatges, CSVs, etcètera."
+                "help": "Es prenen com a fixers adjunts aquells recursos usats internament per la ETL, ja siguin unes altres ETL, imatges, CSVs, etcètera."
             },
             "uriRepository": {
                 "label": "Repositori Git",
