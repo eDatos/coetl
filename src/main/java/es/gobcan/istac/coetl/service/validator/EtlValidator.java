@@ -93,7 +93,7 @@ public class EtlValidator extends AbstractValidator<Etl> {
 
     private void checkIfCanDeleteEtl(Etl entity) {
         if (entity.getId() != null && entity.getDeletionDate() != null) {
-            List<ComputationalThreads> threads = computationalThreadsRepository.findAllByComputationalThreadsEtlEtlId(entity.getId());
+            List<ComputationalThreads> threads = computationalThreadsRepository.findAllByComputationalThreadsEtlEtlIdOrderByName(entity.getId());
             if (!threads.isEmpty()) {
                 List<String> threadsName = threads.stream().map(thread -> thread.getName()).collect(Collectors.toList());
                 CustomExceptionUtil.throwCustomParameterizedException(String.format(ETL_HAS_THREADS_CONFIGURED_ERROR, entity.getName(), threadsName),
