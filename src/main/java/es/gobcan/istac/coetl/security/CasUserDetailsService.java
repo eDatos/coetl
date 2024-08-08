@@ -2,6 +2,7 @@ package es.gobcan.istac.coetl.security;
 
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,8 @@ public class CasUserDetailsService extends AbstractCasAssertionUserDetailsServic
         } else {
             acls = (LinkedList<String>) attributes.get(ACL_KEY);
         }
-        List<GrantedAuthority> grantedAuthorities = acls.stream().map(acl -> new SimpleGrantedAuthority(acl)).collect(Collectors.toList());
+        
+        List<GrantedAuthority> grantedAuthorities = acls != null ? acls.stream().map(acl -> new SimpleGrantedAuthority(acl)).collect(Collectors.toList()) : Collections.EMPTY_LIST;
 
         return new User(assertion.getPrincipal().getName(), StringUtils.EMPTY, grantedAuthorities);
     }

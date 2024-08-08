@@ -25,7 +25,7 @@
         "id-existe": "A new {{0}} cannot previously have an ID",
         "internalServerError": "Internal server error",
         "nonExistingUser": {
-            "detail": "Sorry, the user you are trying to access with has not registered.",
+            "detail": "Sorry, the user you are trying to access with has not registered, or does not have roles for this application.",
             "title": "User error"
         },
         "query-no-soportada": "Search parameter {{0}} not supported",

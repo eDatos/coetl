@@ -16,7 +16,7 @@
         },
         "nonExistingUser": {
             "title": "Error d'usuari",
-            "detail": "Ho sentim, l'usuari amb el qual intenta accedir no s'ha donat d'alta."
+            "detail": "Ho sentim, l'usuari amb el qual intenta accedir no s'ha donat d'alta, o no té rols per a aquesta aplicació."
         },
         "internalServerError": "Error intern del servidor",
         "field": {
