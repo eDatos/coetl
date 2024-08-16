@@ -52,8 +52,7 @@ export class UserCAS {
             );
         }
         return this.roles.some(
-            (userRol) =>
-                userRol.app === this.ACL_APP_NAME && userRol.role === rol && !userRol.operation
+            (userRol) => userRol.app === this.ACL_APP_NAME && userRol.role === rol
         );
     }
 

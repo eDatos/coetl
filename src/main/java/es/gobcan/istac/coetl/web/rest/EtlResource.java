@@ -121,7 +121,7 @@ public class EtlResource extends AbstractResource {
 
     @PutMapping
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication, #etlDTO.getId())")
     public ResponseEntity<EtlDTO> update(@Valid @RequestBody EtlDTO etlDTO) {
         LOG.debug("REST Request to update an ETL : {}", etlDTO);
         if (etlDTO.getId() == null) {
@@ -153,7 +153,7 @@ public class EtlResource extends AbstractResource {
 
     @DeleteMapping("/{idEtl}")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
     public ResponseEntity<EtlDTO> delete(@PathVariable Long idEtl) {
         LOG.debug("REST Request to delete an ETL : {}", idEtl);
         Etl currentEtl = etlService.findOne(idEtl);
@@ -176,7 +176,7 @@ public class EtlResource extends AbstractResource {
 
     @PutMapping("/{idEtl}/restore")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
     public ResponseEntity<EtlDTO> restore(@PathVariable Long idEtl) {
         LOG.debug("REST Request to restore an ETL : {}", idEtl);
         Etl currentEtl = etlService.findOne(idEtl);
@@ -215,7 +215,7 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping("/{idEtl}")
     @Timed
-    @PreAuthorize("@secChecker.canReadEtl(authentication)")
+    @PreAuthorize("@secChecker.canReadEtl(authentication, #idEtl)")
     public ResponseEntity<EtlDTO> findOne(@PathVariable Long idEtl) {
         LOG.debug("REST Request to find an ETL : {}", idEtl);
         Etl etl = etlService.findOne(idEtl);
@@ -226,7 +226,7 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping("/{idEtl}/execute")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
     public ResponseEntity<Void> execute(@PathVariable Long idEtl) {
         LOG.debug("REST Request to find an ETL : {}", idEtl);
         Etl etl = etlService.findOne(idEtl);
@@ -255,7 +255,7 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping("/{idEtl}/executions")
     @Timed
-    @PreAuthorize("@secChecker.canReadEtl(authentication)")
+    @PreAuthorize("@secChecker.canReadEtl(authentication, #idEtl)")
     public ResponseEntity<List<ExecutionDTO>> findAllExecutions(@PathVariable Long idEtl, @ApiParam Pageable pageable) {
         LOG.debug("REST Request to find a page of Executions by ETL : {}", idEtl);
         Page<ExecutionDTO> page = executionService.findAllByEtlId(idEtl, pageable).map(executionMapper::toDto);
@@ -268,7 +268,7 @@ public class EtlResource extends AbstractResource {
 
     @PostMapping("/{idEtl}/parameters")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
     public ResponseEntity<ParameterDTO> createParameter(@RequestBody ParameterDTO parameterDTO, @PathVariable Long idEtl) throws URISyntaxException {
         LOG.debug("REST Request to create a Parameter: {} with ETL : {}", parameterDTO, idEtl);
         Etl currentEtl = etlService.findOne(idEtl);
@@ -301,7 +301,7 @@ public class EtlResource extends AbstractResource {
 
     @PutMapping("/{idEtl}/parameters")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
     public ResponseEntity<ParameterDTO> updateParameter(@RequestBody ParameterDTO parameterDTO, @PathVariable Long idEtl) {
         LOG.debug("REST Request to update a Parameter: {} with ETL : {}", parameterDTO, idEtl);
         Etl currentEtl = etlService.findOne(idEtl);
@@ -333,7 +333,7 @@ public class EtlResource extends AbstractResource {
 
     @DeleteMapping("/{idEtl}/parameters/{parameterId}")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
     public ResponseEntity<Void> deleteParameterByEtlIdAndId(@PathVariable Long idEtl, @PathVariable Long parameterId) {
         LOG.debug("REST Request to delete a Parameter: {} with ETL : {}", parameterId, idEtl);
         Etl currentEtl = etlService.findOne(idEtl);
@@ -357,7 +357,7 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping("/{idEtl}/parameters")
     @Timed
-    @PreAuthorize("@secChecker.canReadEtl(authentication)")
+    @PreAuthorize("@secChecker.canReadEtl(authentication, #idEtl)")
     public ResponseEntity<List<ParameterDTO>> findAllParametersByEtlId(@PathVariable Long idEtl) {
         LOG.debug("REST Request to find all Parameters by ETL : {}", idEtl);
 
@@ -369,7 +369,7 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping("/{idEtl}/parameters/{parameterId}")
     @Timed
-    @PreAuthorize("@secChecker.canReadEtl(authentication)")
+    @PreAuthorize("@secChecker.canReadEtl(authentication, #idEtl)")
     public ResponseEntity<ParameterDTO> findParameterByEtlIdAndId(@PathVariable Long idEtl, @PathVariable Long parameterId) {
         LOG.debug("REST Request to find a Parameter: {} with ETL : {}", parameterId, idEtl);
 
@@ -381,7 +381,7 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping("/{idEtl}/parameters/{parameterId}/decode")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
     public ResponseEntity<ParameterDTO> decodeParameterByEtlIdAndId(@PathVariable Long idEtl, @PathVariable Long parameterId) {
         LOG.debug("REST Request to decode value of Parameter: {} with ETL : {}", parameterId, idEtl);
 
@@ -394,7 +394,7 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping("/{idEtl}/existExecution")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
     public ResponseEntity<Boolean> existExecution(@PathVariable Long idEtl) {
         LOG.debug("REST Request to find a page of Executions by Computational Thread : {}", idEtl);
         Boolean existsExecution = executionService.existsRunnnigOrWaitingByEtl(idEtl);
@@ -403,7 +403,7 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping("/{idEtl}/threads")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
     public ResponseEntity<List<ComputationalThreadsDTO>> findAllThreads(@PathVariable Long idEtl) {
         LOG.debug("REST Request to find all Threads of an ETL : {}", idEtl);
         if (idEtl == null) {

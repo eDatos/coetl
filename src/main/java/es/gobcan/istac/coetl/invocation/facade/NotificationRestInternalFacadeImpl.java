@@ -16,13 +16,12 @@ import org.springframework.stereotype.Component;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.invocation.service.MetamacApisLocator;
+import es.gobcan.istac.coetl.security.SecurityUtils;
 
 @Component(NotificationRestInternalFacade.BEAN_ID)
 public class NotificationRestInternalFacadeImpl implements NotificationRestInternalFacade{
 
     private final Logger log = LoggerFactory.getLogger(NotificationRestInternalFacadeImpl.class);
-
-    private static final String GESTOR_CONSOLA_ETL = "GESTOR_CONSOLA_ETL";
 
     @Autowired
     private MetamacApisLocator restApiLocator;
@@ -69,9 +68,9 @@ public class NotificationRestInternalFacadeImpl implements NotificationRestInter
         // @formatter:off
         return NoticeBuilder.notification()
             .withMessages(message)
-            .withSendingApplication(GESTOR_CONSOLA_ETL)
+            .withSendingApplication(SecurityUtils.ACL_APP_NAME)
             .withSubject(subject)
-            .withApplications(GESTOR_CONSOLA_ETL)
+            .withApplications(SecurityUtils.ACL_APP_NAME)
             .withStatisticalOperations(operationCode)
             .build();
     }
