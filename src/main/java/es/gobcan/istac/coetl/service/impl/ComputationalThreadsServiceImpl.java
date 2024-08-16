@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -121,7 +122,7 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
     @Override
     public Page<ComputationalThreads> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult) {
         DetachedCriteria criteria = buildComputationalThreadCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult);
-        return filteredListByRolOperationAllowed(computationalThreadsRepository.findAll(criteria, pageable));
+        return computationalThreadsRepository.findAll(criteria, pageable);
     }
 
     private DetachedCriteria buildComputationalThreadCriteria(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate,
@@ -131,6 +132,10 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
             queryBuilder.append(query);
         }
         queryBuilder.append(queryUtil.getQueryByLastExecution(lastExecutionStartDate, lastExecutionResult, queryBuilder));
+        if (!SecurityUtils.canReadWithoutOperation()) {
+            Set<String> codes = SecurityUtils.statisticalOperationsCodesAllowed();
+            queryBuilder.append(queryUtil.getQueryWithExternalItemRestriction("("+String.join(",", codes)+")", queryBuilder));
+        }
         String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
         return queryUtil.queryToComputationalThreadCriteria(pageable, finalQuery);
     }
@@ -141,20 +146,6 @@ public class ComputationalThreadsServiceImpl implements ComputationalThreadsServ
             finalQuery = queryUtil.queryIncludingDeleted(finalQuery);
         }
         return finalQuery;
-    }
-
-    private Page<ComputationalThreads> filteredListByRolOperationAllowed(Page<ComputationalThreads> computationalThreads) {
-        List<ComputationalThreads> filtered = new ArrayList<>();
-        if (!SecurityUtils.isAdmin()) {
-            for (ComputationalThreads computationalThread : computationalThreads.getContent()) {
-                if (computationalThread.getExternalItem() == null || SecurityUtils.haveAccessToOperationInRol(computationalThread.getExternalItem().getCode())) {
-                    filtered.add(computationalThread);
-                }
-            }
-            return new PageImpl<>(filtered);
-        } else {
-            return computationalThreads;
-        }
     }
 
     // EXECUTIONS

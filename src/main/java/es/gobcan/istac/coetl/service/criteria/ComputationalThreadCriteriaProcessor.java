@@ -3,6 +3,7 @@ package es.gobcan.istac.coetl.service.criteria;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -94,12 +95,21 @@ public class ComputationalThreadCriteriaProcessor extends AbstractCriteriaProces
             if ("ILIKE".equals(property.getOperationType().name())) {
                 return buildComputationalThreadByExternalItem(property.getRightValue());
             }
+            if ("IN".equals(property.getOperationType().name()) && property.getRightValues() != null && !property.getRightValues().isEmpty()) {
+                return buildComputationalThreadWithExternalItem(property.getRightValues());
+            }
             throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))
                 .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
         }
 
         private Criterion buildComputationalThreadByExternalItem(String value) {
             String sql = String.format("{alias}.external_item_fk IN (SELECT ei.id FROM tb_external_items ei WHERE ei.code ILIKE '%s' OR ei.name ILIKE '%s')",value,value);
+            return Restrictions.sqlRestriction(sql);
+        }
+        
+        private Criterion buildComputationalThreadWithExternalItem(List<String> codes) {
+            List<String> quotedCodes = codes.stream().map((String code) -> "'"+code+"'").collect(Collectors.toList());
+            String sql = String.format("{alias}.external_item_fk IN (SELECT ei.id FROM tb_external_items ei WHERE ei.code IN (%s))",String.join(",", quotedCodes));
             return Restrictions.sqlRestriction(sql);
         }
 

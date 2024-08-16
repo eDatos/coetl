@@ -403,7 +403,7 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping("/{idEtl}/threads")
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
+    @PreAuthorize("@secChecker.canReadEtl(authentication, #idEtl)")
     public ResponseEntity<List<ComputationalThreadsDTO>> findAllThreads(@PathVariable Long idEtl) {
         LOG.debug("REST Request to find all Threads of an ETL : {}", idEtl);
         if (idEtl == null) {

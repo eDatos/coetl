@@ -1,7 +1,9 @@
 package es.gobcan.istac.coetl.security;
 
+import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.enumeration.Rol;
+import es.gobcan.istac.coetl.service.ComputationalThreadsService;
 import es.gobcan.istac.coetl.service.EtlService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class SecurityChecker {
     
     @Autowired
     private EtlService etlService;
+    
+    @Autowired
+    private ComputationalThreadsService computationalThreadsService;
 
     private boolean hasRole(Authentication authentication, Rol... userRoles) {
         return authentication.getAuthorities().stream().anyMatch(authority -> {
@@ -94,6 +99,22 @@ public class SecurityChecker {
         return this.isAdmin(authentication) || this.isTecnico(authentication) || this.isLector(authentication);
     }
     
+    public boolean canReadComputationalThread(Authentication authentication, Long idComputationalThread) {
+        if (this.isAdmin(authentication)) {
+            return true;
+        } else if (this.isTecnico(authentication) || this.isLector(authentication)) {
+            ComputationalThreads cthread = computationalThreadsService.findOne(idComputationalThread);
+            if (cthread != null) {
+                if (cthread.getExternalItem() == null) {
+                    return true;
+                } else {
+                    return hasStatisticalOperationInAnyRole(authentication, cthread.getExternalItem().getCode());
+                }
+            }
+        }
+        return false;
+    }
+    
     public boolean canManageEtl(Authentication authentication) {
         return this.isAdmin(authentication) || this.isTecnico(authentication);
     }
@@ -116,6 +137,23 @@ public class SecurityChecker {
 
     public boolean canManageComputationalThread(Authentication authentication) {
         return this.isAdmin(authentication) || this.isTecnico(authentication);
+    }
+    
+    public boolean canManageComputationalThread(Authentication authentication, Long idComputationalThread) {
+        if (this.isAdmin(authentication)) {
+            return true;
+        } else if (this.isTecnico(authentication)) {
+            ComputationalThreads cthread = computationalThreadsService.findOne(idComputationalThread);
+            if (cthread != null) {
+                if (cthread.getExternalItem() == null) {
+                    return true;
+                } else {
+                    return hasStatisticalOperationInRole(authentication, Rol.TECNICO_PRODUCCION, cthread.getExternalItem().getCode());
+                }
+            }
+        }
+        
+        return false;
     }
 
     private boolean isAdmin(Authentication authentication) {
