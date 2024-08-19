@@ -82,17 +82,18 @@ public class SecurityChecker {
     public boolean canReadEtl(Authentication authentication, Long idEtl) {
         if (this.isAdmin(authentication)) {
             return true;
-        } else if (this.isTecnico(authentication) || this.isLector(authentication)) {
-            Etl etl = etlService.findOne(idEtl);
-            if (etl != null) {
-                if (etl.getExternalItem() == null) {
-                    return true;
-                } else {
-                    return hasStatisticalOperationInAnyRole(authentication, etl.getExternalItem().getCode());
-                }
-            }
         }
-        return false;
+        
+        Etl etl = etlService.findOne(idEtl);
+        if (!(this.isTecnico(authentication) || this.isLector(authentication)) || etl == null) {
+            return false;
+        }
+        
+        if (etl.getExternalItem() == null) {
+            return true;
+        }
+        
+        return hasStatisticalOperationInAnyRole(authentication, etl.getExternalItem().getCode());
     }
 
     public boolean canReadComputationalThread(Authentication authentication) {
@@ -102,17 +103,18 @@ public class SecurityChecker {
     public boolean canReadComputationalThread(Authentication authentication, Long idComputationalThread) {
         if (this.isAdmin(authentication)) {
             return true;
-        } else if (this.isTecnico(authentication) || this.isLector(authentication)) {
-            ComputationalThreads cthread = computationalThreadsService.findOne(idComputationalThread);
-            if (cthread != null) {
-                if (cthread.getExternalItem() == null) {
-                    return true;
-                } else {
-                    return hasStatisticalOperationInAnyRole(authentication, cthread.getExternalItem().getCode());
-                }
-            }
         }
-        return false;
+        
+        ComputationalThreads cthread = computationalThreadsService.findOne(idComputationalThread);
+        if (!(this.isTecnico(authentication) || this.isLector(authentication)) || cthread == null) {
+            return false;
+        }
+        
+        if (cthread.getExternalItem() == null) {
+            return true;
+        }
+        
+        return hasStatisticalOperationInAnyRole(authentication, cthread.getExternalItem().getCode());
     }
     
     public boolean canManageEtl(Authentication authentication) {
@@ -122,17 +124,18 @@ public class SecurityChecker {
     public boolean canManageEtl(Authentication authentication, Long idEtl) {
         if (this.isAdmin(authentication)) {
             return true;
-        } else if (this.isTecnico(authentication)) {
-            Etl etl = etlService.findOne(idEtl);
-            if (etl != null) {
-                if (etl.getExternalItem() == null) {
-                    return true;
-                } else {
-                    return hasStatisticalOperationInRole(authentication, Rol.TECNICO_PRODUCCION, etl.getExternalItem().getCode());
-                }
-            }
         }
-        return false;
+        
+        Etl etl = etlService.findOne(idEtl);
+        if (!this.isTecnico(authentication) || etl == null) {
+            return false;
+        }
+        
+        if (etl.getExternalItem() == null) {
+            return true;
+        }
+        
+        return hasStatisticalOperationInRole(authentication, Rol.TECNICO_PRODUCCION, etl.getExternalItem().getCode());
     }
 
     public boolean canManageComputationalThread(Authentication authentication) {
@@ -142,18 +145,18 @@ public class SecurityChecker {
     public boolean canManageComputationalThread(Authentication authentication, Long idComputationalThread) {
         if (this.isAdmin(authentication)) {
             return true;
-        } else if (this.isTecnico(authentication)) {
-            ComputationalThreads cthread = computationalThreadsService.findOne(idComputationalThread);
-            if (cthread != null) {
-                if (cthread.getExternalItem() == null) {
-                    return true;
-                } else {
-                    return hasStatisticalOperationInRole(authentication, Rol.TECNICO_PRODUCCION, cthread.getExternalItem().getCode());
-                }
-            }
         }
         
-        return false;
+        ComputationalThreads cthread = computationalThreadsService.findOne(idComputationalThread);
+        if (!(this.isTecnico(authentication) || this.isLector(authentication)) || cthread == null) {
+            return false;
+        }
+        
+        if (cthread.getExternalItem() == null) {
+            return true;
+        }
+        
+        return hasStatisticalOperationInRole(authentication, Rol.TECNICO_PRODUCCION, cthread.getExternalItem().getCode());
     }
 
     private boolean isAdmin(Authentication authentication) {
