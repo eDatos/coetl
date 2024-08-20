@@ -1,8 +1,11 @@
 package es.gobcan.istac.coetl.service.criteria;
 
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -168,6 +171,9 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
             if ("ILIKE".equals(property.getOperationType().name())) {
                 return buildEtlByExternalItem(property.getRightValue());
             }
+            if ("IN".equals(property.getOperationType().name()) && property.getRightValues() != null && !property.getRightValues().isEmpty()) {
+                return buildEtlWithExternalItem(property.getRightValues());
+            }
             if ("EQ".equals(property.getOperationType().name())) {
                 return buildComputationalThreadByExternalItemEq(property.getRightValue());
             }
@@ -177,6 +183,12 @@ public class EtlCriteriaProcessor extends AbstractCriteriaProcessor {
 
         private Criterion buildEtlByExternalItem(String value) {
             String sql = String.format("{alias}.external_item_fk IN (SELECT ei.id FROM tb_external_items ei WHERE ei.code ILIKE '%s' OR ei.name ILIKE '%s')",value,value);
+            return Restrictions.sqlRestriction(sql);
+        }
+        
+        private Criterion buildEtlWithExternalItem(List<String> codes) {
+            List<String> quotedCodes = codes.stream().map((String code) -> "'"+code+"'").collect(Collectors.toList());
+            String sql = String.format("{alias}.external_item_fk IN (SELECT ei.id FROM tb_external_items ei WHERE ei.code IN (%s))",String.join(",", quotedCodes));
             return Restrictions.sqlRestriction(sql);
         }
 

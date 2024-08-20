@@ -29,6 +29,7 @@ public class QueryUtil {
     private static final String INCLUDE_DELETED_HINT = "HINT INCLUDE_DELETED SET 'true'";
     private static final String AND = " AND ";
     private static final String EQ = " EQ ";
+    private static final String IN = " IN ";
     private QueryExprCompiler queryExprCompiler = new QueryExprCompiler();
 
     public DetachedCriteria queryToEtlCriteria(Pageable pageable, String query) {
@@ -143,6 +144,15 @@ public class QueryUtil {
         String and = StringUtils.isNotBlank(queryBuilder) ? AND : "";
         if (restriction != null) {
             return query.append(and).append(QueryProperty.STATISTICAL_OPERATION).append(EQ).append(restriction).toString();
+        }
+        return query.toString();
+    }
+    
+    public String getQueryWithExternalItemRestriction(String restriction, StringBuilder queryBuilder) {
+        StringBuilder query = new StringBuilder();
+        String and = StringUtils.isNotBlank(queryBuilder) ? AND : "";
+        if (restriction != null) {
+            return query.append(and).append(QueryProperty.STATISTICAL_OPERATION).append(IN).append(restriction).toString();
         }
         return query.toString();
     }

@@ -95,7 +95,7 @@ public class GlobalParameterResource extends AbstractResource {
 
     @GetMapping()
     @Timed
-    @PreAuthorize("@secChecker.canManageGlobalParameters(authentication)")
+    @PreAuthorize("@secChecker.canReadGlobalParameters(authentication)")
     public ResponseEntity<List<GlobalParameterDTO>> findAllGlobalParameters(@ApiParam Pageable pageable) {
         LOG.debug("REST Request to find all Global Parameter ");
 

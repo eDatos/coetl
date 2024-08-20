@@ -33,7 +33,9 @@ public class CasUserDetailsService extends AbstractCasAssertionUserDetailsServic
             acls = (LinkedList<String>) attributes.get(ACL_KEY);
         }
         
-        List<GrantedAuthority> grantedAuthorities = acls != null ? acls.stream().map(acl -> new SimpleGrantedAuthority(acl)).collect(Collectors.toList()) : Collections.EMPTY_LIST;
+        List<GrantedAuthority> grantedAuthorities = acls != null 
+                ? acls.stream().filter(acl -> acl.split(SecurityUtils.SEPARATOR)[0].equals(SecurityUtils.ACL_APP_NAME)).map(acl -> new SimpleGrantedAuthority(acl)).collect(Collectors.toList()) 
+                : Collections.EMPTY_LIST;
 
         return new User(assertion.getPrincipal().getName(), StringUtils.EMPTY, grantedAuthorities);
     }

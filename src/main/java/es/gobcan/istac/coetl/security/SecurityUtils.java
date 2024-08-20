@@ -5,6 +5,7 @@ import es.gobcan.istac.coetl.security.util.AESUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,14 +14,17 @@ import javax.crypto.NoSuchPaddingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public final class SecurityUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(SecurityUtils.class);
 
-    private static final String ACL_APP_NAME = "GESTOR_CONSOLA_ETL";
-    private static final String SEPARATOR = "#";
+    public static final String ACL_APP_NAME = "GESTOR_CONSOLA_ETL";
+    public static final String SEPARATOR = "#";
 
     private SecurityUtils() {
     }
@@ -44,7 +48,7 @@ public final class SecurityUtils {
         } catch (NoSuchPaddingException | InvalidAlgorithmParameterException  e) {
             LOG.error("Error decrypt password ", e);
         } catch (NoSuchAlgorithmException e) {
-            LOG.error("Error decrypt password. Not souch algorithm  ", e);
+            LOG.error("Error decrypt password. Not such algorithm  ", e);
         }
         return decodePassword;
     }
@@ -90,7 +94,40 @@ public final class SecurityUtils {
                     && Arrays.stream(Rol.values()).anyMatch(role -> Objects.equals(role.name(), roleName))
                     && finalOperation.equalsIgnoreCase(codeOperation);
             }
+            
+            //Si el rol no define operaciones, se asume que tiene permisos sobre todas
+            return true;
+        });
+    }
+    
+    public static boolean canReadWithoutOperation( ) {
+        if (isAdmin()) {
+            return true;
+        }
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        
+        return securityContext.getAuthentication().getAuthorities().stream().anyMatch(authority -> {
+            String[] appRole = authority.getAuthority().split(SEPARATOR);
+
+            if (appRole.length == 2) {
+                return true;
+            }
+            
+            //Si el rol no define operaciones, se asume que tiene permisos sobre todas
             return false;
         });
+    }
+    
+    public static Set<String> statisticalOperationsCodesAllowed() {
+        Set<String> codes = new HashSet<>();
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        for (GrantedAuthority auth : securityContext.getAuthentication().getAuthorities()) {
+            String[] appRole = auth.getAuthority().split(SEPARATOR);
+
+            if (appRole.length == 3) {
+                codes.add(appRole[2]);
+            }
+        }
+        return codes;
     }
 }
