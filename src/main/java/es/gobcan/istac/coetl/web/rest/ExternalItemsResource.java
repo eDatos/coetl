@@ -1,6 +1,8 @@
 package es.gobcan.istac.coetl.web.rest;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
 
+import es.gobcan.istac.coetl.security.SecurityUtils;
 import es.gobcan.istac.coetl.service.ExternalItemService;
 import es.gobcan.istac.coetl.web.rest.dto.ExternalItemDTO;
 import io.swagger.annotations.ApiParam;
@@ -35,8 +38,15 @@ public class ExternalItemsResource extends AbstractResource {
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication)")
     public ResponseEntity<List<ExternalItemDTO>> getList(@ApiParam Pageable pageable, @RequestParam(required = false) String query) {
+        List<String> codes = SecurityUtils.statisticalOperationsCodesAllowed().stream().collect(Collectors.toList());
         LOG.debug("REST Request to find all statistical operations by query : {} and including deleted : {}");
         List<ExternalItemDTO> result =  externalItemService.findOperations(pageable, query);
+
+        if (!SecurityUtils.isAdmin() && codes != null && !codes.isEmpty()) {
+            List<ExternalItemDTO> externalItemsAllowed = new ArrayList<>();
+            externalItemsAllowed.addAll(result.stream().filter(item -> codes.contains(item.getCode())).collect(Collectors.toList()));
+            return ResponseEntity.ok().body(externalItemsAllowed);
+        }
 
         return ResponseEntity.ok().body(result);
     }
