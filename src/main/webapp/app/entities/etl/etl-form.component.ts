@@ -57,6 +57,8 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
 
     @ViewChild('titlesContainer') titlesContaner: ElementRef;
 
+    public visibleButtons: boolean;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -78,6 +80,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         this.threads = [];
         this.registerChangesOnEtl();
         this.previousExecutionPlatform = this.etl.id ? this.etl.executionPlatform : '';
+        this.visibleButtons = this.canEdit();
         if (this.etl.id) {
             this.loadAllThreads();
         }
@@ -196,6 +199,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
         this.isSaving = false;
         this.eventManager.broadcast({ name: EtlFormComponent.EVENT_NAME, content: 'saved' });
         this.router.navigate(['etl', result.id]);
+        this.visibleButtons = this.canEdit();
     }
 
     private onSaveError() {

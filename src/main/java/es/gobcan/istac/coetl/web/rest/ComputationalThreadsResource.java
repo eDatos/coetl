@@ -183,7 +183,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @GetMapping
     @Timed
-    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
+    @PreAuthorize("@secChecker.canReadComputationalThread(authentication)")
     public ResponseEntity<List<ComputationalThreadsBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable,
             @RequestParam("lastExecution") String lastExecutionStartDate, @RequestParam("lastExecutionByResult") String lastExecutionResult) {
         LOGGGER.debug("REST Request to find all Computational Threads by query : {} and including deleted : {}", query, includeDeleted);

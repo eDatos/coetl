@@ -199,7 +199,7 @@ public class EtlResource extends AbstractResource {
 
     @GetMapping
     @Timed
-    @PreAuthorize("@secChecker.canManageEtl(authentication)")
+    @PreAuthorize("@secChecker.canReadEtl(authentication)")
     public ResponseEntity<List<EtlBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable,
             @RequestParam("lastExecution") String lastExecutionStartDate, @RequestParam("lastExecutionByResult") String lastExecutionResult,
             @RequestParam(value = "executionPlatform", required = false) String executionPlatform, @RequestParam(value = "restriction", required = false) String restriction) {
