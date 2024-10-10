@@ -30,12 +30,12 @@ public interface ComputationalThreadExecutionRepository extends JpaRepository<Co
     boolean existsByResultAndComputationalThreadId(Result result, Long id);
 
     @Query(value = "select e.id, e.planning_date, e.start_date, e.finish_date, e.\"type\", e.\"result\", e.notes, e.computational_thread_fk, e.executor "
-            + "from computational_threads_executions e where e.computational_thread_fk = ?1 and to_char(e.planning_date, 'DD/MM/YYYY') = ?2 and e.\"result\" = ?3 order by e.id desc limit 1", nativeQuery = true)
+            + "from tb_threads_executions e where e.computational_thread_fk = ?1 and to_char(e.planning_date, 'DD/MM/YYYY') = ?2 and e.\"result\" = ?3 order by e.id desc limit 1", nativeQuery = true)
     ComputationalThreadExecution findFirstByComputationalThreadIdAndPlanningDateAndResultOrderByIdDesc(Long idThread, String planningExecutionDate, String running);
 
     ComputationalThreadExecution findFirstByComputationalThreadIdAndResultOrderByIdDesc(Long idThread, Result running);
 
-    @Query(value = "select e.id, e.planning_date, e.start_date, e.finish_date, e.\"type\", e.\"result\", e.notes, e.computational_thread_fk, e.executor from computational_threads_executions e where e.computational_thread_fk = ?1 and to_char(e.planning_date, 'DD/MM/YYYY') = ?2 order by e.id desc limit 1", nativeQuery = true)
+    @Query(value = "select e.id, e.planning_date, e.start_date, e.finish_date, e.\"type\", e.\"result\", e.notes, e.computational_thread_fk, e.executor from tb_threads_executions e where e.computational_thread_fk = ?1 and to_char(e.planning_date, 'DD/MM/YYYY') = ?2 order by e.id desc limit 1", nativeQuery = true)
     ComputationalThreadExecution findFirstByComputationalThreadIdAndPlanningDateOrderByIdDesc(Long idThread, String planningExecutionDate);
 
     ComputationalThreadExecution findFirstByComputationalThreadIdOrderByPlanningDateDesc(Long idThread);

@@ -128,7 +128,7 @@ public class ComputationalThreadCriteriaProcessor extends AbstractCriteriaProces
 
         private Criterion buildEtlByLastExecution(String value) {
             String dateValue = StringUtils.changeFormatStringDate(value);
-            String sql = String.format("{alias}.id IN (SELECT e.computational_thread_fk FROM computational_threads_executions e WHERE date(e.start_date) = '%s')",dateValue);
+            String sql = String.format("{alias}.id IN (SELECT e.computational_thread_fk FROM tb_threads_executions e WHERE date(e.start_date) = '%s')",dateValue);
             return Restrictions.sqlRestriction(sql);
         }
     }
@@ -146,7 +146,7 @@ public class ComputationalThreadCriteriaProcessor extends AbstractCriteriaProces
         }
 
         private Criterion buildQueryLastExecutionEtlByResult(String result) {
-            String sql = String.format(" {alias}.id IN (select e.computational_thread_fk FROM computational_threads_executions e where e.\"result\" = %s) ", result);
+            String sql = String.format(" {alias}.id IN (select e.computational_thread_fk FROM tb_threads_executions e where e.\"result\" = %s) ", result);
             return Restrictions.sqlRestriction(sql);
         }
 
@@ -166,7 +166,7 @@ public class ComputationalThreadCriteriaProcessor extends AbstractCriteriaProces
 
         private Criterion buildQueryLastExecutionEtlByResult(List<String> result) {
             String dateValue = StringUtils.changeFormatStringDate(result.get(1));
-            String sql = String.format(" {alias}.id IN (select e.computational_thread_fk FROM computational_threads_executions e where e.\"result\" = %s and date(e.planning_date) = '%s') "
+            String sql = String.format(" {alias}.id IN (select e.computational_thread_fk FROM tb_threads_executions e where e.\"result\" = %s and date(e.planning_date) = '%s') "
                     , result.get(0), dateValue);
             return Restrictions.sqlRestriction(sql);
         }
