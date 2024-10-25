@@ -8,6 +8,8 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -135,7 +137,7 @@ public class EtlServiceImpl implements EtlService {
     public Page<Etl> findAll(String query, boolean includeDeleted, Pageable pageable, String lastExecutionStartDate, String lastExecutionResult, String executionPlatform,
             String restriction) {
         DetachedCriteria criteria = buildEtlCriteria(query, includeDeleted, pageable, lastExecutionStartDate, lastExecutionResult, executionPlatform, restriction);
-        return filteredListByRolOperationAllowed(etlRepository.findAll(criteria, pageable));
+        return etlRepository.findAll(criteria, pageable);
     }
 
     @Override
@@ -170,21 +172,6 @@ public class EtlServiceImpl implements EtlService {
             return false;
         }
         return true;
-    }
-
-    private Page<Etl> filteredListByRolOperationAllowed(Page<Etl> etls){
-        List<Etl> filtered = new ArrayList<Etl>();
-        if(!SecurityUtils.isAdmin()) {
-            for (Etl etl : etls.getContent()) {
-                if (etl.getExternalItem() == null ||
-                    SecurityUtils.haveAccessToOperationInRol(etl.getExternalItem().getCode())){
-                    filtered.add(etl);
-                }
-            }
-            return new PageImpl<>(filtered);
-        }else{
-            return etls;
-        }
     }
 
     private Etl planifyAndSave(Etl etl) {
@@ -275,6 +262,10 @@ public class EtlServiceImpl implements EtlService {
         queryBuilder.append(queryUtil.getQueryByLastExecution(lastExecutionStartDate, lastExecutionResult, queryBuilder));
         queryBuilder.append(queryUtil.getQueryByExecutionPlatform(executionPlatform, queryBuilder));
         queryBuilder.append(queryUtil.getQueryByExternalItemRestriction(restriction, queryBuilder));
+        if (!SecurityUtils.canReadWithoutOperation()) {
+            Set<String> codes = SecurityUtils.statisticalOperationsCodesAllowed();
+            queryBuilder.append(queryUtil.getQueryWithExternalItemRestriction("("+String.join(",", codes)+")", queryBuilder));
+        }
         String finalQuery = getFinalQuery(includeDeleted, queryBuilder);
         return queryUtil.queryToEtlCriteria(pageable, finalQuery);
     }

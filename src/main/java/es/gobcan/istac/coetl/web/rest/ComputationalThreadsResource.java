@@ -96,7 +96,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @PutMapping
     @Timed
-    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
+    @PreAuthorize("@secChecker.canManageComputationalThread(authentication, #computationalThreadsDTO.getId())")
     public ResponseEntity<ComputationalThreadsDTO> update(@Valid @RequestBody ComputationalThreadsDTO computationalThreadsDTO) {
         LOGGGER.debug("REST Request to update an Computational Thread : {}", computationalThreadsDTO);
         if (computationalThreadsDTO.getId() == null) {
@@ -119,7 +119,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @DeleteMapping("/{idThread}")
     @Timed
-    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
+    @PreAuthorize("@secChecker.canManageComputationalThread(authentication, #idThread)")
     public ResponseEntity<ComputationalThreadsDTO> delete(@PathVariable Long idThread) {
         LOGGGER.debug("REST Request to delete an Computational Thread : {}", idThread);
         if (idThread == null) {
@@ -144,7 +144,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @PutMapping("/{idThread}/restore")
     @Timed
-    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
+    @PreAuthorize("@secChecker.canManageComputationalThread(authentication, #idThread)")
     public ResponseEntity<ComputationalThreadsDTO> restore(@PathVariable Long idThread) {
         LOGGGER.debug("REST Request to restore an Computational Thread : {}", idThread);
         if (idThread == null) {
@@ -172,7 +172,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @GetMapping("/{idThread}")
     @Timed
-    @PreAuthorize("@secChecker.canReadComputationalThread(authentication)")
+    @PreAuthorize("@secChecker.canReadComputationalThread(authentication, #idThread)")
     public ResponseEntity<ComputationalThreadsDTO> findOne(@PathVariable Long idThread) {
         LOGGGER.debug("REST Request to find an Computational Thread : {}", idThread);
         ComputationalThreads computationalThread = computationalThreadsService.findOne(idThread);
@@ -183,7 +183,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @GetMapping
     @Timed
-    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
+    @PreAuthorize("@secChecker.canReadComputationalThread(authentication)")
     public ResponseEntity<List<ComputationalThreadsBaseDTO>> findAll(@ApiParam(required = false) String query, @ApiParam(required = false) boolean includeDeleted, @ApiParam Pageable pageable,
             @RequestParam("lastExecution") String lastExecutionStartDate, @RequestParam("lastExecutionByResult") String lastExecutionResult) {
         LOGGGER.debug("REST Request to find all Computational Threads by query : {} and including deleted : {}", query, includeDeleted);
@@ -198,7 +198,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @PostMapping("/{idThread}/create-execution")
     @Timed
-    @PreAuthorize("@secChecker.canManageComputationalThread(authentication)")
+    @PreAuthorize("@secChecker.canManageComputationalThread(authentication, #idThread)")
     public ResponseEntity<Void> createExecution(@PathVariable Long idThread, @RequestBody ComputationalThreadExecutionDTO computationalThreadExecutionDTO) {
         LOGGGER.debug("REST Request to create a new Computational Thread Execution to thread: {}", idThread);
         if (idThread == null) {
@@ -230,7 +230,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @GetMapping("/{idThread}/executions")
     @Timed
-    @PreAuthorize("@secChecker.canReadComputationalThread(authentication)")
+    @PreAuthorize("@secChecker.canReadComputationalThread(authentication, #idThread)")
     public ResponseEntity<List<ComputationalThreadExecutionDTO>> findAllExecutions(@PathVariable Long idThread, @ApiParam Pageable pageable) {
         LOGGGER.debug("REST Request to find a page of Executions by Computational Thread : {}", idThread);
         Page<ComputationalThreadExecutionDTO> page = computationalThreadExecutionService.findAllByComputationalThreadId(idThread, pageable)
@@ -243,7 +243,7 @@ public class ComputationalThreadsResource extends AbstractResource {
 
     @GetMapping("/{idThread}/existExecution")
     @Timed
-    @PreAuthorize("@secChecker.canReadComputationalThread(authentication)")
+    @PreAuthorize("@secChecker.canReadComputationalThread(authentication, #idThread)")
     public ResponseEntity<Boolean> existExecution(@PathVariable Long idThread, @RequestParam("stateExecution") List<Result> stateExecution) {
         LOGGGER.debug("REST Request to find a page of Executions by Computational Thread : {}", idThread);
         Boolean existsExecution = computationalThreadExecutionService.existsComputationalThreadExecutionByResultsAndId(

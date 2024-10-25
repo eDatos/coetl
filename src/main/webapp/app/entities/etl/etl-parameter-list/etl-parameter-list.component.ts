@@ -21,6 +21,7 @@ export class EtlParameterListComponent implements OnInit, OnDestroy {
     public static EVENT_NAME = 'etlParameterListModification';
 
     @Input() idEtl: number;
+    @Input() visibleButtons: boolean;
 
     public parameters: Parameter[];
     public globalParameters: Parameter[];

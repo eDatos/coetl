@@ -16,7 +16,7 @@
         },
         "nonExistingUser": {
             "title": "Error de usuario",
-            "detail": "Lo sentimos, el usuario con el que intenta acceder no se ha dado de alta."
+            "detail": "Lo sentimos, el usuario con el que intenta acceder no se ha dado de alta, o no tiene roles para esta aplicación."
         },
         "internalServerError": "Error interno del servidor",
         "field": {

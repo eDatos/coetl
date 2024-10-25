@@ -26,10 +26,13 @@ export class UserCAS {
 
     public static fromJwt(token: string) {
         const payload: { sub: string; auth: string; exp: string } = jwtDecode(token);
-        const rolesCas = payload.auth.split(',').map((appRole) => {
-            const [app, role, operation] = appRole.split('#', 3);
-            return { app, role, operation } as RolCAS;
-        });
+        let rolesCas = [];
+        if (payload.auth.trim().length > 0) {
+            rolesCas = payload.auth.split(',').map((appRole) => {
+                const [app, role, operation] = appRole.split('#', 3);
+                return { app, role, operation } as RolCAS;
+            });
+        }
         return new UserCAS(payload.sub, rolesCas);
     }
 
@@ -49,8 +52,7 @@ export class UserCAS {
             );
         }
         return this.roles.some(
-            (userRol) =>
-                userRol.app === this.ACL_APP_NAME && userRol.role === rol && !userRol.operation
+            (userRol) => userRol.app === this.ACL_APP_NAME && userRol.role === rol
         );
     }
 

@@ -1,6 +1,12 @@
 package es.gobcan.istac.coetl.security;
 
+import es.gobcan.istac.coetl.domain.ComputationalThreads;
+import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.enumeration.Rol;
+import es.gobcan.istac.coetl.service.ComputationalThreadsService;
+import es.gobcan.istac.coetl.service.EtlService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -9,16 +15,19 @@ import java.util.Objects;
 
 @Component("secChecker")
 public class SecurityChecker {
-
-    private static final String ACL_APP_NAME = "GESTOR_CONSOLA_ETL";
-    private static final String SEPARATOR = "#";
+    
+    @Autowired
+    private EtlService etlService;
+    
+    @Autowired
+    private ComputationalThreadsService computationalThreadsService;
 
     private boolean hasRole(Authentication authentication, Rol... userRoles) {
         return authentication.getAuthorities().stream().anyMatch(authority -> {
-            String[] appRole = authority.getAuthority().split(SEPARATOR);
+            String[] appRole = authority.getAuthority().split(SecurityUtils.SEPARATOR);
             String application = appRole[0];
             String roleName = appRole[1];
-            return application.equals(ACL_APP_NAME) && Arrays.stream(userRoles).anyMatch(role -> Objects.equals(role.name(), roleName));
+            return application.equals(SecurityUtils.ACL_APP_NAME) && Arrays.stream(userRoles).anyMatch(role -> Objects.equals(role.name(), roleName));
         });
     }
 
@@ -61,21 +70,93 @@ public class SecurityChecker {
     public boolean canManageGlobalParameters(Authentication authentication) {
         return this.isAdmin(authentication);
     }
+    
+    public boolean canReadGlobalParameters(Authentication authentication) {
+        return this.isAdmin(authentication) || this.isTecnico(authentication) || this.isLector(authentication);
+    }
 
     public boolean canReadEtl(Authentication authentication) {
         return this.isAdmin(authentication) || this.isTecnico(authentication) || this.isLector(authentication);
+    }
+    
+    public boolean canReadEtl(Authentication authentication, Long idEtl) {
+        if (this.isAdmin(authentication)) {
+            return true;
+        }
+        
+        Etl etl = etlService.findOne(idEtl);
+        if (!(this.isTecnico(authentication) || this.isLector(authentication)) || etl == null) {
+            return false;
+        }
+        
+        if (etl.getExternalItem() == null) {
+            return true;
+        }
+        
+        return hasStatisticalOperationInAnyRole(authentication, etl.getExternalItem().getCode());
     }
 
     public boolean canReadComputationalThread(Authentication authentication) {
         return this.isAdmin(authentication) || this.isTecnico(authentication) || this.isLector(authentication);
     }
-
+    
+    public boolean canReadComputationalThread(Authentication authentication, Long idComputationalThread) {
+        if (this.isAdmin(authentication)) {
+            return true;
+        }
+        
+        ComputationalThreads cthread = computationalThreadsService.findOne(idComputationalThread);
+        if (!(this.isTecnico(authentication) || this.isLector(authentication)) || cthread == null) {
+            return false;
+        }
+        
+        if (cthread.getExternalItem() == null) {
+            return true;
+        }
+        
+        return hasStatisticalOperationInAnyRole(authentication, cthread.getExternalItem().getCode());
+    }
+    
     public boolean canManageEtl(Authentication authentication) {
         return this.isAdmin(authentication) || this.isTecnico(authentication);
     }
 
+    public boolean canManageEtl(Authentication authentication, Long idEtl) {
+        if (this.isAdmin(authentication)) {
+            return true;
+        }
+        
+        Etl etl = etlService.findOne(idEtl);
+        if (!this.isTecnico(authentication) || etl == null) {
+            return false;
+        }
+        
+        if (etl.getExternalItem() == null) {
+            return true;
+        }
+        
+        return hasStatisticalOperationInRole(authentication, Rol.TECNICO_PRODUCCION, etl.getExternalItem().getCode());
+    }
+
     public boolean canManageComputationalThread(Authentication authentication) {
         return this.isAdmin(authentication) || this.isTecnico(authentication);
+    }
+    
+    public boolean canManageComputationalThread(Authentication authentication, Long idComputationalThread) {
+        if (this.isAdmin(authentication)) {
+            return true;
+        }
+        
+        ComputationalThreads cthread = computationalThreadsService.findOne(idComputationalThread);
+        if (!(this.isTecnico(authentication) || this.isLector(authentication)) || cthread == null) {
+            return false;
+        }
+        
+        if (cthread.getExternalItem() == null) {
+            return true;
+        }
+        
+        return hasStatisticalOperationInRole(authentication, Rol.TECNICO_PRODUCCION, cthread.getExternalItem().getCode());
     }
 
     private boolean isAdmin(Authentication authentication) {
@@ -88,5 +169,31 @@ public class SecurityChecker {
 
     private boolean isLector(Authentication authentication) {
         return this.hasRole(authentication, Rol.LECTOR);
+    }
+    
+    private boolean hasStatisticalOperationInAnyRole(Authentication authentication, String statisticalOperationCode) {
+        return authentication.getAuthorities().stream().anyMatch(authority -> {
+            String[] appRole = authority.getAuthority().split(SecurityUtils.SEPARATOR);
+            if (appRole.length < 3) {
+                return true; // Se asume que no definir operaciones estadísticas para el rol te permite acceder a todas
+            }
+            String statisticalOperationRoleCode = appRole[2];
+            return statisticalOperationCode.equals(statisticalOperationRoleCode);
+        });
+    }
+    
+    private boolean hasStatisticalOperationInRole(Authentication authentication, Rol role, String statisticalOperationCode) {
+        return authentication.getAuthorities().stream().anyMatch(authority -> {
+            String[] appRole = authority.getAuthority().split(SecurityUtils.SEPARATOR);
+            String roleName = appRole[1];
+            if (role.name().equals(roleName)) {
+                if (appRole.length < 3) {
+                    return true; // Se asume que no definir operaciones estadísticas para el rol te permite acceder a todas
+                }
+                String statisticalOperationRoleCode = appRole[2];
+                return statisticalOperationCode.equals(statisticalOperationRoleCode);
+            }
+            return false;
+        });
     }
 }

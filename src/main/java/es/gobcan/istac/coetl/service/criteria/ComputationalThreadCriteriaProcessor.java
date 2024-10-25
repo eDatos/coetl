@@ -3,6 +3,7 @@ package es.gobcan.istac.coetl.service.criteria;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -94,12 +95,21 @@ public class ComputationalThreadCriteriaProcessor extends AbstractCriteriaProces
             if ("ILIKE".equals(property.getOperationType().name())) {
                 return buildComputationalThreadByExternalItem(property.getRightValue());
             }
+            if ("IN".equals(property.getOperationType().name()) && property.getRightValues() != null && !property.getRightValues().isEmpty()) {
+                return buildComputationalThreadWithExternalItem(property.getRightValues());
+            }
             throw new CustomParameterizedExceptionBuilder().message(String.format("Search Parameter not supported: '%s'", property))
                 .code(ErrorConstants.QUERY_NO_SOPORTADA, property.getLeftExpression(), property.getOperationType().name()).build();
         }
 
         private Criterion buildComputationalThreadByExternalItem(String value) {
             String sql = String.format("{alias}.external_item_fk IN (SELECT ei.id FROM tb_external_items ei WHERE ei.code ILIKE '%s' OR ei.name ILIKE '%s')",value,value);
+            return Restrictions.sqlRestriction(sql);
+        }
+        
+        private Criterion buildComputationalThreadWithExternalItem(List<String> codes) {
+            List<String> quotedCodes = codes.stream().map((String code) -> "'"+code+"'").collect(Collectors.toList());
+            String sql = String.format("{alias}.external_item_fk IN (SELECT ei.id FROM tb_external_items ei WHERE ei.code IN (%s))",String.join(",", quotedCodes));
             return Restrictions.sqlRestriction(sql);
         }
 
@@ -118,7 +128,7 @@ public class ComputationalThreadCriteriaProcessor extends AbstractCriteriaProces
 
         private Criterion buildEtlByLastExecution(String value) {
             String dateValue = StringUtils.changeFormatStringDate(value);
-            String sql = String.format("{alias}.id IN (SELECT e.computational_thread_fk FROM computational_threads_executions e WHERE date(e.start_date) = '%s')",dateValue);
+            String sql = String.format("{alias}.id IN (SELECT e.computational_thread_fk FROM tb_threads_executions e WHERE date(e.start_date) = '%s')",dateValue);
             return Restrictions.sqlRestriction(sql);
         }
     }
@@ -136,7 +146,7 @@ public class ComputationalThreadCriteriaProcessor extends AbstractCriteriaProces
         }
 
         private Criterion buildQueryLastExecutionEtlByResult(String result) {
-            String sql = String.format(" {alias}.id IN (select e.computational_thread_fk FROM computational_threads_executions e where e.\"result\" = %s) ", result);
+            String sql = String.format(" {alias}.id IN (select e.computational_thread_fk FROM tb_threads_executions e where e.\"result\" = %s) ", result);
             return Restrictions.sqlRestriction(sql);
         }
 
@@ -156,7 +166,7 @@ public class ComputationalThreadCriteriaProcessor extends AbstractCriteriaProces
 
         private Criterion buildQueryLastExecutionEtlByResult(List<String> result) {
             String dateValue = StringUtils.changeFormatStringDate(result.get(1));
-            String sql = String.format(" {alias}.id IN (select e.computational_thread_fk FROM computational_threads_executions e where e.\"result\" = %s and date(e.planning_date) = '%s') "
+            String sql = String.format(" {alias}.id IN (select e.computational_thread_fk FROM tb_threads_executions e where e.\"result\" = %s and date(e.planning_date) = '%s') "
                     , result.get(0), dateValue);
             return Restrictions.sqlRestriction(sql);
         }
