@@ -246,7 +246,4 @@ public final class HopUtil {
         byte[] blobData = data.getBytes(1, (int) data.length());
         return new String(blobData);
     }
-
-    
-
 }
