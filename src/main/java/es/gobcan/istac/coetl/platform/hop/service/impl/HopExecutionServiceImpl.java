@@ -61,6 +61,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     private final String user;
     private final String password;
     private final String jsonMetadata;
+    private final ApacheHopProperties hopProperties;
     
     private final NotificationRestInternalFacade notificationRestInternalFacade;
 
@@ -72,6 +73,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         this.user = HopUtil.getUser(hopProperties);
         this.password = HopUtil.getPassword(hopProperties);
         this.jsonMetadata = HopUtil.getJsonMetadata(hopProperties);
+        this.hopProperties = hopProperties;
         this.gitService = gitService;
         this.notificationRestInternalFacade = notificationRestInternalFacade;
     }
@@ -164,7 +166,8 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     private WebResultDTO registerPipeline(Etl etl) {
         try {
             String mainCode = gitService.getMainFileContent(etl);
-            String pipelineCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, PIPELINE_PREFIX_TAG_NAME, jsonMetadata);
+            String variables = HopUtil.getVariablesPlaceholdersReplaced(etl, parameterService.findAllByEtlIdAsMap(etl.getId()), hopProperties);
+            String pipelineCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, PIPELINE_PREFIX_TAG_NAME, jsonMetadata, variables);
             String replacedPipelineCode = replaceEtlCodeVariables(etl, pipelineCode);
             return executeRegisterPipeline(replacedPipelineCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {
@@ -180,7 +183,8 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     private WebResultDTO registerWorkflow(Etl etl) {
         try {
             String mainCode = gitService.getMainFileContent(etl);
-            String workflowCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, WORKFLOW_PREFIX_TAG_NAME, jsonMetadata);
+            String variables = HopUtil.getVariablesPlaceholdersReplaced(etl, parameterService.findAllByEtlIdAsMap(etl.getId()), hopProperties);
+            String workflowCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, WORKFLOW_PREFIX_TAG_NAME, jsonMetadata, variables);
             String replacedWorkflowCode = replaceEtlCodeVariables(etl, workflowCode);
             return executeRegisterWorkflow(replacedWorkflowCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {

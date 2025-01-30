@@ -106,6 +106,12 @@ public class ParameterServiceImpl implements ParameterService {
         LOGGER.debug("Request to get a Parameter : {}", id);
         return parameterRepository.findByIdAndEtlId(id, etlId);
     }
+    
+    @Override
+    public Parameter findOneByKeyAndEtlId(String key, Long etlId) {
+        LOGGER.debug("Request to get a Parameter : {}", key);
+        return parameterRepository.findByKeyAndEtlId(key, etlId);
+    }
 
     private Parameter save(Parameter parameter) {
         LOGGER.debug("Request to save a Parameter : {}", parameter);

@@ -15,6 +15,7 @@ public class PlatformHost {
     private String resourcesPath = StringUtils.EMPTY;
     private String ownerUserResourcesPath = StringUtils.EMPTY;
     private String ownerGroupResourcesPath = StringUtils.EMPTY;
+    private String hopFolder = StringUtils.EMPTY;
 
     public String getAddress() {
         return address;
@@ -102,5 +103,13 @@ public class PlatformHost {
 
     public void setOwnerGroupResourcesPath(String ownerGroupResourcesPath) {
         this.ownerGroupResourcesPath = ownerGroupResourcesPath;
+    }
+
+    public String getHopFolder() {
+        return hopFolder;
+    }
+
+    public void setHopFolder(String hopFolder) {
+        this.hopFolder = hopFolder;
     }
 }

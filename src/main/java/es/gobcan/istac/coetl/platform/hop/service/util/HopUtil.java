@@ -1,5 +1,6 @@
 package es.gobcan.istac.coetl.platform.hop.service.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -8,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -33,6 +35,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -61,6 +64,12 @@ public final class HopUtil {
     private static final String SAFE_MODE_VALUE = "Y";
 
     private static final String RUN_CONFIGURATION_VALUE = "local";
+    
+    // Variable placeholders
+    private static final String ETL_CODE = "${ETL_CODE}";
+    private static final String ETL_RESOURCES = "${ETL_RESOURCES}";
+    private static final String HOP_FOLDER = "${HOP_FOLDER}";
+    
 
     private HopUtil() {
     }
@@ -91,9 +100,22 @@ public final class HopUtil {
     public static String getJsonMetadata(ApacheHopProperties hopProperties) {
         return hopProperties.getJsonMetadata();
     }
+    
+    public static String getVariablesTemplate(ApacheHopProperties hopProperties) {
+        return hopProperties.getVariablesTemplate();
+    }
+    
+    public static String getVariablesPlaceholdersReplaced(Etl etl, Map<String, String> params, ApacheHopProperties hopProperties) {
+        String template = hopProperties.getVariablesTemplate();
+        return template
+                .replace(ETL_CODE, etl.getCode())
+                .replace(ETL_RESOURCES, params.get("ETL_RESOURCES"))
+                .replace(HOP_FOLDER, hopProperties.getHost().getHopFolder());
+        
+    }
 
-    public static String getApacheHopWrappedCodeFromEtlFile(String mainCode, String prefixTagName, String jsonMetadata) throws SQLException, ParserConfigurationException, SAXException, IOException, TransformerException {
-        Document documentXML = buildApacheHopWrappedDocumentXmlFromEtlFile(mainCode, prefixTagName, jsonMetadata);
+    public static String getApacheHopWrappedCodeFromEtlFile(String mainCode, String prefixTagName, String jsonMetadata, String variables) throws SQLException, ParserConfigurationException, SAXException, IOException, TransformerException {
+        Document documentXML = buildApacheHopWrappedDocumentXmlFromEtlFile(mainCode, prefixTagName, jsonMetadata, variables);
 
         StringWriter sw = new StringWriter();
         TransformerFactory tf = TransformerFactory.newInstance();
@@ -146,7 +168,8 @@ public final class HopUtil {
         return headers;
     }
 
-    private static Document buildApacheHopWrappedDocumentXmlFromEtlFile(String etlFileCode, String prefixTagName, String jsonMetadata) throws SQLException, ParserConfigurationException, SAXException, IOException {
+    private static Document buildApacheHopWrappedDocumentXmlFromEtlFile(String etlFileCode, String prefixTagName, String jsonMetadata, String variables)
+            throws SQLException, ParserConfigurationException, SAXException, IOException {
         final String hopWrappedRootTag = prefixTagName + SUFFIX_CONFIGURATION_TAGNAME;
 
         Document etlFileDocument = getDocumentXmlFromEtlCode(etlFileCode);
@@ -172,7 +195,7 @@ public final class HopUtil {
         Element runConfigurationElement = hopWrappedDocument.createElement(RUN_CONFIGURATION_TAGNAME);
         runConfigurationElement.setTextContent(RUN_CONFIGURATION_VALUE);
         hopConfigurationElement.appendChild(runConfigurationElement);
-        
+
         Element logLevelConfigurationElement = hopWrappedDocument.createElement(LOG_LEVEL_TAGNAME);
         logLevelConfigurationElement.setTextContent(LOG_LEVEL_VALUE);
         hopConfigurationElement.appendChild(logLevelConfigurationElement);
@@ -180,11 +203,23 @@ public final class HopUtil {
         Element safeModeConfigurationElement = hopWrappedDocument.createElement(SAFE_MODE_TAGNAME);
         safeModeConfigurationElement.setTextContent(SAFE_MODE_VALUE);
         hopConfigurationElement.appendChild(safeModeConfigurationElement);
-        
+
         Element metastoreConfigurationElement = hopWrappedDocument.createElement(METASTORE_JSON);
-        
+
         metastoreConfigurationElement.setTextContent(jsonMetadata);
         hopWrappedRootElement.appendChild(metastoreConfigurationElement);
+
+        if (variables != null && !variables.trim().isEmpty()) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            Document variablesDocument = builder.parse(new ByteArrayInputStream(variables.getBytes()));
+            Node variablesRoot = variablesDocument.getDocumentElement();
+            Node importedNode = hopWrappedDocument.importNode(variablesRoot, true);
+
+            hopConfigurationElement.appendChild(importedNode);
+        }
 
         return hopWrappedDocument;
     }
@@ -211,5 +246,7 @@ public final class HopUtil {
         byte[] blobData = data.getBytes(1, (int) data.length());
         return new String(blobData);
     }
+
+    
 
 }
