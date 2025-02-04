@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
@@ -24,6 +25,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.CharEncoding;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -157,6 +161,28 @@ public final class HopUtil {
 
     public static String normalizeEtlCode(String etlCode) {
         return etlCode.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+    }
+    
+    public static String addMetadataToJsonMetadata(String jsonMetadata, Map<String, List<String>> metadataInfo) throws JSONException {
+        JSONObject json = new JSONObject(jsonMetadata);
+        
+        for (Map.Entry<String, List<String>> entry : metadataInfo.entrySet()) {
+            JSONArray metadata = json.optJSONArray(entry.getKey());
+            if (metadata == null) {
+                metadata = new JSONArray();
+                json.put(entry.getKey(), metadata);
+            }
+            
+            for (String value : entry.getValue()) {
+                try {
+                    metadata.put(new JSONObject(value));
+                } catch (JSONException e) {
+                    throw new JSONException("Error parsing JSON value for key " + entry.getKey() + ": " + value);
+                }
+            }
+        }
+        
+        return json.toString();
     }
 
     private static HttpHeaders createHeaders(String username, String password) {

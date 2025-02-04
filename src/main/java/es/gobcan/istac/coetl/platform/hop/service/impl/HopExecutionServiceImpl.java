@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -38,6 +39,7 @@ import es.gobcan.istac.coetl.platform.hop.web.rest.dto.ServerStatusDTO;
 import es.gobcan.istac.coetl.platform.hop.web.rest.dto.WebResultDTO;
 import es.gobcan.istac.coetl.service.ExecutionService;
 import es.gobcan.istac.coetl.service.ParameterService;
+import es.gobcan.istac.coetl.util.GzipUtils;
 
 @Service
 public class HopExecutionServiceImpl implements PlatformExecutionService {
@@ -46,7 +48,9 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
     private static final String PIPELINE_PREFIX_TAG_NAME = "pipeline";
     private static final String WORKFLOW_PREFIX_TAG_NAME = "workflow";
     private static final String ERROR_PARSING_APACHE_HOP_WRAPPED_XML_TO_STRING_MESSAGE = "Error parsing Apache Hop wrapped XML to string";
+    private static final String ERROR_PARSING_APACHE_HOP_JSON_METADATA = "Error parsing Apache Hop JSON metadata";
     private static final String ERROR_CONNECTING_APACHE_HOP_SERVER_MESSAGE = "Error connecting to Apache Hop server";
+    
     private static final String[] HOP_MESSAGE_PARAMETER = {"Hop"};
 
     private final ExecutionService executionService;
@@ -167,7 +171,9 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         try {
             String mainCode = gitService.getMainFileContent(etl);
             String variables = HopUtil.getVariablesPlaceholdersReplaced(etl, parameterService.findAllByEtlIdAsMap(etl.getId()), hopProperties);
-            String pipelineCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, PIPELINE_PREFIX_TAG_NAME, jsonMetadata, variables);
+            Map<String, List<String>> metadataInfo = gitService.getEtlMetadataInfo(etl);
+            String jsonMetadataComplete = HopUtil.addMetadataToJsonMetadata(jsonMetadata, metadataInfo);
+            String pipelineCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, PIPELINE_PREFIX_TAG_NAME, GzipUtils.toGzipBase64File(jsonMetadataComplete), variables);
             String replacedPipelineCode = replaceEtlCodeVariables(etl, pipelineCode);
             return executeRegisterPipeline(replacedPipelineCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {
@@ -175,6 +181,9 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
             return buildErrorParseFileWebResult();
         } catch (RestClientException e) {
             LOG.error(ERROR_CONNECTING_APACHE_HOP_SERVER_MESSAGE, e);
+            return buildErrorConnectionServerWebResult();
+        } catch (JSONException e) {
+            LOG.error(ERROR_PARSING_APACHE_HOP_JSON_METADATA, e);
             return buildErrorConnectionServerWebResult();
         }
 
@@ -184,7 +193,9 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
         try {
             String mainCode = gitService.getMainFileContent(etl);
             String variables = HopUtil.getVariablesPlaceholdersReplaced(etl, parameterService.findAllByEtlIdAsMap(etl.getId()), hopProperties);
-            String workflowCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, WORKFLOW_PREFIX_TAG_NAME, jsonMetadata, variables);
+            Map<String, List<String>> metadataInfo = gitService.getEtlMetadataInfo(etl);
+            String jsonMetadataComplete = HopUtil.addMetadataToJsonMetadata(jsonMetadata, metadataInfo);
+            String workflowCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, WORKFLOW_PREFIX_TAG_NAME, GzipUtils.toGzipBase64File(jsonMetadataComplete), variables);
             String replacedWorkflowCode = replaceEtlCodeVariables(etl, workflowCode);
             return executeRegisterWorkflow(replacedWorkflowCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {
@@ -192,6 +203,9 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
             return buildErrorParseFileWebResult();
         } catch (RestClientException e) {
             LOG.error(ERROR_CONNECTING_APACHE_HOP_SERVER_MESSAGE, e);
+            return buildErrorConnectionServerWebResult();
+        } catch (JSONException e) {
+            LOG.error(ERROR_PARSING_APACHE_HOP_JSON_METADATA, e);
             return buildErrorConnectionServerWebResult();
         }
 

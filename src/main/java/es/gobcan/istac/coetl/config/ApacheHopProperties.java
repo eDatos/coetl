@@ -4,7 +4,6 @@ import es.gobcan.istac.coetl.config.common.PlatformAuth;
 import es.gobcan.istac.coetl.config.common.PlatformHost;
 import es.gobcan.istac.coetl.config.common.PlatformProperties;
 import es.gobcan.istac.coetl.service.MetadataConfigurationService;
-import es.gobcan.istac.coetl.util.GzipUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -59,7 +58,7 @@ public class ApacheHopProperties implements PlatformProperties {
     }
 
     public void setJsonMetadata(String jsonMetadata) {
-        this.jsonMetadata = GzipUtils.toGzipBase64File(jsonMetadata);
+        this.jsonMetadata = jsonMetadata;
     }
     
     public String getVariablesTemplate() {
