@@ -4,7 +4,6 @@ import es.gobcan.istac.coetl.config.common.PlatformAuth;
 import es.gobcan.istac.coetl.config.common.PlatformHost;
 import es.gobcan.istac.coetl.config.common.PlatformProperties;
 import es.gobcan.istac.coetl.service.MetadataConfigurationService;
-import es.gobcan.istac.coetl.util.GzipUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -22,6 +21,7 @@ public class ApacheHopProperties implements PlatformProperties {
     private String endpoint = StringUtils.EMPTY;
     private String mainResourcePrefix = StringUtils.EMPTY;
     private String jsonMetadata = StringUtils.EMPTY;
+    private String variablesTemplate = StringUtils.EMPTY;
     private final PlatformAuth auth = new PlatformAuth();
     private final PlatformHost host = new PlatformHost();
 
@@ -34,6 +34,7 @@ public class ApacheHopProperties implements PlatformProperties {
             setEndpoint(configurationService.retrieveApacheHopEndpoint());
             setMainResourcePrefix(configurationService.retrieveApacheHopMainResourcePrefix());
             setJsonMetadata(configurationService.retrieveApacheHopJsonMetadata());
+            setVariablesTemplate(configurationService.retrieveApacheHopVariables());
             auth.setUser(configurationService.retrieveApacheHopAuthUser());
             auth.setPassword(configurationService.retrieveApacheHopAuthPassword());
             host.setOs(configurationService.retrieveApacheHopHostOs());
@@ -46,6 +47,7 @@ public class ApacheHopProperties implements PlatformProperties {
             host.setResourcesPath(configurationService.retrieveApacheHopHostResourcesPath());
             host.setOwnerUserResourcesPath(configurationService.retrieveApacheHopHostOwnerUserResourcesPath());
             host.setOwnerGroupResourcesPath(configurationService.retrieveApacheHopHostOwnerGroupResourcesPath());
+            host.setHopFolder(configurationService.retrieveApacheHopHostHopFolder());
         } catch (Exception e) {
             log.error("Error getting the value of a metadata {}", e);
         }
@@ -56,7 +58,15 @@ public class ApacheHopProperties implements PlatformProperties {
     }
 
     public void setJsonMetadata(String jsonMetadata) {
-        this.jsonMetadata = GzipUtils.toGzipBase64File(jsonMetadata);
+        this.jsonMetadata = jsonMetadata;
+    }
+    
+    public String getVariablesTemplate() {
+        return variablesTemplate;
+    }
+    
+    public void setVariablesTemplate(String variablesTemplate) {
+        this.variablesTemplate = variablesTemplate;
     }
 
     public String getEndpoint() {
