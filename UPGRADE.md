@@ -8,6 +8,9 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+## 3.1.1 a X.Y.Z-SNAPSHOT
+* Se ha de añadir parámetros adicionales al common-metadata relativos a la integración con Apache Hop. Para ello, se ha de ejecutar el script *etc\changes-from-release\3.1.1\db\common-metadata\postgresql\20250130_add_hop_variables.sql * sustituyendo los valores por los apropiados.
+
 ## 2.0.1 a 3.0.0
 * Se ha integrado una nueva instancia de aplicación por lo que es necesario añadirlo los parámetros de configuración *application.installation.instance = [COETL/COETLLAB]* en application-env.yml. Esta nueva propiedad permitirá crear dos instancias de COETL. Según el tipo de instancia que se añada en el application-env.yml se obtendrán unas propiedades u otras del common-metadata.
 * Con la nueva instancia se han creado nuevas variables ( duplicadas del las variables de COETL) en el common-metadata.

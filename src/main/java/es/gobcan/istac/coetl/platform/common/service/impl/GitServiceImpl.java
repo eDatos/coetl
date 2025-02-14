@@ -11,6 +11,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -35,6 +39,7 @@ public class GitServiceImpl implements GitService {
     
     private static final String REPOSITORY_FOLDER_NAME = "repository";
     private static final String REPOSITORY_FOLDER_BACKUP_NAME = "repositoryBackup";
+    private static final String METADATA_FOLDER_NAME = "metadata"; // Usado en repositorios de ETLs para Hop
     
     @Autowired
     private PlatformPropertiesComponent platformProperties;
@@ -159,6 +164,49 @@ public class GitServiceImpl implements GitService {
         sudoSourceConnection.close();
         
         return mainFileNamePath.substring(mainFileNamePath.lastIndexOf('/') + 1).split("\\.")[0];
+    }
+    
+    @Override
+    public Map<String, List<String>> getEtlMetadataInfo(Etl etl) throws UnsupportedEncodingException {
+        OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
+
+        CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
+        String basePath = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/" + REPOSITORY_FOLDER_NAME + "/");
+
+        Map<String, List<String>> result = new HashMap<>();
+        
+        try {
+            executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(METADATA_FOLDER_NAME));
+        } catch (Exception e) {
+            LOGGER.error("Metadata folder don't exists", e);
+            return result;
+        } finally {
+            sudoSourceConnection.close();
+        }
+
+        for (int i = 1; i < oh.getOutputLines().size(); i++) {
+            String metadataSubFolder = oh.getOutputLines().get(i);
+            result.put(metadataSubFolder, getFilesContentFromFolder(etl, basePath.concat(METADATA_FOLDER_NAME).concat("/").concat(metadataSubFolder)));
+        }
+        
+        return result;
+    }
+    
+    private List<String> getFilesContentFromFolder(Etl etl, String folder) {
+        List<String> result = new ArrayList<>();
+        OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
+        CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
+
+        executeCommand(sudoSourceConnection, oh, "ls", folder);
+        for (int i = 1; i < oh.getOutputLines().size(); i++) {
+            OverthereFile metadataInfo = sudoSourceConnection.getFile(folder.concat("/").concat(oh.getOutputLines().get(i)));
+            String content = new BufferedReader(new InputStreamReader(metadataInfo.getInputStream(), StandardCharsets.UTF_8))
+                    .lines().collect(Collectors.joining("\n"));
+            result.add(content);
+        }
+
+        sudoSourceConnection.close();
+        return result;
     }
     
     private String getUrlRepositoryWithCredentials(String urlRepository) throws UnsupportedEncodingException, MalformedURLException {

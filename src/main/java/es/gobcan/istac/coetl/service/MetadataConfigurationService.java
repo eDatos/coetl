@@ -50,7 +50,9 @@ public interface MetadataConfigurationService extends ConfigurationService {
     public String retrieveApacheHopHostResourcesPath();
     public String retrieveApacheHopHostOwnerUserResourcesPath();
     public String retrieveApacheHopHostOwnerGroupResourcesPath();
+    public String retrieveApacheHopHostHopFolder();
     public String retrieveApacheHopMainResourcePrefix();
     public String retrieveApacheHopJsonMetadata();
+    public String retrieveApacheHopVariables();
     
 }

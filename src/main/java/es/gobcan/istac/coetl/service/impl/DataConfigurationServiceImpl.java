@@ -190,6 +190,10 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
     public String getMetamacKeyApacheHopHostOwnerGroupResourcesPath(){
         return getPrefixInstace() + "hop.host.ownerGroupResourcesPath";
     }
+    
+    public String getMetamacKeyApacheHopHostHopFolder() {
+        return getPrefixInstace() + "hop.host.hopFolder";
+    }
 
     public String getMetamacKeyApacheHopMainResourcePrefix(){
         return getPrefixInstace() + "hop.mainResourcePrefix";
@@ -198,4 +202,9 @@ public class DataConfigurationServiceImpl implements DataConfigurationService {
     public String getMetamacKeyApacheHopJsonMetadata() {
         return getPrefixInstace() + "hop.jsonMetadata";
     }
+
+    public String getMetamacKeyApacheHopVariables() {
+        return getPrefixInstace() + "hop.variables";
+    }
+
 }
