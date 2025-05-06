@@ -30,7 +30,6 @@ import es.gobcan.istac.coetl.domain.PersistentAuditEvent;
 import es.gobcan.istac.coetl.repository.PersistenceAuditEventRepository;
 import es.gobcan.istac.coetl.service.AuditEventService;
 import es.gobcan.istac.coetl.service.impl.AuditEventServiceImpl;
-import es.gobcan.istac.coetl.web.rest.AuditResource;
 
 /**
  * Test class for the AuditResource REST controller.

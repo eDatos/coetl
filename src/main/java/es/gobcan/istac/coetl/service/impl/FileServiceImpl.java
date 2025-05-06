@@ -3,7 +3,6 @@ package es.gobcan.istac.coetl.service.impl;
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.executeCommand;
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.getSudoDestinationOptions;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

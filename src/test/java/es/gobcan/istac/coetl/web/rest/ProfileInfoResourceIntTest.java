@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import es.gobcan.istac.coetl.CoetlApp;
-import es.gobcan.istac.coetl.web.rest.ProfileInfoResource;
 import io.github.jhipster.config.JHipsterProperties;
 
 /**

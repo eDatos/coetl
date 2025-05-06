@@ -6,7 +6,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.List;
@@ -266,10 +265,5 @@ public final class HopUtil {
     private static Element getCodeNodeElement(Document etlFileDocument) {
 
         return etlFileDocument.getDocumentElement();
-    }
-
-    private static String convertBlobToString(Blob data) throws SQLException {
-        byte[] blobData = data.getBytes(1, (int) data.length());
-        return new String(blobData);
     }
 }
