@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import es.gobcan.istac.coetl.config.ApplicationProperties;
 import es.gobcan.istac.coetl.config.Constants;
 import es.gobcan.istac.coetl.security.util.SecurityCookiesUtil;
 import es.gobcan.istac.coetl.service.EnabledTokenService;
@@ -62,14 +61,11 @@ public class JWTSingleSignOutHandler {
 
     private final Environment env;
 
-    private final ApplicationProperties applicationProperties;
 
-
-    public JWTSingleSignOutHandler(JHipsterProperties jHipsterProperties, ApplicationProperties applicationProperties, Environment env, EnabledTokenService enabledTokenService) {
+    public JWTSingleSignOutHandler(JHipsterProperties jHipsterProperties, Environment env, EnabledTokenService enabledTokenService) {
         this.tokenValidityInSeconds = jHipsterProperties.getSecurity().getAuthentication().getJwt().getTokenValidityInSeconds();
         this.env = env;
         this.enabledTokenService = enabledTokenService;
-        this.applicationProperties = applicationProperties;
     }
 
     public void setArtifactParameterOverPost(final boolean artifactParameterOverPost) {

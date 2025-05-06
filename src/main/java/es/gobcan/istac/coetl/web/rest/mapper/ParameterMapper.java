@@ -38,7 +38,8 @@ public class ParameterMapper {
         entity.setTypology(dto.getTypology());
         entity.setEtl(etlMapper.fromId(dto.getEtlId()));
         entity.setOptLock(dto.getOptLock());
-
+        entity.setFile(dto.getFileId());
+        
         return entity;
     }
 
@@ -64,6 +65,7 @@ public class ParameterMapper {
         dto.setEtlId(entity.getEtl().getId());
 
         dto.setOptLock(entity.getOptLock());
+        dto.setFileId(entity.getFile());
 
         return dto;
     }

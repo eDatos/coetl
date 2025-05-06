@@ -18,6 +18,7 @@
                             <tr>
                                 <th style="width: 30%;" jhiTranslate="coetlApp.parameter.key"></th>
                                 <th style="width: 30%;" jhiTranslate="coetlApp.parameter.value"></th>
+                                <th style="width: 10%;" jhiTranslate="coetlApp.parameter.type.label"></th>
                             </tr>
                         </thead>
                         <tr *ngFor="let parameter of globalParameters; let i = index">
@@ -25,6 +26,9 @@
                             <td>
                                 <span *ngIf="!isPasswordTypology(parameter)">{{ parameter.value }}</span>
                                 <input *ngIf="isPasswordTypology(parameter)" class="password-input" type="password" [disabled]="true" value="password" readonly />
+                            </td>
+                            <td>
+                                <span class="badge bg-info">{{ getTypeName(parameter) }}</span>
                             </td>
                         </tr>
                     </table>
@@ -37,10 +41,10 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th style="width: 20%;" jhiTranslate="coetlApp.parameter.key"></th>
-                        <th style="width: 50%;" jhiTranslate="coetlApp.parameter.value"></th>
+                        <th style="width: 30%;" jhiTranslate="coetlApp.parameter.key"></th>
+                        <th style="width: 30%;" jhiTranslate="coetlApp.parameter.value"></th>
                         <th style="width: 10%;" jhiTranslate="coetlApp.parameter.type.label"></th>
-                        <th style="width: 20%;"></th>
+                        <th style="width: 30%;"></th>
                     </tr>
                 </thead>
                 <tr *ngFor="let parameter of parameters; let i = index">

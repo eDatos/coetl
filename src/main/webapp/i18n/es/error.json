@@ -95,6 +95,11 @@
                 "key": {
                     "isDuplicated": "Ya existe un parámetro en una con la misma clave en la ETL: <strong> {{0}} </strong> "
                 }
+            },
+            "file":{
+                "wrongFormat": "El formato del fichero no es válido",
+                "sizeExceeded": "El tamaño del fichero no puede ser superior a 50Mb",
+                "alreadyExists": "Ya existe un fichero con el mismo nombre"
             }
         },
         "quartz": {

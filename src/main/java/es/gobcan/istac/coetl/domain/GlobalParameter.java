@@ -24,7 +24,7 @@ public class GlobalParameter extends AbstractVersionedEntity implements Serializ
     private static final long serialVersionUID = 1L;
 
     public enum Typology {
-        GENERIC, PASSWORD
+        GENERIC, PASSWORD, FILE
     }
 
     @Id
