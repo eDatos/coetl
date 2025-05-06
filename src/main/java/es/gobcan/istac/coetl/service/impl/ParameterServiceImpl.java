@@ -1,5 +1,6 @@
 package es.gobcan.istac.coetl.service.impl;
 
+import es.gobcan.istac.coetl.config.Constants;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.File;
 import es.gobcan.istac.coetl.domain.Parameter;
@@ -29,8 +30,6 @@ import java.util.stream.Collectors;
 public class ParameterServiceImpl implements ParameterService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParameterService.class);
-    
-    private static final String ETL_RESOURCES = "ETL_RESOURCES";
 
     @Autowired
     private ParameterRepository parameterRepository;
@@ -165,7 +164,7 @@ public class ParameterServiceImpl implements ParameterService {
     @Override
     public Long storeFile(MultipartFile file, Long idEtl) {
         parameterValidator.checkIfFileAlreadyExists(file.getOriginalFilename(), idEtl);
-        Parameter parameter = findOneByKeyAndEtlId(ETL_RESOURCES, idEtl);
+        Parameter parameter = findOneByKeyAndEtlId(Constants.ETL_RESOURCES, idEtl);
         if (parameter != null) {
             String etlResourcesPath = parameterMapper.toDto(parameter).getValue();
             File savedFile = fileService.saveDatabase(file);
@@ -227,7 +226,7 @@ public class ParameterServiceImpl implements ParameterService {
     public void updateFile(MultipartFile file, Parameter originalParameter, Parameter currentParameter, Long idEtl) {    
         String originalFilename = originalParameter.getValue();
         Typology originalTypology = originalParameter.getTypology();
-        Parameter etlPathParameter = findOneByKeyAndEtlId(ETL_RESOURCES, idEtl);
+        Parameter etlPathParameter = findOneByKeyAndEtlId(Constants.ETL_RESOURCES, idEtl);
         Long fileIdNum = originalParameter.getFile();
         Typology newTypology = currentParameter.getTypology();
         Path repositoryPath = etlPathParameter.getValue() == null ? null : Paths.get(etlPathParameter.getValue());
@@ -240,7 +239,7 @@ public class ParameterServiceImpl implements ParameterService {
     public void deleteFile(Parameter parameter, Long idEtl) {
         // Delete file from repository folder and database
         fileService.deleteDatabase(parameter.getFile());
-        Parameter etlPathParam = findOneByKeyAndEtlId(ETL_RESOURCES, idEtl);
+        Parameter etlPathParam = findOneByKeyAndEtlId(Constants.ETL_RESOURCES, idEtl);
         Path dir = Paths.get(etlPathParam.getValue());
         fileService.deleteRepository(dir, parameter.getValue());
         
