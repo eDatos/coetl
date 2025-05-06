@@ -32,10 +32,6 @@ import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.service.FileService;
 import es.gobcan.istac.coetl.service.validator.FileValidator;
 
-import java.nio.file.attribute.PosixFilePermission;
-import java.util.HashSet;
-import java.util.Set;
-
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -65,25 +61,8 @@ public class FileServiceImpl implements FileService {
             tmpFilePath = Files.createTempFile(file.getOriginalFilename().replace(".", "_").concat("-"), null);
             Files.copy(file.getInputStream(), tmpFilePath, StandardCopyOption.REPLACE_EXISTING);
             
-            // Detectar el sistema operativo local
-            String osName = System.getProperty("os.name").toLowerCase();
-            boolean isPosixCompliant = !osName.contains("windows");
-            
-            // Aplicar permisos POSIX solo en sistemas compatibles (Linux, macOS, etc.)
-            if (isPosixCompliant) {
-                Set<PosixFilePermission> filePermissions = new HashSet<PosixFilePermission>();
-                filePermissions.add(PosixFilePermission.OWNER_READ);
-                filePermissions.add(PosixFilePermission.OWNER_WRITE);
-                filePermissions.add(PosixFilePermission.GROUP_READ);
-                filePermissions.add(PosixFilePermission.OTHERS_READ);
-                
-                Files.setPosixFilePermissions(tmpFilePath, filePermissions);
-            }
-            
-            // Definir el destino en el servidor remoto - normalizar separadores de ruta
             // Convertir todos los separadores a formato Unix (/) ya que estamos trabajando con un servidor Linux
             String remotePath = etlResourcesPath.toString().replace('\\', '/');
-            // Asegurarse que no hay dobles slashes
             if (!remotePath.endsWith("/")) {
                 remotePath += "/";
             }
@@ -92,11 +71,9 @@ public class FileServiceImpl implements FileService {
             try {                
                 // Obtener referencia al archivo remoto
                 OverthereFile remoteFile = sudoDestinationConnection.getFile(remoteFilePath);
-                
-                // Subir el archivo usando streams
+
                 try (InputStream in = Files.newInputStream(tmpFilePath);
                      OutputStream out = remoteFile.getOutputStream()) {
-                    
                     byte[] buffer = new byte[8192];
                     int bytesRead;
                     while ((bytesRead = in.read(buffer)) != -1) {
@@ -104,15 +81,10 @@ public class FileServiceImpl implements FileService {
                     }
                     out.flush();
                 }
-                
-                System.out.println("Archivo subido exitosamente a: " + remoteFilePath);
             } catch (Exception e) {
-                System.err.println("Error al subir archivo: " + e.getMessage());
-                // Intentar método alternativo
+                // Intentar método alternativo para cuando no comparte servidor con hop/pentaho
                 try {
-                    // Método alternativo usando SCP
-                    String scpCommand = "scp " + tmpFilePath.toAbsolutePath() + " " + remotePath + file.getOriginalFilename();
-                    executeCommand(sudoDestinationConnection, scpCommand);
+                    executeCommand(sudoDestinationConnection, "scp", tmpFilePath.toAbsolutePath().toString(), remotePath.concat(file.getOriginalFilename()));
                 } catch (Exception e2) {
                     throw e;
                 }
@@ -155,6 +127,7 @@ public class FileServiceImpl implements FileService {
 	private void changeOwnerFile(OverthereConnection sudoConnection, String pathFileToChange) {
 		String chownParameter = pentahoProperties.getHost().getOwnerUserResourcesPath().concat(":").concat(pentahoProperties.getHost().getOwnerGroupResourcesPath());
         executeCommand(sudoConnection, "chown", chownParameter, pathFileToChange);
+        executeCommand(sudoConnection, "chmod", "644", pathFileToChange);
     }
 
 	@Override
