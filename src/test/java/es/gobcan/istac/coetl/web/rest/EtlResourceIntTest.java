@@ -382,7 +382,7 @@ public class EtlResourceIntTest {
         doReturn(false).when(etlService).goingToChangeRepository(any(EtlDTO.class));
 
         //@formatter:off
-        restEtlMockMvc.perform(put(BASE_URI) // BASE_URI.concat("?isAttachedFileChanged=\"false\"" ???
+        restEtlMockMvc.perform(put(BASE_URI)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(updatedEtlDTOMocked)))
             .andDo(print())
