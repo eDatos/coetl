@@ -28,6 +28,7 @@ import com.xebialabs.overthere.OverthereFile;
 
 import es.gobcan.istac.coetl.config.PentahoProperties;
 import es.gobcan.istac.coetl.domain.File;
+import es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.SftpException;
 import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.service.FileService;
 import es.gobcan.istac.coetl.service.validator.FileValidator;
@@ -53,54 +54,46 @@ public class FileServiceImpl implements FileService {
     @Override
     // Saving file in local repository
     public void uploadRepository(Path etlResourcesPath, MultipartFile file) {
-        OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()));
-        Path tmpFilePath = null;
         
-        try {
-            // Crear fichero temporal local
-            tmpFilePath = Files.createTempFile(file.getOriginalFilename().replace(".", "_").concat("-"), null);
+        try (OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()));) {
+            // Create local temp file
+            Path tmpFilePath = Files.createTempFile(file.getOriginalFilename().replace(".", "_").concat("-"), null);
             Files.copy(file.getInputStream(), tmpFilePath, StandardCopyOption.REPLACE_EXISTING);
             
-            // Convertir todos los separadores a formato Unix (/) ya que estamos trabajando con un servidor Linux
+            // Convert all separators to Unix format (/) since we are working with a Linux server
             String remotePath = etlResourcesPath.toString().replace('\\', '/');
             if (!remotePath.endsWith("/")) {
                 remotePath += "/";
             }
             String remoteFilePath = remotePath + file.getOriginalFilename();
             
-            try {                
-                // Obtener referencia al archivo remoto
-                OverthereFile remoteFile = sudoDestinationConnection.getFile(remoteFilePath);
-
-                try (InputStream in = Files.newInputStream(tmpFilePath);
-                     OutputStream out = remoteFile.getOutputStream()) {
-                    byte[] buffer = new byte[8192];
-                    int bytesRead;
-                    while ((bytesRead = in.read(buffer)) != -1) {
-                        out.write(buffer, 0, bytesRead);
-                    }
-                    out.flush();
-                }
-            } catch (Exception e) {
-                // Intentar método alternativo para cuando no comparte servidor con hop/pentaho
-                try {
-                    executeCommand(sudoDestinationConnection, "scp", tmpFilePath.toAbsolutePath().toString(), remotePath.concat(file.getOriginalFilename()));
-                } catch (Exception e2) {
-                    throw e;
-                }
-            }
+            loadFile(sudoDestinationConnection, remoteFilePath, tmpFilePath);
             
-            // Changing permissions en el servidor remoto
+            // Changing permissions on remote server
             changeOwnerFile(sudoDestinationConnection, remoteFilePath);
+            
+            if (tmpFilePath != null) {
+                Files.deleteIfExists(tmpFilePath);
+            }
             
         } catch (FileAlreadyExistsException e) {
             throw new RuntimeException("A file with that name already exists.");
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException("Error uploading file: " + e.getMessage());
-        } finally {
-            if (sudoDestinationConnection != null) {
-                sudoDestinationConnection.close();
+        }
+    }
+    
+    private void loadFile(OverthereConnection sudoDestinationConnection, String remoteFilePath, Path tmpFilePath) throws IOException {
+        OverthereFile remoteFile = sudoDestinationConnection.getFile(remoteFilePath);
+
+        try (InputStream in = Files.newInputStream(tmpFilePath);
+             OutputStream out = remoteFile.getOutputStream()) {
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
             }
+            out.flush();
         }
     }
 
