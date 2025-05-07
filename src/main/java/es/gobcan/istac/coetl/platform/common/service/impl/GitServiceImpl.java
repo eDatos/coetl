@@ -83,14 +83,14 @@ public class GitServiceImpl implements GitService {
             LOGGER.error("An error ocurred encoding git credentials", e);
             return null;
         } catch (MalformedURLException e) {
-            LOGGER.error("An error ocurred with URI repository in ETL with code " + etl.getCode(), e);
+            LOGGER.error("An error ocurred with URI repository in ETL with code {}", etl.getCode(), e);
             return null;
         } catch (SftpException e) {
-            LOGGER.error("An error ocurred executing shell commands while cloning repository", e);
+            LOGGER.error("An error ocurred executing shell commands while cloning repository");
             return null;
         } catch (Exception e) {
-            LOGGER.error("Unknown error ocurred while clone repository " + etl.getUriRepository(), e);
-            return null;            
+            LOGGER.error("Unknown error ocurred while clone repository {}", etl.getUriRepository(), e);
+            return null;
         } finally {
             sudoDestinationConnection.close();
         }
@@ -143,7 +143,7 @@ public class GitServiceImpl implements GitService {
                 executeCommand(sudoDestinationConnection, "rm", "-Rf", path.concat(REPOSITORY_FOLDER_BACKUP_NAME));
             }
         } catch (Exception e) {
-            LOGGER.error("Unknown error ocurred while replacing repository " + etl.getUriRepository(), e);
+            LOGGER.error("Unknown error ocurred while replacing repository {}", etl.getUriRepository());
             return null;
         } finally {
             sudoDestinationConnection.close();
@@ -181,7 +181,8 @@ public class GitServiceImpl implements GitService {
 
         executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(platformProperties.determinePropertiesClass(etl).getMainResourcePrefix() + "*"));
 
-        String mainFileNamePath = oh.getOutputLines().get(1).trim();
+        //Se asume que siempre habrá un fichero main* y que la ruta saldrá la última de las líneas volcadas
+        String mainFileNamePath = oh.getOutputLines().get( oh.getOutputLines().size()-1 ).trim();
         
         OverthereFile sourceMainFile = sudoSourceConnection.getFile(mainFileNamePath);
         String result = new BufferedReader(new InputStreamReader(sourceMainFile.getInputStream(), StandardCharsets.UTF_8))
@@ -200,7 +201,10 @@ public class GitServiceImpl implements GitService {
 
         executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(platformProperties.determinePropertiesClass(etl).getMainResourcePrefix() + "*"));
 
-        String mainFileNamePath = oh.getOutputLines().get(1).trim();
+        //Se asume que siempre habrá un fichero main* y que la ruta saldrá la última de las líneas volcadas
+        String mainFileNamePath = oh.getOutputLines().get( oh.getOutputLines().size()-1 ).trim();
+        
+        sudoSourceConnection.close();
 
         sudoSourceConnection.close();
         
