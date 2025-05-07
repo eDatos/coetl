@@ -28,7 +28,6 @@ import com.xebialabs.overthere.OverthereFile;
 
 import es.gobcan.istac.coetl.config.PentahoProperties;
 import es.gobcan.istac.coetl.domain.File;
-import es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.SftpException;
 import es.gobcan.istac.coetl.repository.FileRepository;
 import es.gobcan.istac.coetl.service.FileService;
 import es.gobcan.istac.coetl.service.validator.FileValidator;
