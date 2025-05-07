@@ -31,7 +31,7 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
     }
 
     public enum Typology {
-        GENERIC, PASSWORD
+        GENERIC, PASSWORD, FILE
     }
 
     @Id
@@ -60,6 +60,9 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "etl_fk")
     private Etl etl;
+    
+    @Column(name = "file_fk")
+    private Long file;
 
     @Override
     public Long getId() {
@@ -108,5 +111,23 @@ public class Parameter extends AbstractVersionedEntity implements Serializable {
 
     public void setEtl(Etl etl) {
         this.etl = etl;
+    }
+    
+    public Long getFile() {
+        return file;
+    }
+    
+    public void setFile(Long file) {
+        this.file = file;
+    }
+
+    @Override
+    public String toString() {
+        return "Parameter (id= " + id + 
+                ", etl= " + etl + 
+                ", value= " + value + 
+                ", file= " + file +
+                ", typology= " + typology +
+                ")";
     }
 }

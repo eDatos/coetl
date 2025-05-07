@@ -25,8 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import es.gobcan.istac.coetl.CoetlApp;
 import es.gobcan.istac.coetl.config.audit.AuditEventConverter;
 import es.gobcan.istac.coetl.domain.PersistentAuditEvent;
-import es.gobcan.istac.coetl.repository.CustomAuditEventRepository;
-import es.gobcan.istac.coetl.repository.PersistenceAuditEventRepository;
 
 /**
  * Test class for the CustomAuditEventRepository customAuditEventRepository class.

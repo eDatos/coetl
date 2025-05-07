@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -34,6 +36,7 @@ import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
+import es.gobcan.istac.coetl.domain.Parameter.Typology;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
@@ -269,21 +272,26 @@ public class EtlResource extends AbstractResource {
     @PostMapping("/{idEtl}/parameters")
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
-    public ResponseEntity<ParameterDTO> createParameter(@RequestBody ParameterDTO parameterDTO, @PathVariable Long idEtl) throws URISyntaxException {
+    public ResponseEntity<ParameterDTO> createParameter(@RequestPart(value = "parameterDTO", required = true) ParameterDTO parameterDTO, @PathVariable Long idEtl, @RequestParam(value = "file", required = false) MultipartFile file) throws URISyntaxException {
         LOG.debug("REST Request to create a Parameter: {} with ETL : {}", parameterDTO, idEtl);
+        
         Etl currentEtl = etlService.findOne(idEtl);
+
         if (currentEtl == null) {
             return ResponseEntity.notFound().build();
         }
         if (currentEtl.isDeleted()) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ENTITY_DELETED, String.format(ETL_IS_DELETED_MESSAGE, idEtl.toString()))).build();
         }
-
+        
         if (parameterDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(PARAMETER_ENTITY_NAME, ErrorConstants.ID_EXISTE, "A new parameter must not have an ID")).build();
         }
-
-        Parameter currentParameter = parameterMapper.toEntity(parameterDTO);
+        if ((file != null) && (parameterDTO.getTypology() == Typology.FILE)) {
+            // There is a file along with the parameter.
+            parameterDTO.setFileId(parameterService.storeFile(file, idEtl));
+        }
+        Parameter currentParameter = parameterMapper.toEntity(parameterDTO);        
         if (currentParameter == null) {
             return ResponseEntity.notFound().build();
         }
@@ -294,7 +302,6 @@ public class EtlResource extends AbstractResource {
         Parameter createdParameter = parameterService.create(currentParameter);
         ParameterDTO result = parameterMapper.toDto(createdParameter);
         auditEventPublisher.publish(AuditConstants.ETL_PARAMETER_CREATED, createdParameter.getId().toString());
-
         return ResponseEntity.created(new URI(BASE_URI + SLASH + result.getEtlId() + SLASH + "parameters" + SLASH + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(PARAMETER_ENTITY_NAME, result.getId().toString())).body(result);
     }
@@ -302,8 +309,8 @@ public class EtlResource extends AbstractResource {
     @PutMapping("/{idEtl}/parameters")
     @Timed
     @PreAuthorize("@secChecker.canManageEtl(authentication, #idEtl)")
-    public ResponseEntity<ParameterDTO> updateParameter(@RequestBody ParameterDTO parameterDTO, @PathVariable Long idEtl) {
-        LOG.debug("REST Request to update a Parameter: {} with ETL : {}", parameterDTO, idEtl);
+    public ResponseEntity<ParameterDTO> updateParameter(@RequestPart(value = "parameterDTO", required = true) ParameterDTO parameterDTO, @PathVariable Long idEtl, @RequestParam(value = "file", required = false) MultipartFile file) {
+        LOG.debug("REST Request to update a Parameter: {} from ETL : {}", parameterDTO, idEtl);
         Etl currentEtl = etlService.findOne(idEtl);
         if (currentEtl == null) {
             return ResponseEntity.notFound().build();
@@ -315,7 +322,8 @@ public class EtlResource extends AbstractResource {
         if (parameterDTO.getId() == null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(PARAMETER_ENTITY_NAME, ErrorConstants.ID_FALTA, "An updated parameter must have an ID")).build();
         }
-
+        final Parameter originalParam = parameterService.copyParameter(parameterService.findOneById(parameterDTO.getId()));
+        
         Parameter currentParameter = parameterMapper.toEntity(parameterDTO);
         if (currentParameter == null) {
             return ResponseEntity.notFound().build();
@@ -324,10 +332,12 @@ public class EtlResource extends AbstractResource {
             return ResponseEntity.notFound().build();
         }
 
+        if (originalParam.getTypology() == Typology.FILE || currentParameter.getTypology() == Typology.FILE) {
+            parameterService.updateFile(file, originalParam, currentParameter, idEtl);
+        }
         Parameter updatedParameter = parameterService.update(currentParameter);
-        ParameterDTO result = parameterMapper.toDto(updatedParameter);
+        ParameterDTO result = parameterMapper.toDto(updatedParameter);        
         auditEventPublisher.publish(AuditConstants.ETL_PARAMETER_UPDATED, updatedParameter.getId().toString());
-
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(PARAMETER_ENTITY_NAME, result.getId().toString())).body(result);
     }
 
@@ -350,6 +360,10 @@ public class EtlResource extends AbstractResource {
         }
 
         parameterService.delete(currentParameter);
+        if(currentParameter.getFile() != null) {
+            parameterService.deleteFile(currentParameter, idEtl);
+        }
+        
         auditEventPublisher.publish(AuditConstants.ETL_PARAMETER_DELETED, parameterId.toString());
 
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(PARAMETER_ENTITY_NAME, parameterId.toString())).build();

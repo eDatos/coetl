@@ -156,7 +156,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     public JWTSingleSignOutHandler singleSignOutHandler() {
-        return new JWTSingleSignOutHandler(jHipsterProperties, applicationProperties, env, enabledTokenService);
+        return new JWTSingleSignOutHandler(jHipsterProperties, env, enabledTokenService);
     }
 
     @Bean

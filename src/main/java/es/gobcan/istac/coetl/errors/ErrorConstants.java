@@ -58,6 +58,10 @@ public final class ErrorConstants {
     public static final String PARAMETER_EDIT = "error.parameter.edit";
     public static final String PARAMETER_KEY_IS_DUPLICATED_IN_GLOBAL_PARAMETER = "error.parameter.key.isDuplicatedInGlobalParameter";
     public static final String GLOBAL_PARAMETER_KEY_IS_DUPLICATED = "error.parameter.global.key.isDuplicated";
+    public static final String PARAMETER_WRONG_FILE_FORMAT = "error.parameter.file.wrongFormat";
+    public static final String PARAMETER_FILE_SIZE_EXCEEDED = "error.parameter.file.sizeExceeded";
+    public static final String PARAMETER_FILE_ALREADY_EXISTS = "error.parameter.file.alreadyExists";
+    public static final String ERROR_FILE_DESCONOCIDO = "error.parameter.file.unknown";
 
     // QUARZT
     public static final String QUARTZ_JOB_EXECUTION_ERROR = "error.quartz.jobExecutionError";
@@ -76,6 +80,12 @@ public final class ErrorConstants {
     // COMPUTATIONAL THREAD EXECUTION
     public static final String COMPUTATIONAL_THREAD_EXECUTION_REGISTER_ETL_ERROR = "error.computationalThread.registerEtlError";
     public static final String COMPUTATIONAL_THREAD_EXECUTION_ERROR = "error.computationalThread.executingError";
+    
+    // EXECUTION ETL GIT
+    public static final String EXECUTION_UNKNOWN_ERROR = "error.execution.unkwown";
+    public static final String EXECUTION_PULL_ERROR = "error.execution.pull";
+    public static final String EXECUTION_URI_ERROR = "error.execution.uri";
+    public static final String EXECUTION_CREDENTIALS_ERROR = "error.execution.credentials";
 
     private ErrorConstants() {
     }

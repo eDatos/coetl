@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.LoggerContext;
 import es.gobcan.istac.coetl.CoetlApp;
-import es.gobcan.istac.coetl.web.rest.LogsResource;
 import es.gobcan.istac.coetl.web.rest.vm.LoggerVM;
 
 /**

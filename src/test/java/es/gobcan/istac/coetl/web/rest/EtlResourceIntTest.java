@@ -41,10 +41,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import es.gobcan.istac.coetl.CoetlApp;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
@@ -512,11 +514,13 @@ public class EtlResourceIntTest {
         Etl createdEtl = etlService.create(mockedEtl);
         Parameter mockedParameter = mockParameterEntityWithoutId(createdEtl);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(mockedParameter);
+        MockMultipartFile mockedParameterDTORequestPart = new MockMultipartFile("parameterDTO", "", "application/json", TestUtil.convertObjectToJsonBytes(mockedParameterDTO));
 
         //@formatter:off
-        restEtlMockMvc.perform(post(BASE_URI.concat("/{idEtl}").concat("/parameters"), createdEtl.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(mockedParameterDTO)))
+        restEtlMockMvc.perform(MockMvcRequestBuilders
+                .fileUpload(BASE_URI.concat("/{idEtl}").concat("/parameters"), createdEtl.getId(), RequestMethod.POST)
+                .file(mockedParameterDTORequestPart)
+                )
             .andDo(print())
             .andExpect(status().isCreated())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -536,11 +540,13 @@ public class EtlResourceIntTest {
         Etl createdEtl = etlService.create(mockedEtl);
         Parameter mockedParameter = mockParameterEntity(createdEtl);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(mockedParameter);
+        MockMultipartFile mockedParameterDTORequestPart = new MockMultipartFile("parameterDTO", "", "application/json", TestUtil.convertObjectToJsonBytes(mockedParameterDTO));
 
         //@formatter:off
-        restEtlMockMvc.perform(post(BASE_URI.concat("/{idEtl}").concat("/parameters"), createdEtl.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(mockedParameterDTO)))
+        restEtlMockMvc.perform(MockMvcRequestBuilders
+                .fileUpload(BASE_URI.concat("/{idEtl}").concat("/parameters"), createdEtl.getId(), RequestMethod.POST)
+                .file(mockedParameterDTORequestPart)
+                )
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(header().string("X-coetl-error", "error.id-existe"))
@@ -560,11 +566,13 @@ public class EtlResourceIntTest {
 
         Parameter mockedParameter = mockParameterEntityWithoutId(createdEtl);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(mockedParameter);
+        MockMultipartFile mockedParameterDTORequestPart = new MockMultipartFile("parameterDTO", "", "application/json", TestUtil.convertObjectToJsonBytes(mockedParameterDTO));
 
         //@formatter:off
-        restEtlMockMvc.perform(post(BASE_URI.concat("/{idEtl}").concat("/parameters"), anotherCreatedEtl.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(mockedParameterDTO)))
+        restEtlMockMvc.perform(MockMvcRequestBuilders
+                .fileUpload(BASE_URI.concat("/{idEtl}").concat("/parameters"), anotherCreatedEtl.getId(), RequestMethod.POST)
+                .file(mockedParameterDTORequestPart)
+                )
         .andDo(print())
         .andExpect(status().isNotFound());
         //@formatter:on
@@ -578,11 +586,13 @@ public class EtlResourceIntTest {
 
         Parameter mockedParameter = mockParameterEntityWithoutId(deletedEtl);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(mockedParameter);
+        MockMultipartFile mockedParameterDTORequestPart = new MockMultipartFile("parameterDTO", "", "application/json", TestUtil.convertObjectToJsonBytes(mockedParameterDTO));
 
         //@formatter:off
-        restEtlMockMvc.perform(post(BASE_URI.concat("/{idEtl}").concat("/parameters"), deletedEtl.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(mockedParameterDTO)))
+        restEtlMockMvc.perform(MockMvcRequestBuilders
+                .fileUpload(BASE_URI.concat("/{idEtl}").concat("/parameters"), deletedEtl.getId(), RequestMethod.POST)
+                .file(mockedParameterDTORequestPart)
+                )
         .andDo(print())
         .andExpect(status().isBadRequest())
         .andExpect(header().string("X-coetl-error", "error.entity.deleted"))
@@ -600,11 +610,14 @@ public class EtlResourceIntTest {
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(createdParameter);
         mockedParameterDTO.setValue(UPDATED_ETL_PARAMETER_VALUE);
+        MockMultipartFile mockedParameterDTORequestPart = new MockMultipartFile("parameterDTO", "", "application/json", TestUtil.convertObjectToJsonBytes(mockedParameterDTO));
 
         //@formatter:off
-        restEtlMockMvc.perform(put(BASE_URI.concat("/{idEtl}").concat("/parameters"), createdEtl.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(mockedParameterDTO)))
+        restEtlMockMvc.perform(MockMvcRequestBuilders
+                .fileUpload(BASE_URI.concat("/{idEtl}").concat("/parameters"), createdEtl.getId())
+                .file(mockedParameterDTORequestPart)
+                .with(req -> { req.setMethod("PUT"); return req; })
+                )
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -626,11 +639,13 @@ public class EtlResourceIntTest {
         Parameter mockedParameter = mockParameterEntityWithoutId(createdEtl);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(mockedParameter);
         mockedParameterDTO.setValue(UPDATED_ETL_PARAMETER_VALUE);
+        MockMultipartFile mockedParameterDTORequestPart = new MockMultipartFile("parameterDTO", "", "application/json", TestUtil.convertObjectToJsonBytes(mockedParameterDTO));
 
         //@formatter:off
-        restEtlMockMvc.perform(put(BASE_URI.concat("/{idEtl}").concat("/parameters"), createdEtl.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(mockedParameterDTO)))
+        restEtlMockMvc.perform(MockMvcRequestBuilders
+                .fileUpload(BASE_URI.concat("/{idEtl}").concat("/parameters"), createdEtl.getId())
+                .file(mockedParameterDTORequestPart)
+                .with(req -> { req.setMethod("PUT"); return req; }))
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(header().string("X-coetl-error", "error.id-falta"))
@@ -652,11 +667,13 @@ public class EtlResourceIntTest {
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(createdParameter);
         mockedParameterDTO.setValue(UPDATED_ETL_PARAMETER_VALUE);
+        MockMultipartFile mockedParameterDTORequestPart = new MockMultipartFile("parameterDTO", "", "application/json", TestUtil.convertObjectToJsonBytes(mockedParameterDTO));
 
         //@formatter:off
-        restEtlMockMvc.perform(put(BASE_URI.concat("/{idEtl}").concat("/parameters"), anotherCreatedEtl.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(mockedParameterDTO)))
+        restEtlMockMvc.perform(MockMvcRequestBuilders
+                .fileUpload(BASE_URI.concat("/{idEtl}").concat("/parameters"), anotherCreatedEtl.getId())
+                .file(mockedParameterDTORequestPart)
+                .with(req -> { req.setMethod("PUT"); return req; }))
             .andDo(print())
             .andExpect(status().isNotFound());
         //@formatter:on
@@ -672,11 +689,13 @@ public class EtlResourceIntTest {
         Parameter createdParameter = parameterRepository.saveAndFlush(mockedParameter);
         ParameterDTO mockedParameterDTO = parameterMapper.toDto(createdParameter);
         mockedParameterDTO.setValue(UPDATED_ETL_PARAMETER_VALUE);
+        MockMultipartFile mockedParameterDTORequestPart = new MockMultipartFile("parameterDTO", "", "application/json", TestUtil.convertObjectToJsonBytes(mockedParameterDTO));
 
         //@formatter:off
-        restEtlMockMvc.perform(put(BASE_URI.concat("/{idEtl}").concat("/parameters"), deletedEtl.getId())
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(mockedParameterDTO)))
+        restEtlMockMvc.perform(MockMvcRequestBuilders
+                .fileUpload(BASE_URI.concat("/{idEtl}").concat("/parameters"), deletedEtl.getId())
+                .file(mockedParameterDTORequestPart)
+                .with(req -> { req.setMethod("PUT"); return req; }))
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(header().string("X-coetl-error", "error.entity.deleted"))

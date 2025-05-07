@@ -5,6 +5,7 @@ import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.e
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.getSudoDestinationOptions;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -29,8 +30,14 @@ import com.xebialabs.overthere.util.CapturingOverthereExecutionOutputHandler;
 
 import es.gobcan.istac.coetl.config.GitProperties;
 import es.gobcan.istac.coetl.domain.Etl;
+import es.gobcan.istac.coetl.domain.Parameter;
+import es.gobcan.istac.coetl.domain.Parameter.Typology;
+import es.gobcan.istac.coetl.errors.CustomParameterizedExceptionBuilder;
+import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.platform.common.PlatformPropertiesComponent;
 import es.gobcan.istac.coetl.platform.common.service.GitService;
+import es.gobcan.istac.coetl.repository.FileRepository;
+import es.gobcan.istac.coetl.repository.ParameterRepository;
 
 @Service
 public class GitServiceImpl implements GitService {
@@ -40,12 +47,24 @@ public class GitServiceImpl implements GitService {
     private static final String REPOSITORY_FOLDER_NAME = "repository";
     private static final String REPOSITORY_FOLDER_BACKUP_NAME = "repositoryBackup";
     private static final String METADATA_FOLDER_NAME = "metadata"; // Usado en repositorios de ETLs para Hop
+    private static final String ERROR_CREDENCIALES_GIT = "An error ocurred encoding git credentials";
+    private static final String ERROR_URI_INCORRECT = "An error ocurred with URI repository in ETL with code \"%s\"";
+    private static final String ERROR_PULL = "An error ocurred executing shell commands while pulling repository";
+    private static final String ERROR_FILE_PARAMETER = "An error ocurred while writing parameter files in directory";
+    private static final String ERROR_FILE_DESCONOCIDO = "An error ocurred while trying to move the file";
+    private static final String ERROR_DESCONOCIDO = "Unknown error ocurred while pulling repository \"%s\"";
     
     @Autowired
     private PlatformPropertiesComponent platformProperties;
     
     @Autowired
     private GitProperties gitProperties;
+    
+    @Autowired 
+    private ParameterRepository parameterRepository;
+    
+    @Autowired 
+    private FileRepository fileRepository;
     
     @Override
     public String cloneRepository(Etl etl) {
@@ -78,7 +97,7 @@ public class GitServiceImpl implements GitService {
     }
 
     @Override
-    public boolean updateRepository(Etl etl) {
+    public void updateRepository(Etl etl) {
         OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
         String path = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/").concat(REPOSITORY_FOLDER_NAME);
         try {
@@ -86,22 +105,22 @@ public class GitServiceImpl implements GitService {
             executeCommand(sudoDestinationConnection, "git", "-C", path, "pull");
             executeCommand(sudoDestinationConnection, "git", "-C", path, "remote", "set-url", "origin", etl.getUriRepository());
         } catch (UnsupportedEncodingException e) {
-            LOGGER.error("An error ocurred encoding git credentials", e);
-            return false;
+            LOGGER.error(ERROR_CREDENCIALES_GIT);
+            throw new CustomParameterizedExceptionBuilder().message(ERROR_CREDENCIALES_GIT).code(ErrorConstants.EXECUTION_CREDENTIALS_ERROR).build();
         } catch (MalformedURLException e) {
-            LOGGER.error("An error ocurred with URI repository in ETL with code " + etl.getCode(), e);
-            return false;
+            LOGGER.error(String.format(ERROR_URI_INCORRECT, etl.getCode()), e);
+            throw new CustomParameterizedExceptionBuilder().message(String.format(ERROR_URI_INCORRECT, etl.getCode()))
+            .code(ErrorConstants.EXECUTION_URI_ERROR).build();
         }catch (SftpException e) {
-            LOGGER.error("An error ocurred executing shell commands while pulling repository", e);
-            return false;
+            LOGGER.error(ERROR_PULL, e);
+            throw new CustomParameterizedExceptionBuilder().message(ERROR_PULL).code(ErrorConstants.EXECUTION_PULL_ERROR).build();
         } catch (Exception e) {
-            LOGGER.error("Unknown error ocurred while pulling repository {}" + etl.getUriRepository(), e);
-            return false;            
+            LOGGER.error(String.format(ERROR_DESCONOCIDO, etl.getUriRepository()), e);
+            throw new CustomParameterizedExceptionBuilder().message(String.format(ERROR_DESCONOCIDO, etl.getUriRepository()))
+            .code(ErrorConstants.EXECUTION_UNKNOWN_ERROR).build();
         } finally {
             sudoDestinationConnection.close();
         }
-        
-        return true;
     }
     
     @Override
@@ -190,6 +209,30 @@ public class GitServiceImpl implements GitService {
         }
         
         return result;
+    }
+    
+    @Override
+    public void checkFileParameters(Etl etl, String originalPath, String newPath, OverthereConnection sudoDestinationConnection) {
+        List<Parameter> listaParametro = parameterRepository.findAllByEtlIdAndTypology(etl.getId(), Typology.FILE);
+        for (Parameter param : listaParametro) {
+            es.gobcan.istac.coetl.domain.File file = fileRepository.findOneById(param.getFile());
+            String originalFilePath = originalPath.concat("/").concat(file.getName());
+            String newFilePath = newPath.concat("/").concat(file.getName());
+            try {
+                File f = new File(newFilePath);
+                if (!f.exists()) {
+                    executeCommand(sudoDestinationConnection, "mv", originalFilePath, newFilePath);
+                    changeOwnerUnzippedFiles(sudoDestinationConnection, newFilePath, etl);
+                } else {
+                    throw new CustomParameterizedExceptionBuilder().message(ERROR_FILE_PARAMETER)
+                            .code(ErrorConstants.PARAMETER_FILE_ALREADY_EXISTS).build();
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error ocurred while moving file. {}", file.getName(), e);
+                throw new CustomParameterizedExceptionBuilder().message(ERROR_FILE_DESCONOCIDO)
+                .code(ErrorConstants.ERROR_FILE_DESCONOCIDO).build();
+            }
+        }
     }
     
     private List<String> getFilesContentFromFolder(Etl etl, String folder) {
