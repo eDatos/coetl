@@ -20,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -168,20 +166,19 @@ public class ParameterServiceImpl implements ParameterService {
         if (parameter != null) {
             String etlResourcesPath = parameterMapper.toDto(parameter).getValue();
             File savedFile = fileService.saveDatabase(file);
-            Path dir = Paths.get(etlResourcesPath);
-            fileService.uploadRepository(dir, file);
+            fileService.uploadRepository(etlResourcesPath, file);
             return savedFile.getId();
         }
         return null;
     }
 
-    private void changeTypologyFromFileToOther(Parameter currentParameter, Long fileIdNum, Path repositoryPath, String originalFilename) {
+    private void changeTypologyFromFileToOther(Parameter currentParameter, Long fileIdNum, String repositoryPath, String originalFilename) {
         currentParameter.setFile(null);
         fileService.deleteDatabase(fileIdNum);
         fileService.deleteRepository(repositoryPath, originalFilename);
     }
 
-    private void changeTypologyToFile(Parameter currentParameter, Path repositoryPath, MultipartFile file, Long idEtl) {
+    private void changeTypologyToFile(Parameter currentParameter, String repositoryPath, MultipartFile file, Long idEtl) {
         // If filename changes, check if there is no other file with that name.
         parameterValidator.checkIfFileAlreadyExists(file.getOriginalFilename(), idEtl);
         File fichero = fileService.saveDatabase(file);
@@ -190,7 +187,7 @@ public class ParameterServiceImpl implements ParameterService {
         fileService.uploadRepository(repositoryPath, file);
     }
 
-    private void sameTypologyIsFile(Long fileIdNum, Path repositoryPath, MultipartFile file, String originalFilename, Long idEtl) {
+    private void sameTypologyIsFile(Long fileIdNum, String repositoryPath, MultipartFile file, String originalFilename, Long idEtl) {
         if (!originalFilename.equals(file.getOriginalFilename())) {
             // If filename changes, check if there is no other file with that name.
             parameterValidator.checkIfFileAlreadyExists(file.getOriginalFilename(), idEtl);
@@ -199,7 +196,7 @@ public class ParameterServiceImpl implements ParameterService {
         fileService.updateDatabase(file, fileIdNum);
     }
     
-    private void differentTypologies(Typology originalTypology, Typology newTypology, Parameter currentParameter, Long fileIdNum, Path repositoryPath, MultipartFile file, String originalFilename, Long idEtl) {
+    private void differentTypologies(Typology originalTypology, Typology newTypology, Parameter currentParameter, Long fileIdNum, String repositoryPath, MultipartFile file, String originalFilename, Long idEtl) {
         if(originalTypology == Typology.FILE) {
             // Change from "FILE" to other typology -> Update param and delete file from database and repository
             changeTypologyFromFileToOther(currentParameter, fileIdNum, repositoryPath, originalFilename);
@@ -210,7 +207,7 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     
-    private void checkTypologies(Typology originalTypology, Typology newTypology, Parameter currentParameter, Long fileIdNum, Path repositoryPath, MultipartFile file, String originalFilename, Long idEtl){
+    private void checkTypologies(Typology originalTypology, Typology newTypology, Parameter currentParameter, Long fileIdNum, String repositoryPath, MultipartFile file, String originalFilename, Long idEtl){
         if(originalTypology != newTypology) {
             differentTypologies(originalTypology, newTypology, currentParameter, fileIdNum, repositoryPath, file, originalFilename, idEtl);
         } else {
@@ -229,7 +226,7 @@ public class ParameterServiceImpl implements ParameterService {
         Parameter etlPathParameter = findOneByKeyAndEtlId(Constants.ETL_RESOURCES, idEtl);
         Long fileIdNum = originalParameter.getFile();
         Typology newTypology = currentParameter.getTypology();
-        Path repositoryPath = etlPathParameter.getValue() == null ? null : Paths.get(etlPathParameter.getValue());
+        String repositoryPath = etlPathParameter.getValue();
         checkTypologies(originalTypology, newTypology, currentParameter, fileIdNum, repositoryPath, file, originalFilename, idEtl);
     }
 
@@ -240,9 +237,12 @@ public class ParameterServiceImpl implements ParameterService {
         // Delete file from repository folder and database
         fileService.deleteDatabase(parameter.getFile());
         Parameter etlPathParam = findOneByKeyAndEtlId(Constants.ETL_RESOURCES, idEtl);
-        Path dir = Paths.get(etlPathParam.getValue());
-        fileService.deleteRepository(dir, parameter.getValue());
+        String repositoryPath = etlPathParam.getValue();
+        
+        fileService.deleteRepository(repositoryPath, parameter.getValue());
         
     }
+    
+    
 
 }
