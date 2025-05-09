@@ -2,6 +2,7 @@ package es.gobcan.istac.coetl.service.impl;
 
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.executeCommand;
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.getSudoDestinationOptions;
+import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.remove;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -114,13 +115,10 @@ public class FileServiceImpl implements FileService {
         }
 	    
 	    String remotePath = etlResourcesPath.toString().replace('\\', '/');
-		OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()));
-		try {
-			executeCommand(sudoDestinationConnection, "rm", remotePath.toString().concat("/").concat(filename));
+		try (OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()))) {
+			remove(sudoDestinationConnection, remotePath.toString().concat("/").concat(filename));
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
-		} finally {
-			sudoDestinationConnection.close();
 		}
 	}
 

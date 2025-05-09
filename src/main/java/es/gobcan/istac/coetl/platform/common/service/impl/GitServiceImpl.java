@@ -2,6 +2,9 @@ package es.gobcan.istac.coetl.platform.common.service.impl;
 
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.SftpException;
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.executeCommand;
+import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.move;
+import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.remove;
+import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.mkdirp;
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.getSudoDestinationOptions;
 
 import java.io.BufferedReader;
@@ -74,9 +77,9 @@ public class GitServiceImpl implements GitService {
         String path = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode());
         
         try {
-            executeCommand(sudoDestinationConnection, "mkdir", "-p", path);
+            mkdirp(sudoDestinationConnection, path);
             executeCommand(sudoDestinationConnection, "git", "-C", path, "clone", "--branch", gitProperties.getBranch(), getUrlRepositoryWithCredentials(etl.getUriRepository()));
-            executeCommand(sudoDestinationConnection, "mv", path.concat("/").concat(getFolderRepositoryName(etl)), path.concat("/").concat(REPOSITORY_FOLDER_NAME));
+            move(sudoDestinationConnection, path.concat("/").concat(getFolderRepositoryName(etl)), path.concat("/").concat(REPOSITORY_FOLDER_NAME));
             executeCommand(sudoDestinationConnection, "git", "-C", path.concat("/").concat(REPOSITORY_FOLDER_NAME), "remote", "set-url", "origin", etl.getUriRepository());
             changeOwnerUnzippedFiles(sudoDestinationConnection, path, etl);
         } catch (UnsupportedEncodingException e) {
@@ -132,15 +135,15 @@ public class GitServiceImpl implements GitService {
         String newRepository = null;
         
         try {
-            executeCommand(sudoDestinationConnection, "mv", path.concat(REPOSITORY_FOLDER_NAME), path.concat(REPOSITORY_FOLDER_BACKUP_NAME));
+            move(sudoDestinationConnection, path.concat(REPOSITORY_FOLDER_NAME), path.concat(REPOSITORY_FOLDER_BACKUP_NAME));
             
             newRepository = cloneRepository(etl);
             if (newRepository == null) {
-                executeCommand(sudoDestinationConnection, "rm", "-Rf", path.concat(REPOSITORY_FOLDER_NAME));
-                executeCommand(sudoDestinationConnection, "mv", path.concat(REPOSITORY_FOLDER_BACKUP_NAME), path.concat(REPOSITORY_FOLDER_NAME));
+                remove(sudoDestinationConnection, path.concat(REPOSITORY_FOLDER_NAME));
+                move(sudoDestinationConnection, path.concat(REPOSITORY_FOLDER_BACKUP_NAME), path.concat(REPOSITORY_FOLDER_NAME));
             } else {
                 checkFileParameters(etl, path.concat(REPOSITORY_FOLDER_BACKUP_NAME), newRepository, sudoDestinationConnection);
-                executeCommand(sudoDestinationConnection, "rm", "-Rf", path.concat(REPOSITORY_FOLDER_BACKUP_NAME));
+                remove(sudoDestinationConnection, path.concat(REPOSITORY_FOLDER_BACKUP_NAME));
             }
         } catch (Exception e) {
             LOGGER.error("Unknown error ocurred while replacing repository " + etl.getUriRepository(), e);
@@ -162,7 +165,7 @@ public class GitServiceImpl implements GitService {
         OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(platform).getHost()));
         String path = platformProperties.determinePropertiesClass(platform).getHost().getResourcesPath().concat("/").concat(code);
         try {
-            executeCommand(sudoDestinationConnection, "rm", "-Rf", path);
+            remove(sudoDestinationConnection, path);
         } catch (Exception e) {
             LOGGER.error(String.format(ERROR_DESCONOCIDO, code), e);
             throw new CustomParameterizedExceptionBuilder().message(String.format(ERROR_DESCONOCIDO, code))
@@ -174,35 +177,39 @@ public class GitServiceImpl implements GitService {
     
     @Override
     public String getMainFileContent(Etl etl) throws UnsupportedEncodingException {
-        OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
-
-        CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
+        String result = null;
         String basePath = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/" + REPOSITORY_FOLDER_NAME + "/");
+        try (OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));) {
+            CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
+            executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(platformProperties.determinePropertiesClass(etl).getMainResourcePrefix() + "*"));
+            String mainFileNamePath = oh.getOutputLines().get(oh.getOutputLines().size()-1).trim();
+            
+            OverthereFile sourceMainFile = sudoSourceConnection.getFile(mainFileNamePath);
+            result = new BufferedReader(new InputStreamReader(sourceMainFile.getInputStream(), StandardCharsets.UTF_8))
+                    .lines().collect(Collectors.joining("\n"));
+        } catch (Exception e) {
+            LOGGER.error(String.format(ERROR_DESCONOCIDO, etl.getCode()), e);
+            throw new CustomParameterizedExceptionBuilder().message(String.format(ERROR_DESCONOCIDO, etl.getCode()))
+            .code(ErrorConstants.EXECUTION_UNKNOWN_ERROR).build();
+        }
 
-        executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(platformProperties.determinePropertiesClass(etl).getMainResourcePrefix() + "*"));
-
-        String mainFileNamePath = oh.getOutputLines().get(1).trim();
-        
-        OverthereFile sourceMainFile = sudoSourceConnection.getFile(mainFileNamePath);
-        String result = new BufferedReader(new InputStreamReader(sourceMainFile.getInputStream(), StandardCharsets.UTF_8))
-                .lines().collect(Collectors.joining("\n"));
-
-        sudoSourceConnection.close();
         return result;
     }
     
     @Override
     public String getMainFileName(Etl etl) {
-        OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
 
         CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
         String basePath = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/" + REPOSITORY_FOLDER_NAME + "/");
-
-        executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(platformProperties.determinePropertiesClass(etl).getMainResourcePrefix() + "*"));
-
-        String mainFileNamePath = oh.getOutputLines().get(1).trim();
-
-        sudoSourceConnection.close();
+        
+        try (OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));) {
+            executeCommand(sudoSourceConnection, oh, "ls", basePath.concat(platformProperties.determinePropertiesClass(etl).getMainResourcePrefix() + "*"));
+        } catch (Exception e) {
+            LOGGER.error(String.format(ERROR_DESCONOCIDO, etl.getCode()), e);
+            throw new CustomParameterizedExceptionBuilder().message(String.format(ERROR_DESCONOCIDO, etl.getCode()))
+            .code(ErrorConstants.EXECUTION_UNKNOWN_ERROR).build();
+        }
+        String mainFileNamePath = oh.getOutputLines().get(oh.getOutputLines().size()-1).trim();
         
         return mainFileNamePath.substring(mainFileNamePath.lastIndexOf('/') + 1).split("\\.")[0];
     }
@@ -210,30 +217,21 @@ public class GitServiceImpl implements GitService {
     @Override
     public Map<String, List<String>> getEtlMetadataInfo(Etl etl) throws UnsupportedEncodingException {
         PlatformHost platformHost= platformProperties.determinePropertiesClass(etl).getHost();
-        OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformHost));
-
-        CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
         String basePath = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/" + REPOSITORY_FOLDER_NAME + "/");
-
-        Map<String, List<String>> result = new HashMap<>();
-
-        int initLoop = 1;
-        if (platformHost.getUsername().equals(platformHost.getSudoUsername())) {
-            initLoop = 0;
-        }
         
-        try {
+        Map<String, List<String>> result = new HashMap<>();
+        try (OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformHost));) {
+            CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
             executeCommand(sudoSourceConnection, oh, "ls", "-1", basePath.concat(METADATA_FOLDER_NAME));
+            
+            int initLoop = (platformHost.getUsername().equals(platformHost.getSudoUsername())) ? 0 : 1;
+            for (int i = initLoop; i < oh.getOutputLines().size(); i++) {
+                String metadataSubFolder = oh.getOutputLines().get(i);
+                result.put(metadataSubFolder, getFilesContentFromFolder(etl, basePath.concat(METADATA_FOLDER_NAME).concat("/").concat(metadataSubFolder), initLoop));
+            }
         } catch (Exception e) {
             LOGGER.error("Metadata folder don't exists", e);
             return result;
-        } finally {
-            sudoSourceConnection.close();
-        }
-
-        for (int i = initLoop; i < oh.getOutputLines().size(); i++) {
-            String metadataSubFolder = oh.getOutputLines().get(i);
-            result.put(metadataSubFolder, getFilesContentFromFolder(etl, basePath.concat(METADATA_FOLDER_NAME).concat("/").concat(metadataSubFolder), initLoop));
         }
         
         return result;
@@ -249,7 +247,7 @@ public class GitServiceImpl implements GitService {
             try {
                 File f = new File(newFilePath);
                 if (!f.exists()) {
-                    executeCommand(sudoDestinationConnection, "mv", originalFilePath, newFilePath);
+                    move(sudoDestinationConnection, originalFilePath, newFilePath);
                     changeOwnerUnzippedFiles(sudoDestinationConnection, newFilePath, etl);
                 } else {
                     throw new CustomParameterizedExceptionBuilder().message(ERROR_FILE_PARAMETER)
@@ -271,18 +269,18 @@ public class GitServiceImpl implements GitService {
     
     private List<String> getFilesContentFromFolder(Etl etl, String folder, int initLoop) {
         List<String> result = new ArrayList<>();
-        OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
-        CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
+        
+        try (OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));) {
+            CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
 
-        executeCommand(sudoSourceConnection, oh, "ls", "-1", folder);
-        for (int i = initLoop; i < oh.getOutputLines().size(); i++) {
-            OverthereFile metadataInfo = sudoSourceConnection.getFile(folder.concat("/").concat(oh.getOutputLines().get(i)));
-            String content = new BufferedReader(new InputStreamReader(metadataInfo.getInputStream(), StandardCharsets.UTF_8))
-                    .lines().collect(Collectors.joining("\n"));
-            result.add(content);
+            executeCommand(sudoSourceConnection, oh, "ls", "-1", folder);
+            for (int i = initLoop; i < oh.getOutputLines().size(); i++) {
+                OverthereFile metadataInfo = sudoSourceConnection.getFile(folder.concat("/").concat(oh.getOutputLines().get(i)));
+                String content = new BufferedReader(new InputStreamReader(metadataInfo.getInputStream(), StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+                result.add(content);
+            }
         }
 
-        sudoSourceConnection.close();
         return result;
     }
     
