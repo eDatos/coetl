@@ -5,6 +5,7 @@ import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.e
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.move;
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.remove;
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.mkdirp;
+import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.listFolder;
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.getSudoDestinationOptions;
 
 import java.io.BufferedReader;
@@ -221,13 +222,12 @@ public class GitServiceImpl implements GitService {
         
         Map<String, List<String>> result = new HashMap<>();
         try (OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformHost));) {
-            CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
-            executeCommand(sudoSourceConnection, oh, "ls", "-1", basePath.concat(METADATA_FOLDER_NAME));
+            List<OverthereFile> list = listFolder(sudoSourceConnection, basePath.concat(METADATA_FOLDER_NAME));
             
             int initLoop = (platformHost.getUsername().equals(platformHost.getSudoUsername())) ? 0 : 1;
-            for (int i = initLoop; i < oh.getOutputLines().size(); i++) {
-                String metadataSubFolder = oh.getOutputLines().get(i);
-                result.put(metadataSubFolder, getFilesContentFromFolder(etl, basePath.concat(METADATA_FOLDER_NAME).concat("/").concat(metadataSubFolder), initLoop));
+            for (int i = initLoop; i < list.size(); i++) {
+                OverthereFile metadataSubFolder = list.get(i);
+                result.put(metadataSubFolder.getName(), getFilesContentFromFolder(etl, metadataSubFolder.getPath(), initLoop));
             }
         } catch (Exception e) {
             LOGGER.error("Metadata folder don't exists", e);
@@ -271,11 +271,10 @@ public class GitServiceImpl implements GitService {
         List<String> result = new ArrayList<>();
         
         try (OverthereConnection sudoSourceConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));) {
-            CapturingOverthereExecutionOutputHandler oh = CapturingOverthereExecutionOutputHandler.capturingHandler();
 
-            executeCommand(sudoSourceConnection, oh, "ls", "-1", folder);
-            for (int i = initLoop; i < oh.getOutputLines().size(); i++) {
-                OverthereFile metadataInfo = sudoSourceConnection.getFile(folder.concat("/").concat(oh.getOutputLines().get(i)));
+            List<OverthereFile> list = listFolder(sudoSourceConnection, folder);
+            for (int i = initLoop; i < list.size(); i++) {
+                OverthereFile metadataInfo = sudoSourceConnection.getFile(list.get(i).getPath());
                 String content = new BufferedReader(new InputStreamReader(metadataInfo.getInputStream(), StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
                 result.add(content);
             }
