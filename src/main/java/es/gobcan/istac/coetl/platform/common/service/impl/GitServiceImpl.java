@@ -104,9 +104,9 @@ public class GitServiceImpl implements GitService {
 
     @Override
     public void updateRepository(Etl etl) {
-        OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));
+        
         String path = platformProperties.determinePropertiesClass(etl).getHost().getResourcesPath().concat("/").concat(etl.getCode()).concat("/").concat(REPOSITORY_FOLDER_NAME);
-        try {
+        try (OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(platformProperties.determinePropertiesClass(etl).getHost()));){
             executeCommand(sudoDestinationConnection, "git", "-C", path, "remote", "set-url", "origin", getUrlRepositoryWithCredentials(etl.getUriRepository()));
             executeCommand(sudoDestinationConnection, "git", "-C", path, "pull");
             executeCommand(sudoDestinationConnection, "git", "-C", path, "remote", "set-url", "origin", etl.getUriRepository());
@@ -124,8 +124,6 @@ public class GitServiceImpl implements GitService {
             LOGGER.error(String.format(ERROR_DESCONOCIDO, etl.getUriRepository()), e);
             throw new CustomParameterizedExceptionBuilder().message(String.format(ERROR_DESCONOCIDO, etl.getUriRepository()))
             .code(ErrorConstants.EXECUTION_UNKNOWN_ERROR).build();
-        } finally {
-            sudoDestinationConnection.close();
         }
     }
     
