@@ -2,6 +2,7 @@ package es.gobcan.istac.coetl.service.impl;
 
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.executeCommand;
 import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.getSudoDestinationOptions;
+import static es.gobcan.istac.coetl.platform.common.util.RemoteConnectionUtils.remove;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +10,7 @@ import java.io.OutputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Blob;
 import java.sql.Timestamp;
@@ -52,19 +54,22 @@ public class FileServiceImpl implements FileService {
 
     @Override
     // Saving file in local repository
-    public void uploadRepository(Path etlResourcesPath, MultipartFile file) {
+    public void uploadRepository(String etlResourcesPath, MultipartFile file) {
+        
+        if (!isValidPathSyntax(etlResourcesPath)) {
+            throw new RuntimeException("Resources path is not valid");
+        }
         
         try (OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()));) {
             // Create local temp file
             Path tmpFilePath = Files.createTempFile(file.getOriginalFilename().replace(".", "_").concat("-"), null);
             Files.copy(file.getInputStream(), tmpFilePath, StandardCopyOption.REPLACE_EXISTING);
             
-            // Convert all separators to Unix format (/) since we are working with a Linux server
-            String remotePath = etlResourcesPath.toString().replace('\\', '/');
-            if (!remotePath.endsWith("/")) {
-                remotePath += "/";
+            if (!etlResourcesPath.endsWith("/")) {
+                etlResourcesPath += "/";
             }
-            String remoteFilePath = remotePath + file.getOriginalFilename();
+            
+            String remoteFilePath = etlResourcesPath + file.getOriginalFilename();
             
             loadFile(sudoDestinationConnection, remoteFilePath, tmpFilePath);
             
@@ -98,21 +103,22 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	// Update file in local repository
-	public void updateRepository(Path etlResourcesPath, MultipartFile file, String originalFilename) {
+	public void updateRepository(String etlResourcesPath, MultipartFile file, String originalFilename) {
 		deleteRepository(etlResourcesPath, originalFilename);
 		uploadRepository(etlResourcesPath, file);
 	}
 
 	@Override
-	public void deleteRepository(Path etlResourcesPath, String filename) {
+	public void deleteRepository(String etlResourcesPath, String filename) {
+	    if (!isValidPathSyntax(etlResourcesPath)) {
+            throw new RuntimeException("Resources path is not valid");
+        }
+	    
 	    String remotePath = etlResourcesPath.toString().replace('\\', '/');
-		OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()));
-		try {
-			executeCommand(sudoDestinationConnection, "rm", remotePath.toString().concat("/").concat(filename));
+		try (OverthereConnection sudoDestinationConnection = Overthere.getConnection("ssh", getSudoDestinationOptions(pentahoProperties.getHost()))) {
+			remove(sudoDestinationConnection, remotePath.toString().concat("/").concat(filename));
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
-		} finally {
-			sudoDestinationConnection.close();
 		}
 	}
 
@@ -165,5 +171,14 @@ public class FileServiceImpl implements FileService {
         documento.setCreationDate(timestamp);
         return documento;
 	}
+	
+	private boolean isValidPathSyntax(String ruta) {
+        try {
+            Paths.get(ruta);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 }
