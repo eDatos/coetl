@@ -87,14 +87,14 @@ public class GitServiceImpl implements GitService {
             LOGGER.error("An error ocurred encoding git credentials", e);
             return null;
         } catch (MalformedURLException e) {
-            LOGGER.error("An error ocurred with URI repository in ETL with code " + etl.getCode(), e);
+            LOGGER.error("An error ocurred with URI repository in ETL with code {}", etl.getCode(), e);
             return null;
         } catch (SftpException e) {
-            LOGGER.error("An error ocurred executing shell commands while cloning repository", e);
+            LOGGER.error("An error ocurred executing shell commands while cloning repository");
             return null;
         } catch (Exception e) {
-            LOGGER.error("Unknown error ocurred while clone repository " + etl.getUriRepository(), e);
-            return null;            
+            LOGGER.error("Unknown error ocurred while clone repository {}", etl.getUriRepository(), e);
+            return null;
         } finally {
             sudoDestinationConnection.close();
         }
@@ -145,7 +145,7 @@ public class GitServiceImpl implements GitService {
                 remove(sudoDestinationConnection, path.concat(REPOSITORY_FOLDER_BACKUP_NAME));
             }
         } catch (Exception e) {
-            LOGGER.error("Unknown error ocurred while replacing repository " + etl.getUriRepository(), e);
+            LOGGER.error("Unknown error ocurred while replacing repository {}", etl.getUriRepository());
             return null;
         } finally {
             sudoDestinationConnection.close();
