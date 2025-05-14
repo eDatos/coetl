@@ -89,6 +89,7 @@ public class EtlServiceImpl implements EtlService {
     @Override
     public Etl create(Etl etl) {
         LOG.debug("Request to create an ETL : {}", etl);
+        this.trimCodeEtl(etl);
         etlValidator.validate(etl);
         createExternalItem(etl.getExternalItem());
         return (etl.isPlanned()) ? planifyAndSave(etl) : save(etl);
@@ -166,11 +167,25 @@ public class EtlServiceImpl implements EtlService {
             return false;
         }
         Etl etl = etlRepository.findOne(etlDto.getId());
-        if (etl.getUriRepository().equals(etlDto.getUriRepository())) {
+        if (etl == null) {
+            throw new RuntimeException("ETL doesn't exists");
+        }
+        return !etl.getUriRepository().equals(etlDto.getUriRepository());
+    }
+    
+    @Override
+    public boolean goingToChangePlatform(EtlDTO etlDto) {
+        LOG.debug("Request to check if its going to change platform from DTO: {}", etlDto);
+        if (etlDto.getId() == null) {
             return false;
         }
-        return true;
+        Etl etl = etlRepository.findOne(etlDto.getId());
+        if (etl == null) {
+            throw new RuntimeException("ETL doesn't exists");
+        }
+        return !etl.getExecutionPlatform().equals(etlDto.getExecutionPlatform());
     }
+
 
     private Etl planifyAndSave(Etl etl) {
         LOG.debug("Request to planify and save an ETL : {}", etl);
@@ -207,6 +222,11 @@ public class EtlServiceImpl implements EtlService {
     private Etl save(Etl etl) {
         LOG.debug("Request to save an ETL : {}", etl);
         return etlRepository.saveAndFlush(etl);
+    }
+    
+    private Etl trimCodeEtl(Etl etl) {
+        etl.setCode(etl.getCode().trim());
+        return etl;
     }
 
     private void schedulePlatformExecutionJob(JobKey jobKey, CronExpression cronExpression, Etl etl) {

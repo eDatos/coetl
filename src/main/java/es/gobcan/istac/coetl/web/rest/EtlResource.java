@@ -32,11 +32,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.codahale.metrics.annotation.Timed;
 
 import es.gobcan.istac.coetl.config.AuditConstants;
+import es.gobcan.istac.coetl.config.Constants;
 import es.gobcan.istac.coetl.config.audit.AuditEventPublisher;
 import es.gobcan.istac.coetl.domain.ComputationalThreads;
 import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Parameter;
 import es.gobcan.istac.coetl.domain.Parameter.Typology;
+import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
 import es.gobcan.istac.coetl.errors.ErrorConstants;
 import es.gobcan.istac.coetl.errors.util.CustomExceptionUtil;
 import es.gobcan.istac.coetl.invocation.facade.NotificationRestInternalFacade;
@@ -131,21 +133,44 @@ public class EtlResource extends AbstractResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ID_FALTA, "An updated ETL must have an ID")).build();
         }
 
-        boolean repositoryGoingToChange = etlService.goingToChangeRepository(etlDTO);
+        Parameter parametro = parameterService.findOneByKeyAndEtlId(Constants.ETL_RESOURCES, etlDTO.getId());;
+        String originalEtlResourcesPath = parametro.getValue();
 
-        Etl currentEtl = etlMapper.toEntity(etlDTO);
-        if (currentEtl.isDeleted()) {
+        boolean repositoryGoingToChange = etlService.goingToChangeRepository(etlDTO);
+        boolean platformGoingToChange = etlService.goingToChangePlatform(etlDTO);
+
+        String originalEtlCode = etlDTO.getCode();
+        TipoPlataformaEjecucion originalEtlPlatform = etlService.findOne(etlDTO.getId()).getExecutionPlatform();
+
+        Etl etlValoresNuevos = etlMapper.toEntity(etlDTO);
+        if (etlValoresNuevos.isDeleted()) {
             return ResponseEntity.badRequest()
-                    .headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ENTITY_DELETED, String.format(ETL_IS_DELETED_MESSAGE, currentEtl.getId().toString()))).build();
+                    .headers(HeaderUtil.createFailureAlert(ETL_ENTITY_NAME, ErrorConstants.ENTITY_DELETED,
+                            String.format(ETL_IS_DELETED_MESSAGE, etlValoresNuevos.getId().toString()))).build();
         }
 
-        Etl updatedEtl = etlService.update(currentEtl);
-
+        Etl updatedEtl = etlService.update(etlValoresNuevos);
+        String repositoryPath = null;
         if (repositoryGoingToChange) {
-            String repositoryPath = gitService.replaceRepository(updatedEtl);
+            repositoryPath = gitService.replaceRepository(updatedEtl, originalEtlResourcesPath);
             if (repositoryPath == null) {
                 CustomExceptionUtil.throwCustomParameterizedException("An error ocurred updating repository", ErrorConstants.ETL_REPLACE_REPOSITORY);
             }
+        }
+        if (platformGoingToChange) {
+            if (!repositoryGoingToChange) {
+                repositoryPath = gitService.cloneRepository(updatedEtl);
+                if (repositoryPath == null) {
+                    CustomExceptionUtil.throwCustomParameterizedException("An error ocurred cloning repository",
+                            ErrorConstants.ETL_CLONE_REPOSITORY);
+                }
+                gitService.checkFileParameters(updatedEtl, originalEtlResourcesPath, repositoryPath);
+            }
+            parametro.setValue(repositoryPath);
+            parameterService.update(parametro);
+            
+            // Se elimina la ruta anterior del código de la ETL
+            gitService.deleteRepository(originalEtlCode, originalEtlPlatform);
         }
 
         EtlDTO result = etlMapper.toDto(updatedEtl);

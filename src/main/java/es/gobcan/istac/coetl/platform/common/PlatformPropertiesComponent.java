@@ -7,6 +7,7 @@ import es.gobcan.istac.coetl.config.ApacheHopProperties;
 import es.gobcan.istac.coetl.config.PentahoProperties;
 import es.gobcan.istac.coetl.config.common.PlatformProperties;
 import es.gobcan.istac.coetl.domain.Etl;
+import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
 
 @Component
 public class PlatformPropertiesComponent {
@@ -18,7 +19,11 @@ public class PlatformPropertiesComponent {
     private ApacheHopProperties hopProperties;
     
     public PlatformProperties determinePropertiesClass(Etl etl) {
-        switch (etl.getExecutionPlatform()) {
+        return determinePropertiesClass(etl.getExecutionPlatform());
+    }
+    
+    public PlatformProperties determinePropertiesClass(TipoPlataformaEjecucion platform) {
+        switch (platform) {
             case APACHE_HOP: return hopProperties;
             case PENTAHO: return pentahoProperties;
             default: {

@@ -11,6 +11,8 @@ import static com.xebialabs.overthere.ssh.SshConnectionBuilder.SUDO_USERNAME;
 import static com.xebialabs.overthere.ssh.SshConnectionType.INTERACTIVE_SUDO;
 import static com.xebialabs.overthere.ssh.SshConnectionType.SFTP;
 
+import java.util.List;
+
 import org.apache.commons.lang3.SystemUtils;
 import org.springframework.core.NestedRuntimeException;
 
@@ -19,6 +21,7 @@ import com.xebialabs.overthere.ConnectionOptions;
 import com.xebialabs.overthere.OperatingSystemFamily;
 import com.xebialabs.overthere.OverthereConnection;
 import com.xebialabs.overthere.OverthereExecutionOutputHandler;
+import com.xebialabs.overthere.OverthereFile;
 
 import es.gobcan.istac.coetl.config.common.PlatformHost;
 
@@ -101,5 +104,26 @@ public class RemoteConnectionUtils {
         if (exitCode != 0) {
             throw new SftpException(String.format(SftpException.COMMAND_EXECUTION_MESSAGE, (Object[]) args));
         }
+    }
+    
+    public static void move(OverthereConnection connection, String originalFilePath, String newFilePath) {
+        OverthereFile sourceFile = connection.getFile(originalFilePath);
+        OverthereFile destFile = connection.getFile(newFilePath);
+        sourceFile.renameTo(destFile);
+    }
+    
+    public static void remove(OverthereConnection connection, String filePath) {
+        OverthereFile sourceFile = connection.getFile(filePath);
+        sourceFile.deleteRecursively();
+    }
+    
+    public static void mkdirp(OverthereConnection connection, String filePath) {
+        OverthereFile sourceFile = connection.getFile(filePath);
+        sourceFile.mkdirs();
+    }
+    
+    public static List<OverthereFile> listFolder(OverthereConnection connection, String filePath) {
+        OverthereFile sourceFile = connection.getFile(filePath);
+        return sourceFile.listFiles();
     }
 }
