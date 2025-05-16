@@ -8,13 +8,6 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
-## 3.2.0 a X.Y.Z
-* Con la nueva versión se permite el uso de ficheros como parámetros. No requiere acción adicional.
-* Se corrige error que se producía al cambiar la plataforma de ejecución de una ETL.
-* Se corrige la generación de la conexión a base de datos en el metadata_json que necesita hop para ejecutar las ETL.
-* Se corrige error de ejecución de ETL, cuando la plataforma de ejecución es Apache Hop y la ETL tiene varias configuraciones de un mismo grupo en el metadata.
-
-
 
 ## 3.1.1 a 3.2.0
 * Se ha de añadir parámetros adicionales al common-metadata relativos a la integración con Apache Hop. Para ello, se ha de ejecutar el script *etc\changes-from-release\3.1.1\db\common-metadata\postgresql\20250130_add_hop_variables.sql * sustituyendo los valores por los apropiados.
