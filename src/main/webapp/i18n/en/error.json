@@ -87,6 +87,11 @@
                 "key": {
                     "isDuplicated": "There is already a parameter in one with the same key in the ETL: <strong> {{0}} </strong> "
                 }
+            },
+            "file": {
+                "wrongFormat": "The file format is invalid",
+                "sizeExceeded": "The file size cannot exceed 50MB",
+                "alreadyExists": "A file with the same name already exists"
             }
         },
         "computationalThread": {

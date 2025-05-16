@@ -66,15 +66,39 @@ export class EtlService {
             .map((response) => this.convertResponseToExecutionResponseWrapper(response));
     }
 
-    public createParameter(idEtl: number, parameter: Parameter): Observable<Parameter> {
+    public createParameter(
+        idEtl: number,
+        parameter: Parameter,
+        selectedFile?: File
+    ): Observable<Parameter> {
+        const formData = new FormData();
+        formData.append(
+            'parameterDTO',
+            new Blob([JSON.stringify(parameter)], { type: 'application/json' })
+        );
+        if (parameter.typology === 'FILE') {
+            formData.append('file', selectedFile, selectedFile.name);
+        }
         return this.http
-            .post(`${this.resourceUrl}/${idEtl}/parameters`, parameter)
+            .post(`${this.resourceUrl}/${idEtl}/parameters`, formData)
             .map((response: Response) => this.convertItemToParameter(response.json()));
     }
 
-    public updateParameter(idEtl: number, parameter: Parameter): Observable<Parameter> {
+    public updateParameter(
+        idEtl: number,
+        parameter: Parameter,
+        selectedFile?: File
+    ): Observable<Parameter> {
+        const formData = new FormData();
+        formData.append(
+            'parameterDTO',
+            new Blob([JSON.stringify(parameter)], { type: 'application/json' })
+        );
+        if (parameter.typology === 'FILE') {
+            formData.append('file', selectedFile, selectedFile.name);
+        }
         return this.http
-            .put(`${this.resourceUrl}/${idEtl}/parameters`, parameter)
+            .put(`${this.resourceUrl}/${idEtl}/parameters`, formData)
             .map((response: Response) => this.convertItemToParameter(response.json()));
     }
 

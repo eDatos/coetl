@@ -15,6 +15,8 @@ public class ParameterDTO extends AbstractVersionedDTO implements Serializable {
     private Type type;
     private Typology typology;
     private Long etlId;
+    private String description;
+    private Long fileId;
 
     public Long getId() {
         return id;
@@ -62,5 +64,21 @@ public class ParameterDTO extends AbstractVersionedDTO implements Serializable {
 
     public void setEtlId(Long etlId) {
         this.etlId = etlId;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public Long getFileId() {
+        return fileId;
+    }
+    
+    public void setFileId(Long fileId) {
+        this.fileId = fileId;
     }
 }

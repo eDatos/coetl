@@ -78,7 +78,12 @@
             "value": {
                 "isBlank": "El valor del paràmetre no pot estar buit"
             },
-            "edit": "Ha ocorregut un error en la edició del paràmetre"
+            "edit": "Ha ocorregut un error en la edició del paràmetre",
+            "file":{
+                "wrongFormat": "El format del fitxer no és vàlid",
+                "sizeExceeded": "La mida del fitxer no pot ser superior a 50Mb",
+                "alreadyExists": "Ja existeix un fitxer amb el mateix nom"
+            }
         },
         "quartz": {
             "jobExecutionError": "Ha ocorregut  un error en l'execució planificada de la ETL amb codi {{0}}"

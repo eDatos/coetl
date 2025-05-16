@@ -21,6 +21,7 @@ public interface EtlService {
     public void execute(Etl etl);
 
     public boolean goingToChangeRepository(EtlDTO etlDto);
+    public boolean goingToChangePlatform(EtlDTO etlDto);
 
     public List<ComputationalThreads> getThreadsByEtlId(Long idEtl);
 

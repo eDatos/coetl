@@ -1,12 +1,24 @@
 export enum Type {
     AUTO = 'AUTO',
-    MANUAL = 'MANUAL'
+    MANUAL = 'MANUAL',
+    GLOBAL = 'GLOBAL'
 }
 
 export enum Typology {
     GENERIC = 'GENERIC',
-    PASSWORD = 'PASSWORD'
+    PASSWORD = 'PASSWORD',
+    FILE = 'FILE'
 }
+
+export enum FileType {
+    CSV = '.csv',
+    JSON = '.json',
+    XML = '.xml',
+    TXT = '.txt',
+    XLSX = '.xlsx',
+    XLS = '.xls'
+}
+
 export class Parameter {
     constructor(
         public id?: number,
@@ -14,6 +26,8 @@ export class Parameter {
         public value?: string,
         public type?: Type,
         public etlId?: number,
-        public typology?: Typology
+        public typology?: Typology,
+        public description?: string,
+        public fileId?: number
     ) {}
 }

@@ -8,6 +8,7 @@
 
 *Se deberá realizar primero la actualización de la versión 1.0.0 a la 2.0.0 y luego desde la 2.0.0 a la 3.0.0*
 
+
 ## 3.1.1 a 3.2.0
 * Se ha de añadir parámetros adicionales al common-metadata relativos a la integración con Apache Hop. Para ello, se ha de ejecutar el script *etc\changes-from-release\3.1.1\db\common-metadata\postgresql\20250130_add_hop_variables.sql * sustituyendo los valores por los apropiados.
 

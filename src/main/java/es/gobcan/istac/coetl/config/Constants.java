@@ -15,6 +15,8 @@ public final class Constants {
     public static final String DEFAULT_PLATFORM_WATCH_CRON = "0 * * * * *";
     
     public static final String CRON_EXECUTOR_USER = "SYSTEM";
+    
+    public static final String ETL_RESOURCES = "ETL_RESOURCES";
 
     private Constants() {
     }
