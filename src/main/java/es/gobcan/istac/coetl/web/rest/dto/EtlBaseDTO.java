@@ -5,6 +5,7 @@ import java.time.Instant;
 
 import es.gobcan.istac.coetl.domain.Etl.Type;
 import es.gobcan.istac.coetl.domain.Execution.Result;
+import es.gobcan.istac.coetl.domain.enumeration.LogLevel;
 import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
 
 public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO implements Serializable {
@@ -22,6 +23,7 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
     private Instant lastExecution;
     private ExternalItemDTO externalItem;
     private Result result;
+    private LogLevel logLevel;
 
 
     public EtlBaseDTO() {
@@ -82,6 +84,14 @@ public class EtlBaseDTO extends AbstractVersionedAndAuditingWithDeletionDTO impl
 
     public void setExecutionPlanning(String executionPlanning) {
         this.executionPlanning = executionPlanning;
+    }
+    
+    public LogLevel getLogLevel() {
+        return logLevel;
+    }
+    
+    public void setLogLevel(LogLevel logLevel) {
+        this.logLevel = logLevel;
     }
 
     public Instant getLastExecution() {

@@ -61,6 +61,12 @@
                 "WORKFLOW": "Workflow",
                 "PIPELINE": "Pipeline"
             },
+            "logLevel": {
+                "label": "Log level",
+                "ERROR": "Error",
+                "BASIC": "Basic",
+                "DEBUG": "Debug"
+            },
             "comments": {
                 "label": "Comments",
                 "placeholder": "Enter a comments"
