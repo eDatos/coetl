@@ -48,7 +48,7 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         entity.setExecutionDescription(dto.getExecutionDescription());
         entity.setExecutionPlanning(dto.getExecutionPlanning());
         entity.setNextExecution(dto.getNextExecution());
-
+        entity.setLogLevel(dto.getLogLevel());
         entity.setUriRepository(dto.getUriRepository());
 
         entity.setExternalItem(externalItemMapper.toEntity(dto.getExternalItem()));
@@ -72,6 +72,7 @@ public abstract class EtlMapper implements EntityMapper<EtlDTO, Etl> {
         baseDto.setExecutionPlatform(entity.getExecutionPlatform());
         baseDto.setType(entity.getType());
         baseDto.setExecutionPlanning(entity.getExecutionPlanning());
+        baseDto.setLogLevel(entity.getLogLevel());
         baseDto.setNextExecution(entity.getNextExecution());
         setDataExecution(execution, baseDto);
         baseDto.setExternalItem(externalItemMapper.toDto(entity.getExternalItem()));

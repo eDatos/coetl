@@ -138,6 +138,16 @@
                         [required]="true"
                     ></ac-autocomplete-enum>
                 </div>
+                <div class="form-group mb-3 ml-6">
+                    <label class="form-control-label" jhiTranslate="coetlApp.etl.logLevel.label" for="field_type"></label>
+                    <ac-autocomplete-enum
+                        name="logLevel"
+                        [(ngModel)]="etl.logLevel"
+                        [suggestionsEnum]="logLevelEnum"
+                        [translationPath]="'coetlApp.etl.logLevel.'"
+                        [required]="true"
+                    ></ac-autocomplete-enum>
+                </div>
                 <div class="form-group full-width">
                     <label class="form-control-label" jhiTranslate="coetlApp.etl.purpose.label" for="field_purpose"></label>
                     <textarea

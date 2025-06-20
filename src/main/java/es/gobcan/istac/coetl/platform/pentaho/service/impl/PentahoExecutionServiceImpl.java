@@ -162,7 +162,7 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
     private WebResultDTO registerTrans(Etl etl) {
         try {
             String mainCode = gitService.getMainFileContent(etl);
-            String transCode = PentahoUtil.getCarteWrappedCodeFromEtlFile(mainCode, TRANS_PREFIX_TAG_NAME);
+            String transCode = PentahoUtil.getCarteWrappedCodeFromEtlFile(mainCode, TRANS_PREFIX_TAG_NAME, etl.getLogLevel());
             String replacedTransCode = replaceEtlCodeVariables(etl, transCode);
             return executeRegisterTrans(replacedTransCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {
@@ -178,7 +178,7 @@ public class PentahoExecutionServiceImpl implements PlatformExecutionService {
     private WebResultDTO registerJob(Etl etl) {
         try {
             String mainCode = gitService.getMainFileContent(etl);
-            String jobCode = PentahoUtil.getCarteWrappedCodeFromEtlFile(mainCode, JOB_PREFIX_TAG_NAME);
+            String jobCode = PentahoUtil.getCarteWrappedCodeFromEtlFile(mainCode, JOB_PREFIX_TAG_NAME, etl.getLogLevel());
             String replacedJobCode = replaceEtlCodeVariables(etl, jobCode);
             return executeRegisterJob(replacedJobCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {

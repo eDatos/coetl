@@ -19,6 +19,12 @@ export enum ExecutionPlatform {
     APACHE_HOP = 'APACHE_HOP'
 }
 
+export enum LogLevel {
+    ERROR = 'ERROR',
+    BASIC = 'BASIC',
+    DEBUG = 'DEBUG'
+}
+
 export class EtlBase extends BaseVersionedAndAuditingWithDeletionEntity {
     constructor(
         public id?: number,
@@ -30,9 +36,11 @@ export class EtlBase extends BaseVersionedAndAuditingWithDeletionEntity {
         public externalItem?: ExternalItem,
         public nextExecution?: Date,
         public lastExecution?: Date,
-        public executionPlatform?: ExecutionPlatform
+        public executionPlatform?: ExecutionPlatform,
+        public logLevel?: LogLevel
     ) {
         super();
+        this.logLevel = LogLevel.ERROR;
     }
 
     isDeleted(): boolean {
