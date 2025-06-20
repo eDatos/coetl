@@ -48,6 +48,7 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.domain.Execution.Type;
+import es.gobcan.istac.coetl.domain.enumeration.LogLevel;
 import es.gobcan.istac.coetl.platform.hop.enumeration.HopMethodsEnum;
 import es.gobcan.istac.coetl.platform.hop.web.rest.dto.HopResponseDTO;
 import es.gobcan.istac.coetl.platform.web.rest.converter.CustomJaxb2RootElementHttpMessageConverter;
@@ -63,7 +64,6 @@ public final class HopUtil {
     private static final String METASTORE_JSON = "metastore_json";
 
     // Node values XML Constants
-    private static final String LOG_LEVEL_VALUE = "DEBUG";
     private static final String SAFE_MODE_VALUE = "Y";
 
     private static final String RUN_CONFIGURATION_VALUE = "local";
@@ -117,8 +117,8 @@ public final class HopUtil {
         
     }
 
-    public static String getApacheHopWrappedCodeFromEtlFile(String mainCode, String prefixTagName, String jsonMetadata, String variables) throws SQLException, ParserConfigurationException, SAXException, IOException, TransformerException {
-        Document documentXML = buildApacheHopWrappedDocumentXmlFromEtlFile(mainCode, prefixTagName, jsonMetadata, variables);
+    public static String getApacheHopWrappedCodeFromEtlFile(String mainCode, String prefixTagName, String jsonMetadata, String variables, LogLevel level) throws SQLException, ParserConfigurationException, SAXException, IOException, TransformerException {
+        Document documentXML = buildApacheHopWrappedDocumentXmlFromEtlFile(mainCode, prefixTagName, jsonMetadata, variables, level);
 
         StringWriter sw = new StringWriter();
         TransformerFactory tf = TransformerFactory.newInstance();
@@ -193,7 +193,7 @@ public final class HopUtil {
         return headers;
     }
 
-    private static Document buildApacheHopWrappedDocumentXmlFromEtlFile(String etlFileCode, String prefixTagName, String jsonMetadata, String variables)
+    private static Document buildApacheHopWrappedDocumentXmlFromEtlFile(String etlFileCode, String prefixTagName, String jsonMetadata, String variables, LogLevel level)
             throws SQLException, ParserConfigurationException, SAXException, IOException {
         final String hopWrappedRootTag = prefixTagName + SUFFIX_CONFIGURATION_TAGNAME;
 
@@ -222,7 +222,7 @@ public final class HopUtil {
         hopConfigurationElement.appendChild(runConfigurationElement);
 
         Element logLevelConfigurationElement = hopWrappedDocument.createElement(LOG_LEVEL_TAGNAME);
-        logLevelConfigurationElement.setTextContent(LOG_LEVEL_VALUE);
+        logLevelConfigurationElement.setTextContent(level.getHopLogLevel());
         hopConfigurationElement.appendChild(logLevelConfigurationElement);
 
         Element safeModeConfigurationElement = hopWrappedDocument.createElement(SAFE_MODE_TAGNAME);

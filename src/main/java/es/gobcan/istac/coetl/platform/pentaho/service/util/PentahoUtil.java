@@ -41,6 +41,7 @@ import es.gobcan.istac.coetl.domain.Etl;
 import es.gobcan.istac.coetl.domain.Execution;
 import es.gobcan.istac.coetl.domain.Execution.Result;
 import es.gobcan.istac.coetl.domain.Execution.Type;
+import es.gobcan.istac.coetl.domain.enumeration.LogLevel;
 import es.gobcan.istac.coetl.platform.pentaho.enumeration.CarteMethodsEnum;
 import es.gobcan.istac.coetl.platform.pentaho.web.rest.dto.PentahoResponseDTO;
 
@@ -53,7 +54,6 @@ public final class PentahoUtil {
     private static final String SAFE_MODE_TAGNAME = "safe_mode";
 
     // Node values XML Constants
-    private static final String LOG_LEVEL_VALUE = "DEBUG";
     private static final String SAFE_MODE_VALUE = "Y";
 
     private PentahoUtil() {
@@ -81,8 +81,8 @@ public final class PentahoUtil {
         return pentahoProperties.getAuth().getPassword();
     }
 
-    public static String getCarteWrappedCodeFromEtlFile(String mainCode, String prefixTagName) throws SQLException, ParserConfigurationException, SAXException, IOException, TransformerException {
-        Document documentXML = buildCarteWrappedDocumentXmlFromEtlFile(mainCode, prefixTagName);
+    public static String getCarteWrappedCodeFromEtlFile(String mainCode, String prefixTagName, LogLevel level) throws SQLException, ParserConfigurationException, SAXException, IOException, TransformerException {
+        Document documentXML = buildCarteWrappedDocumentXmlFromEtlFile(mainCode, prefixTagName, level);
 
         StringWriter sw = new StringWriter();
         TransformerFactory tf = TransformerFactory.newInstance();
@@ -135,7 +135,7 @@ public final class PentahoUtil {
         return headers;
     }
 
-    private static Document buildCarteWrappedDocumentXmlFromEtlFile(String etlFileCode, String prefixTagName) throws SQLException, ParserConfigurationException, SAXException, IOException {
+    private static Document buildCarteWrappedDocumentXmlFromEtlFile(String etlFileCode, String prefixTagName, LogLevel level) throws SQLException, ParserConfigurationException, SAXException, IOException {
         final String carteWrappedRootTag = prefixTagName + SUFFIX_CONFIGURATION_TAGNAME;
 
         Document etlFileDocument = getDocumentXmlFromEtlCode(etlFileCode);
@@ -159,7 +159,7 @@ public final class PentahoUtil {
         carteWrappedRootElement.appendChild(carteConfigurationElement);
 
         Element logLevelConfigurationElement = carteWrappedDocument.createElement(LOG_LEVEL_TAGNAME);
-        logLevelConfigurationElement.setTextContent(LOG_LEVEL_VALUE);
+        logLevelConfigurationElement.setTextContent(level.getPentahoLogLevel());
         carteConfigurationElement.appendChild(logLevelConfigurationElement);
 
         Element safeModeConfigurationElement = carteWrappedDocument.createElement(SAFE_MODE_TAGNAME);

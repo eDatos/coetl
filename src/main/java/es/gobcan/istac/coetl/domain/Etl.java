@@ -23,6 +23,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.NotBlank;
 
+import es.gobcan.istac.coetl.domain.enumeration.LogLevel;
 import es.gobcan.istac.coetl.domain.enumeration.TipoPlataformaEjecucion;
 
 @Entity
@@ -103,6 +104,11 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     @Enumerated(EnumType.STRING)
     @Column(name = "execution_platform", nullable = false, length = 255)
     private TipoPlataformaEjecucion executionPlatform;
+    
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "log_level", nullable = false, length = 255)
+    private LogLevel logLevel = LogLevel.ERROR;
 
     @Override
     public Long getId() {
@@ -243,6 +249,14 @@ public class Etl extends AbstractVersionedAndAuditingWithDeletionEntity implemen
     
     public void setExecutionPlatform(TipoPlataformaEjecucion executionPlatform) {
         this.executionPlatform = executionPlatform;
+    }
+    
+    public LogLevel getLogLevel() {
+        return logLevel;
+    }
+    
+    public void setLogLevel(LogLevel logLevel) {
+        this.logLevel = logLevel;
     }
 
     @Override

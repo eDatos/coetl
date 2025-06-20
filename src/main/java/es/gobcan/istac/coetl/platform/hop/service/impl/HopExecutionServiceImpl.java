@@ -173,7 +173,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
             String variables = HopUtil.getVariablesPlaceholdersReplaced(etl, parameterService.findAllByEtlIdAsMap(etl.getId()), hopProperties);
             Map<String, List<String>> metadataInfo = gitService.getEtlMetadataInfo(etl);
             String jsonMetadataComplete = HopUtil.addMetadataToJsonMetadata(jsonMetadata, metadataInfo);
-            String pipelineCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, PIPELINE_PREFIX_TAG_NAME, GzipUtils.toGzipBase64File(jsonMetadataComplete), variables);
+            String pipelineCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, PIPELINE_PREFIX_TAG_NAME, GzipUtils.toGzipBase64File(jsonMetadataComplete), variables, etl.getLogLevel());
             String replacedPipelineCode = replaceEtlCodeVariables(etl, pipelineCode);
             return executeRegisterPipeline(replacedPipelineCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {
@@ -195,7 +195,7 @@ public class HopExecutionServiceImpl implements PlatformExecutionService {
             String variables = HopUtil.getVariablesPlaceholdersReplaced(etl, parameterService.findAllByEtlIdAsMap(etl.getId()), hopProperties);
             Map<String, List<String>> metadataInfo = gitService.getEtlMetadataInfo(etl);
             String jsonMetadataComplete = HopUtil.addMetadataToJsonMetadata(jsonMetadata, metadataInfo);
-            String workflowCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, WORKFLOW_PREFIX_TAG_NAME, GzipUtils.toGzipBase64File(jsonMetadataComplete), variables);
+            String workflowCode = HopUtil.getApacheHopWrappedCodeFromEtlFile(mainCode, WORKFLOW_PREFIX_TAG_NAME, GzipUtils.toGzipBase64File(jsonMetadataComplete), variables, etl.getLogLevel());
             String replacedWorkflowCode = replaceEtlCodeVariables(etl, workflowCode);
             return executeRegisterWorkflow(replacedWorkflowCode);
         } catch (SQLException | ParserConfigurationException | SAXException | IOException | TransformerException e) {

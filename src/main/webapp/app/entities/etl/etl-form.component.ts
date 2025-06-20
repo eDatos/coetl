@@ -12,7 +12,7 @@ import {
     AcAlertService,
     ResponseWrapper
 } from '../../shared';
-import { Etl, PentahoType, HopType, Type, ExecutionPlatform } from './etl.model';
+import { Etl, PentahoType, HopType, Type, ExecutionPlatform, LogLevel } from './etl.model';
 import { EtlService } from './etl.service';
 import { EtlDeleteDialogComponent } from './etl-delete-dialog.component';
 import { EtlRestoreDialogComponent } from './etl-restore-dialog.component';
@@ -38,6 +38,7 @@ export class EtlFormComponent implements OnInit, AfterViewInit, OnDestroy, HasTi
     isSaving: boolean;
     public threads: ComputationalThreadsBase[];
     private previousExecutionPlatform: string;
+    public logLevelEnum = LogLevel;
 
     updatesSubscription: Subscription;
 
