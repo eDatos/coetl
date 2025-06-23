@@ -11,7 +11,7 @@
 
     <groupId>es.gobcan.istac.coetl</groupId>
     <artifactId>coetl</artifactId>
-    <version>3.3.2-SNAPSHOT</version>
+    <version>3.4.0</version>
     <packaging>war</packaging>
 
     <name>COETL</name>
@@ -19,7 +19,7 @@
     <scm>
         <connection>scm:git:https://git.arte-consultores.com/istac/coetl/</connection>
         <developerConnection>scm:git:https://git.arte-consultores.com/istac/coetl/</developerConnection>
-        <tag>HEAD</tag>
+        <tag>20250623-0644-v3.4.0</tag>
         <url>https://git.arte-consultores.com/istac/coetl</url>
     </scm>
     <issueManagement>
