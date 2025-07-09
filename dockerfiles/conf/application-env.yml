@@ -30,9 +30,9 @@ environment:
         configuration:
             db:
                 driverName: com.zaxxer.hikari.HikariDataSource
-                url: jdbc:postgresql://estadisticas.arte.internal:5432/metamac_common_metadata_bd
-                username: metamac_common_metadata_bd
-                password: iQs/i+zysWktMLClrjDfUp6Z91xbXpg3qxfrYroSLD9dsYLR9jHrtw==
+                url: jdbc:postgresql://FILL_ME:5432/FILL_ME
+                username: FILL_ME
+                password: FILL_ME
 
 application:
     installation:
