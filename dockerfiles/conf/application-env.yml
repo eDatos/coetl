@@ -3,6 +3,12 @@
 #
 # This configuration overrides the application.yml file.
 # ===================================================================
+spring:
+    mail:
+        host:
+        port:
+        username:
+        password:
 
 # ===================================================================
 # JHipster specific properties
@@ -11,9 +17,9 @@
 # ===================================================================
 
 jhipster:
-    mail: 
+    mail:
         from: coetl@arte-consultores.com
-        base-url: http://estadisticas.arte-consultores.com/coetl 
+        base-url: http://estadisticas.arte-consultores.com/coetl
 
 # ===================================================================
 # Application specific properties
@@ -24,7 +30,7 @@ environment:
         configuration:
             db:
                 driverName: com.zaxxer.hikari.HikariDataSource
-                url: jdbc:postgresql://localhost:5432/metamac_common_metadata_bd
+                url: jdbc:postgresql://estadisticas.arte.internal:5432/metamac_common_metadata_bd
                 username: metamac_common_metadata_bd
                 password: iQs/i+zysWktMLClrjDfUp6Z91xbXpg3qxfrYroSLD9dsYLR9jHrtw==
 
@@ -33,7 +39,7 @@ application:
         type: INTERNAL # Required: Installation Type Context (EXTERNAL / INTERNAL)
         instance: COETL # Required: Installation Instance Context (COETL / COETLLAB)
 
-# ===================================================================        
+# ===================================================================
 # Application debug properties
 #
 # Uncomment if debug mode needed
