@@ -22,6 +22,11 @@
 FROM eclipse-temurin:8-jdk
 LABEL MAINTAINER=info@arte-consultores.com
 
+RUN apt-get update && \
+    apt-get install -y openssh-client openssh-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN mkdir -p /data/edatos/coetl/conf
 
 COPY dockerfiles/conf /data/edatos/coetl/conf
