@@ -132,7 +132,7 @@
         <caffeine.version>2.6.2</caffeine.version>
 
         <!-- OVERTHERE -->
-        <overthere.version>5.0.2</overthere.version>
+        <overthere.version>5.3.2</overthere.version>
         <bouncycastle-provider.version>1.64</bouncycastle-provider.version>
 
 		<!-- Metamac  -->
@@ -181,7 +181,7 @@
             <artifactId>cxf-rt-rs-client</artifactId>
             <version>${cxf.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>io.github.jhipster</groupId>
             <artifactId>jhipster</artifactId>
