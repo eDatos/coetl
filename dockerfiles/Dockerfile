@@ -19,6 +19,9 @@
 # -p 5005:5005 \
 # coetl:<version>
 ###
+# Usamos imagen de tomcat en luegar de la de java directamente porque no hemos conseguido que la librería overthere
+# funcione correctamente cuando ejecutamos con java -jar
+###
 FROM tomcat:9.0.98-jdk8
 LABEL MAINTAINER=info@arte-consultores.com
 
