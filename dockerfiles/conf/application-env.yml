@@ -1,0 +1,49 @@
+# ===================================================================
+# Spring Boot configuration for the "env" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+spring:
+    mail:
+        host:
+        port:
+        username:
+        password:
+
+# ===================================================================
+# JHipster specific properties
+#
+# Full reference is available at: https://jhipster.github.io/common-application-properties/
+# ===================================================================
+
+jhipster:
+    mail:
+        from: coetl@arte-consultores.com
+        base-url: http://estadisticas.arte-consultores.com/coetl
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here.
+# ===================================================================
+environment:
+    edatos:
+        configuration:
+            db:
+                driverName: com.zaxxer.hikari.HikariDataSource
+                url: jdbc:postgresql://FILL_ME:5432/FILL_ME
+                username: FILL_ME
+                password: FILL_ME
+
+application:
+    installation:
+        type: INTERNAL # Required: Installation Type Context (EXTERNAL / INTERNAL)
+        instance: COETL # Required: Installation Instance Context (COETL / COETLLAB)
+
+# ===================================================================
+# Application debug properties
+#
+# Uncomment if debug mode needed
+# ===================================================================
+
+# debug
+
