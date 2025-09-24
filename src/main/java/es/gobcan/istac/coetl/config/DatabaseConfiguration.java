@@ -1,12 +1,8 @@
 package es.gobcan.istac.coetl.config;
 
-import com.arte.libs.grammar.repository.support.ArteJpaRepositoryFactoryBean;
-import com.zaxxer.hikari.HikariDataSource;
-import es.gobcan.istac.coetl.config.annotations.ConditionalOnMissingProperty;
-import es.gobcan.istac.coetl.service.MetadataConfigurationService;
-import io.github.jhipster.config.JHipsterConstants;
-import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
-import liquibase.integration.spring.SpringLiquibase;
+import javax.sql.DataSource;
+
+import org.siemac.edatos.core.common.datasource.EdatosHikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,7 +18,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
+import com.arte.libs.grammar.repository.support.ArteJpaRepositoryFactoryBean;
+import com.zaxxer.hikari.HikariDataSource;
+
+import es.gobcan.istac.coetl.config.annotations.ConditionalOnMissingProperty;
+import es.gobcan.istac.coetl.service.MetadataConfigurationService;
+import io.github.jhipster.config.JHipsterConstants;
+import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
+import liquibase.integration.spring.SpringLiquibase;
 
 @Configuration
 @EnableJpaRepositories(basePackages = "es.gobcan.istac.coetl.repository", repositoryFactoryBeanClass = ArteJpaRepositoryFactoryBean.class)
@@ -30,7 +33,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class DatabaseConfiguration {
 
-    private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
+    private final Logger      log = LoggerFactory.getLogger(DatabaseConfiguration.class);
 
     private final Environment env;
 
@@ -38,7 +41,7 @@ public class DatabaseConfiguration {
         this.env = env;
     }
 
-    @ConditionalOnMissingProperty(prefix="spring.datasource", value={"url", "username", "password"})
+    @ConditionalOnMissingProperty(prefix = "spring.datasource", value = {"url", "username", "password"})
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean(destroyMethod = "close")
     @Primary
@@ -49,7 +52,7 @@ public class DatabaseConfiguration {
                 driverClassName(metadataConfigurationService.retrieveDdDriverName()).
                 username(metadataConfigurationService.retrieveDbUsername()).
                 password(metadataConfigurationService.retrieveDbPassword()).
-                type(HikariDataSource.class).
+                type(EdatosHikariDataSource.class).
                 build();
         // @formatter:on
 
